@@ -61,7 +61,7 @@ instance of MSFT_RoleResource as $MSFT_RoleResource1ref
 {
 ResourceID = "[WindowsFeature]IIS";
  Ensure = "Present";
- SourceInfo = "E:\\MofParser\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::6::9::WindowsFeature";
+ SourceInfo = "E:\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::6::9::WindowsFeature";
  Name = "Web-Server";
  ModuleName = "PSDesiredStateConfiguration";
  ModuleVersion = "1.0";
@@ -72,7 +72,7 @@ instance of MSFT_RoleResource as $MSFT_RoleResource2ref
 {
 ResourceID = "[WindowsFeature]ASP";
  Ensure = "Present";
- SourceInfo = "E:\\MofParser\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::12::9::WindowsFeature";
+ SourceInfo = "E:\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::12::9::WindowsFeature";
  Name = "Web-Asp-Net45";
  ModuleName = "PSDesiredStateConfiguration";
  ModuleVersion = "1.0";
@@ -85,7 +85,7 @@ ResourceID = "[Package]7Zip";
  Path = "E:\\Installers\\Desktop Software\\7-Zip\\7z920-x64.msi";
  Ensure = "Present";
  ProductId = "23170F69-40C1-2702-0920-000001000000";
- SourceInfo = "E:\\MofParser\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::18::9::Package";
+ SourceInfo = "E:\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::18::9::Package";
  Name = "7-Zip 9.20 (x64 edition)";
  ModuleName = "PSDesiredStateConfiguration";
  ModuleVersion = "1.0";
