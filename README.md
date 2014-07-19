@@ -1,5 +1,5 @@
 MofParser
-===========
+=========
 
 MofParser is a C# library for parsing the contents of PowerShell DSC Managed Object Format (MOF) files.
 
@@ -14,6 +14,11 @@ Quick Start
 To process a MOF file produced by PowerShell DSC, simply pass the filename to the PowerShellDscHelper.ParseMofFile method.
 This will read the contents of the file and extract a list of "instance" declarations that are defined in the file. You
 can use this list to generate html documentation, or perform any other downstream processing.
+
+See the Kingsland.MofParser.Sample project for the full source.
+
+Sample Code
+-----------
 
 ```c#
 const string filename = "..\\..\\dsc\\MyServer.mof";
@@ -41,7 +46,102 @@ foreach (var instance in instances)
 }
 ```
 
-See the Kingsland.MofParser.Sample project for the full source.
+Sample MOF
+----------
+
+```
+/*
+@TargetNode='MyServer'
+@GeneratedBy=mike.clayton
+@GenerationDate=07/19/2014 10:37:04
+@GenerationHost=MyDesktop
+*/
+
+instance of MSFT_RoleResource as $MSFT_RoleResource1ref
+{
+ResourceID = "[WindowsFeature]IIS";
+ Ensure = "Present";
+ SourceInfo = "E:\\MofParser\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::6::9::WindowsFeature";
+ Name = "Web-Server";
+ ModuleName = "PSDesiredStateConfiguration";
+ ModuleVersion = "1.0";
+
+};
+
+instance of MSFT_RoleResource as $MSFT_RoleResource2ref
+{
+ResourceID = "[WindowsFeature]ASP";
+ Ensure = "Present";
+ SourceInfo = "E:\\MofParser\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::12::9::WindowsFeature";
+ Name = "Web-Asp-Net45";
+ ModuleName = "PSDesiredStateConfiguration";
+ ModuleVersion = "1.0";
+
+};
+
+instance of MSFT_PackageResource as $MSFT_PackageResource1ref
+{
+ResourceID = "[Package]7Zip";
+ Path = "E:\\Installers\\Desktop Software\\7-Zip\\7z920-x64.msi";
+ Ensure = "Present";
+ ProductId = "23170F69-40C1-2702-0920-000001000000";
+ SourceInfo = "E:\\MofParser\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::18::9::Package";
+ Name = "7-Zip 9.20 (x64 edition)";
+ ModuleName = "PSDesiredStateConfiguration";
+ ModuleVersion = "1.0";
+
+};
+
+instance of OMI_ConfigurationDocument
+{
+ Version="1.0.0";
+ Author="mike.clayton";
+ GenerationDate="07/19/2014 10:37:04";
+ GenerationHost="MyDesktop";
+};
+```
+
+Sample Output
+-------------
+
+```
+--------------------------
+instance of MSFT_RoleResource as $MSFT_RoleResource1ref
+    ResourceID     = [WindowsFeature]IIS
+    Ensure         = Present
+    SourceInfo     = E:\MofParser\src\Kingsland.MofParser.Sample\dsc\MyServerConfig.ps1::6::9::WindowsFeature
+    Name           = Web-Server
+    ModuleName     = PSDesiredStateConfiguration
+    ModuleVersion  = 1.0
+--------------------------
+--------------------------
+instance of MSFT_RoleResource as $MSFT_RoleResource2ref
+    ResourceID     = [WindowsFeature]ASP
+    Ensure         = Present
+    SourceInfo     = E:\MofParser\src\Kingsland.MofParser.Sample\dsc\MyServerConfig.ps1::12::9::WindowsFeature
+    Name           = Web-Asp-Net45
+    ModuleName     = PSDesiredStateConfiguration
+    ModuleVersion  = 1.0
+--------------------------
+--------------------------
+instance of MSFT_PackageResource as $MSFT_PackageResource1ref
+    ResourceID     = [Package]7Zip
+    Path           = E:\Installers\Desktop Software\7-Zip\7z920-x64.msi
+    Ensure         = Present
+    ProductId      = 23170F69-40C1-2702-0920-000001000000
+    SourceInfo     = E:\MofParser\src\Kingsland.MofParser.Sample\dsc\MyServerConfig.ps1::18::9::Package
+    Name           = 7-Zip 9.20 (x64 edition)
+    ModuleName     = PSDesiredStateConfiguration
+    ModuleVersion  = 1.0
+--------------------------
+--------------------------
+instance of OMI_ConfigurationDocument
+    Version        = 1.0.0
+    Author         = mike.clayton
+    GenerationDate = 07/19/2014 10:37:04
+    GenerationHost = MyDesktop
+--------------------------
+```
 
 
 Issues
