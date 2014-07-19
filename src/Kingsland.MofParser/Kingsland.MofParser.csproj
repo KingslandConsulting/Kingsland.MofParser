@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{89224B8B-72B8-4E9B-BA13-1C2AD6A533EA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kingsland.MofParser</RootNamespace>
+    <AssemblyName>Kingsland.MofParser</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ast\ComplexTypeValueAst.cs" />
+    <Compile Include="Ast\ComplexValueArrayAst.cs" />
+    <Compile Include="Ast\ComplexValueAst.cs" />
+    <Compile Include="Ast\BooleanValueAst.cs" />
+    <Compile Include="Ast\LiteralValueArrayAst.cs" />
+    <Compile Include="Ast\LiteralValueAst.cs" />
+    <Compile Include="Ast\RealValueAst.cs" />
+    <Compile Include="Ast\StringValueAst.cs" />
+    <Compile Include="Ast\IntegerValueAst.cs" />
+    <Compile Include="Ast\MofSpecificationAst.cs" />
+    <Compile Include="Ast\MofProductionAst.cs" />
+    <Compile Include="Ast\PrimitiveTypeValueAst.cs" />
+    <Compile Include="Ast\PropertyValueAst.cs" />
+    <Compile Include="Ast\ReferenceTypeValue.cs" />
+    <Compile Include="PowerShellDscHelper.cs" />
+    <Compile Include="Lexing\LexerStreamBase.cs" />
+    <Compile Include="Tokens\CommaToken.cs" />
+    <Compile Include="Tokens\BooleanLiteralToken.cs" />
+    <Compile Include="Lexing\ILexerStream.cs" />
+    <Compile Include="Lexing\SourceExtent.cs" />
+    <Compile Include="Objects\Instance.cs" />
+    <Compile Include="Parsing\ParserStream.cs" />
+    <Compile Include="Ast\_AstNode.cs" />
+    <Compile Include="Lexing\StringLexerStream.cs" />
+    <Compile Include="Lexing\Lexer.cs" />
+    <Compile Include="Tokens\BlockOpenToken.cs" />
+    <Compile Include="Tokens\AliasIdentifierToken.cs" />
+    <Compile Include="Tokens\BlockCloseToken.cs" />
+    <Compile Include="Tokens\IntegerLiteralToken.cs" />
+    <Compile Include="Tokens\StatementEndToken.cs" />
+    <Compile Include="Tokens\StringLiteralToken.cs" />
+    <Compile Include="Tokens\EqualsOperatorToken.cs" />
+    <Compile Include="Tokens\IdentifierToken.cs" />
+    <Compile Include="Tokens\_Token.cs" />
+    <Compile Include="Tokens\MultilineCommentToken.cs" />
+    <Compile Include="Tokens\WhitespaceToken.cs" />
+    <Compile Include="Parsing\Parser.cs" />
+    <Compile Include="Parsing\NameValidator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AstNodeDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

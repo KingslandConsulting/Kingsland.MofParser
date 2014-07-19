@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser", "src\Kingsland.MofParser\Kingsland.MofParser.csproj", "{89224B8B-72B8-4E9B-BA13-1C2AD6A533EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.Sample", "src\Kingsland.MofParser.Sample\Kingsland.MofParser.Sample.csproj", "{A071F2FD-3C3D-43DE-9774-AACEE415EFA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5438AEF1-A55C-4875-A269-06EB6A4C70FE}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EF2352AD-7832-417F-8EC9-3069D24B9980}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89224B8B-72B8-4E9B-BA13-1C2AD6A533EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89224B8B-72B8-4E9B-BA13-1C2AD6A533EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89224B8B-72B8-4E9B-BA13-1C2AD6A533EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89224B8B-72B8-4E9B-BA13-1C2AD6A533EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A071F2FD-3C3D-43DE-9774-AACEE415EFA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A071F2FD-3C3D-43DE-9774-AACEE415EFA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A071F2FD-3C3D-43DE-9774-AACEE415EFA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A071F2FD-3C3D-43DE-9774-AACEE415EFA2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A071F2FD-3C3D-43DE-9774-AACEE415EFA2} = {EF2352AD-7832-417F-8EC9-3069D24B9980}
+	EndGlobalSection
+EndGlobal
