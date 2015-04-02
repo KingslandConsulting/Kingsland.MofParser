@@ -40,6 +40,7 @@
     <Compile Include="Ast\BooleanValueAst.cs" />
     <Compile Include="Ast\LiteralValueArrayAst.cs" />
     <Compile Include="Ast\LiteralValueAst.cs" />
+    <Compile Include="Ast\NullValueAst.cs" />
     <Compile Include="Ast\RealValueAst.cs" />
     <Compile Include="Ast\StringValueAst.cs" />
     <Compile Include="Ast\IntegerValueAst.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Tokens\AliasIdentifierToken.cs" />
     <Compile Include="Tokens\BlockCloseToken.cs" />
     <Compile Include="Tokens\IntegerLiteralToken.cs" />
+    <Compile Include="Tokens\NullLiteralToken.cs" />
     <Compile Include="Tokens\StatementEndToken.cs" />
     <Compile Include="Tokens\StringLiteralToken.cs" />
     <Compile Include="Tokens\EqualsOperatorToken.cs" />

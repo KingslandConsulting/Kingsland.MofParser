@@ -82,22 +82,26 @@ namespace Kingsland.MofParser.Objects
 
         private static object GetLiteralValue(LiteralValueAst node)
         {
-            if ((node as BooleanValueAst) != null)
-            {
-                return ((BooleanValueAst)node).Value;
-            }
-            else if ((node as IntegerValueAst) != null)
-            {
-                return ((IntegerValueAst)node).Value;
-            }
-            else if ((node as StringValueAst) != null)
-            {
-                return ((StringValueAst)node).Value;
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
+			if ((node as BooleanValueAst) != null)
+			{
+				return ((BooleanValueAst)node).Value;
+			}
+			else if ((node as IntegerValueAst) != null)
+			{
+				return ((IntegerValueAst)node).Value;
+			}
+			else if ((node as StringValueAst) != null)
+			{
+				return ((StringValueAst)node).Value;
+			}
+			else if ((node as NullValueAst) != null)
+			{
+				return ((NullValueAst)node).Value;
+			}
+			else
+			{
+				throw new InvalidOperationException();
+			}
         }
 
     }
