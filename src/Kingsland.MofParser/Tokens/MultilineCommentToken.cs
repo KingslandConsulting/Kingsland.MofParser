@@ -20,12 +20,15 @@ namespace Kingsland.MofParser.Tokens
             sourceChars.Add(stream.ReadChar('/'));
             sourceChars.Add(stream.ReadChar('*'));
             // read the comment text
-            while (!stream.Eof && !stream.PeekChar('*'))
+            while (!stream.Eof)
             {
-                sourceChars.Add(stream.Read());
-            };
+                var c = stream.Read();
+                sourceChars.Add(c);
+
+                if (c == '*' && stream.PeekChar('/'))
+                    break;
+            }
             // read the closing  sequence
-            sourceChars.Add(stream.ReadChar('*'));
             sourceChars.Add(stream.ReadChar('/'));
             // return the result
             extent = extent.WithText(sourceChars);
