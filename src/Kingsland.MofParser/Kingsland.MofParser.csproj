@@ -34,12 +34,17 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\ClassAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />
     <Compile Include="Ast\ComplexValueArrayAst.cs" />
     <Compile Include="Ast\ComplexValueAst.cs" />
     <Compile Include="Ast\BooleanValueAst.cs" />
     <Compile Include="Ast\LiteralValueArrayAst.cs" />
     <Compile Include="Ast\LiteralValueAst.cs" />
+    <Compile Include="Ast\MemberAst.cs" />
+    <Compile Include="Ast\PragmaAst.cs" />
+    <Compile Include="Ast\QualifierAst.cs" />
+    <Compile Include="Ast\QualifierListAst.cs" />
     <Compile Include="Ast\RealValueAst.cs" />
     <Compile Include="Ast\StringValueAst.cs" />
     <Compile Include="Ast\IntegerValueAst.cs" />

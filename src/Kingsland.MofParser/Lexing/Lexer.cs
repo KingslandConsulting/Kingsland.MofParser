@@ -69,18 +69,20 @@ namespace Kingsland.MofParser.Lexing
                         else if (char.IsLetter(peek) || peek == '_')
                         {
                             var identifier = IdentifierToken.Read(stream);
-                            switch (identifier.Name)
+
+                            if (identifier.Name.Equals("True", StringComparison.InvariantCultureIgnoreCase))
                             {
-                                case "True":
-                                    lexTokens.Add(new BooleanLiteralToken(identifier.Extent, true));
-                                    break;
-                                case "False":
-                                    lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
-                                    break;
-                                default:
-                                    lexTokens.Add(identifier);
-                                    break;
+                                lexTokens.Add(new BooleanLiteralToken(identifier.Extent, true));
                             }
+                            else if (identifier.Name.Equals("False", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
+                            }
+                            else
+                            {
+                                lexTokens.Add(identifier);
+                            }
+
                             break;
                         }
                         else if (char.IsDigit(peek))

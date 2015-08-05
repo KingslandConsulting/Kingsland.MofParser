@@ -307,6 +307,10 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
+        public static bool IsSpecialName(string name)
+        {
+            return name.StartsWith("__") && IsIdentifier(name.Substring(2));
+        }
     }
 
 }

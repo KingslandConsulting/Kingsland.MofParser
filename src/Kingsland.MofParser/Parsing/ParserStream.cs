@@ -138,6 +138,22 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
+        public override string ToString()
+        {
+            string s = "";
+            for (var i = Math.Max(0, Position - 5); i < Math.Min(Source.Count, Position + 5); i++)
+            {
+                if (s.Length > 0)
+                    s += " ";
+
+                if (i == Position)
+                    s += ">>>";
+
+                s += Source[i];
+            }
+
+            return string.Format("Current = '{0}'", s);
+        }
     }
 
 }
