@@ -80,6 +80,13 @@
         char ReadChar(char value);
 
         /// <summary>
+        /// Reads the next string off of the input stream and advances the current position.
+        /// Throws an exception if the character does not match the specified value.
+        /// </summary>
+        /// <returns></returns>
+        string ReadString(string str);
+
+        /// <summary>
         /// Reads the next character off of the input stream and advances the current position.
         /// Throws an exception if the character is not a digit.
         /// </summary>

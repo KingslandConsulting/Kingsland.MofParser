@@ -149,6 +149,21 @@ namespace Kingsland.MofParser.Lexing
         }
 
         /// <summary>
+        /// Reads the next string off of the input stream and advances the current position.
+        /// Throws an exception if the character does not match the specified value.
+        /// </summary>
+        /// <returns></returns>
+        public string ReadString(string str)
+        {
+            foreach (var c in str)
+            {
+                ReadChar(c);
+            }
+
+            return str;
+        }
+
+        /// <summary>
         /// Reads the next character off of the input stream and advances the current position.
         /// Throws an exception if the character is not a letter.
         /// </summary>

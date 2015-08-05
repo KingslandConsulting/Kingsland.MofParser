@@ -30,6 +30,18 @@ namespace Kingsland.MofParser.Lexing
                     case '}':
                         lexTokens.Add(BlockCloseToken.Read(stream));
                         break;
+                    case '(':
+                        lexTokens.Add(OpenParenthesesToken.Read(stream));
+                        break;
+                    case ')':
+                        lexTokens.Add(CloseParenthesesToken.Read(stream));
+                        break;
+                    case '[':
+                        lexTokens.Add(AttributeOpenToken.Read(stream));
+                        break;
+                    case ']':
+                        lexTokens.Add(AttributeCloseToken.Read(stream));
+                        break;
                     case '=':
                         lexTokens.Add(EqualsOperatorToken.Read(stream));
                         break;
@@ -42,13 +54,19 @@ namespace Kingsland.MofParser.Lexing
                     case ';':
                         lexTokens.Add(StatementEndToken.Read(stream));
                         break;
+                    case ':':
+                        lexTokens.Add(ColonToken.Read(stream));
+                        break;
+                    case '#':
+                        lexTokens.Add(PragmaToken.Read(stream));
+                        break;
                     default:
                         if (char.IsWhiteSpace(peek))
                         {
                             lexTokens.Add(WhitespaceToken.Read(stream));
                             break;
                         }
-                        else if (char.IsLetter(peek))
+                        else if (char.IsLetter(peek) || peek == '_')
                         {
                             var identifier = IdentifierToken.Read(stream);
                             switch (identifier.Name)
