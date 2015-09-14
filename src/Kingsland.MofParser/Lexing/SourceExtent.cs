@@ -11,16 +11,27 @@ namespace Kingsland.MofParser.Lexing
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new, empty SourceExtent.
+        /// </summary>
         internal SourceExtent()
             : this(0, 0, 0, 0, 0, 0, string.Empty)
         {
         }
 
+        /// <summary>
+        /// Initializes a new SourceExtent with the start position at the current position in the stream.
+        /// </summary>
+        /// <param name="stream"></param>
         internal SourceExtent(ILexerStream stream)
             : this(stream.Position, stream.LineNumber, stream.Column, 0, 0, 0, string.Empty)
         {
         }
 
+        /// <summary>
+        /// Initializes a new SourceExtent with the specified start and end positions.
+        /// </summary>
+        /// <param name="stream"></param>
         public SourceExtent(int startPosition, int startLineNumber, int startColumnNumber, int endPosition, int endLineNumber, int endColumnNumber, string text)
         {
             this.StartPosition = startPosition;

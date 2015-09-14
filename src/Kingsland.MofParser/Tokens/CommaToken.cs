@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.Tokens
             // read the character
             sourceChars.Add(stream.ReadChar(','));
             // return the result
-            extent = extent.WithText(sourceChars);
+            extent = extent.WithText(sourceChars).WithEndExtent(stream);
             return new CommaToken(extent);
         }
 

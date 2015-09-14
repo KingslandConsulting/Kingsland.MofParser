@@ -42,7 +42,7 @@ namespace Kingsland.MofParser.Tokens
                 sourceChars.Add(stream.Read());
             }
             // return the result
-            extent = extent.WithText(sourceChars);
+            extent = extent.WithText(sourceChars).WithEndExtent(stream);
             return new WhitespaceToken(extent);
         }
 

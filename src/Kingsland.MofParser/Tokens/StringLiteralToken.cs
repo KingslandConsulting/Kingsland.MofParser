@@ -47,7 +47,7 @@ namespace Kingsland.MofParser.Tokens
             // process any escape sequences in the string
             var unescaped = parser.OutputString.ToString();
             // return the result
-            extent = extent.WithText(sourceChars);
+            extent = extent.WithText(sourceChars).WithEndExtent(stream);
             return new StringLiteralToken(extent, unescaped);
         }
 

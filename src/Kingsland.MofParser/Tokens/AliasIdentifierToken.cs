@@ -43,7 +43,7 @@ namespace Kingsland.MofParser.Tokens
                 }
             }
             // return the result
-            extent = extent.WithText(sourceChars);
+            extent = extent.WithText(sourceChars).WithEndExtent(stream);
             var name = new string(nameChars.ToArray());
             return new AliasIdentifierToken(extent, name);
         }

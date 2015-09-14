@@ -28,7 +28,7 @@ namespace Kingsland.MofParser.Tokens
             sourceChars.Add(stream.ReadChar('*'));
             sourceChars.Add(stream.ReadChar('/'));
             // return the result
-            extent = extent.WithText(sourceChars);
+            extent = extent.WithText(sourceChars).WithEndExtent(stream);
             return new MultilineCommentToken(extent);
         }
 
