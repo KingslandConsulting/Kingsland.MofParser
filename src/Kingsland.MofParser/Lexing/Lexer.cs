@@ -51,22 +51,23 @@ namespace Kingsland.MofParser.Lexing
                         else if (char.IsLetter(peek))
                         {
                             var identifier = IdentifierToken.Read(stream);
-                            switch (identifier.Name)
+                            var lower = identifier.Name.ToLowerInvariant();
+                            if (lower == BooleanLiteralToken.TrueText.ToLowerInvariant())
                             {
-                                case "True":
-                                    lexTokens.Add(new BooleanLiteralToken(identifier.Extent, true));
-                                    break;
-                                case "False":
-                                    lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
-                                    break;
-								case "NULL":
-									lexTokens.Add(new NullLiteralToken(identifier.Extent));
-									break;
-                                default:
-                                    lexTokens.Add(identifier);
-                                    break;
+                                lexTokens.Add(new BooleanLiteralToken(identifier.Extent, true));
                             }
-                            break;
+                            else if (lower == BooleanLiteralToken.FalseText.ToLowerInvariant())
+                            {
+                                lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
+                            }
+                            else if (lower == NullLiteralToken.NullText.ToLowerInvariant())
+                            {
+                                    lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
+                            }
+                            else
+                            {
+                                lexTokens.Add(identifier);
+                            }
                         }
                         else if (char.IsDigit(peek))
                         {
@@ -78,6 +79,7 @@ namespace Kingsland.MofParser.Lexing
                             throw new InvalidOperationException(
                                 string.Format("Unexpected character '{0}'", peek));
                         }
+                        break;
                 }
             }
 
