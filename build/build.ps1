@@ -1,6 +1,12 @@
 param
 (
-    [string] $targets = "Build"
+
+    [Parameter(Mandatory=$false)]
+    [string] $NuGetApiKey,
+
+    [Parameter(Mandatory=$false)]
+    [string] $BuildNumber
+
 )
 
 
@@ -10,11 +16,11 @@ Set-StrictMode -Version "Latest";
 
 $thisScript = $MyInvocation.MyCommand.Path;
 $thisFolder = [System.IO.Path]::GetDirectoryName($thisScript);
-$rootFolder = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($thisFolder, "..")); 
+$rootFolder = [System.IO.Path]::GetDirectoryName($thisFolder);
 
 
 # import all library functions
-$libFolder  = [System.IO.Path]::Combine($thisFolder, "lib");
+$libFolder = [System.IO.Path]::Combine($thisFolder, "lib");
 $filenames = [System.IO.Directory]::GetFiles($libFolder, "*.ps1");
 foreach( $filename in $filenames )
 {
@@ -22,7 +28,15 @@ foreach( $filename in $filenames )
 }
 
 
-Set-PowerShellHostWidth 500;
+Set-PowerShellHostWidth -Width 500;
+
+
+if( Test-IsTeamCityBuild )
+{
+    $properties = Read-TeamCityBuildProperties;
+    $NuGetApiKey = $properties.NuGetApiKey;
+    $BuildNumber = $properties["build.number"];
+}
 
 
 # build the solution
@@ -33,13 +47,13 @@ Invoke-MsBuild -solution $solution `
 
 
 # copy teamcity addins for nunit into build folder
-$nunitRunners = [System.IO.Path]::Combine($rootFolder, "Packages\NUnit.Runners.2.6.3");
-$properties = Read-TeamCityBuildProperties;
-if( $properties -ne $null )
+$nunitRunners = [System.IO.Path]::Combine($rootFolder, "Packages\NUnit.Runners.2.6.4");
+if( Test-IsTeamCityBuild )
 {
     Install-TeamCityNUnitAddIn -teamcityNUnitAddin $properties["system.teamcity.dotnet.nunitaddin"] `
                                -nunitRunnersFolder $nunitRunners;
 }
+
 
 # execute unit tests
 $testAssemblies = @(
@@ -47,5 +61,23 @@ $testAssemblies = @(
                   );
 foreach( $assembly in $testAssemblies)
 {
-    Invoke-NUnit -nunitRunnersFolder $nunitRunners -assembly $assembly;
+    Invoke-NUnitConsole -nunitRunnersFolder $nunitRunners -assembly $assembly;
 }
+
+
+# configure nuspec package
+$nuspec = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser.nuspec");
+$xml = new-object System.Xml.XmlDocument;
+$xml.Load($nuspec);
+$xml.package.metadata.version = $BuildNumber;
+$xml.Save($nuspec);
+
+
+# pack nuget package
+$nuget = [System.IO.Path]::Combine($rootFolder, "bin\NuGet.exe");
+#Invoke-NuGetPack -NuGet $nuget -NuSpec $nuspec;
+
+
+# push nuget package
+$nupkg = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser." + $BuildNumber + ".nupkg");
+#Invoke-NuGetPush -NuGet $nuget -PackagePath $nupkg -Source "https://nuget.org" -ApiKey $NuGetApiKey;

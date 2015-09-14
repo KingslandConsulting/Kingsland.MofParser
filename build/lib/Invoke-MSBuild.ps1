@@ -5,80 +5,98 @@ function Invoke-MsBuild
     (
 
         [Parameter(Mandatory=$true)]
-        [string] $solution,
+        [string] $Solution,
 
         [Parameter(Mandatory=$false)]
-        [string[]] $targets = @(),
+        [string[]] $Targets,
 
         [Parameter(Mandatory=$false)]
-        [hashtable] $properties = @(),
+        [hashtable] $Properties,
 
         [Parameter(Mandatory=$false)]
         [ValidateSet("quiet", "minimal", "normal", "detailed", "diagnostic")]
-        [string] $verbosity = "minimal"
+        [string] $Verbosity = "minimal"
 
     )
 
-    write-host "--------------";
+    write-host "**************";
     write-host "Invoke-MsBuild";
-    write-host "--------------";
+    write-host "**************";
+    write-host "solution = $Solution";
 
     $msbuild = "$($env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
-    write-host "msbuild path = $msbuild";
-    if( -not [System.IO.File]::Exists($msbuild) )
-    {
-        throw new-object System.IO.FileNotFoundException($solution);
-    }
-
     $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($msbuild);
+
+    write-host "msbuild path = $msbuild";
     write-host "msbuild version info = ";
     write-host ($version | fl * | out-string);
 
-    $arguments = @();
+    $cmdArgs = @();
 
-    # solution
-    write-host "solution = $solution";
-    if( -not [System.IO.File]::Exists($solution) )
-    {
-        throw new-object System.IO.FileNotFoundException($solution);
-    }
-    $arguments += $solution;    
+    # MSBuild.exe [options] [project file]
+    $cmdArgs += "`"$solution`""
 
-    # targets
-    write-host "targets  = ";
-    write-host ($targets | ft | out-string);
+    # /target:<targets>
+    write-host "targets = ";
+    write-host ($Targets | ft -AutoSize | out-string);
     if( $targets -ne $null )
     {
-        $arguments += "/target:" + [string]::Join(";", $targets);
-    }
-
-    # properties
-    $propertiesString = [string]::Empty;
-    if( $properties -ne $null )
-    {
-        $propertiesStrings = @();
-        foreach( $key in $properties.Keys )
+        foreach( $target in $targets )
         {
-            $arguments += [string]::Format("/property:{0}={1}", $key, $properties[$key]);
+            $cmdArgs += "/target:`"$target`"";
         }
     }
 
-    # verbosity
-    $arguments += "/verbosity:$verbosity";
-
-    # maxcpucount
-    $arguments += "/maxcpucount";
-
-    write-host "arguments = ";
-    write-host ($arguments | fl | out-string);
-
-    $process = Start-Process -FilePath $msbuild -ArgumentList $arguments -NoNewWindow -Wait -PassThru;
-
-    if( $process.ExitCode -ne 0 )
+    # /property:<n>=<v>
+    write-host "properties  = ";
+    write-host ($Properties | ft -AutoSize | out-string);
+    if( $properties -ne $null )
     {
-        throw new-object System.InvalidOperationException("MSBuild failed with exit code $($process.ExitCode).");
+        foreach( $key in $properties.Keys )
+        {
+            $cmdArgs += "/property:$key=$($properties[$key])";
+        }
     }
 
-    write-host "--------------";
+    # /maxcpucount[:n]
+    $cmdArgs += "/maxcpucount";
+
+    # /toolsversion:<version>
+
+    # /verbosity:<level>
+    write-host "verbosity = $Verbosity";
+    $cmdArgs += "/verbosity:$Verbosity";
+
+    # /consoleloggerparameters:<parameters>
+    # /noconsolelogger
+    # /fileLogger[n]
+    # /fileloggerparameters[n]:<parameters>
+    # /distributedlogger:<central logger>*<forwarding logger>
+    # /distributedFileLogger
+    # /logger:<logger>
+    # /validate:<schema>
+    # /ignoreprojectextensions:<extensions>
+
+    # /nodeReuse:<parameters>
+    $cmdArgs += "/nodeReuse:false";
+
+    # /preprocess[:file]
+    # /detailedsummary
+    # /noautoresponse
+
+    # /nologo
+    $cmdArgs += "/nologo";
+
+    # /version
+    # /help
+
+    # execute msbuild
+    write-host "cmdArgs = ";
+    write-host ($cmdArgs | fl * | out-string);
+    $process = Start-Process -FilePath $msbuild -ArgumentList $cmdArgs -NoNewWindow -Wait -PassThru;
+    if( $process.ExitCode -ne 0 )
+    {
+        throw new-object System.InvalidOperationException("MsBuild failed with exit code $($process.ExitCode).");
+    }
 
 }
