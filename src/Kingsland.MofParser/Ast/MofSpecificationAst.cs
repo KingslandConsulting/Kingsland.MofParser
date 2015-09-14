@@ -30,7 +30,6 @@ namespace Kingsland.MofParser.Ast
         /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
         /// Section A.2 - MOF specification
         /// 
