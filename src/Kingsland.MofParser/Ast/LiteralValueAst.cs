@@ -35,32 +35,38 @@ namespace Kingsland.MofParser.Ast
         {
             // propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
             var peek = stream.Peek();
-            if (peek is StringLiteralToken)
-            {
-                // primitiveTypeValue
-                return StringValueAst.Parse(stream);
-            }
-            else if (peek is BooleanLiteralToken)
-            {
-                // primitiveTypeValue
-                return BooleanValueAst.Parse(stream);
-            }
-            else if(peek is IntegerLiteralToken)
-            {
-                // primitiveTypeValue
-                return IntegerValueAst.Parse(stream);
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
+			if (peek is StringLiteralToken)
+			{
+				// primitiveTypeValue
+				return StringValueAst.Parse(stream);
+			}
+			else if (peek is BooleanLiteralToken)
+			{
+				// primitiveTypeValue
+				return BooleanValueAst.Parse(stream);
+			}
+			else if(peek is IntegerLiteralToken)
+			{
+				// primitiveTypeValue
+				return IntegerValueAst.Parse(stream);
+			}
+			else if (peek is NullLiteralToken)
+			{
+				return NullValueAst.Parse(stream);
+			}
+
+			else
+			{
+				throw new InvalidOperationException();
+			}
         }
 
         internal static bool IsLiteralValueToken(Token token)
         {
             return (token is StringLiteralToken) ||
                    (token is BooleanLiteralToken) ||
-                   (token is IntegerLiteralToken);
+                   (token is IntegerLiteralToken) || 
+				   (token is NullLiteralToken);
         }
 
     }
