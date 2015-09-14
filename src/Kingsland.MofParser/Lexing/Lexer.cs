@@ -59,6 +59,9 @@ namespace Kingsland.MofParser.Lexing
                                 case "False":
                                     lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
                                     break;
+								case "NULL":
+									lexTokens.Add(new NullLiteralToken(identifier.Extent));
+									break;
                                 default:
                                     lexTokens.Add(identifier);
                                     break;
