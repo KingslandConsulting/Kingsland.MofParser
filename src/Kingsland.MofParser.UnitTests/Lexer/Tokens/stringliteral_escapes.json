@@ -1,0 +1,19 @@
+{
+  "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
+  "$values": [
+    {
+      "$type": "Kingsland.MofParser.Tokens.StringLiteralToken, Kingsland.MofParser",
+      "Value": "my \\ string \" literal \r with \n escapes \r\n in",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 0,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 0,
+        "EndPosition": 52,
+        "EndLineNumber": 0,
+        "EndColumnNumber": 52,
+        "Text": "\"my \\\\ string \\\" literal \\r with \\n escapes \\r\\n in\"\""
+      }
+    }
+  ]
+}

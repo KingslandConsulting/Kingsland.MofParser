@@ -1,0 +1,18 @@
+{
+  "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
+  "$values": [
+    {
+      "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 0,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 0,
+        "EndPosition": 30,
+        "EndLineNumber": 14,
+        "EndColumnNumber": 0,
+        "Text": "     \t\t\t\t\t\r\r\r\r\r\n\n\n\n\n\r\n\r\n\r\n\r\n\r\n"
+      }
+    }
+  ]
+}

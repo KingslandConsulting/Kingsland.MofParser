@@ -1,0 +1,19 @@
+{
+  "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
+  "$values": [
+    {
+      "$type": "Kingsland.MofParser.Tokens.StringLiteralToken, Kingsland.MofParser",
+      "Value": "my string literal",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 0,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 0,
+        "EndPosition": 19,
+        "EndLineNumber": 0,
+        "EndColumnNumber": 19,
+        "Text": "\"my string literal\"\""
+      }
+    }
+  ]
+}
