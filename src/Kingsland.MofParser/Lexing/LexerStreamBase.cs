@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kingsland.MofParser.Tokens;
+using System;
 
 namespace Kingsland.MofParser.Lexing
 {
@@ -24,7 +25,7 @@ namespace Kingsland.MofParser.Lexing
         /// </summary>
         private char LastChar
         { 
-            get; 
+            get;
             set;
         }
 
@@ -96,7 +97,7 @@ namespace Kingsland.MofParser.Lexing
         public bool PeekWhitespace()
         {
             var peek = this.Peek();
-            return char.IsWhiteSpace(peek);
+            return WhitespaceToken.IsWhitespace(peek);
         }
 
         #endregion
@@ -196,20 +197,20 @@ namespace Kingsland.MofParser.Lexing
             return @char;
         }
 
-        /// <summary>
-        /// Moves the stream position back a character.
-        /// </summary>
-        public void Backtrack()
-        {
-            if (this.Position == 0)
-            {
-                throw new InvalidOperationException();
-            }
-            this.Position -= 1;
-            // BUGBUG: this needs to handle line breaks properly, otherwise we get out of sync.
-            //         probably need a stack of { position, line, column } tuples so we can re-hydrate
-            this.Column -= 1;
-        }
+        ///// <summary>
+        ///// Moves the stream position back a character.
+        ///// </summary>
+        //public void Backtrack()
+        //{
+        //    if (this.Position == 0)
+        //    {
+        //        throw new InvalidOperationException();
+        //    }
+        //    this.Position -= 1;
+        //    // BUGBUG: this needs to handle line breaks properly, otherwise we get out of sync.
+        //    //         probably need a stack of { position, line, column } tuples so we can re-hydrate
+        //    this.Column -= 1;
+        //}
 
         #endregion
 

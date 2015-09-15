@@ -100,10 +100,10 @@
         /// <returns></returns>
         char ReadWhitespace();
 
-        /// <summary>
-        /// Moves the stream position back a token.
-        /// </summary>
-        void Backtrack();
+        ///// <summary>
+        ///// Moves the stream position back a token.
+        ///// </summary>
+        //void Backtrack();
 
         #endregion
 
