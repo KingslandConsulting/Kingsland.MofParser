@@ -43,7 +43,7 @@ namespace Kingsland.MofParser.Lexing
                         lexTokens.Add(StatementEndToken.Read(stream));
                         break;
                     default:
-                        if (char.IsWhiteSpace(peek))
+                        if (WhitespaceToken.IsWhitespace(peek))
                         {
                             lexTokens.Add(WhitespaceToken.Read(stream));
                             break;
