@@ -52,7 +52,8 @@ namespace Kingsland.MofParser.Ast
 			}
 			else if (peek is NullLiteralToken)
 			{
-				return NullValueAst.Parse(stream);
+                // primitiveTypeValue
+                return NullValueAst.Parse(stream);
 			}
 
 			else

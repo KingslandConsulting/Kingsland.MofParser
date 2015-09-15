@@ -36,10 +36,10 @@ namespace Kingsland.MofParser.Ast
                     return ComplexTypeValueAst.Parse(stream);
                 default:
                     throw new InvalidOperationException(
-                        string.Format("Invalid lexer token type '{0}'", peek.GetType().Name));
+                        string.Format("Invalid IdentifierToken with name '{0}'", peek.Name));
             }
         }
-        
+
     }
 
 }
