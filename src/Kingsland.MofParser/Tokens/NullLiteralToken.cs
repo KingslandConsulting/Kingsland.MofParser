@@ -9,10 +9,10 @@ namespace Kingsland.MofParser.Tokens
         public const string NullText = "null";
 
         internal NullLiteralToken(SourceExtent extent)
-			: base(extent)
-		{
-		}
+            : base(extent)
+        {
+        }
 
-	}
+    }
 
 }
