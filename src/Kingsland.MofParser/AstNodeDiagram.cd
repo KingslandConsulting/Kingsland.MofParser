@@ -134,5 +134,19 @@
       <FileName>Ast\StringValueAst.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Kingsland.MofParser.Ast.NullValueAst" Collapsed="true">
+    <Position X="6.75" Y="8" Width="1.5" />
+    <InheritanceLine Type="Kingsland.MofParser.Ast.LiteralValueAst" FixedToPoint="true">
+      <Path>
+        <Point X="6.5" Y="3.691" />
+        <Point X="6.5" Y="8.375" />
+        <Point X="6.75" Y="8.375" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Ast\NullValueAst.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
