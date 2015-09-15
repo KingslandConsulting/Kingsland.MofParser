@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.Lexing
                 switch (peek)
                 {
                     case '/':
-                        lexTokens.Add(MultilineCommentToken.Read(stream));
+                        lexTokens.Add(CommentToken.Read(stream));
                         break;
                     case '$':
                         lexTokens.Add(AliasIdentifierToken.Read(stream));

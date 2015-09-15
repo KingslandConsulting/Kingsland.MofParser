@@ -1,0 +1,137 @@
+{
+  "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
+  "$values": [
+    {
+      "$type": "Kingsland.MofParser.Tokens.CommentToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 0,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 0,
+        "EndPosition": 86,
+        "EndLineNumber": 0,
+        "EndColumnNumber": 86,
+        "Text": "/* example of a comment between property definition tokens and a multi-line comment */"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 86,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 86,
+        "EndPosition": 88,
+        "EndLineNumber": 1,
+        "EndColumnNumber": 0,
+        "Text": "\r\n"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
+      "Name": "uint16",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 88,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 0,
+        "EndPosition": 94,
+        "EndLineNumber": 1,
+        "EndColumnNumber": 6,
+        "Text": "uint16"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 94,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 6,
+        "EndPosition": 95,
+        "EndLineNumber": 1,
+        "EndColumnNumber": 7,
+        "Text": " "
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.CommentToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 95,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 7,
+        "EndPosition": 124,
+        "EndLineNumber": 1,
+        "EndColumnNumber": 36,
+        "Text": "/* 16-bit integer property */"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 124,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 36,
+        "EndPosition": 125,
+        "EndLineNumber": 1,
+        "EndColumnNumber": 37,
+        "Text": " "
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
+      "Name": "MyProperty",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 125,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 37,
+        "EndPosition": 135,
+        "EndLineNumber": 1,
+        "EndColumnNumber": 47,
+        "Text": "MyProperty"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.StatementEndToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 135,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 47,
+        "EndPosition": 136,
+        "EndLineNumber": 1,
+        "EndColumnNumber": 48,
+        "Text": ";"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 136,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 48,
+        "EndPosition": 137,
+        "EndLineNumber": 1,
+        "EndColumnNumber": 49,
+        "Text": " "
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.CommentToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 137,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 49,
+        "EndPosition": 192,
+        "EndLineNumber": 2,
+        "EndColumnNumber": 34,
+        "Text": "/* and a multi-line\r\n                        comment */"
+      }
+    }
+  ]
+}

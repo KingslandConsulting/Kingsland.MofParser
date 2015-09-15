@@ -49,6 +49,7 @@
     <Compile Include="Ast\PrimitiveTypeValueAst.cs" />
     <Compile Include="Ast\PropertyValueAst.cs" />
     <Compile Include="Ast\ReferenceTypeValue.cs" />
+    <Compile Include="Lexing\StreamPosition.cs" />
     <Compile Include="PowerShellDscHelper.cs" />
     <Compile Include="Lexing\LexerStreamBase.cs" />
     <Compile Include="Tokens\CommaToken.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="Tokens\EqualsOperatorToken.cs" />
     <Compile Include="Tokens\IdentifierToken.cs" />
     <Compile Include="Tokens\_Token.cs" />
-    <Compile Include="Tokens\MultilineCommentToken.cs" />
+    <Compile Include="Tokens\CommentToken.cs" />
     <Compile Include="Tokens\WhitespaceToken.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Parsing\NameValidator.cs" />

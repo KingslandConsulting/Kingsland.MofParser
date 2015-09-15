@@ -1,0 +1,18 @@
+{
+  "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
+  "$values": [
+    {
+      "$type": "Kingsland.MofParser.Tokens.CommentToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 0,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 0,
+        "EndPosition": 119,
+        "EndLineNumber": 5,
+        "EndColumnNumber": 0,
+        "Text": "/*\r\n@TargetNode='MyServer'\r\n@GeneratedBy=mike.clayton\r\n@GenerationDate=07/19/2014 10:37:04\r\n@GenerationHost=MyDesktop\r\n"
+      }
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
+  "$values": [
+    {
+      "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
+      "Name": "uint16",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 0,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 0,
+        "EndPosition": 6,
+        "EndLineNumber": 0,
+        "EndColumnNumber": 6,
+        "Text": "uint16"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 6,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 6,
+        "EndPosition": 7,
+        "EndLineNumber": 0,
+        "EndColumnNumber": 7,
+        "Text": " "
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
+      "Name": "MyProperty",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 7,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 7,
+        "EndPosition": 17,
+        "EndLineNumber": 0,
+        "EndColumnNumber": 17,
+        "Text": "MyProperty"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.StatementEndToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 17,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 17,
+        "EndPosition": 18,
+        "EndLineNumber": 0,
+        "EndColumnNumber": 18,
+        "Text": ";"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 18,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 18,
+        "EndPosition": 19,
+        "EndLineNumber": 0,
+        "EndColumnNumber": 19,
+        "Text": " "
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.CommentToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 19,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 19,
+        "EndPosition": 65,
+        "EndLineNumber": 0,
+        "EndColumnNumber": 65,
+        "Text": "// This is an example of a single-line comment"
+      }
+    }
+  ]
+}

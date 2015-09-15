@@ -2,7 +2,7 @@
   "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
   "$values": [
     {
-      "$type": "Kingsland.MofParser.Tokens.MultilineCommentToken, Kingsland.MofParser",
+      "$type": "Kingsland.MofParser.Tokens.CommentToken, Kingsland.MofParser",
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 0,
