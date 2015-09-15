@@ -98,6 +98,11 @@ namespace Kingsland.MofParser.Lexing
             return this.WithStartExtent(stream.Position, stream.LineNumber, stream.Column);
         }
 
+        internal SourceExtent WithStartExtent(StreamPosition streamPosition)
+        {
+            return new SourceExtent(streamPosition.Position, streamPosition.LineNumber, streamPosition.Column, this.EndPosition, this.EndLineNumber, this.EndColumnNumber, this.Text);
+        }
+
         internal SourceExtent WithStartExtent(int startPosition, int startLineNumber, int startColumnNumber)
         {
             return new SourceExtent(startPosition, startLineNumber, startColumnNumber, this.EndPosition, this.EndLineNumber, this.EndColumnNumber, this.Text);
@@ -106,6 +111,11 @@ namespace Kingsland.MofParser.Lexing
         internal SourceExtent WithEndExtent(ILexerStream stream)
         {
             return this.WithEndExtent(stream.Position, stream.LineNumber, stream.Column);
+        }
+
+        internal SourceExtent WithEndExtent(StreamPosition streamPosition)
+        {
+            return new SourceExtent(this.StartPosition, this.StartLineNumber, this.StartColumnNumber, streamPosition.Position, streamPosition.LineNumber, streamPosition.Column, this.Text);
         }
 
         internal SourceExtent WithEndExtent(int endPosition, int endLineNumber, int endColumnNumber)
