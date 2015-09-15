@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Kingsland.MofParser.Lexing;
+﻿using Kingsland.MofParser.Lexing;
+using System.Collections.Generic;
 
 namespace Kingsland.MofParser.Tokens
 {
