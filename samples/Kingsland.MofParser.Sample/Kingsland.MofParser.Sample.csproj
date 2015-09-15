@@ -43,7 +43,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kingsland.MofParser\Kingsland.MofParser.csproj">
+    <ProjectReference Include="..\..\src\Kingsland.MofParser\Kingsland.MofParser.csproj">
       <Project>{89224b8b-72b8-4e9b-ba13-1c2ad6a533ea}</Project>
       <Name>Kingsland.MofParser</Name>
     </ProjectReference>
