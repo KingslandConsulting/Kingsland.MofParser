@@ -118,7 +118,11 @@ namespace Kingsland.MofParser.Ast
             while (!stream.Eof && (stream.Peek<BlockCloseToken>() == null))
             {
                 // propertyName
-                var propertyName = NameValidator.ValidateIdentifier(stream.Read<IdentifierToken>().Name);
+                var propertyName = stream.Read<IdentifierToken>().Name;
+                if (!StringValidator.IsIdentifier(propertyName))
+                {
+                    throw new InvalidOperationException("Value is not a valid property name.");
+                }
                 // "="
                 stream.Read<EqualsOperatorToken>();
                 // propertyValue

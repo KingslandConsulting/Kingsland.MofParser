@@ -22,7 +22,7 @@ namespace Kingsland.MofParser.Parsing
         /// </remarks>
         public static bool IsStructureName(string value)
         {
-            return NameValidator.IsIdentifier(value) ||
+            return StringValidator.IsIdentifier(value) ||
                    NameValidator.IsSchemaQualifiedName(value);
         }
 
@@ -117,7 +117,7 @@ namespace Kingsland.MofParser.Parsing
                 return false;
             }
             return NameValidator.IsSchemaName(value.Substring(0, underscore)) &&
-                   NameValidator.IsIdentifier(value.Substring(underscore + 1));
+                   StringValidator.IsIdentifier(value.Substring(underscore + 1));
         }
 
         public static string ValidateSchemaQualifiedName(string value)
@@ -205,80 +205,6 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region IDENTIFIER = firstIdentifierChar *( nextIdentifierChar )
-
-        /// <summary>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <remarks>
-        /// IDENTIFIER = firstIdentifierChar *( nextIdentifierChar )
-        /// </remarks>
-        public static bool IsIdentifier(string value)
-        {
-            return !string.IsNullOrEmpty(value) &&
-                   NameValidator.IsFirstIdentifierChar(value[0]) &&
-                   value.Skip(1).All(NameValidator.IsNextIdentifierChar);
-        }
-
-        public static string ValidateIdentifier(string value)
-        {
-            if (!NameValidator.IsIdentifier(value))
-            {
-                throw new ArgumentException("Value is not a valid IDENTIFIER", "value");
-            }
-            return value;
-        }
-
-        #endregion
-
-        #region firstIdentifierChar = UPPERALPHA / LOWERALPHA / UNDERSCORE
-
-        /// <summary>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <remarks>
-        /// firstIdentifierChar = UPPERALPHA / LOWERALPHA / UNDERSCORE
-        /// </remarks>
-        public static bool IsFirstIdentifierChar(char value)
-        {
-            return char.IsLetter(value) || (value == '_');
-        }
-
-        public static char ValidateFirstIdentifierChar(char value)
-        {
-            if (!NameValidator.IsFirstIdentifierChar(value))
-            {
-                throw new ArgumentException("Value is not a valid firstIdentifierChar", "value");
-            }
-            return value;
-        }
-
-        #endregion
-
-        #region nextIdentifierChar = firstIdentifierChar / decimalDigit
-
-        /// <summary>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <remarks>
-        /// nextIdentifierChar = firstIdentifierChar / decimalDigit
-        /// </remarks>
-        public static bool IsNextIdentifierChar(char value)
-        {
-            return char.IsLetter(value) || char.IsDigit(value);
-        }
-
-        public static char ValidateNextIdentifierChar(char value)
-        {
-            if (!NameValidator.IsFirstSchemaChar(value))
-            {
-                throw new ArgumentException("Value is not a valid firstSchemaChar", "value");
-            }
-            return value;
-        }
-
-        #endregion
-
         #region aliasIdentifier = "$" IDENTIFIER
 
         /// <summary>
@@ -291,7 +217,7 @@ namespace Kingsland.MofParser.Parsing
         {
             return !string.IsNullOrEmpty(value) &&
                    (value[0] == '$') &&
-                   NameValidator.IsIdentifier(value.Substring(1));
+                   StringValidator.IsIdentifier(value.Substring(1));
         }
 
         public static string ValidateAliasIdentifier(string value)

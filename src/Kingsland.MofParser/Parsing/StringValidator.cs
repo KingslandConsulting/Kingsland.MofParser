@@ -1,15 +1,84 @@
-﻿namespace Kingsland.MofParser.Parsing
+﻿using System.Linq;
+
+namespace Kingsland.MofParser.Parsing
 {
 
     public sealed class StringValidator
     {
-        
+
+        #region A.13 Names
+
+        #region IDENTIFIER = firstIdentifierChar *( nextIdentifierChar )
+
+        public static bool IsIdentifier(string value)
+        {
+            return !string.IsNullOrEmpty(value) &&
+                   StringValidator.IsFirstIdentifierChar(value.First()) &&
+                   value.Skip(1).All(StringValidator.IsNextIdentifierChar);
+        }
+
+        #endregion
+
+        #region firstIdentifierChar = UPPERALPHA / LOWERALPHA / UNDERSCORE
+
+        public static bool IsFirstIdentifierChar(char value)
+        {
+            return StringValidator.IsUpperAlpha(value) ||
+                   StringValidator.IsLowerAlpha(value) ||
+                   StringValidator.IsUnderscore(value);
+        }
+
+        #endregion
+
+        #region nextIdentifierChar = firstIdentifierChar / decimalDigit
+
+        public static bool IsNextIdentifierChar(char value)
+        {
+            return StringValidator.IsFirstIdentifierChar(value) ||
+                   StringValidator.IsDecimalDigit(value);
+        }
+
+        #endregion
+
+        // elementName = localName / schemaQualifiedName
+
+        // localName = IDENTIFIER
+
+        #endregion
+
+        #region A.17.2 Real value
+
+        // No whitespace is allowed between the elements of the rules in this ABNF section.
+
+        // realValue = ["+" / "-"] * decimalDigit "." 1*decimalDigit
+        //             [ ("e" / "E") [ "+" / "-" ] 1*decimalDigit ]
+
+        #region decimalDigit = "0" / positiveDecimalDigit
+
+        public static bool IsDecimalDigit(char value)
+        {
+            return (value == '0') || StringValidator.IsPositiveDecimalDigit(value);
+        }
+
+        #endregion
+
+        #region positiveDecimalDigit = "1"..."9"
+
+        public static bool IsPositiveDecimalDigit(char value)
+        {
+            return (value >= '1') && (value <= '9');
+        }
+
+        #endregion
+
+        #endregion
+
         #region A.17.4 Special characters
 
         // The following special characters are used in other ABNF rules in this specification:
 
         #region BACKSLASH = U+005C ; \ 
-        
+
         public static readonly char Backslash = '\u005C';
 
         public static bool IsBackslash(char @char)
