@@ -34,7 +34,7 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal new static NullValueAst Parse(ParserStream stream)
         {
-			stream.Read<NullLiteralToken>(); // read the 'NULL' token
+			stream.Read<NullLiteralToken>();
 			return new NullValueAst();
         }
 

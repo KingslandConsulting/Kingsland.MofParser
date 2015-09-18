@@ -32,6 +32,63 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
+        #region 7.3.2 Structure declaration
+
+        #region structureName = elementName
+
+        /// <summary>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <remarks>
+        /// structureName = ( IDENTIFIER / schemaQualifiedName )
+        /// </remarks>
+        public static bool IsStructureName(string value)
+        {
+            return StringValidator.IsElementName(value);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 7.3.3 Class declaration
+
+        #region className = elementName
+
+        /// <summary>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <remarks>
+        /// className = schemaQualifiedName
+        /// </remarks>
+        public static bool IsClassName(string value)
+        {
+            return StringValidator.IsElementName(value);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 7.3.4 Association declaration
+
+        #region associationName = elementName
+
+        /// <summary>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <remarks>
+        /// associationName = schemaQualifiedName
+        /// </remarks>
+        public static bool IsAssociationName(string value)
+        {
+            return StringValidator.IsElementName(value);
+        }
+
+        #endregion
+
+        #endregion
+
         #region A.13 Names
 
         #region IDENTIFIER = firstIdentifierChar *( nextIdentifierChar )

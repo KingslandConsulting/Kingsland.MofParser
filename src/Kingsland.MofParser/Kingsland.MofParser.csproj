@@ -75,7 +75,6 @@
     <Compile Include="Tokens\CommentToken.cs" />
     <Compile Include="Tokens\WhitespaceToken.cs" />
     <Compile Include="Parsing\Parser.cs" />
-    <Compile Include="Parsing\NameValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

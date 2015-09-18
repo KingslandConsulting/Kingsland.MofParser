@@ -90,7 +90,187 @@ namespace Kingsland.MofParser.UnitTests.Parsing
         }
 
         #endregion
-        
+
+        #region 7.3.2 Structure declaration
+
+        #region structureName = elementName
+
+        [TestFixture]
+        public static class IsStructureNameTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("0identifier", false)]
+            [TestCase("1identifier", false)]
+            [TestCase("5identifier", false)]
+            [TestCase("9identifier", false)]
+            [TestCase("\\", false)]
+            [TestCase("\\identifier", false)]
+            [TestCase(":", false)]
+            [TestCase(":identifier", false)]
+            [TestCase("identi-fier", false)]
+            [TestCase("_", true)]
+            [TestCase("__", true)]
+            [TestCase("__0identifier", true)]
+            [TestCase("__identifier", true)]
+            [TestCase("identifier", true)]
+            [TestCase("identifier0", true)]
+            [TestCase("_identifier0", true)]
+            [TestCase("__identifier0", true)]
+            [TestCase("__Identifier0", true)]
+            [TestCase("__IDENTIFIER0", true)]
+            [TestCase("MSFT_0identifier", true)]
+            [TestCase("MSFT_1identifier", true)]
+            [TestCase("MSFT_5identifier", true)]
+            [TestCase("MSFT_9identifier", true)]
+            [TestCase("MSFT_\\", false)]
+            [TestCase("MSFT_\\identifier", false)]
+            [TestCase("MSFT_:", false)]
+            [TestCase("MSFT_:identifier", false)]
+            [TestCase("MSFT_identi-fier", false)]
+            [TestCase("MSFT__", true)]
+            [TestCase("MSFT___", true)]
+            [TestCase("MSFT___0identifier", true)]
+            [TestCase("MSFT___identifier", true)]
+            [TestCase("MSFT_identifier", true)]
+            [TestCase("MSFT_identifier0", true)]
+            [TestCase("MSFT__identifier0", true)]
+            [TestCase("MSFT___identifier0", true)]
+            [TestCase("MSFT___Identifier0", true)]
+            [TestCase("MSFT___IDENTIFIER0", true)]
+            public static void IsStructureNameTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsStructureName(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 7.3.3 Class declaration
+
+        #region className = elementName
+
+        [TestFixture]
+        public static class IsClassNameTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("0identifier", false)]
+            [TestCase("1identifier", false)]
+            [TestCase("5identifier", false)]
+            [TestCase("9identifier", false)]
+            [TestCase("\\", false)]
+            [TestCase("\\identifier", false)]
+            [TestCase(":", false)]
+            [TestCase(":identifier", false)]
+            [TestCase("identi-fier", false)]
+            [TestCase("_", true)]
+            [TestCase("__", true)]
+            [TestCase("__0identifier", true)]
+            [TestCase("__identifier", true)]
+            [TestCase("identifier", true)]
+            [TestCase("identifier0", true)]
+            [TestCase("_identifier0", true)]
+            [TestCase("__identifier0", true)]
+            [TestCase("__Identifier0", true)]
+            [TestCase("__IDENTIFIER0", true)]
+            [TestCase("MSFT_0identifier", true)]
+            [TestCase("MSFT_1identifier", true)]
+            [TestCase("MSFT_5identifier", true)]
+            [TestCase("MSFT_9identifier", true)]
+            [TestCase("MSFT_\\", false)]
+            [TestCase("MSFT_\\identifier", false)]
+            [TestCase("MSFT_:", false)]
+            [TestCase("MSFT_:identifier", false)]
+            [TestCase("MSFT_identi-fier", false)]
+            [TestCase("MSFT__", true)]
+            [TestCase("MSFT___", true)]
+            [TestCase("MSFT___0identifier", true)]
+            [TestCase("MSFT___identifier", true)]
+            [TestCase("MSFT_identifier", true)]
+            [TestCase("MSFT_identifier0", true)]
+            [TestCase("MSFT__identifier0", true)]
+            [TestCase("MSFT___identifier0", true)]
+            [TestCase("MSFT___Identifier0", true)]
+            [TestCase("MSFT___IDENTIFIER0", true)]
+            public static void IsClassNameTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsClassName(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 7.3.4 Association declaration
+
+        #region associationName = elementName
+
+        [TestFixture]
+        public static class IsAssociationNameTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("0identifier", false)]
+            [TestCase("1identifier", false)]
+            [TestCase("5identifier", false)]
+            [TestCase("9identifier", false)]
+            [TestCase("\\", false)]
+            [TestCase("\\identifier", false)]
+            [TestCase(":", false)]
+            [TestCase(":identifier", false)]
+            [TestCase("identi-fier", false)]
+            [TestCase("_", true)]
+            [TestCase("__", true)]
+            [TestCase("__0identifier", true)]
+            [TestCase("__identifier", true)]
+            [TestCase("identifier", true)]
+            [TestCase("identifier0", true)]
+            [TestCase("_identifier0", true)]
+            [TestCase("__identifier0", true)]
+            [TestCase("__Identifier0", true)]
+            [TestCase("__IDENTIFIER0", true)]
+            [TestCase("MSFT_0identifier", true)]
+            [TestCase("MSFT_1identifier", true)]
+            [TestCase("MSFT_5identifier", true)]
+            [TestCase("MSFT_9identifier", true)]
+            [TestCase("MSFT_\\", false)]
+            [TestCase("MSFT_\\identifier", false)]
+            [TestCase("MSFT_:", false)]
+            [TestCase("MSFT_:identifier", false)]
+            [TestCase("MSFT_identi-fier", false)]
+            [TestCase("MSFT__", true)]
+            [TestCase("MSFT___", true)]
+            [TestCase("MSFT___0identifier", true)]
+            [TestCase("MSFT___identifier", true)]
+            [TestCase("MSFT_identifier", true)]
+            [TestCase("MSFT_identifier0", true)]
+            [TestCase("MSFT__identifier0", true)]
+            [TestCase("MSFT___identifier0", true)]
+            [TestCase("MSFT___Identifier0", true)]
+            [TestCase("MSFT___IDENTIFIER0", true)]
+            public static void IsAssociationNameTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsAssociationName(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
         #region A.13 Names
 
         #region IDENTIFIER = firstIdentifierChar *( nextIdentifierChar )
