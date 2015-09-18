@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Kingsland.MofParser.Parsing
 {
@@ -6,7 +7,7 @@ namespace Kingsland.MofParser.Parsing
     public sealed class StringValidator
     {
 
-        #region 5.2 Whiteaspace
+        #region 5.2 Whitespace
 
         #region WS = U+0020 / U+0009 / U+000D / U+000A
 
@@ -69,6 +70,71 @@ namespace Kingsland.MofParser.Parsing
         // elementName = localName / schemaQualifiedName
 
         // localName = IDENTIFIER
+
+        #endregion
+
+        #region A.13.1 Schema-qualified name
+
+        #region schemaQualifiedName = schemaName UNDERSCORE IDENTIFIER
+
+        public static bool IsSchemaQualifiedName(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return false;
+            }
+            var underscore = value.IndexOf(StringValidator.Underscore);
+            if ((underscore < 1) || (underscore == value.Length - 1))
+            {
+                return false;
+            }
+            return StringValidator.IsSchemaName(value.Substring(0, underscore)) &&
+                   StringValidator.IsIdentifier(value.Substring(underscore + 1));
+        }
+
+        #endregion
+
+        #region schemaName = firstSchemaChar *( nextSchemaChar )
+
+        public static bool IsSchemaName(string value)
+        {
+            return !string.IsNullOrEmpty(value) &&
+                   StringValidator.IsFirstSchemaChar(value[0]) &&
+                   value.Skip(1).All(StringValidator.IsNextSchemaChar);
+        }
+
+        #endregion
+
+        #region firstSchemaChar = UPPERALPHA / LOWERALPHA
+
+        public static bool IsFirstSchemaChar(char value)
+        {
+            return StringValidator.IsUpperAlpha(value) ||
+                   StringValidator.IsLowerAlpha(value);
+        }
+
+        #endregion
+
+        #region nextSchemaChar = firstSchemaChar / decimalDigit
+
+        public static bool IsNextSchemaChar(char value)
+        {
+            return StringValidator.IsFirstSchemaChar(value) ||
+                   StringValidator.IsDecimalDigit(value);
+        }
+
+        #endregion
+
+        #region aliasIdentifier = "$" IDENTIFIER
+
+        public static bool IsAliasIdentifier(string value)
+        {
+            return !string.IsNullOrEmpty(value) &&
+                   (value.First() == '$') &&
+                   StringValidator.IsIdentifier(value.Substring(1));
+        }
+
+        #endregion
 
         #endregion
 

@@ -7,7 +7,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
     public static partial class StringValidatorTests
     {
 
-        #region 5.2 Whiteaspace
+        #region 5.2 Whitespace
 
         #region WS = U+0020 / U+0009 / U+000D / U+000A
 
@@ -115,6 +115,8 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [TestCase("__0identifier", true)]
             [TestCase("__identifier", true)]
             [TestCase("identifier", true)]
+            [TestCase("Identifier", true)]
+            [TestCase("IDENTIFIER", true)]
             [TestCase("identifier0", true)]
             [TestCase("_identifier0", true)]
             [TestCase("__identifier0", true)]
@@ -132,7 +134,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #region firstIdentifierChar = UPPERALPHA / LOWERALPHA / UNDERSCORE
 
-        public static class IsFirstIdentifierTests
+        public static class IsFirstIdentifierCharTests
         {
 
             [TestCase('\"', false)]
@@ -167,7 +169,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #region nextIdentifierChar = firstIdentifierChar / decimalDigit
 
-        public static class IsNextIdentifierTests
+        public static class IsNextIdentifierCharTests
         {
 
             [TestCase('\"', false)]
@@ -190,9 +192,181 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [TestCase('m', true)]
             [TestCase('z', true)]
             [TestCase('{', false)]
-            public static void IsNextIdentifierTest(char value, bool expectedResult)
+            public static void IsNextIdentifierCharTest(char value, bool expectedResult)
             {
                 var result = StringValidator.IsNextIdentifierChar(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        // elementName = localName / schemaQualifiedName
+
+        // localName = IDENTIFIER
+
+        #endregion
+
+        #region A.13.1 Schema-qualified name
+
+        #region schemaQualifiedName = schemaName UNDERSCORE IDENTIFIER
+
+        [TestFixture]
+        public static class IsSchemaQualifiedNameTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("0identifier", false)]
+            [TestCase("1identifier", false)]
+            [TestCase("5identifier", false)]
+            [TestCase("9identifier", false)]
+            [TestCase("\\", false)]
+            [TestCase("\\identifier", false)]
+            [TestCase(":", false)]
+            [TestCase(":identifier", false)]
+            [TestCase("identi-fier", false)]
+            [TestCase("_", false)]
+            [TestCase("__", false)]
+            [TestCase("__0identifier", false)]
+            [TestCase("__identifier", false)]
+            [TestCase("identifier", false)]
+            [TestCase("identifier0", false)]
+            [TestCase("_identifier0", false)]
+            [TestCase("__identifier0", false)]
+            [TestCase("__Identifier0", false)]
+            [TestCase("__IDENTIFIER0", false)]
+            [TestCase("MSFT_0identifier", false)]
+            [TestCase("MSFT_1identifier", false)]
+            [TestCase("MSFT_5identifier", false)]
+            [TestCase("MSFT_9identifier", false)]
+            [TestCase("MSFT_\\", false)]
+            [TestCase("MSFT_\\identifier", false)]
+            [TestCase("MSFT_:", false)]
+            [TestCase("MSFT_:identifier", false)]
+            [TestCase("MSFT_identi-fier", false)]
+            [TestCase("MSFT__", true)]
+            [TestCase("MSFT___", true)]
+            [TestCase("MSFT___0identifier", true)]
+            [TestCase("MSFT___identifier", true)]
+            [TestCase("MSFT_identifier", true)]
+            [TestCase("MSFT_identifier0", true)]
+            [TestCase("MSFT__identifier0", true)]
+            [TestCase("MSFT___identifier0", true)]
+            [TestCase("MSFT___Identifier0", true)]
+            [TestCase("MSFT___IDENTIFIER0", true)]
+            public static void IsSchemaQualifiedNameTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsSchemaQualifiedName(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #region schemaName = firstSchemaChar *( nextSchemaChar )
+
+        public static class IsSchemaNameTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("0schemaname", false)]
+            [TestCase("1schemaname", false)]
+            [TestCase("5schemaname", false)]
+            [TestCase("9schemaname", false)]
+            [TestCase("\\", false)]
+            [TestCase("\\schemaname", false)]
+            [TestCase(":", false)]
+            [TestCase(":schemaname", false)]
+            [TestCase("schema-name", false)]
+            [TestCase("_", false)]
+            [TestCase("__", false)]
+            [TestCase("__0schemaname", false)]
+            [TestCase("__schemaname", false)]
+            [TestCase("schemaname", true)]
+            [TestCase("schemaname0", true)]
+            [TestCase("SchemaName", true)]
+            [TestCase("SCHEMANAME", true)]
+            [TestCase("_schemaname0", false)]
+            [TestCase("__schemaname0", false)]
+            [TestCase("__SchemaName0", false)]
+            [TestCase("__SCHEMANAME0", false)]
+            public static void IsSchemaNameTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsSchemaName(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #region firstSchemaChar = UPPERALPHA / LOWERALPHA
+
+        public static class IsFirstSchemaCharTests
+        {
+
+            [TestCase('\"', false)]
+            [TestCase('\'', false)]
+            [TestCase('/', false)]
+            [TestCase('0', false)]
+            [TestCase('5', false)]
+            [TestCase('9', false)]
+            [TestCase(':', false)]
+            [TestCase('@', false)]
+            [TestCase('A', true)]
+            [TestCase('M', true)]
+            [TestCase('Z', true)]
+            [TestCase('[', false)]
+            [TestCase('\\', false)]
+            [TestCase(']', false)]
+            [TestCase('_', false)]
+            [TestCase('`', false)]
+            [TestCase('a', true)]
+            [TestCase('m', true)]
+            [TestCase('z', true)]
+            [TestCase('{', false)]
+            public static void IsFirstSchemaCharTest(char value, bool expectedResult)
+            {
+                var result = StringValidator.IsFirstSchemaChar(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #region nextSchemaChar = firstSchemaChar / decimalDigit
+
+        public static class IsNextSchemaCharTests
+        {
+
+            [TestCase('\"', false)]
+            [TestCase('\'', false)]
+            [TestCase('/', false)]
+            [TestCase('0', true)]
+            [TestCase('5', true)]
+            [TestCase('9', true)]
+            [TestCase(':', false)]
+            [TestCase('@', false)]
+            [TestCase('A', true)]
+            [TestCase('M', true)]
+            [TestCase('Z', true)]
+            [TestCase('[', false)]
+            [TestCase('\\', false)]
+            [TestCase(']', false)]
+            [TestCase('_', false)]
+            [TestCase('`', false)]
+            [TestCase('a', true)]
+            [TestCase('m', true)]
+            [TestCase('z', true)]
+            [TestCase('{', false)]
+            public static void IsNextSchemaCharTest(char value, bool expectedResult)
+            {
+                var result = StringValidator.IsNextSchemaChar(value);
                 Assert.AreEqual(expectedResult, result);
             }
 
