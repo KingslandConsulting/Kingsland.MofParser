@@ -7,6 +7,90 @@ namespace Kingsland.MofParser.UnitTests.Parsing
     public static partial class StringValidatorTests
     {
 
+        #region 5.2 Whiteaspace
+
+        #region WS = U+0020 / U+0009 / U+000D / U+000A
+
+        [TestFixture]
+        public static class IsWhitespaceTests
+        {
+
+            [TestCase('\"', false)]
+            [TestCase('\'', false)]
+            [TestCase('/', false)]
+            [TestCase('0', false)]
+            [TestCase('5', false)]
+            [TestCase('9', false)]
+            [TestCase(':', false)]
+            [TestCase('@', false)]
+            [TestCase('A', false)]
+            [TestCase('M', false)]
+            [TestCase('Z', false)]
+            [TestCase('[', false)]
+            [TestCase('\\', false)]
+            [TestCase(']', false)]
+            [TestCase('_', false)]
+            [TestCase('`', false)]
+            [TestCase('a', false)]
+            [TestCase('m', false)]
+            [TestCase('z', false)]
+            [TestCase('{', false)]
+            [TestCase(' ', true)]
+            [TestCase('\t', true)]
+            [TestCase('\r', true)]
+            [TestCase('\n', true)]
+            public static void IsWhitespaceTest(char value, bool expectedResult)
+            {
+                var result = StringValidator.IsWhitespace(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 5.3 Line termination
+
+        [TestFixture]
+        public static class IsLineTerminatorTests
+        {
+
+            [TestCase('\"', false)]
+            [TestCase('\'', false)]
+            [TestCase('/', false)]
+            [TestCase('0', false)]
+            [TestCase('5', false)]
+            [TestCase('9', false)]
+            [TestCase(':', false)]
+            [TestCase('@', false)]
+            [TestCase('A', false)]
+            [TestCase('M', false)]
+            [TestCase('Z', false)]
+            [TestCase('[', false)]
+            [TestCase('\\', false)]
+            [TestCase(']', false)]
+            [TestCase('_', false)]
+            [TestCase('`', false)]
+            [TestCase('a', false)]
+            [TestCase('m', false)]
+            [TestCase('z', false)]
+            [TestCase('{', false)]
+            [TestCase(' ', false)]
+            [TestCase('\t', false)]
+            [TestCase('\r', true)]
+            [TestCase('\n', true)]
+            public static void IsLineTerminatorTest(char value, bool expectedResult)
+            {
+                var result = StringValidator.IsLineTerminator(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+        
         #region A.13 Names
 
         #region IDENTIFIER = firstIdentifierChar *( nextIdentifierChar )
@@ -226,7 +310,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [TestCase('m', false)]
             [TestCase('z', false)]
             [TestCase('{', false)]
-            public static void  IsBackslashTest(char value, bool expectedResult)
+            public static void IsBackslashTest(char value, bool expectedResult)
             {
                 var result = StringValidator.IsBackslash(value);
                 Assert.AreEqual(expectedResult, result);

@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Lexing;
+using Kingsland.MofParser.Parsing;
 using System;
 using System.Collections.Generic;
 
@@ -38,20 +39,6 @@ namespace Kingsland.MofParser.Tokens
 
         #endregion
 
-        internal static readonly char[] WhitespaceChars = new[] { ' ', '\t', '\r', '\n' };
-
-        internal static bool IsWhitespace(char @char)
-        {
-            return (Array.IndexOf(WhitespaceToken.WhitespaceChars, @char) >= 0);
-        }
-
-        internal static readonly char[] LineTerminatorChars = new[] { '\r', '\n' };
-
-        internal static bool IsLineTerminator(char @char)
-        {
-            return (Array.IndexOf(WhitespaceToken.LineTerminatorChars, @char) >= 0);
-        }
-
         internal static WhitespaceToken Read(ILexerStream stream)
         {
             var extent = new SourceExtent(stream);
@@ -59,7 +46,7 @@ namespace Kingsland.MofParser.Tokens
             // read the first whitespace character
             sourceChars.Add(stream.ReadWhitespace());
             // read the remaining whitespace
-            while (!stream.Eof && WhitespaceToken.IsWhitespace(stream.Peek()))
+            while (!stream.Eof && StringValidator.IsWhitespace(stream.Peek()))
             {
                 sourceChars.Add(stream.Read());
             }

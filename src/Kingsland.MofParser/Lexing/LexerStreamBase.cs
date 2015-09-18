@@ -1,4 +1,5 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Tokens;
 using System;
 
 namespace Kingsland.MofParser.Lexing
@@ -97,7 +98,7 @@ namespace Kingsland.MofParser.Lexing
         public bool PeekWhitespace()
         {
             var peek = this.Peek();
-            return WhitespaceToken.IsWhitespace(peek);
+            return StringValidator.IsWhitespace(peek);
         }
 
         #endregion

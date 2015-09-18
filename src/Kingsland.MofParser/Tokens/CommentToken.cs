@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Lexing;
+using Kingsland.MofParser.Parsing;
 using System;
 using System.Collections.Generic;
 
@@ -50,7 +51,7 @@ namespace Kingsland.MofParser.Tokens
                 case '/': // single-line
                     sourceChars.Add(stream.ReadChar('/'));
                     // read the comment text
-                    while (!stream.Eof && !WhitespaceToken.IsLineTerminator(stream.Peek()))
+                    while (!stream.Eof && !StringValidator.IsLineTerminator(stream.Peek()))
                     {
                         sourceChars.Add(stream.Read());
                     };

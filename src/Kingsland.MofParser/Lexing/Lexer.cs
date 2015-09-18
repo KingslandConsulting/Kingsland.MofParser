@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.Parsing;
 
 namespace Kingsland.MofParser.Lexing
 {
@@ -43,7 +44,7 @@ namespace Kingsland.MofParser.Lexing
                         lexTokens.Add(StatementEndToken.Read(stream));
                         break;
                     default:
-                        if (WhitespaceToken.IsWhitespace(peek))
+                        if (StringValidator.IsWhitespace(peek))
                         {
                             lexTokens.Add(WhitespaceToken.Read(stream));
                             break;

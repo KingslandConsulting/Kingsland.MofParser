@@ -6,6 +6,32 @@ namespace Kingsland.MofParser.Parsing
     public sealed class StringValidator
     {
 
+        #region 5.2 Whiteaspace
+
+        #region WS = U+0020 / U+0009 / U+000D / U+000A
+
+        internal static readonly char[] WhitespaceChars = new[] { '\u0020', '\u0009', '\u000D', '\u000A' };
+
+        public static bool IsWhitespace(char @char)
+        {
+            return StringValidator.WhitespaceChars.Contains(@char);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 5.3 Line termination
+
+        internal static readonly char[] LineTerminatorChars = new[] { '\u000D', '\u000A' };
+
+        public static bool IsLineTerminator(char @char)
+        {
+            return StringValidator.LineTerminatorChars.Contains(@char);
+        }
+
+        #endregion
+
         #region A.13 Names
 
         #region IDENTIFIER = firstIdentifierChar *( nextIdentifierChar )
