@@ -202,9 +202,98 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        // elementName = localName / schemaQualifiedName
+        #region elementName = localName / schemaQualifiedName
 
-        // localName = IDENTIFIER
+        public static class IsElementNameTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("0identifier", false)]
+            [TestCase("1identifier", false)]
+            [TestCase("5identifier", false)]
+            [TestCase("9identifier", false)]
+            [TestCase("\\", false)]
+            [TestCase("\\identifier", false)]
+            [TestCase(":", false)]
+            [TestCase(":identifier", false)]
+            [TestCase("identi-fier", false)]
+            [TestCase("_", true)]
+            [TestCase("__", true)]
+            [TestCase("__0identifier", true)]
+            [TestCase("__identifier", true)]
+            [TestCase("identifier", true)]
+            [TestCase("identifier0", true)]
+            [TestCase("_identifier0", true)]
+            [TestCase("__identifier0", true)]
+            [TestCase("__Identifier0", true)]
+            [TestCase("__IDENTIFIER0", true)]
+            [TestCase("MSFT_0identifier", true)]
+            [TestCase("MSFT_1identifier", true)]
+            [TestCase("MSFT_5identifier", true)]
+            [TestCase("MSFT_9identifier", true)]
+            [TestCase("MSFT_\\", false)]
+            [TestCase("MSFT_\\identifier", false)]
+            [TestCase("MSFT_:", false)]
+            [TestCase("MSFT_:identifier", false)]
+            [TestCase("MSFT_identi-fier", false)]
+            [TestCase("MSFT__", true)]
+            [TestCase("MSFT___", true)]
+            [TestCase("MSFT___0identifier", true)]
+            [TestCase("MSFT___identifier", true)]
+            [TestCase("MSFT_identifier", true)]
+            [TestCase("MSFT_identifier0", true)]
+            [TestCase("MSFT__identifier0", true)]
+            [TestCase("MSFT___identifier0", true)]
+            [TestCase("MSFT___Identifier0", true)]
+            [TestCase("MSFT___IDENTIFIER0", true)]
+            public static void IsElementNameTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsElementName(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #region localName = IDENTIFIER
+
+        public static class IsLocalNameTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("0identifier", false)]
+            [TestCase("1identifier", false)]
+            [TestCase("5identifier", false)]
+            [TestCase("9identifier", false)]
+            [TestCase("\\", false)]
+            [TestCase("\\identifier", false)]
+            [TestCase(":", false)]
+            [TestCase(":identifier", false)]
+            [TestCase("identi-fier", false)]
+            [TestCase("_", true)]
+            [TestCase("__", true)]
+            [TestCase("__0identifier", true)]
+            [TestCase("__identifier", true)]
+            [TestCase("identifier", true)]
+            [TestCase("Identifier", true)]
+            [TestCase("IDENTIFIER", true)]
+            [TestCase("identifier0", true)]
+            [TestCase("_identifier0", true)]
+            [TestCase("__identifier0", true)]
+            [TestCase("__Identifier0", true)]
+            [TestCase("__IDENTIFIER0", true)]
+            public static void IsLocalNameTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsLocalName(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
 
         #endregion
 
@@ -374,9 +463,70 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        // elementName = localName / schemaQualifiedName
+        #endregion
 
-        // localName = IDENTIFIER
+        #region A.13.2 Alias identifier
+
+        #region aliasIdentifier = "$" IDENTIFIER
+
+        [TestFixture]
+        public static class IsAliasIdentifierTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("0identifier", false)]
+            [TestCase("1identifier", false)]
+            [TestCase("5identifier", false)]
+            [TestCase("9identifier", false)]
+            [TestCase("\\", false)]
+            [TestCase("\\identifier", false)]
+            [TestCase(":", false)]
+            [TestCase(":identifier", false)]
+            [TestCase("identi-fier", false)]
+            [TestCase("_", false)]
+            [TestCase("__", false)]
+            [TestCase("__0identifier", false)]
+            [TestCase("__identifier", false)]
+            [TestCase("identifier", false)]
+            [TestCase("Identifier", false)]
+            [TestCase("IDENTIFIER", false)]
+            [TestCase("identifier0", false)]
+            [TestCase("_identifier0", false)]
+            [TestCase("__identifier0", false)]
+            [TestCase("__Identifier0", false)]
+            [TestCase("__IDENTIFIER0", false)]
+            [TestCase("$", false)]
+            [TestCase("$0identifier", false)]
+            [TestCase("$1identifier", false)]
+            [TestCase("$5identifier", false)]
+            [TestCase("$9identifier", false)]
+            [TestCase("$\\", false)]
+            [TestCase("$\\identifier", false)]
+            [TestCase("$:", false)]
+            [TestCase("$:identifier", false)]
+            [TestCase("$identi-fier", false)]
+            [TestCase("$_", true)]
+            [TestCase("$__", true)]
+            [TestCase("$__0identifier", true)]
+            [TestCase("$__identifier", true)]
+            [TestCase("$identifier", true)]
+            [TestCase("$Identifier", true)]
+            [TestCase("$IDENTIFIER", true)]
+            [TestCase("$identifier0", true)]
+            [TestCase("$_identifier0", true)]
+            [TestCase("$__identifier0", true)]
+            [TestCase("$__Identifier0", true)]
+            [TestCase("$__IDENTIFIER0", true)]
+            public static void IsAliasIdentifierTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsAliasIdentifier(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
 
         #endregion
 

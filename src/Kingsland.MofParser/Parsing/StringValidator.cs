@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Kingsland.MofParser.Parsing
 {
@@ -67,9 +66,24 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        // elementName = localName / schemaQualifiedName
+        #region elementName = localName / schemaQualifiedName
 
-        // localName = IDENTIFIER
+        public static bool IsElementName(string value)
+        {
+            return StringValidator.IsLocalName(value) ||
+                   StringValidator.IsSchemaQualifiedName(value);
+        }
+
+        #endregion
+
+        #region localName = IDENTIFIER
+
+        public static bool IsLocalName(string value)
+        {
+            return StringValidator.IsIdentifier(value);
+        }
+
+        #endregion
 
         #endregion
 
@@ -124,6 +138,10 @@ namespace Kingsland.MofParser.Parsing
         }
 
         #endregion
+
+        #endregion
+
+        #region A.13.2 Alias identifier
 
         #region aliasIdentifier = "$" IDENTIFIER
 
