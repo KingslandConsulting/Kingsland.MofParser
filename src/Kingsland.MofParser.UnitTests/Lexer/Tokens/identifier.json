@@ -1,0 +1,19 @@
+{
+  "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
+  "$values": [
+    {
+      "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
+      "Name": "myIdentifier",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 0,
+        "StartLineNumber": 0,
+        "StartColumnNumber": 0,
+        "EndPosition": 12,
+        "EndLineNumber": 0,
+        "EndColumnNumber": 12,
+        "Text": "myIdentifier"
+      }
+    }
+  ]
+}
