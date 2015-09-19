@@ -14,7 +14,7 @@ namespace Kingsland.MofParser.Parsing
 
             // remove all comments and whitespace
             var tokens = lexerTokens.Where(lt => !(lt is CommentToken) &&
-                                                      !(lt is WhitespaceToken)).ToList();
+                                                 !(lt is WhitespaceToken)).ToList();
 
             var stream = new ParserStream(tokens);
             var program = MofSpecificationAst.Parse(stream);

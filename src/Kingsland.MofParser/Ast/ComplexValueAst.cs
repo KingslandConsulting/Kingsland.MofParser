@@ -99,9 +99,9 @@ namespace Kingsland.MofParser.Ast
             stream.ReadKeyword("of");
             // ( structureName / className / associationName )
             node.TypeName = stream.Read<IdentifierToken>().Name;
-            if (!NameValidator.IsStructureName(node.TypeName) &&
-                !NameValidator.IsClassName(node.TypeName) &&
-                !NameValidator.IsAssociationName(node.TypeName))
+            if (!StringValidator.IsStructureName(node.TypeName) &&
+                !StringValidator.IsClassName(node.TypeName) &&
+                !StringValidator.IsAssociationName(node.TypeName))
             {
                 throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
             }
@@ -111,14 +111,23 @@ namespace Kingsland.MofParser.Ast
                 stream.ReadKeyword("as");
                 // BUGBUG - PowerShell DSC MOFs allow schema names in an alias identifier
                 //node.Alias = NameValidator.ValidateAliasIdentifier("$" + stream.Read<AliasIdentifierToken>().Name);
-                node.Alias = NameValidator.ValidateSchemaQualifiedName(stream.Read<AliasIdentifierToken>().Name);
+                var aliasName = stream.Read<AliasIdentifierToken>().Name;
+                if (!StringValidator.IsSchemaQualifiedName(aliasName))
+                {
+                    throw new InvalidOperationException("Value is not a valid schemaQualifiedName");
+                }
+                node.Alias = aliasName;
             }
             // propertyValueList
             stream.Read<BlockOpenToken>();
             while (!stream.Eof && (stream.Peek<BlockCloseToken>() == null))
             {
                 // propertyName
-                var propertyName = NameValidator.ValidateIdentifier(stream.Read<IdentifierToken>().Name);
+                var propertyName = stream.Read<IdentifierToken>().Name;
+                if (!StringValidator.IsIdentifier(propertyName))
+                {
+                    throw new InvalidOperationException("Value is not a valid property name.");
+                }
                 // "="
                 stream.Read<EqualsOperatorToken>();
                 // propertyValue
