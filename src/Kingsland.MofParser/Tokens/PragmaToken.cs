@@ -15,8 +15,7 @@ namespace Kingsland.MofParser.Tokens
         internal static PragmaToken Read(ILexerStream stream)
         {
             var sourceChars = new List<SourceChar>();
-            sourceChars.Add(stream.ReadChar('#'));
-            sourceChars.AddRange(stream.ReadString("pragma"));
+            sourceChars.AddRange(stream.ReadString("#pragma"));
             var extent = new SourceExtent(sourceChars);
             return new PragmaToken(extent);
         }
