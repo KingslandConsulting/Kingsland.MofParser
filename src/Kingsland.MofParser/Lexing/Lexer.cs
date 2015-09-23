@@ -22,17 +22,17 @@ namespace Kingsland.MofParser.Lexing
                     case '$':
                         lexTokens.Add(AliasIdentifierToken.Read(stream));
                         break;
-                    case '[':
-                        lexTokens.Add(AttributeOpenToken.Read(stream));
-                        break;
                     case ']':
                         lexTokens.Add(AttributeCloseToken.Read(stream));
                         break;
-                    case '{':
-                        lexTokens.Add(BlockOpenToken.Read(stream));
+                    case '[':
+                        lexTokens.Add(AttributeOpenToken.Read(stream));
                         break;
                     case '}':
                         lexTokens.Add(BlockCloseToken.Read(stream));
+                        break;
+                    case '{':
+                        lexTokens.Add(BlockOpenToken.Read(stream));
                         break;
                     case ':':
                         lexTokens.Add(ColonToken.Read(stream));
@@ -43,14 +43,14 @@ namespace Kingsland.MofParser.Lexing
                     case '/':
                         lexTokens.Add(CommentToken.Read(stream));
                         break;
-                    case ')':
-                        lexTokens.Add(CloseParenthesesToken.Read(stream));
-                        break;
                     case '=':
                         lexTokens.Add(EqualsOperatorToken.Read(stream));
                         break;
+                    case ')':
+                        lexTokens.Add(ParenthesesCloseToken.Read(stream));
+                        break;
                     case '(':
-                        lexTokens.Add(OpenParenthesesToken.Read(stream));
+                        lexTokens.Add(ParenthesesOpenToken.Read(stream));
                         break;
                     case '#':
                         lexTokens.Add(PragmaToken.Read(stream));

@@ -46,11 +46,11 @@ namespace Kingsland.MofParser.Ast
 
             ast.Qualifier = stream.Read<IdentifierToken>().Name;
 
-            if (stream.Peek<OpenParenthesesToken>() != null)
+            if (stream.Peek<ParenthesesOpenToken>() != null)
             {
-                stream.Read<OpenParenthesesToken>();
+                stream.Read<ParenthesesOpenToken>();
                 ast.Initializer = LiteralValueAst.Parse(stream);
-                stream.Read<CloseParenthesesToken>();
+                stream.Read<ParenthesesCloseToken>();
             }
             else if (stream.Peek<BlockOpenToken>() != null)
             {

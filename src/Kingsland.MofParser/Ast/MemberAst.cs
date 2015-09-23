@@ -54,7 +54,7 @@ namespace Kingsland.MofParser.Ast
 
             var name = stream.Read<IdentifierToken>();
 
-            if (stream.Peek<OpenParenthesesToken>() != null && !isRef)
+            if (stream.Peek<ParenthesesOpenToken>() != null && !isRef)
             {
                 var ast = new MethodAst
                 {
@@ -63,10 +63,10 @@ namespace Kingsland.MofParser.Ast
                     ReturnType = type.Name
                 };
 
-                stream.Read<OpenParenthesesToken>();
+                stream.Read<ParenthesesOpenToken>();
                 while (!stream.Eof)
                 {
-                    if (stream.Peek<CloseParenthesesToken>() != null)
+                    if (stream.Peek<ParenthesesCloseToken>() != null)
                         break;
 
                     QualifierListAst argQualifiers = null;
@@ -113,7 +113,7 @@ namespace Kingsland.MofParser.Ast
 
                     stream.Read<CommaToken>();
                 }
-                stream.Read<CloseParenthesesToken>();
+                stream.Read<ParenthesesCloseToken>();
                 stream.Read<StatementEndToken>();
 
                 return ast;

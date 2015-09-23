@@ -25,9 +25,9 @@ namespace Kingsland.MofParser.Ast
 
             stream.Read<PragmaToken>();
             ast.Pragma = stream.Read<IdentifierToken>().Name;
-            stream.Read<OpenParenthesesToken>();
+            stream.Read<ParenthesesOpenToken>();
             ast.Argument = stream.Read<StringLiteralToken>().Value;
-            stream.Read<CloseParenthesesToken>();
+            stream.Read<ParenthesesCloseToken>();
 
             return ast;
         }
