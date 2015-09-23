@@ -4,9 +4,9 @@ using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
-
     public abstract class ComplexTypeValueAst : MofProductionAst
     {
+        public QualifierListAst Qualifiers { get; private set; }
 
         internal ComplexTypeValueAst()
         {
@@ -37,23 +37,30 @@ namespace Kingsland.MofParser.Ast
         ///     propertyName      = IDENTIFIER
         /// 
         /// </remarks>
-        internal new static ComplexTypeValueAst Parse(ParserStream stream)
+        internal static ComplexTypeValueAst Parse(ParserStream stream, QualifierListAst qualifiers)
         {
+            ComplexTypeValueAst ast;
+
             var peek = stream.Peek();
+
             if (peek is BlockOpenToken)
             {
                 // complexValueArray
-                return ComplexValueArrayAst.Parse(stream);
+                ast = ComplexValueArrayAst.Parse(stream);
             }
             else if (peek is IdentifierToken)
             {
                 // complexValue
-                return ComplexValueAst.Parse(stream);
+                ast = ComplexValueAst.Parse(stream);
             }
             else
             {
                 throw new InvalidOperationException();
             }
+
+            ast.Qualifiers = qualifiers;
+
+            return ast;
         }
 
     }

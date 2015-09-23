@@ -28,18 +28,52 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static MofProductionAst Parse(ParserStream stream)
         {
-            var peek = stream.Peek<IdentifierToken>();
-            switch (peek.Name)
+
+            var peek = stream.Peek();
+            var identifier = peek as IdentifierToken;
+            var pragma = peek as PragmaToken;
+            var attribute = peek as AttributeOpenToken;
+
+            if ((identifier != null) &&
+                (identifier.Name == "instance" || identifier.Name == "value"))
             {
-                case "instance":
-                case "value":
-                    return ComplexTypeValueAst.Parse(stream);
-                default:
+                return ComplexTypeValueAst.Parse(stream, null);
+            }
+            else if (identifier != null && identifier.Name == "class")
+            {
+                return ClassAst.Parse(stream);
+            }
+            else if (pragma != null)
+            {
+                return PragmaAst.Parse(stream);
+            }
+            else if (attribute != null)
+            {
+                var qualifiers = QualifierListAst.Parse(stream);
+
+                peek = stream.Peek();
+                identifier = peek as IdentifierToken;
+
+                if (identifier != null &&
+                    (identifier.Name == "instance" || identifier.Name == "value"))
+                {
+                    return ComplexTypeValueAst.Parse(stream, qualifiers);
+                }
+                else if (identifier != null && identifier.Name == "class")
+                {
+                    return ClassAst.Parse(stream);
+                }
+                else
+                {
                     throw new InvalidOperationException(
-                        string.Format("Invalid IdentifierToken with name '{0}'", peek.Name));
+                        string.Format("Invalid lexer token type '{0}'", peek.GetType().Name));
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    string.Format("Invalid lexer token '{0}'", peek));
             }
         }
-
     }
-
 }

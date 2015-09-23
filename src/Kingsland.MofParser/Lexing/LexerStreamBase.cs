@@ -1,6 +1,7 @@
 ﻿using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 using System;
+using System.Collections.Generic;
 
 namespace Kingsland.MofParser.Lexing
 {
@@ -154,6 +155,21 @@ namespace Kingsland.MofParser.Lexing
                     string.Format("Unexpected character '{0}' encountered", peek.Value));
             }
             return this.Read();
+        }
+
+        /// <summary>
+        /// Reads a string off of the input stream and advances the current position beyond the end of the string.
+        /// Throws an exception if the string does not match the specified value.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<SourceChar> ReadString(string value)
+        {
+            var sourceChars = new List<SourceChar>();
+            foreach (var @char in value)
+            {
+                sourceChars.Add(this.ReadChar(@char));
+            }
+            return sourceChars;
         }
 
         /// <summary>
