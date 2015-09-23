@@ -7,10 +7,10 @@
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 0,
-        "StartLineNumber": 0,
-        "StartColumnNumber": 0,
-        "EndPosition": 6,
-        "EndLineNumber": 0,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 1,
+        "EndPosition": 5,
+        "EndLineNumber": 1,
         "EndColumnNumber": 6,
         "Text": "uint16"
       }
@@ -20,10 +20,10 @@
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 6,
-        "StartLineNumber": 0,
-        "StartColumnNumber": 6,
-        "EndPosition": 7,
-        "EndLineNumber": 0,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 7,
+        "EndPosition": 6,
+        "EndLineNumber": 1,
         "EndColumnNumber": 7,
         "Text": " "
       }
@@ -34,10 +34,10 @@
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 7,
-        "StartLineNumber": 0,
-        "StartColumnNumber": 7,
-        "EndPosition": 17,
-        "EndLineNumber": 0,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 8,
+        "EndPosition": 16,
+        "EndLineNumber": 1,
         "EndColumnNumber": 17,
         "Text": "MyProperty"
       }
@@ -47,10 +47,10 @@
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 17,
-        "StartLineNumber": 0,
-        "StartColumnNumber": 17,
-        "EndPosition": 18,
-        "EndLineNumber": 0,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 18,
+        "EndPosition": 17,
+        "EndLineNumber": 1,
         "EndColumnNumber": 18,
         "Text": ";"
       }
@@ -60,10 +60,10 @@
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 18,
-        "StartLineNumber": 0,
-        "StartColumnNumber": 18,
-        "EndPosition": 19,
-        "EndLineNumber": 0,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 19,
+        "EndPosition": 18,
+        "EndLineNumber": 1,
         "EndColumnNumber": 19,
         "Text": " "
       }
@@ -73,10 +73,10 @@
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 19,
-        "StartLineNumber": 0,
-        "StartColumnNumber": 19,
-        "EndPosition": 65,
-        "EndLineNumber": 0,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 20,
+        "EndPosition": 64,
+        "EndLineNumber": 1,
         "EndColumnNumber": 65,
         "Text": "// This is an example of a single-line comment"
       }

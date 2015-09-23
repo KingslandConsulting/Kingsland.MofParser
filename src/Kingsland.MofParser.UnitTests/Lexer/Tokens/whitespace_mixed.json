@@ -6,11 +6,11 @@
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 0,
-        "StartLineNumber": 0,
-        "StartColumnNumber": 0,
-        "EndPosition": 30,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 1,
+        "EndPosition": 29,
         "EndLineNumber": 14,
-        "EndColumnNumber": 0,
+        "EndColumnNumber": 2,
         "Text": "     \t\t\t\t\t\r\r\r\r\r\n\n\n\n\n\r\n\r\n\r\n\r\n\r\n"
       }
     }

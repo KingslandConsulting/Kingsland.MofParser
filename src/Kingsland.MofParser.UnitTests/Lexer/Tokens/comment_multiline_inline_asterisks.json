@@ -6,10 +6,10 @@
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 0,
-        "StartLineNumber": 0,
-        "StartColumnNumber": 0,
-        "EndPosition": 145,
-        "EndLineNumber": 5,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 1,
+        "EndPosition": 144,
+        "EndLineNumber": 6,
         "EndColumnNumber": 14,
         "Text": "/*************\r\n@TargetNode='MyServer'\r\n@GeneratedBy=mike.clayton\r\n@GenerationDate=07/19/2014 10:37:04\r\n@GenerationHost=MyDesktop\r\n*************/"
       }

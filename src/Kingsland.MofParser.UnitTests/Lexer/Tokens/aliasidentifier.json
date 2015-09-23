@@ -2,44 +2,44 @@
   "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
   "$values": [
     {
-      "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
-      "Name": "myIdentifier",
+      "$type": "Kingsland.MofParser.Tokens.AliasIdentifierToken, Kingsland.MofParser",
+      "Name": "myAliasIdentifier",
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 0,
         "StartLineNumber": 1,
         "StartColumnNumber": 1,
-        "EndPosition": 11,
+        "EndPosition": 17,
         "EndLineNumber": 1,
-        "EndColumnNumber": 12,
-        "Text": "myIdentifier"
+        "EndColumnNumber": 18,
+        "Text": "$myAliasIdentifier"
       }
     },
     {
       "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 12,
+        "StartPosition": 18,
         "StartLineNumber": 1,
-        "StartColumnNumber": 13,
-        "EndPosition": 13,
+        "StartColumnNumber": 19,
+        "EndPosition": 19,
         "EndLineNumber": 1,
-        "EndColumnNumber": 14,
+        "EndColumnNumber": 20,
         "Text": "\r\n"
       }
     },
     {
-      "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
-      "Name": "myIdentifier2",
+      "$type": "Kingsland.MofParser.Tokens.AliasIdentifierToken, Kingsland.MofParser",
+      "Name": "myAliasIdentifier2",
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 14,
+        "StartPosition": 20,
         "StartLineNumber": 2,
         "StartColumnNumber": 1,
-        "EndPosition": 26,
+        "EndPosition": 38,
         "EndLineNumber": 2,
-        "EndColumnNumber": 13,
-        "Text": "myIdentifier2"
+        "EndColumnNumber": 19,
+        "Text": "$myAliasIdentifier2"
       }
     }
   ]

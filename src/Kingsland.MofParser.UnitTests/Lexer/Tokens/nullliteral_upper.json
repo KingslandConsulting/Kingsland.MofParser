@@ -2,15 +2,14 @@
   "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
   "$values": [
     {
-      "$type": "Kingsland.MofParser.Tokens.BooleanLiteralToken, Kingsland.MofParser",
-      "Value": false,
+      "$type": "Kingsland.MofParser.Tokens.NullLiteralToken, Kingsland.MofParser",
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 0,
-        "StartLineNumber": 0,
-        "StartColumnNumber": 0,
-        "EndPosition": 4,
-        "EndLineNumber": 0,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 1,
+        "EndPosition": 3,
+        "EndLineNumber": 1,
         "EndColumnNumber": 4,
         "Text": "NULL"
       }
