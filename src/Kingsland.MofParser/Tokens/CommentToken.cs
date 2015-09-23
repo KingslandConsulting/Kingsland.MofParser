@@ -45,28 +45,28 @@ namespace Kingsland.MofParser.Tokens
         {
             var extent = new SourceExtent(stream);
             var sourceChars = new List<char>();
-            sourceChars.Add(stream.ReadChar('/'));
+            sourceChars.Add(stream.ReadChar('/').Value);
             switch(stream.Peek())
             {
                 case '/': // single-line
-                    sourceChars.Add(stream.ReadChar('/'));
+                    sourceChars.Add(stream.ReadChar('/').Value);
                     // read the comment text
                     while (!stream.Eof && !StringValidator.IsLineTerminator(stream.Peek()))
                     {
-                        sourceChars.Add(stream.Read());
+                        sourceChars.Add(stream.Read().Value);
                     };
                     break;
                 case '*': // multi-line
-                    sourceChars.Add(stream.ReadChar('*'));
+                    sourceChars.Add(stream.ReadChar('*').Value);
                     // read the comment text
                     while (!stream.Eof)
                     {
                         var @char = stream.Read();
-                        sourceChars.Add(@char);
-                        if ((@char == '*') && stream.PeekChar('/'))
+                        sourceChars.Add(@char.Value);
+                        if ((@char.Value == '*') && stream.PeekChar('/'))
                         {
                             // read the closing sequence
-                            sourceChars.Add(stream.ReadChar('/'));
+                            sourceChars.Add(stream.ReadChar('/').Value);
                             break;
                         }
                     }

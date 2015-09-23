@@ -55,11 +55,11 @@ namespace Kingsland.MofParser.Tokens
             var extent = new SourceExtent(stream);
             var sourceChars = new List<char>();
             // read the first character
-            sourceChars.Add(stream.ReadDigit());
+            sourceChars.Add(stream.ReadDigit().Value);
             // read the remaining characters
             while (!stream.Eof && stream.PeekDigit())
             {
-                sourceChars.Add(stream.ReadDigit());
+                sourceChars.Add(stream.ReadDigit().Value);
             }
             // return the result
             extent = extent.WithText(sourceChars).WithEndExtent(stream);

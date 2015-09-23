@@ -63,7 +63,7 @@ namespace Kingsland.MofParser.Tokens
             var extent = new SourceExtent(stream);
             var sourceChars = new List<char>();
             // read the first character
-            sourceChars.Add(stream.ReadChar('"'));
+            sourceChars.Add(stream.ReadChar('"').Value);
             // read the remaining characters
             var parser = new StringParser();
             while (!stream.Eof)
@@ -77,11 +77,11 @@ namespace Kingsland.MofParser.Tokens
                 }
                 else
                 {
-                    parser.ConsumeChar(stream.Read());
+                    parser.ConsumeChar(stream.Read().Value);
                 }
             }
             // read the last character
-            sourceChars.Add(stream.ReadChar('"'));
+            sourceChars.Add(stream.ReadChar('"').Value);
             // process any escape sequences in the string
             var unescaped = parser.OutputString.ToString();
             // return the result

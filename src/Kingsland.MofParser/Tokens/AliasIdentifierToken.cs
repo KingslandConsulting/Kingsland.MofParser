@@ -47,7 +47,7 @@ namespace Kingsland.MofParser.Tokens
             var sourceChars = new List<char>();
             var nameChars = new List<char>();
             // read the first character
-            sourceChars.Add(stream.ReadChar('$'));
+            sourceChars.Add(stream.ReadChar('$').Value);
             // firstIdentifierChar
             var peek = stream.Peek();
             if (!StringValidator.IsFirstIdentifierChar(peek))
@@ -63,8 +63,8 @@ namespace Kingsland.MofParser.Tokens
                 if (StringValidator.IsNextIdentifierChar(peek))
                 {
                     var @char = stream.Read();
-                    sourceChars.Add(@char);
-                    nameChars.Add(@char);
+                    sourceChars.Add(@char.Value);
+                    nameChars.Add(@char.Value);
                 }
                 else
                 {

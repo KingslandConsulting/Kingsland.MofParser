@@ -44,11 +44,11 @@ namespace Kingsland.MofParser.Tokens
             var extent = new SourceExtent(stream);
             var sourceChars = new List<char>();
             // read the first whitespace character
-            sourceChars.Add(stream.ReadWhitespace());
+            sourceChars.Add(stream.ReadWhitespace().Value);
             // read the remaining whitespace
             while (!stream.Eof && StringValidator.IsWhitespace(stream.Peek()))
             {
-                sourceChars.Add(stream.Read());
+                sourceChars.Add(stream.Read().Value);
             }
             // return the result
             extent = extent.WithText(sourceChars).WithEndExtent(stream);

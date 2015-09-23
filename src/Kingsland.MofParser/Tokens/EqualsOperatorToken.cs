@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Tokens
             var extent = new SourceExtent(stream);
             var sourceChars = new List<char>();
             // read the character
-            sourceChars.Add(stream.ReadChar('='));
+            sourceChars.Add(stream.ReadChar('=').Value);
             // return the result
             extent = extent.WithText(sourceChars).WithEndExtent(stream);
             return new EqualsOperatorToken(extent);

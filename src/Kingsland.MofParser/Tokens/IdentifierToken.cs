@@ -60,8 +60,8 @@ namespace Kingsland.MofParser.Tokens
                 if (StringValidator.IsNextIdentifierChar(peek))
                 {
                     var @char = stream.Read();
-                    sourceChars.Add(@char);
-                    nameChars.Add(@char);
+                    sourceChars.Add(@char.Value);
+                    nameChars.Add(@char.Value);
                 }
                 else
                 {

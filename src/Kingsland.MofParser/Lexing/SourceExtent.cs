@@ -98,9 +98,9 @@ namespace Kingsland.MofParser.Lexing
             return this.WithStartExtent(stream.Position, stream.LineNumber, stream.Column);
         }
 
-        internal SourceExtent WithStartExtent(StreamPosition streamPosition)
+        internal SourceExtent WithStartExtent(SourceChar sourceChar)
         {
-            return new SourceExtent(streamPosition.Position, streamPosition.LineNumber, streamPosition.Column, this.EndPosition, this.EndLineNumber, this.EndColumnNumber, this.Text);
+            return new SourceExtent(sourceChar.Position, sourceChar.LineNumber, sourceChar.ColumnNumber, this.EndPosition, this.EndLineNumber, this.EndColumnNumber, this.Text);
         }
 
         internal SourceExtent WithStartExtent(int startPosition, int startLineNumber, int startColumnNumber)
@@ -113,9 +113,9 @@ namespace Kingsland.MofParser.Lexing
             return this.WithEndExtent(stream.Position, stream.LineNumber, stream.Column);
         }
 
-        internal SourceExtent WithEndExtent(StreamPosition streamPosition)
+        internal SourceExtent WithEndExtent(SourceChar sourceChar)
         {
-            return new SourceExtent(this.StartPosition, this.StartLineNumber, this.StartColumnNumber, streamPosition.Position, streamPosition.LineNumber, streamPosition.Column, this.Text);
+            return new SourceExtent(this.StartPosition, this.StartLineNumber, this.StartColumnNumber, sourceChar.Position, sourceChar.LineNumber, sourceChar.ColumnNumber, this.Text);
         }
 
         internal SourceExtent WithEndExtent(int endPosition, int endLineNumber, int endColumnNumber)
@@ -136,19 +136,19 @@ namespace Kingsland.MofParser.Lexing
 
         #endregion
 
-        public new bool Equals(object obj)
-        {
-            var compare = obj as SourceExtent;
-            if (compare == null) { return false; }
-            if (object.ReferenceEquals(compare, this)) { return true; }
-            return (compare.StartPosition ==  this.StartPosition) &&
-                   (compare.StartLineNumber == this.StartLineNumber) &&
-                   (compare.StartColumnNumber == this.StartColumnNumber) &&
-                   (compare.EndPosition == this.EndPosition) &&
-                   (compare.EndLineNumber == this.EndLineNumber) &&
-                   (compare.EndColumnNumber == this.EndColumnNumber) &&
-                   (compare.Text == this.Text);
-        }
+        //public new bool Equals(object obj)
+        //{
+        //    var compare = obj as SourceExtent;
+        //    if (compare == null) { return false; }
+        //    if (object.ReferenceEquals(compare, this)) { return true; }
+        //    return (compare.StartPosition ==  this.StartPosition) &&
+        //           (compare.StartLineNumber == this.StartLineNumber) &&
+        //           (compare.StartColumnNumber == this.StartColumnNumber) &&
+        //           (compare.EndPosition == this.EndPosition) &&
+        //           (compare.EndLineNumber == this.EndLineNumber) &&
+        //           (compare.EndColumnNumber == this.EndColumnNumber) &&
+        //           (compare.Text == this.Text);
+        //}
 
     }
 

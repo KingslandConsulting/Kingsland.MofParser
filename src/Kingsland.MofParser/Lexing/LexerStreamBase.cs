@@ -24,7 +24,7 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         /// Used for tracking line breaks
         /// </summary>
-        private char LastChar
+        private SourceChar LastChar
         { 
             get;
             set;
@@ -109,17 +109,17 @@ namespace Kingsland.MofParser.Lexing
         /// Reads the next character off of the input stream and advances the current position.
         /// </summary>
         /// <returns></returns>
-        public char Read()
+        public SourceChar Read()
         {
-            var value = this.Peek();
-            switch (value)
+            var sourceChar = new SourceChar(this.Peek(), this.Position, this.LineNumber, this.Column);
+            switch (sourceChar.Value)
             {
                 case '\r':
                     this.LineNumber += 1;
                     this.Column = 0;
                     break;
                 case '\n':
-                    if ((this.Position == 0) || (this.LastChar != '\r'))
+                    if ((this.Position == 0) || (this.LastChar.Value != '\r'))
                     {
                         this.LineNumber += 1;
                         this.Column = 0;
@@ -130,8 +130,8 @@ namespace Kingsland.MofParser.Lexing
                     break;
             }
             this.Position += 1;
-            this.LastChar = value;
-            return value;
+            this.LastChar = sourceChar;
+            return sourceChar;
         }
 
         /// <summary>
@@ -139,15 +139,15 @@ namespace Kingsland.MofParser.Lexing
         /// Throws an exception if the character does not match the specified value.
         /// </summary>
         /// <returns></returns>
-        public char ReadChar(char value)
+        public SourceChar ReadChar(char value)
         {
-            var @char = this.Read();
+            var @char = this.Peek();
             if (@char != value)
             {
                 throw new InvalidOperationException(
                     string.Format("Unexpected character '{0}' encountered", @char));
             }
-            return @char;
+            return this.Read();
         }
 
         /// <summary>
@@ -155,15 +155,15 @@ namespace Kingsland.MofParser.Lexing
         /// Throws an exception if the character is not a letter.
         /// </summary>
         /// <returns></returns>
-        public char ReadDigit()
+        public SourceChar ReadDigit()
         {
-            var @char = this.Read();
+            var @char = this.Peek();
             if (!char.IsDigit(@char))
             {
                 throw new InvalidOperationException(
                     string.Format("Unexpected character '{0}' encountered", @char));
             }
-            return @char;
+            return this.Read();
         }
 
         /// <summary>
@@ -171,15 +171,15 @@ namespace Kingsland.MofParser.Lexing
         /// Throws an exception if the character is not a letter.
         /// </summary>
         /// <returns></returns>
-        public char ReadLetter()
+        public SourceChar ReadLetter()
         {
-            var @char = this.Read();
+            var @char = this.Peek();
             if (!char.IsLetter(@char))
             {
                 throw new InvalidOperationException(
                     string.Format("Unexpected character '{0}' encountered", @char));
             }
-            return @char;
+            return this.Read();
         }
 
         /// <summary>
@@ -187,31 +187,16 @@ namespace Kingsland.MofParser.Lexing
         /// Throws an exception if the character is not a whitespace character.
         /// </summary>
         /// <returns></returns>
-        public char ReadWhitespace()
+        public SourceChar ReadWhitespace()
         {
-            var @char = this.Read();
+            var @char = this.Peek();
             if (!char.IsWhiteSpace(@char))
             {
                 throw new InvalidOperationException(
                     string.Format("Unexpected character '{0}' encountered", @char));
             }
-            return @char;
+            return this.Read();
         }
-
-        ///// <summary>
-        ///// Moves the stream position back a character.
-        ///// </summary>
-        //public void Backtrack()
-        //{
-        //    if (this.Position == 0)
-        //    {
-        //        throw new InvalidOperationException();
-        //    }
-        //    this.Position -= 1;
-        //    // BUGBUG: this needs to handle line breaks properly, otherwise we get out of sync.
-        //    //         probably need a stack of { position, line, column } tuples so we can re-hydrate
-        //    this.Column -= 1;
-        //}
 
         #endregion
 
