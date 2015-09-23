@@ -49,13 +49,13 @@ namespace Kingsland.MofParser.Lexing
         /// Reads the next character off of the input stream, but does not advance the current position.
         /// </summary>
         /// <returns></returns>
-        public override char Peek()
+        public override SourceChar Peek()
         {
             if (this.Eof)
             {
                 throw new InvalidOperationException("Unexpected end of file encountered.");
             }
-            return this.Source[this.Position];
+            return new SourceChar(this.Source[this.Position], this.Position, this.LineNumber, this.ColumnNumber);
         }
 
         #endregion

@@ -317,7 +317,7 @@ namespace Kingsland.MofParser.Parsing
 
         public static bool IsFalse(string value)
         {
-            return string.Equals(value, StringValidator.True, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(value, StringValidator.False, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion

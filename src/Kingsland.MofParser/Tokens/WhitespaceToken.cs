@@ -2,6 +2,7 @@
 using Kingsland.MofParser.Parsing;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Kingsland.MofParser.Tokens
 {
@@ -41,17 +42,16 @@ namespace Kingsland.MofParser.Tokens
 
         internal static WhitespaceToken Read(ILexerStream stream)
         {
-            var extent = new SourceExtent(stream);
-            var sourceChars = new List<char>();
+            var sourceChars = new List<SourceChar>();
             // read the first whitespace character
-            sourceChars.Add(stream.ReadWhitespace().Value);
+            sourceChars.Add(stream.ReadWhitespace());
             // read the remaining whitespace
-            while (!stream.Eof && StringValidator.IsWhitespace(stream.Peek()))
+            while (!stream.Eof && StringValidator.IsWhitespace(stream.Peek().Value))
             {
-                sourceChars.Add(stream.Read().Value);
+                sourceChars.Add(stream.Read());
             }
             // return the result
-            extent = extent.WithText(sourceChars).WithEndExtent(stream);
+            var extent = new SourceExtent(sourceChars);
             return new WhitespaceToken(extent);
         }
 

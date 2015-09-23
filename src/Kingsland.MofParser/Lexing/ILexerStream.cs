@@ -42,7 +42,7 @@
         /// Reads the next character off of the input stream, but does not advance the current position.
         /// </summary>
         /// <returns></returns>
-        char Peek();
+        SourceChar Peek();
 
         /// <summary>
         /// Returns true if the next character off of the input stream matches the specified value.

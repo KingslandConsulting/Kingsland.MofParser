@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Lexing
             while (!stream.Eof)
             {
                 var peek = stream.Peek();
-                switch (peek)
+                switch (peek.Value)
                 {
                     case '/':
                         lexTokens.Add(CommentToken.Read(stream));
@@ -44,12 +44,12 @@ namespace Kingsland.MofParser.Lexing
                         lexTokens.Add(StatementEndToken.Read(stream));
                         break;
                     default:
-                        if (StringValidator.IsWhitespace(peek))
+                        if (StringValidator.IsWhitespace(peek.Value))
                         {
                             lexTokens.Add(WhitespaceToken.Read(stream));
                             break;
                         }
-                        else if (StringValidator.IsFirstIdentifierChar(peek))
+                        else if (StringValidator.IsFirstIdentifierChar(peek.Value))
                         {
                             var identifier = IdentifierToken.Read(stream);
                             if (StringValidator.IsTrue(identifier.Name))
@@ -69,7 +69,7 @@ namespace Kingsland.MofParser.Lexing
                                 lexTokens.Add(identifier);
                             }
                         }
-                        else if (StringValidator.IsDecimalDigit(peek))
+                        else if (StringValidator.IsDecimalDigit(peek.Value))
                         {
                             lexTokens.Add(IntegerLiteralToken.Read(stream));
                             break;
@@ -77,7 +77,7 @@ namespace Kingsland.MofParser.Lexing
                         else
                         {
                             throw new InvalidOperationException(
-                                string.Format("Unexpected character '{0}'", peek));
+                                string.Format("Unexpected character '{0}'", peek.Value));
                         }
                         break;
                 }

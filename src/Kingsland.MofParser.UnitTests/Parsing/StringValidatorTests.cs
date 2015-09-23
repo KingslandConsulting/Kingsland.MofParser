@@ -791,7 +791,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
         #region BACKSLASH = U+005C ; \
 
         [TestFixture]
-        public static class IsBackslashMethodTests
+        public static class IsBackslashTests
         {
 
             [TestCase('\"', false)]
@@ -997,6 +997,95 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             public static void IsUnderscoreTest(char value, bool expectedResult)
             {
                 var result = StringValidator.IsUnderscore(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region A.17.6 Boolean value
+
+        #region FALSE = "false" ; keyword: case insensitive
+
+        [TestFixture]
+        public static class IsFalseTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("false", true)]
+            [TestCase("False", true)]
+            [TestCase("FALSE", true)]
+            [TestCase("true", false)]
+            [TestCase("True", false)]
+            [TestCase("TRUE", false)]
+            [TestCase("null", false)]
+            [TestCase("Null", false)]
+            [TestCase("NULL", false)]
+            public static void IsFalseTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsFalse(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #region TRUE = "true" ; keyword: case insensitive
+
+        [TestFixture]
+        public static class IsTrueTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("false", false)]
+            [TestCase("False", false)]
+            [TestCase("FALSE", false)]
+            [TestCase("true", true)]
+            [TestCase("True", true)]
+            [TestCase("TRUE", true)]
+            [TestCase("null", false)]
+            [TestCase("Null", false)]
+            [TestCase("NULL", false)]
+            public static void IsTrueTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsTrue(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region A.17.7 Null value
+
+        #region NULL = "null" ; keyword: case insensitive
+
+        [TestFixture]
+        public static class IsNullTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("false", false)]
+            [TestCase("False", false)]
+            [TestCase("FALSE", false)]
+            [TestCase("true", false)]
+            [TestCase("True", false)]
+            [TestCase("TRUE", false)]
+            [TestCase("null", true)]
+            [TestCase("Null", true)]
+            [TestCase("NULL", true)]
+            public static void IsNullTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsNull(value);
                 Assert.AreEqual(expectedResult, result);
             }
 

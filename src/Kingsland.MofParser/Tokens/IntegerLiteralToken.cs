@@ -52,17 +52,16 @@ namespace Kingsland.MofParser.Tokens
         internal static IntegerLiteralToken Read(ILexerStream stream)
         {
             // BUGBUG - this method is woefully underimplemented!
-            var extent = new SourceExtent(stream);
-            var sourceChars = new List<char>();
+            var sourceChars = new List<SourceChar>();
             // read the first character
-            sourceChars.Add(stream.ReadDigit().Value);
+            sourceChars.Add(stream.ReadDigit());
             // read the remaining characters
             while (!stream.Eof && stream.PeekDigit())
             {
-                sourceChars.Add(stream.ReadDigit().Value);
+                sourceChars.Add(stream.ReadDigit());
             }
             // return the result
-            extent = extent.WithText(sourceChars).WithEndExtent(stream);
+            var extent = new SourceExtent(sourceChars);
             return new IntegerLiteralToken(extent, int.Parse(extent.Text));
         }
 

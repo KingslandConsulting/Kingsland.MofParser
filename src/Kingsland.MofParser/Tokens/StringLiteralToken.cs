@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Lexing;
+using Kingsland.MofParser.Parsing;
 using System;
 using System.Collections.Generic;
 
@@ -60,17 +61,16 @@ namespace Kingsland.MofParser.Tokens
             // BUGBUG - no support for *( *WS DOUBLEQUOTE *stringChar DOUBLEQUOTE )
             // BUGBUG - incomplete escape sequences
             // BUGBUG - no support for UCS characters
-            var extent = new SourceExtent(stream);
-            var sourceChars = new List<char>();
+            var sourceChars = new List<SourceChar>();
             // read the first character
-            sourceChars.Add(stream.ReadChar('"').Value);
+            sourceChars.Add(stream.ReadChar('"'));
             // read the remaining characters
             var parser = new StringParser();
             while (!stream.Eof)
             {
                 var peek = stream.Peek();
                 sourceChars.Add(peek);
-                if ((peek == '"') && !parser.IsEscaped)
+                if (StringValidator.IsDoubleQuote(peek.Value) && !parser.IsEscaped)
                 {
                     parser.ConsumeEof();
                     break;
@@ -81,11 +81,11 @@ namespace Kingsland.MofParser.Tokens
                 }
             }
             // read the last character
-            sourceChars.Add(stream.ReadChar('"').Value);
+            sourceChars.Add(stream.ReadChar('"'));
             // process any escape sequences in the string
             var unescaped = parser.OutputString.ToString();
             // return the result
-            extent = extent.WithText(sourceChars).WithEndExtent(stream);
+            var extent = new SourceExtent(sourceChars);
             return new StringLiteralToken(extent, unescaped);
         }
 
@@ -132,7 +132,7 @@ namespace Kingsland.MofParser.Tokens
                         throw new InvalidOperationException();
                     }
                 }
-                else if (value == '\\')
+                else if (value == StringValidator.Backslash)
                 {
                     this.IsEscaped = true;
                 }

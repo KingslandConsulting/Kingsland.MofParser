@@ -43,30 +43,29 @@ namespace Kingsland.MofParser.Tokens
 
         internal static CommentToken Read(ILexerStream stream)
         {
-            var extent = new SourceExtent(stream);
-            var sourceChars = new List<char>();
-            sourceChars.Add(stream.ReadChar('/').Value);
-            switch(stream.Peek())
+            var sourceChars = new List<SourceChar>();
+            sourceChars.Add(stream.ReadChar('/'));
+            switch(stream.Peek().Value)
             {
                 case '/': // single-line
-                    sourceChars.Add(stream.ReadChar('/').Value);
+                    sourceChars.Add(stream.ReadChar('/'));
                     // read the comment text
-                    while (!stream.Eof && !StringValidator.IsLineTerminator(stream.Peek()))
+                    while (!stream.Eof && !StringValidator.IsLineTerminator(stream.Peek().Value))
                     {
-                        sourceChars.Add(stream.Read().Value);
+                        sourceChars.Add(stream.Read());
                     };
                     break;
                 case '*': // multi-line
-                    sourceChars.Add(stream.ReadChar('*').Value);
+                    sourceChars.Add(stream.ReadChar('*'));
                     // read the comment text
                     while (!stream.Eof)
                     {
                         var @char = stream.Read();
-                        sourceChars.Add(@char.Value);
+                        sourceChars.Add(@char);
                         if ((@char.Value == '*') && stream.PeekChar('/'))
                         {
                             // read the closing sequence
-                            sourceChars.Add(stream.ReadChar('/').Value);
+                            sourceChars.Add(stream.ReadChar('/'));
                             break;
                         }
                     }
@@ -76,7 +75,7 @@ namespace Kingsland.MofParser.Tokens
                         string.Format("Unexpected character '{0}'.", stream.Peek()));
             }
             // return the result
-            extent = extent.WithText(sourceChars).WithEndExtent(stream);
+            var extent = new SourceExtent(sourceChars);
             return new CommentToken(extent);
         }
 
