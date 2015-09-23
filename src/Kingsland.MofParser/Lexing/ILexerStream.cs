@@ -21,7 +21,7 @@
             get;
         }
 
-        int Column
+        int ColumnNumber
         {
             get;
         }
@@ -42,7 +42,7 @@
         /// Reads the next character off of the input stream, but does not advance the current position.
         /// </summary>
         /// <returns></returns>
-        char Peek();
+        SourceChar Peek();
 
         /// <summary>
         /// Returns true if the next character off of the input stream matches the specified value.
@@ -70,40 +70,35 @@
         /// Reads the next character off of the input stream and advances the current position.
         /// </summary>
         /// <returns></returns>
-        char Read();
+        SourceChar Read();
 
         /// <summary>
         /// Reads the next character off of the input stream and advances the current position.
         /// Throws an exception if the character does not match the specified value.
         /// </summary>
         /// <returns></returns>
-        char ReadChar(char value);
+        SourceChar ReadChar(char value);
 
         /// <summary>
         /// Reads the next character off of the input stream and advances the current position.
         /// Throws an exception if the character is not a digit.
         /// </summary>
         /// <returns></returns>
-        char ReadDigit();
+        SourceChar ReadDigit();
 
         /// <summary>
         /// Reads the next character off of the input stream and advances the current position.
         /// Throws an exception if the character is not a letter.
         /// </summary>
         /// <returns></returns>
-        char ReadLetter();
+        SourceChar ReadLetter();
 
         /// <summary>
         /// Reads the next character off of the input stream and advances the current position.
         /// Throws an exception if the character is not a whitespace character.
         /// </summary>
         /// <returns></returns>
-        char ReadWhitespace();
-
-        ///// <summary>
-        ///// Moves the stream position back a token.
-        ///// </summary>
-        //void Backtrack();
+        SourceChar ReadWhitespace();
 
         #endregion
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Kingsland.MofParser.Lexing
 {
@@ -24,7 +26,7 @@ namespace Kingsland.MofParser.Lexing
         /// </summary>
         /// <param name="stream"></param>
         internal SourceExtent(ILexerStream stream)
-            : this(stream.Position, stream.LineNumber, stream.Column, 0, 0, 0, string.Empty)
+            : this(stream.Position, stream.LineNumber, stream.ColumnNumber, 0, 0, 0, string.Empty)
         {
         }
 
@@ -41,6 +43,27 @@ namespace Kingsland.MofParser.Lexing
             this.EndLineNumber = endLineNumber;
             this.EndColumnNumber = endColumnNumber;
             this.Text = text;
+        }
+
+        /// <summary>
+        /// Initializes a new SourceExtent with the specified start and end positions.
+        /// </summary>
+        /// <param name="stream"></param>
+        public SourceExtent(List<SourceChar> sourceChars)
+        {
+            if((sourceChars == null) || (sourceChars.Count < 1))
+            {
+                throw new ArgumentException("Value must contain one or more items.", "chars");
+            }
+            var startChar = sourceChars.First();
+            var endChar = sourceChars.Last();
+            this.StartPosition = startChar.Position;
+            this.StartLineNumber = startChar.LineNumber;
+            this.StartColumnNumber = startChar.ColumnNumber;
+            this.EndPosition = endChar.Position;
+            this.EndLineNumber = endChar.LineNumber;
+            this.EndColumnNumber = endChar.ColumnNumber;
+            this.Text = new string(sourceChars.Select(c => c.Value).ToArray());
         }
 
         #endregion
@@ -95,12 +118,12 @@ namespace Kingsland.MofParser.Lexing
 
         internal SourceExtent WithStartExtent(ILexerStream stream)
         {
-            return this.WithStartExtent(stream.Position, stream.LineNumber, stream.Column);
+            return this.WithStartExtent(stream.Position, stream.LineNumber, stream.ColumnNumber);
         }
 
-        internal SourceExtent WithStartExtent(StreamPosition streamPosition)
+        internal SourceExtent WithStartExtent(SourceChar sourceChar)
         {
-            return new SourceExtent(streamPosition.Position, streamPosition.LineNumber, streamPosition.Column, this.EndPosition, this.EndLineNumber, this.EndColumnNumber, this.Text);
+            return new SourceExtent(sourceChar.Position, sourceChar.LineNumber, sourceChar.ColumnNumber, this.EndPosition, this.EndLineNumber, this.EndColumnNumber, this.Text);
         }
 
         internal SourceExtent WithStartExtent(int startPosition, int startLineNumber, int startColumnNumber)
@@ -110,12 +133,12 @@ namespace Kingsland.MofParser.Lexing
 
         internal SourceExtent WithEndExtent(ILexerStream stream)
         {
-            return this.WithEndExtent(stream.Position, stream.LineNumber, stream.Column);
+            return this.WithEndExtent(stream.Position, stream.LineNumber, stream.ColumnNumber);
         }
 
-        internal SourceExtent WithEndExtent(StreamPosition streamPosition)
+        internal SourceExtent WithEndExtent(SourceChar sourceChar)
         {
-            return new SourceExtent(this.StartPosition, this.StartLineNumber, this.StartColumnNumber, streamPosition.Position, streamPosition.LineNumber, streamPosition.Column, this.Text);
+            return new SourceExtent(this.StartPosition, this.StartLineNumber, this.StartColumnNumber, sourceChar.Position, sourceChar.LineNumber, sourceChar.ColumnNumber, this.Text);
         }
 
         internal SourceExtent WithEndExtent(int endPosition, int endLineNumber, int endColumnNumber)
@@ -135,20 +158,6 @@ namespace Kingsland.MofParser.Lexing
         }
 
         #endregion
-
-        public new bool Equals(object obj)
-        {
-            var compare = obj as SourceExtent;
-            if (compare == null) { return false; }
-            if (object.ReferenceEquals(compare, this)) { return true; }
-            return (compare.StartPosition ==  this.StartPosition) &&
-                   (compare.StartLineNumber == this.StartLineNumber) &&
-                   (compare.StartColumnNumber == this.StartColumnNumber) &&
-                   (compare.EndPosition == this.EndPosition) &&
-                   (compare.EndLineNumber == this.EndLineNumber) &&
-                   (compare.EndColumnNumber == this.EndColumnNumber) &&
-                   (compare.Text == this.Text);
-        }
 
     }
 

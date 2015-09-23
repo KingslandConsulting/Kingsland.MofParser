@@ -43,15 +43,14 @@ namespace Kingsland.MofParser.Tokens
 
         internal static CommentToken Read(ILexerStream stream)
         {
-            var extent = new SourceExtent(stream);
-            var sourceChars = new List<char>();
+            var sourceChars = new List<SourceChar>();
             sourceChars.Add(stream.ReadChar('/'));
-            switch(stream.Peek())
+            switch(stream.Peek().Value)
             {
                 case '/': // single-line
                     sourceChars.Add(stream.ReadChar('/'));
                     // read the comment text
-                    while (!stream.Eof && !StringValidator.IsLineTerminator(stream.Peek()))
+                    while (!stream.Eof && !StringValidator.IsLineTerminator(stream.Peek().Value))
                     {
                         sourceChars.Add(stream.Read());
                     };
@@ -63,7 +62,7 @@ namespace Kingsland.MofParser.Tokens
                     {
                         var @char = stream.Read();
                         sourceChars.Add(@char);
-                        if ((@char == '*') && stream.PeekChar('/'))
+                        if ((@char.Value == '*') && stream.PeekChar('/'))
                         {
                             // read the closing sequence
                             sourceChars.Add(stream.ReadChar('/'));
@@ -76,7 +75,7 @@ namespace Kingsland.MofParser.Tokens
                         string.Format("Unexpected character '{0}'.", stream.Peek()));
             }
             // return the result
-            extent = extent.WithText(sourceChars).WithEndExtent(stream);
+            var extent = new SourceExtent(sourceChars);
             return new CommentToken(extent);
         }
 

@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Lexing
             while (!stream.Eof)
             {
                 var peek = stream.Peek();
-                switch (peek)
+                switch (peek.Value)
                 {
                     case '/':
                         lexTokens.Add(CommentToken.Read(stream));
@@ -44,33 +44,32 @@ namespace Kingsland.MofParser.Lexing
                         lexTokens.Add(StatementEndToken.Read(stream));
                         break;
                     default:
-                        if (StringValidator.IsWhitespace(peek))
+                        if (StringValidator.IsWhitespace(peek.Value))
                         {
                             lexTokens.Add(WhitespaceToken.Read(stream));
                             break;
                         }
-                        else if (char.IsLetter(peek))
+                        else if (StringValidator.IsFirstIdentifierChar(peek.Value))
                         {
                             var identifier = IdentifierToken.Read(stream);
-                            var lower = identifier.Name.ToLowerInvariant();
-                            if (lower == BooleanLiteralToken.TrueText.ToLowerInvariant())
+                            if (StringValidator.IsTrue(identifier.Name))
                             {
                                 lexTokens.Add(new BooleanLiteralToken(identifier.Extent, true));
                             }
-                            else if (lower == BooleanLiteralToken.FalseText.ToLowerInvariant())
+                            else if (StringValidator.IsFalse(identifier.Name))
                             {
                                 lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
                             }
-                            else if (lower == NullLiteralToken.NullText.ToLowerInvariant())
+                            else if (StringValidator.IsNull(identifier.Name))
                             {
-                                    lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
+                                    lexTokens.Add(new NullLiteralToken(identifier.Extent));
                             }
                             else
                             {
                                 lexTokens.Add(identifier);
                             }
                         }
-                        else if (char.IsDigit(peek))
+                        else if (StringValidator.IsDecimalDigit(peek.Value))
                         {
                             lexTokens.Add(IntegerLiteralToken.Read(stream));
                             break;
@@ -78,7 +77,7 @@ namespace Kingsland.MofParser.Lexing
                         else
                         {
                             throw new InvalidOperationException(
-                                string.Format("Unexpected character '{0}'", peek));
+                                string.Format("Unexpected character '{0}'", peek.Value));
                         }
                         break;
                 }

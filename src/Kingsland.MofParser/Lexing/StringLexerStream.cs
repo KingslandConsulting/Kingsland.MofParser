@@ -6,13 +6,15 @@ namespace Kingsland.MofParser.Lexing
     public class StringLexerStream : LexerStreamBase
     {
 
+        #region Constructors
+
         public StringLexerStream(string source)
+            : base()
         {
             this.Source = source;
-            this.Position = 0;
-            this.LineNumber = 0;
-            this.Column = 0;
         }
+
+        #endregion
 
         #region Properties
 
@@ -26,8 +28,8 @@ namespace Kingsland.MofParser.Lexing
         /// Used for tracking line breaks
         /// </summary>
         private char LastChar
-        { 
-            get; 
+        {
+            get;
             set;
         }
 
@@ -47,13 +49,13 @@ namespace Kingsland.MofParser.Lexing
         /// Reads the next character off of the input stream, but does not advance the current position.
         /// </summary>
         /// <returns></returns>
-        public override char Peek()
+        public override SourceChar Peek()
         {
             if (this.Eof)
             {
                 throw new InvalidOperationException("Unexpected end of file encountered.");
             }
-            return this.Source[this.Position];
+            return new SourceChar(this.Source[this.Position], this.Position, this.LineNumber, this.ColumnNumber);
         }
 
         #endregion

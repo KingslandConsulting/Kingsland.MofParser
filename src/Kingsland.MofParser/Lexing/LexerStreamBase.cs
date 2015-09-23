@@ -12,9 +12,10 @@ namespace Kingsland.MofParser.Lexing
 
         protected LexerStreamBase()
         {
+            this.LastChar = null;
             this.Position = 0;
-            this.LineNumber = 0;
-            this.Column = 0;
+            this.LineNumber = 1;
+            this.ColumnNumber = 1;
         }
 
         #endregion
@@ -24,7 +25,7 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         /// Used for tracking line breaks
         /// </summary>
-        private char LastChar
+        private SourceChar LastChar
         { 
             get;
             set;
@@ -47,7 +48,7 @@ namespace Kingsland.MofParser.Lexing
             protected set;
         }
 
-        public int Column
+        public int ColumnNumber
         {
             get;
             protected set;
@@ -69,7 +70,7 @@ namespace Kingsland.MofParser.Lexing
         /// Reads the next character off of the input stream, but does not advance the current position.
         /// </summary>
         /// <returns></returns>
-        public abstract char Peek();
+        public abstract SourceChar Peek();
 
         /// <summary>
         /// Returns true if the next character off of the input stream matches the specified value.
@@ -78,7 +79,7 @@ namespace Kingsland.MofParser.Lexing
         public bool PeekChar(char value)
         {
             var peek = this.Peek();
-            return (peek == value);
+            return (peek.Value == value);
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace Kingsland.MofParser.Lexing
         public bool PeekDigit()
         {
             var peek = this.Peek();
-            return char.IsDigit(peek);
+            return StringValidator.IsDecimalDigit(peek.Value);
         }
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace Kingsland.MofParser.Lexing
         public bool PeekWhitespace()
         {
             var peek = this.Peek();
-            return StringValidator.IsWhitespace(peek);
+            return StringValidator.IsWhitespace(peek.Value);
         }
 
         #endregion
@@ -109,29 +110,34 @@ namespace Kingsland.MofParser.Lexing
         /// Reads the next character off of the input stream and advances the current position.
         /// </summary>
         /// <returns></returns>
-        public char Read()
+        public SourceChar Read()
         {
-            var value = this.Peek();
-            switch (value)
+            var sourceChar = this.Peek();
+            switch (sourceChar.Value)
             {
                 case '\r':
                     this.LineNumber += 1;
-                    this.Column = 0;
+                    this.ColumnNumber = 1;
                     break;
                 case '\n':
-                    if ((this.Position == 0) || (this.LastChar != '\r'))
+                    var lastChar = this.LastChar;
+                    if((lastChar != null) && (lastChar.Value == '\r'))
+                    {
+                        sourceChar = new SourceChar(sourceChar.Value, this.Position, lastChar.LineNumber, lastChar.ColumnNumber + 1);
+                    }
+                    else
                     {
                         this.LineNumber += 1;
-                        this.Column = 0;
+                        this.ColumnNumber = 1;
                     }
                     break;
                 default:
-                    this.Column += 1;
+                    this.ColumnNumber += 1;
                     break;
             }
             this.Position += 1;
-            this.LastChar = value;
-            return value;
+            this.LastChar = sourceChar;
+            return sourceChar;
         }
 
         /// <summary>
@@ -139,15 +145,15 @@ namespace Kingsland.MofParser.Lexing
         /// Throws an exception if the character does not match the specified value.
         /// </summary>
         /// <returns></returns>
-        public char ReadChar(char value)
+        public SourceChar ReadChar(char value)
         {
-            var @char = this.Read();
-            if (@char != value)
+            var peek = this.Peek();
+            if (peek.Value != value)
             {
                 throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", @char));
+                    string.Format("Unexpected character '{0}' encountered", peek.Value));
             }
-            return @char;
+            return this.Read();
         }
 
         /// <summary>
@@ -155,15 +161,15 @@ namespace Kingsland.MofParser.Lexing
         /// Throws an exception if the character is not a letter.
         /// </summary>
         /// <returns></returns>
-        public char ReadDigit()
+        public SourceChar ReadDigit()
         {
-            var @char = this.Read();
-            if (!char.IsDigit(@char))
+            var peek = this.Peek();
+            if (!StringValidator.IsDecimalDigit(peek.Value))
             {
                 throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", @char));
+                    string.Format("Unexpected character '{0}' encountered", peek.Value));
             }
-            return @char;
+            return this.Read();
         }
 
         /// <summary>
@@ -171,15 +177,15 @@ namespace Kingsland.MofParser.Lexing
         /// Throws an exception if the character is not a letter.
         /// </summary>
         /// <returns></returns>
-        public char ReadLetter()
+        public SourceChar ReadLetter()
         {
-            var @char = this.Read();
-            if (!char.IsLetter(@char))
+            var peek = this.Peek();
+            if (!(StringValidator.IsUpperAlpha(peek.Value) || StringValidator.IsLowerAlpha(peek.Value)))
             {
                 throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", @char));
+                    string.Format("Unexpected character '{0}' encountered", peek.Value));
             }
-            return @char;
+            return this.Read();
         }
 
         /// <summary>
@@ -187,31 +193,16 @@ namespace Kingsland.MofParser.Lexing
         /// Throws an exception if the character is not a whitespace character.
         /// </summary>
         /// <returns></returns>
-        public char ReadWhitespace()
+        public SourceChar ReadWhitespace()
         {
-            var @char = this.Read();
-            if (!char.IsWhiteSpace(@char))
+            var peek = this.Peek();
+            if (!StringValidator.IsWhitespace(peek.Value))
             {
                 throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", @char));
+                    string.Format("Unexpected character '{0}' encountered", peek));
             }
-            return @char;
+            return this.Read();
         }
-
-        ///// <summary>
-        ///// Moves the stream position back a character.
-        ///// </summary>
-        //public void Backtrack()
-        //{
-        //    if (this.Position == 0)
-        //    {
-        //        throw new InvalidOperationException();
-        //    }
-        //    this.Position -= 1;
-        //    // BUGBUG: this needs to handle line breaks properly, otherwise we get out of sync.
-        //    //         probably need a stack of { position, line, column } tuples so we can re-hydrate
-        //    this.Column -= 1;
-        //}
 
         #endregion
 

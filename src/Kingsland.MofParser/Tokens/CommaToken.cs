@@ -14,12 +14,11 @@ namespace Kingsland.MofParser.Tokens
 
         internal static CommaToken Read(ILexerStream stream)
         {
-            var extent = new SourceExtent(stream);
-            var sourceChars = new List<char>();
+            var sourceChars = new List<SourceChar>();
             // read the character
             sourceChars.Add(stream.ReadChar(','));
             // return the result
-            extent = extent.WithText(sourceChars).WithEndExtent(stream);
+            var extent = new SourceExtent(sourceChars);
             return new CommaToken(extent);
         }
 

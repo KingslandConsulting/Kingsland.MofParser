@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Kingsland.MofParser.Parsing
 {
@@ -302,6 +303,47 @@ namespace Kingsland.MofParser.Parsing
         public static bool IsUnderscore(char @char)
         {
             return (@char == StringValidator.Underscore);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region A.17.6 Boolean value
+
+        #region FALSE = "false" ; keyword: case insensitive
+
+        public static readonly string False = "false";
+
+        public static bool IsFalse(string value)
+        {
+            return string.Equals(value, StringValidator.False, StringComparison.OrdinalIgnoreCase);
+        }
+
+        #endregion
+
+        #region TRUE = "true" ; keyword: case insensitive
+
+        public static readonly string True = "true";
+
+        public static bool IsTrue(string value)
+        {
+            return string.Equals(value, StringValidator.True, StringComparison.OrdinalIgnoreCase);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region A.17.7 Null value
+
+        #region NULL = "null" ; keyword: case insensitive
+
+        public static readonly string Null = "null";
+
+        public static bool IsNull(string value)
+        {
+            return string.Equals(value, StringValidator.Null, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion

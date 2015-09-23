@@ -42,26 +42,24 @@ namespace Kingsland.MofParser.Tokens
 
         internal static IdentifierToken Read(ILexerStream stream)
         {
-            var extent = new SourceExtent(stream);
-            var sourceChars = new List<char>();
+            var sourceChars = new List<SourceChar>();
             var nameChars = new List<char>();
             // firstIdentifierChar
             var peek = stream.Peek();
-            if(!StringValidator.IsFirstIdentifierChar(peek))
+            if (!StringValidator.IsFirstIdentifierChar(peek.Value))
             {
                 throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", peek));
+                    string.Format("Unexpected character '{0}' encountered", peek.Value));
             }
             // *( nextIdentifierChar )
             while (!stream.Eof)
             {
-                extent = extent.WithEndExtent(stream);
                 peek = stream.Peek();
-                if (StringValidator.IsNextIdentifierChar(peek))
+                if (StringValidator.IsNextIdentifierChar(peek.Value))
                 {
                     var @char = stream.Read();
                     sourceChars.Add(@char);
-                    nameChars.Add(@char);
+                    nameChars.Add(@char.Value);
                 }
                 else
                 {
@@ -69,7 +67,7 @@ namespace Kingsland.MofParser.Tokens
                 }
             }
             // return the result
-            extent = extent.WithText(sourceChars).WithEndExtent(stream);
+            var extent = new SourceExtent(sourceChars);
             var name = new string(nameChars.ToArray());
             return new IdentifierToken(extent, name);
         }

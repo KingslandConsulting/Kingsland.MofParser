@@ -6,10 +6,10 @@
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 0,
-        "StartLineNumber": 0,
-        "StartColumnNumber": 0,
-        "EndPosition": 121,
-        "EndLineNumber": 5,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 1,
+        "EndPosition": 120,
+        "EndLineNumber": 6,
         "EndColumnNumber": 2,
         "Text": "/*\r\n@TargetNode='MyServer'\r\n@GeneratedBy=mike.clayton\r\n@GenerationDate=07/19/2014 10:37:04\r\n@GenerationHost=MyDesktop\r\n*/"
       }
@@ -19,10 +19,10 @@
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 121,
-        "StartLineNumber": 5,
-        "StartColumnNumber": 2,
-        "EndPosition": 243,
-        "EndLineNumber": 10,
+        "StartLineNumber": 6,
+        "StartColumnNumber": 3,
+        "EndPosition": 242,
+        "EndLineNumber": 11,
         "EndColumnNumber": 2,
         "Text": "/*\r\n@TargetNode='MyServer2'\r\n@GeneratedBy=mike.clayton\r\n@GenerationDate=07/19/2014 10:37:04\r\n@GenerationHost=MyDesktop\r\n*/"
       }
