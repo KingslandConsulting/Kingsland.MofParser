@@ -6,13 +6,15 @@ namespace Kingsland.MofParser.Lexing
     public class StringLexerStream : LexerStreamBase
     {
 
+        #region Constructors
+
         public StringLexerStream(string source)
+            : base()
         {
             this.Source = source;
-            this.Position = 0;
-            this.LineNumber = 0;
-            this.Column = 0;
         }
+
+        #endregion
 
         #region Properties
 
@@ -26,8 +28,8 @@ namespace Kingsland.MofParser.Lexing
         /// Used for tracking line breaks
         /// </summary>
         private char LastChar
-        { 
-            get; 
+        {
+            get;
             set;
         }
 

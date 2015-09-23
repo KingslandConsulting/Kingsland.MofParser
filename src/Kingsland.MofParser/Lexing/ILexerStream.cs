@@ -21,7 +21,7 @@
             get;
         }
 
-        int Column
+        int ColumnNumber
         {
             get;
         }

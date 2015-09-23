@@ -12,9 +12,10 @@ namespace Kingsland.MofParser.Lexing
 
         protected LexerStreamBase()
         {
+            this.LastChar = null;
             this.Position = 0;
-            this.LineNumber = 0;
-            this.Column = 0;
+            this.LineNumber = 1;
+            this.ColumnNumber = 1;
         }
 
         #endregion
@@ -47,7 +48,7 @@ namespace Kingsland.MofParser.Lexing
             protected set;
         }
 
-        public int Column
+        public int ColumnNumber
         {
             get;
             protected set;
@@ -111,22 +112,27 @@ namespace Kingsland.MofParser.Lexing
         /// <returns></returns>
         public SourceChar Read()
         {
-            var sourceChar = new SourceChar(this.Peek(), this.Position, this.LineNumber, this.Column);
+            var sourceChar = new SourceChar(this.Peek(), this.Position, this.LineNumber, this.ColumnNumber);
             switch (sourceChar.Value)
             {
                 case '\r':
                     this.LineNumber += 1;
-                    this.Column = 0;
+                    this.ColumnNumber = 1;
                     break;
                 case '\n':
-                    if ((this.Position == 0) || (this.LastChar.Value != '\r'))
+                    var lastChar = this.LastChar;
+                    if((lastChar != null) && (lastChar.Value == '\r'))
+                    {
+                        sourceChar = new SourceChar(this.Peek(), this.Position, lastChar.LineNumber, lastChar.ColumnNumber + 1);
+                    }
+                    else
                     {
                         this.LineNumber += 1;
-                        this.Column = 0;
+                        this.ColumnNumber = 1;
                     }
                     break;
                 default:
-                    this.Column += 1;
+                    this.ColumnNumber += 1;
                     break;
             }
             this.Position += 1;

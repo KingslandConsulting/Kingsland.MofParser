@@ -11,6 +11,7 @@ using System.Xml;
 namespace Kingsland.MofParser.UnitTests
 {
 
+    [TestFixture]
     public static class LexerTests
     {
 
