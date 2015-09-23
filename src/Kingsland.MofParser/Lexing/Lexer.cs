@@ -49,28 +49,27 @@ namespace Kingsland.MofParser.Lexing
                             lexTokens.Add(WhitespaceToken.Read(stream));
                             break;
                         }
-                        else if (char.IsLetter(peek))
+                        else if (StringValidator.IsFirstIdentifierChar(peek))
                         {
                             var identifier = IdentifierToken.Read(stream);
-                            var lower = identifier.Name.ToLowerInvariant();
-                            if (lower == BooleanLiteralToken.TrueText.ToLowerInvariant())
+                            if (StringValidator.IsTrue(identifier.Name))
                             {
                                 lexTokens.Add(new BooleanLiteralToken(identifier.Extent, true));
                             }
-                            else if (lower == BooleanLiteralToken.FalseText.ToLowerInvariant())
+                            else if (StringValidator.IsFalse(identifier.Name))
                             {
                                 lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
                             }
-                            else if (lower == NullLiteralToken.NullText.ToLowerInvariant())
+                            else if (StringValidator.IsNull(identifier.Name))
                             {
-                                    lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
+                                    lexTokens.Add(new NullLiteralToken(identifier.Extent));
                             }
                             else
                             {
                                 lexTokens.Add(identifier);
                             }
                         }
-                        else if (char.IsDigit(peek))
+                        else if (StringValidator.IsDecimalDigit(peek))
                         {
                             lexTokens.Add(IntegerLiteralToken.Read(stream));
                             break;
