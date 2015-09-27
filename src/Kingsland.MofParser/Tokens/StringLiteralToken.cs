@@ -87,7 +87,6 @@ namespace Kingsland.MofParser.Tokens
             var unescaped = parser.OutputString.ToString();
             // return the result
             var extent = new SourceExtent(sourceChars);
-            Console.WriteLine("<" + extent.Text + ">");
             return new StringLiteralToken(extent, unescaped);
         }
 
@@ -145,7 +144,6 @@ namespace Kingsland.MofParser.Tokens
 
             public void ConsumeChar(SourceChar @char)
             {
-                Console.WriteLine("consuming '{0}', isescaped={1}", @char, this.IsEscaped);
                 if (this.IsEscaped)
                 {
                     if (_escapeMap.ContainsKey(@char.Value))
