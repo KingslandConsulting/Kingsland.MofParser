@@ -151,8 +151,7 @@ namespace Kingsland.MofParser.Lexing
             var peek = this.Peek();
             if (peek.Value != value)
             {
-                throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", peek.Value));
+                throw new UnexpectedCharacterException(peek, value);
             }
             return this.Read();
         }
@@ -182,8 +181,7 @@ namespace Kingsland.MofParser.Lexing
             var peek = this.Peek();
             if (!StringValidator.IsDecimalDigit(peek.Value))
             {
-                throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", peek.Value));
+                throw new UnexpectedCharacterException(peek);
             }
             return this.Read();
         }
@@ -198,8 +196,7 @@ namespace Kingsland.MofParser.Lexing
             var peek = this.Peek();
             if (!(StringValidator.IsUpperAlpha(peek.Value) || StringValidator.IsLowerAlpha(peek.Value)))
             {
-                throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", peek.Value));
+                throw new UnexpectedCharacterException(peek);
             }
             return this.Read();
         }
@@ -214,8 +211,7 @@ namespace Kingsland.MofParser.Lexing
             var peek = this.Peek();
             if (!StringValidator.IsWhitespace(peek.Value))
             {
-                throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", peek));
+                throw new UnexpectedCharacterException(peek);
             }
             return this.Read();
         }

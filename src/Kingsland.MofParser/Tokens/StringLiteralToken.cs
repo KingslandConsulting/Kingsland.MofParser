@@ -2,6 +2,7 @@
 using Kingsland.MofParser.Parsing;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Kingsland.MofParser.Tokens
 {
@@ -31,10 +32,10 @@ namespace Kingsland.MofParser.Tokens
     ///                                        FORMFEED_ESC / CARRIAGERETURN_ESC /
     ///                                        escapedUCSchar )
     ///
-    ///     BACKSPACE_ESC      = "b" ; escape for back space(U+0008)
-    ///     TAB_ESC            = "t" ; escape for horizontal tab(U+0009)
-    ///     LINEFEED_ESC       = "n" ; escape for line feed(U+000A)
-    ///     FORMFEED_ESC       = "f" ; escape for form feed(U+000C)
+    ///     BACKSPACE_ESC      = "b" ; escape for back space (U+0008)
+    ///     TAB_ESC            = "t" ; escape for horizontal tab (U+0009)
+    ///     LINEFEED_ESC       = "n" ; escape for line feed (U+000A)
+    ///     FORMFEED_ESC       = "f" ; escape for form feed (U+000C)
     ///     CARRIAGERETURN_ESC = "r" ; escape for carriage return (U+000D)
     ///     escapedUCSchar     = ( "x" / "X" ) 1*6( hexDigit ) ; escaped UCS
     ///                          ; character with a UCS code position that is
@@ -69,15 +70,15 @@ namespace Kingsland.MofParser.Tokens
             while (!stream.Eof)
             {
                 var peek = stream.Peek();
-                sourceChars.Add(peek);
                 if (StringValidator.IsDoubleQuote(peek.Value) && !parser.IsEscaped)
                 {
-                    parser.ConsumeEof();
+                    parser.ConsumeEos();
                     break;
                 }
                 else
                 {
-                    parser.ConsumeChar(stream.Read().Value);
+                    sourceChars.Add(peek);
+                    parser.ConsumeChar(stream.Read());
                 }
             }
             // read the last character
@@ -86,15 +87,39 @@ namespace Kingsland.MofParser.Tokens
             var unescaped = parser.OutputString.ToString();
             // return the result
             var extent = new SourceExtent(sourceChars);
+            Console.WriteLine("<" + extent.Text + ">");
             return new StringLiteralToken(extent, unescaped);
         }
 
+        /// <summary>
+        /// BUGBUG - doesn't handle escapedUCSchar
+        /// </summary>
         private class StringParser
         {
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <remarks>
+            /// 
+            ///     stringEscapeSequence = BACKSLASH ( BACKSLASH / DOUBLEQUOTE / SINGLEQUOTE /
+            ///                                        BACKSPACE_ESC / TAB_ESC / LINEFEED_ESC /
+            ///                                        FORMFEED_ESC / CARRIAGERETURN_ESC /
+            ///                                        escapedUCSchar )
+            ///
+            ///     BACKSPACE_ESC      = "b" ; escape for back space (U+0008)
+            ///     TAB_ESC            = "t" ; escape for horizontal tab (U+0009)
+            ///     LINEFEED_ESC       = "n" ; escape for line feed (U+000A)
+            ///     FORMFEED_ESC       = "f" ; escape for form feed (U+000C)
+            ///     CARRIAGERETURN_ESC = "r" ; escape for carriage return (U+000D)
+            ///     escapedUCSchar     = ( "x" / "X" ) 1*6( hexDigit ) ; escaped UCS
+            ///                          ; character with a UCS code position that is
+            ///                          ; the numeric value of the hex number
+            /// 
+            /// </remarks>
             private readonly Dictionary<char, char> _escapeMap = new Dictionary<char, char>()
             {
-                { '\\' , '\\' }, { '\"' , '\"' }, {'r', '\r'}, {'n', '\n'}
+                { '\\' , '\\' }, { '\"' , '\"' },  { '\'' , '\'' }, {'b', '\b'}, {'t', '\t'},  {'n', '\n'}, {'f', '\f'}, {'r', '\r'}
             } ;
 
             private System.Text.StringBuilder _outputString;
@@ -105,44 +130,45 @@ namespace Kingsland.MofParser.Tokens
                 set;
             }
 
-            public System.Text.StringBuilder OutputString
+            public StringBuilder OutputString
             {
                 get
                 {
                     if (_outputString == null)
                     {
-                        _outputString = new System.Text.StringBuilder();
+                        _outputString = new StringBuilder();
                     }
                     return _outputString;
                 }
 
             }
 
-            public void ConsumeChar(char value)
+            public void ConsumeChar(SourceChar @char)
             {
+                Console.WriteLine("consuming '{0}', isescaped={1}", @char, this.IsEscaped);
                 if (this.IsEscaped)
                 {
-                    if (_escapeMap.ContainsKey(value))
+                    if (_escapeMap.ContainsKey(@char.Value))
                     {
-                        this.OutputString.Append(_escapeMap[value]);
+                        this.OutputString.Append(_escapeMap[@char.Value]);
                         this.IsEscaped = false;
                     }
                     else
                     {
-                        throw new InvalidOperationException();
+                        throw new UnexpectedCharacterException(@char);
                     }
                 }
-                else if (value == StringValidator.Backslash)
+                else if (@char.Value == StringValidator.Backslash)
                 {
                     this.IsEscaped = true;
                 }
                 else
                 {
-                    this.OutputString.Append(value);
+                    this.OutputString.Append(@char.Value);
                 }
             }
 
-            public void ConsumeEof()
+            public void ConsumeEos()
             {
                 if (this.IsEscaped)
                 {

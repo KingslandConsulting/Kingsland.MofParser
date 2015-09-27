@@ -3,16 +3,16 @@
   "$values": [
     {
       "$type": "Kingsland.MofParser.Tokens.StringLiteralToken, Kingsland.MofParser",
-      "Value": "my \\ string \" literal \r with \n escapes \r\n in",
+      "Value": "my \\ string \" literal ' with \b lots \t and \n lots \f of \r escapes",
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 0,
         "StartLineNumber": 1,
         "StartColumnNumber": 1,
-        "EndPosition": 51,
+        "EndPosition": 72,
         "EndLineNumber": 1,
-        "EndColumnNumber": 52,
-        "Text": "\"my \\\\ string \\\" literal \\r with \\n escapes \\r\\n in\"\""
+        "EndColumnNumber": 73,
+        "Text": "\"my \\\\ string \\\" literal \\' with \\b lots \\t and \\n lots \\f of \\r escapes\""
       }
     }
   ]
