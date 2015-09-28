@@ -280,6 +280,30 @@
     <Content Include="Lexer\Tokens\whitespace_lf.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Lexer\Tokens\integer_decimal_+12345.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\Tokens\integer_decimal_+12345.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\Tokens\integer_decimal_-12345.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\Tokens\integer_decimal_-12345.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\Tokens\integer_decimal_12345.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\Tokens\integer_decimal_12345.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\Tokens\MyServer.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\Tokens\MyServer.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Lexer\Tokens\whitespace_mixed.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -298,6 +322,10 @@
     <None Include="Lexer\Tokens\whitespace_tab.mof">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Lexer\WMI\WinXpProSp3CIMV2.mof" />
+    <None Include="Lexer\WMI\WinXpProSp3CIMV2.original.mof" />
+    <None Include="Lexer\WMI\WinXpProSp3Microsoft.mof" />
+    <None Include="Lexer\WMI\WinXpProSp3WMI.mof" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
