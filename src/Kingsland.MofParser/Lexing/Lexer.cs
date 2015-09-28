@@ -87,15 +87,15 @@ namespace Kingsland.MofParser.Lexing
                                 lexTokens.Add(identifier);
                             }
                         }
-                        else if (StringValidator.IsDecimalDigit(peek.Value))
+                        else if ( (peek.Value == '+') || (peek.Value == '-') ||
+                                  (StringValidator.IsDecimalDigit(peek.Value)))
                         {
                             lexTokens.Add(IntegerLiteralToken.Read(stream));
                             break;
                         }
                         else
                         {
-                            throw new InvalidOperationException(
-                                string.Format("Unexpected character '{0}'", peek.Value));
+                            throw new UnexpectedCharacterException(peek);
                         }
                         break;
                 }

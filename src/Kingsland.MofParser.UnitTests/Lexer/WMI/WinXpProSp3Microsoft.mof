@@ -1,0 +1,589 @@
+//**************************************************************************
+//* File: WinXpProSp3Microsoft.mof
+//**************************************************************************
+
+//**************************************************************************
+//* This MOF was generated from the "\\.\ROOT\Microsoft"
+//* namespace on machine "WINXPPROSP3".
+//* To compile this MOF on another machine you should edit this pragma.
+//**************************************************************************
+#pragma namespace("\\\\.\\ROOT\\Microsoft")
+
+//**************************************************************************
+//* Class: __SecurityRelatedClass
+//* Derived from: 
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __SecurityRelatedClass
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __NTLMUser9X
+//* Derived from: __SecurityRelatedClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NTLMUser9X : __SecurityRelatedClass
+//* {
+//* 	string Name;
+//* 	string Authority = ".";
+//* 	sint32 Flags;
+//* 	sint32 Mask;
+//* 	sint32 Type;
+//* };
+
+//**************************************************************************
+//* Class: __PARAMETERS
+//* Derived from: 
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __PARAMETERS
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __SystemSecurity
+//* Derived from: 
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [singleton: DisableOverride ToInstance ToSubClass]
+//* class __SystemSecurity
+//* {
+//* 	[Static] uint32 GetSD([out] uint8 SD[]);
+//* 	[Static] uint32 Get9XUserList([out] __ntlmuser9x ul[]);
+//* 	[Static] uint32 SetSD([in] uint8 SD[]);
+//* 	[Static] uint32 Set9XUserList([in] __ntlmuser9x ul[]);
+//* 	[Static] uint32 GetCallerAccessRights([out] sint32 rights);
+//* };
+
+//**************************************************************************
+//* Class: __NotifyStatus
+//* Derived from: 
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract: DisableOverride ToInstance ToSubClass]
+//* class __NotifyStatus
+//* {
+//* 	uint32 StatusCode;
+//* };
+
+//**************************************************************************
+//* Class: __ExtendedStatus
+//* Derived from: __NotifyStatus
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ExtendedStatus : __NotifyStatus
+//* {
+//* 	string ProviderName;
+//* 	string Operation;
+//* 	string ParameterInfo;
+//* 	string Description;
+//* };
+
+//**************************************************************************
+//* Class: __SystemClass
+//* Derived from: 
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __SystemClass
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __Provider
+//* Derived from: __SystemClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __Provider : __SystemClass
+//* {
+//* 	[key] string Name;
+//* };
+
+//**************************************************************************
+//* Class: __Win32Provider
+//* Derived from: __Provider
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __Win32Provider : __Provider
+//* {
+//* 	string CLSID;
+//* 	string ClientLoadableCLSID;
+//* 	string DefaultMachineName;
+//* 	[SUBTYPE("interval"): ToInstance ToSubClass] datetime UnloadTimeout;
+//* 	boolean InitializeAsAdminFirst;
+//* 	uint32 Version;
+//* 	[Values{"None"}: ToSubClass] sint32 ImpersonationLevel = 0;
+//* 	[Values{"CLSID", "Namespace", "COM Object"}: ToSubClass] sint32 InitializationReentrancy = 0;
+//* 	boolean PerUserInitialization = FALSE;
+//* 	boolean PerLocaleInitialization = FALSE;
+//* 	boolean Pure = TRUE;
+//* 	[Values{}: ToSubClass] string HostingModel;
+//* 	sint32 Concurrency;
+//* 	boolean SupportsSendStatus;
+//* 	boolean SupportsExplicitShutdown;
+//* 	boolean SupportsExtendedStatus;
+//* 	boolean SupportsThrottling;
+//* 	[SUBTYPE("interval"): ToInstance ToSubClass] datetime OperationTimeoutInterval;
+//* 	[SUBTYPE("interval"): ToInstance ToSubClass] datetime InitializationTimeoutInterval;
+//* 	boolean SupportsQuotas;
+//* 	boolean Enabled;
+//* 	boolean SupportsShutdown;
+//* 	string SecurityDescriptor;
+//* };
+
+//**************************************************************************
+//* Class: __thisNAMESPACE
+//* Derived from: __SystemClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [singleton: DisableOverride ToInstance ToSubClass]
+//* class __thisNAMESPACE : __SystemClass
+//* {
+//* 	uint8 SECURITY_DESCRIPTOR[];
+//* };
+
+//**************************************************************************
+//* Class: __IndicationRelated
+//* Derived from: __SystemClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __IndicationRelated : __SystemClass
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __EventGenerator
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __EventGenerator : __IndicationRelated
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __TimerInstruction
+//* Derived from: __EventGenerator
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __TimerInstruction : __EventGenerator
+//* {
+//* 	[key] string TimerId;
+//* 	boolean SkipIfPassed = FALSE;
+//* };
+
+//**************************************************************************
+//* Class: __IntervalTimerInstruction
+//* Derived from: __TimerInstruction
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __IntervalTimerInstruction : __TimerInstruction
+//* {
+//* 	[not_null: DisableOverride ToInstance ToSubClass, units("milliseconds"): DisableOverride ToInstance ToSubClass] uint32 IntervalBetweenEvents;
+//* };
+
+//**************************************************************************
+//* Class: __AbsoluteTimerInstruction
+//* Derived from: __TimerInstruction
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __AbsoluteTimerInstruction : __TimerInstruction
+//* {
+//* 	[not_null: DisableOverride ToInstance ToSubClass] datetime EventDateTime;
+//* };
+
+//**************************************************************************
+//* Class: __Event
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract: DisableOverride ToInstance ToSubClass]
+//* class __Event : __IndicationRelated
+//* {
+//* 	uint64 TIME_CREATED;
+//* 	uint8 SECURITY_DESCRIPTOR[];
+//* };
+
+//**************************************************************************
+//* Class: __NamespaceOperationEvent
+//* Derived from: __Event
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NamespaceOperationEvent : __Event
+//* {
+//* 	__Namespace TargetNamespace;
+//* };
+
+//**************************************************************************
+//* Class: __NamespaceDeletionEvent
+//* Derived from: __NamespaceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NamespaceDeletionEvent : __NamespaceOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __NamespaceCreationEvent
+//* Derived from: __NamespaceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NamespaceCreationEvent : __NamespaceOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __NamespaceModificationEvent
+//* Derived from: __NamespaceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NamespaceModificationEvent : __NamespaceOperationEvent
+//* {
+//* 	__Namespace PreviousNamespace;
+//* };
+
+//**************************************************************************
+//* Class: __InstanceOperationEvent
+//* Derived from: __Event
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __InstanceOperationEvent : __Event
+//* {
+//* 	object TargetInstance;
+//* };
+
+//**************************************************************************
+//* Class: __MethodInvocationEvent
+//* Derived from: __InstanceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __MethodInvocationEvent : __InstanceOperationEvent
+//* {
+//* 	string Method;
+//* 	boolean PreCall;
+//* 	object Parameters;
+//* };
+
+//**************************************************************************
+//* Class: __InstanceCreationEvent
+//* Derived from: __InstanceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __InstanceCreationEvent : __InstanceOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __InstanceModificationEvent
+//* Derived from: __InstanceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __InstanceModificationEvent : __InstanceOperationEvent
+//* {
+//* 	object PreviousInstance;
+//* };
+
+//**************************************************************************
+//* Class: __InstanceDeletionEvent
+//* Derived from: __InstanceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __InstanceDeletionEvent : __InstanceOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __ExtrinsicEvent
+//* Derived from: __Event
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ExtrinsicEvent : __Event
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __SystemEvent
+//* Derived from: __ExtrinsicEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __SystemEvent : __ExtrinsicEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __EventDroppedEvent
+//* Derived from: __SystemEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __EventDroppedEvent : __SystemEvent
+//* {
+//* 	__Event Event;
+//* 	__EventConsumer ref IntendedConsumer;
+//* };
+
+//**************************************************************************
+//* Class: __ConsumerFailureEvent
+//* Derived from: __EventDroppedEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ConsumerFailureEvent : __EventDroppedEvent
+//* {
+//* 	uint32 ErrorCode;
+//* 	string ErrorDescription;
+//* 	__ExtendedStatus ErrorObject;
+//* };
+
+//**************************************************************************
+//* Class: __QOSFailureEvent
+//* Derived from: __EventDroppedEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __QOSFailureEvent : __EventDroppedEvent
+//* {
+//* 	uint32 ErrorCode;
+//* 	string ErrorDescription;
+//* };
+
+//**************************************************************************
+//* Class: __EventQueueOverflowEvent
+//* Derived from: __EventDroppedEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __EventQueueOverflowEvent : __EventDroppedEvent
+//* {
+//* 	[units("bytes"): DisableOverride ToInstance ToSubClass] uint32 CurrentQueueSize;
+//* };
+
+//**************************************************************************
+//* Class: __ClassOperationEvent
+//* Derived from: __Event
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ClassOperationEvent : __Event
+//* {
+//* 	object TargetClass;
+//* };
+
+//**************************************************************************
+//* Class: __ClassModificationEvent
+//* Derived from: __ClassOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ClassModificationEvent : __ClassOperationEvent
+//* {
+//* 	object PreviousClass;
+//* };
+
+//**************************************************************************
+//* Class: __ClassCreationEvent
+//* Derived from: __ClassOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ClassCreationEvent : __ClassOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __ClassDeletionEvent
+//* Derived from: __ClassOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ClassDeletionEvent : __ClassOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __TimerEvent
+//* Derived from: __Event
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __TimerEvent : __Event
+//* {
+//* 	string TimerId;
+//* 	uint32 NumFirings;
+//* };
+
+//**************************************************************************
+//* Class: __AggregateEvent
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __AggregateEvent : __IndicationRelated
+//* {
+//* 	uint32 NumberOfEvents;
+//* 	object Representative;
+//* };
+
+//**************************************************************************
+//* Class: __EventConsumer
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __EventConsumer : __IndicationRelated
+//* {
+//* 	string MachineName;
+//* 	[units("bytes"): DisableOverride ToInstance ToSubClass] uint32 MaximumQueueSize;
+//* 	[read: DisableOverride ToInstance ToSubClass] uint8 CreatorSID[] = {1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0};
+//* };
+
+//**************************************************************************
+//* Class: __FilterToConsumerBinding
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [Association: DisableOverride ToInstance ToSubClass]
+//* class __FilterToConsumerBinding : __IndicationRelated
+//* {
+//* 	[key] __EventFilter ref Filter;
+//* 	[key] __EventConsumer ref Consumer;
+//* 	uint32 DeliveryQoS;
+//* 	[not_null: DisableOverride ToInstance ToSubClass] boolean DeliverSynchronously = FALSE;
+//* 	boolean MaintainSecurityContext = FALSE;
+//* 	boolean SlowDownProviders = FALSE;
+//* 	[read: DisableOverride ToInstance ToSubClass] uint8 CreatorSID[] = {1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0};
+//* };
+
+//**************************************************************************
+//* Class: __TimerNextFiring
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __TimerNextFiring : __IndicationRelated
+//* {
+//* 	[key] string TimerId;
+//* 	[not_null: DisableOverride ToInstance ToSubClass] sint64 NextEvent64BitTime;
+//* };
+
+//**************************************************************************
+//* Class: __EventFilter
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __EventFilter : __IndicationRelated
+//* {
+//* 	[key] string Name;
+//* 	[read: DisableOverride ToInstance ToSubClass] uint8 CreatorSID[] = {1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0};
+//* 	string QueryLanguage;
+//* 	string Query;
+//* 	string EventNamespace;
+//* 	string EventAccess;
+//* };
+
+//**************************************************************************
+//* Class: __ProviderRegistration
+//* Derived from: __SystemClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __ProviderRegistration : __SystemClass
+//* {
+//* 	__Provider ref provider;
+//* };
+
+//**************************************************************************
+//* Class: __EventProviderRegistration
+//* Derived from: __ProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __EventProviderRegistration : __ProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* 	string EventQueryList[];
+//* };
+
+//**************************************************************************
+//* Class: __EventConsumerProviderRegistration
+//* Derived from: __ProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __EventConsumerProviderRegistration : __ProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* 	string ConsumerClassNames[];
+//* };
+
+//**************************************************************************
+//* Class: __PropertyProviderRegistration
+//* Derived from: __ProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __PropertyProviderRegistration : __ProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* 	boolean SupportsPut = FALSE;
+//* 	boolean SupportsGet = FALSE;
+//* };
+
+//**************************************************************************
+//* Class: __ObjectProviderRegistration
+//* Derived from: __ProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __ObjectProviderRegistration : __ProviderRegistration
+//* {
+//* 	boolean SupportsPut = FALSE;
+//* 	boolean SupportsGet = FALSE;
+//* 	boolean SupportsDelete = FALSE;
+//* 	boolean SupportsEnumeration = FALSE;
+//* 	[ValueMap{"WQL:UnarySelect", "WQL:References", "WQL:Associators", "WQL:V1ProviderDefined"}: ToSubClass] string QuerySupportLevels[];
+//* 	[Values{"Pull", "Push", "PushVerify"}: ToSubClass] sint32 InteractionType = 0;
+//* 	boolean SupportsBatching;
+//* 	boolean SupportsTransactions;
+//* };
+
+//**************************************************************************
+//* Class: __InstanceProviderRegistration
+//* Derived from: __ObjectProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __InstanceProviderRegistration : __ObjectProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* };
+
+//**************************************************************************
+//* Class: __ClassProviderRegistration
+//* Derived from: __ObjectProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ClassProviderRegistration : __ObjectProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* 	uint32 Version;
+//* 	string ResultSetQueries[];
+//* 	string ReferencedSetQueries[];
+//* 	string UnsupportedQueries[];
+//* 	[SUBTYPE("interval"): ToInstance ToSubClass] datetime CacheRefreshInterval;
+//* 	boolean PerUserSchema;
+//* 	boolean ReSynchroniseOnNamespaceOpen;
+//* };
+
+//**************************************************************************
+//* Class: __MethodProviderRegistration
+//* Derived from: __ProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __MethodProviderRegistration : __ProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* };
+
+//**************************************************************************
+//* Class: __NAMESPACE
+//* Derived from: __SystemClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NAMESPACE : __SystemClass
+//* {
+//* 	[key] string Name;
+//* };
+
+//* EOF WinXpProSp3Microsoft.mof

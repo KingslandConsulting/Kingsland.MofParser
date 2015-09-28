@@ -214,9 +214,38 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.17.2 Real value
+        #region A.17.1 Integer value
 
-        // No whitespace is allowed between the elements of the rules in this ABNF section.
+        #region decimalValue = [ "+" / "-" ] unsignedDecimalValue
+
+        public static bool IsDecimalValue(string value)
+        {
+            if (string.IsNullOrEmpty(value)) { return false; }
+            var chars = value.AsEnumerable();
+            if (new[] { '+', '-' }.Contains(chars.First()))
+            {
+                chars = chars.Skip(1);
+            }
+            return StringValidator.IsPositiveDecimalDigit(chars.First()) &&
+                   chars.Skip(1).All(StringValidator.IsDecimalDigit);
+        }
+
+        #endregion
+
+        #region  unsignedDecimalValue = positiveDecimalDigit *decimalDigit
+
+        public static bool IsUnsignedDecimalValue(string value)
+        {
+            if (string.IsNullOrEmpty(value)) { return false; }
+            return StringValidator.IsPositiveDecimalDigit(value.First()) &&
+                   value.Skip(1).All(StringValidator.IsDecimalDigit);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region A.17.2 Real value
 
         // realValue = ["+" / "-"] * decimalDigit "." 1*decimalDigit
         //             [ ("e" / "E") [ "+" / "-" ] 1*decimalDigit ]

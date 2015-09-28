@@ -710,6 +710,105 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
+        #region A.17.1 Integer value
+
+        #region decimalValue = [ "+" / "-" ] unsignedDecimalValue
+
+        [TestFixture]
+        public static class IsDecimalValueTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("0", false)]
+            [TestCase("5", true)]
+            [TestCase("9", true)]
+            [TestCase("+0", false)]
+            [TestCase("+5", true)]
+            [TestCase("+9", true)]
+            [TestCase("-0", false)]
+            [TestCase("-5", true)]
+            [TestCase("-9", true)]
+            [TestCase("12345", true)]
+            [TestCase("67890", true)]
+            [TestCase("-12345", true)]
+            [TestCase("-67890", true)]
+            [TestCase("+12345", true)]
+            [TestCase("+67890", true)]
+            [TestCase("012345", false)]
+            [TestCase("067890", false)]
+            [TestCase("+012345", false)]
+            [TestCase("+067890", false)]
+            [TestCase("-012345", false)]
+            [TestCase("-067890", false)]
+            [TestCase("A", false)]
+            [TestCase("M", false)]
+            [TestCase("Z", false)]
+            [TestCase("+A", false)]
+            [TestCase("+M", false)]
+            [TestCase("+Z", false)]
+            [TestCase("-A", false)]
+            [TestCase("-M", false)]
+            [TestCase("-Z", false)]
+            public static void IsDecimalValueTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsDecimalValue(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #region  unsignedDecimalValue = positiveDecimalDigit *decimalDigit
+
+        public static class IsUnsignedDecimalValueTests
+        {
+
+            [TestCase(null, false)]
+            [TestCase("", false)]
+            [TestCase("0", false)]
+            [TestCase("5", true)]
+            [TestCase("9", true)]
+            [TestCase("+0", false)]
+            [TestCase("+5", false)]
+            [TestCase("+9", false)]
+            [TestCase("-0", false)]
+            [TestCase("-5", false)]
+            [TestCase("-9", false)]
+            [TestCase("12345", true)]
+            [TestCase("67890", true)]
+            [TestCase("-12345", false)]
+            [TestCase("-67890", false)]
+            [TestCase("+12345", false)]
+            [TestCase("+67890", false)]
+            [TestCase("012345", false)]
+            [TestCase("067890", false)]
+            [TestCase("+012345", false)]
+            [TestCase("+067890", false)]
+            [TestCase("-012345", false)]
+            [TestCase("-067890", false)]
+            [TestCase("A", false)]
+            [TestCase("M", false)]
+            [TestCase("Z", false)]
+            [TestCase("+A", false)]
+            [TestCase("+M", false)]
+            [TestCase("+Z", false)]
+            [TestCase("-A", false)]
+            [TestCase("-M", false)]
+            [TestCase("-Z", false)]
+            public static void IsUnsignedDecimalValueTest(string value, bool expectedResult)
+            {
+                var result = StringValidator.IsUnsignedDecimalValue(value);
+                Assert.AreEqual(expectedResult, result);
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
         #region A.17.2 Real value
 
         #region decimalDigit = "0" / positiveDecimalDigit

@@ -15,7 +15,7 @@ namespace Kingsland.MofParser.UnitTests
     {
 
         [TestFixture]
-        public static class LexMethodTests
+        public static class LexMethodTokenTests
         {
 
             [Test, TestCaseSource(typeof(LexerTestCases), "TestCases")]
@@ -23,7 +23,7 @@ namespace Kingsland.MofParser.UnitTests
             {
                 var mofText = File.ReadAllText(mofFilename);
                 var tokens = Lexer.Lex(new StringLexerStream(mofText));
-                var actualText = LexMethodTests.ConvertToJson(tokens);
+                var actualText = LexMethodTokenTests.ConvertToJson(tokens);
                 var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),
                                                     Path.GetFileNameWithoutExtension(mofFilename) + ".json");
                 if (!File.Exists(expectedFilename))
@@ -70,7 +70,7 @@ namespace Kingsland.MofParser.UnitTests
                 {
                     get
                     {
-                        var path = "D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer";
+                        var path = "D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer\\Tokens";
                         var mofFilenames = Directory.GetFiles(path, "*.mof", SearchOption.AllDirectories);
                         foreach (var mofFilename in mofFilenames)
                         {
@@ -83,6 +83,23 @@ namespace Kingsland.MofParser.UnitTests
                 }
 
             }
+
+        }
+
+        [TestFixture]
+        public static class LexMethodSampleFiles
+        {
+
+            [TestCase("WinXpProSp3CIMV2.mof")]
+            [TestCase("WinXpProSp3Microsoft.mof")]
+            [TestCase("WinXpProSp3WMI.mof")]
+            public static void LexerTestsFromDisk(string mofFilename)
+            {
+                var filename = Path.Combine("D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer\\WMI", mofFilename);
+                var mofText = File.ReadAllText(filename);
+                var tokens = Lexer.Lex(new StringLexerStream(mofText));
+            }
+
 
         }
 
