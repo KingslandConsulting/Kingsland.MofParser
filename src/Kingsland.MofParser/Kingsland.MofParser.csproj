@@ -34,13 +34,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\ClassAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />
     <Compile Include="Ast\ComplexValueArrayAst.cs" />
     <Compile Include="Ast\ComplexValueAst.cs" />
     <Compile Include="Ast\BooleanValueAst.cs" />
+    <Compile Include="Ast\FieldAst.cs" />
     <Compile Include="Ast\LiteralValueArrayAst.cs" />
     <Compile Include="Ast\LiteralValueAst.cs" />
+    <Compile Include="Ast\MemberAst.cs" />
+    <Compile Include="Ast\MethodAst.cs" />
     <Compile Include="Ast\NullValueAst.cs" />
+    <Compile Include="Ast\PragmaAst.cs" />
+    <Compile Include="Ast\QualifierAst.cs" />
+    <Compile Include="Ast\QualifierListAst.cs" />
     <Compile Include="Ast\RealValueAst.cs" />
     <Compile Include="Ast\StringValueAst.cs" />
     <Compile Include="Ast\IntegerValueAst.cs" />
@@ -49,10 +56,15 @@
     <Compile Include="Ast\PrimitiveTypeValueAst.cs" />
     <Compile Include="Ast\PropertyValueAst.cs" />
     <Compile Include="Ast\ReferenceTypeValue.cs" />
+    <Compile Include="Lexing\UnexpectedCharacterException.cs" />
     <Compile Include="Lexing\SourceChar.cs" />
     <Compile Include="Parsing\StringValidator.cs" />
     <Compile Include="PowerShellDscHelper.cs" />
     <Compile Include="Lexing\LexerStreamBase.cs" />
+    <Compile Include="Tokens\AttributeCloseToken.cs" />
+    <Compile Include="Tokens\AttributeOpenToken.cs" />
+    <Compile Include="Tokens\ParenthesesCloseToken.cs" />
+    <Compile Include="Tokens\ColonToken.cs" />
     <Compile Include="Tokens\CommaToken.cs" />
     <Compile Include="Tokens\BooleanLiteralToken.cs" />
     <Compile Include="Lexing\ILexerStream.cs" />
@@ -67,6 +79,8 @@
     <Compile Include="Tokens\BlockCloseToken.cs" />
     <Compile Include="Tokens\IntegerLiteralToken.cs" />
     <Compile Include="Tokens\NullLiteralToken.cs" />
+    <Compile Include="Tokens\ParenthesesOpenToken.cs" />
+    <Compile Include="Tokens\PragmaToken.cs" />
     <Compile Include="Tokens\StatementEndToken.cs" />
     <Compile Include="Tokens\StringLiteralToken.cs" />
     <Compile Include="Tokens\EqualsOperatorToken.cs" />

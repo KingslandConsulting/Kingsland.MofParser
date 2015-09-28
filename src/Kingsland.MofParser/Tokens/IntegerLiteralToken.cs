@@ -49,13 +49,34 @@ namespace Kingsland.MofParser.Tokens
             private set;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// BUGBUG - this method is woefully underimplemented!
+        /// </remarks>
         internal static IntegerLiteralToken Read(ILexerStream stream)
         {
-            // BUGBUG - this method is woefully underimplemented!
             var sourceChars = new List<SourceChar>();
-            // read the first character
-            sourceChars.Add(stream.ReadDigit());
+            // read the sign (if there is one)
+            var sign = 0;
+            var peek = stream.Peek();
+            switch(peek.Value)
+            {
+                case '+':
+                    sign = 1;
+                    sourceChars.Add(stream.Read());
+                    break;
+                case '-':
+                    sign = -1;
+                    sourceChars.Add(stream.Read());
+                    break;
+            }
             // read the remaining characters
+            // BUGBUG - only handles decimalValue
+            sourceChars.Add(stream.ReadDigit());
             while (!stream.Eof && stream.PeekDigit())
             {
                 sourceChars.Add(stream.ReadDigit());

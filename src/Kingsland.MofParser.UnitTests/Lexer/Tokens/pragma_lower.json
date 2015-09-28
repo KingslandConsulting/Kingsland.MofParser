@@ -2,17 +2,16 @@
   "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
   "$values": [
     {
-      "$type": "Kingsland.MofParser.Tokens.StringLiteralToken, Kingsland.MofParser",
-      "Value": "my \\ string \" literal ' with \b lots \t and \n lots \f of \r escapes",
+      "$type": "Kingsland.MofParser.Tokens.PragmaToken, Kingsland.MofParser",
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
         "StartPosition": 0,
         "StartLineNumber": 1,
         "StartColumnNumber": 1,
-        "EndPosition": 72,
+        "EndPosition": 6,
         "EndLineNumber": 1,
-        "EndColumnNumber": 73,
-        "Text": "\"my \\\\ string \\\" literal \\' with \\b lots \\t and \\n lots \\f of \\r escapes\""
+        "EndColumnNumber": 7,
+        "Text": "#pragma"
       }
     }
   ]
