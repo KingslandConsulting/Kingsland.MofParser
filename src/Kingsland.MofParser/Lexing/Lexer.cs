@@ -87,8 +87,8 @@ namespace Kingsland.MofParser.Lexing
                                 lexTokens.Add(identifier);
                             }
                         }
-                        else if ( (peek.Value == '+') || (peek.Value == '-') ||
-                                  (StringValidator.IsDecimalDigit(peek.Value)))
+                        else if ((peek.Value == '+') || (peek.Value == '-') ||
+                                 (StringValidator.IsDecimalDigit(peek.Value)))
                         {
                             lexTokens.Add(IntegerLiteralToken.Read(stream));
                             break;

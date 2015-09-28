@@ -6,7 +6,7 @@ using Kingsland.MofParser.Tokens;
 namespace Kingsland.MofParser.Ast
 {
 
-    public class QualifierAst : AstNode
+    public sealed class QualifierAst : AstNode
     {
 
         #region Constructors

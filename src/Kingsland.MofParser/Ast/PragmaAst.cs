@@ -4,7 +4,7 @@ using Kingsland.MofParser.Tokens;
 namespace Kingsland.MofParser.Ast
 {
 
-    public class PragmaAst : MofProductionAst
+    public sealed class PragmaAst : MofProductionAst
     {
 
         public string Pragma

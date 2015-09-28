@@ -1,38 +1,10 @@
-using System.Collections.Generic;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
-    public sealed class FieldAst : MemberAst
-    {
-        public string Type { get; set; }
-        public bool IsArray { get; set; }
-        public bool IsRef { get; set; }
-        public LiteralValueAst Initializer { get; set; }
-    }
 
-    public sealed class MethodAst : MemberAst
-    {
-        public class Argument
-        {
-            public QualifierListAst Qualifiers { get; set; }
-            public string Name { get; set; }
-            public string Type { get; set; }
-            public bool IsRef { get; set; }
-            public AstNode DefaultValue { get; set; }
-        }
-
-        public string ReturnType { get; set; }
-        public List<Argument> Arguments { get; private set; }
-
-        public MethodAst()
-        {
-            Arguments = new List<Argument>();
-        }
-    }
-
-    public class MemberAst : MofProductionAst
+    public abstract class MemberAst : MofProductionAst
     {
         public QualifierListAst Qualifiers { get; private set; }
         public string Name { get; private set; }
@@ -147,4 +119,5 @@ namespace Kingsland.MofParser.Ast
             }
         }
     }
+
 }
