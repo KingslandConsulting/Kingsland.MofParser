@@ -1,4 +1,6 @@
-﻿namespace Kingsland.MofParser.Lexing
+﻿using System.Collections.Generic;
+
+namespace Kingsland.MofParser.Lexing
 {
 
     public interface ILexerStream
@@ -78,6 +80,13 @@
         /// </summary>
         /// <returns></returns>
         SourceChar ReadChar(char value);
+
+        /// <summary>
+        /// Reads a string off of the input stream and advances the current position beyond the end of the string.
+        /// Throws an exception if the string does not match the specified value.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<SourceChar> ReadString(string value);
 
         /// <summary>
         /// Reads the next character off of the input stream and advances the current position.

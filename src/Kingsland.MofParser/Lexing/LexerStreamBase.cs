@@ -1,6 +1,7 @@
 ﻿using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 using System;
+using System.Collections.Generic;
 
 namespace Kingsland.MofParser.Lexing
 {
@@ -150,10 +151,24 @@ namespace Kingsland.MofParser.Lexing
             var peek = this.Peek();
             if (peek.Value != value)
             {
-                throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", peek.Value));
+                throw new UnexpectedCharacterException(peek, value);
             }
             return this.Read();
+        }
+
+        /// <summary>
+        /// Reads a string off of the input stream and advances the current position beyond the end of the string.
+        /// Throws an exception if the string does not match the specified value.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<SourceChar> ReadString(string value)
+        {
+            var sourceChars = new List<SourceChar>();
+            foreach (var @char in value)
+            {
+                sourceChars.Add(this.ReadChar(@char));
+            }
+            return sourceChars;
         }
 
         /// <summary>
@@ -166,8 +181,7 @@ namespace Kingsland.MofParser.Lexing
             var peek = this.Peek();
             if (!StringValidator.IsDecimalDigit(peek.Value))
             {
-                throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", peek.Value));
+                throw new UnexpectedCharacterException(peek);
             }
             return this.Read();
         }
@@ -182,8 +196,7 @@ namespace Kingsland.MofParser.Lexing
             var peek = this.Peek();
             if (!(StringValidator.IsUpperAlpha(peek.Value) || StringValidator.IsLowerAlpha(peek.Value)))
             {
-                throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", peek.Value));
+                throw new UnexpectedCharacterException(peek);
             }
             return this.Read();
         }
@@ -198,8 +211,7 @@ namespace Kingsland.MofParser.Lexing
             var peek = this.Peek();
             if (!StringValidator.IsWhitespace(peek.Value))
             {
-                throw new InvalidOperationException(
-                    string.Format("Unexpected character '{0}' encountered", peek));
+                throw new UnexpectedCharacterException(peek);
             }
             return this.Read();
         }

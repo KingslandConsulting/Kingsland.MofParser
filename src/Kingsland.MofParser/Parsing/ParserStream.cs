@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Kingsland.MofParser.Tokens;
+using System.Text;
 
 namespace Kingsland.MofParser.Parsing
 {
@@ -138,6 +139,26 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+            var count = 0;
+            for (var i = Math.Max(0, this.Position - 5); i < Math.Min(this.Source.Count, this.Position + 5); i++)
+            {
+                if (count > 0)
+                {
+                    result.Append(" ");
+                    count += 1;
+                }
+                if (i == this.Position)
+                {
+                    result.Append(">>>");
+                    count += 3;
+                }
+                result.Append(this.Source[i]);
+            }
+            return string.Format("Current = '{0}'", result.ToString());
+        }
     }
 
 }

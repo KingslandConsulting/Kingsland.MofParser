@@ -1,0 +1,22 @@
+//**************************************************************************
+//* Class: Win32_ScheduledJob
+//* Derived from: CIM_Job
+//**************************************************************************
+[dynamic: ToInstance, provider("CIMWin32"): ToInstance, Locale(1033): ToInstance, UUID("{8502C4E0-5FBB-11D2-AAC1-006008C78BC7}"): ToInstance, SupportsCreate, CreateBy("Create"), SupportsDelete, DeleteBy("Delete")]
+class Win32_ScheduledJob : CIM_Job
+{
+	[Constructor, Static: ToSubClass, Implemented, ValueMap{"0", "1", "2", "8", "9", "21", "22", ".."}: ToSubClass, MappingStrings{"Win32API|Network Management Functions|NetScheduleJobAdd"}: ToSubClass] uint32 Create([In, MappingStrings{"Win32API|Network Management Structures|AT_INFO|Command"}: ToSubClass] string Command, [In, MappingStrings{"Win32API|Network Management Structures|AT_ENUM|JobTime"}: ToSubClass] datetime StartTime, [In, Optional: ToSubClass, MappingStrings{"Win32API|Network Management Structures|AT_INFO|Flags|JOB_RUN_PERIODICALLY"}: ToSubClass] boolean RunRepeatedly, [In, Optional: ToSubClass, MappingStrings{"Win32API|Network Management Structures|AT_INFO|DaysOfWeek"}: ToSubClass] uint32 DaysOfWeek, [In, Optional: ToSubClass, MappingStrings{"Win32API|Network Management Structures|AT_INFO|DaysOfMonth"}: ToSubClass] uint32 DaysOfMonth, [In, Optional: ToSubClass, MappingStrings{"Win32API|Network Management Structures|AT_INFO|Flags|JOB_NONINTERACTIVE"}: ToSubClass] boolean InteractWithDesktop, [Out, MappingStrings{"Win32API|Network Management Structures|AT_ENUM|JobId"}: ToSubClass] uint32 JobId);
+};
+
+//**************************************************************************
+//* Class: Win32_PerfRawData_RSVP_RSVPInterfaces
+//* Derived from: Win32_PerfRawData
+//**************************************************************************
+[dynamic: ToInstance, provider("Nt5_GenericPerfProvider_V1"), registrykey("RSVP"): ToInstance, locale(1033): ToInstance, perfindex(1872): ToInstance, helpindex(1873): ToInstance, perfdetail(100): ToInstance, genericperfctr: ToInstance, hiperf: ToInstance]
+class Win32_PerfRawData_RSVP_RSVPInterfaces : Win32_PerfRawData
+{
+	[key] string Name = NULL;
+	[perfdefault: ToInstance, DisplayName("Signaling bytes received"): ToInstance, countertype(65536): ToInstance, perfindex(1874): ToInstance, helpindex(1875): ToInstance, defaultscale(-3): ToInstance, perfdetail(100): ToInstance] uint32 Signalingbytesreceived;
+};
+
+//* EOF WinXpProSp3CIMV2.mof
