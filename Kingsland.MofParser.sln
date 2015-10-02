@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.HtmlReport", "samples\Kingsland.MofParser.HtmlReport\Kingsland.MofParser.HtmlReport.csproj", "{4CCBEEF4-4303-4392-BE3D-A4BB8218D6E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.NuGet", "samples\Kingsland.MofParser.NuGet\Kingsland.MofParser.NuGet.csproj", "{ECD9DAF2-1FDA-4435-B489-886A2CCA749E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{4CCBEEF4-4303-4392-BE3D-A4BB8218D6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CCBEEF4-4303-4392-BE3D-A4BB8218D6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CCBEEF4-4303-4392-BE3D-A4BB8218D6E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD9DAF2-1FDA-4435-B489-886A2CCA749E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD9DAF2-1FDA-4435-B489-886A2CCA749E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD9DAF2-1FDA-4435-B489-886A2CCA749E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD9DAF2-1FDA-4435-B489-886A2CCA749E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,5 +53,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A071F2FD-3C3D-43DE-9774-AACEE415EFA2} = {EF2352AD-7832-417F-8EC9-3069D24B9980}
 		{4CCBEEF4-4303-4392-BE3D-A4BB8218D6E0} = {EF2352AD-7832-417F-8EC9-3069D24B9980}
+		{ECD9DAF2-1FDA-4435-B489-886A2CCA749E} = {EF2352AD-7832-417F-8EC9-3069D24B9980}
 	EndGlobalSection
 EndGlobal

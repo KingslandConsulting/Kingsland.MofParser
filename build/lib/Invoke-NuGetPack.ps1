@@ -8,7 +8,10 @@ function Invoke-NuGetPack
         [string] $NuGet,
 
         [Parameter(Mandatory=$true)]
-        [string] $NuSpec
+        [string] $NuSpec,
+
+        [Parameter(Mandatory=$false)]
+        [string] $OutputDirectory
 
     )
 
@@ -32,11 +35,14 @@ function Invoke-NuGetPack
 
     $cmdLine = $NuGet;
 
-    $cmdArgs = @(
-        "pack",
-        "`"$NuSpec`"",
-        "-Verbosity", "detailed"
-    );
+    $cmdArgs = @( "pack", "`"$NuSpec`"" );
+
+    if( -not [string]::IsNullOrEmpty($OutputDirectory) )
+    {
+        $cmdArgs += @( "-OutputDirectory", "`"$OutputDirectory`"" );
+    }
+
+    $cmdArgs += @( "-Verbosity", "detailed" );
 
     write-host "cmdLine = $cmdLine";
     write-host "cmdArgs = ";

@@ -1,10 +1,6 @@
-﻿using Kingsland.MofParser;
-using Kingsland.MofParser.Objects;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System;
 
-namespace Kingsland.FileFormat.Mof.Tests
+namespace Kingsland.MofParser.NuGet
 {
 
     class Program
@@ -30,7 +26,7 @@ namespace Kingsland.FileFormat.Mof.Tests
                 {
                     Console.WriteLine(string.Format("instance of {0} as ${1}", instance.ClassName, instance.Alias));
                 }
-                foreach(var property in instance.Properties)
+                foreach (var property in instance.Properties)
                 {
                     Console.WriteLine("    {0} = {1}", property.Key.PadRight(14), property.Value.ToString());
                 }
