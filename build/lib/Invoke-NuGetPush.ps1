@@ -37,7 +37,7 @@ function Invoke-NuGetPush
 
     $cmdArgs = @(
         "push",
-        $PackagePath,
+        "`"$PackagePath`"",
         "-Source", $source,
         "-ApiKey", $ApiKey
     );
