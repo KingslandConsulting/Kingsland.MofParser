@@ -74,10 +74,10 @@ $xml.Save($nuspec);
 
 
 # pack nuget package
-$nuget = [System.IO.Path]::Combine($rootFolder, "bin\NuGet.exe");
-#Invoke-NuGetPack -NuGet $nuget -NuSpec $nuspec;
+$nuget = [System.IO.Path]::Combine($rootFolder, "packages\NuGet.CommandLine.2.8.6\tools\NuGet.exe");
+Invoke-NuGetPack -NuGet $nuget -NuSpec $nuspec;
 
 
 # push nuget package
 $nupkg = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser." + $BuildNumber + ".nupkg");
-#Invoke-NuGetPush -NuGet $nuget -PackagePath $nupkg -Source "https://nuget.org" -ApiKey $NuGetApiKey;
+Invoke-NuGetPush -NuGet $nuget -PackagePath $nupkg -Source "https://nuget.org" -ApiKey $NuGetApiKey;

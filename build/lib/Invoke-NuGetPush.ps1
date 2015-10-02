@@ -32,14 +32,20 @@ function Invoke-NuGetPush
         throw new-object System.IO.FileNotFoundException("NuGet.exe not found.");
     }
 
-    $argList = @(
+
+    $cmdLine = $NuGet;
+
+    $cmdArgs = @(
         "push",
         $PackagePath,
         "-Source", $source,
         "-ApiKey", $ApiKey
     );
 
-    $process = Start-Process -FilePath $NuGet -ArgumentList $argList -Wait -NoNewWindow -PassThru;
+    write-host "cmdLine = $cmdLine";
+    write-host "cmdArgs = ";
+    write-host ($cmdArgs | fl * | out-string);
+    $process = Start-Process -FilePath $cmdLine -ArgumentList $cmdArgs -Wait -NoNewWindow -PassThru;
     if( $process.ExitCode -ne 0 )
     {
         throw new-object System.InvalidOperationException("NuGet.exe failed with exit code $($process.ExitCode)");

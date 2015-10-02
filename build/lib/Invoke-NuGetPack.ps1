@@ -30,7 +30,18 @@ function Invoke-NuGetPack
         throw new-object System.IO.FileNotFoundException("NuSpec file not found.");
     }
 
-    $process = Start-Process -FilePath $NuGet -ArgumentList @( "pack", $NuSpec ) -Wait -NoNewWindow -PassThru;
+    $cmdLine = $NuGet;
+
+    $cmdArgs = @(
+        "pack",
+        "`"$NuSpec`"",
+        "-Verbosity", "detailed"
+    );
+
+    write-host "cmdLine = $cmdLine";
+    write-host "cmdArgs = ";
+    write-host ($cmdArgs | fl * | out-string);
+    $process = Start-Process -FilePath $cmdLine -ArgumentList $cmdArgs -Wait -NoNewWindow -PassThru;
     if( $process.ExitCode -ne 0 )
     {
         throw new-object System.InvalidOperationException("NuGet.exe failed with exit code $($process.ExitCode)");

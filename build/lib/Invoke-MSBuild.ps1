@@ -91,6 +91,7 @@ function Invoke-MsBuild
     # /help
 
     # execute msbuild
+    write-host "cmdLine = $cmdLine";
     write-host "cmdArgs = ";
     write-host ($cmdArgs | fl * | out-string);
     $process = Start-Process -FilePath $msbuild -ArgumentList $cmdArgs -NoNewWindow -Wait -PassThru;
