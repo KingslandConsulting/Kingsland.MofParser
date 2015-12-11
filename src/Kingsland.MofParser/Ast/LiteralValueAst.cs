@@ -14,22 +14,22 @@ namespace Kingsland.MofParser.Ast
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 
+        ///
         ///     primitiveTypeValue = literalValue / literalValueArray
-        /// 
+        ///
         ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
-        /// 
+        ///
         ///     literalValue       = integerValue / realValue /
         ///                          stringValue / octetStringValue
         ///                          booleanValue /
         ///                          nullValue /
         ///                          dateTimeValue
-        /// 
+        ///
         /// </remarks>
         internal new static LiteralValueAst Parse(ParserStream stream)
         {
@@ -66,7 +66,7 @@ namespace Kingsland.MofParser.Ast
         {
             return (token is StringLiteralToken) ||
                    (token is BooleanLiteralToken) ||
-                   (token is IntegerLiteralToken) || 
+                   (token is IntegerLiteralToken) ||
 				   (token is NullLiteralToken);
         }
 

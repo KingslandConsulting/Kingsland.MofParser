@@ -34,7 +34,7 @@ namespace Kingsland.MofParser
                                                       .Where(ctv => ctv.IsInstance)
                                                       .Select(Instance.FromAstNode)
                                                       .ToList();
-            
+
             // return the result
             return instances.ToList();
 

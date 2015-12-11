@@ -15,9 +15,9 @@ namespace Kingsland.MofParser.Ast
         {
         }
 
-        public bool IsInstance 
-        { 
-            get; 
+        public bool IsInstance
+        {
+            get;
             private set;
         }
 
@@ -55,10 +55,10 @@ namespace Kingsland.MofParser.Ast
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// 
+        ///
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
         /// A.14 Complex type value
-        /// 
+        ///
         ///     complexTypeValue  = complexValue / complexValueArray
         ///     complexValueArray = "{" [ complexValue *( "," complexValue) ] "}"
         ///     complexValue      = ( INSTANCE / VALUE ) OF
@@ -71,10 +71,10 @@ namespace Kingsland.MofParser.Ast
         ///     INSTANCE          = "instance" ; keyword: case insensitive
         ///     VALUE             = "value"    ; keyword: case insensitive
         ///     AS                = "as"       ; keyword: case insensitive
-        ///     OF                = "of"       ; keyword: case insensitive 
-        /// 
+        ///     OF                = "of"       ; keyword: case insensitive
+        ///
         ///     propertyName      = IDENTIFIER
-        /// 
+        ///
         /// </remarks>
         internal new static ComplexValueAst Parse(ParserStream stream)
         {
@@ -143,7 +143,7 @@ namespace Kingsland.MofParser.Ast
             // return the result
             return node;
         }
-    
+
     }
 
 }

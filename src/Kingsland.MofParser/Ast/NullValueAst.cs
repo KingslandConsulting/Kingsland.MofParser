@@ -13,8 +13,8 @@ namespace Kingsland.MofParser.Ast
 
         public bool Value
         {
-            get; 
-            private set; 
+            get;
+            private set;
         }
 
         /// <summary>

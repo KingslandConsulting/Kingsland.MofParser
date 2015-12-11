@@ -274,7 +274,7 @@ namespace Kingsland.MofParser.Parsing
 
         // The following special characters are used in other ABNF rules in this specification:
 
-        #region BACKSLASH = U+005C ; \ 
+        #region BACKSLASH = U+005C ; \
 
         public static readonly char Backslash = '\u005C';
 

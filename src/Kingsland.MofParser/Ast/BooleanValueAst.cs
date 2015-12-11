@@ -13,8 +13,8 @@ namespace Kingsland.MofParser.Ast
 
         public bool Value
         {
-            get; 
-            private set; 
+            get;
+            private set;
         }
 
         /// <summary>
@@ -24,11 +24,11 @@ namespace Kingsland.MofParser.Ast
         /// <remarks>
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
         /// Section A.17.6 - Boolean value
-        /// 
+        ///
         ///     booleanValue = TRUE / FALSE
         ///     FALSE        = "false" ; keyword: case insensitive
         ///     TRUE         = "true"  ; keyword: case insensitive
-        /// 
+        ///
         /// </remarks>
         internal new static BooleanValueAst Parse(ParserStream stream)
         {

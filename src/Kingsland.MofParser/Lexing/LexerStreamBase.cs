@@ -27,7 +27,7 @@ namespace Kingsland.MofParser.Lexing
         /// Used for tracking line breaks
         /// </summary>
         private SourceChar LastChar
-        { 
+        {
             get;
             set;
         }

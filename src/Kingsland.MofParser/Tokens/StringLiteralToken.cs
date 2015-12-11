@@ -97,10 +97,10 @@ namespace Kingsland.MofParser.Tokens
         {
 
             /// <summary>
-            /// 
+            ///
             /// </summary>
             /// <remarks>
-            /// 
+            ///
             ///     stringEscapeSequence = BACKSLASH ( BACKSLASH / DOUBLEQUOTE / SINGLEQUOTE /
             ///                                        BACKSPACE_ESC / TAB_ESC / LINEFEED_ESC /
             ///                                        FORMFEED_ESC / CARRIAGERETURN_ESC /
@@ -114,7 +114,7 @@ namespace Kingsland.MofParser.Tokens
             ///     escapedUCSchar     = ( "x" / "X" ) 1*6( hexDigit ) ; escaped UCS
             ///                          ; character with a UCS code position that is
             ///                          ; the numeric value of the hex number
-            /// 
+            ///
             /// </remarks>
             private readonly Dictionary<char, char> _escapeMap = new Dictionary<char, char>()
             {
@@ -125,7 +125,7 @@ namespace Kingsland.MofParser.Tokens
 
             public bool IsEscaped
             {
-                get; 
+                get;
                 set;
             }
 

@@ -13,8 +13,8 @@ namespace Kingsland.MofParser.Ast
 
         public int Value
         {
-            get; 
-            private set; 
+            get;
+            private set;
         }
 
         internal new static IntegerValueAst Parse(ParserStream stream)

@@ -30,7 +30,7 @@ namespace Kingsland.MofParser.Ast
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// 
+        ///
         ///     primitiveTypeValue = literalValue / literalValueArray
         ///
         ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"

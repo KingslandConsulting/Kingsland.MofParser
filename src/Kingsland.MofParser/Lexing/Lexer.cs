@@ -5,7 +5,7 @@ using Kingsland.MofParser.Parsing;
 
 namespace Kingsland.MofParser.Lexing
 {
-    
+
     public static class Lexer
     {
 

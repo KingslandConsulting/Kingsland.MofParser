@@ -13,8 +13,8 @@ namespace Kingsland.MofParser.Ast
 
         public float Value
         {
-            get; 
-            private set; 
+            get;
+            private set;
         }
 
         internal new static RealValueAst Parse(ParserStream stream)
