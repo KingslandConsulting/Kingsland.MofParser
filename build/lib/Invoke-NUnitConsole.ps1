@@ -21,7 +21,7 @@ function Invoke-NUnitConsole
     write-host "console path = $console";
     if( -not [System.IO.File]::Exists($console) )
     {
-        throw new-object System.IO.FileNotFoundException($solution);
+        throw new-object System.IO.FileNotFoundException($console);
     }
 
     write-host "assembly    = $assembly";
