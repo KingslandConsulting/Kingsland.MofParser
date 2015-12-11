@@ -15,7 +15,7 @@ namespace Kingsland.MofParser.Ast
         {
             var ast = new ClassAst();
 
-            stream.ReadKeyword("class");
+            stream.ReadKeyword(Keywords.CLASS);
 
             ast.Name = stream.Read<IdentifierToken>().Name;
 

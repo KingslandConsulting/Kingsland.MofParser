@@ -84,11 +84,11 @@ namespace Kingsland.MofParser.Ast
             var keyword = stream.ReadKeyword();
             switch (keyword.Name)
             {
-                case "instance":
+                case Keywords.INSTANCE:
                     node.IsInstance = true;
                     node.IsValue = false;
                     break;
-                case "value":
+                case Keywords.VALUE:
                     node.IsInstance = false;
                     node.IsValue = true;
                     break;
@@ -96,7 +96,7 @@ namespace Kingsland.MofParser.Ast
                     throw new InvalidOperationException();
             }
             // OF
-            stream.ReadKeyword("of");
+            stream.ReadKeyword(Keywords.OF);
             // ( structureName / className / associationName )
             node.TypeName = stream.Read<IdentifierToken>().Name;
             if (!StringValidator.IsStructureName(node.TypeName) &&
@@ -106,9 +106,9 @@ namespace Kingsland.MofParser.Ast
                 throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
             }
             // [ alias ]
-            if (stream.PeekKeyword("as"))
+            if (stream.PeekKeyword(Keywords.AS))
             {
-                stream.ReadKeyword("as");
+                stream.ReadKeyword(Keywords.AS);
                 // BUGBUG - PowerShell DSC MOFs allow schema names in an alias identifier
                 //node.Alias = NameValidator.ValidateAliasIdentifier("$" + stream.Read<AliasIdentifierToken>().Name);
                 var aliasName = stream.Read<AliasIdentifierToken>().Name;

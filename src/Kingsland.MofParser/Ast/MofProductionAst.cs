@@ -35,11 +35,11 @@ namespace Kingsland.MofParser.Ast
             var attribute = peek as AttributeOpenToken;
 
             if ((identifier != null) &&
-                (identifier.Name == "instance" || identifier.Name == "value"))
+                (identifier.Name == Keywords.INSTANCE || identifier.Name == Keywords.VALUE))
             {
                 return ComplexTypeValueAst.Parse(stream, null);
             }
-            else if (identifier != null && identifier.Name == "class")
+            else if (identifier != null && identifier.Name == Keywords.CLASS)
             {
                 return ClassAst.Parse(stream);
             }
@@ -55,11 +55,11 @@ namespace Kingsland.MofParser.Ast
                 identifier = peek as IdentifierToken;
 
                 if (identifier != null &&
-                    (identifier.Name == "instance" || identifier.Name == "value"))
+                    (identifier.Name == Keywords.INSTANCE || identifier.Name == Keywords.VALUE))
                 {
                     return ComplexTypeValueAst.Parse(stream, qualifiers);
                 }
-                else if (identifier != null && identifier.Name == "class")
+                else if (identifier != null && identifier.Name == Keywords.CLASS)
                 {
                     return ClassAst.Parse(stream);
                 }

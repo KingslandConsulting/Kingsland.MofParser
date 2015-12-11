@@ -14,9 +14,9 @@ namespace Kingsland.MofParser.Ast
             var type = stream.Read<IdentifierToken>();
 
             bool isRef;
-            if (stream.PeekKeyword("ref"))
+            if (stream.PeekKeyword(Keywords.REF))
             {
-                stream.ReadKeyword("ref");
+                stream.ReadKeyword(Keywords.REF);
                 isRef = true;
             }
             else
@@ -54,9 +54,9 @@ namespace Kingsland.MofParser.Ast
 
                     argument.Type = stream.Read<IdentifierToken>().Name;
 
-                    if (stream.PeekKeyword("ref"))
+                    if (stream.PeekKeyword(Keywords.REF))
                     {
-                        stream.ReadKeyword("ref");
+                        stream.ReadKeyword(Keywords.REF);
                         argument.IsRef = true;
                     }
                     else

@@ -62,6 +62,7 @@
     <Compile Include="Ast\ReferenceTypeValue.cs" />
     <Compile Include="Lexing\UnexpectedCharacterException.cs" />
     <Compile Include="Lexing\SourceChar.cs" />
+    <Compile Include="Parsing\Keywords.cs" />
     <Compile Include="Parsing\StringValidator.cs" />
     <Compile Include="PowerShellDscHelper.cs" />
     <Compile Include="Lexing\LexerStreamBase.cs" />
