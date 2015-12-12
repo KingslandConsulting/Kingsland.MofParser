@@ -51,7 +51,7 @@ namespace Kingsland.MofParser.Ast
 
                 case Keywords.STRUCTURE:
                     // structureDeclaration
-                    throw new UnhandledTokenException(identifier);
+                    throw new UnsupportedTokenException(identifier);
 
                 case Keywords.CLASS:
                     // classDeclaration
@@ -60,11 +60,11 @@ namespace Kingsland.MofParser.Ast
 
                 case Keywords.ASSOCIATION:
                     // associationDeclaration
-                    throw new UnhandledTokenException(identifier);
+                    throw new UnsupportedTokenException(identifier);
 
                 case Keywords.ENUMERATION:
                     // enumerationDeclaration
-                    throw new UnhandledTokenException(identifier);
+                    throw new UnsupportedTokenException(identifier);
 
                 case Keywords.INSTANCE:
                 case Keywords.VALUE:
@@ -74,7 +74,7 @@ namespace Kingsland.MofParser.Ast
 
                 case Keywords.QUALIFIER:
                     // qualifierDeclaration
-                    throw new UnhandledTokenException(identifier);
+                    throw new UnsupportedTokenException(identifier);
 
                 default:
                     throw new UnexpectedTokenException(peek);
