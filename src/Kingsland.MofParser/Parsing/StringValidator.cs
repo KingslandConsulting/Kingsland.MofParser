@@ -342,22 +342,18 @@ namespace Kingsland.MofParser.Parsing
 
         #region FALSE = "false" ; keyword: case insensitive
 
-        public static readonly string False = "false";
-
         public static bool IsFalse(string value)
         {
-            return string.Equals(value, StringValidator.False, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(value, Keywords.FALSE, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion
 
         #region TRUE = "true" ; keyword: case insensitive
 
-        public static readonly string True = "true";
-
         public static bool IsTrue(string value)
         {
-            return string.Equals(value, StringValidator.True, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(value, Keywords.TRUE, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion
@@ -368,11 +364,9 @@ namespace Kingsland.MofParser.Parsing
 
         #region NULL = "null" ; keyword: case insensitive
 
-        public static readonly string Null = "null";
-
         public static bool IsNull(string value)
         {
-            return string.Equals(value, StringValidator.Null, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(value, Keywords.NULL, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion
