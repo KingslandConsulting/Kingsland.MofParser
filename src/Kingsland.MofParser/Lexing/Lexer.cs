@@ -562,7 +562,7 @@ namespace Kingsland.MofParser.Lexing
             }
             // return the result
             var extent = new SourceExtent(sourceChars);
-            return new IntegerLiteralToken(extent, int.Parse(extent.Text));
+            return new IntegerLiteralToken(extent, long.Parse(extent.Text));
         }
 
         #endregion

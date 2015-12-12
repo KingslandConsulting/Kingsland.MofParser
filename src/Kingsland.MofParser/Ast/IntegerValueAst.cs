@@ -11,7 +11,7 @@ namespace Kingsland.MofParser.Ast
         {
         }
 
-        public int Value
+        public long Value
         {
             get;
             private set;
