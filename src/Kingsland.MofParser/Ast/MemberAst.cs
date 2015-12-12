@@ -13,15 +13,10 @@ namespace Kingsland.MofParser.Ast
         {
             var type = stream.Read<IdentifierToken>();
 
-            bool isRef;
-            if (stream.PeekKeyword(Keywords.REF))
+            bool isRef = stream.PeekKeyword(Keywords.REF);
+            if (isRef)
             {
                 stream.ReadKeyword(Keywords.REF);
-                isRef = true;
-            }
-            else
-            {
-                isRef = false;
             }
 
             var name = stream.Read<IdentifierToken>();

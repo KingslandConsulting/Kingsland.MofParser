@@ -7,9 +7,29 @@ namespace Kingsland.MofParser.Ast
 {
     public sealed class ClassAst : MofProductionAst
     {
-        public string Name { get; private set; }
-        public string BaseClass { get; private set; }
-        public List<MemberAst> Members { get; private set; }
+
+        private ClassAst()
+        {
+            Members = new List<MemberAst>();
+        }
+
+        public string Name
+        {
+            get;
+            private set;
+        }
+
+        public string BaseClass
+        {
+            get;
+            private set;
+        }
+
+        public List<MemberAst> Members
+        {
+            get;
+            private set;
+        }
 
         internal new static ClassAst Parse(ParserStream stream)
         {
@@ -57,9 +77,5 @@ namespace Kingsland.MofParser.Ast
             return ast;
         }
 
-        private ClassAst()
-        {
-            Members = new List<MemberAst>();
-        }
     }
 }

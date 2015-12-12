@@ -31,6 +31,9 @@ namespace Kingsland.MofParser.Ast
         /// <returns></returns>
         /// <remarks>
         ///
+        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
+        /// A.1 Value definitions
+        ///
         ///     primitiveTypeValue = literalValue / literalValueArray
         ///
         ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"

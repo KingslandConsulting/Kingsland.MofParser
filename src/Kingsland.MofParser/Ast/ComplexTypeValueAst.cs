@@ -6,10 +6,15 @@ namespace Kingsland.MofParser.Ast
 {
     public abstract class ComplexTypeValueAst : MofProductionAst
     {
-        public QualifierListAst Qualifiers { get; private set; }
 
         internal ComplexTypeValueAst()
         {
+        }
+
+        public QualifierListAst Qualifiers
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -21,46 +26,33 @@ namespace Kingsland.MofParser.Ast
         /// A.14 Complex type value
         ///
         ///     complexTypeValue  = complexValue / complexValueArray
-        ///     complexValueArray = "{" [ complexValue *( "," complexValue) ] "}"
-        ///     complexValue      = ( INSTANCE / VALUE ) OF
-        ///                         ( structureName / className / associationName )
-        ///                         [ alias ] propertyValueList
-        ///     propertyValueList = "{" *propertySlot "}"
-        ///     propertySlot      = propertyName "=" propertyValue ";"
-        ///     propertyValue     = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
-        ///     alias             = AS aliasIdentifier
-        ///     INSTANCE          = "instance" ; keyword: case insensitive
-        ///     VALUE             = "value"    ; keyword: case insensitive
-        ///     AS                = "as"       ; keyword: case insensitive
-        ///     OF                = "of"       ; keyword: case insensitive
-        ///
-        ///     propertyName      = IDENTIFIER
         ///
         /// </remarks>
         internal static ComplexTypeValueAst Parse(ParserStream stream, QualifierListAst qualifiers)
         {
-            ComplexTypeValueAst ast;
+
+            var node = default(ComplexTypeValueAst);
 
             var peek = stream.Peek();
-
             if (peek is BlockOpenToken)
             {
                 // complexValueArray
-                ast = ComplexValueArrayAst.Parse(stream);
+                node = ComplexValueArrayAst.Parse(stream);
             }
             else if (peek is IdentifierToken)
             {
                 // complexValue
-                ast = ComplexValueAst.Parse(stream);
+                node = ComplexValueAst.Parse(stream);
             }
             else
             {
                 throw new InvalidOperationException();
             }
 
-            ast.Qualifiers = qualifiers;
+            node.Qualifiers = qualifiers;
 
-            return ast;
+            return node;
+
         }
 
     }

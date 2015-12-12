@@ -28,6 +28,7 @@ namespace Kingsland.MofParser.Ast
 
         internal static QualifierListAst Parse(ParserStream stream)
         {
+
             var ast = new QualifierListAst();
 
             stream.Read<AttributeOpenToken>();
@@ -35,10 +36,10 @@ namespace Kingsland.MofParser.Ast
             while (!stream.Eof)
             {
                 ast.Qualifiers.Add(QualifierAst.Parse(stream));
-
                 if (stream.Peek<CommaToken>() == null)
+                {
                     break;
-
+                }
                 stream.Read<CommaToken>();
             }
 
@@ -46,5 +47,7 @@ namespace Kingsland.MofParser.Ast
 
             return ast;
         }
+
     }
+
 }

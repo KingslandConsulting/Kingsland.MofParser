@@ -8,7 +8,7 @@ namespace Kingsland.MofParser.Lexing
     /// <summary>
     /// Denotes the start and end points of a section of source code.
     /// </summary>
-    public class SourceExtent
+    public sealed class SourceExtent
     {
 
         #region Constructors

@@ -5,7 +5,7 @@
     /// Represents a character from a source stream together with the position,
     /// text line and column number of the character in the source stream.
     /// </summary>
-    public class SourceChar
+    public sealed class SourceChar
     {
 
         #region Constructors
@@ -52,7 +52,7 @@
 
         public override string ToString()
         {
-            return string.Format("{{Value=\"{0}\",Position={1},LineNumber={2},ColumnNumber={3}}}",
+            return string.Format("{{Value=\"{0}\",Position={1},LineNumber={2},ColumnNumber={3}}}", 
                                  this.Value, this.Position, this.LineNumber, this.ColumnNumber);
         }
 

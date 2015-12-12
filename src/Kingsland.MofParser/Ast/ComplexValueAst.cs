@@ -78,8 +78,10 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal new static ComplexValueAst Parse(ParserStream stream)
         {
+
             // complexValue =
             var node = new ComplexValueAst();
+
             // ( INSTANCE / VALUE )
             var keyword = stream.ReadKeyword();
             switch (keyword.Name)
@@ -95,8 +97,10 @@ namespace Kingsland.MofParser.Ast
                 default:
                     throw new InvalidOperationException();
             }
+
             // OF
             stream.ReadKeyword(Keywords.OF);
+
             // ( structureName / className / associationName )
             node.TypeName = stream.Read<IdentifierToken>().Name;
             if (!StringValidator.IsStructureName(node.TypeName) &&
@@ -105,6 +109,7 @@ namespace Kingsland.MofParser.Ast
             {
                 throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
             }
+
             // [ alias ]
             if (stream.PeekKeyword(Keywords.AS))
             {
@@ -118,6 +123,7 @@ namespace Kingsland.MofParser.Ast
                 }
                 node.Alias = aliasName;
             }
+
             // propertyValueList
             stream.Read<BlockOpenToken>();
             while (!stream.Eof && (stream.Peek<BlockCloseToken>() == null))
@@ -136,12 +142,16 @@ namespace Kingsland.MofParser.Ast
                 stream.Read<StatementEndToken>();
                 node.Properties.Add(propertyName, propertyValue);
             }
+
             // "}"
             stream.Read<BlockCloseToken>();
+
             // ";"
             stream.Read<StatementEndToken>();
+
             // return the result
             return node;
+
         }
 
     }

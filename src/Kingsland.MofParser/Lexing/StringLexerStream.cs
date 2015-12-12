@@ -3,7 +3,7 @@
 namespace Kingsland.MofParser.Lexing
 {
 
-    public class StringLexerStream : LexerStreamBase
+    public sealed class StringLexerStream : LexerStreamBase
     {
 
         #region Constructors
