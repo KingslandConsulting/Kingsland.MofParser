@@ -18,6 +18,17 @@ namespace Kingsland.MofParser.Tokens
             private set;
         }
 
+        public string GetNormalizedName()
+        {
+            var name = this.Name;
+            if(string.IsNullOrEmpty(name))
+            {
+                return name;
+            }
+            return name.ToLowerInvariant();
+        }
+
+
     }
 
 }
