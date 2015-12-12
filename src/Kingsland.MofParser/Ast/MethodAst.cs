@@ -2,7 +2,7 @@
 
 namespace Kingsland.MofParser.Ast
 {
-    public sealed class MethodAst : MemberAst
+    public sealed class MethodAst : ClassFeatureAst
     {
 
         public class Argument
@@ -14,14 +14,27 @@ namespace Kingsland.MofParser.Ast
             public AstNode DefaultValue { get; set; }
         }
 
-        public string ReturnType { get; set; }
-        public bool ReturnTypeIsArray { get; set; }
-
-        public List<Argument> Arguments { get; private set; }
-
         public MethodAst()
         {
-            Arguments = new List<Argument>();
+            this.Arguments = new List<Argument>();
+        }
+
+        public string ReturnType
+        {
+            get;
+            set;
+        }
+
+        public bool ReturnTypeIsArray
+        {
+            get;
+            set;
+        }
+
+        public List<Argument> Arguments
+        {
+            get;
+            private set;
         }
 
     }

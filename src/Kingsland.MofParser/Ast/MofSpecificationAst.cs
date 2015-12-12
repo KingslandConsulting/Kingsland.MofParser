@@ -34,13 +34,6 @@ namespace Kingsland.MofParser.Ast
         /// Section A.2 - MOF specification
         ///
         ///     mofSpecification = *mofProduction
-        ///     mofProduction    = compilerDirective /
-        ///                        structureDeclaration /
-        ///                        classDeclaration /
-        ///                        associationDeclaration /
-        ///                        enumerationDeclaration /
-        ///                        instanceDeclaration /
-        ///                        qualifierDeclaration
         ///
         /// </remarks>
         internal static MofSpecificationAst Parse(ParserStream stream)

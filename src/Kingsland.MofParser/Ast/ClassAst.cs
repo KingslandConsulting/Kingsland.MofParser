@@ -10,22 +10,22 @@ namespace Kingsland.MofParser.Ast
 
         private ClassAst()
         {
-            Members = new List<MemberAst>();
+            Features = new List<ClassFeatureAst>();
         }
 
-        public string Name
+        public IdentifierToken ClassName
         {
             get;
             private set;
         }
 
-        public string BaseClass
+        public IdentifierToken Superclass
         {
             get;
             private set;
         }
 
-        public List<MemberAst> Members
+        public List<ClassFeatureAst> Features
         {
             get;
             private set;
@@ -51,15 +51,14 @@ namespace Kingsland.MofParser.Ast
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        ///
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
         /// 7.7.3 Class declaration
         ///
         ///     classDeclaration = [ qualifierList ] CLASS className [ superClass ]
         ///                        "{" *classFeature "}" ";"
+        ///
         ///     className        = elementName
         ///     superClass       = ":" className
-        ///     classFeature     = structureFeature / methodDeclaration
         ///     CLASS            = "class" ; keyword: case insensitive
         ///
         /// </remarks>
@@ -75,17 +74,23 @@ namespace Kingsland.MofParser.Ast
             stream.ReadKeyword(Keywords.CLASS);
 
             // className
-            node.Name = stream.Read<IdentifierToken>().Name;
-            if (!StringValidator.IsClassName(node.Name))
+            var className = stream.Read<IdentifierToken>();
+            if (!StringValidator.IsClassName(className.Name))
             {
                 throw new InvalidOperationException("Identifer is not a valid class name.");
             }
+            node.ClassName = className;
 
             // [ superClass ]
             if (stream.Peek<ColonToken>() != null)
             {
                 stream.Read<ColonToken>();
-                node.BaseClass = stream.Read<IdentifierToken>().Name;
+                var superclass = stream.Read<IdentifierToken>();
+                if (!StringValidator.IsClassName(className.Name))
+                {
+                    throw new InvalidOperationException("Identifer is not a valid superclass name.");
+                }
+                node.Superclass = superclass;
             }
 
             // "{"
@@ -99,8 +104,8 @@ namespace Kingsland.MofParser.Ast
                 {
                     break;
                 }
-                var classFeature = ClassAst.ParseClassFeature(stream);
-                node.Members.Add(classFeature);
+                var classFeature = ClassFeatureAst.Parse(stream);
+                node.Features.Add(classFeature);
             }
 
             // "}" ";"
@@ -108,75 +113,6 @@ namespace Kingsland.MofParser.Ast
             stream.Read<StatementEndToken>();
 
             return node;
-
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// 7.7.3 Class declaration
-        ///
-        ///     classFeature     = structureFeature / methodDeclaration
-        ///
-        ///     structureFeature = structureDeclaration / ; local structure
-        ///                        enumDeclaration /      ; local enumeration
-        ///                        propertyDeclaration
-        ///
-        ///     structureDeclaration = [ qualifierList ] STRUCTURE structureName
-        ///                            [ superstructure ]
-        ///                            "{" *structureFeature "}" ";"
-        ///
-        ///     enumDeclaration = enumTypeHeader
-        ///                       enumName ":" enumTypeDeclaration ";"
-        ///     enumTypeHeader  = [ qualifierList ] ENUMERATION
-        ///
-        ///     propertyDeclaration = [ qualifierList ] ( primitivePropertyDeclaration /
-        ///                                               complexPropertyDeclaration /
-        ///                                               enumPropertyDeclaration
-        ///                                               referencePropertyDeclaration ) ";"
-        ///
-        ///     methodDeclaration = [ qualifierList ] ( ( returnDataType [ array ] ) /
-        ///                                             VOID ) methodName
-        ///                                             "(" [ parameterList ] ")" ";"
-        ///
-        /// </remarks>
-        internal static MemberAst ParseClassFeature(ParserStream stream)
-        {
-
-            // all classFeatures start with an optional "[ qualifierList ]"
-            var qualifierList = default(QualifierListAst);
-            var peek = stream.Peek() as AttributeOpenToken;
-            if ((peek as AttributeOpenToken) != null)
-            {
-                qualifierList = QualifierListAst.Parse(stream);
-            }
-
-            // we now need to work out if it's a structureDeclaration, enumDeclaration,
-            // propertyDeclaration or methodDeclaration
-            var identifier = stream.Peek<IdentifierToken>();
-            var identifierName = identifier.GetNormalizedName();
-            if (identifier == null)
-            {
-                throw new InvalidOperationException("Expected an IdentifierToken.");
-            }
-            else if (identifierName == Keywords.STRUCTURE)
-            {
-                // structureDeclaration
-                throw new UnsupportedTokenException(identifier);
-            }
-            else if (identifierName == Keywords.ENUMERATION)
-            {
-                // enumDeclaration
-                throw new UnsupportedTokenException(identifier);
-            }
-            else
-            {
-                // propertyDeclaration or methodDeclaration
-                return MemberAst.Parse(stream, qualifierList);
-            }
 
         }
 

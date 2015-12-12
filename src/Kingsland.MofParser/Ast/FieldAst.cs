@@ -1,6 +1,6 @@
 ﻿namespace Kingsland.MofParser.Ast
 {
-    public sealed class FieldAst : MemberAst
+    public sealed class FieldAst : ClassFeatureAst
     {
         public string Type { get; set; }
         public bool IsArray { get; set; }

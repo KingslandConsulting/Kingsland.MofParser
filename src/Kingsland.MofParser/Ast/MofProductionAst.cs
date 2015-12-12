@@ -16,14 +16,13 @@ namespace Kingsland.MofParser.Ast
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
         /// Section A.2 - MOF specification
         ///
-        ///     mofSpecification = *mofProduction
-        ///     mofProduction    = compilerDirective /
-        ///                        structureDeclaration /
-        ///                        classDeclaration /
-        ///                        associationDeclaration /
-        ///                        enumerationDeclaration /
-        ///                        instanceDeclaration /
-        ///                        qualifierDeclaration
+        ///     mofProduction = compilerDirective /
+        ///                     structureDeclaration /
+        ///                     classDeclaration /
+        ///                     associationDeclaration /
+        ///                     enumerationDeclaration /
+        ///                     instanceDeclaration /
+        ///                     qualifierDeclaration
         ///
         /// </remarks>
         internal static MofProductionAst Parse(ParserStream stream)

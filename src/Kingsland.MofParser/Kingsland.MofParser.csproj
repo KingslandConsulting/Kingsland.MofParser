@@ -46,7 +46,7 @@
     <Compile Include="Ast\FieldAst.cs" />
     <Compile Include="Ast\LiteralValueArrayAst.cs" />
     <Compile Include="Ast\LiteralValueAst.cs" />
-    <Compile Include="Ast\MemberAst.cs" />
+    <Compile Include="Ast\ClassFeatureAst.cs" />
     <Compile Include="Ast\MethodAst.cs" />
     <Compile Include="Ast\NullValueAst.cs" />
     <Compile Include="Ast\PragmaAst.cs" />
