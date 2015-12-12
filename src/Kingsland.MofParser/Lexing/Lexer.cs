@@ -2,127 +2,153 @@
 using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Kingsland.MofParser.Lexing
 {
 
-    public static class Lexer
+    public sealed class Lexer
     {
+
+        #region Constructors
+
+        public Lexer(ILexerStream stream)
+        {
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream");
+            }
+            this.Stream = stream;
+        }
+
+        #endregion
+
+        #region Properties
+
+        private ILexerStream Stream
+        {
+            get;
+            set;
+        }
+
+        public bool Eof
+        {
+            get
+            {
+                return this.Stream.Eof;
+            }
+        }
+
+        #endregion
+
+        #region Lexing Methods
 
         public static List<Token> Lex(ILexerStream stream)
         {
+            var lexer = new Lexer(stream);
+            return lexer.AllTokens().ToList();
+        }
 
+        public IEnumerable<Token> AllTokens()
+        {
             var lexTokens = new List<Token>();
-
-            while (!stream.Eof)
+            while (!this.Stream.Eof)
             {
-                var peek = stream.Peek();
-                switch (peek.Value)
-                {
-                    case '$':
-                        lexTokens.Add(Lexer.ReadAliasIdentifierToken(stream));
-                        break;
-                    case ']':
-                        lexTokens.Add(Lexer.ReadAttributeCloseToken(stream));
-                        break;
-                    case '[':
-                        lexTokens.Add(Lexer.ReadAttributeOpenToken(stream));
-                        break;
-                    case '}':
-                        lexTokens.Add(Lexer.ReadBlockCloseToken(stream));
-                        break;
-                    case '{':
-                        lexTokens.Add(Lexer.ReadBlockOpenToken(stream));
-                        break;
-                    case ':':
-                        lexTokens.Add(Lexer.ReadColonToken(stream));
-                        break;
-                    case ',':
-                        lexTokens.Add(Lexer.ReadCommaToken(stream));
-                        break;
-                    case '/':
-                        lexTokens.Add(Lexer.ReadCommentToken(stream));
-                        break;
-                    case '=':
-                        lexTokens.Add(Lexer.ReadEqualsOperatorToken(stream));
-                        break;
-                    case ')':
-                        lexTokens.Add(Lexer.ReadParenthesesCloseToken(stream));
-                        break;
-                    case '(':
-                        lexTokens.Add(Lexer.ReadParenthesesOpenToken(stream));
-                        break;
-                    case '#':
-                        lexTokens.Add(Lexer.ReadPragmaToken(stream));
-                        break;
-                    case ';':
-                        lexTokens.Add(Lexer.ReadStatementEndToken(stream));
-                        break;
-                    case '"':
-                        lexTokens.Add(Lexer.ReadStringLiteralToken(stream));
-                        break;
-                    default:
-                        if (StringValidator.IsWhitespace(peek.Value))
+                yield return this.NextToken();
+            }
+        }
+
+        public Token NextToken()
+        {
+            var stream = this.Stream;
+            var peek = stream.Peek();
+            switch (peek.Value)
+            {
+                case '$':
+                    return Lexer.ReadAliasIdentifierToken(stream);
+                case ']':
+                    return Lexer.ReadAttributeCloseToken(stream);
+                case '[':
+                    return Lexer.ReadAttributeOpenToken(stream);
+                case '}':
+                    return Lexer.ReadBlockCloseToken(stream);
+                case '{':
+                    return Lexer.ReadBlockOpenToken(stream);
+                case ':':
+                    return Lexer.ReadColonToken(stream);
+                case ',':
+                    return Lexer.ReadCommaToken(stream);
+                case '/':
+                    return Lexer.ReadCommentToken(stream);
+                case '=':
+                    return Lexer.ReadEqualsOperatorToken(stream);
+                case ')':
+                    return Lexer.ReadParenthesesCloseToken(stream);
+                case '(':
+                    return Lexer.ReadParenthesesOpenToken(stream);
+                case '#':
+                    return Lexer.ReadPragmaToken(stream);
+                case ';':
+                    return Lexer.ReadStatementEndToken(stream);
+                case '"':
+                    return Lexer.ReadStringLiteralToken(stream);
+                default:
+                    if (StringValidator.IsWhitespace(peek.Value))
+                    {
+                        return Lexer.ReadWhitespaceToken(stream);
+                    }
+                    else if (StringValidator.IsFirstIdentifierChar(peek.Value))
+                    {
+                        var identifier = Lexer.ReadIdentifierToken(stream);
+                        if (StringValidator.IsFalse(identifier.Name))
                         {
-                            lexTokens.Add(Lexer.ReadWhitespaceToken(stream));
-                            break;
+                            /// A.17.6 Boolean value
+                            ///
+                            ///     booleanValue = TRUE / FALSE
+                            ///
+                            ///     FALSE        = "false" ; keyword: case insensitive
+                            ///     TRUE         = "true"  ; keyword: case insensitive
+                            return new BooleanLiteralToken(identifier.Extent, false);
                         }
-                        else if (StringValidator.IsFirstIdentifierChar(peek.Value))
+                        else if (StringValidator.IsTrue(identifier.Name))
                         {
-                            var identifier = Lexer.ReadIdentifierToken(stream);
-                            if (StringValidator.IsFalse(identifier.Name))
-                            {
-                                /// A.17.6 Boolean value
-                                ///
-                                ///     booleanValue = TRUE / FALSE
-                                ///
-                                ///     FALSE        = "false" ; keyword: case insensitive
-                                ///     TRUE         = "true"  ; keyword: case insensitive
-                                lexTokens.Add(new BooleanLiteralToken(identifier.Extent, false));
-                            }
-                            else if (StringValidator.IsTrue(identifier.Name))
-                            {
-                                /// A.17.6 Boolean value
-                                ///
-                                ///     booleanValue = TRUE / FALSE
-                                ///
-                                ///     FALSE        = "false" ; keyword: case insensitive
-                                ///     TRUE         = "true"  ; keyword: case insensitive
-                                lexTokens.Add(new BooleanLiteralToken(identifier.Extent, true));
-                            }
-                            else if (StringValidator.IsNull(identifier.Name))
-                            {
-                                /// A.17.7 Null value
-                                ///
-                                ///     nullValue = NULL
-                                ///
-                                ///     NULL = "null" ; keyword: case insensitive
-                                ///                   ; second
-                                lexTokens.Add(new NullLiteralToken(identifier.Extent));
-                            }
-                            else
-                            {
-                                lexTokens.Add(identifier);
-                            }
+                            /// A.17.6 Boolean value
+                            ///
+                            ///     booleanValue = TRUE / FALSE
+                            ///
+                            ///     FALSE        = "false" ; keyword: case insensitive
+                            ///     TRUE         = "true"  ; keyword: case insensitive
+                            return new BooleanLiteralToken(identifier.Extent, true);
                         }
-                        else if ((peek.Value == '+') || (peek.Value == '-') ||
-                                 (StringValidator.IsDecimalDigit(peek.Value)))
+                        else if (StringValidator.IsNull(identifier.Name))
                         {
-                            lexTokens.Add(Lexer.ReadIntegerLiteralToken(stream));
-                            break;
+                            /// A.17.7 Null value
+                            ///
+                            ///     nullValue = NULL
+                            ///
+                            ///     NULL = "null" ; keyword: case insensitive
+                            ///                   ; second
+                            return new NullLiteralToken(identifier.Extent);
                         }
                         else
                         {
-                            throw new UnexpectedCharacterException(peek);
+                            return identifier;
                         }
-                        break;
-                }
+                    }
+                    else if ((peek.Value == '+') || (peek.Value == '-') ||
+                             (StringValidator.IsDecimalDigit(peek.Value)))
+                    {
+                        return Lexer.ReadIntegerLiteralToken(stream);
+                    }
+                    else
+                    {
+                        throw new UnexpectedCharacterException(peek);
+                    }
             }
-
-            return lexTokens;
-
         }
+
+        #endregion
 
         #region Token Methods
 
@@ -546,6 +572,8 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         ///
         /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         /// <remarks>
         ///
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
