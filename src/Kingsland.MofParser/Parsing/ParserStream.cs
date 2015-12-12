@@ -104,7 +104,7 @@ namespace Kingsland.MofParser.Parsing
         public IdentifierToken ReadKeyword(string name)
         {
             var token = this.Read<IdentifierToken>();
-            if (token.Name != name)
+            if (token.GetNormalizedName() != name)
             {
                 throw new UnexpectedTokenException(token);
             }

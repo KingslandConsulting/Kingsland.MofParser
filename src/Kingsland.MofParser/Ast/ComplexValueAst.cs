@@ -84,7 +84,7 @@ namespace Kingsland.MofParser.Ast
 
             // ( INSTANCE / VALUE )
             var keyword = stream.ReadKeyword();
-            switch (keyword.Name)
+            switch (keyword.GetNormalizedName())
             {
                 case Keywords.INSTANCE:
                     node.IsInstance = true;
