@@ -53,7 +53,7 @@ namespace Kingsland.MofParser.Lexing
         {
             if (this.Eof)
             {
-                throw new InvalidOperationException("Unexpected end of file encountered.");
+                throw new UnexpectedEndOfStreamException();
             }
             return new SourceChar(this.Source[this.Position], this.Position, this.LineNumber, this.ColumnNumber);
         }

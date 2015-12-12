@@ -95,7 +95,7 @@ namespace Kingsland.MofParser.Ast
                     node.IsValue = true;
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new UnexpectedTokenException(keyword);
             }
 
             // OF

@@ -51,7 +51,7 @@ namespace Kingsland.MofParser.Parsing
         {
             if (this.Eof)
             {
-                throw new InvalidOperationException("Unexpected end of file encountered.");
+                throw new UnexpectedEndOfStreamException();
             }
             return this.Source[this.Position];
         }
@@ -90,8 +90,7 @@ namespace Kingsland.MofParser.Parsing
             var cast = (token as T);
             if (cast == null)
             {
-                throw new InvalidOperationException(
-                    string.Format("Unexpected token type '{0}' encountered", token.GetType().Name));
+                throw new UnexpectedTokenException(token);
             }
             return cast;
         }
@@ -107,8 +106,7 @@ namespace Kingsland.MofParser.Parsing
             var token = this.Read<IdentifierToken>();
             if (token.Name != name)
             {
-                throw new InvalidOperationException(
-                    string.Format("Unexpected keyword '{0}' encountered", token.Name));
+                throw new UnexpectedTokenException(token);
             }
             return token;
         }
