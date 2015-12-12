@@ -30,50 +30,59 @@ namespace Kingsland.MofParser.Ast
         {
 
             var peek = stream.Peek();
-            var identifier = peek as IdentifierToken;
-            var pragma = peek as PragmaToken;
-            var attribute = peek as AttributeOpenToken;
 
-            if ((identifier != null) &&
-                (identifier.Name == Keywords.INSTANCE || identifier.Name == Keywords.VALUE))
-            {
-                return ComplexTypeValueAst.Parse(stream, null);
-            }
-            else if (identifier != null && identifier.Name == Keywords.CLASS)
-            {
-                return ClassAst.Parse(stream);
-            }
-            else if (pragma != null)
+            // compilerDirective
+            var pragma = peek as PragmaToken;
+            if (pragma != null)
             {
                 return PragmaAst.Parse(stream);
             }
-            else if (attribute != null)
-            {
-                var qualifiers = QualifierListAst.Parse(stream);
 
-                peek = stream.Peek();
-                identifier = peek as IdentifierToken;
-
-                if (identifier != null &&
-                    (identifier.Name == Keywords.INSTANCE || identifier.Name == Keywords.VALUE))
-                {
-                    return ComplexTypeValueAst.Parse(stream, qualifiers);
-                }
-                else if (identifier != null && identifier.Name == Keywords.CLASS)
-                {
-                    return ClassAst.Parse(stream);
-                }
-                else
-                {
-                    throw new InvalidOperationException(
-                        string.Format("Invalid lexer token type '{0}'", peek.GetType().Name));
-                }
-            }
-            else
+            // all other mofProduction structures can start with an optional qualifierList
+            var qualifiers = default(QualifierListAst);
+            if (peek is AttributeOpenToken)
             {
-                throw new InvalidOperationException(
-                    string.Format("Invalid lexer token '{0}'", peek));
+                qualifiers = QualifierListAst.Parse(stream);
             }
+
+            var identifier = stream.Peek<IdentifierToken>();
+            switch(identifier.GetNormalizedName())
+            {
+
+                case Keywords.STRUCTURE:
+                    // structureDeclaration
+                    throw new UnhandledTokenException(identifier);
+
+                case Keywords.CLASS:
+                    // classDeclaration
+                    var @class = ClassAst.Parse(stream, qualifiers);
+                    return @class;
+
+                case Keywords.ASSOCIATION:
+                    // associationDeclaration
+                    throw new UnhandledTokenException(identifier);
+
+                case Keywords.ENUMERATION:
+                    // enumerationDeclaration
+                    throw new UnhandledTokenException(identifier);
+
+                case Keywords.INSTANCE:
+                case Keywords.VALUE:
+                    // instanceDeclaration
+                    var instance = ComplexTypeValueAst.Parse(stream, qualifiers);
+                    return instance;
+
+                case Keywords.QUALIFIER:
+                    // qualifierDeclaration
+                    throw new UnhandledTokenException(identifier);
+
+                default:
+                    throw new UnexpectedTokenException(peek);
+
+            }
+
         }
+
     }
+
 }
