@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml;
 
@@ -81,7 +82,6 @@ namespace Kingsland.MofParser.UnitTests
                         }
                     }
                 }
-
             }
 
         }
@@ -93,13 +93,42 @@ namespace Kingsland.MofParser.UnitTests
             [TestCase("WinXpProSp3CIMV2.mof")]
             [TestCase("WinXpProSp3Microsoft.mof")]
             [TestCase("WinXpProSp3WMI.mof")]
-            public static void LexerTestsFromDisk(string mofFilename)
+            public static void LexerTestsFromDiskWinXp(string mofFilename)
             {
-                var filename = Path.Combine("D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer\\WMI", mofFilename);
+                var filename = Path.Combine("D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer\\WMI\\WinXp", mofFilename);
                 var mofText = File.ReadAllText(filename);
-                var tokens = Lexer.Lex(new StringLexerStream(mofText));
+                var lexer = new Lexer(new StringLexerStream(mofText));
+                var tokens = lexer.AllTokens().ToList();
             }
 
+            [Test, TestCaseSource(typeof(LexerTestsFromDiskTestCasesWin81), "TestCases")]
+            public static void LexerTestsFromDiskWin81(string mofFilename)
+            {
+                var filename = Path.Combine("D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer\\WMI\\WinXp", mofFilename);
+                var mofText = File.ReadAllText(filename);
+                var lexer = new Lexer(new StringLexerStream(mofText));
+                var tokens = lexer.AllTokens().ToList();
+                var ast = MofParser.Parsing.Parser.Parse(tokens);
+            }
+
+            public static class LexerTestsFromDiskTestCasesWin81
+            {
+                public static IEnumerable TestCases
+                {
+                    get
+                    {
+                        var path = "D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer\\WMI\\Win81";
+                        var mofFilenames = Directory.GetFiles(path, "*.mof", SearchOption.AllDirectories);
+                        foreach (var mofFilename in mofFilenames)
+                        {
+                            var testName = mofFilename.Substring(path.Length + 1)
+                                                      .Replace("\\", ".");
+                            //Path.GetFileName(mofFilename)
+                            yield return new TestCaseData(mofFilename).SetName(testName);
+                        }
+                    }
+                }
+            }
 
         }
 
