@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using System.Collections.Generic;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -34,30 +34,29 @@ namespace Kingsland.MofParser.Ast
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
         /// A.1 Value definitions
         ///
-        ///     primitiveTypeValue = literalValue / literalValueArray
-        ///
         ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
-        ///
-        ///     literalValue       = integerValue / realValue /
-		///		                     stringValue / octetStringValue
-		///                          booleanValue /
-		///                          nullValue /
-		///		                     dateTimeValue
         ///
         /// </remarks>
         internal new static LiteralValueArrayAst Parse(ParserStream stream)
         {
-            // complexValueArray =
             var node = new LiteralValueArrayAst();
             // "{"
             stream.Read<BlockOpenToken>();
-            // [ literalValue
-            node.Values.Add(LiteralValueAst.Parse(stream));
-            // *( "," literalValue) ]
-            while (stream.Peek<CommaToken>() != null)
+            // [ literalValue *( "," literalValue) ]
+            if (stream.Peek<BlockCloseToken>() == null)
             {
-                stream.Read<CommaToken>();
-                node.Values.Add(LiteralValueAst.Parse(stream));
+                while (!stream.Eof)
+                {
+                    if (node.Values.Count > 0)
+                    {
+                        stream.Read<CommaToken>();
+                    }
+                    node.Values.Add(LiteralValueAst.Parse(stream));
+                    if (stream.Peek<BlockCloseToken>() != null)
+                    {
+                        break;
+                    }
+                }
             }
             // "}"
             stream.Read<BlockCloseToken>();

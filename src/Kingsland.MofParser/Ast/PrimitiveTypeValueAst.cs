@@ -1,5 +1,6 @@
 ﻿using System;
 using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -14,29 +15,28 @@ namespace Kingsland.MofParser.Ast
         /// <returns></returns>
         /// <remarks>
         ///
+        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
+        /// A.17 Primitive type values
+        ///
         ///     primitiveTypeValue = literalValue / literalValueArray
-        ///
-        ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
-        ///
-        ///     literalValue       = integerValue / realValue /
-        ///                          stringValue / octetStringValue
-        ///                          booleanValue /
-        ///                          nullValue /
-        ///                          dateTimeValue
         ///
         /// </remarks>
         internal static PrimitiveTypeValueAst Parse(ParserStream stream)
         {
             var peek = stream.Peek();
-            // primitiveTypeValue = literalValue / literalValueArray
             if (LiteralValueAst.IsLiteralValueToken(peek))
             {
-                // primitiveTypeValue
+                // literalValue
                 return LiteralValueAst.Parse(stream);
+            }
+            else if(peek is BlockOpenToken)
+            {
+                // literalValueArray
+                return LiteralValueArrayAst.Parse(stream);
             }
             else
             {
-                throw new InvalidOperationException();
+                throw new UnexpectedTokenException(peek);
             }
         }
 

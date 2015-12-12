@@ -4,6 +4,7 @@ namespace Kingsland.MofParser.Ast
 {
     public sealed class MethodAst : MemberAst
     {
+
         public class Argument
         {
             public QualifierListAst Qualifiers { get; set; }
@@ -14,6 +15,8 @@ namespace Kingsland.MofParser.Ast
         }
 
         public string ReturnType { get; set; }
+        public bool ReturnTypeIsArray { get; set; }
+
         public List<Argument> Arguments { get; private set; }
 
         public MethodAst()

@@ -72,6 +72,7 @@
     <Compile Include="Lexing\LexerStreamBase.cs" />
     <Compile Include="Tokens\AttributeCloseToken.cs" />
     <Compile Include="Tokens\AttributeOpenToken.cs" />
+    <Compile Include="Tokens\NullLiteralToken.cs" />
     <Compile Include="Tokens\ParenthesesCloseToken.cs" />
     <Compile Include="Tokens\ColonToken.cs" />
     <Compile Include="Tokens\CommaToken.cs" />
@@ -87,7 +88,6 @@
     <Compile Include="Tokens\AliasIdentifierToken.cs" />
     <Compile Include="Tokens\BlockCloseToken.cs" />
     <Compile Include="Tokens\IntegerLiteralToken.cs" />
-    <Compile Include="Tokens\NullLiteralToken.cs" />
     <Compile Include="Tokens\ParenthesesOpenToken.cs" />
     <Compile Include="Tokens\PragmaToken.cs" />
     <Compile Include="Tokens\StatementEndToken.cs" />

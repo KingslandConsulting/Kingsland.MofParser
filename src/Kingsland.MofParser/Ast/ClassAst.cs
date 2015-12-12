@@ -157,21 +157,20 @@ namespace Kingsland.MofParser.Ast
             // we now need to work out if it's a structureDeclaration, enumDeclaration,
             // propertyDeclaration or methodDeclaration
             var identifier = stream.Peek<IdentifierToken>();
+            var identifierName = identifier.GetNormalizedName();
             if (identifier == null)
             {
                 throw new InvalidOperationException("Expected an IdentifierToken.");
             }
-            else if (identifier.Name == Keywords.STRUCTURE)
+            else if (identifierName == Keywords.STRUCTURE)
             {
                 // structureDeclaration
-                // BUGBUG - not implemented
-                throw new NotImplementedException("structureDeclaration");
+                throw new UnsupportedTokenException(identifier);
             }
-            else if (identifier.Name == Keywords.ENUMERATION)
+            else if (identifierName == Keywords.ENUMERATION)
             {
                 // enumDeclaration
-                // BUGBUG - not implemented
-                throw new NotImplementedException("enumDeclaration");
+                throw new UnsupportedTokenException(identifier);
             }
             else
             {
