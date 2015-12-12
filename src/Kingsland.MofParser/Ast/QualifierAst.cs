@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using System.Text;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -26,7 +27,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public AstNode Initializer
+        public PrimitiveTypeValueAst Initializer
         {
             get;
             private set;
@@ -60,7 +61,6 @@ namespace Kingsland.MofParser.Ast
             if (stream.Peek<ColonToken>() != null)
             {
                 stream.Read<ColonToken>();
-
                 while (stream.Peek<IdentifierToken>() != null)
                 {
                     ast.Flavors.Add(stream.Read<IdentifierToken>().Name);
@@ -68,6 +68,39 @@ namespace Kingsland.MofParser.Ast
             }
 
             return ast;
+
         }
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+            if (!string.IsNullOrEmpty(this.Qualifier))
+            {
+                result.Append(this.Qualifier);
+            }
+            if(this.Initializer == null)
+            {
+                // no nothing
+            }
+            else if (this.Initializer is LiteralValueAst)
+            {
+                result.AppendFormat("({0})", this.Initializer.ToString());
+            }
+            else if(this.Initializer is LiteralValueArrayAst)
+            {
+                result.Append(this.Initializer.ToString());
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+            if(this.Flavors.Count > 0)
+            {
+                result.AppendFormat(": {0}", string.Join(" ", this.Flavors.ToArray()));
+            }
+            return result.ToString();
+        }
+
     }
+
 }

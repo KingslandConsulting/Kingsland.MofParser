@@ -43,10 +43,12 @@ namespace Kingsland.MofParser.Parsing
                 }
                 else
                 {
-                    var template = "Unexpected token '{0}' found at Position {1}, Line Number {2}, Column Number {3}.";
+                    var template = "Unexpected token found at Position {0}, Line Number {1}, Column Number {2}.\r\n" +
+                                   "Token Type: '{3}'\r\n" +
+                                   "Token Text: '{4}'";
                     var token = this.FoundToken;
                     var extent = this.FoundToken.Extent;
-                    var message = string.Format(template, token.GetType().Name, extent.StartPosition, extent.StartLineNumber, extent.StartColumnNumber);
+                    var message = string.Format(template, extent.StartPosition, extent.StartLineNumber, extent.StartColumnNumber, token.GetType().Name, token);
                     return message;
                 }
             }

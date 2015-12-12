@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -46,6 +47,11 @@ namespace Kingsland.MofParser.Ast
             stream.Read<AttributeCloseToken>();
 
             return ast;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[{0}]", string.Join(", ", this.Qualifiers.Select(q => q.ToString()).ToArray()));
         }
 
     }

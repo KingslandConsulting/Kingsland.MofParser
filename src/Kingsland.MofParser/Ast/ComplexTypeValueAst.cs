@@ -4,6 +4,7 @@ using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
+
     public abstract class ComplexTypeValueAst : MofProductionAst
     {
 
