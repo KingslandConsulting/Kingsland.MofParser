@@ -9,11 +9,21 @@ namespace Kingsland.MofParser.Ast
     public sealed class ComplexValueAst : ComplexTypeValueAst
     {
 
+        #region Fields
+
         private Dictionary<string, PropertyValueAst> _properties;
+
+        #endregion
+
+        #region Constructors
 
         private ComplexValueAst()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         public bool IsInstance
         {
@@ -50,6 +60,10 @@ namespace Kingsland.MofParser.Ast
                 return _properties;
             }
         }
+
+        #endregion
+
+        #region Parsing Properties
 
         /// <summary>
         /// </summary>
@@ -153,6 +167,26 @@ namespace Kingsland.MofParser.Ast
             return node;
 
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return string.Format("!!!!!{0}!!!!!", this.GetType().Name);
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

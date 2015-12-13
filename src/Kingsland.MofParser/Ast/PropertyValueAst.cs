@@ -8,15 +8,25 @@ namespace Kingsland.MofParser.Ast
     public sealed class PropertyValueAst : AstNode
     {
 
+        #region Constructors
+
         private PropertyValueAst()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         public object Value
         {
             get;
             private set;
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         /// <summary>
         /// </summary>
@@ -84,6 +94,26 @@ namespace Kingsland.MofParser.Ast
             // return the result
             return node;
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return string.Format("!!!!!{0}!!!!!", this.GetType().Name);
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

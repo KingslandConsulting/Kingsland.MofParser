@@ -27,6 +27,8 @@ namespace Kingsland.MofParser.Ast
 
         #endregion
 
+        #region Parsing Methods
+
         internal static QualifierListAst Parse(ParserStream stream)
         {
 
@@ -47,12 +49,28 @@ namespace Kingsland.MofParser.Ast
             stream.Read<AttributeCloseToken>();
 
             return ast;
+
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return string.Format("[{0}]", string.Join(", ", this.Qualifiers.Select(q => q.GetMofSource()).ToArray()));
+        }
+
+        #endregion
+
+        #region Object Overrides
 
         public override string ToString()
         {
-            return string.Format("[{0}]", string.Join(", ", this.Qualifiers.Select(q => q.ToString()).ToArray()));
+            return this.GetMofSource();
         }
+
+        #endregion
 
     }
 

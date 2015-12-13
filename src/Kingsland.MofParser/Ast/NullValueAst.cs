@@ -7,15 +7,25 @@ namespace Kingsland.MofParser.Ast
     public sealed class NullValueAst : LiteralValueAst
     {
 
+        #region Constructors
+
         private NullValueAst()
         {
         }
 
-        public bool Value
+        #endregion
+
+        #region Properties
+
+        public NullLiteralToken Token
         {
             get;
             private set;
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         /// <summary>
         /// </summary>
@@ -34,9 +44,32 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal new static NullValueAst Parse(ParserStream stream)
         {
-			stream.Read<NullLiteralToken>();
-			return new NullValueAst();
+            var token = stream.Read<NullLiteralToken>();
+            return new NullValueAst()
+            {
+                Token = token
+            };
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return this.Token.Extent.Text;
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

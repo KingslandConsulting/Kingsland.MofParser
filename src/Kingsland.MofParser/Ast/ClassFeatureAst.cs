@@ -8,6 +8,8 @@ namespace Kingsland.MofParser.Ast
     public abstract class ClassFeatureAst : AstNode
     {
 
+        #region Properties
+
         public string Name
         {
             get;
@@ -19,6 +21,10 @@ namespace Kingsland.MofParser.Ast
             get;
             private set;
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         /// <summary>
         /// </summary>
@@ -165,7 +171,7 @@ namespace Kingsland.MofParser.Ast
 
                 // this is a methodDeclaration
 
-                var ast = new MethodAst
+                var ast = new MethodDeclarationAst
                 {
                     Qualifiers = qualifiers,
                     Name = memberName.Name,
@@ -190,7 +196,7 @@ namespace Kingsland.MofParser.Ast
                         {
                             argQualifiers = QualifierListAst.Parse(stream);
                         }
-                        var argument = new MethodAst.Argument
+                        var argument = new MethodDeclarationAst.Argument
                         {
                             Qualifiers = argQualifiers
                         };
@@ -209,6 +215,7 @@ namespace Kingsland.MofParser.Ast
                         {
                             stream.Read<AttributeOpenToken>();
                             stream.Read<AttributeCloseToken>();
+                            argument.IsArray = true;
                         }
                         if (stream.Peek<EqualsOperatorToken>() != null)
                         {
@@ -235,12 +242,12 @@ namespace Kingsland.MofParser.Ast
 
                 // this is a propertyDeclaration
 
-                var ast = new FieldAst
+                var ast = new PropertyDeclarationAst
                 {
                     Qualifiers = qualifiers,
                     Name = memberName.Name,
                     Type = returnType.Name,
-                    IsRef = (@ref == null)
+                    IsRef = (@ref != null)
                 };
 
                 if (stream.Peek<AttributeOpenToken>() != null)
@@ -259,8 +266,8 @@ namespace Kingsland.MofParser.Ast
                 stream.Read<StatementEndToken>();
 
                 return ast;
-            }
 
+            }
 
         }
 
@@ -296,6 +303,8 @@ namespace Kingsland.MofParser.Ast
                     throw new UnsupportedTokenException(stream.Peek());
             }
         }
+
+        #endregion
 
     }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
@@ -7,6 +6,8 @@ namespace Kingsland.MofParser.Ast
 
     public abstract class PrimitiveTypeValueAst : AstNode
     {
+
+        #region Parsing Methods
 
         /// <summary>
         ///
@@ -39,6 +40,8 @@ namespace Kingsland.MofParser.Ast
                 throw new UnexpectedTokenException(peek);
             }
         }
+
+        #endregion
 
     }
 

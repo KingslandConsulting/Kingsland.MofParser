@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using System.Text;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -8,11 +10,21 @@ namespace Kingsland.MofParser.Ast
     public sealed class ComplexValueArrayAst : ComplexTypeValueAst
     {
 
+        #region Fields
+
         private List<ComplexValueAst> _values;
+
+        #endregion
+
+        #region Constructors
 
         private ComplexValueArrayAst()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         public List<ComplexValueAst> Values
         {
@@ -25,6 +37,10 @@ namespace Kingsland.MofParser.Ast
                 return _values;
             }
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         /// <summary>
         /// </summary>
@@ -56,6 +72,26 @@ namespace Kingsland.MofParser.Ast
             // return the result
             return node;
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return string.Format("{{{0}}}", string.Join(", ", this.Values.Select(v => v.ToString()).ToArray()));
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

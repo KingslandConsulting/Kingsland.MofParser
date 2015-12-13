@@ -7,9 +7,15 @@ namespace Kingsland.MofParser.Ast
     public abstract class LiteralValueAst : PrimitiveTypeValueAst
     {
 
+        #region Constructors
+
         protected LiteralValueAst()
         {
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         /// <summary>
         ///
@@ -67,6 +73,8 @@ namespace Kingsland.MofParser.Ast
                    //(token is OctetStringLiteralToken) ||
                    (token is NullLiteralToken);
         }
+
+        #endregion
 
     }
 

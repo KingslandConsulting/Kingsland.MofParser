@@ -2,16 +2,23 @@ using System;
 using System.Collections.Generic;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using System.Text;
 
 namespace Kingsland.MofParser.Ast
 {
     public sealed class ClassAst : MofProductionAst
     {
 
+        #region Constructors
+
         private ClassAst()
         {
             Features = new List<ClassFeatureAst>();
         }
+
+        #endregion
+
+        #region Properties
 
         public IdentifierToken ClassName
         {
@@ -36,6 +43,10 @@ namespace Kingsland.MofParser.Ast
             get;
             private set;
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         internal new static ClassAst Parse(ParserStream stream)
         {
@@ -115,6 +126,45 @@ namespace Kingsland.MofParser.Ast
             return node;
 
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            var source = new StringBuilder();
+            if ((this.Qualifiers != null) && this.Qualifiers.Qualifiers.Count > 0)
+            {
+                source.AppendLine(this.Qualifiers.GetMofSource());
+            }
+            if(this.Superclass == null)
+            {
+                source.AppendFormat("class {0}\r\n", this.ClassName.Name);
+            }
+            else
+            {
+                source.AppendFormat("class {0} : {1}\r\n", this.ClassName.Name, this.Superclass.Name);
+            }
+            source.AppendLine("{");
+            foreach(var feature in this.Features)
+            {
+                source.AppendFormat("\t{0}\r\n", feature.GetMofSource());
+            }
+            source.AppendLine("};");
+            return source.ToString();
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

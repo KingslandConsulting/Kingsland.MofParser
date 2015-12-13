@@ -7,8 +7,20 @@ namespace Kingsland.MofParser.Ast
     public sealed class BooleanValueAst : LiteralValueAst
     {
 
+        #region Constructors
+
         private BooleanValueAst()
         {
+        }
+
+        #endregion
+
+        #region Properties
+
+        public BooleanLiteralToken Token
+        {
+            get;
+            private set;
         }
 
         public bool Value
@@ -16,6 +28,10 @@ namespace Kingsland.MofParser.Ast
             get;
             private set;
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         /// <summary>
         /// </summary>
@@ -32,11 +48,33 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal new static BooleanValueAst Parse(ParserStream stream)
         {
+            var token = stream.Read<BooleanLiteralToken>();
             return new BooleanValueAst
             {
-                Value = stream.Read<BooleanLiteralToken>().Value
+                Token = token,
+                Value = token.Value
             };
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return this.Token.Extent.Text;
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

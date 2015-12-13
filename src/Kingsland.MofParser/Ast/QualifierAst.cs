@@ -41,6 +41,8 @@ namespace Kingsland.MofParser.Ast
 
         #endregion
 
+        #region Parsing Methods
+
         internal static QualifierAst Parse(ParserStream stream)
         {
             var ast = new QualifierAst();
@@ -71,35 +73,50 @@ namespace Kingsland.MofParser.Ast
 
         }
 
-        public override string ToString()
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
         {
-            var result = new StringBuilder();
+            var source = new StringBuilder();
             if (!string.IsNullOrEmpty(this.Qualifier))
             {
-                result.Append(this.Qualifier);
+                source.Append(this.Qualifier);
             }
-            if(this.Initializer == null)
+            if (this.Initializer == null)
             {
                 // no nothing
             }
             else if (this.Initializer is LiteralValueAst)
             {
-                result.AppendFormat("({0})", this.Initializer.ToString());
+                source.AppendFormat("({0})", this.Initializer.GetMofSource());
             }
-            else if(this.Initializer is LiteralValueArrayAst)
+            else if (this.Initializer is LiteralValueArrayAst)
             {
-                result.Append(this.Initializer.ToString());
+                source.Append(this.Initializer.GetMofSource());
             }
             else
             {
                 throw new InvalidOperationException();
             }
-            if(this.Flavors.Count > 0)
+            if (this.Flavors.Count > 0)
             {
-                result.AppendFormat(": {0}", string.Join(" ", this.Flavors.ToArray()));
+                source.AppendFormat(": {0}", string.Join(" ", this.Flavors.ToArray()));
             }
-            return result.ToString();
+            return source.ToString();
         }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

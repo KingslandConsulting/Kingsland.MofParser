@@ -7,17 +7,27 @@ namespace Kingsland.MofParser.Ast
     public sealed class PragmaAst : MofProductionAst
     {
 
+        #region Constructors
+
         public string Pragma
         {
             get;
             private set;
         }
 
+        #endregion
+
+        #region Properties
+
         public string Argument
         {
             get;
             private set;
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         internal new static PragmaAst Parse(ParserStream stream)
         {
@@ -31,6 +41,26 @@ namespace Kingsland.MofParser.Ast
 
             return ast;
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return string.Format("!!!!!{0}!!!!!", this.GetType().Name);
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

@@ -7,15 +7,25 @@ namespace Kingsland.MofParser.Ast
     public sealed class ReferenceTypeValue : AstNode
     {
 
+        #region Constructors
+
         private ReferenceTypeValue()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         public string Name
         {
             get;
             private set;
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         /// <summary>
         /// </summary>
@@ -50,6 +60,26 @@ namespace Kingsland.MofParser.Ast
             node.Name = stream.Read<AliasIdentifierToken>().Name;
             return node;
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return string.Format("!!!!!{0}!!!!!", this.GetType().Name);
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

@@ -8,15 +8,25 @@ namespace Kingsland.MofParser.Ast
     public abstract class ComplexTypeValueAst : MofProductionAst
     {
 
+        #region Constructors
+
         internal ComplexTypeValueAst()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         public QualifierListAst Qualifiers
         {
             get;
             private set;
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         /// <summary>
         /// </summary>
@@ -55,6 +65,8 @@ namespace Kingsland.MofParser.Ast
             return node;
 
         }
+
+        #endregion
 
     }
 

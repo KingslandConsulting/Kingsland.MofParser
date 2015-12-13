@@ -9,11 +9,21 @@ namespace Kingsland.MofParser.Ast
     public sealed class LiteralValueArrayAst : PrimitiveTypeValueAst
     {
 
+        #region Fields
+
         private List<LiteralValueAst> _values;
+
+        #endregion
+
+        #region Constructors
 
         private LiteralValueArrayAst()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         public List<LiteralValueAst> Values
         {
@@ -26,6 +36,10 @@ namespace Kingsland.MofParser.Ast
                 return _values;
             }
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         /// <summary>
         /// </summary>
@@ -65,10 +79,25 @@ namespace Kingsland.MofParser.Ast
             return node;
         }
 
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return string.Format("{{{0}}}", string.Join(", ", this.Values.Select(v => v.GetMofSource()).ToArray()));
+        }
+
+        #endregion
+
+        #region Object Overrides
+
         public override string ToString()
         {
-            return string.Format("{{{0}}}", string.Join(", ", this.Values.Select(v => v.ToString()).ToArray()));
+            return this.GetMofSource();
         }
+
+        #endregion
 
     }
 
