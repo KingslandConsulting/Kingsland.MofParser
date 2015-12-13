@@ -12,7 +12,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public QualifierAst()
+        private QualifierAst()
         {
             this.Flavors = new List<string>();
         }

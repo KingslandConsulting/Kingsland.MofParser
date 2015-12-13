@@ -8,6 +8,14 @@ namespace Kingsland.MofParser.Ast
     public abstract class ClassFeatureAst : AstNode
     {
 
+        #region Constructors
+
+        internal ClassFeatureAst()
+        {
+        }
+
+        #endregion
+
         #region Properties
 
         public string Name
@@ -187,42 +195,12 @@ namespace Kingsland.MofParser.Ast
                 {
                     while (!stream.Eof)
                     {
-                        if (ast.Arguments.Count > 0)
+                        if (ast.Parameters.Count > 0)
                         {
                             stream.Read<CommaToken>();
                         }
-                        QualifierListAst argQualifiers = null;
-                        if (stream.Peek<AttributeOpenToken>() != null)
-                        {
-                            argQualifiers = QualifierListAst.Parse(stream);
-                        }
-                        var argument = new MethodDeclarationAst.Argument
-                        {
-                            Qualifiers = argQualifiers
-                        };
-                        argument.Type = stream.Read<IdentifierToken>().Name;
-                        if (stream.PeekKeyword(Keywords.REF))
-                        {
-                            stream.ReadKeyword(Keywords.REF);
-                            argument.IsRef = true;
-                        }
-                        else
-                        {
-                            argument.IsRef = false;
-                        }
-                        argument.Name = stream.Read<IdentifierToken>().Name;
-                        if (stream.Peek<AttributeOpenToken>() != null)
-                        {
-                            stream.Read<AttributeOpenToken>();
-                            stream.Read<AttributeCloseToken>();
-                            argument.IsArray = true;
-                        }
-                        if (stream.Peek<EqualsOperatorToken>() != null)
-                        {
-                            stream.Read<EqualsOperatorToken>();
-                            argument.DefaultValue = ClassFeatureAst.ReadDefaultValue(stream, returnType);
-                        }
-                        ast.Arguments.Add(argument);
+                        var parameter = ParameterDeclarationAst.Parse(stream);
+                        ast.Parameters.Add(parameter);
                         if (stream.Peek<ParenthesesCloseToken>() != null)
                         {
                             break;
@@ -271,7 +249,7 @@ namespace Kingsland.MofParser.Ast
 
         }
 
-        private static PrimitiveTypeValueAst ReadDefaultValue(ParserStream stream, IdentifierToken returnType)
+        internal static PrimitiveTypeValueAst ReadDefaultValue(ParserStream stream, IdentifierToken returnType)
         {
             switch (returnType.GetNormalizedName())
             {
