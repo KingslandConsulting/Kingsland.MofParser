@@ -10,11 +10,30 @@
     public static class Keywords
     {
 
-        // 7.1 Compiler directives
+        // A.1 Value definitions
+        public const string INSTANCE = "instance";
+        public const string VALUE = "value";
+        public const string AS = "as";
+        public const string OF = "of";
+
+        // A.3 Compiler directive
         public const string PRAGMA = "#pragma";
         public const string INCLUDE = "include";
 
-        // 7.2 Qualifiers
+        // A.4 Structure declaration
+        public const string STRUCTURE = "structure";
+
+        // A.5 Class declaration
+        public const string CLASS = "class";
+        public const string VOID = "void";
+
+        // A.6 Association declaration
+        public const string ASSOCIATION = "association";
+
+        // A.7 Enumeration declaration
+        public const string ENUMERATION = "enumeration";
+
+        // A.8 Qualifier type declaration
         public const string SCOPE = "scope";
         public const string ANY = "any";
         public const string POLICY = "policy";
@@ -31,20 +50,7 @@
         public const string FLAVOR = "flavor";
         public const string QUALIFIER = "qualifier";
 
-        // 7.3.1 Enumeration declaration
-        public const string ENUMERATION = "enumeration";
-
-        // 7.3.2 Structure declaration
-        public const string STRUCTURE = "structure";
-
-        // 7.3.3 Class declaration
-        public const string CLASS = "class";
-        public const string VOID = "void";
-
-        // 7.3.4 Association declaration
-        public const string ASSOCIATION = "association";
-
-        // 7.3.5 Primitive types declarations
+        // A.15 Primitive data types
         public const string DT_UINT8 = "uint8";
         public const string DT_UINT16 = "uint16";
         public const string DT_UINT32 = "uint32";
@@ -60,14 +66,8 @@
         public const string DT_BOOLEAN = "boolean";
         public const string DT_OCTECTSTRING = "octetstring";
 
-        // 7.3.6 Reference type declaration
+        // A.16 Reference data type
         public const string REF = "ref";
-
-        // A.1 Value definitions
-        public const string INSTANCE = "instance";
-        public const string VALUE = "value";
-        public const string AS = "as";
-        public const string OF = "of";
 
         // A.17.6 Boolean value
         public const string FALSE = "false";

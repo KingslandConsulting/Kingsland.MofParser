@@ -63,13 +63,15 @@ namespace Kingsland.MofParser.Ast
         /// <returns></returns>
         /// <remarks>
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// 7.7.3 Class declaration
+        /// A.5 Class declaration
         ///
         ///     classDeclaration = [ qualifierList ] CLASS className [ superClass ]
         ///                        "{" *classFeature "}" ";"
         ///
         ///     className        = elementName
         ///     superClass       = ":" className
+        ///     classFeature     = structureFeature /
+        ///                        methodDeclaration
         ///     CLASS            = "class" ; keyword: case insensitive
         ///
         /// </remarks>
