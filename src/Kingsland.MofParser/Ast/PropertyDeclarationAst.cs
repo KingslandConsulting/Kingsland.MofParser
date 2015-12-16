@@ -20,25 +20,25 @@ namespace Kingsland.MofParser.Ast
         public string Type
         {
             get;
-            set;
+            internal set;
         }
 
         public bool IsArray
         {
             get;
-            set;
+            internal set;
         }
 
         public bool IsRef
         {
             get;
-            set;
+            internal set;
         }
 
         public PrimitiveTypeValueAst Initializer
         {
             get;
-            set;
+            internal set;
         }
 
         #endregion

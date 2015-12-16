@@ -10,7 +10,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        internal QualifierListAst()
+        private QualifierListAst()
         {
             this.Qualifiers = new List<QualifierAst>();
         }

@@ -9,7 +9,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        protected LiteralValueAst()
+        internal LiteralValueAst()
         {
         }
 

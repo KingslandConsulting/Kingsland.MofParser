@@ -9,15 +9,19 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public string Pragma
+        private PragmaAst()
         {
-            get;
-            private set;
         }
 
         #endregion
 
         #region Properties
+
+        public string Pragma
+        {
+            get;
+            private set;
+        }
 
         public string Argument
         {
