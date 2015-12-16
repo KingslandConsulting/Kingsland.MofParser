@@ -8,6 +8,14 @@ namespace Kingsland.MofParser.Ast
     public abstract class ClassFeatureAst : AstNode
     {
 
+        #region Constructors
+
+        internal ClassFeatureAst()
+        {
+        }
+
+        #endregion
+
         #region Properties
 
         public string Name
@@ -31,7 +39,7 @@ namespace Kingsland.MofParser.Ast
         /// <returns></returns>
         /// <remarks>
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// 7.7.3 Class declaration
+        /// A.5 Class declaration
         ///
         ///     classFeature     = structureFeature / methodDeclaration
         ///
@@ -168,9 +176,7 @@ namespace Kingsland.MofParser.Ast
 
             if ((stream.Peek<ParenthesesOpenToken>() != null) && (@ref == null))
             {
-
-                // this is a methodDeclaration
-
+                // read the remainder of a methodDeclaration
                 var ast = new MethodDeclarationAst
                 {
                     Qualifiers = qualifiers,
@@ -178,70 +184,33 @@ namespace Kingsland.MofParser.Ast
                     ReturnType = returnType.Name,
                     ReturnTypeIsArray = returnTypeIsArray
                 };
-
                 // "("
                 stream.Read<ParenthesesOpenToken>();
-
                 //  [ parameterList ]
                 if (stream.Peek<ParenthesesCloseToken>() == null)
                 {
                     while (!stream.Eof)
                     {
-                        if (ast.Arguments.Count > 0)
+                        if (ast.Parameters.Count > 0)
                         {
                             stream.Read<CommaToken>();
                         }
-                        QualifierListAst argQualifiers = null;
-                        if (stream.Peek<AttributeOpenToken>() != null)
-                        {
-                            argQualifiers = QualifierListAst.Parse(stream);
-                        }
-                        var argument = new MethodDeclarationAst.Argument
-                        {
-                            Qualifiers = argQualifiers
-                        };
-                        argument.Type = stream.Read<IdentifierToken>().Name;
-                        if (stream.PeekKeyword(Keywords.REF))
-                        {
-                            stream.ReadKeyword(Keywords.REF);
-                            argument.IsRef = true;
-                        }
-                        else
-                        {
-                            argument.IsRef = false;
-                        }
-                        argument.Name = stream.Read<IdentifierToken>().Name;
-                        if (stream.Peek<AttributeOpenToken>() != null)
-                        {
-                            stream.Read<AttributeOpenToken>();
-                            stream.Read<AttributeCloseToken>();
-                            argument.IsArray = true;
-                        }
-                        if (stream.Peek<EqualsOperatorToken>() != null)
-                        {
-                            stream.Read<EqualsOperatorToken>();
-                            argument.DefaultValue = ClassFeatureAst.ReadDefaultValue(stream, returnType);
-                        }
-                        ast.Arguments.Add(argument);
+                        var parameter = ParameterDeclarationAst.Parse(stream);
+                        ast.Parameters.Add(parameter);
                         if (stream.Peek<ParenthesesCloseToken>() != null)
                         {
                             break;
                         }
                     }
                 }
-
                 // ")" ";"
                 stream.Read<ParenthesesCloseToken>();
                 stream.Read<StatementEndToken>();
-
                 return ast;
-
             }
             else
             {
-
-                // this is a propertyDeclaration
-
+                // read the remainder of a propertyDeclaration
                 var ast = new PropertyDeclarationAst
                 {
                     Qualifiers = qualifiers,
@@ -249,29 +218,25 @@ namespace Kingsland.MofParser.Ast
                     Type = returnType.Name,
                     IsRef = (@ref != null)
                 };
-
                 if (stream.Peek<AttributeOpenToken>() != null)
                 {
                     stream.Read<AttributeOpenToken>();
                     stream.Read<AttributeCloseToken>();
                     ast.IsArray = true;
                 }
-
                 if (stream.Peek<EqualsOperatorToken>() != null)
                 {
                     stream.Read<EqualsOperatorToken>();
                     ast.Initializer = ClassFeatureAst.ReadDefaultValue(stream, returnType);
                 }
-
                 stream.Read<StatementEndToken>();
-
                 return ast;
 
             }
 
         }
 
-        private static PrimitiveTypeValueAst ReadDefaultValue(ParserStream stream, IdentifierToken returnType)
+        internal static PrimitiveTypeValueAst ReadDefaultValue(ParserStream stream, IdentifierToken returnType)
         {
             switch (returnType.GetNormalizedName())
             {

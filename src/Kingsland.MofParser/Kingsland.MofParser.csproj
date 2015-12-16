@@ -43,6 +43,7 @@
     <Compile Include="Ast\ComplexValueArrayAst.cs" />
     <Compile Include="Ast\ComplexValueAst.cs" />
     <Compile Include="Ast\BooleanValueAst.cs" />
+    <Compile Include="Ast\ParameterDeclarationAst.cs" />
     <Compile Include="Ast\PropertyDeclarationAst.cs" />
     <Compile Include="Ast\LiteralValueArrayAst.cs" />
     <Compile Include="Ast\LiteralValueAst.cs" />
