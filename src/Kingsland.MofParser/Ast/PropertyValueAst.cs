@@ -89,7 +89,7 @@ namespace Kingsland.MofParser.Ast
             }
             else
             {
-                throw new InvalidOperationException();
+                throw new UnexpectedTokenException(peek);
             }
             // return the result
             return node;

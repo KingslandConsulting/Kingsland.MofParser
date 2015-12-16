@@ -82,7 +82,7 @@ namespace Kingsland.MofParser.Ast
             var identifierName = identifier.GetNormalizedName();
             if (identifier == null)
             {
-                throw new InvalidOperationException("Expected an IdentifierToken.");
+                throw new UnexpectedTokenException(peek);
             }
             else if (identifierName == Keywords.STRUCTURE)
             {
