@@ -1,5 +1,4 @@
-﻿using System;
-using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
@@ -8,6 +7,16 @@ namespace Kingsland.MofParser.Ast
     public abstract class MofProductionAst : AstNode
     {
 
+        #region Constructors
+
+        internal MofProductionAst()
+        {
+        }
+
+        #endregion
+
+        #region Parsing Methods
+
         /// <summary>
         /// </summary>
         /// <param name="stream"></param>
@@ -15,65 +24,75 @@ namespace Kingsland.MofParser.Ast
         /// <remarks>
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
         /// Section A.2 - MOF specification
-        /// 
-        ///     mofSpecification = *mofProduction
-        ///     mofProduction    = compilerDirective / 
-        ///                        structureDeclaration /
-        ///                        classDeclaration /
-        ///                        associationDeclaration /
-        ///                        enumerationDeclaration /
-        ///                        instanceDeclaration /
-        ///                        qualifierDeclaration
-        /// 
+        ///
+        ///     mofProduction = compilerDirective /
+        ///                     structureDeclaration /
+        ///                     classDeclaration /
+        ///                     associationDeclaration /
+        ///                     enumerationDeclaration /
+        ///                     instanceDeclaration /
+        ///                     qualifierDeclaration
+        ///
         /// </remarks>
         internal static MofProductionAst Parse(ParserStream stream)
         {
 
             var peek = stream.Peek();
-            var identifier = peek as IdentifierToken;
-            var pragma = peek as PragmaToken;
-            var attribute = peek as AttributeOpenToken;
 
-            if ((identifier != null) &&
-                (identifier.Name == "instance" || identifier.Name == "value"))
-            {
-                return ComplexTypeValueAst.Parse(stream, null);
-            }
-            else if (identifier != null && identifier.Name == "class")
-            {
-                return ClassAst.Parse(stream);
-            }
-            else if (pragma != null)
+            // compilerDirective
+            var pragma = peek as PragmaToken;
+            if (pragma != null)
             {
                 return PragmaAst.Parse(stream);
             }
-            else if (attribute != null)
-            {
-                var qualifiers = QualifierListAst.Parse(stream);
 
-                peek = stream.Peek();
-                identifier = peek as IdentifierToken;
-
-                if (identifier != null &&
-                    (identifier.Name == "instance" || identifier.Name == "value"))
-                {
-                    return ComplexTypeValueAst.Parse(stream, qualifiers);
-                }
-                else if (identifier != null && identifier.Name == "class")
-                {
-                    return ClassAst.Parse(stream);
-                }
-                else
-                {
-                    throw new InvalidOperationException(
-                        string.Format("Invalid lexer token type '{0}'", peek.GetType().Name));
-                }
-            }
-            else
+            // all other mofProduction structures can start with an optional qualifierList
+            var qualifiers = default(QualifierListAst);
+            if (peek is AttributeOpenToken)
             {
-                throw new InvalidOperationException(
-                    string.Format("Invalid lexer token '{0}'", peek));
+                qualifiers = QualifierListAst.Parse(stream);
             }
+
+            var identifier = stream.Peek<IdentifierToken>();
+            switch(identifier.GetNormalizedName())
+            {
+
+                case Keywords.STRUCTURE:
+                    // structureDeclaration
+                    throw new UnsupportedTokenException(identifier);
+
+                case Keywords.CLASS:
+                    // classDeclaration
+                    var @class = ClassAst.Parse(stream, qualifiers);
+                    return @class;
+
+                case Keywords.ASSOCIATION:
+                    // associationDeclaration
+                    throw new UnsupportedTokenException(identifier);
+
+                case Keywords.ENUMERATION:
+                    // enumerationDeclaration
+                    throw new UnsupportedTokenException(identifier);
+
+                case Keywords.INSTANCE:
+                case Keywords.VALUE:
+                    // instanceDeclaration
+                    var instance = ComplexTypeValueAst.Parse(stream, qualifiers);
+                    return instance;
+
+                case Keywords.QUALIFIER:
+                    // qualifierDeclaration
+                    throw new UnsupportedTokenException(identifier);
+
+                default:
+                    throw new UnexpectedTokenException(peek);
+
+            }
+
+            #endregion
+
         }
+
     }
+
 }

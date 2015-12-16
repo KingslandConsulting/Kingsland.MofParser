@@ -322,10 +322,15 @@
     <None Include="Lexer\Tokens\whitespace_tab.mof">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Lexer\WMI\WinXpProSp3CIMV2.mof" />
-    <None Include="Lexer\WMI\WinXpProSp3CIMV2.original.mof" />
-    <None Include="Lexer\WMI\WinXpProSp3Microsoft.mof" />
-    <None Include="Lexer\WMI\WinXpProSp3WMI.mof" />
+    <Content Include="Lexer\WMI\WinXp\WinXpProSp3CIMV2.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\WMI\WinXp\WinXpProSp3Microsoft.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\WMI\WinXp\WinXpProSp3WMI.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

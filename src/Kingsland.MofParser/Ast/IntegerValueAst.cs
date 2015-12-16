@@ -7,15 +7,25 @@ namespace Kingsland.MofParser.Ast
     public sealed class IntegerValueAst : LiteralValueAst
     {
 
+        #region Constructors
+
         private IntegerValueAst()
         {
         }
 
-        public int Value
+        #endregion
+
+        #region Properties
+
+        public long Value
         {
-            get; 
-            private set; 
+            get;
+            private set;
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         internal new static IntegerValueAst Parse(ParserStream stream)
         {
@@ -24,6 +34,26 @@ namespace Kingsland.MofParser.Ast
                 Value = stream.Read<IntegerLiteralToken>().Value
             };
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return this.Value.ToString();
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

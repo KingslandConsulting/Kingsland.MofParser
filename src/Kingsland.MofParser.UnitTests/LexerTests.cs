@@ -1,10 +1,14 @@
 ﻿using Kingsland.MofParser.Lexing;
+using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml;
 
@@ -81,7 +85,6 @@ namespace Kingsland.MofParser.UnitTests
                         }
                     }
                 }
-
             }
 
         }
@@ -93,13 +96,53 @@ namespace Kingsland.MofParser.UnitTests
             [TestCase("WinXpProSp3CIMV2.mof")]
             [TestCase("WinXpProSp3Microsoft.mof")]
             [TestCase("WinXpProSp3WMI.mof")]
-            public static void LexerTestsFromDisk(string mofFilename)
+            public static void LexerTestsFromDiskWinXp(string mofFilename)
             {
-                var filename = Path.Combine("D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer\\WMI", mofFilename);
+                // get the fully qualified path to the file
+                var codebase = Assembly.GetExecutingAssembly().CodeBase;
+                var localPath = new Uri(codebase).LocalPath;
+                var rootFolder = Path.GetDirectoryName(localPath);
+                var subfolder = Path.Combine(rootFolder, "Lexer\\WMI\\WinXp");
+                var filename = Path.Combine(subfolder, mofFilename);
+                // process the file
                 var mofText = File.ReadAllText(filename);
-                var tokens = Lexer.Lex(new StringLexerStream(mofText));
+                var lexer = new Lexer(new StringLexerStream(mofText));
+                var tokens = lexer.AllTokens().ToList();
+                var ast = Parser.Parse(tokens);
             }
 
+            [Test, TestCaseSource(typeof(LexerTestsFromDiskTestCasesWin81), "TestCases")]
+            public static void LexerTestsFromDiskWin81(string mofFilename)
+            {
+                // process the file
+                var mofText = File.ReadAllText(mofFilename);
+                var lexer = new Lexer(new StringLexerStream(mofText));
+                var tokens = lexer.AllTokens().ToList();
+                var ast = Parser.Parse(tokens);
+                var astText = ast.GetMofSource();
+                Assert.AreEqual(mofText, astText);
+            }
+
+            public static class LexerTestsFromDiskTestCasesWin81
+            {
+                public static IEnumerable TestCases
+                {
+                    get
+                    {
+                        // get the fully qualified path to the folder
+                        var codebase = Assembly.GetExecutingAssembly().CodeBase;
+                        var localPath = new Uri(codebase).LocalPath;
+                        var rootFolder = Path.GetDirectoryName(localPath);
+                        var subfolder = Path.Combine(rootFolder, "..\\..\\Lexer\\WMI\\Win81");
+                        var mofFilenames = Directory.GetFiles(subfolder, "*.mof", SearchOption.AllDirectories);
+                        foreach (var mofFilename in mofFilenames)
+                        {
+                            var testName = mofFilename.Substring(subfolder.Length + 1).Replace("\\", ".");
+                            yield return new TestCaseData(mofFilename).SetName(testName);
+                        }
+                    }
+                }
+            }
 
         }
 

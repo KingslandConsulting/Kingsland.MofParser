@@ -1,6 +1,4 @@
 ﻿using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Tokens;
-using System;
 using System.Collections.Generic;
 
 namespace Kingsland.MofParser.Lexing
@@ -27,7 +25,7 @@ namespace Kingsland.MofParser.Lexing
         /// Used for tracking line breaks
         /// </summary>
         private SourceChar LastChar
-        { 
+        {
             get;
             set;
         }

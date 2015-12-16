@@ -8,6 +8,8 @@
         {
         }
 
+        public abstract string GetMofSource();
+
     }
 
 }

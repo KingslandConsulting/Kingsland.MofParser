@@ -9,15 +9,25 @@ namespace Kingsland.MofParser.Ast
     public sealed class ComplexValueAst : ComplexTypeValueAst
     {
 
+        #region Fields
+
         private Dictionary<string, PropertyValueAst> _properties;
+
+        #endregion
+
+        #region Constructors
 
         private ComplexValueAst()
         {
         }
 
-        public bool IsInstance 
-        { 
-            get; 
+        #endregion
+
+        #region Properties
+
+        public bool IsInstance
+        {
+            get;
             private set;
         }
 
@@ -51,14 +61,18 @@ namespace Kingsland.MofParser.Ast
             }
         }
 
+        #endregion
+
+        #region Parsing Properties
+
         /// <summary>
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// 
+        ///
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
         /// A.14 Complex type value
-        /// 
+        ///
         ///     complexTypeValue  = complexValue / complexValueArray
         ///     complexValueArray = "{" [ complexValue *( "," complexValue) ] "}"
         ///     complexValue      = ( INSTANCE / VALUE ) OF
@@ -71,32 +85,36 @@ namespace Kingsland.MofParser.Ast
         ///     INSTANCE          = "instance" ; keyword: case insensitive
         ///     VALUE             = "value"    ; keyword: case insensitive
         ///     AS                = "as"       ; keyword: case insensitive
-        ///     OF                = "of"       ; keyword: case insensitive 
-        /// 
+        ///     OF                = "of"       ; keyword: case insensitive
+        ///
         ///     propertyName      = IDENTIFIER
-        /// 
+        ///
         /// </remarks>
         internal new static ComplexValueAst Parse(ParserStream stream)
         {
+
             // complexValue =
             var node = new ComplexValueAst();
+
             // ( INSTANCE / VALUE )
             var keyword = stream.ReadKeyword();
-            switch (keyword.Name)
+            switch (keyword.GetNormalizedName())
             {
-                case "instance":
+                case Keywords.INSTANCE:
                     node.IsInstance = true;
                     node.IsValue = false;
                     break;
-                case "value":
+                case Keywords.VALUE:
                     node.IsInstance = false;
                     node.IsValue = true;
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    throw new UnexpectedTokenException(keyword);
             }
+
             // OF
-            stream.ReadKeyword("of");
+            stream.ReadKeyword(Keywords.OF);
+
             // ( structureName / className / associationName )
             node.TypeName = stream.Read<IdentifierToken>().Name;
             if (!StringValidator.IsStructureName(node.TypeName) &&
@@ -105,10 +123,11 @@ namespace Kingsland.MofParser.Ast
             {
                 throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
             }
+
             // [ alias ]
-            if (stream.PeekKeyword("as"))
+            if (stream.PeekKeyword(Keywords.AS))
             {
-                stream.ReadKeyword("as");
+                stream.ReadKeyword(Keywords.AS);
                 // BUGBUG - PowerShell DSC MOFs allow schema names in an alias identifier
                 //node.Alias = NameValidator.ValidateAliasIdentifier("$" + stream.Read<AliasIdentifierToken>().Name);
                 var aliasName = stream.Read<AliasIdentifierToken>().Name;
@@ -118,6 +137,7 @@ namespace Kingsland.MofParser.Ast
                 }
                 node.Alias = aliasName;
             }
+
             // propertyValueList
             stream.Read<BlockOpenToken>();
             while (!stream.Eof && (stream.Peek<BlockCloseToken>() == null))
@@ -136,14 +156,38 @@ namespace Kingsland.MofParser.Ast
                 stream.Read<StatementEndToken>();
                 node.Properties.Add(propertyName, propertyValue);
             }
+
             // "}"
             stream.Read<BlockCloseToken>();
+
             // ";"
             stream.Read<StatementEndToken>();
+
             // return the result
             return node;
+
         }
-    
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return string.Format("!!!!!{0}!!!!!", this.GetType().Name);
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
+
     }
 
 }

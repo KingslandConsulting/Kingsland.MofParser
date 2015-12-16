@@ -3,7 +3,7 @@
 namespace Kingsland.MofParser.Lexing
 {
 
-    public class UnexpectedCharacterException : Exception
+    public sealed class UnexpectedCharacterException : Exception
     {
 
         #region Constructors
@@ -51,18 +51,18 @@ namespace Kingsland.MofParser.Lexing
         {
             get
             {
-                var message = default(string);
                 if (this.ExpectedChar.HasValue)
                 {
-                    var template = "Unexpected character '{0}' found at Position {1}, Line Number {2}, Column Number {3} while looking for character '{4}.";
-                    message = string.Format(template, this.FoundChar.Value, this.FoundChar.Position, this.FoundChar.LineNumber, this.FoundChar.ColumnNumber, this.ExpectedChar.Value);
+                    var template = "Unexpected character '{0}' found at Position {1}, Line Number {2}, Column Number {3} while looking for character '{4}'.";
+                    var message = string.Format(template, this.FoundChar.Value, this.FoundChar.Position, this.FoundChar.LineNumber, this.FoundChar.ColumnNumber, this.ExpectedChar.Value);
+                    return message;
                 }
                 else
                 {
                     var template = "Unexpected character '{0}' found at Position {1}, Line Number {2}, Column Number {3}.";
-                    message = string.Format(template, this.FoundChar.Value, this.FoundChar.Position, this.FoundChar.LineNumber, this.FoundChar.ColumnNumber);
+                    var message = string.Format(template, this.FoundChar.Value, this.FoundChar.Position, this.FoundChar.LineNumber, this.FoundChar.ColumnNumber);
+                    return message;
                 }
-                return message;
             }
         }
 

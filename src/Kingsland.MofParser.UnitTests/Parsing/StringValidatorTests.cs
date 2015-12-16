@@ -91,7 +91,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region 7.3.2 Structure declaration
+        #region A.4 Structure declaration
 
         #region structureName = elementName
 
@@ -151,7 +151,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region 7.3.3 Class declaration
+        #region A.5 Class declaration
 
         #region className = elementName
 
@@ -211,7 +211,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region 7.3.4 Association declaration
+        #region A.6 Association declaration
 
         #region associationName = elementName
 

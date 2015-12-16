@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Kingsland.MofParser</id>
-    <version>1.2.0</version>
+    <version></version>
     <authors>mikeclayton</authors>
     <owners>mikeclayton</owners>
     <licenseUrl>https://github.com/mikeclayton/MofParser</licenseUrl>
@@ -12,6 +12,7 @@
     <tags>powershell dsc mof parser</tags>
   </metadata>
   <files>
-    <file src="src\Kingsland.MofParser\bin\Debug\Kingsland.MofParser.*" target="\lib\Net45" />
+    <file src="src\Kingsland.MofParser\bin\Debug\Kingsland.MofParser.dll" target="\lib\Net45" />
+    <file src="src\Kingsland.MofParser\bin\Debug\Kingsland.MofParser.pdb" target="\lib\Net45" />
   </files>
 </package>

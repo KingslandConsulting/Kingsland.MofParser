@@ -7,15 +7,31 @@ namespace Kingsland.MofParser.Ast
     public sealed class BooleanValueAst : LiteralValueAst
     {
 
+        #region Constructors
+
         private BooleanValueAst()
         {
         }
 
+        #endregion
+
+        #region Properties
+
+        public BooleanLiteralToken Token
+        {
+            get;
+            private set;
+        }
+
         public bool Value
         {
-            get; 
-            private set; 
+            get;
+            private set;
         }
+
+        #endregion
+
+        #region Parsing Methods
 
         /// <summary>
         /// </summary>
@@ -24,19 +40,41 @@ namespace Kingsland.MofParser.Ast
         /// <remarks>
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
         /// Section A.17.6 - Boolean value
-        /// 
+        ///
         ///     booleanValue = TRUE / FALSE
         ///     FALSE        = "false" ; keyword: case insensitive
         ///     TRUE         = "true"  ; keyword: case insensitive
-        /// 
+        ///
         /// </remarks>
         internal new static BooleanValueAst Parse(ParserStream stream)
         {
+            var token = stream.Read<BooleanLiteralToken>();
             return new BooleanValueAst
             {
-                Value = stream.Read<BooleanLiteralToken>().Value
+                Token = token,
+                Value = token.Value
             };
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            return this.Token.Extent.Text;
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
 
     }
 

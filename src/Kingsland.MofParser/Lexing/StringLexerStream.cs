@@ -3,7 +3,7 @@
 namespace Kingsland.MofParser.Lexing
 {
 
-    public class StringLexerStream : LexerStreamBase
+    public sealed class StringLexerStream : LexerStreamBase
     {
 
         #region Constructors
@@ -53,7 +53,7 @@ namespace Kingsland.MofParser.Lexing
         {
             if (this.Eof)
             {
-                throw new InvalidOperationException("Unexpected end of file encountered.");
+                throw new UnexpectedEndOfStreamException();
             }
             return new SourceChar(this.Source[this.Position], this.Position, this.LineNumber, this.ColumnNumber);
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using System.Text;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -11,7 +12,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public QualifierAst()
+        private QualifierAst()
         {
             this.Flavors = new List<string>();
         }
@@ -26,7 +27,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public AstNode Initializer
+        public PrimitiveTypeValueAst Initializer
         {
             get;
             private set;
@@ -39,6 +40,8 @@ namespace Kingsland.MofParser.Ast
         }
 
         #endregion
+
+        #region Parsing Methods
 
         internal static QualifierAst Parse(ParserStream stream)
         {
@@ -60,7 +63,6 @@ namespace Kingsland.MofParser.Ast
             if (stream.Peek<ColonToken>() != null)
             {
                 stream.Read<ColonToken>();
-
                 while (stream.Peek<IdentifierToken>() != null)
                 {
                     ast.Flavors.Add(stream.Read<IdentifierToken>().Name);
@@ -68,6 +70,54 @@ namespace Kingsland.MofParser.Ast
             }
 
             return ast;
+
         }
+
+        #endregion
+
+        #region AstNode Members
+
+        public override string GetMofSource()
+        {
+            var source = new StringBuilder();
+            if (!string.IsNullOrEmpty(this.Qualifier))
+            {
+                source.Append(this.Qualifier);
+            }
+            if (this.Initializer == null)
+            {
+                // no nothing
+            }
+            else if (this.Initializer is LiteralValueAst)
+            {
+                source.AppendFormat("({0})", this.Initializer.GetMofSource());
+            }
+            else if (this.Initializer is LiteralValueArrayAst)
+            {
+                source.Append(this.Initializer.GetMofSource());
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+            if (this.Flavors.Count > 0)
+            {
+                source.AppendFormat(": {0}", string.Join(" ", this.Flavors.ToArray()));
+            }
+            return source.ToString();
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            return this.GetMofSource();
+        }
+
+        #endregion
+
     }
+
 }

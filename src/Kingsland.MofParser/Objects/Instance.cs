@@ -96,7 +96,7 @@ namespace Kingsland.MofParser.Objects
 			}
 			else if ((node as NullValueAst) != null)
 			{
-				return ((NullValueAst)node).Value;
+				return null;
 			}
 			else
 			{
