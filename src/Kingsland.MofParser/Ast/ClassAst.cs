@@ -84,7 +84,7 @@ namespace Kingsland.MofParser.Ast
             node.Qualifiers = qualifiers;
 
             // CLASS
-            stream.ReadKeyword(Keywords.CLASS);
+            stream.ReadIdentifier(Keywords.CLASS);
 
             // className
             var className = stream.Read<IdentifierToken>();

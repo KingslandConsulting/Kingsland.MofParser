@@ -96,9 +96,9 @@ namespace Kingsland.MofParser.Ast
             }
             parameter.Qualifiers = qualifiers;
             parameter.Type = stream.Read<IdentifierToken>();
-            if (stream.PeekKeyword(Keywords.REF))
+            if (stream.PeekIdentifier(Keywords.REF))
             {
-                stream.ReadKeyword(Keywords.REF);
+                stream.ReadIdentifier(Keywords.REF);
                 parameter.IsRef = true;
             }
             else

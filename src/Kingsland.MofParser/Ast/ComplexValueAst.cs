@@ -97,7 +97,7 @@ namespace Kingsland.MofParser.Ast
             var node = new ComplexValueAst();
 
             // ( INSTANCE / VALUE )
-            var keyword = stream.ReadKeyword();
+            var keyword = stream.ReadIdentifier();
             switch (keyword.GetNormalizedName())
             {
                 case Keywords.INSTANCE:
@@ -113,7 +113,7 @@ namespace Kingsland.MofParser.Ast
             }
 
             // OF
-            stream.ReadKeyword(Keywords.OF);
+            stream.ReadIdentifier(Keywords.OF);
 
             // ( structureName / className / associationName )
             node.TypeName = stream.Read<IdentifierToken>().Name;
@@ -125,9 +125,9 @@ namespace Kingsland.MofParser.Ast
             }
 
             // [ alias ]
-            if (stream.PeekKeyword(Keywords.AS))
+            if (stream.PeekIdentifier(Keywords.AS))
             {
-                stream.ReadKeyword(Keywords.AS);
+                stream.ReadIdentifier(Keywords.AS);
                 // BUGBUG - PowerShell DSC MOFs allow schema names in an alias identifier
                 //node.Alias = NameValidator.ValidateAliasIdentifier("$" + stream.Read<AliasIdentifierToken>().Name);
                 var aliasName = stream.Read<AliasIdentifierToken>().Name;

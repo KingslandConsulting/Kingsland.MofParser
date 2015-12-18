@@ -157,9 +157,9 @@ namespace Kingsland.MofParser.Ast
             var returnType = stream.Read<IdentifierToken>();
 
             var @ref = default(IdentifierToken);
-            if (stream.PeekKeyword(Keywords.REF))
+            if (stream.PeekIdentifier(Keywords.REF))
             {
-                @ref = stream.ReadKeyword(Keywords.REF);
+                @ref = stream.ReadIdentifier(Keywords.REF);
             }
 
             // [ array ]
