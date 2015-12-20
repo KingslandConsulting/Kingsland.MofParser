@@ -3,7 +3,7 @@
   <Class Name="Kingsland.MofParser.Ast.AstNode" Collapsed="true">
     <Position X="11.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Ast\_AstNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -17,7 +17,7 @@
   <Class Name="Kingsland.MofParser.Ast.LiteralValueArrayAst" Collapsed="true">
     <Position X="9.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAgAAAAACA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAACA=</HashCode>
       <FileName>Ast\LiteralValueArrayAst.cs</FileName>
       <NewMemberFileName>Ast\ComplexValueArrayAst.cs</NewMemberFileName>
     </TypeIdentifier>
@@ -25,7 +25,7 @@
   <Class Name="Kingsland.MofParser.Ast.ComplexValueAst" Collapsed="true">
     <Position X="5.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAIAEAAECAQAAAAAACAAABAAAAAAAAACAAA=</HashCode>
+      <HashCode>AAAgAAAAAAIAEAAECAQAAAAAAAAAABAAAAAAAAACAAA=</HashCode>
       <FileName>Ast\ComplexValueAst.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -39,22 +39,22 @@
   <Class Name="Kingsland.MofParser.Ast.MofSpecificationAst" Collapsed="true">
     <Position X="0.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAhAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAAAAAAACA=</HashCode>
+      <HashCode>AAAhAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Ast\MofSpecificationAst.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Kingsland.MofParser.Ast.PropertyValueAst" Collapsed="true">
     <Position X="8.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Ast\PropertyValueAst.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Kingsland.MofParser.Ast.ReferenceTypeValue" Collapsed="true">
+  <Class Name="Kingsland.MofParser.Ast.ReferenceTypeValueAst" Collapsed="true">
     <Position X="16.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAEAAAAAAQAACAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Ast\ReferenceTypeValue.cs</FileName>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Ast\ReferenceTypeValueAst.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Kingsland.MofParser.Ast.BooleanValueAst" Collapsed="true">
@@ -67,14 +67,14 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAgAAABAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAABAAA=</HashCode>
       <FileName>Ast\BooleanValueAst.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Kingsland.MofParser.Ast.ComplexValueArrayAst" Collapsed="true">
     <Position X="3.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAgAAAAACA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAACA=</HashCode>
       <FileName>Ast\ComplexValueArrayAst.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -88,7 +88,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Ast\IntegerValueAst.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -116,7 +116,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Ast\RealValueAst.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -130,7 +130,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAACAAAAEAAAAAAAAACAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Ast\StringValueAst.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -144,22 +144,22 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Ast\NullValueAst.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Kingsland.MofParser.Ast.ClassAst" Collapsed="true">
+  <Class Name="Kingsland.MofParser.Ast.ClassDeclarationAst" Collapsed="true">
     <Position X="2.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAgAAAAAACAAAAEAAABAAAAACAAAAAAAEAAAAAAAAg=</HashCode>
-      <FileName>Ast\ClassAst.cs</FileName>
+      <HashCode>AEAgAAAAAACAAAAEAAABAAAAAAAAAAAAAEAAAAAAAAg=</HashCode>
+      <FileName>Ast\ClassDeclarationAst.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Kingsland.MofParser.Ast.PragmaAst" Collapsed="true">
+  <Class Name="Kingsland.MofParser.Ast.CompilerDirectiveAst" Collapsed="true">
     <Position X="0.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAgAAAAAAAAAAAEAAAAAAAAACAAAAAAIAAAAAAAAAA=</HashCode>
-      <FileName>Ast\PragmaAst.cs</FileName>
+      <HashCode>ABAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Ast\CompilerDirectiveAst.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Kingsland.MofParser.Ast.ClassFeatureAst" Collapsed="true">
@@ -179,7 +179,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AQAAAAAAAAAAAAAEAAAAAAAAACAAAAAAAIAAAAAEAAA=</HashCode>
+      <HashCode>AQAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAIAAAAAEAAA=</HashCode>
       <FileName>Ast\MethodDeclarationAst.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -193,28 +193,28 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAAAAEAAAAAAAAACgAAAAAAQAAAAAABAA=</HashCode>
+      <HashCode>AAAAAAAAAACAAAAEAAAAAAAAAAgAAAAAAQAAAAAABAA=</HashCode>
       <FileName>Ast\PropertyDeclarationAst.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Kingsland.MofParser.Ast.QualifierAst" Collapsed="true">
+  <Class Name="Kingsland.MofParser.Ast.QualifierDeclarationAst" Collapsed="true">
     <Position X="12.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAECAAAABAAACAAAAAAAAAAAAAABAA=</HashCode>
-      <FileName>Ast\QualifierAst.cs</FileName>
+      <HashCode>AAAgAAAAAAAAAAAECAAAABAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Ast\QualifierDeclarationAst.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Kingsland.MofParser.Ast.QualifierListAst" Collapsed="true">
     <Position X="14.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAgAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Ast\QualifierListAst.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Kingsland.MofParser.Ast.ParameterDeclarationAst" Collapsed="true">
     <Position X="4.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAgAAAAAACAAAAEAAAAAAQAAChAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AEAgAAAAAACAAAAEAAAAAAQAAAhAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Ast\ParameterDeclarationAst.cs</FileName>
     </TypeIdentifier>
   </Class>

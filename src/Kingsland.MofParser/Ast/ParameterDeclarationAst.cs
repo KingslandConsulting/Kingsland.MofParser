@@ -1,6 +1,6 @@
-﻿using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
-using System.Text;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -24,7 +24,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public string Name
+        public IdentifierToken Name
         {
             get;
             private set;
@@ -57,7 +57,6 @@ namespace Kingsland.MofParser.Ast
         #endregion
 
         #region Parsing Methods
-
 
         /// <summary>
         ///
@@ -105,7 +104,7 @@ namespace Kingsland.MofParser.Ast
             {
                 parameter.IsRef = false;
             }
-            parameter.Name = stream.Read<IdentifierToken>().Name;
+            parameter.Name = stream.Read<IdentifierToken>();
             if (stream.Peek<AttributeOpenToken>() != null)
             {
                 stream.Read<AttributeOpenToken>();
@@ -120,36 +119,13 @@ namespace Kingsland.MofParser.Ast
             return parameter;
         }
 
-    #endregion
-
-        #region AstNode Members
-
-        public override string GetMofSource()
-        {
-            var source = new StringBuilder();
-            if (this.Qualifiers.Qualifiers.Count > 0)
-            {
-                source.AppendFormat("{0} ", this.Qualifiers.ToString());
-            }
-            source.AppendFormat("{0} {1}", this.Type.Name, this.Name);
-            if (this.IsArray)
-            {
-                source.Append("[]");
-            }
-            if (this.DefaultValue != null)
-            {
-                source.AppendFormat(" = {0}", this.DefaultValue.GetMofSource());
-            }
-            return source.ToString();
-        }
-
         #endregion
 
         #region Object Overrides
 
         public override string ToString()
         {
-            return this.GetMofSource();
+            return MofGenerator.ConvertToMof(this);
         }
 
         #endregion

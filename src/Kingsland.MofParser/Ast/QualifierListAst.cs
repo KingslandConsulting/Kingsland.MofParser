@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
-using System.Linq;
+using Kingsland.MofParser.CodeGen;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -12,14 +12,14 @@ namespace Kingsland.MofParser.Ast
 
         private QualifierListAst()
         {
-            this.Qualifiers = new List<QualifierAst>();
+            this.Qualifiers = new List<QualifierDeclarationAst>();
         }
 
         #endregion
 
         #region Properties
 
-        public List<QualifierAst> Qualifiers
+        public List<QualifierDeclarationAst> Qualifiers
         {
             get;
             private set;
@@ -38,7 +38,7 @@ namespace Kingsland.MofParser.Ast
 
             while (!stream.Eof)
             {
-                ast.Qualifiers.Add(QualifierAst.Parse(stream));
+                ast.Qualifiers.Add(QualifierDeclarationAst.Parse(stream));
                 if (stream.Peek<CommaToken>() == null)
                 {
                     break;
@@ -54,20 +54,11 @@ namespace Kingsland.MofParser.Ast
 
         #endregion
 
-        #region AstNode Members
-
-        public override string GetMofSource()
-        {
-            return string.Format("[{0}]", string.Join(", ", this.Qualifiers.Select(q => q.GetMofSource()).ToArray()));
-        }
-
-        #endregion
-
         #region Object Overrides
 
         public override string ToString()
         {
-            return this.GetMofSource();
+            return MofGenerator.ConvertToMof(this);
         }
 
         #endregion

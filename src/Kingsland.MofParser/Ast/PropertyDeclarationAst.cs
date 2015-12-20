@@ -1,10 +1,10 @@
-﻿using Kingsland.MofParser.Parsing;
-using System.Text;
+﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
 
-    public sealed class PropertyDeclarationAst : ClassFeatureAst
+    public sealed class PropertyDeclarationAst : StructureFeatureAst
     {
 
         #region Constructors
@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public string Type
+        public IdentifierToken Type
         {
             get;
             internal set;
@@ -43,40 +43,11 @@ namespace Kingsland.MofParser.Ast
 
         #endregion
 
-        #region AstNode Members
-
-        public override string GetMofSource()
-        {
-            var source = new StringBuilder();
-            if ((this.Qualifiers != null) && this.Qualifiers.Qualifiers.Count > 0)
-            {
-                source.AppendFormat("{0} ", this.Qualifiers.GetMofSource());
-            }
-            source.AppendFormat("{0} ", this.Type);
-            if(this.IsRef)
-            {
-                source.AppendFormat("{0} ", Keywords.REF);
-            }
-            source.Append(this.Name);
-            if(this.IsArray)
-            {
-                source.Append("[]");
-            }
-            if (this.Initializer != null)
-            {
-                source.AppendFormat(" = {0}", this.Initializer.GetMofSource());
-            }
-            source.Append(";");
-            return source.ToString();
-        }
-
-        #endregion
-
         #region Object Overrides
 
         public override string ToString()
         {
-            return this.GetMofSource();
+            return MofGenerator.ConvertToMof(this);
         }
 
         #endregion

@@ -1,6 +1,5 @@
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
-using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -18,7 +17,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public string Name
+        public IdentifierToken Name
         {
             get;
             private set;
@@ -107,7 +106,7 @@ namespace Kingsland.MofParser.Ast
         /// <returns></returns>
         /// <remarks>
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.10 Property declaration 927
+        /// A.10 Property declaration
         /// Whitespace as defined in 5.2 is allowed between the elements of the rules in this ABNF section.
         ///
         ///     propertyDeclaration = [ qualifierList ] ( primitivePropertyDeclaration /
@@ -131,7 +130,7 @@ namespace Kingsland.MofParser.Ast
         ///     DT_REFERENCE                 = className REF
         ///     REF                          = "ref" ; keyword: case insensitive
         ///
-        /// A.11 Method declaration 945
+        /// A.11 Method declaration
         /// Whitespace as defined in 5.2 is allowed between the elements of the rules in this ABNF section.
         ///
         ///     methodDeclaration = [ qualifierList ] ( ( returnDataType [ array ] ) /
@@ -180,8 +179,8 @@ namespace Kingsland.MofParser.Ast
                 var ast = new MethodDeclarationAst
                 {
                     Qualifiers = qualifiers,
-                    Name = memberName.Name,
-                    ReturnType = returnType.Name,
+                    Name = memberName,
+                    ReturnType = returnType,
                     ReturnTypeIsArray = returnTypeIsArray
                 };
                 // "("
@@ -214,8 +213,8 @@ namespace Kingsland.MofParser.Ast
                 var ast = new PropertyDeclarationAst
                 {
                     Qualifiers = qualifiers,
-                    Name = memberName.Name,
-                    Type = returnType.Name,
+                    Name = memberName,
+                    Type = returnType,
                     IsRef = (@ref != null)
                 };
                 if (stream.Peek<AttributeOpenToken>() != null)

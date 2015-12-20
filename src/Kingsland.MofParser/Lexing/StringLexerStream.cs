@@ -24,15 +24,6 @@ namespace Kingsland.MofParser.Lexing
             set;
         }
 
-        /// <summary>
-        /// Used for tracking line breaks
-        /// </summary>
-        private char LastChar
-        {
-            get;
-            set;
-        }
-
         public override int Length
         {
             get

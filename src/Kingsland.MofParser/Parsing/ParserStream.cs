@@ -116,11 +116,7 @@ namespace Kingsland.MofParser.Parsing
         /// </summary>
         public void Backtrack()
         {
-            if (this.Position == 0)
-            {
-                throw new InvalidOperationException();
-            }
-            this.Position -= 1;
+            this.Backtrack(1);
         }
 
         /// <summary>

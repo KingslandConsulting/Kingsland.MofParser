@@ -1,4 +1,5 @@
-﻿using Kingsland.MofParser.Lexing;
+﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 using Newtonsoft.Json;
@@ -119,7 +120,9 @@ namespace Kingsland.MofParser.UnitTests
                 var lexer = new Lexer(new StringLexerStream(mofText));
                 var tokens = lexer.AllTokens().ToList();
                 var ast = Parser.Parse(tokens);
-                var astText = ast.GetMofSource();
+                var quirks = MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations |
+                             MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations;
+                var astText = MofGenerator.ConvertToMof(ast, quirks);
                 Assert.AreEqual(mofText, astText);
             }
 
