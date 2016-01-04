@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
-using System.Text;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -75,20 +74,11 @@ namespace Kingsland.MofParser.Ast
 
         #endregion
 
-        #region AstNode Members
-
-        public override string GetMofSource()
-        {
-            return string.Format("{{{0}}}", string.Join(", ", this.Values.Select(v => v.ToString()).ToArray()));
-        }
-
-        #endregion
-
         #region Object Overrides
 
         public override string ToString()
         {
-            return this.GetMofSource();
+            return MofGenerator.ConvertToMof(this);
         }
 
         #endregion

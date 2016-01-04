@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 
@@ -36,14 +36,8 @@ namespace Kingsland.MofParser.Ast
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
         /// A.14 Complex type value
         ///
-        ///     complexTypeValue  = complexValue / complexValueArray
-        ///     complexValueArray = "{" [ complexValue *( "," complexValue) ] "}"
-        ///     complexValue      = ( INSTANCE / VALUE ) OF
-        ///                         ( structureName / className / associationName )
-        ///                         [ alias ] propertyValueList ";"
-        ///     propertyValueList = "{" *propertySlot "}"
-        ///     propertySlot      = propertyName "=" propertyValue ";"
         ///     propertyValue     = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
+        ///
         ///     alias             = AS aliasIdentifier
         ///     INSTANCE          = "instance" ; keyword: case insensitive
         ///     VALUE             = "value"    ; keyword: case insensitive
@@ -85,7 +79,7 @@ namespace Kingsland.MofParser.Ast
             else if (peek is AliasIdentifierToken)
             {
                 // referenceTypeValue
-                node.Value = ReferenceTypeValue.Parse(stream);
+                node.Value = ReferenceTypeValueAst.Parse(stream);
             }
             else
             {
@@ -97,20 +91,11 @@ namespace Kingsland.MofParser.Ast
 
         #endregion
 
-        #region AstNode Members
-
-        public override string GetMofSource()
-        {
-            return string.Format("!!!!!{0}!!!!!", this.GetType().Name);
-        }
-
-        #endregion
-
         #region Object Overrides
 
         public override string ToString()
         {
-            return this.GetMofSource();
+            return MofGenerator.ConvertToMof(this);
         }
 
         #endregion

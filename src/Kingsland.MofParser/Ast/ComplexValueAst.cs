@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.CodeGen;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -73,8 +74,6 @@ namespace Kingsland.MofParser.Ast
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
         /// A.14 Complex type value
         ///
-        ///     complexTypeValue  = complexValue / complexValueArray
-        ///     complexValueArray = "{" [ complexValue *( "," complexValue) ] "}"
         ///     complexValue      = ( INSTANCE / VALUE ) OF
         ///                         ( structureName / className / associationName )
         ///                         [ alias ] propertyValueList ";"
@@ -97,7 +96,7 @@ namespace Kingsland.MofParser.Ast
             var node = new ComplexValueAst();
 
             // ( INSTANCE / VALUE )
-            var keyword = stream.ReadKeyword();
+            var keyword = stream.ReadIdentifier();
             switch (keyword.GetNormalizedName())
             {
                 case Keywords.INSTANCE:
@@ -113,7 +112,7 @@ namespace Kingsland.MofParser.Ast
             }
 
             // OF
-            stream.ReadKeyword(Keywords.OF);
+            stream.ReadIdentifier(Keywords.OF);
 
             // ( structureName / className / associationName )
             node.TypeName = stream.Read<IdentifierToken>().Name;
@@ -125,9 +124,9 @@ namespace Kingsland.MofParser.Ast
             }
 
             // [ alias ]
-            if (stream.PeekKeyword(Keywords.AS))
+            if (stream.PeekIdentifier(Keywords.AS))
             {
-                stream.ReadKeyword(Keywords.AS);
+                stream.ReadIdentifier(Keywords.AS);
                 // BUGBUG - PowerShell DSC MOFs allow schema names in an alias identifier
                 //node.Alias = NameValidator.ValidateAliasIdentifier("$" + stream.Read<AliasIdentifierToken>().Name);
                 var aliasName = stream.Read<AliasIdentifierToken>().Name;
@@ -170,20 +169,11 @@ namespace Kingsland.MofParser.Ast
 
         #endregion
 
-        #region AstNode Members
-
-        public override string GetMofSource()
-        {
-            return string.Format("!!!!!{0}!!!!!", this.GetType().Name);
-        }
-
-        #endregion
-
         #region Object Overrides
 
         public override string ToString()
         {
-            return this.GetMofSource();
+            return MofGenerator.ConvertToMof(this);
         }
 
         #endregion

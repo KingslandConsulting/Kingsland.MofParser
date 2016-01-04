@@ -1,15 +1,16 @@
-﻿using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
 
-    public sealed class ReferenceTypeValue : AstNode
+    public sealed class ReferenceTypeValueAst : AstNode
     {
 
         #region Constructors
 
-        private ReferenceTypeValue()
+        private ReferenceTypeValueAst()
         {
         }
 
@@ -53,21 +54,12 @@ namespace Kingsland.MofParser.Ast
         ///     keyValue         = propertyName "=" literalValue
         ///
         /// </remarks>
-        internal static ReferenceTypeValue Parse(ParserStream stream)
+        internal static ReferenceTypeValueAst Parse(ParserStream stream)
         {
-            var node = new ReferenceTypeValue();
+            var node = new ReferenceTypeValueAst();
             // referenceValue = objectPathValue
             node.Name = stream.Read<AliasIdentifierToken>().Name;
             return node;
-        }
-
-        #endregion
-
-        #region AstNode Members
-
-        public override string GetMofSource()
-        {
-            return string.Format("!!!!!{0}!!!!!", this.GetType().Name);
         }
 
         #endregion
@@ -76,7 +68,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return this.GetMofSource();
+            return MofGenerator.ConvertToMof(this);
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
@@ -39,7 +40,7 @@ namespace Kingsland.MofParser.Ast
         /// <returns></returns>
         /// <remarks>
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
-        /// Section A.17.6 - Boolean value
+        /// A.17.6 Boolean value
         ///
         ///     booleanValue = TRUE / FALSE
         ///     FALSE        = "false" ; keyword: case insensitive
@@ -58,20 +59,11 @@ namespace Kingsland.MofParser.Ast
 
         #endregion
 
-        #region AstNode Members
-
-        public override string GetMofSource()
-        {
-            return this.Token.Extent.Text;
-        }
-
-        #endregion
-
         #region Object Overrides
 
         public override string ToString()
         {
-            return this.GetMofSource();
+            return MofGenerator.ConvertToMof(this);
         }
 
         #endregion

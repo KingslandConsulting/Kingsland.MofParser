@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Tokens;
+using System.Collections.Generic;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -18,7 +18,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public string ReturnType
+        public IdentifierToken ReturnType
         {
             get;
             internal set;
@@ -38,34 +38,11 @@ namespace Kingsland.MofParser.Ast
 
         #endregion
 
-        #region AstNode Members
-
-        public override string GetMofSource()
-        {
-            var source = new StringBuilder();
-            if ((this.Qualifiers != null) && this.Qualifiers.Qualifiers.Count > 0)
-            {
-                source.AppendFormat("{0} ", this.Qualifiers.GetMofSource());
-            }
-            source.AppendFormat("{0} {1}", this.ReturnType, this.Name);
-            if (this.Parameters.Count == 0)
-            {
-                source.Append("();");
-            }
-            else
-            {
-                source.AppendFormat("({0});", string.Join(", ", this.Parameters.Select(a => a.ToString())));
-            }
-            return source.ToString();
-        }
-
-        #endregion
-
         #region Object Overrides
 
         public override string ToString()
         {
-            return this.GetMofSource();
+            return MofGenerator.ConvertToMof(this);
         }
 
         #endregion

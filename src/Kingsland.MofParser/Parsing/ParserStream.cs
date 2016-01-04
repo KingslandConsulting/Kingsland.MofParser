@@ -62,12 +62,12 @@ namespace Kingsland.MofParser.Parsing
             return (peek as T);
         }
 
-        public IdentifierToken PeekKeyword()
+        public IdentifierToken PeekIdentifier()
         {
             return this.Peek<IdentifierToken>();
         }
 
-        public bool PeekKeyword(string name)
+        public bool PeekIdentifier(string name)
         {
             var token = this.Peek<IdentifierToken>();
             return (token != null) && (token.Name == name);
@@ -95,13 +95,13 @@ namespace Kingsland.MofParser.Parsing
             return cast;
         }
 
-        public IdentifierToken ReadKeyword()
+        public IdentifierToken ReadIdentifier()
         {
             var token = this.Read<IdentifierToken>();
             return token;
         }
 
-        public IdentifierToken ReadKeyword(string name)
+        public IdentifierToken ReadIdentifier(string name)
         {
             var token = this.Read<IdentifierToken>();
             if (token.GetNormalizedName() != name)
@@ -116,11 +116,7 @@ namespace Kingsland.MofParser.Parsing
         /// </summary>
         public void Backtrack()
         {
-            if (this.Position == 0)
-            {
-                throw new InvalidOperationException();
-            }
-            this.Position -= 1;
+            this.Backtrack(1);
         }
 
         /// <summary>

@@ -43,7 +43,7 @@ namespace Kingsland.MofParser.Ast
             var pragma = peek as PragmaToken;
             if (pragma != null)
             {
-                return PragmaAst.Parse(stream);
+                return CompilerDirectiveAst.Parse(stream);
             }
 
             // all other mofProduction structures can start with an optional qualifierList
@@ -63,7 +63,7 @@ namespace Kingsland.MofParser.Ast
 
                 case Keywords.CLASS:
                     // classDeclaration
-                    var @class = ClassAst.Parse(stream, qualifiers);
+                    var @class = ClassDeclarationAst.Parse(stream, qualifiers);
                     return @class;
 
                 case Keywords.ASSOCIATION:
