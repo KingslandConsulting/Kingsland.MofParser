@@ -127,12 +127,10 @@ namespace Kingsland.MofParser.Ast
             if (stream.PeekIdentifier(Keywords.AS))
             {
                 stream.ReadIdentifier(Keywords.AS);
-                // BUGBUG - PowerShell DSC MOFs allow schema names in an alias identifier
-                //node.Alias = NameValidator.ValidateAliasIdentifier("$" + stream.Read<AliasIdentifierToken>().Name);
                 var aliasName = stream.Read<AliasIdentifierToken>().Name;
-                if (!StringValidator.IsSchemaQualifiedName(aliasName))
+                if (!StringValidator.IsIdentifier(aliasName))
                 {
-                    throw new InvalidOperationException("Value is not a valid schemaQualifiedName");
+                    throw new InvalidOperationException("Value is not a valid aliasIdentifier");
                 }
                 node.Alias = aliasName;
             }
