@@ -123,7 +123,7 @@ publish/
 *.azurePubxml
 
 # NuGet Packages Directory
-#packages/
+packages/
 ## TODO: If the tool you use requires repositories.config uncomment the next line
 #!packages/repositories.config
 
@@ -174,3 +174,5 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 src/Kingsland.MofParser.UnitTests/Parsing/WMI/Win81
+
+/.vs/config

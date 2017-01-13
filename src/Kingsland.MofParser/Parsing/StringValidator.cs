@@ -254,7 +254,7 @@ namespace Kingsland.MofParser.Parsing
 
         public static bool IsDecimalDigit(char value)
         {
-            return (value == '0') || StringValidator.IsPositiveDecimalDigit(value);
+            return (value == '0') || StringValidator.IsPositiveDecimalDigit(value) || (value == '.');
         }
 
         #endregion

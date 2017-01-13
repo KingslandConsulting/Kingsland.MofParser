@@ -139,7 +139,7 @@ namespace Kingsland.MofParser.Lexing
                     else if ((peek.Value == '+') || (peek.Value == '-') ||
                              (StringValidator.IsDecimalDigit(peek.Value)))
                     {
-                        return Lexer.ReadIntegerLiteralToken(stream);
+                        return Lexer.ReadNumericLiteralToken(stream);
                     }
                     else
                     {
@@ -535,9 +535,8 @@ namespace Kingsland.MofParser.Lexing
         ///     positiveDecimalDigit = "1"..."9"
         ///
         /// </remarks>
-        private static IntegerLiteralToken ReadIntegerLiteralToken(ILexerStream stream)
+        private static NumericLiteralToken ReadNumericLiteralToken(ILexerStream stream)
         {
-            /// BUGBUG - this method is woefully underimplemented!
             var sourceChars = new List<SourceChar>();
             // read the sign (if there is one)
             var sign = 0;
@@ -554,7 +553,6 @@ namespace Kingsland.MofParser.Lexing
                     break;
             }
             // read the remaining characters
-            // BUGBUG - only handles decimalValue
             sourceChars.Add(stream.ReadDigit());
             while (!stream.Eof && stream.PeekDigit())
             {
@@ -562,7 +560,19 @@ namespace Kingsland.MofParser.Lexing
             }
             // return the result
             var extent = new SourceExtent(sourceChars);
-            return new IntegerLiteralToken(extent, long.Parse(extent.Text));
+
+            long longValue;
+            decimal decimalValue;
+            if (long.TryParse(extent.Text, out longValue))
+            {
+                return new IntegerLiteralToken(extent, longValue);
+            }
+            if(decimal.TryParse(extent.Text, out decimalValue))
+            { 
+                return new DecimalLiteralToken(extent, decimalValue);
+            }
+
+            throw new NotSupportedException($"{extent.Text} is not a valid number");
         }
 
         #endregion
