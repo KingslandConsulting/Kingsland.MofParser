@@ -305,6 +305,21 @@
     <Content Include="Lexer\Tokens\MyServer.mof">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Lexer\Tokens\integer_decimal_12.345.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\Tokens\integer_decimal_12.345.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\Tokens\integer_decimal_-12.345.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\Tokens\integer_decimal_-12.345.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lexer\ConfigurationStatus\MyConfigurationStatus.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Lexer\Tokens\whitespace_mixed.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

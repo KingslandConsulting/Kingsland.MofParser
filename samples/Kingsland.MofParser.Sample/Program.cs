@@ -13,8 +13,8 @@ namespace Kingsland.FileFormat.Mof.Tests
         static void Main(string[] args)
         {
 
-            //const string filename = "dsc\\MyServer.mof";
-            const string filename = "D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer\\WMI\\Win81\\BcdStore.mof";
+            const string filename = "dsc\\MyServer.mof";
+            //const string filename = "D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer\\WMI\\Win81\\BcdStore.mof";
 
             // parse the mof file
             var instances = PowerShellDscHelper.ParseMofFileInstances(filename);

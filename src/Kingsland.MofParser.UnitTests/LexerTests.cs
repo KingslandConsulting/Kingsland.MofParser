@@ -75,7 +75,7 @@ namespace Kingsland.MofParser.UnitTests
                 {
                     get
                     {
-                        var path = "D:\\Michaels Documents\\Repositories\\GitHub\\mikeclayton\\MofParser\\src\\Kingsland.MofParser.UnitTests\\Lexer\\Tokens";
+                        var path = "Lexer\\Tokens";
                         var mofFilenames = Directory.GetFiles(path, "*.mof", SearchOption.AllDirectories);
                         foreach (var mofFilename in mofFilenames)
                         {
@@ -112,19 +112,34 @@ namespace Kingsland.MofParser.UnitTests
                 var ast = Parser.Parse(tokens);
             }
 
-            [Test, TestCaseSource(typeof(LexerTestsFromDiskTestCasesWin81), "TestCases")]
-            public static void LexerTestsFromDiskWin81(string mofFilename)
+            [TestCase("MyConfigurationStatus.mof")]
+            public static void LexerTestsFromConfigurationStatus(string mofFilename)
             {
+                var codebase = Assembly.GetExecutingAssembly().CodeBase;
+                var localPath = new Uri(codebase).LocalPath;
+                var rootFolder = Path.GetDirectoryName(localPath);
+                var subfolder = Path.Combine(rootFolder, "Lexer\\ConfigurationStatus");
+                var filename = Path.Combine(subfolder, mofFilename);
                 // process the file
-                var mofText = File.ReadAllText(mofFilename);
+                var mofText = File.ReadAllText(filename);
                 var lexer = new Lexer(new StringLexerStream(mofText));
                 var tokens = lexer.AllTokens().ToList();
                 var ast = Parser.Parse(tokens);
-                var quirks = MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations |
-                             MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations;
-                var astText = MofGenerator.ConvertToMof(ast, quirks);
-                Assert.AreEqual(mofText, astText);
             }
+
+            //[Test, TestCaseSource(typeof(LexerTestsFromDiskTestCasesWin81), "TestCases")]
+            //public static void LexerTestsFromDiskWin81(string mofFilename)
+            //{
+            //    // process the file
+            //    var mofText = File.ReadAllText(mofFilename);
+            //    var lexer = new Lexer(new StringLexerStream(mofText));
+            //    var tokens = lexer.AllTokens().ToList();
+            //    var ast = Parser.Parse(tokens);
+            //    var quirks = MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations |
+            //                 MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations;
+            //    var astText = MofGenerator.ConvertToMof(ast, quirks);
+            //    Assert.AreEqual(mofText, astText);
+            //}
 
             public static class LexerTestsFromDiskTestCasesWin81
             {
