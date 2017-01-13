@@ -2,7 +2,7 @@
   "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
   "$values": [
     {
-      "$type": "Kingsland.MofParser.Tokens.DecimalLiteralToken, Kingsland.MofParser",
+      "$type": "Kingsland.MofParser.Tokens.RealLiteralToken, Kingsland.MofParser",
       "Value": 12.345,
       "Extent": {
         "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
