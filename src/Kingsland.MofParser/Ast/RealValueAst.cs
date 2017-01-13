@@ -18,7 +18,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public float Value
+        public decimal Value
         {
             get;
             private set;
@@ -32,7 +32,7 @@ namespace Kingsland.MofParser.Ast
         {
             return new RealValueAst
             {
-                Value = stream.Read<IntegerLiteralToken>().Value
+                Value = stream.Read<RealLiteralToken>().Value
             };
         }
 

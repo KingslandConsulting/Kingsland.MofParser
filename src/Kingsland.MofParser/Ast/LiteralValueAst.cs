@@ -43,10 +43,10 @@ namespace Kingsland.MofParser.Ast
                 // integerValue
                 return IntegerValueAst.Parse(stream);
             }
-            else if (peek is DecimalLiteralToken)
+            else if (peek is RealLiteralToken)
             {
                 // doubleValue
-                return DecimalValueAst.Parse(stream);
+                return RealValueAst.Parse(stream);
             }
             else if (peek is StringLiteralToken)
 			{

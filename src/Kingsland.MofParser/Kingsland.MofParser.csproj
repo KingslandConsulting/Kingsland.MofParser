@@ -43,7 +43,7 @@
     <Compile Include="Ast\ComplexValueArrayAst.cs" />
     <Compile Include="Ast\ComplexValueAst.cs" />
     <Compile Include="Ast\BooleanValueAst.cs" />
-    <Compile Include="Ast\DecimalValueAst.cs" />
+    <Compile Include="Ast\RealValueAst.cs" />
     <Compile Include="Ast\ParameterDeclarationAst.cs" />
     <Compile Include="Ast\PropertyDeclarationAst.cs" />
     <Compile Include="Ast\LiteralValueArrayAst.cs" />
@@ -54,7 +54,6 @@
     <Compile Include="Ast\CompilerDirectiveAst.cs" />
     <Compile Include="Ast\QualifierDeclarationAst.cs" />
     <Compile Include="Ast\QualifierListAst.cs" />
-    <Compile Include="Ast\RealValueAst.cs" />
     <Compile Include="Ast\StringValueAst.cs" />
     <Compile Include="Ast\IntegerValueAst.cs" />
     <Compile Include="Ast\MofSpecificationAst.cs" />
@@ -77,7 +76,7 @@
     <Compile Include="Lexing\LexerStreamBase.cs" />
     <Compile Include="Tokens\AttributeCloseToken.cs" />
     <Compile Include="Tokens\AttributeOpenToken.cs" />
-    <Compile Include="Tokens\DecimalLiteralToken.cs" />
+    <Compile Include="Tokens\RealLiteralToken.cs" />
     <Compile Include="Tokens\NullLiteralToken.cs" />
     <Compile Include="Tokens\NumericLiteralToken.cs" />
     <Compile Include="Tokens\ParenthesesCloseToken.cs" />

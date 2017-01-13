@@ -569,7 +569,7 @@ namespace Kingsland.MofParser.Lexing
             }
             if(decimal.TryParse(extent.Text, out decimalValue))
             { 
-                return new DecimalLiteralToken(extent, decimalValue);
+                return new RealLiteralToken(extent, decimalValue);
             }
 
             throw new NotSupportedException($"{extent.Text} is not a valid number");
