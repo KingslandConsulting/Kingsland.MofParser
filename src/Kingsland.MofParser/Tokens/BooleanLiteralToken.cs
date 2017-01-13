@@ -1,9 +1,12 @@
-﻿using Kingsland.MofParser.Lexing;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Interfaces;
+using Kingsland.MofParser.Lexing;
+using Kingsland.MofParser.Parsing;
 
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class BooleanLiteralToken : Token
+    public sealed class BooleanLiteralToken : Token, ILiteralValueToken
     {
 
         internal BooleanLiteralToken(SourceExtent extent, bool value)
@@ -18,6 +21,10 @@ namespace Kingsland.MofParser.Tokens
             private set;
         }
 
+        LiteralValueAst ILiteralValueToken.ToLiteralValueAst(ParserStream stream)
+        {
+            return BooleanValueAst.Parse(stream);
+        }
     }
 
 }

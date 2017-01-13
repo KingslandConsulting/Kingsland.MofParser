@@ -1,4 +1,5 @@
-﻿using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.Interfaces;
+using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
@@ -33,7 +34,7 @@ namespace Kingsland.MofParser.Ast
         internal static PrimitiveTypeValueAst Parse(ParserStream stream)
         {
             var peek = stream.Peek();
-            if (LiteralValueAst.IsLiteralValueToken(peek))
+            if (peek is ILiteralValueToken)
             {
                 // literalValue
                 return LiteralValueAst.Parse(stream);

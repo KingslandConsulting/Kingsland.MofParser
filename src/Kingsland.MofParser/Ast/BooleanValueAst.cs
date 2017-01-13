@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Interfaces;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 

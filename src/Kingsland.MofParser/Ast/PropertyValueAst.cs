@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Interfaces;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 
@@ -52,7 +53,7 @@ namespace Kingsland.MofParser.Ast
             var node = new PropertyValueAst();
             var peek = stream.Peek();
             // propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
-            if (LiteralValueAst.IsLiteralValueToken(peek))
+            if (peek is ILiteralValueToken)
             {
                 // primitiveTypeValue -> literalValue
                 node.Value = PrimitiveTypeValueAst.Parse(stream);
@@ -63,7 +64,7 @@ namespace Kingsland.MofParser.Ast
                 // this is a complexValueArray or a literalValueArray
                 stream.Read();
                 peek = stream.Peek();
-                if (LiteralValueAst.IsLiteralValueToken(peek))
+                if (peek is ILiteralValueToken)
                 {
                     // literalValueArray
                     stream.Backtrack();

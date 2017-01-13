@@ -1,4 +1,5 @@
-﻿using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.Interfaces;
+using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
@@ -36,49 +37,18 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal new static LiteralValueAst Parse(ParserStream stream)
         {
-            //TODO: Convert this to strategy pattern
             var peek = stream.Peek();
-			if (peek is IntegerLiteralToken)
+
+            var literalValueToken = peek as ILiteralValueToken;
+
+            if (literalValueToken == null)
             {
-                // integerValue
-                return IntegerValueAst.Parse(stream);
+                throw new UnexpectedTokenException(peek);
             }
-            else if (peek is RealLiteralToken)
-            {
-                // doubleValue
-                return RealValueAst.Parse(stream);
-            }
-            else if (peek is StringLiteralToken)
-			{
-                // stringValue
-                return StringValueAst.Parse(stream);
-			}
-			else if (peek is BooleanLiteralToken)
-			{
-                // booleanValue
-                return BooleanValueAst.Parse(stream);
-			}
-			else if (peek is NullLiteralToken)
-			{
-                // nullValue
-                return NullValueAst.Parse(stream);
-			}
             else
             {
-				throw new UnexpectedTokenException(peek);
-			}
-        }
-
-        internal static bool IsLiteralValueToken(Token token)
-        {
-            //TODO: Use strategy pattern
-            return (token is NumericLiteralToken) ||
-                   //(token is RealLiteralToken) ||
-                   //(token is DateTimeLiteralToken) ||
-                   (token is StringLiteralToken) ||
-                   (token is BooleanLiteralToken) ||
-                   //(token is OctetStringLiteralToken) ||
-                   (token is NullLiteralToken);
+                return literalValueToken.ToLiteralValueAst(stream);
+            }
         }
 
         #endregion
