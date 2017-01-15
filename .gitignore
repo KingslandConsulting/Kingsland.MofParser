@@ -173,4 +173,4 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
-src/Kingsland.MofParser.UnitTests/Lexer/WMI/Win81
+src/Kingsland.MofParser.UnitTests/Parsing/WMI/Win81
