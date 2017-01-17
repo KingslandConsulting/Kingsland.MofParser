@@ -42,15 +42,31 @@ namespace Kingsland.MofParser.Ast
         ///                   ; second
         ///
         /// </remarks>
-        internal new static NullValueAst Parse(Parser parser)
+        internal static bool TryParse(Parser parser, ref NullValueAst node, bool throwIfError = false)
         {
             var state = parser.CurrentState;
-            var token = state.Read<NullLiteralToken>();
-            return new NullValueAst()
+            // nullValue
+            var nullValue = default(NullLiteralToken);
+            if (!state.TryRead<NullLiteralToken>(ref nullValue))
             {
-                Token = token
+                return AstNode.HandleUnexpectedToken(state.Peek(), throwIfError);
+            }
+            // build the node
+            node = new NullValueAst
+            {
+                Token = nullValue
             };
+            // return the result
+            return true;
         }
+
+        internal new static NullValueAst Parse(Parser parser)
+        {
+            var node = default(NullValueAst);
+            NullValueAst.TryParse(parser, ref node, true);
+            return node;
+        }
+
 
         #endregion
 
