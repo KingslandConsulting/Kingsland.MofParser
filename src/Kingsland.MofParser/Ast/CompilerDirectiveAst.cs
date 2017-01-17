@@ -34,15 +34,15 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal new static CompilerDirectiveAst Parse(ParserStream stream)
+        internal new static CompilerDirectiveAst Parse(ParserState state)
         {
             var ast = new CompilerDirectiveAst();
 
-            stream.Read<PragmaToken>();
-            ast.Pragma = stream.Read<IdentifierToken>().Name;
-            stream.Read<ParenthesesOpenToken>();
-            ast.Argument = stream.Read<StringLiteralToken>().Value;
-            stream.Read<ParenthesesCloseToken>();
+            state.Read<PragmaToken>();
+            ast.Pragma = state.Read<IdentifierToken>().Name;
+            state.Read<ParenthesesOpenToken>();
+            ast.Argument = state.Read<StringLiteralToken>().Value;
+            state.Read<ParenthesesCloseToken>();
 
             return ast;
         }

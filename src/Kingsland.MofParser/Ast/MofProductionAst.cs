@@ -19,7 +19,6 @@ namespace Kingsland.MofParser.Ast
 
         /// <summary>
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
@@ -34,26 +33,26 @@ namespace Kingsland.MofParser.Ast
         ///                     qualifierDeclaration
         ///
         /// </remarks>
-        internal static MofProductionAst Parse(ParserStream stream)
+        internal static MofProductionAst Parse(ParserState state)
         {
 
-            var peek = stream.Peek();
+            var peek = state.Peek();
 
             // compilerDirective
             var pragma = peek as PragmaToken;
             if (pragma != null)
             {
-                return CompilerDirectiveAst.Parse(stream);
+                return CompilerDirectiveAst.Parse(state);
             }
 
             // all other mofProduction structures can start with an optional qualifierList
             var qualifiers = default(QualifierListAst);
             if (peek is AttributeOpenToken)
             {
-                qualifiers = QualifierListAst.Parse(stream);
+                qualifiers = QualifierListAst.Parse(state);
             }
 
-            var identifier = stream.Peek<IdentifierToken>();
+            var identifier = state.Peek<IdentifierToken>();
             switch(identifier.GetNormalizedName())
             {
 
@@ -63,7 +62,7 @@ namespace Kingsland.MofParser.Ast
 
                 case Keywords.CLASS:
                     // classDeclaration
-                    var @class = ClassDeclarationAst.Parse(stream, qualifiers);
+                    var @class = ClassDeclarationAst.Parse(state, qualifiers);
                     return @class;
 
                 case Keywords.ASSOCIATION:
@@ -77,7 +76,7 @@ namespace Kingsland.MofParser.Ast
                 case Keywords.INSTANCE:
                 case Keywords.VALUE:
                     // instanceDeclaration
-                    var instance = ComplexTypeValueAst.Parse(stream, qualifiers);
+                    var instance = ComplexTypeValueAst.Parse(state, qualifiers);
                     return instance;
 
                 case Keywords.QUALIFIER:

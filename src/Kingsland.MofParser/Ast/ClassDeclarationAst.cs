@@ -48,14 +48,14 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal new static ClassDeclarationAst Parse(ParserStream stream)
+        internal new static ClassDeclarationAst Parse(ParserState state)
         {
-            return ClassDeclarationAst.ParseClassAst(stream, null);
+            return ClassDeclarationAst.ParseClassAst(state, null);
         }
 
-        internal static ClassDeclarationAst Parse(ParserStream stream, QualifierListAst qualifiers)
+        internal static ClassDeclarationAst Parse(ParserState state, QualifierListAst qualifiers)
         {
-            return ClassDeclarationAst.ParseClassAst(stream, qualifiers);
+            return ClassDeclarationAst.ParseClassAst(state, qualifiers);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Kingsland.MofParser.Ast
         ///     CLASS            = "class" ; keyword: case insensitive
         ///
         /// </remarks>
-        internal static ClassDeclarationAst ParseClassAst(ParserStream stream, QualifierListAst qualifiers)
+        internal static ClassDeclarationAst ParseClassAst(ParserState state, QualifierListAst qualifiers)
         {
 
             var node = new ClassDeclarationAst();
@@ -84,10 +84,10 @@ namespace Kingsland.MofParser.Ast
             node.Qualifiers = qualifiers;
 
             // CLASS
-            stream.ReadIdentifier(Keywords.CLASS);
+            state.ReadIdentifier(Keywords.CLASS);
 
             // className
-            var className = stream.Read<IdentifierToken>();
+            var className = state.Read<IdentifierToken>();
             if (!StringValidator.IsClassName(className.Name))
             {
                 throw new InvalidOperationException("Identifer is not a valid class name.");
@@ -95,10 +95,10 @@ namespace Kingsland.MofParser.Ast
             node.ClassName = className;
 
             // [ superClass ]
-            if (stream.Peek<ColonToken>() != null)
+            if (state.Peek<ColonToken>() != null)
             {
-                stream.Read<ColonToken>();
-                var superclass = stream.Read<IdentifierToken>();
+                state.Read<ColonToken>();
+                var superclass = state.Read<IdentifierToken>();
                 if (!StringValidator.IsClassName(className.Name))
                 {
                     throw new InvalidOperationException("Identifer is not a valid superclass name.");
@@ -107,23 +107,25 @@ namespace Kingsland.MofParser.Ast
             }
 
             // "{"
-            stream.Read<BlockOpenToken>();
+            state.Read<BlockOpenToken>();
 
             // *classFeature
-            while (!stream.Eof)
+            while (!state.Eof)
             {
-                var peek = stream.Peek() as BlockCloseToken;
+                var peek = state.Peek() as BlockCloseToken;
                 if (peek != null)
                 {
                     break;
                 }
-                var classFeature = ClassFeatureAst.Parse(stream);
+                var classFeature = ClassFeatureAst.Parse(state);
                 node.Features.Add(classFeature);
             }
 
-            // "}" ";"
-            stream.Read<BlockCloseToken>();
-            stream.Read<StatementEndToken>();
+            // "}"
+            state.Read<BlockCloseToken>();
+
+            // ";"
+            state.Read<StatementEndToken>();
 
             return node;
 

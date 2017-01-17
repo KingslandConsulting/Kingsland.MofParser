@@ -42,7 +42,6 @@ namespace Kingsland.MofParser.Ast
 
         /// <summary>
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
@@ -51,12 +50,12 @@ namespace Kingsland.MofParser.Ast
         ///     mofSpecification = *mofProduction
         ///
         /// </remarks>
-        internal static MofSpecificationAst Parse(ParserStream stream)
+        internal static MofSpecificationAst Parse(ParserState state)
         {
             var specification = new MofSpecificationAst();
-            while (!stream.Eof)
+            while (!state.Eof)
             {
-                var production = MofProductionAst.Parse(stream);
+                var production = MofProductionAst.Parse(state);
                 specification.Productions.Add(production);
             }
             return specification;

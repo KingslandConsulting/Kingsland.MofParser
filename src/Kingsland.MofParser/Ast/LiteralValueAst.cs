@@ -20,7 +20,6 @@ namespace Kingsland.MofParser.Ast
         /// <summary>
         ///
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -34,28 +33,28 @@ namespace Kingsland.MofParser.Ast
         ///                          dateTimeValue
         ///
         /// </remarks>
-        internal new static LiteralValueAst Parse(ParserStream stream)
+        internal new static LiteralValueAst Parse(ParserState state)
         {
-            var peek = stream.Peek();
+            var peek = state.Peek();
 			if (peek is IntegerLiteralToken)
             {
                 // integerValue
-                return IntegerValueAst.Parse(stream);
+                return IntegerValueAst.Parse(state);
             }
             else if (peek is StringLiteralToken)
 			{
                 // stringValue
-                return StringValueAst.Parse(stream);
+                return StringValueAst.Parse(state);
 			}
 			else if (peek is BooleanLiteralToken)
 			{
                 // booleanValue
-                return BooleanValueAst.Parse(stream);
+                return BooleanValueAst.Parse(state);
 			}
 			else if (peek is NullLiteralToken)
 			{
                 // nullValue
-                return NullValueAst.Parse(stream);
+                return NullValueAst.Parse(state);
 			}
             else
             {

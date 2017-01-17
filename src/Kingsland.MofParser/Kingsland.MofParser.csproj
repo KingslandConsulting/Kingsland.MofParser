@@ -84,7 +84,7 @@
     <Compile Include="Lexing\ILexerStream.cs" />
     <Compile Include="Lexing\SourceExtent.cs" />
     <Compile Include="Objects\Instance.cs" />
-    <Compile Include="Parsing\ParserStream.cs" />
+    <Compile Include="Parsing\ParserState.cs" />
     <Compile Include="Ast\_AstNode.cs" />
     <Compile Include="Lexing\StringLexerStream.cs" />
     <Compile Include="Lexing\Lexer.cs" />

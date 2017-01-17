@@ -64,20 +64,20 @@ namespace Kingsland.MofParser.Ast
         ///                                             "(" [ parameterList ] ")" ";"
         ///
         /// </remarks>
-        internal static ClassFeatureAst Parse(ParserStream stream)
+        internal static ClassFeatureAst Parse(ParserState state)
         {
 
             // all classFeatures start with an optional "[ qualifierList ]"
             var qualifierList = default(QualifierListAst);
-            var peek = stream.Peek() as AttributeOpenToken;
+            var peek = state.Peek() as AttributeOpenToken;
             if ((peek as AttributeOpenToken) != null)
             {
-                qualifierList = QualifierListAst.Parse(stream);
+                qualifierList = QualifierListAst.Parse(state);
             }
 
             // we now need to work out if it's a structureDeclaration, enumDeclaration,
             // propertyDeclaration or methodDeclaration
-            var identifier = stream.Peek<IdentifierToken>();
+            var identifier = state.Peek<IdentifierToken>();
             var identifierName = identifier.GetNormalizedName();
             if (identifier == null)
             {
@@ -96,7 +96,7 @@ namespace Kingsland.MofParser.Ast
             else
             {
                 // propertyDeclaration or methodDeclaration
-                return ClassFeatureAst.ParseMemberDeclaration(stream, qualifierList);
+                return ClassFeatureAst.ParseMemberDeclaration(state, qualifierList);
             }
 
         }
@@ -149,31 +149,31 @@ namespace Kingsland.MofParser.Ast
         ///     VOID              = "void" ; keyword: case insensitive
         ///     parameterList     = parameterDeclaration *( "," parameterDeclaration )
         ///
-        private static ClassFeatureAst ParseMemberDeclaration(ParserStream stream, QualifierListAst qualifiers)
+        private static ClassFeatureAst ParseMemberDeclaration(ParserState state, QualifierListAst qualifiers)
         {
 
             // primitiveType / structureOrClassName / enumName / classReference
-            var returnType = stream.Read<IdentifierToken>();
+            var returnType = state.Read<IdentifierToken>();
 
             var @ref = default(IdentifierToken);
-            if (stream.PeekIdentifier(Keywords.REF))
+            if (state.PeekIdentifier(Keywords.REF))
             {
-                @ref = stream.ReadIdentifier(Keywords.REF);
+                @ref = state.ReadIdentifier(Keywords.REF);
             }
 
             // [ array ]
             var returnTypeIsArray = false;
-            if(stream.Peek<AttributeOpenToken>() != null)
+            if(state.Peek<AttributeOpenToken>() != null)
             {
-                stream.Read<AttributeOpenToken>();
-                stream.Read<AttributeCloseToken>();
+                state.Read<AttributeOpenToken>();
+                state.Read<AttributeCloseToken>();
                 returnTypeIsArray = true;
             }
 
             // propertyName / methodName
-            var memberName = stream.Read<IdentifierToken>();
+            var memberName = state.Read<IdentifierToken>();
 
-            if ((stream.Peek<ParenthesesOpenToken>() != null) && (@ref == null))
+            if ((state.Peek<ParenthesesOpenToken>() != null) && (@ref == null))
             {
                 // read the remainder of a methodDeclaration
                 var ast = new MethodDeclarationAst
@@ -184,27 +184,28 @@ namespace Kingsland.MofParser.Ast
                     ReturnTypeIsArray = returnTypeIsArray
                 };
                 // "("
-                stream.Read<ParenthesesOpenToken>();
+                state.Read<ParenthesesOpenToken>();
                 //  [ parameterList ]
-                if (stream.Peek<ParenthesesCloseToken>() == null)
+                if (state.Peek<ParenthesesCloseToken>() == null)
                 {
-                    while (!stream.Eof)
+                    while (!state.Eof)
                     {
                         if (ast.Parameters.Count > 0)
                         {
-                            stream.Read<CommaToken>();
+                            state.Read<CommaToken>();
                         }
-                        var parameter = ParameterDeclarationAst.Parse(stream);
+                        var parameter = ParameterDeclarationAst.Parse(state);
                         ast.Parameters.Add(parameter);
-                        if (stream.Peek<ParenthesesCloseToken>() != null)
+                        if (state.Peek<ParenthesesCloseToken>() != null)
                         {
                             break;
                         }
                     }
                 }
-                // ")" ";"
-                stream.Read<ParenthesesCloseToken>();
-                stream.Read<StatementEndToken>();
+                // ")"
+                state.Read<ParenthesesCloseToken>();
+                // ";"
+                state.Read<StatementEndToken>();
                 return ast;
             }
             else
@@ -217,25 +218,25 @@ namespace Kingsland.MofParser.Ast
                     Type = returnType,
                     IsRef = (@ref != null)
                 };
-                if (stream.Peek<AttributeOpenToken>() != null)
+                if (state.Peek<AttributeOpenToken>() != null)
                 {
-                    stream.Read<AttributeOpenToken>();
-                    stream.Read<AttributeCloseToken>();
+                    state.Read<AttributeOpenToken>();
+                    state.Read<AttributeCloseToken>();
                     ast.IsArray = true;
                 }
-                if (stream.Peek<EqualsOperatorToken>() != null)
+                if (state.Peek<EqualsOperatorToken>() != null)
                 {
-                    stream.Read<EqualsOperatorToken>();
-                    ast.Initializer = ClassFeatureAst.ReadDefaultValue(stream, returnType);
+                    state.Read<EqualsOperatorToken>();
+                    ast.Initializer = ClassFeatureAst.ReadDefaultValue(state, returnType);
                 }
-                stream.Read<StatementEndToken>();
+                state.Read<StatementEndToken>();
                 return ast;
 
             }
 
         }
 
-        internal static PrimitiveTypeValueAst ReadDefaultValue(ParserStream stream, IdentifierToken returnType)
+        internal static PrimitiveTypeValueAst ReadDefaultValue(ParserState state, IdentifierToken returnType)
         {
             switch (returnType.GetNormalizedName())
             {
@@ -254,17 +255,17 @@ namespace Kingsland.MofParser.Ast
                 case Keywords.DT_BOOLEAN:
                 case Keywords.DT_OCTECTSTRING:
                     // primitiveType
-                    return PrimitiveTypeValueAst.Parse(stream);
+                    return PrimitiveTypeValueAst.Parse(state);
                 default:
                     /// structureOrClassName
                     /// enumName
                     /// classReference
-                    var peek = stream.Peek();
+                    var peek = state.Peek();
                     if (peek is NullLiteralToken)
                     {
-                        return NullValueAst.Parse(stream);
+                        return NullValueAst.Parse(state);
                     }
-                    throw new UnsupportedTokenException(stream.Peek());
+                    throw new UnsupportedTokenException(state.Peek());
             }
         }
 

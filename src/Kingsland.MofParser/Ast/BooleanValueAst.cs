@@ -36,7 +36,6 @@ namespace Kingsland.MofParser.Ast
 
         /// <summary>
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
@@ -47,9 +46,9 @@ namespace Kingsland.MofParser.Ast
         ///     TRUE         = "true"  ; keyword: case insensitive
         ///
         /// </remarks>
-        internal new static BooleanValueAst Parse(ParserStream stream)
+        internal new static BooleanValueAst Parse(ParserState state)
         {
-            var token = stream.Read<BooleanLiteralToken>();
+            var token = state.Read<BooleanLiteralToken>();
             return new BooleanValueAst
             {
                 Token = token,

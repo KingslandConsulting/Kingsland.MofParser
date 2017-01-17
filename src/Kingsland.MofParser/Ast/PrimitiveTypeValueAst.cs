@@ -20,7 +20,6 @@ namespace Kingsland.MofParser.Ast
         /// <summary>
         ///
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -30,18 +29,18 @@ namespace Kingsland.MofParser.Ast
         ///     primitiveTypeValue = literalValue / literalValueArray
         ///
         /// </remarks>
-        internal static PrimitiveTypeValueAst Parse(ParserStream stream)
+        internal static PrimitiveTypeValueAst Parse(ParserState state)
         {
-            var peek = stream.Peek();
+            var peek = state.Peek();
             if (LiteralValueAst.IsLiteralValueToken(peek))
             {
                 // literalValue
-                return LiteralValueAst.Parse(stream);
+                return LiteralValueAst.Parse(state);
             }
             else if(peek is BlockOpenToken)
             {
                 // literalValueArray
-                return LiteralValueArrayAst.Parse(stream);
+                return LiteralValueArrayAst.Parse(state);
             }
             else
             {

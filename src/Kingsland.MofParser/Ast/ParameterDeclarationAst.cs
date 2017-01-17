@@ -61,7 +61,6 @@ namespace Kingsland.MofParser.Ast
         /// <summary>
         ///
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -85,36 +84,36 @@ namespace Kingsland.MofParser.Ast
         ///     parameterName = IDENTIFIER
         ///
         /// </remarks>
-        internal static ParameterDeclarationAst Parse(ParserStream stream)
+        internal static ParameterDeclarationAst Parse(ParserState state)
         {
             var parameter = new ParameterDeclarationAst();
             var qualifiers = default(QualifierListAst);
-            if (stream.Peek<AttributeOpenToken>() != null)
+            if (state.Peek<AttributeOpenToken>() != null)
             {
-                qualifiers = QualifierListAst.Parse(stream);
+                qualifiers = QualifierListAst.Parse(state);
             }
             parameter.Qualifiers = qualifiers;
-            parameter.Type = stream.Read<IdentifierToken>();
-            if (stream.PeekIdentifier(Keywords.REF))
+            parameter.Type = state.Read<IdentifierToken>();
+            if (state.PeekIdentifier(Keywords.REF))
             {
-                stream.ReadIdentifier(Keywords.REF);
+                state.ReadIdentifier(Keywords.REF);
                 parameter.IsRef = true;
             }
             else
             {
                 parameter.IsRef = false;
             }
-            parameter.Name = stream.Read<IdentifierToken>();
-            if (stream.Peek<AttributeOpenToken>() != null)
+            parameter.Name = state.Read<IdentifierToken>();
+            if (state.Peek<AttributeOpenToken>() != null)
             {
-                stream.Read<AttributeOpenToken>();
-                stream.Read<AttributeCloseToken>();
+                state.Read<AttributeOpenToken>();
+                state.Read<AttributeCloseToken>();
                 parameter.IsArray = true;
             }
-            if (stream.Peek<EqualsOperatorToken>() != null)
+            if (state.Peek<EqualsOperatorToken>() != null)
             {
-                stream.Read<EqualsOperatorToken>();
-                parameter.DefaultValue = ClassFeatureAst.ReadDefaultValue(stream, parameter.Type);
+                state.Read<EqualsOperatorToken>();
+                parameter.DefaultValue = ClassFeatureAst.ReadDefaultValue(state, parameter.Type);
             }
             return parameter;
         }

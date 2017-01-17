@@ -29,24 +29,24 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal static QualifierListAst Parse(ParserStream stream)
+        internal static QualifierListAst Parse(ParserState state)
         {
 
             var ast = new QualifierListAst();
 
-            stream.Read<AttributeOpenToken>();
+            state.Read<AttributeOpenToken>();
 
-            while (!stream.Eof)
+            while (!state.Eof)
             {
-                ast.Qualifiers.Add(QualifierDeclarationAst.Parse(stream));
-                if (stream.Peek<CommaToken>() == null)
+                ast.Qualifiers.Add(QualifierDeclarationAst.Parse(state));
+                if (state.Peek<CommaToken>() == null)
                 {
                     break;
                 }
-                stream.Read<CommaToken>();
+                state.Read<CommaToken>();
             }
 
-            stream.Read<AttributeCloseToken>();
+            state.Read<AttributeCloseToken>();
 
             return ast;
 

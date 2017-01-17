@@ -28,11 +28,11 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal new static StringValueAst Parse(ParserStream stream)
+        internal new static StringValueAst Parse(ParserState state)
         {
             return new StringValueAst
             {
-                Value = stream.Read<StringLiteralToken>().Value
+                Value = state.Read<StringLiteralToken>().Value
             };
         }
 

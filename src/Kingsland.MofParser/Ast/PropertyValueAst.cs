@@ -58,39 +58,39 @@ namespace Kingsland.MofParser.Ast
         ///     enumDeclaration = enumTypeHeader enumName ":" enumTypeDeclaration ";"
         ///
         /// </remarks>
-        internal static PropertyValueAst Parse(ParserStream stream)
+        internal static PropertyValueAst Parse(ParserState state)
         {
             var node = new PropertyValueAst();
-            var peek = stream.Peek();
+            var peek = state.Peek();
             // propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
             if (LiteralValueAst.IsLiteralValueToken(peek))
             {
                 // primitiveTypeValue -> literalValue
-                node.Value = PrimitiveTypeValueAst.Parse(stream);
+                node.Value = PrimitiveTypeValueAst.Parse(state);
             }
             else if (peek is BlockOpenToken)
             {
                 // we need to read the subsequent token to work out whether
                 // this is a complexValueArray, literalValueArray, referenceValueArray or enumValueArray
-                stream.Read();
-                peek = stream.Peek();
+                state.Read();
+                peek = state.Peek();
                 if (LiteralValueAst.IsLiteralValueToken(peek))
                 {
                     // literalValueArray
-                    stream.Backtrack();
-                    node.Value = LiteralValueArrayAst.Parse(stream);
+                    state.Backtrack();
+                    node.Value = LiteralValueArrayAst.Parse(state);
                 }
                 else
                 {
                     // complexValueType
-                    stream.Backtrack();
-                    node.Value = ComplexValueArrayAst.Parse(stream);
+                    state.Backtrack();
+                    node.Value = ComplexValueArrayAst.Parse(state);
                 }
             }
             else if (peek is AliasIdentifierToken)
             {
                 // referenceTypeValue
-                node.Value = ReferenceTypeValueAst.Parse(stream);
+                node.Value = ReferenceTypeValueAst.Parse(state);
             }
             else
             {

@@ -52,29 +52,29 @@ namespace Kingsland.MofParser.Ast
         ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
         ///
         /// </remarks>
-        internal new static LiteralValueArrayAst Parse(ParserStream stream)
+        internal new static LiteralValueArrayAst Parse(ParserState state)
         {
             var node = new LiteralValueArrayAst();
             // "{"
-            stream.Read<BlockOpenToken>();
+            state.Read<BlockOpenToken>();
             // [ literalValue *( "," literalValue) ]
-            if (stream.Peek<BlockCloseToken>() == null)
+            if (state.Peek<BlockCloseToken>() == null)
             {
-                while (!stream.Eof)
+                while (!state.Eof)
                 {
                     if (node.Values.Count > 0)
                     {
-                        stream.Read<CommaToken>();
+                        state.Read<CommaToken>();
                     }
-                    node.Values.Add(LiteralValueAst.Parse(stream));
-                    if (stream.Peek<BlockCloseToken>() != null)
+                    node.Values.Add(LiteralValueAst.Parse(state));
+                    if (state.Peek<BlockCloseToken>() != null)
                     {
                         break;
                     }
                 }
             }
             // "}"
-            stream.Read<BlockCloseToken>();
+            state.Read<BlockCloseToken>();
             // return the result
             return node;
         }

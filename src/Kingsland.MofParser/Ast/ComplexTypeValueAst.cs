@@ -38,21 +38,21 @@ namespace Kingsland.MofParser.Ast
         ///     complexTypeValue  = complexValue / complexValueArray
         ///
         /// </remarks>
-        internal static ComplexTypeValueAst Parse(ParserStream stream, QualifierListAst qualifiers)
+        internal static ComplexTypeValueAst Parse(ParserState state, QualifierListAst qualifiers)
         {
 
             var node = default(ComplexTypeValueAst);
 
-            var peek = stream.Peek();
+            var peek = state.Peek();
             if (peek is BlockOpenToken)
             {
                 // complexValueArray
-                node = ComplexValueArrayAst.Parse(stream);
+                node = ComplexValueArrayAst.Parse(state);
             }
             else if (peek is IdentifierToken)
             {
                 // complexValue
-                node = ComplexValueAst.Parse(stream);
+                node = ComplexValueAst.Parse(state);
             }
             else
             {

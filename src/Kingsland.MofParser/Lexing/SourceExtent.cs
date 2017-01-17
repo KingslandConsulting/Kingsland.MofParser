@@ -24,7 +24,6 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         /// Initializes a new SourceExtent with the start position at the current position in the stream.
         /// </summary>
-        /// <param name="stream"></param>
         internal SourceExtent(ILexerStream stream)
             : this(stream.Position, stream.LineNumber, stream.ColumnNumber, 0, 0, 0, string.Empty)
         {
@@ -33,7 +32,6 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         /// Initializes a new SourceExtent with the specified start and end positions.
         /// </summary>
-        /// <param name="stream"></param>
         public SourceExtent(int startPosition, int startLineNumber, int startColumnNumber, int endPosition, int endLineNumber, int endColumnNumber, string text)
         {
             this.StartPosition = startPosition;
@@ -48,10 +46,9 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         /// Initializes a new SourceExtent with the specified start and end positions.
         /// </summary>
-        /// <param name="stream"></param>
         public SourceExtent(List<SourceChar> sourceChars)
         {
-            if((sourceChars == null) || (sourceChars.Count < 1))
+            if ((sourceChars == null) || (sourceChars.Count < 1))
             {
                 throw new ArgumentException("Value must contain one or more items.", "chars");
             }

@@ -30,7 +30,6 @@ namespace Kingsland.MofParser.Ast
 
         /// <summary>
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -43,9 +42,9 @@ namespace Kingsland.MofParser.Ast
         ///                   ; second
         ///
         /// </remarks>
-        internal new static NullValueAst Parse(ParserStream stream)
+        internal new static NullValueAst Parse(ParserState state)
         {
-            var token = stream.Read<NullLiteralToken>();
+            var token = state.Read<NullLiteralToken>();
             return new NullValueAst()
             {
                 Token = token

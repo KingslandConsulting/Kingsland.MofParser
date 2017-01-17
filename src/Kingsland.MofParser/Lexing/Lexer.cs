@@ -241,7 +241,6 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         ///
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -283,7 +282,6 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         ///
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -353,7 +351,6 @@ namespace Kingsland.MofParser.Lexing
 
         /// <summary>
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -389,7 +386,6 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         ///
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -446,7 +442,6 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         ///
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -506,7 +501,6 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         ///
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -572,7 +566,6 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         ///
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///
@@ -624,7 +617,6 @@ namespace Kingsland.MofParser.Lexing
         /// <summary>
         ///
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
         ///

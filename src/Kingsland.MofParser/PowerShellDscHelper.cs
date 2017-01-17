@@ -25,7 +25,8 @@ namespace Kingsland.MofParser
             var tokens = Lexer.Lex(stream);
 
             // parse the tokens into an ast tree
-            var ast = Parser.Parse(tokens);
+            var parser = new Parser(tokens);
+            var ast = parser.Parse();
 
             // scan the ast for any "instance" definitions and convert them
             var instances = ((MofSpecificationAst)ast).Productions

@@ -43,29 +43,29 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal new static QualifierDeclarationAst Parse(ParserStream stream)
+        internal new static QualifierDeclarationAst Parse(ParserState state)
         {
             var ast = new QualifierDeclarationAst();
 
-            ast.Name = stream.Read<IdentifierToken>();
+            ast.Name = state.Read<IdentifierToken>();
 
-            if (stream.Peek<ParenthesesOpenToken>() != null)
+            if (state.Peek<ParenthesesOpenToken>() != null)
             {
-                stream.Read<ParenthesesOpenToken>();
-                ast.Initializer = LiteralValueAst.Parse(stream);
-                stream.Read<ParenthesesCloseToken>();
+                state.Read<ParenthesesOpenToken>();
+                ast.Initializer = LiteralValueAst.Parse(state);
+                state.Read<ParenthesesCloseToken>();
             }
-            else if (stream.Peek<BlockOpenToken>() != null)
+            else if (state.Peek<BlockOpenToken>() != null)
             {
-                ast.Initializer = LiteralValueArrayAst.Parse(stream);
+                ast.Initializer = LiteralValueArrayAst.Parse(state);
             }
 
-            if (stream.Peek<ColonToken>() != null)
+            if (state.Peek<ColonToken>() != null)
             {
-                stream.Read<ColonToken>();
-                while (stream.Peek<IdentifierToken>() != null)
+                state.Read<ColonToken>();
+                while (state.Peek<IdentifierToken>() != null)
                 {
-                    ast.Flavors.Add(stream.Read<IdentifierToken>().Name);
+                    ast.Flavors.Add(state.Read<IdentifierToken>().Name);
                 }
             }
 
