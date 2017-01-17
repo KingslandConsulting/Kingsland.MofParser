@@ -28,13 +28,42 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal new static RealValueAst Parse(Parser parser)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
+        /// A.17.2 Real value
+        /// No whitespace is allowed between the elements of the rules in this ABNF section.
+        ///
+        ///     decimalDigit         = "0" / positiveDecimalDigit
+        ///     positiveDecimalDigit = "1"..."9"
+        ///
+        /// </remarks>
+        internal static bool TryParse(Parser parser, ref RealValueAst node, bool throwIfError = false)
         {
             var state = parser.CurrentState;
-            return new RealValueAst
+            // realValue
+            var realValue = default(IntegerLiteralToken);
+            if (!state.TryRead<IntegerLiteralToken>(ref realValue))
             {
-                Value = state.Read<IntegerLiteralToken>().Value
+                return AstNode.HandleUnexpectedToken(state.Peek(), throwIfError);
+            }
+            // build the node
+            node = new RealValueAst
+            {
+                Value = realValue.Value
             };
+            // return the result
+            return true;
+        }
+
+        internal new static RealValueAst Parse(Parser parser)
+        {
+            var node = default(RealValueAst);
+            RealValueAst.TryParse(parser, ref node, true);
+            return node;
         }
 
         #endregion
