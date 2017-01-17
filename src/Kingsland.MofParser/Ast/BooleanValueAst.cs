@@ -46,15 +46,29 @@ namespace Kingsland.MofParser.Ast
         ///     TRUE         = "true"  ; keyword: case insensitive
         ///
         /// </remarks>
-        internal new static BooleanValueAst Parse(Parser parser)
+        internal static bool TryParse(Parser parser, ref BooleanValueAst node, bool throwIfError = false)
         {
             var state = parser.CurrentState;
-            var token = state.Read<BooleanLiteralToken>();
-            return new BooleanValueAst
+            // booleanValue
+            var booleanValue = default(BooleanLiteralToken);
+            if (!state.TryRead<BooleanLiteralToken>(ref booleanValue))
             {
-                Token = token,
-                Value = token.Value
+                return AstNode.HandleUnexpectedToken(state.Peek(), throwIfError);
+            }
+            // build the node
+            node = new BooleanValueAst
+            {
+                Value = booleanValue.Value
             };
+            // return the result
+            return true;
+        }
+
+        internal new static BooleanValueAst Parse(Parser parser)
+        {
+            var node = default(BooleanValueAst);
+            BooleanValueAst.TryParse(parser, ref node, true);
+            return node;
         }
 
         #endregion
