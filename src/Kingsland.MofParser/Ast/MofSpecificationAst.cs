@@ -52,9 +52,8 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static MofSpecificationAst Parse(Parser parser)
         {
-            var state = parser.CurrentState;
             var specification = new MofSpecificationAst();
-            while (!state.Eof)
+            while (!parser.Eof)
             {
                 var production = MofProductionAst.Parse(parser);
                 specification.Productions.Add(production);

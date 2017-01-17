@@ -36,8 +36,7 @@ namespace Kingsland.MofParser.Ast
         internal static MofProductionAst Parse(Parser parser)
         {
 
-            var state = parser.CurrentState;
-            var peek = state.Peek();
+            var peek = parser.Peek();
 
             // compilerDirective
             var pragma = peek as PragmaToken;
@@ -53,7 +52,7 @@ namespace Kingsland.MofParser.Ast
                 qualifiers = QualifierListAst.Parse(parser);
             }
 
-            var identifier = state.Peek<IdentifierToken>();
+            var identifier = parser.Peek<IdentifierToken>();
             switch(identifier.GetNormalizedName())
             {
 
