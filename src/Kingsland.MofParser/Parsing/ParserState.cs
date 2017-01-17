@@ -86,10 +86,20 @@ namespace Kingsland.MofParser.Parsing
             return value;
         }
 
+        public bool TryRead<T>(ref T result) where T : Token
+        {
+            if (this.Peek<T>() == null)
+            {
+                return false;
+            }
+            result = this.Read<T>();
+            return true;
+        }
+
         public T Read<T>() where T : Token
         {
             var token = this.Read();
-            var cast = (token as T);
+            var cast = token as T;
             if (cast == null)
             {
                 throw new UnexpectedTokenException(token);
