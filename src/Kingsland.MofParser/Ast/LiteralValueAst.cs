@@ -35,32 +35,51 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal new static LiteralValueAst Parse(Parser parser)
         {
-            var state = parser.CurrentState;
-            var peek = state.Peek();
-			if (peek is IntegerLiteralToken)
+
+            // integerValue
+            parser.Descend();
+            var integerValue = default(IntegerValueAst);
+            if (IntegerValueAst.TryParse(parser, ref integerValue, false))
             {
-                // integerValue
-                return IntegerValueAst.Parse(parser);
+                parser.Commit();
+                return integerValue;
             }
-            else if (peek is StringLiteralToken)
-			{
-                // stringValue
-                return StringValueAst.Parse(parser);
-			}
-			else if (peek is BooleanLiteralToken)
-			{
-                // booleanValue
-                return BooleanValueAst.Parse(parser);
-			}
-			else if (peek is NullLiteralToken)
-			{
-                // nullValue
-                return NullValueAst.Parse(parser);
-			}
-            else
+            parser.Backtrack();
+
+            // stringValue
+            parser.Descend();
+            var stringValue = default(StringValueAst);
+            if (StringValueAst.TryParse(parser, ref stringValue, false))
             {
-				throw new UnexpectedTokenException(peek);
-			}
+                parser.Commit();
+                return stringValue;
+            }
+            parser.Backtrack();
+
+            // booleanValue
+            parser.Descend();
+            var booleanValue = default(BooleanValueAst);
+            if (BooleanValueAst.TryParse(parser, ref booleanValue, false))
+            {
+                parser.Commit();
+                return booleanValue;
+            }
+            parser.Backtrack();
+
+            // nullValue
+            parser.Descend();
+            var nullValue = default(NullValueAst);
+            if (NullValueAst.TryParse(parser, ref nullValue, false))
+            {
+                parser.Commit();
+                return nullValue;
+            }
+            parser.Backtrack();
+
+            // unexpected token
+            var state = parser.CurrentState;
+            throw new UnexpectedTokenException(state.Peek());
+
         }
 
         internal static bool IsLiteralValueToken(Token token)
