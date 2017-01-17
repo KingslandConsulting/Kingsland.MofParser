@@ -28,13 +28,44 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal new static StringValueAst Parse(Parser parser)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
+        /// A.17.3 String values
+        /// Unless explicitly specified via ABNF rule WS, no whitespace is allowed between the elements of the rules
+        /// in this ABNF section.
+        ///
+        ///     stringValue = DOUBLEQUOTE *stringChar DOUBLEQUOTE
+        ///                   *( *WS DOUBLEQUOTE *stringChar DOUBLEQUOTE )
+        ///     stringChar  = stringUCSchar / stringEscapeSequence
+        ///
+        /// </remarks>
+        internal static bool TryParse(Parser parser, ref StringValueAst node, bool throwIfError = false)
         {
             var state = parser.CurrentState;
-            return new StringValueAst
+            // stringValue
+            var stringValue = default(StringLiteralToken);
+            if (!state.TryRead<StringLiteralToken>(ref stringValue))
             {
-                Value = state.Read<StringLiteralToken>().Value
+                return AstNode.HandleUnexpectedToken(state.Peek(), throwIfError);
+            }
+            // build the node
+            node = new StringValueAst
+            {
+                Value = stringValue.Value
             };
+            // return the result
+            return true;
+        }
+
+        internal new static StringValueAst Parse(Parser parser)
+        {
+            var node = default(StringValueAst);
+            StringValueAst.TryParse(parser, ref node, true);
+            return node;
         }
 
         #endregion
