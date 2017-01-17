@@ -69,7 +69,7 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertToMof(PropertyValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
+            return node.Value.ToString();
         }
 
         #endregion
@@ -369,7 +369,7 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertToMof(ReferenceTypeValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
+            return string.Format("${0}", node.Name);
         }
 
         #endregion
