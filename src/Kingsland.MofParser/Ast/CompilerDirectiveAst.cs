@@ -34,8 +34,10 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal new static CompilerDirectiveAst Parse(ParserState state)
+        internal new static CompilerDirectiveAst Parse(Parser parser)
         {
+
+            var state = parser.CurrentState;
             var ast = new CompilerDirectiveAst();
 
             state.Read<PragmaToken>();
@@ -45,6 +47,7 @@ namespace Kingsland.MofParser.Ast
             state.Read<ParenthesesCloseToken>();
 
             return ast;
+
         }
 
         #endregion

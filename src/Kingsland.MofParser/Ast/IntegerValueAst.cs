@@ -28,8 +28,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal new static IntegerValueAst Parse(ParserState state)
+        internal new static IntegerValueAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             return new IntegerValueAst
             {
                 Value = state.Read<IntegerLiteralToken>().Value

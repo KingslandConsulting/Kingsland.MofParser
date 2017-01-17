@@ -89,8 +89,10 @@ namespace Kingsland.MofParser.Ast
         ///     propertyName      = IDENTIFIER
         ///
         /// </remarks>
-        internal new static ComplexValueAst Parse(ParserState state)
+        internal new static ComplexValueAst Parse(Parser parser)
         {
+
+            var state = parser.CurrentState;
 
             // complexValue =
             var node = new ComplexValueAst();
@@ -148,7 +150,7 @@ namespace Kingsland.MofParser.Ast
                 // "="
                 state.Read<EqualsOperatorToken>();
                 // propertyValue
-                var propertyValue = PropertyValueAst.Parse(state);
+                var propertyValue = PropertyValueAst.Parse(parser);
                 // ";"
                 state.Read<StatementEndToken>();
                 node.Properties.Add(propertyName, propertyValue);

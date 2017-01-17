@@ -58,15 +58,16 @@ namespace Kingsland.MofParser.Ast
         ///     enumDeclaration = enumTypeHeader enumName ":" enumTypeDeclaration ";"
         ///
         /// </remarks>
-        internal static PropertyValueAst Parse(ParserState state)
+        internal static PropertyValueAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             var node = new PropertyValueAst();
             var peek = state.Peek();
             // propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
             if (LiteralValueAst.IsLiteralValueToken(peek))
             {
                 // primitiveTypeValue -> literalValue
-                node.Value = PrimitiveTypeValueAst.Parse(state);
+                node.Value = PrimitiveTypeValueAst.Parse(parser);
             }
             else if (peek is BlockOpenToken)
             {
@@ -78,19 +79,19 @@ namespace Kingsland.MofParser.Ast
                 {
                     // literalValueArray
                     state.Backtrack();
-                    node.Value = LiteralValueArrayAst.Parse(state);
+                    node.Value = LiteralValueArrayAst.Parse(parser);
                 }
                 else
                 {
                     // complexValueType
                     state.Backtrack();
-                    node.Value = ComplexValueArrayAst.Parse(state);
+                    node.Value = ComplexValueArrayAst.Parse(parser);
                 }
             }
             else if (peek is AliasIdentifierToken)
             {
                 // referenceTypeValue
-                node.Value = ReferenceTypeValueAst.Parse(state);
+                node.Value = ReferenceTypeValueAst.Parse(parser);
             }
             else
             {

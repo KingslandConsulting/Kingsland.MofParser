@@ -33,23 +33,24 @@ namespace Kingsland.MofParser.Ast
         ///                     qualifierDeclaration
         ///
         /// </remarks>
-        internal static MofProductionAst Parse(ParserState state)
+        internal static MofProductionAst Parse(Parser parser)
         {
 
+            var state = parser.CurrentState;
             var peek = state.Peek();
 
             // compilerDirective
             var pragma = peek as PragmaToken;
             if (pragma != null)
             {
-                return CompilerDirectiveAst.Parse(state);
+                return CompilerDirectiveAst.Parse(parser);
             }
 
             // all other mofProduction structures can start with an optional qualifierList
             var qualifiers = default(QualifierListAst);
             if (peek is AttributeOpenToken)
             {
-                qualifiers = QualifierListAst.Parse(state);
+                qualifiers = QualifierListAst.Parse(parser);
             }
 
             var identifier = state.Peek<IdentifierToken>();
@@ -62,7 +63,7 @@ namespace Kingsland.MofParser.Ast
 
                 case Keywords.CLASS:
                     // classDeclaration
-                    var @class = ClassDeclarationAst.Parse(state, qualifiers);
+                    var @class = ClassDeclarationAst.Parse(parser, qualifiers);
                     return @class;
 
                 case Keywords.ASSOCIATION:
@@ -76,7 +77,7 @@ namespace Kingsland.MofParser.Ast
                 case Keywords.INSTANCE:
                 case Keywords.VALUE:
                     // instanceDeclaration
-                    var instance = ComplexTypeValueAst.Parse(state, qualifiers);
+                    var instance = ComplexTypeValueAst.Parse(parser, qualifiers);
                     return instance;
 
                 case Keywords.QUALIFIER:

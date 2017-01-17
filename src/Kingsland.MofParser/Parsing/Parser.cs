@@ -75,7 +75,7 @@ namespace Kingsland.MofParser.Parsing
 
         public AstNode Parse()
         {
-            var program = MofSpecificationAst.Parse(this.CurrentState);
+            var program = MofSpecificationAst.Parse(this);
             return program;
         }
 

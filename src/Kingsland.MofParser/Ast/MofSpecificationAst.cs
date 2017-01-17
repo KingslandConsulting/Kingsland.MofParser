@@ -50,12 +50,13 @@ namespace Kingsland.MofParser.Ast
         ///     mofSpecification = *mofProduction
         ///
         /// </remarks>
-        internal static MofSpecificationAst Parse(ParserState state)
+        internal static MofSpecificationAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             var specification = new MofSpecificationAst();
             while (!state.Eof)
             {
-                var production = MofProductionAst.Parse(state);
+                var production = MofProductionAst.Parse(parser);
                 specification.Productions.Add(production);
             }
             return specification;

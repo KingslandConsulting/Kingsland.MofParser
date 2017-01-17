@@ -48,14 +48,14 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal new static ClassDeclarationAst Parse(ParserState state)
+        internal new static ClassDeclarationAst Parse(Parser parser)
         {
-            return ClassDeclarationAst.ParseClassAst(state, null);
+            return ClassDeclarationAst.ParseClassAst(parser, null);
         }
 
-        internal static ClassDeclarationAst Parse(ParserState state, QualifierListAst qualifiers)
+        internal static ClassDeclarationAst Parse(Parser parser, QualifierListAst qualifiers)
         {
-            return ClassDeclarationAst.ParseClassAst(state, qualifiers);
+            return ClassDeclarationAst.ParseClassAst(parser, qualifiers);
         }
 
         /// <summary>
@@ -75,9 +75,10 @@ namespace Kingsland.MofParser.Ast
         ///     CLASS            = "class" ; keyword: case insensitive
         ///
         /// </remarks>
-        internal static ClassDeclarationAst ParseClassAst(ParserState state, QualifierListAst qualifiers)
+        internal static ClassDeclarationAst ParseClassAst(Parser parser, QualifierListAst qualifiers)
         {
 
+            var state = parser.CurrentState;
             var node = new ClassDeclarationAst();
 
             // [ qualifierList ]
@@ -117,7 +118,7 @@ namespace Kingsland.MofParser.Ast
                 {
                     break;
                 }
-                var classFeature = ClassFeatureAst.Parse(state);
+                var classFeature = ClassFeatureAst.Parse(parser);
                 node.Features.Add(classFeature);
             }
 

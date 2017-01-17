@@ -64,15 +64,17 @@ namespace Kingsland.MofParser.Ast
         ///                                             "(" [ parameterList ] ")" ";"
         ///
         /// </remarks>
-        internal static ClassFeatureAst Parse(ParserState state)
+        internal static ClassFeatureAst Parse(Parser parser)
         {
+
+            var state = parser.CurrentState;
 
             // all classFeatures start with an optional "[ qualifierList ]"
             var qualifierList = default(QualifierListAst);
             var peek = state.Peek() as AttributeOpenToken;
             if ((peek as AttributeOpenToken) != null)
             {
-                qualifierList = QualifierListAst.Parse(state);
+                qualifierList = QualifierListAst.Parse(parser);
             }
 
             // we now need to work out if it's a structureDeclaration, enumDeclaration,
@@ -96,7 +98,7 @@ namespace Kingsland.MofParser.Ast
             else
             {
                 // propertyDeclaration or methodDeclaration
-                return ClassFeatureAst.ParseMemberDeclaration(state, qualifierList);
+                return ClassFeatureAst.ParseMemberDeclaration(parser, qualifierList);
             }
 
         }
@@ -149,8 +151,10 @@ namespace Kingsland.MofParser.Ast
         ///     VOID              = "void" ; keyword: case insensitive
         ///     parameterList     = parameterDeclaration *( "," parameterDeclaration )
         ///
-        private static ClassFeatureAst ParseMemberDeclaration(ParserState state, QualifierListAst qualifiers)
+        private static ClassFeatureAst ParseMemberDeclaration(Parser parser, QualifierListAst qualifiers)
         {
+
+            var state = parser.CurrentState;
 
             // primitiveType / structureOrClassName / enumName / classReference
             var returnType = state.Read<IdentifierToken>();
@@ -194,7 +198,7 @@ namespace Kingsland.MofParser.Ast
                         {
                             state.Read<CommaToken>();
                         }
-                        var parameter = ParameterDeclarationAst.Parse(state);
+                        var parameter = ParameterDeclarationAst.Parse(parser);
                         ast.Parameters.Add(parameter);
                         if (state.Peek<ParenthesesCloseToken>() != null)
                         {
@@ -227,7 +231,7 @@ namespace Kingsland.MofParser.Ast
                 if (state.Peek<EqualsOperatorToken>() != null)
                 {
                     state.Read<EqualsOperatorToken>();
-                    ast.Initializer = ClassFeatureAst.ReadDefaultValue(state, returnType);
+                    ast.Initializer = ClassFeatureAst.ReadDefaultValue(parser, returnType);
                 }
                 state.Read<StatementEndToken>();
                 return ast;
@@ -236,8 +240,9 @@ namespace Kingsland.MofParser.Ast
 
         }
 
-        internal static PrimitiveTypeValueAst ReadDefaultValue(ParserState state, IdentifierToken returnType)
+        internal static PrimitiveTypeValueAst ReadDefaultValue(Parser parser, IdentifierToken returnType)
         {
+            var state = parser.CurrentState;
             switch (returnType.GetNormalizedName())
             {
                 case Keywords.DT_UINT8:
@@ -255,7 +260,7 @@ namespace Kingsland.MofParser.Ast
                 case Keywords.DT_BOOLEAN:
                 case Keywords.DT_OCTECTSTRING:
                     // primitiveType
-                    return PrimitiveTypeValueAst.Parse(state);
+                    return PrimitiveTypeValueAst.Parse(parser);
                 default:
                     /// structureOrClassName
                     /// enumName
@@ -263,7 +268,7 @@ namespace Kingsland.MofParser.Ast
                     var peek = state.Peek();
                     if (peek is NullLiteralToken)
                     {
-                        return NullValueAst.Parse(state);
+                        return NullValueAst.Parse(parser);
                     }
                     throw new UnsupportedTokenException(state.Peek());
             }

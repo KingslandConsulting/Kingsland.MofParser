@@ -52,19 +52,20 @@ namespace Kingsland.MofParser.Ast
         ///     complexValueArray = "{" [ complexValue *( "," complexValue) ] "}"
         ///
         /// </remarks>
-        internal new static ComplexValueArrayAst Parse(ParserState state)
+        internal new static ComplexValueArrayAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             // complexValueArray =
             var node = new ComplexValueArrayAst();
             // "{"
             state.Read<BlockOpenToken>();
             // [ complexValue
-            node.Values.Add(ComplexValueAst.Parse(state));
+            node.Values.Add(ComplexValueAst.Parse(parser));
             // *( "," complexValue) ]
             while (state.Peek<CommaToken>() != null)
             {
                 state.Read<CommaToken>();
-                node.Values.Add(ComplexValueAst.Parse(state));
+                node.Values.Add(ComplexValueAst.Parse(parser));
             }
             // "}"
             state.Read<BlockCloseToken>();

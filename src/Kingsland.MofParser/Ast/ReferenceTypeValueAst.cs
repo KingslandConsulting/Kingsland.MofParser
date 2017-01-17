@@ -54,8 +54,9 @@ namespace Kingsland.MofParser.Ast
         ///     keyValue         = propertyName "=" literalValue
         ///
         /// </remarks>
-        internal static ReferenceTypeValueAst Parse(ParserState state)
+        internal static ReferenceTypeValueAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             var node = new ReferenceTypeValueAst();
             // referenceValue = objectPathValue
             node.Name = state.Read<AliasIdentifierToken>().Name;

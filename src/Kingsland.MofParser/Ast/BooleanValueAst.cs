@@ -46,8 +46,9 @@ namespace Kingsland.MofParser.Ast
         ///     TRUE         = "true"  ; keyword: case insensitive
         ///
         /// </remarks>
-        internal new static BooleanValueAst Parse(ParserState state)
+        internal new static BooleanValueAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             var token = state.Read<BooleanLiteralToken>();
             return new BooleanValueAst
             {

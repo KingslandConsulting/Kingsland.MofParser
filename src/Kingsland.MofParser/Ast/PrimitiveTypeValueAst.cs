@@ -29,18 +29,19 @@ namespace Kingsland.MofParser.Ast
         ///     primitiveTypeValue = literalValue / literalValueArray
         ///
         /// </remarks>
-        internal static PrimitiveTypeValueAst Parse(ParserState state)
+        internal static PrimitiveTypeValueAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             var peek = state.Peek();
             if (LiteralValueAst.IsLiteralValueToken(peek))
             {
                 // literalValue
-                return LiteralValueAst.Parse(state);
+                return LiteralValueAst.Parse(parser);
             }
             else if(peek is BlockOpenToken)
             {
                 // literalValueArray
-                return LiteralValueArrayAst.Parse(state);
+                return LiteralValueArrayAst.Parse(parser);
             }
             else
             {

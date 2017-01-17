@@ -43,8 +43,10 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
-        internal new static QualifierDeclarationAst Parse(ParserState state)
+        internal new static QualifierDeclarationAst Parse(Parser parser)
         {
+
+            var state = parser.CurrentState;
             var ast = new QualifierDeclarationAst();
 
             ast.Name = state.Read<IdentifierToken>();
@@ -52,12 +54,12 @@ namespace Kingsland.MofParser.Ast
             if (state.Peek<ParenthesesOpenToken>() != null)
             {
                 state.Read<ParenthesesOpenToken>();
-                ast.Initializer = LiteralValueAst.Parse(state);
+                ast.Initializer = LiteralValueAst.Parse(parser);
                 state.Read<ParenthesesCloseToken>();
             }
             else if (state.Peek<BlockOpenToken>() != null)
             {
-                ast.Initializer = LiteralValueArrayAst.Parse(state);
+                ast.Initializer = LiteralValueArrayAst.Parse(parser);
             }
 
             if (state.Peek<ColonToken>() != null)

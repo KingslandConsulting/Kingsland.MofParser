@@ -33,28 +33,29 @@ namespace Kingsland.MofParser.Ast
         ///                          dateTimeValue
         ///
         /// </remarks>
-        internal new static LiteralValueAst Parse(ParserState state)
+        internal new static LiteralValueAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             var peek = state.Peek();
 			if (peek is IntegerLiteralToken)
             {
                 // integerValue
-                return IntegerValueAst.Parse(state);
+                return IntegerValueAst.Parse(parser);
             }
             else if (peek is StringLiteralToken)
 			{
                 // stringValue
-                return StringValueAst.Parse(state);
+                return StringValueAst.Parse(parser);
 			}
 			else if (peek is BooleanLiteralToken)
 			{
                 // booleanValue
-                return BooleanValueAst.Parse(state);
+                return BooleanValueAst.Parse(parser);
 			}
 			else if (peek is NullLiteralToken)
 			{
                 // nullValue
-                return NullValueAst.Parse(state);
+                return NullValueAst.Parse(parser);
 			}
             else
             {

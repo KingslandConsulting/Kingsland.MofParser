@@ -52,8 +52,9 @@ namespace Kingsland.MofParser.Ast
         ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
         ///
         /// </remarks>
-        internal new static LiteralValueArrayAst Parse(ParserState state)
+        internal new static LiteralValueArrayAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             var node = new LiteralValueArrayAst();
             // "{"
             state.Read<BlockOpenToken>();
@@ -66,7 +67,7 @@ namespace Kingsland.MofParser.Ast
                     {
                         state.Read<CommaToken>();
                     }
-                    node.Values.Add(LiteralValueAst.Parse(state));
+                    node.Values.Add(LiteralValueAst.Parse(parser));
                     if (state.Peek<BlockCloseToken>() != null)
                     {
                         break;

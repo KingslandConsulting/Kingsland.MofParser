@@ -84,13 +84,14 @@ namespace Kingsland.MofParser.Ast
         ///     parameterName = IDENTIFIER
         ///
         /// </remarks>
-        internal static ParameterDeclarationAst Parse(ParserState state)
+        internal static ParameterDeclarationAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             var parameter = new ParameterDeclarationAst();
             var qualifiers = default(QualifierListAst);
             if (state.Peek<AttributeOpenToken>() != null)
             {
-                qualifiers = QualifierListAst.Parse(state);
+                qualifiers = QualifierListAst.Parse(parser);
             }
             parameter.Qualifiers = qualifiers;
             parameter.Type = state.Read<IdentifierToken>();
@@ -113,7 +114,7 @@ namespace Kingsland.MofParser.Ast
             if (state.Peek<EqualsOperatorToken>() != null)
             {
                 state.Read<EqualsOperatorToken>();
-                parameter.DefaultValue = ClassFeatureAst.ReadDefaultValue(state, parameter.Type);
+                parameter.DefaultValue = ClassFeatureAst.ReadDefaultValue(parser, parameter.Type);
             }
             return parameter;
         }

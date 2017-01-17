@@ -42,8 +42,9 @@ namespace Kingsland.MofParser.Ast
         ///                   ; second
         ///
         /// </remarks>
-        internal new static NullValueAst Parse(ParserState state)
+        internal new static NullValueAst Parse(Parser parser)
         {
+            var state = parser.CurrentState;
             var token = state.Read<NullLiteralToken>();
             return new NullValueAst()
             {
