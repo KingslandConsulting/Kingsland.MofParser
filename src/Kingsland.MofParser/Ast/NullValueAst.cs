@@ -44,12 +44,11 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static bool TryParse(Parser parser, ref NullValueAst node, bool throwIfError = false)
         {
-            var state = parser.CurrentState;
             // nullValue
             var nullValue = default(NullLiteralToken);
-            if (!state.TryRead<NullLiteralToken>(ref nullValue))
+            if (!parser.TryRead<NullLiteralToken>(ref nullValue))
             {
-                return AstNode.HandleUnexpectedToken(state.Peek(), throwIfError);
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
             }
             // build the node
             node = new NullValueAst

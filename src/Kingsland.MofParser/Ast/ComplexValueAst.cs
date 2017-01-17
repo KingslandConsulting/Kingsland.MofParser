@@ -92,13 +92,11 @@ namespace Kingsland.MofParser.Ast
         internal new static ComplexValueAst Parse(Parser parser)
         {
 
-            var state = parser.CurrentState;
-
             // complexValue =
             var node = new ComplexValueAst();
 
             // ( INSTANCE / VALUE )
-            var keyword = state.ReadIdentifier();
+            var keyword = parser.ReadIdentifier();
             switch (keyword.GetNormalizedName())
             {
                 case Keywords.INSTANCE:
@@ -114,10 +112,10 @@ namespace Kingsland.MofParser.Ast
             }
 
             // OF
-            state.ReadIdentifier(Keywords.OF);
+            parser.ReadIdentifier(Keywords.OF);
 
             // ( structureName / className / associationName )
-            node.TypeName = state.Read<IdentifierToken>().Name;
+            node.TypeName = parser.Read<IdentifierToken>().Name;
             if (!StringValidator.IsStructureName(node.TypeName) &&
                 !StringValidator.IsClassName(node.TypeName) &&
                 !StringValidator.IsAssociationName(node.TypeName))
@@ -126,10 +124,10 @@ namespace Kingsland.MofParser.Ast
             }
 
             // [ alias ]
-            if (state.PeekIdentifier(Keywords.AS))
+            if (parser.PeekIdentifier(Keywords.AS))
             {
-                state.ReadIdentifier(Keywords.AS);
-                var aliasName = state.Read<AliasIdentifierToken>().Name;
+                parser.ReadIdentifier(Keywords.AS);
+                var aliasName = parser.Read<AliasIdentifierToken>().Name;
                 if (!StringValidator.IsIdentifier(aliasName))
                 {
                     throw new InvalidOperationException("Value is not a valid aliasIdentifier");
@@ -138,29 +136,29 @@ namespace Kingsland.MofParser.Ast
             }
 
             // propertyValueList
-            state.Read<BlockOpenToken>();
-            while (!state.Eof && (state.Peek<BlockCloseToken>() == null))
+            parser.Read<BlockOpenToken>();
+            while (!parser.Eof && (parser.Peek<BlockCloseToken>() == null))
             {
                 // propertyName
-                var propertyName = state.Read<IdentifierToken>().Name;
+                var propertyName = parser.Read<IdentifierToken>().Name;
                 if (!StringValidator.IsIdentifier(propertyName))
                 {
                     throw new InvalidOperationException("Value is not a valid property name.");
                 }
                 // "="
-                state.Read<EqualsOperatorToken>();
+                parser.Read<EqualsOperatorToken>();
                 // propertyValue
                 var propertyValue = PropertyValueAst.Parse(parser);
                 // ";"
-                state.Read<StatementEndToken>();
+                parser.Read<StatementEndToken>();
                 node.Properties.Add(propertyName, propertyValue);
             }
 
             // "}"
-            state.Read<BlockCloseToken>();
+            parser.Read<BlockCloseToken>();
 
             // ";"
-            state.Read<StatementEndToken>();
+            parser.Read<StatementEndToken>();
 
             // return the result
             return node;

@@ -45,12 +45,11 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static bool TryParse(Parser parser, ref StringValueAst node, bool throwIfError = false)
         {
-            var state = parser.CurrentState;
             // stringValue
             var stringValue = default(StringLiteralToken);
-            if (!state.TryRead<StringLiteralToken>(ref stringValue))
+            if (!parser.TryRead<StringLiteralToken>(ref stringValue))
             {
-                return AstNode.HandleUnexpectedToken(state.Peek(), throwIfError);
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
             }
             // build the node
             node = new StringValueAst

@@ -43,12 +43,11 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static bool TryParse(Parser parser, ref RealValueAst node, bool throwIfError = false)
         {
-            var state = parser.CurrentState;
             // realValue
             var realValue = default(IntegerLiteralToken);
-            if (!state.TryRead<IntegerLiteralToken>(ref realValue))
+            if (!parser.TryRead<IntegerLiteralToken>(ref realValue))
             {
-                return AstNode.HandleUnexpectedToken(state.Peek(), throwIfError);
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
             }
             // build the node
             node = new RealValueAst

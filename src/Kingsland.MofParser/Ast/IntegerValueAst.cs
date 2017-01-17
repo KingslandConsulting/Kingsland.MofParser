@@ -62,12 +62,11 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static bool TryParse(Parser parser, ref IntegerValueAst node, bool throwIfError = false)
         {
-            var state = parser.CurrentState;
             // integerValue
             var integerValue = default(IntegerLiteralToken);
-            if (!state.TryRead<IntegerLiteralToken>(ref integerValue))
+            if (!parser.TryRead<IntegerLiteralToken>(ref integerValue))
             {
-                return AstNode.HandleUnexpectedToken(state.Peek(), throwIfError);
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
             }
             // build the node
             node = new IntegerValueAst
