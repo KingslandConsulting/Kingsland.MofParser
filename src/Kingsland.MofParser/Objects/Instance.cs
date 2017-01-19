@@ -68,9 +68,9 @@ namespace Kingsland.MofParser.Objects
                 {
                     instance.Properties.Add(property.Key, Instance.GetLiteralValue((LiteralValueAst)propertyValue));
                 }
-                else if ((propertyValue as ReferenceTypeValueAst) != null)
+                else if ((propertyValue as ReferenceValueAst) != null)
                 {
-                    instance.Properties.Add(property.Key, (((ReferenceTypeValueAst)propertyValue).Name));
+                    instance.Properties.Add(property.Key, (((ReferenceValueAst)propertyValue).Name));
                 }
                 else
                 {

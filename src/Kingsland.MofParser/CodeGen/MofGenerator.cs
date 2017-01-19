@@ -367,7 +367,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region A.19 Reference type value
 
-        public static string ConvertToMof(ReferenceTypeValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertToMof(ReferenceValueAst node, MofQuirks quirks = MofQuirks.None)
         {
             return string.Format("${0}", node.Name);
         }

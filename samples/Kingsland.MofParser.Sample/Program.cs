@@ -1,5 +1,6 @@
 ﻿using Kingsland.MofParser;
 using System;
+using System.IO;
 
 namespace Kingsland.FileFormat.Mof.Tests
 {
@@ -11,7 +12,11 @@ namespace Kingsland.FileFormat.Mof.Tests
         {
 
             //const string filename = "dsc\\MyServer.mof";
-            const string filename = "..\\..\\..\\..\\src\\Kingsland.MofParser.UnitTests\\Parsing\\TestCases\\aliasidentifier_issue_7.mof";
+
+            const string rootFolder = "..\\..\\..\\..\\src\\Kingsland.MofParser.UnitTests\\Parsing\\TestCases";
+            string filename = Path.Combine(rootFolder, "issue_7_aliasidentifier_array.mof");
+            //string filename = Path.Combine(rootFolder, "issue_7_aliasidentifier_single.mof";
+            //string filename = Path.Combine(rootFolder, "issue_7_literalvaluearray.mof");
 
             // parse the mof file
             var instances = PowerShellDscHelper.ParseMofFileInstances(filename);
