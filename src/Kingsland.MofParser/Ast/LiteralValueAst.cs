@@ -33,7 +33,7 @@ namespace Kingsland.MofParser.Ast
         ///                          dateTimeValue
         ///
         /// </remarks>
-        internal new static LiteralValueAst Parse(Parser parser)
+        internal static bool TryParse(Parser parser, ref LiteralValueAst node, bool throwIfError = false)
         {
 
             // integerValue
@@ -42,7 +42,8 @@ namespace Kingsland.MofParser.Ast
             if (IntegerValueAst.TryParse(parser, ref integerValue, false))
             {
                 parser.Commit();
-                return integerValue;
+                node = integerValue;
+                return true;
             }
             parser.Backtrack();
 
@@ -52,7 +53,8 @@ namespace Kingsland.MofParser.Ast
             if (StringValueAst.TryParse(parser, ref stringValue, false))
             {
                 parser.Commit();
-                return stringValue;
+                node = stringValue;
+                return true;
             }
             parser.Backtrack();
 
@@ -62,7 +64,8 @@ namespace Kingsland.MofParser.Ast
             if (BooleanValueAst.TryParse(parser, ref booleanValue, false))
             {
                 parser.Commit();
-                return booleanValue;
+                node = booleanValue;
+                return true;
             }
             parser.Backtrack();
 
@@ -72,14 +75,21 @@ namespace Kingsland.MofParser.Ast
             if (NullValueAst.TryParse(parser, ref nullValue, false))
             {
                 parser.Commit();
-                return nullValue;
+                node = nullValue;
+                return true;
             }
             parser.Backtrack();
 
             // unexpected token
-            var state = parser.CurrentState;
-            throw new UnexpectedTokenException(state.Peek());
+            return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
 
+        }
+
+        internal new static LiteralValueAst Parse(Parser parser)
+        {
+            var node = default(LiteralValueAst);
+            LiteralValueAst.TryParse(parser, ref node, true);
+            return node;
         }
 
         internal static bool IsLiteralValueToken(Token token)

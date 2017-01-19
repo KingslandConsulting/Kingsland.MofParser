@@ -52,31 +52,57 @@ namespace Kingsland.MofParser.Ast
         ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
         ///
         /// </remarks>
-        internal new static LiteralValueArrayAst Parse(Parser parser)
+        internal static bool TryParse(Parser parser, ref LiteralValueArrayAst node, bool throwIfError = false)
         {
-            var state = parser.CurrentState;
-            var node = new LiteralValueArrayAst();
+
             // "{"
-            state.Read<BlockOpenToken>();
-            // [ literalValue *( "," literalValue) ]
-            if (state.Peek<BlockCloseToken>() == null)
+            var blockOpen = default(BlockOpenToken);
+            if (!parser.TryRead(ref blockOpen))
             {
-                while (!state.Eof)
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+            }
+
+            // [ literalValue *( "," literalValue) ]
+            var literalValues = new List<LiteralValueAst>();
+            while (!parser.Eof && (parser.Peek<BlockCloseToken>() == null))
+            {
+                var comma = default(CommaToken);
+                if ((literalValues.Count > 0) && (!parser.TryRead(ref comma)))
                 {
-                    if (node.Values.Count > 0)
-                    {
-                        state.Read<CommaToken>();
-                    }
-                    node.Values.Add(LiteralValueAst.Parse(parser));
-                    if (state.Peek<BlockCloseToken>() != null)
-                    {
-                        break;
-                    }
+                    return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+                }
+                var literalValue = default(LiteralValueAst);
+                if (LiteralValueAst.TryParse(parser, ref literalValue, throwIfError))
+                {
+                    literalValues.Add(literalValue);
+                }
+                else
+                {
+                    return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
                 }
             }
+
             // "}"
-            state.Read<BlockCloseToken>();
+            var blockClose = default(BlockCloseToken);
+            if (!parser.TryRead(ref blockClose))
+            {
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+            }
+
+            // build the result
+            var result = new LiteralValueArrayAst();
+            result.Values.AddRange(literalValues);
+
             // return the result
+            node = result;
+            return true;
+
+        }
+
+        internal new static LiteralValueArrayAst Parse(Parser parser)
+        {
+            var node = default(LiteralValueArrayAst);
+            LiteralValueArrayAst.TryParse(parser, ref node, true);
             return node;
         }
 

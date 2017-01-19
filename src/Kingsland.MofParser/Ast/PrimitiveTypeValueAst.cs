@@ -1,10 +1,9 @@
 ﻿using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
 
-    public abstract class PrimitiveTypeValueAst : AstNode
+    public abstract class PrimitiveTypeValueAst : PropertyValueAst
     {
 
         #region Constructors
@@ -29,24 +28,41 @@ namespace Kingsland.MofParser.Ast
         ///     primitiveTypeValue = literalValue / literalValueArray
         ///
         /// </remarks>
-        internal static PrimitiveTypeValueAst Parse(Parser parser)
+        internal static bool TryParse(Parser parser, ref PrimitiveTypeValueAst node, bool throwIfError = false)
         {
-            var state = parser.CurrentState;
-            var peek = state.Peek();
-            if (LiteralValueAst.IsLiteralValueToken(peek))
+
+            // literalValue
+            parser.Descend();
+            var literalValue = default(LiteralValueAst);
+            if (LiteralValueAst.TryParse(parser, ref literalValue, false))
             {
-                // literalValue
-                return LiteralValueAst.Parse(parser);
+                parser.Commit();
+                node = literalValue;
+                return true;
             }
-            else if(peek is BlockOpenToken)
+            parser.Backtrack();
+
+            // literalValueArray
+            parser.Descend();
+            var literalValueArray = default(LiteralValueArrayAst);
+            if (LiteralValueArrayAst.TryParse(parser, ref literalValueArray, false))
             {
-                // literalValueArray
-                return LiteralValueArrayAst.Parse(parser);
+                parser.Commit();
+                node = literalValueArray;
+                return true;
             }
-            else
-            {
-                throw new UnexpectedTokenException(peek);
-            }
+            parser.Backtrack();
+
+            // unexpected token
+            return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+
+        }
+
+        internal new static PrimitiveTypeValueAst Parse(Parser parser)
+        {
+            var node = default(PrimitiveTypeValueAst);
+            PrimitiveTypeValueAst.TryParse(parser, ref node, true);
+            return node;
         }
 
         #endregion
