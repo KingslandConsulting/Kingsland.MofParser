@@ -24,7 +24,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public bool Value
+        public new bool Value
         {
             get;
             private set;
@@ -48,18 +48,22 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static bool TryParse(Parser parser, ref BooleanValueAst node, bool throwIfError = false)
         {
+
             // booleanValue
             var booleanValue = default(BooleanLiteralToken);
             if (!parser.TryRead<BooleanLiteralToken>(ref booleanValue))
             {
                 return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
             }
-            // build the node
-            node = new BooleanValueAst
+
+            // build the result
+            var result =  new BooleanValueAst
             {
                 Value = booleanValue.Value
             };
+
             // return the result
+            node = result;
             return true;
         }
 

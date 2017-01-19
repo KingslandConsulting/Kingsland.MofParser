@@ -18,7 +18,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public string Value
+        public new string Value
         {
             get;
             private set;
@@ -45,19 +45,24 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static bool TryParse(Parser parser, ref StringValueAst node, bool throwIfError = false)
         {
+
             // stringValue
             var stringValue = default(StringLiteralToken);
             if (!parser.TryRead<StringLiteralToken>(ref stringValue))
             {
                 return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
             }
-            // build the node
-            node = new StringValueAst
+
+            // build the result
+            var result = new StringValueAst
             {
                 Value = stringValue.Value
             };
+
             // return the result
+            node = result;
             return true;
+
         }
 
         internal new static StringValueAst Parse(Parser parser)

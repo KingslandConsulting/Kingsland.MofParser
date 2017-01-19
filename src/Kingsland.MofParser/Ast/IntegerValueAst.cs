@@ -18,7 +18,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public long Value
+        public new long Value
         {
             get;
             private set;
@@ -62,19 +62,24 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static bool TryParse(Parser parser, ref IntegerValueAst node, bool throwIfError = false)
         {
+
             // integerValue
             var integerValue = default(IntegerLiteralToken);
             if (!parser.TryRead<IntegerLiteralToken>(ref integerValue))
             {
                 return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
             }
-            // build the node
-            node = new IntegerValueAst
+
+            // build the result
+            var result = new IntegerValueAst
             {
                 Value = integerValue.Value
             };
+
             // return the result
+            node = result;
             return true;
+
         }
 
         internal new static IntegerValueAst Parse(Parser parser)
