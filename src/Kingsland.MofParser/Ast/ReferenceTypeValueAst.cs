@@ -1,27 +1,16 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
 
-    public sealed class ReferenceTypeValueAst : AstNode
+    public class ReferenceTypeValueAst : PropertyValueAst
     {
 
         #region Constructors
 
-        private ReferenceTypeValueAst()
+        internal ReferenceTypeValueAst()
         {
-        }
-
-        #endregion
-
-        #region Properties
-
-        public string Name
-        {
-            get;
-            private set;
         }
 
         #endregion
@@ -37,29 +26,42 @@ namespace Kingsland.MofParser.Ast
         /// A.19 Reference type value
         ///
         ///     referenceTypeValue  = referenceValue / referenceValueArray
-        ///     referenceValueArray = "{" [ objectPathValue *( "," objectPathValue ) ]
-        ///
-        /// No whitespace is allowed between the elements of the rules in this ABNF section.
-        ///
-        ///     objectPathValue = [namespacePath ":"] instanceId
-        ///     namespacePath   = [serverPath] namespaceName
-        ///
-        /// ; Note: The production rules for host and port are defined in IETF
-        /// ; RFC 3986 (Uniform Resource Identifiers (URI): Generic Syntax).
-        ///
-        ///     serverPath       = (host / LOCALHOST) [ ":" port] "/"
-        ///     LOCALHOST        = "localhost" ; Case insensitive
-        ///     instanceId       = className "." instanceKeyValue
-        ///     instanceKeyValue = keyValue *( "," keyValue )
-        ///     keyValue         = propertyName "=" literalValue
         ///
         /// </remarks>
-        internal static ReferenceTypeValueAst Parse(Parser parser)
+        internal static bool TryParse(Parser parser, ref ReferenceTypeValueAst node, bool throwIfError = false)
         {
-            var state = parser.CurrentState;
-            var node = new ReferenceTypeValueAst();
-            // referenceValue = objectPathValue
-            node.Name = state.Read<AliasIdentifierToken>().Name;
+
+            // referenceValue
+            parser.Descend();
+            var referenceValue = default(ReferenceValueAst);
+            if (ReferenceValueAst.TryParse(parser, ref referenceValue, false))
+            {
+                parser.Commit();
+                node = referenceValue;
+                return true;
+            }
+            parser.Backtrack();
+
+            // referenceValueArray
+            parser.Descend();
+            var referenceValueArray = default(ReferenceValueArrayAst);
+            if (ReferenceValueArrayAst.TryParse(parser, ref referenceValueArray, false))
+            {
+                parser.Commit();
+                node = referenceValueArray;
+                return true;
+            }
+            parser.Backtrack();
+
+            // unexpected token
+            return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+
+        }
+
+        internal new static ReferenceTypeValueAst Parse(Parser parser)
+        {
+            var node = default(ReferenceTypeValueAst);
+            ReferenceTypeValueAst.TryParse(parser, ref node, true);
             return node;
         }
 
