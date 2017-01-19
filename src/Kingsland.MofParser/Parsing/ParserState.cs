@@ -113,6 +113,17 @@ namespace Kingsland.MofParser.Parsing
             return token;
         }
 
+        public bool TryReadIdentifier(string name, ref IdentifierToken result)
+        {
+            var token = this.Read<IdentifierToken>();
+            if (token.GetNormalizedName() != name)
+            {
+                return false;
+            }
+            result = token;
+            return true;
+        }
+
         public IdentifierToken ReadIdentifier(string name)
         {
             var token = this.Read<IdentifierToken>();

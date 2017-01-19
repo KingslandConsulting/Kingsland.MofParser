@@ -126,6 +126,11 @@ namespace Kingsland.MofParser.Parsing
             return this.CurrentState.ReadIdentifier(name);
         }
 
+        internal bool TryReadIdentifier(string name, ref IdentifierToken result)
+        {
+            return this.CurrentState.TryReadIdentifier(name, ref result);
+        }
+
         #endregion
 
         #region Methods
