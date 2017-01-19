@@ -89,87 +89,157 @@ namespace Kingsland.MofParser.Ast
         ///     propertyName      = IDENTIFIER
         ///
         /// </remarks>
-        internal new static ComplexValueAst Parse(Parser parser)
+        internal static bool TryParse(Parser parser, ref ComplexValueAst node, bool throwIfError = false)
         {
 
-            // complexValue =
-            var node = new ComplexValueAst();
-
             // ( INSTANCE / VALUE )
-            var keyword = parser.ReadIdentifier();
-            switch (keyword.GetNormalizedName())
+            var objectType = default(IdentifierToken);
+            if (!parser.TryRead(ref objectType))
+            {
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+            }
+            switch (objectType.GetNormalizedName())
             {
                 case Keywords.INSTANCE:
-                    node.IsInstance = true;
-                    node.IsValue = false;
-                    break;
                 case Keywords.VALUE:
-                    node.IsInstance = false;
-                    node.IsValue = true;
                     break;
                 default:
-                    throw new UnexpectedTokenException(keyword);
+                    return AstNode.HandleUnexpectedToken(objectType, throwIfError);
             }
 
             // OF
-            parser.ReadIdentifier(Keywords.OF);
+            var of = default(IdentifierToken);
+            if (!parser.TryReadIdentifier(Keywords.OF, ref of))
+            {
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+            }
 
             // ( structureName / className / associationName )
-            node.TypeName = parser.Read<IdentifierToken>().Name;
-            if (!StringValidator.IsStructureName(node.TypeName) &&
-                !StringValidator.IsClassName(node.TypeName) &&
-                !StringValidator.IsAssociationName(node.TypeName))
+            var typeName = default(IdentifierToken);
+            if (!parser.TryRead(ref typeName))
             {
-                throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+            }
+            if (!StringValidator.IsStructureName(typeName.Name) &&
+                !StringValidator.IsClassName(typeName.Name) &&
+                !StringValidator.IsAssociationName(typeName.Name))
+            {
+                //throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
+                return AstNode.HandleUnexpectedToken(objectType, throwIfError);
             }
 
             // [ alias ]
-            if (parser.PeekIdentifier(Keywords.AS))
+            var alias = default(IdentifierToken);
+            var aliasName = default(AliasIdentifierToken);
+            if (parser.TryReadIdentifier(Keywords.AS, ref alias))
             {
-                parser.ReadIdentifier(Keywords.AS);
-                var aliasName = parser.Read<AliasIdentifierToken>().Name;
-                if (!StringValidator.IsIdentifier(aliasName))
+                if (!parser.TryRead(ref aliasName))
                 {
-                    throw new InvalidOperationException("Value is not a valid aliasIdentifier");
+                    return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
                 }
-                node.Alias = aliasName;
+                if (!StringValidator.IsIdentifier(aliasName.Name))
+                {
+                    //throw new InvalidOperationException("Value is not a valid aliasIdentifier");
+                    return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+                }
             }
 
-            // propertyValueList
-            parser.Read<BlockOpenToken>();
+            // propertyValueList = 
+            var properties = new Dictionary<string, PropertyValueAst>();
+
+            // "{"
+            var blockOpen = default(BlockOpenToken);
+            if (!parser.TryRead(ref blockOpen))
+            {
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+            }
+
+            // *propertySlot
             while (!parser.Eof && (parser.Peek<BlockCloseToken>() == null))
             {
+
                 // propertyName
                 var propertyName = parser.Read<IdentifierToken>().Name;
                 if (!StringValidator.IsIdentifier(propertyName))
                 {
                     throw new InvalidOperationException("Value is not a valid property name.");
                 }
+
                 // "="
-                parser.Read<EqualsOperatorToken>();
+                var equalsOperator = default(EqualsOperatorToken);
+                if (!parser.TryRead(ref equalsOperator))
+                {
+                    return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+                }
+
                 // propertyValue
                 var propertyValue = PropertyValueAst.Parse(parser);
+
                 // ";"
-                parser.Read<StatementEndToken>();
-                node.Properties.Add(propertyName, propertyValue);
+                var proeprtyStatementEnd = default(StatementEndToken);
+                if (!parser.TryRead(ref proeprtyStatementEnd))
+                {
+                    return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+                }
+
+                properties.Add(propertyName, propertyValue);
+
             }
 
             // "}"
-            parser.Read<BlockCloseToken>();
+            var blockClose = default(BlockCloseToken);
+            if (!parser.TryRead(ref blockClose))
+            {
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+            }
 
             // ";"
-            parser.Read<StatementEndToken>();
+            var statementEnd = default(StatementEndToken);
+            if (!parser.TryRead(ref statementEnd))
+            {
+                return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
+            }
+
+            // build the result
+            var result = new ComplexValueAst();
+            switch (objectType.GetNormalizedName())
+            {
+                case Keywords.INSTANCE:
+                    result.IsInstance = true;
+                    result.IsValue = false;
+                    break;
+                case Keywords.VALUE:
+                    result.IsInstance = false;
+                    result.IsValue = true;
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+            result.TypeName = typeName.Name;
+            result.Alias = (aliasName == null) ? null : aliasName.Name;
+            foreach (var item in properties)
+            {
+                result.Properties.Add(item.Key, item.Value);
+            }
 
             // return the result
-            return node;
+            node = result;
+            return true;
 
         }
 
-        #endregion
+        internal new static ComplexValueAst Parse(Parser parser)
+        {
+            var node = default(ComplexValueAst);
+            ComplexValueAst.TryParse(parser, ref node, true);
+            return node;
+        }
 
-        #region Object Overrides
+    #endregion
 
-        public override string ToString()
+    #region Object Overrides
+
+    public override string ToString()
         {
             return MofGenerator.ConvertToMof(this);
         }
