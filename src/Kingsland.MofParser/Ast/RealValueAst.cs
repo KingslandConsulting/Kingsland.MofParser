@@ -18,7 +18,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public float Value
+        public new float Value
         {
             get;
             private set;
@@ -43,19 +43,24 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static bool TryParse(Parser parser, ref RealValueAst node, bool throwIfError = false)
         {
+
             // realValue
             var realValue = default(IntegerLiteralToken);
             if (!parser.TryRead<IntegerLiteralToken>(ref realValue))
             {
                 return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
             }
-            // build the node
-            node = new RealValueAst
+
+            // build the result
+            var result = new RealValueAst
             {
                 Value = realValue.Value
             };
+
             // return the result
+            node = result;
             return true;
+
         }
 
         internal new static RealValueAst Parse(Parser parser)
