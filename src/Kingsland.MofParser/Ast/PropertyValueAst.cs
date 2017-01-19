@@ -5,12 +5,12 @@ using Kingsland.MofParser.Tokens;
 namespace Kingsland.MofParser.Ast
 {
 
-    public sealed class PropertyValueAst : AstNode
+    public abstract class PropertyValueAst : AstNode
     {
 
         #region Constructors
 
-        private PropertyValueAst()
+        internal PropertyValueAst()
         {
         }
 
@@ -41,7 +41,6 @@ namespace Kingsland.MofParser.Ast
         /// 7.3.5
         ///
         ///     primitiveTypeValue = literalValue / literalValueArray
-        ///     primitiveType = DT_Integer / DT_Real / DT_STRING / DT_DATETIME / DT_BOOLEAN / DT_OCTETSTRING
         ///
         /// A.1
         ///
@@ -60,45 +59,40 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static PropertyValueAst Parse(Parser parser)
         {
-            var state = parser.CurrentState;
-            var node = new PropertyValueAst();
-            var peek = state.Peek();
-            // propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
-            if (LiteralValueAst.IsLiteralValueToken(peek))
+
+            // primitiveTypeValue
+            parser.Descend();
+            var primitiveTypeValue = default(PrimitiveTypeValueAst);
+            if (PrimitiveTypeValueAst.TryParse(parser, ref primitiveTypeValue, false))
             {
-                // primitiveTypeValue -> literalValue
-                node.Value = PrimitiveTypeValueAst.Parse(parser);
+                parser.Commit();
+                return primitiveTypeValue;
             }
-            else if (peek is BlockOpenToken)
+            parser.Backtrack();
+
+            // complexTypeValue
+            parser.Descend();
+            var complexTypeValue = default(ComplexTypeValueAst);
+            if (ComplexTypeValueAst.TryParse(parser, ref complexTypeValue, false))
             {
-                // we need to read the subsequent token to work out whether
-                // this is a complexValueArray, literalValueArray, referenceValueArray or enumValueArray
-                state.Read();
-                peek = state.Peek();
-                if (LiteralValueAst.IsLiteralValueToken(peek))
-                {
-                    // literalValueArray
-                    state.Backtrack();
-                    node.Value = LiteralValueArrayAst.Parse(parser);
-                }
-                else
-                {
-                    // complexValueType
-                    state.Backtrack();
-                    node.Value = ComplexValueArrayAst.Parse(parser);
-                }
+                parser.Commit();
+                return complexTypeValue;
             }
-            else if (peek is AliasIdentifierToken)
+            parser.Backtrack();
+
+            // referenceTypeValue
+            parser.Descend();
+            var referenceTypeValue = default(ReferenceTypeValueAst);
+            if (ReferenceTypeValueAst.TryParse(parser, ref referenceTypeValue, false))
             {
-                // referenceTypeValue
-                node.Value = ReferenceTypeValueAst.Parse(parser);
+                parser.Commit();
+                return referenceTypeValue;
             }
-            else
-            {
-                throw new UnexpectedTokenException(peek);
-            }
-            // return the result
-            return node;
+            parser.Backtrack();
+
+            // unexpected token
+            throw new UnexpectedTokenException(parser.Peek());
+
         }
 
         #endregion
