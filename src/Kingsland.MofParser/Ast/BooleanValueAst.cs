@@ -24,7 +24,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public new bool Value
+        public bool Value
         {
             get;
             private set;

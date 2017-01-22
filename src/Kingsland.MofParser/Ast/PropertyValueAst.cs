@@ -1,6 +1,5 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -12,16 +11,6 @@ namespace Kingsland.MofParser.Ast
 
         internal PropertyValueAst()
         {
-        }
-
-        #endregion
-
-        #region Properties
-
-        public object Value
-        {
-            get;
-            private set;
         }
 
         #endregion

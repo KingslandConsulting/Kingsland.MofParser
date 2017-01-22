@@ -18,7 +18,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public new string Value
+        public string Value
         {
             get;
             private set;
