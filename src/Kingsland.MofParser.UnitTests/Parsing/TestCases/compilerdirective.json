@@ -1,0 +1,13 @@
+{
+  "$type": "Kingsland.MofParser.Ast.MofSpecificationAst, Kingsland.MofParser",
+  "Productions": {
+    "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.MofProductionAst, Kingsland.MofParser]], mscorlib",
+    "$values": [
+      {
+        "$type": "Kingsland.MofParser.Ast.CompilerDirectiveAst, Kingsland.MofParser",
+        "Pragma": "namespace",
+        "Argument": "\\\\.\\ROOT\\CIMV2"
+      }
+    ]
+  }
+}

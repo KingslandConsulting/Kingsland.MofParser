@@ -1,0 +1,4 @@
+[abstract: DisableOverride ToInstance ToSubClass]
+class myClass : mySuperClass
+{
+};

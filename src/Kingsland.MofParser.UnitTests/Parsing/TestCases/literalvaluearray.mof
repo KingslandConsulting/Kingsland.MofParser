@@ -1,0 +1,4 @@
+instance of myInstance
+{
+    myValues = { true, false, 0, 100, -100, null, "myStringValue" };
+};

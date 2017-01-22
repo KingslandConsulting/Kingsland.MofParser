@@ -1,0 +1,72 @@
+{
+  "$type": "Kingsland.MofParser.Ast.MofSpecificationAst, Kingsland.MofParser",
+  "Productions": {
+    "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.MofProductionAst, Kingsland.MofParser]], mscorlib",
+    "$values": [
+      {
+        "$type": "Kingsland.MofParser.Ast.InstanceDeclarationAst, Kingsland.MofParser",
+        "Instance": {
+          "$type": "Kingsland.MofParser.Ast.ComplexValueAst, Kingsland.MofParser",
+          "IsInstance": true,
+          "IsValue": false,
+          "TypeName": "myInstance",
+          "Alias": null,
+          "Properties": {
+            "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser]], mscorlib",
+            "myValues": {
+              "$type": "Kingsland.MofParser.Ast.LiteralValueArrayAst, Kingsland.MofParser",
+              "Values": {
+                "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.LiteralValueAst, Kingsland.MofParser]], mscorlib",
+                "$values": [
+                  {
+                    "$type": "Kingsland.MofParser.Ast.BooleanValueAst, Kingsland.MofParser",
+                    "Token": null,
+                    "Value": true
+                  },
+                  {
+                    "$type": "Kingsland.MofParser.Ast.BooleanValueAst, Kingsland.MofParser",
+                    "Token": null,
+                    "Value": false
+                  },
+                  {
+                    "$type": "Kingsland.MofParser.Ast.IntegerValueAst, Kingsland.MofParser",
+                    "Value": 0
+                  },
+                  {
+                    "$type": "Kingsland.MofParser.Ast.IntegerValueAst, Kingsland.MofParser",
+                    "Value": 100
+                  },
+                  {
+                    "$type": "Kingsland.MofParser.Ast.IntegerValueAst, Kingsland.MofParser",
+                    "Value": -100
+                  },
+                  {
+                    "$type": "Kingsland.MofParser.Ast.NullValueAst, Kingsland.MofParser",
+                    "Token": {
+                      "$type": "Kingsland.MofParser.Tokens.NullLiteralToken, Kingsland.MofParser",
+                      "Extent": {
+                        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+                        "StartPosition": 71,
+                        "StartLineNumber": 3,
+                        "StartColumnNumber": 45,
+                        "EndPosition": 74,
+                        "EndLineNumber": 3,
+                        "EndColumnNumber": 48,
+                        "Text": "null"
+                      }
+                    }
+                  },
+                  {
+                    "$type": "Kingsland.MofParser.Ast.StringValueAst, Kingsland.MofParser",
+                    "Value": "myStringValue"
+                  }
+                ]
+              }
+            }
+          },
+          "Qualifiers": null
+        }
+      }
+    ]
+  }
+}

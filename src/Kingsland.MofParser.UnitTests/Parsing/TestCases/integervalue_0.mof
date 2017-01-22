@@ -1,0 +1,4 @@
+instance of myInstance
+{
+    myValue = 0;
+};

@@ -32,8 +32,16 @@
           "Properties": {
             "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser]], mscorlib",
             "Reference": {
-              "$type": "Kingsland.MofParser.Ast.ReferenceValueAst, Kingsland.MofParser",
-              "Name": "Alias0000006E"
+              "$type": "Kingsland.MofParser.Ast.ReferenceValueArrayAst, Kingsland.MofParser",
+              "Values": {
+                "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.ReferenceValueAst, Kingsland.MofParser]], mscorlib",
+                "$values": [
+                  {
+                    "$type": "Kingsland.MofParser.Ast.ReferenceValueAst, Kingsland.MofParser",
+                    "Name": "Alias0000006E"
+                  }
+                ]
+              }
             }
           },
           "Qualifiers": null

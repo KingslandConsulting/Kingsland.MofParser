@@ -1,0 +1,77 @@
+{
+  "$type": "Kingsland.MofParser.Ast.MofSpecificationAst, Kingsland.MofParser",
+  "Productions": {
+    "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.MofProductionAst, Kingsland.MofParser]], mscorlib",
+    "$values": [
+      {
+        "$type": "Kingsland.MofParser.Ast.ClassDeclarationAst, Kingsland.MofParser",
+        "ClassName": {
+          "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
+          "Name": "myClass",
+          "Extent": {
+            "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+            "StartPosition": 57,
+            "StartLineNumber": 2,
+            "StartColumnNumber": 7,
+            "EndPosition": 63,
+            "EndLineNumber": 2,
+            "EndColumnNumber": 13,
+            "Text": "myClass"
+          }
+        },
+        "Superclass": {
+          "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
+          "Name": "mySuperClass",
+          "Extent": {
+            "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+            "StartPosition": 67,
+            "StartLineNumber": 2,
+            "StartColumnNumber": 17,
+            "EndPosition": 78,
+            "EndLineNumber": 2,
+            "EndColumnNumber": 28,
+            "Text": "mySuperClass"
+          }
+        },
+        "Features": {
+          "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.ClassFeatureAst, Kingsland.MofParser]], mscorlib",
+          "$values": []
+        },
+        "Qualifiers": {
+          "$type": "Kingsland.MofParser.Ast.QualifierListAst, Kingsland.MofParser",
+          "Qualifiers": {
+            "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.QualifierValueAst, Kingsland.MofParser]], mscorlib",
+            "$values": [
+              {
+                "$type": "Kingsland.MofParser.Ast.QualifierValueAst, Kingsland.MofParser",
+                "Name": {
+                  "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
+                  "Name": "abstract",
+                  "Extent": {
+                    "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+                    "StartPosition": 1,
+                    "StartLineNumber": 1,
+                    "StartColumnNumber": 2,
+                    "EndPosition": 8,
+                    "EndLineNumber": 1,
+                    "EndColumnNumber": 9,
+                    "Text": "abstract"
+                  }
+                },
+                "Initializer": null,
+                "Flavors": {
+                  "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                  "$values": [
+                    "DisableOverride",
+                    "ToInstance",
+                    "ToSubClass"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

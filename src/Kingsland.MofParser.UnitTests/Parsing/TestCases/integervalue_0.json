@@ -9,25 +9,13 @@
           "$type": "Kingsland.MofParser.Ast.ComplexValueAst, Kingsland.MofParser",
           "IsInstance": true,
           "IsValue": false,
-          "TypeName": "TYPEA",
-          "Alias": "Alias0000006E",
+          "TypeName": "myInstance",
+          "Alias": null,
           "Properties": {
             "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser]], mscorlib",
-            "ServerURLs": {
-              "$type": "Kingsland.MofParser.Ast.LiteralValueArrayAst, Kingsland.MofParser",
-              "Values": {
-                "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.LiteralValueAst, Kingsland.MofParser]], mscorlib",
-                "$values": [
-                  {
-                    "$type": "Kingsland.MofParser.Ast.StringValueAst, Kingsland.MofParser",
-                    "Value": "https://URL1"
-                  },
-                  {
-                    "$type": "Kingsland.MofParser.Ast.StringValueAst, Kingsland.MofParser",
-                    "Value": "https://URL2"
-                  }
-                ]
-              }
+            "myValue": {
+              "$type": "Kingsland.MofParser.Ast.IntegerValueAst, Kingsland.MofParser",
+              "Value": 0
             }
           },
           "Qualifiers": null
