@@ -161,7 +161,8 @@ namespace Kingsland.MofParser.Ast
                 var propertyName = parser.Read<IdentifierToken>().Name;
                 if (!StringValidator.IsIdentifier(propertyName))
                 {
-                    throw new InvalidOperationException("Value is not a valid property name.");
+                    //throw new InvalidOperationException("Value is not a valid property name.");
+                    return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
                 }
 
                 // "="
@@ -175,8 +176,8 @@ namespace Kingsland.MofParser.Ast
                 var propertyValue = PropertyValueAst.Parse(parser);
 
                 // ";"
-                var proeprtyStatementEnd = default(StatementEndToken);
-                if (!parser.TryRead(ref proeprtyStatementEnd))
+                var propertyStatementEnd = default(StatementEndToken);
+                if (!parser.TryRead(ref propertyStatementEnd))
                 {
                     return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
                 }
