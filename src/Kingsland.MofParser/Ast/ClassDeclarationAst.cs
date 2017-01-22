@@ -78,17 +78,16 @@ namespace Kingsland.MofParser.Ast
         internal static ClassDeclarationAst ParseClassAst(Parser parser, QualifierListAst qualifiers)
         {
 
-            var state = parser.CurrentState;
             var node = new ClassDeclarationAst();
 
             // [ qualifierList ]
             node.Qualifiers = qualifiers;
 
             // CLASS
-            state.ReadIdentifier(Keywords.CLASS);
+            parser.ReadIdentifier(Keywords.CLASS);
 
             // className
-            var className = state.Read<IdentifierToken>();
+            var className = parser.Read<IdentifierToken>();
             if (!StringValidator.IsClassName(className.Name))
             {
                 throw new InvalidOperationException("Identifer is not a valid class name.");
@@ -96,10 +95,10 @@ namespace Kingsland.MofParser.Ast
             node.ClassName = className;
 
             // [ superClass ]
-            if (state.Peek<ColonToken>() != null)
+            if (parser.Peek<ColonToken>() != null)
             {
-                state.Read<ColonToken>();
-                var superclass = state.Read<IdentifierToken>();
+                parser.Read<ColonToken>();
+                var superclass = parser.Read<IdentifierToken>();
                 if (!StringValidator.IsClassName(className.Name))
                 {
                     throw new InvalidOperationException("Identifer is not a valid superclass name.");
@@ -108,12 +107,12 @@ namespace Kingsland.MofParser.Ast
             }
 
             // "{"
-            state.Read<BlockOpenToken>();
+            parser.Read<BlockOpenToken>();
 
             // *classFeature
-            while (!state.Eof)
+            while (!parser.Eof)
             {
-                var peek = state.Peek() as BlockCloseToken;
+                var peek = parser.Peek() as BlockCloseToken;
                 if (peek != null)
                 {
                     break;
@@ -123,10 +122,10 @@ namespace Kingsland.MofParser.Ast
             }
 
             // "}"
-            state.Read<BlockCloseToken>();
+            parser.Read<BlockCloseToken>();
 
             // ";"
-            state.Read<StatementEndToken>();
+            parser.Read<StatementEndToken>();
 
             return node;
 

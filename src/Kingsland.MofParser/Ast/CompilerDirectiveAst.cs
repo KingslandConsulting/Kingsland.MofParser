@@ -37,14 +37,13 @@ namespace Kingsland.MofParser.Ast
         internal new static CompilerDirectiveAst Parse(Parser parser)
         {
 
-            var state = parser.CurrentState;
             var ast = new CompilerDirectiveAst();
 
-            state.Read<PragmaToken>();
-            ast.Pragma = state.Read<IdentifierToken>().Name;
-            state.Read<ParenthesesOpenToken>();
-            ast.Argument = state.Read<StringLiteralToken>().Value;
-            state.Read<ParenthesesCloseToken>();
+            parser.Read<PragmaToken>();
+            ast.Pragma = parser.Read<IdentifierToken>().Name;
+            parser.Read<ParenthesesOpenToken>();
+            ast.Argument = parser.Read<StringLiteralToken>().Value;
+            parser.Read<ParenthesesCloseToken>();
 
             return ast;
 

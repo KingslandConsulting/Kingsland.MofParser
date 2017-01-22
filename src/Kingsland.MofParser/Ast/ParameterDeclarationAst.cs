@@ -86,34 +86,33 @@ namespace Kingsland.MofParser.Ast
         /// </remarks>
         internal static ParameterDeclarationAst Parse(Parser parser)
         {
-            var state = parser.CurrentState;
             var parameter = new ParameterDeclarationAst();
             var qualifiers = default(QualifierListAst);
-            if (state.Peek<AttributeOpenToken>() != null)
+            if (parser.Peek<AttributeOpenToken>() != null)
             {
                 qualifiers = QualifierListAst.Parse(parser);
             }
             parameter.Qualifiers = qualifiers;
-            parameter.Type = state.Read<IdentifierToken>();
-            if (state.PeekIdentifier(Keywords.REF))
+            parameter.Type = parser.Read<IdentifierToken>();
+            if (parser.PeekIdentifier(Keywords.REF))
             {
-                state.ReadIdentifier(Keywords.REF);
+                parser.ReadIdentifier(Keywords.REF);
                 parameter.IsRef = true;
             }
             else
             {
                 parameter.IsRef = false;
             }
-            parameter.Name = state.Read<IdentifierToken>();
-            if (state.Peek<AttributeOpenToken>() != null)
+            parameter.Name = parser.Read<IdentifierToken>();
+            if (parser.Peek<AttributeOpenToken>() != null)
             {
-                state.Read<AttributeOpenToken>();
-                state.Read<AttributeCloseToken>();
+                parser.Read<AttributeOpenToken>();
+                parser.Read<AttributeCloseToken>();
                 parameter.IsArray = true;
             }
-            if (state.Peek<EqualsOperatorToken>() != null)
+            if (parser.Peek<EqualsOperatorToken>() != null)
             {
-                state.Read<EqualsOperatorToken>();
+                parser.Read<EqualsOperatorToken>();
                 parameter.DefaultValue = ClassFeatureAst.ReadDefaultValue(parser, parameter.Type);
             }
             return parameter;

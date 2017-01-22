@@ -67,11 +67,9 @@ namespace Kingsland.MofParser.Ast
         internal static ClassFeatureAst Parse(Parser parser)
         {
 
-            var state = parser.CurrentState;
-
             // all classFeatures start with an optional "[ qualifierList ]"
             var qualifierList = default(QualifierListAst);
-            var peek = state.Peek() as AttributeOpenToken;
+            var peek = parser.Peek() as AttributeOpenToken;
             if ((peek as AttributeOpenToken) != null)
             {
                 qualifierList = QualifierListAst.Parse(parser);
@@ -79,7 +77,7 @@ namespace Kingsland.MofParser.Ast
 
             // we now need to work out if it's a structureDeclaration, enumDeclaration,
             // propertyDeclaration or methodDeclaration
-            var identifier = state.Peek<IdentifierToken>();
+            var identifier = parser.Peek<IdentifierToken>();
             var identifierName = identifier.GetNormalizedName();
             if (identifier == null)
             {
@@ -154,30 +152,28 @@ namespace Kingsland.MofParser.Ast
         private static ClassFeatureAst ParseMemberDeclaration(Parser parser, QualifierListAst qualifiers)
         {
 
-            var state = parser.CurrentState;
-
             // primitiveType / structureOrClassName / enumName / classReference
-            var returnType = state.Read<IdentifierToken>();
+            var returnType = parser.Read<IdentifierToken>();
 
             var @ref = default(IdentifierToken);
-            if (state.PeekIdentifier(Keywords.REF))
+            if (parser.PeekIdentifier(Keywords.REF))
             {
-                @ref = state.ReadIdentifier(Keywords.REF);
+                @ref = parser.ReadIdentifier(Keywords.REF);
             }
 
             // [ array ]
             var returnTypeIsArray = false;
-            if(state.Peek<AttributeOpenToken>() != null)
+            if(parser.Peek<AttributeOpenToken>() != null)
             {
-                state.Read<AttributeOpenToken>();
-                state.Read<AttributeCloseToken>();
+                parser.Read<AttributeOpenToken>();
+                parser.Read<AttributeCloseToken>();
                 returnTypeIsArray = true;
             }
 
             // propertyName / methodName
-            var memberName = state.Read<IdentifierToken>();
+            var memberName = parser.Read<IdentifierToken>();
 
-            if ((state.Peek<ParenthesesOpenToken>() != null) && (@ref == null))
+            if ((parser.Peek<ParenthesesOpenToken>() != null) && (@ref == null))
             {
                 // read the remainder of a methodDeclaration
                 var ast = new MethodDeclarationAst
@@ -188,28 +184,28 @@ namespace Kingsland.MofParser.Ast
                     ReturnTypeIsArray = returnTypeIsArray
                 };
                 // "("
-                state.Read<ParenthesesOpenToken>();
+                parser.Read<ParenthesesOpenToken>();
                 //  [ parameterList ]
-                if (state.Peek<ParenthesesCloseToken>() == null)
+                if (parser.Peek<ParenthesesCloseToken>() == null)
                 {
-                    while (!state.Eof)
+                    while (!parser.Eof)
                     {
                         if (ast.Parameters.Count > 0)
                         {
-                            state.Read<CommaToken>();
+                            parser.Read<CommaToken>();
                         }
                         var parameter = ParameterDeclarationAst.Parse(parser);
                         ast.Parameters.Add(parameter);
-                        if (state.Peek<ParenthesesCloseToken>() != null)
+                        if (parser.Peek<ParenthesesCloseToken>() != null)
                         {
                             break;
                         }
                     }
                 }
                 // ")"
-                state.Read<ParenthesesCloseToken>();
+                parser.Read<ParenthesesCloseToken>();
                 // ";"
-                state.Read<StatementEndToken>();
+                parser.Read<StatementEndToken>();
                 return ast;
             }
             else
@@ -222,18 +218,18 @@ namespace Kingsland.MofParser.Ast
                     Type = returnType,
                     IsRef = (@ref != null)
                 };
-                if (state.Peek<AttributeOpenToken>() != null)
+                if (parser.Peek<AttributeOpenToken>() != null)
                 {
-                    state.Read<AttributeOpenToken>();
-                    state.Read<AttributeCloseToken>();
+                    parser.Read<AttributeOpenToken>();
+                    parser.Read<AttributeCloseToken>();
                     ast.IsArray = true;
                 }
-                if (state.Peek<EqualsOperatorToken>() != null)
+                if (parser.Peek<EqualsOperatorToken>() != null)
                 {
-                    state.Read<EqualsOperatorToken>();
+                    parser.Read<EqualsOperatorToken>();
                     ast.Initializer = ClassFeatureAst.ReadDefaultValue(parser, returnType);
                 }
-                state.Read<StatementEndToken>();
+                parser.Read<StatementEndToken>();
                 return ast;
 
             }
@@ -242,7 +238,6 @@ namespace Kingsland.MofParser.Ast
 
         internal static PrimitiveTypeValueAst ReadDefaultValue(Parser parser, IdentifierToken returnType)
         {
-            var state = parser.CurrentState;
             switch (returnType.GetNormalizedName())
             {
                 case Keywords.DT_UINT8:
@@ -265,12 +260,12 @@ namespace Kingsland.MofParser.Ast
                     /// structureOrClassName
                     /// enumName
                     /// classReference
-                    var peek = state.Peek();
+                    var peek = parser.Peek();
                     if (peek is NullLiteralToken)
                     {
                         return NullValueAst.Parse(parser);
                     }
-                    throw new UnsupportedTokenException(state.Peek());
+                    throw new UnsupportedTokenException(parser.Peek());
             }
         }
 
