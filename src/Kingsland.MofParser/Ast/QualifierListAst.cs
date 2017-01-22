@@ -12,14 +12,14 @@ namespace Kingsland.MofParser.Ast
 
         private QualifierListAst()
         {
-            this.Qualifiers = new List<QualifierDeclarationAst>();
+            this.Qualifiers = new List<QualifierValueAst>();
         }
 
         #endregion
 
         #region Properties
 
-        public List<QualifierDeclarationAst> Qualifiers
+        public List<QualifierValueAst> Qualifiers
         {
             get;
             private set;
@@ -29,25 +29,44 @@ namespace Kingsland.MofParser.Ast
 
         #region Parsing Methods
 
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
+        /// A.9 Qualifier list
+        ///
+        ///     qualifierList  = "[" qualifierValue *( "," qualifierValue ) "]" 
+        ///     
+        ///     qualifierValue = qualifierName [ qualifierValueInitializer / 
+        ///                      qualiferValueArrayInitializer ] 
+        ///                      
+        ///     qualifierValueInitializer     = "(" literalValue ")" 
+        ///     qualiferValueArrayInitializer = "{" literalValue *( "," literalValue ) "}"
+        ///     
+        /// </remarks>
         internal static QualifierListAst Parse(Parser parser)
         {
 
-            var state = parser.CurrentState;
             var ast = new QualifierListAst();
 
-            state.Read<AttributeOpenToken>();
+            // "["
+            parser.Read<AttributeOpenToken>();
 
-            while (!state.Eof)
+            // qualifierValue *( "," qualifierValue )
+            while (!parser.Eof)
             {
-                ast.Qualifiers.Add(QualifierDeclarationAst.Parse(parser));
-                if (state.Peek<CommaToken>() == null)
+                ast.Qualifiers.Add(QualifierValueAst.Parse(parser));
+                if (parser.Peek<CommaToken>() == null)
                 {
                     break;
                 }
-                state.Read<CommaToken>();
+                parser.Read<CommaToken>();
             }
 
-            state.Read<AttributeCloseToken>();
+            // "]"
+            parser.Read<AttributeCloseToken>();
 
             return ast;
 
