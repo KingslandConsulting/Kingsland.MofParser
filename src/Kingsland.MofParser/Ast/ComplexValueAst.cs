@@ -79,7 +79,6 @@ namespace Kingsland.MofParser.Ast
         ///                         [ alias ] propertyValueList ";"
         ///     propertyValueList = "{" *propertySlot "}"
         ///     propertySlot      = propertyName "=" propertyValue ";"
-        ///     propertyValue     = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
         ///     alias             = AS aliasIdentifier
         ///     INSTANCE          = "instance" ; keyword: case insensitive
         ///     VALUE             = "value"    ; keyword: case insensitive

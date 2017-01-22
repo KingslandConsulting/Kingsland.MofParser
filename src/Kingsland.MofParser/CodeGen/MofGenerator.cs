@@ -29,7 +29,7 @@ namespace Kingsland.MofParser.CodeGen
             // A.5 Class declaration
             if (node is ClassDeclarationAst) { return MofGenerator.ConvertToMof((ClassDeclarationAst)node, quirks); }
             // A.8 Qualifier type declaration
-            if (node is QualifierDeclarationAst) { return MofGenerator.ConvertToMof((QualifierDeclarationAst)node, quirks); }
+            if (node is QualifierValueAst) { return MofGenerator.ConvertToMof((QualifierValueAst)node, quirks); }
             // A.9 Qualifier list
             if (node is QualifierListAst) { return MofGenerator.ConvertToMof((QualifierListAst)node, quirks); }
             // A.10 Property declaration
@@ -69,7 +69,7 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertToMof(PropertyValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            return node.Value.ToString();
+            return node.ToString();
         }
 
         #endregion
@@ -131,7 +131,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region A.8 Qualifier type declaration
 
-        public static string ConvertToMof(QualifierDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertToMof(QualifierValueAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
             if (!string.IsNullOrEmpty(node.Name.Name))

@@ -30,10 +30,10 @@ namespace Kingsland.MofParser
 
             // scan the ast for any "instance" definitions and convert them
             var instances = ((MofSpecificationAst)ast).Productions
-                                                      .Where(p => (p is ComplexValueAst))
-                                                      .Cast<ComplexValueAst>()
-                                                      .Where(ctv => ctv.IsInstance)
-                                                      .Select(Instance.FromAstNode)
+                                                      .Where(p => (p is InstanceDeclarationAst))
+                                                      .Cast<InstanceDeclarationAst>()
+                                                      .Where(i => i.Instance.IsInstance)
+                                                      .Select(i => Instance.FromAstNode(i.Instance))
                                                       .ToList();
 
             // return the result

@@ -13,10 +13,11 @@ namespace Kingsland.FileFormat.Mof.Tests
 
             //const string filename = "dsc\\MyServer.mof";
 
-            const string rootFolder = "..\\..\\..\\..\\src\\Kingsland.MofParser.UnitTests\\Parsing\\TestCases";
-            string filename = Path.Combine(rootFolder, "issue_7_aliasidentifier_array.mof");
-            //string filename = Path.Combine(rootFolder, "issue_7_aliasidentifier_single.mof";
-            //string filename = Path.Combine(rootFolder, "issue_7_literalvaluearray.mof");
+            const string rootFolder = "..\\..\\..\\..\\src\\Kingsland.MofParser.UnitTests\\Parsing";
+            //string filename = Path.Combine(rootFolder, "TestCases\\issue_7_aliasidentifier_array.mof");
+            //string filename = Path.Combine(rootFolder, "TestCases\\issue_7_aliasidentifier_single.mof";
+            //string filename = Path.Combine(rootFolder, "TestCases\\issue_7_literalvaluearray.mof");
+            string filename = Path.Combine(rootFolder, "WMI\\WinXp\\WinXpProSp3CIMV2.mof");
 
             // parse the mof file
             var instances = PowerShellDscHelper.ParseMofFileInstances(filename);

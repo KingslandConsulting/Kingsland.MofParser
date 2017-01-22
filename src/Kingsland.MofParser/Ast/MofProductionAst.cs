@@ -76,8 +76,15 @@ namespace Kingsland.MofParser.Ast
                 case Keywords.INSTANCE:
                 case Keywords.VALUE:
                     // instanceDeclaration
-                    var instance = ComplexTypeValueAst.Parse(parser, qualifiers);
-                    return instance;
+                    parser.Descend();
+                    var instanceDeclaration = default(InstanceDeclarationAst);
+                    if (InstanceDeclarationAst.TryParse(parser, ref instanceDeclaration, true))
+                    {
+                        parser.Commit();
+                        return instanceDeclaration;
+                    }
+                    parser.Backtrack();
+                    throw new UnsupportedTokenException(identifier);
 
                 case Keywords.QUALIFIER:
                     // qualifierDeclaration
