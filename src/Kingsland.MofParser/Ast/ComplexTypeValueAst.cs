@@ -4,7 +4,7 @@ using Kingsland.MofParser.Tokens;
 namespace Kingsland.MofParser.Ast
 {
 
-    public abstract class ComplexTypeValueAst : MofProductionAst
+    public abstract class ComplexTypeValueAst : PropertyValueAst
     {
 
         #region Constructors
@@ -38,31 +38,33 @@ namespace Kingsland.MofParser.Ast
         ///     complexTypeValue  = complexValue / complexValueArray
         ///
         /// </remarks>
-        internal static ComplexTypeValueAst Parse(Parser parser, QualifierListAst qualifiers)
+        internal static bool TryParse(Parser parser, ref ComplexTypeValueAst node, bool throwIfError = false)
         {
 
-            var state = parser.CurrentState;
-            var node = default(ComplexTypeValueAst);
-
-            var peek = state.Peek();
-            if (peek is BlockOpenToken)
+            // complexValue
+            parser.Descend();
+            var complexValue = default(ComplexValueAst);
+            if (ComplexValueAst.TryParse(parser, ref complexValue, false))
             {
-                // complexValueArray
-                node = ComplexValueArrayAst.Parse(parser);
+                parser.Commit();
+                node = complexValue;
+                return true;
             }
-            else if (peek is IdentifierToken)
-            {
-                // complexValue
-                node = ComplexValueAst.Parse(parser);
-            }
-            else
-            {
-                throw new UnexpectedTokenException(peek);
-            }
+            parser.Backtrack();
 
-            node.Qualifiers = qualifiers;
+            // complexValueArray
+            parser.Descend();
+            var complexValueArray = default(ComplexValueArrayAst);
+            if (ComplexValueArrayAst.TryParse(parser, ref complexValueArray, false))
+            {
+                parser.Commit();
+                node = complexValueArray;
+                return true;
+            }
+            parser.Backtrack();
 
-            return node;
+            // unexpected token
+            return AstNode.HandleUnexpectedToken(parser.Peek(), throwIfError);
 
         }
 
