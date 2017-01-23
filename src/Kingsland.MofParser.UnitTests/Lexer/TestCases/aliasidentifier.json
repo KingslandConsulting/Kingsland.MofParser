@@ -1,0 +1,46 @@
+{
+  "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Tokens.Token, Kingsland.MofParser]], mscorlib",
+  "$values": [
+    {
+      "$type": "Kingsland.MofParser.Tokens.AliasIdentifierToken, Kingsland.MofParser",
+      "Name": "myAliasIdentifier",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 0,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 1,
+        "EndPosition": 17,
+        "EndLineNumber": 1,
+        "EndColumnNumber": 18,
+        "Text": "$myAliasIdentifier"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 18,
+        "StartLineNumber": 1,
+        "StartColumnNumber": 19,
+        "EndPosition": 19,
+        "EndLineNumber": 1,
+        "EndColumnNumber": 20,
+        "Text": "\r\n"
+      }
+    },
+    {
+      "$type": "Kingsland.MofParser.Tokens.AliasIdentifierToken, Kingsland.MofParser",
+      "Name": "myAliasIdentifier2",
+      "Extent": {
+        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
+        "StartPosition": 20,
+        "StartLineNumber": 2,
+        "StartColumnNumber": 1,
+        "EndPosition": 38,
+        "EndLineNumber": 2,
+        "EndColumnNumber": 19,
+        "Text": "$myAliasIdentifier2"
+      }
+    }
+  ]
+}

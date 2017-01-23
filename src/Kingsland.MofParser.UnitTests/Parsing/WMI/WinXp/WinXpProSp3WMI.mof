@@ -1,0 +1,4481 @@
+//**************************************************************************
+//* File: WinXpProSp3WMI.mof
+//**************************************************************************
+
+//**************************************************************************
+//* This MOF was generated from the "\\.\ROOT\WMI"
+//* namespace on machine "WINXPPROSP3".
+//* To compile this MOF on another machine you should edit this pragma.
+//**************************************************************************
+#pragma namespace("\\\\.\\ROOT\\WMI")
+
+//**************************************************************************
+//* Class: __SystemClass
+//* Derived from: 
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __SystemClass
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __thisNAMESPACE
+//* Derived from: __SystemClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [singleton: DisableOverride ToInstance ToSubClass]
+//* class __thisNAMESPACE : __SystemClass
+//* {
+//* 	uint8 SECURITY_DESCRIPTOR[];
+//* };
+
+//**************************************************************************
+//* Class: __Provider
+//* Derived from: __SystemClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __Provider : __SystemClass
+//* {
+//* 	[key] string Name;
+//* };
+
+//**************************************************************************
+//* Class: __Win32Provider
+//* Derived from: __Provider
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __Win32Provider : __Provider
+//* {
+//* 	string CLSID;
+//* 	string ClientLoadableCLSID;
+//* 	string DefaultMachineName;
+//* 	[SUBTYPE("interval"): ToInstance ToSubClass] datetime UnloadTimeout;
+//* 	boolean InitializeAsAdminFirst;
+//* 	uint32 Version;
+//* 	[Values{"None"}: ToSubClass] sint32 ImpersonationLevel = 0;
+//* 	[Values{"CLSID", "Namespace", "COM Object"}: ToSubClass] sint32 InitializationReentrancy = 0;
+//* 	boolean PerUserInitialization = FALSE;
+//* 	boolean PerLocaleInitialization = FALSE;
+//* 	boolean Pure = TRUE;
+//* 	[Values{}: ToSubClass] string HostingModel;
+//* 	sint32 Concurrency;
+//* 	boolean SupportsSendStatus;
+//* 	boolean SupportsExplicitShutdown;
+//* 	boolean SupportsExtendedStatus;
+//* 	boolean SupportsThrottling;
+//* 	[SUBTYPE("interval"): ToInstance ToSubClass] datetime OperationTimeoutInterval;
+//* 	[SUBTYPE("interval"): ToInstance ToSubClass] datetime InitializationTimeoutInterval;
+//* 	boolean SupportsQuotas;
+//* 	boolean Enabled;
+//* 	boolean SupportsShutdown;
+//* 	string SecurityDescriptor;
+//* };
+
+//**************************************************************************
+//* Class: __ProviderRegistration
+//* Derived from: __SystemClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __ProviderRegistration : __SystemClass
+//* {
+//* 	__Provider ref provider;
+//* };
+
+//**************************************************************************
+//* Class: __EventProviderRegistration
+//* Derived from: __ProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __EventProviderRegistration : __ProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* 	string EventQueryList[];
+//* };
+
+//**************************************************************************
+//* Class: __EventConsumerProviderRegistration
+//* Derived from: __ProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __EventConsumerProviderRegistration : __ProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* 	string ConsumerClassNames[];
+//* };
+
+//**************************************************************************
+//* Class: __PropertyProviderRegistration
+//* Derived from: __ProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __PropertyProviderRegistration : __ProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* 	boolean SupportsPut = FALSE;
+//* 	boolean SupportsGet = FALSE;
+//* };
+
+//**************************************************************************
+//* Class: __ObjectProviderRegistration
+//* Derived from: __ProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __ObjectProviderRegistration : __ProviderRegistration
+//* {
+//* 	boolean SupportsPut = FALSE;
+//* 	boolean SupportsGet = FALSE;
+//* 	boolean SupportsDelete = FALSE;
+//* 	boolean SupportsEnumeration = FALSE;
+//* 	[ValueMap{"WQL:UnarySelect", "WQL:References", "WQL:Associators", "WQL:V1ProviderDefined"}: ToSubClass] string QuerySupportLevels[];
+//* 	[Values{"Pull", "Push", "PushVerify"}: ToSubClass] sint32 InteractionType = 0;
+//* 	boolean SupportsBatching;
+//* 	boolean SupportsTransactions;
+//* };
+
+//**************************************************************************
+//* Class: __ClassProviderRegistration
+//* Derived from: __ObjectProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ClassProviderRegistration : __ObjectProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* 	uint32 Version;
+//* 	string ResultSetQueries[];
+//* 	string ReferencedSetQueries[];
+//* 	string UnsupportedQueries[];
+//* 	[SUBTYPE("interval"): ToInstance ToSubClass] datetime CacheRefreshInterval;
+//* 	boolean PerUserSchema;
+//* 	boolean ReSynchroniseOnNamespaceOpen;
+//* };
+
+//**************************************************************************
+//* Class: __InstanceProviderRegistration
+//* Derived from: __ObjectProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __InstanceProviderRegistration : __ObjectProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* };
+
+//**************************************************************************
+//* Class: __MethodProviderRegistration
+//* Derived from: __ProviderRegistration
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __MethodProviderRegistration : __ProviderRegistration
+//* {
+//* 	[key] __Provider ref provider;
+//* };
+
+//**************************************************************************
+//* Class: __IndicationRelated
+//* Derived from: __SystemClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __IndicationRelated : __SystemClass
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __EventGenerator
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __EventGenerator : __IndicationRelated
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __TimerInstruction
+//* Derived from: __EventGenerator
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __TimerInstruction : __EventGenerator
+//* {
+//* 	[key] string TimerId;
+//* 	boolean SkipIfPassed = FALSE;
+//* };
+
+//**************************************************************************
+//* Class: __IntervalTimerInstruction
+//* Derived from: __TimerInstruction
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __IntervalTimerInstruction : __TimerInstruction
+//* {
+//* 	[not_null: DisableOverride ToInstance ToSubClass, units("milliseconds"): DisableOverride ToInstance ToSubClass] uint32 IntervalBetweenEvents;
+//* };
+
+//**************************************************************************
+//* Class: __AbsoluteTimerInstruction
+//* Derived from: __TimerInstruction
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __AbsoluteTimerInstruction : __TimerInstruction
+//* {
+//* 	[not_null: DisableOverride ToInstance ToSubClass] datetime EventDateTime;
+//* };
+
+//**************************************************************************
+//* Class: __Event
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract: DisableOverride ToInstance ToSubClass]
+//* class __Event : __IndicationRelated
+//* {
+//* 	uint64 TIME_CREATED;
+//* 	uint8 SECURITY_DESCRIPTOR[];
+//* };
+
+//**************************************************************************
+//* Class: __NamespaceOperationEvent
+//* Derived from: __Event
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NamespaceOperationEvent : __Event
+//* {
+//* 	__Namespace TargetNamespace;
+//* };
+
+//**************************************************************************
+//* Class: __NamespaceDeletionEvent
+//* Derived from: __NamespaceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NamespaceDeletionEvent : __NamespaceOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __NamespaceCreationEvent
+//* Derived from: __NamespaceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NamespaceCreationEvent : __NamespaceOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __NamespaceModificationEvent
+//* Derived from: __NamespaceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NamespaceModificationEvent : __NamespaceOperationEvent
+//* {
+//* 	__Namespace PreviousNamespace;
+//* };
+
+//**************************************************************************
+//* Class: __InstanceOperationEvent
+//* Derived from: __Event
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __InstanceOperationEvent : __Event
+//* {
+//* 	object TargetInstance;
+//* };
+
+//**************************************************************************
+//* Class: __MethodInvocationEvent
+//* Derived from: __InstanceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __MethodInvocationEvent : __InstanceOperationEvent
+//* {
+//* 	string Method;
+//* 	boolean PreCall;
+//* 	object Parameters;
+//* };
+
+//**************************************************************************
+//* Class: __InstanceCreationEvent
+//* Derived from: __InstanceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __InstanceCreationEvent : __InstanceOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __InstanceModificationEvent
+//* Derived from: __InstanceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __InstanceModificationEvent : __InstanceOperationEvent
+//* {
+//* 	object PreviousInstance;
+//* };
+
+//**************************************************************************
+//* Class: __InstanceDeletionEvent
+//* Derived from: __InstanceOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __InstanceDeletionEvent : __InstanceOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __ExtrinsicEvent
+//* Derived from: __Event
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ExtrinsicEvent : __Event
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __SystemEvent
+//* Derived from: __ExtrinsicEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __SystemEvent : __ExtrinsicEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __EventDroppedEvent
+//* Derived from: __SystemEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __EventDroppedEvent : __SystemEvent
+//* {
+//* 	__Event Event;
+//* 	__EventConsumer ref IntendedConsumer;
+//* };
+
+//**************************************************************************
+//* Class: __ConsumerFailureEvent
+//* Derived from: __EventDroppedEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ConsumerFailureEvent : __EventDroppedEvent
+//* {
+//* 	uint32 ErrorCode;
+//* 	string ErrorDescription;
+//* 	__ExtendedStatus ErrorObject;
+//* };
+
+//**************************************************************************
+//* Class: __QOSFailureEvent
+//* Derived from: __EventDroppedEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __QOSFailureEvent : __EventDroppedEvent
+//* {
+//* 	uint32 ErrorCode;
+//* 	string ErrorDescription;
+//* };
+
+//**************************************************************************
+//* Class: __EventQueueOverflowEvent
+//* Derived from: __EventDroppedEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __EventQueueOverflowEvent : __EventDroppedEvent
+//* {
+//* 	[units("bytes"): DisableOverride ToInstance ToSubClass] uint32 CurrentQueueSize;
+//* };
+
+//**************************************************************************
+//* Class: WMIEvent
+//* Derived from: __ExtrinsicEvent
+//**************************************************************************
+class WMIEvent : __ExtrinsicEvent
+{
+};
+
+//**************************************************************************
+//* Class: MSNdis_NotifyVcRemoval
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d79-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_NotifyVcRemoval : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+};
+
+//**************************************************************************
+//* Class: MSNdis_NotifyAdapterRemoval
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d80-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_NotifyAdapterRemoval : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] string DeviceName;
+};
+
+//**************************************************************************
+//* Class: MSMCAEvent_InvalidError
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), guid("{477B769B-785C-48dd-A02E-57E051BE7B85}")]
+class MSMCAEvent_InvalidError : WMIEvent
+{
+	[key, read] string InstanceName;
+	boolean Active;
+	[WmiDataId(1)] uint64 RecordId;
+	[WmiDataId(2), Values{"0", "1", "2"}, ValueMap{"Recoverable", "Fatal", "Correctable"}] uint8 ErrorSeverity;
+	[WmiDataId(3), ValueMap{}] uint32 Type;
+	[WmiDataId(4)] uint32 Cpu;
+	[WmiDataId(5)] uint32 AdditionalErrors;
+	[WmiDataId(6)] uint32 Size;
+	[WmiDataId(7), WmiSizeIs("Size")] uint8 RawRecord[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_StatusMediaDisconnect
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d7e-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_StatusMediaDisconnect : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+};
+
+//**************************************************************************
+//* Class: MSChangerProblemEvent
+//* Derived from: WMIEvent
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{45DB06A5-20D5-4de3-A36C-3AB974600A4C}"), HeaderName("WMI_CHANGER_PROBLEM_WARNING"), GuidName1("WMI_CHANGER_PROBLEM_WARNING_GUID")]
+class MSChangerProblemEvent : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 ChangerProblemType;
+	[WmiDataId(2), read, MAX(512)] uint8 ChangerData[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_StatusResetEnd
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d77-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_StatusResetEnd : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+};
+
+//**************************************************************************
+//* Class: MSNdis_NotifyVcArrival
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{182f9e0c-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_NotifyVcArrival : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+};
+
+//**************************************************************************
+//* Class: MSTapeDriveProblemEvent
+//* Derived from: WMIEvent
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{BC4DD36C-FA66-4080-87A0-0C5922EB7887}"), HeaderName("WMI_TAPE_PROBLEM_WARNING"), GuidName1("WMI_TAPE_PROBLEM_WARNING_GUID")]
+class MSTapeDriveProblemEvent : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 DriveProblemType;
+	[WmiDataId(2), read, MAX(512)] uint8 TapeData[];
+};
+
+//**************************************************************************
+//* Class: MSWmi_GuidRegistrationInfo
+//* Derived from: WMIEvent
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{B48D49A1-E777-11d0-A50C-00A0C9062910}")]
+class MSWmi_GuidRegistrationInfo : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), ValueMap{"1", "2", "4"}] uint32 Operation;
+	[WmiDataId(2)] uint32 GuidCount;
+	[WmiDataId(3), WmiSizeIs("GuidCount")] MSWmi_Guid GuidList[];
+};
+
+//**************************************************************************
+//* Class: MSMCAEvent_PlatformSpecificError
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), guid("{2D2434AA-EF83-4200-BA24-DE366C415F7B}")]
+class MSMCAEvent_PlatformSpecificError : WMIEvent
+{
+	[key, read] string InstanceName;
+	boolean Active;
+	[WmiDataId(1)] uint64 RecordId;
+	[WmiDataId(2), Values{"0", "1", "2"}, ValueMap{"Recoverable", "Fatal", "Correctable"}] uint8 ErrorSeverity;
+	[WmiDataId(3), ValueMap{}] uint32 Type;
+	[WmiDataId(4)] uint32 Cpu;
+	[WmiDataId(5)] uint32 AdditionalErrors;
+	[WmiDataId(6), BitMap{"0", "1", "2", "3", "4", "5", "6", "7"}] uint64 VALIDATION_BITS;
+	[WmiDataId(7)] uint64 PLATFORM_ERROR_STATUS;
+	[WmiDataId(8)] uint64 PLATFORM_REQUESTOR_ID;
+	[WmiDataId(9)] uint64 PLATFORM_RESPONDER_ID;
+	[WmiDataId(10)] uint64 PLATFORM_TARGET_ID;
+	[WmiDataId(11)] uint64 PLATFORM_BUS_SPECIFIC_DATA;
+	[WmiDataId(12), MAX(16)] uint8 OEM_COMPONENT_ID[];
+	[WmiDataId(13)] uint32 Size;
+	[WmiDataId(14), WmiSizeIs("Size")] uint8 RawRecord[];
+};
+
+//**************************************************************************
+//* Class: MSIPNAT_PacketDroppedEvent
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), Locale("MS\\0x409"), Description("Packet dropped event"), guid("{65f67abd-ecd2-4501-9b10-d48db2300e6c}")]
+class MSIPNAT_PacketDroppedEvent : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), Description("Source IP Address, in network byte order")] uint32 SourceAddress;
+	[WmiDataId(2), Description("Destination IP Address, in network byte order")] uint32 DestinationAddress;
+	[WmiDataId(3), Description("Source Identifier, in network byte order")] uint16 SourceIdentifier;
+	[WmiDataId(4), Description("Destination Identifier, in network byte order")] uint16 DestinationIdentifier;
+	[WmiDataId(5), Description("Total size of packet, in bytes")] uint32 PacketSize;
+	[WmiDataId(6), Description("Protocol Specific Data 1")] uint32 ProtocolData1;
+	[WmiDataId(7), Description("Protocol Specific Data 2")] uint32 ProtocolData2;
+	[WmiDataId(8), Description("Protocol Specific Data 3")] uint32 ProtocolData3;
+	[WmiDataId(9), Description("Protocol Specific Data 4")] uint32 ProtocolData4;
+	[WmiDataId(10), Description("IP-layer Protocol")] uint8 Protocol;
+	[WmiDataId(11), Description("Packet Processing Path")] uint8 PacketPath;
+};
+
+//**************************************************************************
+//* Class: MSNdis_StatusProtocolUnbind
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{6e3ce1ec-b1f3-11d0-d78d-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_StatusProtocolUnbind : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] string Transport;
+};
+
+//**************************************************************************
+//* Class: MSStorageDriver_FailurePredictEvent
+//* Derived from: WMIEvent
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{78ebc104-4cf9-11d2-ba4a-00a0c9062910}"), HeaderName("STORAGE_FAILURE_PREDICT_EVENT"), GuidName1("WMI_STORAGE_PREDICT_FAILURE_EVENT_GUID")]
+class MSStorageDriver_FailurePredictEvent : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Length;
+	[WmiDataId(2), WmiSizeIs("Length"), read] uint8 VendorSpecific[];
+};
+
+//**************************************************************************
+//* Class: MSIPNAT_ConnectionDeletionEvent
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), Locale("MS\\0x409"), Description("Connection deleted event (TCP/UDP only)"), guid("{3757e105-5437-4a6f-a263-47eb04a593ac}")]
+class MSIPNAT_ConnectionDeletionEvent : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), Description("Local IP Address, in network byte order")] uint32 LocalAddress;
+	[WmiDataId(2), Description("Remote IP Address, in network byte order")] uint32 RemoteAddress;
+	[WmiDataId(3), Description("Local Port, in network byte order")] uint16 LocalPort;
+	[WmiDataId(4), Description("Remote Port, in network byte order")] uint16 RemotePort;
+	[WmiDataId(5), Description("IP-layer Protocol")] uint8 Protocol;
+	[WmiDataId(6), Description("Inbound connection?")] boolean InboundConnection;
+};
+
+//**************************************************************************
+//* Class: MSMCAEvent_SystemEventError
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), guid("{BDBA4B12-8D00-4570-B9B2-3FDECF1D5661}")]
+class MSMCAEvent_SystemEventError : WMIEvent
+{
+	[key, read] string InstanceName;
+	boolean Active;
+	[WmiDataId(1)] uint64 RecordId;
+	[WmiDataId(2), Values{"0", "1", "2"}, ValueMap{"Recoverable", "Fatal", "Correctable"}] uint8 ErrorSeverity;
+	[WmiDataId(3), Values{}, ValueMap{}] uint32 Type;
+	[WmiDataId(4)] uint32 Cpu;
+	[WmiDataId(5)] uint32 AdditionalErrors;
+	[WmiDataId(6), BitMap{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}] uint64 VALIDATION_BITS;
+	[WmiDataId(7)] uint64 SEL_TIME_STAMP;
+	[WmiDataId(8)] uint16 SEL_RECORD_ID;
+	[WmiDataId(9)] uint16 SEL_GENERATOR_ID;
+	[WmiDataId(10)] uint8 SEL_RECORD_TYPE;
+	[WmiDataId(11)] uint8 SEL_EVM_REV;
+	[WmiDataId(12)] uint8 SEL_SENSOR_TYPE;
+	[WmiDataId(13)] uint8 SEL_SENSOR_NUM;
+	[WmiDataId(14)] uint8 SEL_EVENT_DIR_TYPE;
+	[WmiDataId(15)] uint8 SEL_DATA1;
+	[WmiDataId(16)] uint8 SEL_DATA2;
+	[WmiDataId(17)] uint8 SEL_DATA3;
+	[WmiDataId(18)] uint32 Size;
+	[WmiDataId(19), WmiSizeIs("Size")] uint8 RawRecord[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_StatusMediaConnect
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d7d-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_StatusMediaConnect : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+};
+
+//**************************************************************************
+//* Class: MSMCAEvent_PCIComponentError
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), guid("{805CAF4E-336C-4eb2-8C0C-02F351CBF13C}")]
+class MSMCAEvent_PCIComponentError : WMIEvent
+{
+	[key, read] string InstanceName;
+	boolean Active;
+	[WmiDataId(1)] uint64 RecordId;
+	[WmiDataId(2), Values{"0", "1", "2"}, ValueMap{"Recoverable", "Fatal", "Correctable"}] uint8 ErrorSeverity;
+	[WmiDataId(3), Values{}, ValueMap{}] uint32 Type;
+	[WmiDataId(4)] uint32 Cpu;
+	[WmiDataId(5)] uint32 AdditionalErrors;
+	[WmiDataId(6), BitMap{"0", "1", "2", "3", "4"}] uint64 VALIDATION_BITS;
+	[WmiDataId(7)] uint64 PCI_COMP_ERROR_STATUS;
+	[WmiDataId(8)] uint16 PCI_COMP_INFO_VendorId;
+	[WmiDataId(9)] uint16 PCI_COMP_INFO_DeviceId;
+	[WmiDataId(10)] uint8 PCI_COMP_INFO_ClassCodeInterface;
+	[WmiDataId(11)] uint8 PCI_COMP_INFO_ClassCodeSubClass;
+	[WmiDataId(12)] uint8 PCI_COMP_INFO_ClassCodeBaseClass;
+	[WmiDataId(13)] uint8 PCI_COMP_INFO_FunctionNumber;
+	[WmiDataId(14)] uint8 PCI_COMP_INFO_DeviceNumber;
+	[WmiDataId(15)] uint8 PCI_COMP_INFO_BusNumber;
+	[WmiDataId(16)] uint8 PCI_COMP_INFO_SegmentNumber;
+	[WmiDataId(17)] uint32 Size;
+	[WmiDataId(18), WmiSizeIs("Size")] uint8 RawRecord[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_StatusResetStart
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d76-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_StatusResetStart : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+};
+
+//**************************************************************************
+//* Class: MSMCAEvent_MemoryError
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), guid("{433EEA38-C1A7-48f1-884F-B6875F176CC7}")]
+class MSMCAEvent_MemoryError : WMIEvent
+{
+	[key, read] string InstanceName;
+	boolean Active;
+	[WmiDataId(1)] uint64 RecordId;
+	[WmiDataId(2), Values{"0", "1", "2"}, ValueMap{"Recoverable", "Fatal", "Correctable"}] uint8 ErrorSeverity;
+	[WmiDataId(3), ValueMap{}] uint32 Type;
+	[WmiDataId(4)] uint32 Cpu;
+	[WmiDataId(5)] uint32 AdditionalErrors;
+	[WmiDataId(6), BitMap{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"}] uint64 VALIDATION_BITS;
+	[WmiDataId(7)] uint64 MEM_ERROR_STATUS;
+	[WmiDataId(8)] uint64 MEM_PHYSICAL_ADDR;
+	[WmiDataId(9)] uint64 MEM_PHYSICAL_MASK;
+	[WmiDataId(10)] uint64 RESPONDER_ID;
+	[WmiDataId(11)] uint64 TARGET_ID;
+	[WmiDataId(12)] uint64 REQUESTOR_ID;
+	[WmiDataId(13)] uint64 BUS_SPECIFIC_DATA;
+	[WmiDataId(14)] uint16 MEM_NODE;
+	[WmiDataId(15)] uint16 MEM_CARD;
+	[WmiDataId(16)] uint16 MEM_BANK;
+	[WmiDataId(17)] uint16 xMEM_DEVICE;
+	[WmiDataId(18)] uint16 MEM_MODULE;
+	[WmiDataId(19)] uint16 MEM_ROW;
+	[WmiDataId(20)] uint16 MEM_COLUMN;
+	[WmiDataId(21)] uint16 MEM_BIT_POSITION;
+	[WmiDataId(22)] uint32 Size;
+	[WmiDataId(23), WmiSizeIs("Size")] uint8 RawRecord[];
+};
+
+//**************************************************************************
+//* Class: MSMCAInfo_RawMCAEvent
+//* Derived from: WMIEvent
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{2F1A8A9F-7988-457f-A17A-8979E82043C5}")]
+class MSMCAInfo_RawMCAEvent : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Count;
+	[WmiDataId(2), read, WmiSizeIs("Count")] MSMCAInfo_Entry Records[];
+};
+
+//**************************************************************************
+//* Class: MSIPNAT_ConnectionCreationEvent
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), Locale("MS\\0x409"), Description("Connection created event (TCP/UDP only)"), guid("{6acd39eb-4cb0-486b-83fa-307aa23767b1}")]
+class MSIPNAT_ConnectionCreationEvent : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), Description("Local IP Address, in network byte order")] uint32 LocalAddress;
+	[WmiDataId(2), Description("Remote IP Address, in network byte order")] uint32 RemoteAddress;
+	[WmiDataId(3), Description("Local Port, in network byte order")] uint16 LocalPort;
+	[WmiDataId(4), Description("Remote Port, in network byte order")] uint16 RemotePort;
+	[WmiDataId(5), Description("IP-layer Protocol")] uint8 Protocol;
+	[WmiDataId(6), Description("Inbound connection?")] boolean InboundConnection;
+};
+
+//**************************************************************************
+//* Class: MSMCAInfo_RawCorrectedPlatformEvent
+//* Derived from: WMIEvent
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{6B629D5E-E63C-48a3-9EBB-974227075265}")]
+class MSMCAInfo_RawCorrectedPlatformEvent : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Count;
+	[WmiDataId(2), read, WmiSizeIs("Count")] MSMCAInfo_Entry Records[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_StatusLinkSpeedChange
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d85-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_StatusLinkSpeedChange : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkLinkSpeed NdisStatusLinkSpeedChange;
+};
+
+//**************************************************************************
+//* Class: MSMCAEvent_PCIBusError
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), guid("{A14A5594-25DE-410e-9B92-80F0801AEC07}")]
+class MSMCAEvent_PCIBusError : WMIEvent
+{
+	[key, read] string InstanceName;
+	boolean Active;
+	[WmiDataId(1)] uint64 RecordId;
+	[WmiDataId(2), Values{"0", "1", "2"}, ValueMap{"Recoverable", "Fatal", "Correctable"}] uint8 ErrorSeverity;
+	[WmiDataId(3), ValueMap{}] uint32 Type;
+	[WmiDataId(4)] uint32 Cpu;
+	[WmiDataId(5)] uint32 AdditionalErrors;
+	[WmiDataId(6), BitMap{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}] uint64 VALIDATION_BITS;
+	[WmiDataId(7)] uint64 PCI_BUS_ERROR_STATUS;
+	[WmiDataId(8)] uint64 PCI_BUS_ADDRESS;
+	[WmiDataId(9)] uint64 PCI_BUS_DATA;
+	[WmiDataId(10)] uint64 PCI_BUS_CMD;
+	[WmiDataId(11)] uint64 PCI_BUS_REQUESTOR_ID;
+	[WmiDataId(12)] uint64 PCI_BUS_RESPONDER_ID;
+	[WmiDataId(13)] uint64 PCI_BUS_TARGET_ID;
+	[WmiDataId(14), Values{"0", "1", "2", "3", "4", "5", "6", "7"}] uint16 PCI_BUS_ERROR_TYPE;
+	[WmiDataId(15)] uint8 PCI_BUS_ID_BusNumber;
+	[WmiDataId(16)] uint8 PCI_BUS_ID_SegmentNumber;
+	[WmiDataId(17)] uint32 Size;
+	[WmiDataId(18), WmiSizeIs("Size")] uint8 RawRecord[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_StatusProtocolBind
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5413531c-b1f3-11d0-d78d-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_StatusProtocolBind : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] string Transport;
+};
+
+//**************************************************************************
+//* Class: MSNdis_StatusMediaSpecificIndication
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d84-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_StatusMediaSpecificIndication : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NumberElements;
+	[read, WmiDataId(2), WmiSizeIs("NumberElements")] uint8 NdisStatusMediaSpecificIndication[];
+};
+
+//**************************************************************************
+//* Class: MSMCAEvent_SMBIOSError
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), guid("{4184DF1B-EDFE-406b-B172-54C91FBD9BAF}")]
+class MSMCAEvent_SMBIOSError : WMIEvent
+{
+	[key, read] string InstanceName;
+	boolean Active;
+	[WmiDataId(1)] uint64 RecordId;
+	[WmiDataId(2), Values{"0", "1", "2"}, ValueMap{"Recoverable", "Fatal", "Correctable"}] uint8 ErrorSeverity;
+	[WmiDataId(3), ValueMap{}] uint32 Type;
+	[WmiDataId(4)] uint32 Cpu;
+	[WmiDataId(5)] uint32 AdditionalErrors;
+	[WmiDataId(6), BitMap{"0"}] uint64 VALIDATION_BITS;
+	[WmiDataId(7), Values{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"}] uint8 SMBIOS_EVENT_TYPE;
+	[WmiDataId(8)] uint32 Size;
+	[WmiDataId(9), WmiSizeIs("Size")] uint8 RawRecord[];
+};
+
+//**************************************************************************
+//* Class: MSMCAEvent_CPUError
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WmiProv"), guid("{5CE27CDE-D179-4c68-937F-A07B8CC2EA39}")]
+class MSMCAEvent_CPUError : WMIEvent
+{
+	[key, read] string InstanceName;
+	boolean Active;
+	[WmiDataId(1)] uint64 RecordId;
+	[WmiDataId(2), Values{"0", "1", "2"}, ValueMap{"Recoverable", "Fatal", "Correctable"}] uint8 ErrorSeverity;
+	[WmiDataId(3), ValueMap{}] uint32 Type;
+	[WmiDataId(4)] uint32 Cpu;
+	[WmiDataId(5)] uint32 AdditionalErrors;
+	[WmiDataId(6)] uint32 Level;
+	[WmiDataId(7)] uint32 Size;
+	[WmiDataId(8), WmiSizeIs("Size")] uint8 RawRecord[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_NotifyAdapterArrival
+//* Derived from: WMIEvent
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d81-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_NotifyAdapterArrival : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] string DeviceName;
+};
+
+//**************************************************************************
+//* Class: MSMCAInfo_RawCMCEvent
+//* Derived from: WMIEvent
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{2F1A8A9D-7988-457f-A17A-8979E82043C5}")]
+class MSMCAInfo_RawCMCEvent : WMIEvent
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Count;
+	[WmiDataId(2), read, WmiSizeIs("Count")] MSMCAInfo_Entry Records[];
+};
+
+//**************************************************************************
+//* Class: __ClassOperationEvent
+//* Derived from: __Event
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ClassOperationEvent : __Event
+//* {
+//* 	object TargetClass;
+//* };
+
+//**************************************************************************
+//* Class: __ClassModificationEvent
+//* Derived from: __ClassOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ClassModificationEvent : __ClassOperationEvent
+//* {
+//* 	object PreviousClass;
+//* };
+
+//**************************************************************************
+//* Class: __ClassCreationEvent
+//* Derived from: __ClassOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ClassCreationEvent : __ClassOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __ClassDeletionEvent
+//* Derived from: __ClassOperationEvent
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ClassDeletionEvent : __ClassOperationEvent
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __TimerEvent
+//* Derived from: __Event
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __TimerEvent : __Event
+//* {
+//* 	string TimerId;
+//* 	uint32 NumFirings;
+//* };
+
+//**************************************************************************
+//* Class: __AggregateEvent
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __AggregateEvent : __IndicationRelated
+//* {
+//* 	uint32 NumberOfEvents;
+//* 	object Representative;
+//* };
+
+//**************************************************************************
+//* Class: __EventConsumer
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __EventConsumer : __IndicationRelated
+//* {
+//* 	string MachineName;
+//* 	[units("bytes"): DisableOverride ToInstance ToSubClass] uint32 MaximumQueueSize;
+//* 	[read: DisableOverride ToInstance ToSubClass] uint8 CreatorSID[] = {1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0};
+//* };
+
+//**************************************************************************
+//* Class: __FilterToConsumerBinding
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [Association: DisableOverride ToInstance ToSubClass]
+//* class __FilterToConsumerBinding : __IndicationRelated
+//* {
+//* 	[key] __EventFilter ref Filter;
+//* 	[key] __EventConsumer ref Consumer;
+//* 	uint32 DeliveryQoS;
+//* 	[not_null: DisableOverride ToInstance ToSubClass] boolean DeliverSynchronously = FALSE;
+//* 	boolean MaintainSecurityContext = FALSE;
+//* 	boolean SlowDownProviders = FALSE;
+//* 	[read: DisableOverride ToInstance ToSubClass] uint8 CreatorSID[] = {1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0};
+//* };
+
+//**************************************************************************
+//* Class: __TimerNextFiring
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __TimerNextFiring : __IndicationRelated
+//* {
+//* 	[key] string TimerId;
+//* 	[not_null: DisableOverride ToInstance ToSubClass] sint64 NextEvent64BitTime;
+//* };
+
+//**************************************************************************
+//* Class: __EventFilter
+//* Derived from: __IndicationRelated
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __EventFilter : __IndicationRelated
+//* {
+//* 	[key] string Name;
+//* 	[read: DisableOverride ToInstance ToSubClass] uint8 CreatorSID[] = {1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0};
+//* 	string QueryLanguage;
+//* 	string Query;
+//* 	string EventNamespace;
+//* 	string EventAccess;
+//* };
+
+//**************************************************************************
+//* Class: __NAMESPACE
+//* Derived from: __SystemClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NAMESPACE : __SystemClass
+//* {
+//* 	[key] string Name;
+//* };
+
+//**************************************************************************
+//* Class: __SystemSecurity
+//* Derived from: 
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [singleton: DisableOverride ToInstance ToSubClass]
+//* class __SystemSecurity
+//* {
+//* 	[Static] uint32 GetSD([out] uint8 SD[]);
+//* 	[Static] uint32 Get9XUserList([out] __ntlmuser9x ul[]);
+//* 	[Static] uint32 SetSD([in] uint8 SD[]);
+//* 	[Static] uint32 Set9XUserList([in] __ntlmuser9x ul[]);
+//* 	[Static] uint32 GetCallerAccessRights([out] sint32 rights);
+//* };
+
+//**************************************************************************
+//* Class: WMIBinaryMofResource
+//* Derived from: 
+//**************************************************************************
+[Locale(1033)]
+class WMIBinaryMofResource
+{
+	[read, key] string Name;
+	[read, key] uint32 LowDateTime;
+	[read, key] uint32 HighDateTime;
+	boolean MofProcessed;
+};
+
+//**************************************************************************
+//* Class: __SecurityRelatedClass
+//* Derived from: 
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __SecurityRelatedClass
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __NTLMUser9X
+//* Derived from: __SecurityRelatedClass
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __NTLMUser9X : __SecurityRelatedClass
+//* {
+//* 	string Name;
+//* 	string Authority = ".";
+//* 	sint32 Flags;
+//* 	sint32 Mask;
+//* 	sint32 Type;
+//* };
+
+//**************************************************************************
+//* Class: __PARAMETERS
+//* Derived from: 
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract]
+//* class __PARAMETERS
+//* {
+//* };
+
+//**************************************************************************
+//* Class: __NotifyStatus
+//* Derived from: 
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* [abstract: DisableOverride ToInstance ToSubClass]
+//* class __NotifyStatus
+//* {
+//* 	uint32 StatusCode;
+//* };
+
+//**************************************************************************
+//* Class: __ExtendedStatus
+//* Derived from: __NotifyStatus
+//* Informational only:  A system class definition will not compile.
+//**************************************************************************
+//* class __ExtendedStatus : __NotifyStatus
+//* {
+//* 	string ProviderName;
+//* 	string Operation;
+//* 	string ParameterInfo;
+//* 	string Description;
+//* };
+
+//**************************************************************************
+//* Class: Win32_PrivilegesStatus
+//* Derived from: __ExtendedStatus
+//**************************************************************************
+[Locale(1033), UUID("{BE46D060-7A7C-11d2-BC85-00104B2CF71C}")]
+class Win32_PrivilegesStatus : __ExtendedStatus
+{
+	[read] string PrivilegesNotHeld[];
+	[read] string PrivilegesRequired[];
+};
+
+//**************************************************************************
+//* Class: SmonLogError
+//* Derived from: __ExtendedStatus
+//**************************************************************************
+class SmonLogError : __ExtendedStatus
+{
+	[read] String ConfigName;
+};
+
+//**************************************************************************
+//* Class: EventTraceError
+//* Derived from: __ExtendedStatus
+//**************************************************************************
+class EventTraceError : __ExtendedStatus
+{
+	[read] String LoggerName;
+};
+
+//**************************************************************************
+//* Class: MS_WmiInternal
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MS_WmiInternal
+{
+};
+
+//**************************************************************************
+//* Class: MSWmi_ProviderInfo
+//* Derived from: MS_WmiInternal
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{C7BF35D0-AADB-11d1-BF4A-00A0C9062910}")]
+class MSWmi_ProviderInfo : MS_WmiInternal
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] string FriendlyName;
+	[WmiDataId(2), read] string Description;
+	[WmiDataId(3), read] string Location;
+	[WmiDataId(4), read] string Manufacturer;
+	[WmiDataId(5), read] string Service;
+};
+
+//**************************************************************************
+//* Class: MSWmi_PnPDeviceId
+//* Derived from: MS_WmiInternal
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{C7BF35D2-AADB-11d1-BF4A-00A0C9062910}"), GuidName1("DATA_PROVIDER_PNPID_GUID")]
+class MSWmi_PnPDeviceId : MS_WmiInternal
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] string PnPDeviceId;
+};
+
+//**************************************************************************
+//* Class: MSWmi_MofData
+//* Derived from: MS_WmiInternal
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{05901221-D566-11d1-B2F0-00A0C9062910}")]
+class MSWmi_MofData : MS_WmiInternal
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Unused1;
+	[WmiDataId(2), read] uint32 Unused2;
+	[WmiDataId(3), read] uint32 Size;
+	[WmiDataId(4), read] uint32 Unused4;
+	[WmiDataId(5), WmiSizeIs("Size"), read] uint8 BinaryMofData[];
+};
+
+//**************************************************************************
+//* Class: MSWmi_PnPInstanceNames
+//* Derived from: MS_WmiInternal
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{C7BF35D3-AADB-11d1-BF4A-00A0C9062910}"), GuidName1("DATA_PROVIDER_PNPID_INSTANCE_NAMES_GUID")]
+class MSWmi_PnPInstanceNames : MS_WmiInternal
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Count;
+	[WmiDataId(2), WmiSizeIs("Count"), read] string InstanceNameList[];
+};
+
+//**************************************************************************
+//* Class: MSAcpi
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSAcpi
+{
+};
+
+//**************************************************************************
+//* Class: MSAcpi_ThermalZoneTemperature
+//* Derived from: MSAcpi
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{A1BC18C0-A7C8-11d1-BF3C-00A0C9062910}")]
+class MSAcpi_ThermalZoneTemperature : MSAcpi
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 ThermalStamp;
+	[WmiDataId(2), read] uint32 ThermalConstant1;
+	[WmiDataId(3), read] uint32 ThermalConstant2;
+	[WmiDataId(4), read] uint32 Reserved;
+	[WmiDataId(5), read] uint32 SamplingPeriod;
+	[WmiDataId(6), read] uint32 CurrentTemperature;
+	[WmiDataId(7), read] uint32 PassiveTripPoint;
+	[WmiDataId(8), read] uint32 CriticalTripPoint;
+	[WmiDataId(9), read] uint32 ActiveTripPointCount;
+	[WmiDataId(10), MissingValue(0), read, MAX(10)] uint32 ActiveTripPoint[];
+};
+
+//**************************************************************************
+//* Class: CIM_StatisticalInformation
+//* Derived from: 
+//**************************************************************************
+[Abstract, Locale(1033): ToInstance, UUID("{956597A1-7D80-11D2-AAD3-006008C78BC7}:ToInstance")]
+class CIM_StatisticalInformation
+{
+	[read: ToSubClass, MaxLen(256): ToSubClass] string Name;
+	[read: ToSubClass] string Description;
+	[read: ToSubClass, MaxLen(64): ToSubClass] string Caption;
+};
+
+//**************************************************************************
+//* Class: Win32_Perf
+//* Derived from: CIM_StatisticalInformation
+//**************************************************************************
+[abstract, Locale(1033)]
+class Win32_Perf : CIM_StatisticalInformation
+{
+	uint64 Frequency_PerfTime;
+	uint64 Timestamp_PerfTime;
+	uint64 Timestamp_Sys100NS;
+	uint64 Frequency_Sys100NS;
+	uint64 Frequency_Object;
+	uint64 Timestamp_Object;
+};
+
+//**************************************************************************
+//* Class: Win32_PerfRawData
+//* Derived from: Win32_Perf
+//**************************************************************************
+[abstract, Locale(1033)]
+class Win32_PerfRawData : Win32_Perf
+{
+};
+
+//**************************************************************************
+//* Class: Win32_PerfFormattedData
+//* Derived from: Win32_Perf
+//**************************************************************************
+[abstract, Locale(1033)]
+class Win32_PerfFormattedData : Win32_Perf
+{
+};
+
+//**************************************************************************
+//* Class: MSTapeDriver
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSTapeDriver
+{
+};
+
+//**************************************************************************
+//* Class: MSTapeDriveParam
+//* Derived from: MSTapeDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{B9A8CFD5-8D72-47a4-AC0E-284A3200F4FB}"), HeaderName("WMI_TAPE_DRIVE_PARAMETERS"), GuidName1("WMI_TAPE_DRIVE_PARAMETERS_GUID")]
+class MSTapeDriveParam : MSTapeDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 MaximumBlockSize;
+	[WmiDataId(2), read] uint32 MinimumBlockSize;
+	[WmiDataId(3), read] uint32 DefaultBlockSize;
+	[WmiDataId(4), read] uint32 MaximumPartitionCount;
+	[WmiDataId(5), read] boolean CompressionCapable;
+	[WmiDataId(6), read] boolean CompressionEnabled;
+	[WmiDataId(7), read] boolean ReportSetmarks;
+	[WmiDataId(8), read] boolean HardwareErrorCorrection;
+};
+
+//**************************************************************************
+//* Class: MSTapeSymbolicName
+//* Derived from: MSTapeDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{3FB828F7-F119-4066-B1E6-DB407CE9DE91}"), HeaderName("WMI_TAPE_SYMBOLIC_NAME"), GuidName1("WMI_TAPE_SYMBOLIC_NAME_GUID")]
+class MSTapeSymbolicName : MSTapeDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] string TapeSymbolicName;
+};
+
+//**************************************************************************
+//* Class: MSTapeProblemDeviceError
+//* Derived from: MSTapeDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{43EC6B13-10BB-4bf6-B716-1C1E2F10BB5F}"), HeaderName("WMI_TAPE_PROBLEM_DEVICE_ERROR"), GuidName1("WMI_TAPE_PROBLEM_DEVICE_ERROR_GUID")]
+class MSTapeProblemDeviceError : MSTapeDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] boolean ReadWarning;
+	[WmiDataId(2), read] boolean WriteWarning;
+	[WmiDataId(3), read] boolean HardError;
+	[WmiDataId(4), read] boolean ReadFailure;
+	[WmiDataId(5), read] boolean WriteFailure;
+	[WmiDataId(6), read] boolean UnsupportedFormat;
+	[WmiDataId(7), read] boolean TapeSnapped;
+	[WmiDataId(8), read] boolean DriveRequiresCleaning;
+	[WmiDataId(9), read] boolean TimetoCleanDrive;
+	[WmiDataId(10), read] boolean DriveHardwareError;
+	[WmiDataId(11), read] boolean ScsiInterfaceError;
+	[WmiDataId(12), read] boolean MediaLife;
+};
+
+//**************************************************************************
+//* Class: MSTapeMediaCapacity
+//* Derived from: MSTapeDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{8C2147A4-FF29-4336-B8A4-227B54CC0966}"), HeaderName("WMI_TAPE_MEDIA_PARAMETERS"), GuidName1("WMI_TAPE_MEDIA_PARAMETERS_GUID")]
+class MSTapeMediaCapacity : MSTapeDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint64 MaximumCapacity;
+	[WmiDataId(2), read] uint64 AvailableCapacity;
+	[WmiDataId(3), read] uint32 BlockSize;
+	[WmiDataId(4), read] uint32 PartitionCount;
+	[WmiDataId(5), read] boolean MediaWriteProtected;
+};
+
+//**************************************************************************
+//* Class: MSTapeProblemIoError
+//* Derived from: MSTapeDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{58FD29F9-B516-40fd-871A-7EE76D5BB53E}"), HeaderName("WMI_TAPE_PROBLEM_IO_ERROR"), GuidName1("WMI_TAPE_PROBLEM_IO_ERROR_GUID")]
+class MSTapeProblemIoError : MSTapeDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 ReadCorrectedWithoutDelay;
+	[WmiDataId(2), read] uint32 ReadCorrectedWithDelay;
+	[WmiDataId(3), read] uint32 ReadTotalErrors;
+	[WmiDataId(4), read] uint32 ReadTotalCorrectedErrors;
+	[WmiDataId(5), read] uint32 ReadTotalUncorrectedErrors;
+	[WmiDataId(6), read] uint32 ReadCorrectionAlgorithmProcessed;
+	[WmiDataId(7), read] uint32 WriteCorrectedWithoutDelay;
+	[WmiDataId(8), read] uint32 WriteCorrectedWithDelay;
+	[WmiDataId(9), read] uint32 WriteTotalErrors;
+	[WmiDataId(10), read] uint32 WriteTotalCorrectedErrors;
+	[WmiDataId(11), read] uint32 WriteTotalUncorrectedErrors;
+	[WmiDataId(12), read] uint32 WriteCorrectionAlgorithmProcessed;
+	[WmiDataId(13), read] uint32 NonMediumErrors;
+};
+
+//**************************************************************************
+//* Class: MSNdis
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSNdis
+{
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmSupportedServiceCategory
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad19f-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmSupportedServiceCategory : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisAtmSupportedServiceCategory;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TokenRingCurrentFunctional
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{44795709-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TokenRingCurrentFunctional : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisTokenRingCurrentFunctional;
+};
+
+//**************************************************************************
+//* Class: MSNdis_MaximumSendPackets
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10367-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_MaximumSendPackets : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisMaximumSendPackets;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TokenRingLostFrames
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14034-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TokenRingLostFrames : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisTokenRingLostFrames;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiShortPermanentAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14039-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiShortPermanentAddress : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkShortAddress NdisPermanentAddress;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmMaxActiveVcs
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad1a2-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmMaxActiveVcs : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisAtmMaxActiveVcs;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiLongMulticastList
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14037-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiLongMulticastList : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NumberElements;
+	[read, WmiDataId(2), WmiSizeIs("NumberElements")] MSNdis_NetworkAddress NdisMulticastList[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_PrivacyFilter
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{6733c4e9-4792-11d4-97f1-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_PrivacyFilter : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, Values{"Ndis802_11PrivFilterAcceptAll", "Ndis802_11PrivFilter8021xWEP"}, ValueMap{"0", "1"}, WmiDataId(1)] uint32 Ndis80211PrivacyFilter;
+};
+
+//**************************************************************************
+//* Class: MSNdis_EthernetReceiveErrorAlignment
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{44795704-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_EthernetReceiveErrorAlignment : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisEthernetReceiveErrorAlignment;
+};
+
+//**************************************************************************
+//* Class: MSNdis_ReceiveError
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{447956fd-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_ReceiveError : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisReceiveError;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiFramesLost
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14041-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiFramesLost : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisFddiFramesLost;
+};
+
+//**************************************************************************
+//* Class: MSNdis_MaximumFrameSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10358-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_MaximumFrameSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisMaximumFrameSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_MediaInUse
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10356-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_MediaInUse : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NumberElements;
+	[read, WmiDataId(2), WmiSizeIs("NumberElements")] uint32 NdisMediaInUse[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_ReceiveNoBuffer
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{447956fe-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_ReceiveNoBuffer : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisReceiveNoBuffer;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiAttachmentType
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf1403d-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiAttachmentType : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, ValueMap{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"}, WmiDataId(1)] uint32 NdisFddiAttachmentType;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoMediaSupported
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad193-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoMediaSupported : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NumberElements;
+	[read, WmiDataId(2), WmiSizeIs("NumberElements")] uint32 NdisCoMediaSupported[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoTransmitPdusOk
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{0a214805-e35f-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoTransmitPdusOk : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint64 NdisCoTransmitPdusOk;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_Disassociate
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{43671f40-2129-11d4-97ec-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_Disassociate : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[write, WmiDataId(1)] uint32 UnusedParameter;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_BaseServiceSetIdentifier
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{2504b6c2-1fa5-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_BaseServiceSetIdentifier : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1), MAX(6)] uint8 Ndis80211MacAddress[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoReceivePduErrors
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{0a214808-e35f-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoReceivePduErrors : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisCoReceivePduErrors;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoReceivePdusOk
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{0a214806-e35f-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoReceivePdusOk : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint64 NdisCoReceivePdusOk;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_RemoveWEP
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{433c345c-2129-11d4-97ec-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_RemoveWEP : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[write, WmiDataId(1)] uint32 Ndis80211KeyIndex;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiLongCurrentAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14036-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiLongCurrentAddress : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkAddress NdisCurrentAddress;
+};
+
+//**************************************************************************
+//* Class: MSNdis_EthernetMulticastList
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{44795701-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_EthernetMulticastList : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NumberElements;
+	[read, WmiDataId(2), WmiSizeIs("NumberElements")] MSNdis_NetworkAddress NdisMulticastList[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_EthernetCurrentAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{44795700-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_EthernetCurrentAddress : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkAddress NdisCurrentAddress;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TransmitsOk
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{447956fa-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TransmitsOk : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint64 NdisTransmitsOk;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_DataRates
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{49db8722-2068-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_DataRates : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1), MAX(8)] uint8 Ndis80211DataRate[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_DesiredDataRates
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{452ee08e-2536-11d4-97ed-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_DesiredDataRates : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1), MAX(8)] uint8 Ndis80211DesiredRate[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_AddWEP
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{4307bff0-2129-11d4-97ec-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_AddWEP : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[write, WmiDataId(1)] uint32 Length;
+	[write, WmiDataId(2)] uint32 KeyIndex;
+	[write, WmiDataId(3)] uint32 KeyLength;
+	[write, WmiDataId(4), WmiSizeIs("KeyLength")] uint32 KeyMaterial[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_TransmitPowerLevel
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{11e6ba76-2053-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_TransmitPowerLevel : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] uint32 Ndis80211TransmitPowerLevel;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TokenRingCurrentAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{44795708-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TokenRingCurrentAddress : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkAddress NdisCurrentAddress;
+};
+
+//**************************************************************************
+//* Class: MSNdis_VendorDescription
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec1035f-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_VendorDescription : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] string NdisVendorDescription;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CurrentLookahead
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10361-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CurrentLookahead : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisCurrentLookahead;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_TransmitAntennaSelected
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{01dbb74a-2064-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_TransmitAntennaSelected : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] uint32 Ndis80211TransmitAntennaSelected;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_AuthenticationMode
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{43920a24-2129-11d4-97ec-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_AuthenticationMode : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, Values{"Ndis802_11AuthModeOpen", "Ndis802_11AuthModeShared", "Ndis802_11AuthModeAutoSwitch"}, ValueMap{"0", "1", "2"}, WmiDataId(1)] uint32 Ndis80211AuthenticationMode;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmTransmitCellsOk
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{0a21480b-e35f-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmTransmitCellsOk : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint64 NdisAtmTransmitCellsOk;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TokenRingPermanentAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{44795707-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TokenRingPermanentAddress : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkAddress NdisPermanentAddress;
+};
+
+//**************************************************************************
+//* Class: MSNdis_EnumerateAdapter
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d7f-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_EnumerateAdapter : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] string DeviceName;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_FragmentationThreshold
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{69aaa7c4-2062-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_FragmentationThreshold : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] uint32 Ndis80211FragmentationThreshold;
+};
+
+//**************************************************************************
+//* Class: MSNdis_EthernetMaximumMulticastListSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{44795702-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_EthernetMaximumMulticastListSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisEthernetMaximumMulticastListSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_ReceivedSignalStrength
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{1507db16-2053-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_ReceivedSignalStrength : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] sint32 Ndis80211ReceivedSignalStrength;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_NetworkType
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, guid("{e779ab61-b9ab-11d4-b675-002048570337}")]
+class MSNdis_80211_NetworkType : MSNdis
+{
+	[ValueMap{"0", "1"}, WmiDataId(1)] uint32 Ndis80211NetworkType;
+};
+
+//**************************************************************************
+//* Class: MSNdis_LinkSpeed
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10359-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_LinkSpeed : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisLinkSpeed;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoTransmitPduErrors
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{0a214807-e35f-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoTransmitPduErrors : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisCoTransmitPduErrors;
+};
+
+//**************************************************************************
+//* Class: MSNdis_MediaConnectStatus
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10366-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_MediaConnectStatus : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, ValueMap{"0", "1"}, WmiDataId(1)] uint32 NdisMediaConnectStatus;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_PowerMode
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{85be837c-2041-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_PowerMode : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, ValueMap{"0", "1", "2"}, WmiDataId(1)] uint32 Ndis80211PowerMode;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmMaxActiveVpiBits
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad1a4-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmMaxActiveVpiBits : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisAtmMaxActiveVpiBits;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmSupportedVcRates
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad19e-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmSupportedVcRates : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 MinCellRate;
+	[read, WmiDataId(2)] uint32 MaxCellRate;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_ConfigurationFH
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, guid("{4a800b8c-2068-11d4-97eb-00c04f79c403}")]
+class MSNdis_80211_ConfigurationFH : MSNdis
+{
+	[WmiDataId(1)] uint32 FHLength;
+	[WmiDataId(2)] uint32 HopPattern;
+	[WmiDataId(3)] uint32 HopSet;
+	[WmiDataId(4)] uint32 DwellTime;
+};
+
+//**************************************************************************
+//* Class: MSNdis_MaximumTotalSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10363-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_MaximumTotalSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisMaximumTotalSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TransmitsError
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{447956fc-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TransmitsError : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisTransmitsError;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmMaxAal34PacketSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad1a7-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmMaxAal34PacketSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisAtmMaxAal34PacketSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_ServiceSetIdentifier
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{7d2a90ea-2041-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_ServiceSetIdentifier : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1), MAX(33)] uint8 Ndis80211SsId[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoHardwareStatus
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad192-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoHardwareStatus : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisCoHardwareStatus;
+};
+
+//**************************************************************************
+//* Class: MSNdis_ReceiveBlockSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec1035d-a61a-11d0-8dd4-00c04fc3358c}")]
+class MSNdis_ReceiveBlockSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisReceiveBlockSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoMacOptions
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad19a-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoMacOptions : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisCoMacOptions;
+};
+
+//**************************************************************************
+//* Class: MSNdis_ReceivesOk
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{447956fb-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_ReceivesOk : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint64 NdisReceivesOk;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiLConnectionState
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14045-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiLConnectionState : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, ValueMap{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}, WmiDataId(1)] uint32 NdisFddiLConnectionState;
+};
+
+//**************************************************************************
+//* Class: MSNdis_MaximumLookahead
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10357-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_MaximumLookahead : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisMaximumLookahead;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_BSSIList
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{69526f9a-2062-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_BSSIList : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NumberOfItems;
+	[read, WmiDataId(2), WmiSizeIs("NumberOfItems")] MSNdis_80211_WLanBssId Ndis80211BSSIList[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmMaxAal1PacketSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad1a6-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmMaxAal1PacketSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisAtmMaxAal1PacketSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_NetworkShortAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, guid("{B5BD98B8-0201-11d1-A50E-00A0C9062910}")]
+class MSNdis_NetworkShortAddress : MSNdis
+{
+	[read, WmiDataId(1), MAX(2)] uint8 Address[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmMaxAal0PacketSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad1a5-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmMaxAal0PacketSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisAtmMaxAal0PacketSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmSupportedAalTypes
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad1a0-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmSupportedAalTypes : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisAtmSupportedAalTypes;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoLinkSpeed
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad195-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoLinkSpeed : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkLinkSpeed NdisCoLinkSpeed;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CurrentPacketFilter
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10360-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CurrentPacketFilter : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisCurrentPacketFilter;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiShortMaximumListSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf1403c-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiShortMaximumListSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisFddiShortMaximumListSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_MediaSupported
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10355-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_MediaSupported : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NumberElements;
+	[read, WmiDataId(2), WmiSizeIs("NumberElements")] uint32 NdisMediaSupported[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_NumberOfAntennas
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{01779336-2064-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_NumberOfAntennas : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 Ndis80211NumberOfAntennas;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiShortCurrentAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf1403a-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiShortCurrentAddress : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkShortAddress NdisCurrentAddress;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiFrameErrors
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14040-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiFrameErrors : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisFddiFrameErrors;
+};
+
+//**************************************************************************
+//* Class: MSNdis_NdisEnumerateVc
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{981f2d82-b1f3-11d0-8dd7-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_NdisEnumerateVc : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_ReceiveAntennaSelected
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{01ac07a2-2064-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_ReceiveAntennaSelected : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] uint32 Ndis80211ReceiveAntennaSelected;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoVendorDriverVersion
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad19c-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoVendorDriverVersion : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisCoVendorDriverVersion;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_Configuration
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{4a4df982-2068-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_Configuration : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] MSNdis_80211_ConfigurationInfo Ndis80211Config;
+};
+
+//**************************************************************************
+//* Class: MSNdis_DriverVersion
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10362-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_DriverVersion : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint16 NdisDriverVersion;
+};
+
+//**************************************************************************
+//* Class: MSNdis_EthernetPermanentAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{447956ff-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_EthernetPermanentAddress : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkAddress NdisPermanentAddress;
+};
+
+//**************************************************************************
+//* Class: MSNdis_VendorDriverVersion
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{447956f9-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_VendorDriverVersion : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisVendorDriverVersion;
+};
+
+//**************************************************************************
+//* Class: MSNdis_EthernetOneTransmitCollision
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{44795705-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_EthernetOneTransmitCollision : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisEthernetOneTransmitCollision;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TokenRingCurrentGroup
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{4479570a-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TokenRingCurrentGroup : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisTokenRingCurrentGroup;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiShortMulticastList
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf1403b-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiShortMulticastList : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NumberElements;
+	[read, WmiDataId(2), WmiSizeIs("NumberElements")] MSNdis_NetworkShortAddress NdisMulticastList[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_TokenRingLastOpenStatus
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{4479570b-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TokenRingLastOpenStatus : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisTokenRingLastOpenStatus;
+};
+
+//**************************************************************************
+//* Class: MSNdis_VlanIdentifier
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{765dc702-c5e8-4b67-843b-3f5a4ff2648b}"), WmiExpense(1)]
+class MSNdis_VlanIdentifier : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] uint32 NdisVlanId;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_ReloadDefaults
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{748b14e8-32ee-4425-b91b-c9848c58b55a}"), WmiExpense(1)]
+class MSNdis_80211_ReloadDefaults : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[write, ValueMap{"0"}, WmiDataId(1)] uint32 Ndis80211ReloadDefaults;
+};
+
+//**************************************************************************
+//* Class: MSNdis_NetworkLinkSpeed
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, guid("{60fc6b57-0f66-11d1-96a7-00c04fc3358c}")]
+class MSNdis_NetworkLinkSpeed : MSNdis
+{
+	[read, WmiDataId(1)] uint32 Outbound;
+	[read, WmiDataId(2)] uint32 Inbound;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_ConfigurationInfo
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, guid("{220c16fc-b9a8-11d4-b675-002048570337}")]
+class MSNdis_80211_ConfigurationInfo : MSNdis
+{
+	[WmiDataId(1)] uint32 ConfigLength;
+	[WmiDataId(2)] uint32 BeaconPeriod;
+	[WmiDataId(3)] uint32 ATIMWindow;
+	[WmiDataId(4)] uint32 DSConfig;
+	[WmiDataId(5)] MSNdis_80211_ConfigurationFH FHConfig;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_WLanBssId
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, guid("{6929e718-2062-11d4-97eb-00c04f79c403}")]
+class MSNdis_80211_WLanBssId : MSNdis
+{
+	[WmiDataId(1)] uint32 Ndis80211WLanBssIdLength;
+	[WmiDataId(2), MAX(6)] uint8 Ndis80211MacAddress[];
+	[WmiDataId(3)] uint16 Reserved;
+	[WmiDataId(4)] uint32 Ndis80211SsIdLength;
+	[WmiDataId(5), MAX(32)] uint8 Ndis80211SsId[];
+	[WmiDataId(6)] uint32 Ndis80211Privacy;
+	[WmiDataId(7)] uint32 Ndis80211Rssi;
+	[WmiDataId(8)] MSNdis_80211_NetworkType Ndis80211NetworkTypeInUse;
+	[WmiDataId(9)] MSNdis_80211_ConfigurationInfo Ndis80211Configuration;
+	[WmiDataId(10)] MSNdis_80211_NetworkInfrastructure Ndis80211InfrastructureMode;
+	[WmiDataId(11), MAX(8)] uint8 Ndis80211SupportedRate[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiDownstreamNodeLong
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf1403f-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiDownstreamNodeLong : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkAddress NdisFddiDownstreamNodeLong;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TokenRingCurrentRingStatus
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{890a36ec-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TokenRingCurrentRingStatus : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisTokenRingCurrentRingStatus;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoVendorId
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad196-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoVendorId : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisCoVendorID;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_WEPStatus
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{b027a21f-3cfa-4125-800b-3f7a18fddcdc}"), WmiExpense(1)]
+class MSNdis_80211_WEPStatus : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, Values{"Ndis802_11WEPEnabled", "Ndis802_11WEPDisabled", "Ndis802_11WEPKeyAbsent", "Ndis802_11WEPNotSupported"}, ValueMap{"0", "1", "2", "3"}, WmiDataId(1)] uint32 Ndis80211WEPStatus;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmHardwareCurrentAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad1a1-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmHardwareCurrentAddress : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkAddress NdisAtmHardwareCurrentAddress;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_ReceivedSignalStrengthEventTrigger
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{155689b8-2053-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_ReceivedSignalStrengthEventTrigger : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] sint32 Ndis80211ReceivedSignalStrengthTrigger;
+};
+
+//**************************************************************************
+//* Class: MSNdis_PhysicalMediumType
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{418ca16d-3937-4208-940a-ec6196278085}"), WmiExpense(1)]
+class MSNdis_PhysicalMediumType : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisPhysicalMediumType;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_NetworkInfrastructure
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, guid("{34e1fa48-b9b6-11d4-b675-002048570337}")]
+class MSNdis_80211_NetworkInfrastructure : MSNdis
+{
+	[Values{"Ndis802_11IBSS", "Ndis802_11Infrastructure", "Ndis802_11AutoUnknown"}, ValueMap{"0", "1", "2"}, WmiDataId(1)] uint32 Ndis80211NetworkInfrastructure;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoVendorDescription
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad197-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoVendorDescription : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] string NdisCoVendorDescription;
+};
+
+//**************************************************************************
+//* Class: MSNdis_NetworkAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, guid("{B5BD98B7-0201-11d1-A50E-00A0C9062910}")]
+class MSNdis_NetworkAddress : MSNdis
+{
+	[read, WmiDataId(1), MAX(6)] uint8 Address[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoMinimumLinkSpeed
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad19d-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoMinimumLinkSpeed : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkLinkSpeed NdisCoMinimumLinkSpeed;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_BssIdListScan
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{0d9e01e1-ba70-11d4-b675-002048570337}"), WmiExpense(1)]
+class MSNdis_80211_BssIdListScan : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[write, WmiDataId(1)] uint32 UnusedParameter;
+};
+
+//**************************************************************************
+//* Class: MSNdis_EthernetMoreTransmitCollisions
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{44795706-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_EthernetMoreTransmitCollisions : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisEthernetMoreTransmitCollisions;
+};
+
+//**************************************************************************
+//* Class: MSNdis_ReceiveBufferSpace
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec1035b-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_ReceiveBufferSpace : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisReceiveBufferSpace;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TransmitBufferSpace
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec1035a-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TransmitBufferSpace : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisTransmitBufferSpace;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TransmitBlockSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec1035c-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TransmitBlockSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisTransmitBlockSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_Statistics
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{42bb73b0-2129-11d4-97ec-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_Statistics : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 StatisticsLength;
+	[read, WmiDataId(2)] uint64 TransmittedFragmentCount;
+	[read, WmiDataId(3)] uint64 MulticastTransmittedFrameCount;
+	[read, WmiDataId(4)] uint64 FailedCount;
+	[read, WmiDataId(5)] uint64 RetryCount;
+	[read, WmiDataId(6)] uint64 MultipleRetryCount;
+	[read, WmiDataId(7)] uint64 RTSSuccessCount;
+	[read, WmiDataId(8)] uint64 RTSFailureCount;
+	[read, WmiDataId(9)] uint64 ACKFailureCount;
+	[read, WmiDataId(10)] uint64 FrameDuplicateCount;
+	[read, WmiDataId(11)] uint64 ReceivedFragmentCount;
+	[read, WmiDataId(12)] uint64 MulticastReceivedFrameCount;
+	[read, WmiDataId(13)] uint64 FCSErrorCount;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmReceiveCellsOk
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{0a21480a-e35f-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmReceiveCellsOk : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint64 NdisAtmReceiveCellsOk;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiLemRejects
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14044-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiLemRejects : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisFddiLemRejects;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiLongMaximumListSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14038-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiLongMaximumListSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisFddiLongMaximumListSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_EthernetMacOptions
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{44795703-a61b-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_EthernetMacOptions : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisEthernetMacOptions;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_NetworkTypeInUse
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{857e2326-2041-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_NetworkTypeInUse : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] MSNdis_80211_NetworkType Ndis80211NetworkTypeInUse;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TokenRingLineErrors
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14033-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TokenRingLineErrors : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisTokenRingLineErrors;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiLctFailures
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14043-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiLctFailures : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisFddiLctFailures;
+};
+
+//**************************************************************************
+//* Class: MSNdis_TokenRingCurrentRingState
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14032-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_TokenRingCurrentRingState : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, ValueMap{"1", "2", "3", "4", "5", "6"}, WmiDataId(1)] uint32 NdisTokenRingCurrentRingState;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiUpstreamNodeLong
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf1403e-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiUpstreamNodeLong : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkAddress NdisFddiUpstreamNodeLong;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoReceivePdusNoBuffer
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{0a214809-e35f-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoReceivePdusNoBuffer : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisCoReceivePdusNoBuffer;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiLongPermanentAddress
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14035-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiLongPermanentAddress : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] MSNdis_NetworkAddress NdisPermanentAddress;
+};
+
+//**************************************************************************
+//* Class: MSNdis_VendorID
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec1035e-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_VendorID : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisVendorID;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmReceiveCellsDropped
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{0a21480c-e35f-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmReceiveCellsDropped : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint64 NdisAtmReceiveCellsDropped;
+};
+
+//**************************************************************************
+//* Class: MSNdis_HardwareStatus
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10354-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_HardwareStatus : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, ValueMap{"0", "1", "2", "3", "4"}, WmiDataId(1)] uint32 NdisHardwareStatus;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_NetworkTypesSupported
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{8531d6e6-2041-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_NetworkTypesSupported : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NumberOfItems;
+	[read, WmiDataId(2), WmiSizeIs("NumberOfItems")] MSNdis_80211_NetworkType Ndis80211NetworkTypes[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_DeviceWakeOnMagicPacketOnly
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{a14f1c97-8839-4f8a-9996-a28996ebbf1d}"), WmiExpense(1)]
+class MSNdis_DeviceWakeOnMagicPacketOnly : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] boolean EnableWakeOnMagicPacketOnly;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmMaxAal5PacketSize
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad191-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmMaxAal5PacketSize : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisAtmMaxAal5PacketSize;
+};
+
+//**************************************************************************
+//* Class: MSNdis_MacOptions
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{5ec10365-a61a-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_MacOptions : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisMacOptions;
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_InfrastructureMode
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{697d5a7e-2062-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_InfrastructureMode : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] MSNdis_80211_NetworkInfrastructure Ndis80211InfrastructureMode;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoDriverVersion
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad198-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoDriverVersion : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint16 NdisCoDriverVersion;
+};
+
+//**************************************************************************
+//* Class: MSNdis_AtmMaxActiveVciBits
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad1a3-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_AtmMaxActiveVciBits : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NdisAtmMaxActiveVciBits;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoMediaInUse
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad194-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoMediaInUse : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WmiDataId(1)] uint32 NumberElements;
+	[read, WmiDataId(2), WmiSizeIs("NumberElements")] uint32 NdisCoMediaInUse[];
+};
+
+//**************************************************************************
+//* Class: MSNdis_80211_RTSThreshold
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{0134d07e-2064-11d4-97eb-00c04f79c403}"), WmiExpense(1)]
+class MSNdis_80211_RTSThreshold : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, write, WmiDataId(1)] uint32 Ndis80211RTSThreshold;
+};
+
+//**************************************************************************
+//* Class: MSNdis_FddiRingManagmentState
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{acf14042-a61c-11d0-8dd4-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_FddiRingManagmentState : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, ValueMap{"1", "2", "3", "4", "5", "6", "7", "8"}, WmiDataId(1)] uint32 NdisFddiRingManagmentState;
+};
+
+//**************************************************************************
+//* Class: MSNdis_CoMediaConnectStatus
+//* Derived from: MSNdis
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{791ad19b-e35c-11d0-9692-00c04fc3358c}"), WmiExpense(1)]
+class MSNdis_CoMediaConnectStatus : MSNdis
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, ValueMap{"0", "1"}, WmiDataId(1)] uint32 NdisCoMediaConnectStatus;
+};
+
+//**************************************************************************
+//* Class: RegisteredGuids
+//* Derived from: 
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{e3dff7bd-3915-11d2-9103-00c04fb998a2}"), WmiExpense(1)]
+class RegisteredGuids
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, ValueMap{0, 1, 2, 3}, WmiDataId(1)] uint32 GuidType;
+	[read, WmiDataId(2)] uint32 LoggerId;
+	[read, WmiDataId(3)] uint32 EnableLevel;
+	[read, WmiDataId(4)] uint32 EnableFlags;
+	[read, WmiDataId(5)] boolean IsEnabled;
+};
+
+//**************************************************************************
+//* Class: MSRedbook_DriverInformation
+//* Derived from: 
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, GuidName1("GUID_REDBOOK_WMI_STD_DATA"), GuidName2("MSRedbook_DriverInformationGuid"), HeaderName("REDBOOK_WMI_STD_DATA"), guid("{b90550e7-ae0a-11d1-a571-00c04fa34730}")]
+class MSRedbook_DriverInformation
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), DefineDataId("REDBOOK_WMI_NUMBER_OF_BUFFERS"), read, write] uint32 NumberOfBuffers;
+	[WmiDataId(2), DefineDataId("REDBOOK_WMI_SECTORS_PER_READ"), read, write] uint32 SectorsPerRead;
+	[WmiDataId(3), DefineDataId("REDBOOK_WMI_SECTORS_PER_READ_MASK"), read, write] uint32 SectorsPerReadMask;
+	[WmiDataId(4), DefineDataId("REDBOOK_WMI_MAX_SECTORS_PER_READ"), read, write] uint32 MaximumSectorsPerRead;
+	[WmiDataId(5), DefineDataId("REDBOOK_WMI_PLAY_ENABLED"), read, write] boolean PlayEnabled;
+	[WmiDataId(6), DefineDataId("REDBOOK_WMI_CDDA_SUPPORTED"), read, write] boolean CDDASupported;
+	[WmiDataId(7), DefineDataId("REDBOOK_WMI_CDDA_ACCURATE"), read, write] boolean CDDAAccurate;
+	[WmiDataId(8), read] boolean Reserved1;
+};
+
+//**************************************************************************
+//* Class: MSChangerDriver
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSChangerDriver
+{
+};
+
+//**************************************************************************
+//* Class: MSChangerParameters
+//* Derived from: MSChangerDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{24EB52AC-7C77-438b-AB61-D024DAB0C03A}"), HeaderName("WMI_CHANGER_PARAMETERS"), GuidName1("WMI_CHANGER_PARAMETERS_GUID")]
+class MSChangerParameters : MSChangerDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 NumberOfSlots;
+	[WmiDataId(2), read] uint32 NumberOfDrives;
+	[WmiDataId(3), read] uint32 NumberOfIEPorts;
+	[WmiDataId(4), read] uint32 NumberOfTransports;
+	[WmiDataId(5), read] uint32 NumberOfDoors;
+	[WmiDataId(6), read] uint32 NumberOfCleanerSlots;
+	[WmiDataId(7), read] uint32 MagazineSize;
+};
+
+//**************************************************************************
+//* Class: MSChangerProblemDeviceError
+//* Derived from: MSChangerDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{56B396A8-0B95-42fe-BBCE-D36FDA904F8E}"), HeaderName("WMI_CHANGER_PROBLEM_DEVICE_ERROR"), GuidName1("WMI_CHANGER_PROBLEM_DEVICE_ERROR_GUID")]
+class MSChangerProblemDeviceError : MSChangerDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 ChangerProblemType;
+};
+
+//**************************************************************************
+//* Class: MSDeviceUI
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSDeviceUI
+{
+};
+
+//**************************************************************************
+//* Class: MSDeviceUI_FirmwareRevision
+//* Derived from: MSDeviceUI
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{4504B1D4-C5EE-4df6-951F-16180E3DD815}"), HeaderName("DEVICE_UI_FIRMWARE_REVISION"), GuidName1("DEVICE_UI_FIRMWARE_REVISION_GUID")]
+class MSDeviceUI_FirmwareRevision : MSDeviceUI
+{
+	boolean Active;
+	[key] string InstanceName;
+	[WmiDataId(1), read] string FirmwareRevision;
+};
+
+//**************************************************************************
+//* Class: MS_SmBios
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MS_SmBios
+{
+};
+
+//**************************************************************************
+//* Class: MSSmBios_RawSMBiosTables
+//* Derived from: MS_SmBios
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{8F680850-A584-11d1-BF38-00A0C9062910}")]
+class MSSmBios_RawSMBiosTables : MS_SmBios
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] boolean Used20CallingMethod;
+	[WmiDataId(2), read] uint8 SmbiosMajorVersion;
+	[WmiDataId(3), read] uint8 SmbiosMinorVersion;
+	[WmiDataId(4), read] uint8 DmiRevision;
+	[WmiDataId(5), read] uint32 Size;
+	[WmiDataId(6), WmiSizeIs("Size"), read] uint8 SMBiosData[];
+};
+
+//**************************************************************************
+//* Class: MSSmBios_Sysid1394
+//* Derived from: MS_SmBios
+//**************************************************************************
+[WMI, guid("{8F680854-A584-11d1-BF38-00A0C9062910}"), HeaderName("SYSID_1394")]
+class MSSmBios_Sysid1394 : MS_SmBios
+{
+	[WmiDataId(1), MAX(8)] uint8 x1394[];
+};
+
+//**************************************************************************
+//* Class: MSSmBios_SMBiosEventlog
+//* Derived from: MS_SmBios
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{8F680851-A584-11d1-BF38-00A0C9062910}")]
+class MSSmBios_SMBiosEventlog : MS_SmBios
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint16 LogTypeDescLength;
+	[WmiDataId(2), read] boolean LogHeaderDescExists;
+	[WmiDataId(3), read] uint8 Reserved;
+	[WmiDataId(4), read] uint16 LogAreaLength;
+	[WmiDataId(5), read] uint16 LogHeaderStart;
+	[WmiDataId(6), read] uint16 LogDataStart;
+	[WmiDataId(7), read] uint8 AccessMethod;
+	[WmiDataId(8), read] uint8 LogStatus;
+	[WmiDataId(9), read] uint32 LogChangeToken;
+	[WmiDataId(10), read] uint32 AccessMethodAddress;
+	[WmiDataId(11), read] uint8 LogHeaderFormat;
+	[WmiDataId(12), read] uint8 NumberLogTypeDesc;
+	[WmiDataId(13), read] uint8 LengthEachLogTypeDesc;
+	[WmiDataId(14), WmiSizeIs("LogTypeDescLength"), read] uint8 ListLogTypeDesc[];
+	[WmiDataId(15), WmiSizeIs("LogAreaLength"), read] uint8 LogArea[];
+};
+
+//**************************************************************************
+//* Class: MSSmBios_Sysid1394List
+//* Derived from: MS_SmBios
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{8F680855-A584-11d1-BF38-00A0C9062910}"), GuidName1("SYSID_1394_DATA_GUID")]
+class MSSmBios_Sysid1394List : MS_SmBios
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Count;
+	[WmiDataId(2), WmiSizeIs("Count"), read] MSSmBios_Sysid1394 List;
+};
+
+//**************************************************************************
+//* Class: MSSmBios_SysidUUID
+//* Derived from: MS_SmBios
+//**************************************************************************
+[WMI, guid("{8F680852-A584-11d1-BF38-00A0C9062910}"), HeaderName("SYSID_UUID")]
+class MSSmBios_SysidUUID : MS_SmBios
+{
+	[WmiDataId(1), MAX(16)] uint8 Uuid[];
+};
+
+//**************************************************************************
+//* Class: MSSmBios_SysidUUIDList
+//* Derived from: MS_SmBios
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{8F680853-A584-11d1-BF38-00A0C9062910}"), GuidName1("SYSID_UUID_DATA_GUID")]
+class MSSmBios_SysidUUIDList : MS_SmBios
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Count;
+	[WmiDataId(2), WmiSizeIs("Count"), read] MSSmBios_SysidUUID List;
+};
+
+//**************************************************************************
+//* Class: MSKeyboard
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSKeyboard
+{
+};
+
+//**************************************************************************
+//* Class: MSKeyboard_PortInformation
+//* Derived from: MSKeyboard
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{4731F89A-71CB-11d1-A52C-00A0C9062910}"), GuidName1("KEYBOARD_PORT_WMI_STD_DATA_GUID"), HeaderName("KEYBOARD_PORT_WMI_STD_DATA")]
+class MSKeyboard_PortInformation : MSKeyboard
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read, ValueMap{"0", "1", "2"}, DefineValues{"KEYBOARD_PORT_WMI_STD_I8042", "KEYBOARD_PORT_WMI_STD_SERIAL", "KEYBOARD_PORT_WMI_STD_USB"}] uint32 ConnectorType;
+	[WmiDataId(2), read] uint32 DataQueueSize;
+	[WmiDataId(3), read] uint32 ErrorCount;
+	[WmiDataId(4), read] uint32 FunctionKeys;
+	[WmiDataId(5), read] uint32 Indicators;
+};
+
+//**************************************************************************
+//* Class: MSKeyboard_ExtendedID
+//* Derived from: MSKeyboard
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{6ac4e23d-a950-4518-8b2b-aa4dcd5fe14a}"), GuidName1("KEYBOARD_PORT_WMI_EXTENDED_ID"), HeaderName("KEYBOARD_ID_EX")]
+class MSKeyboard_ExtendedID : MSKeyboard
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Type;
+	[WmiDataId(2), read] uint32 Subtype;
+};
+
+//**************************************************************************
+//* Class: MSKeyboard_ClassInformation
+//* Derived from: MSKeyboard
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{4731F899-71CB-11d1-A52C-00A0C9062910}")]
+class MSKeyboard_ClassInformation : MSKeyboard
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint64 DeviceId;
+};
+
+//**************************************************************************
+//* Class: TraceLogger
+//* Derived from: 
+//**************************************************************************
+[dynamic: ToInstance, provider("EventTraceProv")]
+class TraceLogger
+{
+	[read, key] String Name;
+	[DisplayName("File Name"): ToInstance, read, write] String LogFileName;
+	[read, write] String Guid[];
+	[read, write] uint32 EnableFlags[];
+	[read, write] uint32 Level[];
+	[DisplayName("Buffer Size"): ToInstance, read, write] uint32 BufferSize;
+	[DisplayName("Minimum Buffers"): ToInstance, read, write] uint32 MinimumBuffers;
+	[DisplayName("Maximum Buffers"): ToInstance, read, write] uint32 MaximumBuffers;
+	[DisplayName("Maximum File Size"): ToInstance, read, write] uint32 MaximumFileSize;
+	[DisplayName("File Mode"): ToInstance, read, write, DefaultValue("Sequential"): ToInstance, ValueDescriptions{"Log sequentially", "Log in circular manner", "Append sequential log", "Auto-switch log file", "Pre-allocate log file", "Real time mode on", "Delay opening file", "Buffering mode only", "Process Private Logger", "Add a logfile header", "Use global sequence no.", "Use local sequence no.", "Relogger", "Use pageable buffers"}, Values{"Sequential", "Circular", "Append", "NewFile", "PreAlloc", "RealTime", "DelayOpen", "BufferOnly", "Private", "Header", "GlobalSequence", "LocalSequence", "Relog", "PagedMemory"}: ToInstance, DefineValues{"EVENT_TRACE_FILE_MODE_SEQUENTIAL", "EVENT_TRACE_FILE_MODE_CIRCULAR", "EVENT_TRACE_FILE_MODE_APPEND", "EVENT_TRACE_FILE_MODE_NEWFILE", "EVENT_TRACE_FILE_MODE_PREALLOCATE", "EVENT_TRACE_REAL_TIME_MODE", "EVENT_TRACE_DELAY_OPEN_FILE_MODE", "EVENT_TRACE_BUFFERING_MODE", "EVENT_TRACE_PRIVATE_LOGGER_MODE", "EVENT_TRACE_ADD_HEADER_MODE", "EVENT_TRACE_USE_GLOBAL_SEQUENCE", "EVENT_TRACE_USE_LOCAL_SEQUENCE", "EVENT_TRACE_RELOG_MODE", "EVENT_TRACE_USE_PAGED_MEMORY"}, ValueMap{"0x00000001", "0x00000002", "0x00000004", "0x00000008", "0x00000020", "0x00000100", "0x00000200", "0x00000400", "0x00000800", "0x00001000", "0x00004000", "0x00008000", "0x00010000", "0x01000000"}: ToInstance] String LogFileMode;
+	[DisplayName("Flush Timer"): ToInstance, read, write] uint32 FlushTimer;
+	[DisplayName("Age Limit"): ToInstance, read, write] uint32 AgeLimit;
+	[DisplayName("Logger Id"): ToInstance, read] uint64 LoggerId;
+	[DisplayName("Number of buffers"): ToInstance, read] uint32 NumberOfBuffers;
+	[DisplayName("Buffers Free"): ToInstance, read] uint32 FreeBuffers;
+	[DisplayName("Events Lost"): ToInstance, read] uint32 EventsLost;
+	[DisplayName("Buffers Written"): ToInstance, read] uint32 BuffersWritten;
+	[DisplayName("Buffers Lost"): ToInstance, read] uint32 LogBuffersLost;
+	[DisplayName("Real Time Buffers Lost"): ToInstance, read] uint32 RealTimeBuffersLost;
+	[DisplayName("Logger Thread Id"): ToInstance, read] uint32 LoggerThreadId;
+	[Implemented] uint32 FlushTrace();
+	[Implemented] uint32 StopTrace();
+	[Implemented] uint32 EnableTrace([IN] boolean Enable, [IN] uint32 Flags[], [IN] uint32 Level[], [IN] String Guid[]);
+};
+
+//**************************************************************************
+//* Class: MSWmi_Guid
+//* Derived from: 
+//**************************************************************************
+[WMI, guid("{F8C60AED-EF8D-4f95-9EA8-F04318A00F30}")]
+class MSWmi_Guid
+{
+	[WmiDataId(1), MAX(16)] uint8 Guid[];
+};
+
+//**************************************************************************
+//* Class: MSRedbook_Performance
+//* Derived from: 
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, GuidName1("GUID_REDBOOK_WMI_PERF_DATA"), GuidName2("MSRedbook_PerformanceGuid"), HeaderName("REDBOOK_WMI_PERF_DATA"), guid("{b90550e8-ae0a-11d1-a571-00c04fa34730}")]
+class MSRedbook_Performance
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), DefineDataId("REDBOOK_WMI_PERF_TIME_READING_DELAY"), read] sint64 TimeReadDelay;
+	[WmiDataId(2), DefineDataId("REDBOOK_WMI_PERF_TIME_READING"), read] sint64 TimeReading;
+	[WmiDataId(3), DefineDataId("REDBOOK_WMI_PERF_TIME_STREAMING_DELAY"), read] sint64 TimeStreamDelay;
+	[WmiDataId(4), DefineDataId("REDBOOK_WMI_PERF_TIME_STREAMING"), read] sint64 TimeStreaming;
+	[WmiDataId(5), DefineDataId("REDBOOK_WMI_PERF_DATA_PROCESSED"), read] sint64 DataProcessed;
+	[WmiDataId(6), DefineDataId("REDBOOK_WMI_PERF_STREAM_PAUSED_COUNT"), read] uint32 StreamPausedCount;
+};
+
+//**************************************************************************
+//* Class: MSRedbook
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSRedbook
+{
+};
+
+//**************************************************************************
+//* Class: SysmonLog
+//* Derived from: 
+//**************************************************************************
+[dynamic: ToInstance, provider("SmonlogProv")]
+class SysmonLog
+{
+	[read, key] String Name;
+	[Implemented] uint32 SetRunAs([IN] String User, [IN] String Password);
+};
+
+//**************************************************************************
+//* Class: MSPower
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSPower
+{
+};
+
+//**************************************************************************
+//* Class: MSPower_DeviceWakeEnable
+//* Derived from: MSPower
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("a9546a82-feb0-11d0-bd26-00aa00b7b32a")]
+class MSPower_DeviceWakeEnable : MSPower
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read, write] boolean Enable;
+};
+
+//**************************************************************************
+//* Class: MSPower_DeviceEnable
+//* Derived from: MSPower
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("827c0a6f-feb0-11d0-bd26-00aa00b7b32a")]
+class MSPower_DeviceEnable : MSPower
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read, write] boolean Enable;
+};
+
+//**************************************************************************
+//* Class: MSIde
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSIde
+{
+};
+
+//**************************************************************************
+//* Class: MSIde_PortDeviceInfo
+//* Derived from: MSIde
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{53f5630f-b6bf-11d0-94f2-00a0c91efb8b}")]
+class MSIde_PortDeviceInfo : MSIde
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint8 Bus;
+	[WmiDataId(2), read] uint8 Target;
+	[WmiDataId(3), read] uint8 Lun;
+};
+
+//**************************************************************************
+//* Class: MSMouse
+//* Derived from: 
+//**************************************************************************
+class MSMouse
+{
+};
+
+//**************************************************************************
+//* Class: MSMouse_PortInformation
+//* Derived from: MSMouse
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{4731F89C-71CB-11d1-A52C-00A0C9062910}"), GuidName1("POINTER_PORT_WMI_STD_DATA_GUID"), HeaderName("POINTER_PORT_WMI_STD_DATA")]
+class MSMouse_PortInformation : MSMouse
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read, ValueMap{"0", "1", "2"}, DefineValues{"POINTER_PORT_WMI_STD_I8042", "POINTER_PORT_WMI_STD_SERIAL", "POINTER_PORT_WMI_STD_USB"}] uint32 ConnectorType;
+	[WmiDataId(2), read] uint32 DataQueueSize;
+	[WmiDataId(3), read] uint32 ErrorCount;
+	[WmiDataId(4), read] uint32 Buttons;
+	[WmiDataId(5), read, ValueMap{"0", "1", "2", "3", "4", "5", "6", "256"}, DefineValues{"POINTER_PORT_WMI_STD_MOUSE", "POINTER_PORT_WMI_STD_POINTER", "POINTER_PORT_WMI_ABSOLUTE_POINTER", "POINTER_PORT_WMI_TABLET", "POINTER_PORT_WMI_TOUCH_SCRENE", "POINTER_PORT_WMI_PEN", "POINTER_PORT_WMI_TRACK_BALL", "POINTER_PORT_WMI_OTHER"}] uint32 HardwareType;
+};
+
+//**************************************************************************
+//* Class: MSMouse_ClassInformation
+//* Derived from: MSMouse
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{4731F89B-71CB-11d1-A52C-00A0C9062910}")]
+class MSMouse_ClassInformation : MSMouse
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint64 DeviceId;
+};
+
+//**************************************************************************
+//* Class: MSMCAInfo
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSMCAInfo
+{
+};
+
+//**************************************************************************
+//* Class: MSMCAInfo_CPEControl
+//* Derived from: MSMCAInfo
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{A648EC0D-7E9B-4e6c-8787-1478151CD04B}")]
+class MSMCAInfo_CPEControl : MSMCAInfo
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read, write] uint32 CPEPollingInterval;
+	[WmiDataId(2), read, write] boolean CPEGenerationEnabled;
+};
+
+//**************************************************************************
+//* Class: MSMCAInfo_Entry
+//* Derived from: MSMCAInfo
+//**************************************************************************
+[WMI, guid("{9E77A308-6B82-4fc1-AB41-0A55867C35C2}")]
+class MSMCAInfo_Entry : MSMCAInfo
+{
+	[WmiDataId(1), read] uint32 Length;
+	[WmiDataId(2), read, WmiSizeIs("Length")] uint8 Data[];
+};
+
+//**************************************************************************
+//* Class: MSMCAInfo_RawMCAData
+//* Derived from: MSMCAInfo
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{23602A8A-DADD-462f-9AE5-30FA2C37DD5B}")]
+class MSMCAInfo_RawMCAData : MSMCAInfo
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Count;
+	[WmiDataId(2), read, WmiSizeIs("Count")] MSMCAInfo_Entry Records[];
+};
+
+//**************************************************************************
+//* Class: MSSerial
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSSerial
+{
+};
+
+//**************************************************************************
+//* Class: MSSerial_CommProperties
+//* Derived from: MSSerial
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{8209EC2A-2D6B-11d2-BA49-00A0C9062910}"), GuidName1("SERIAL_PORT_WMI_PROPERTIES_GUID"), HeaderName("SERIAL_WMI_COMMPROP")]
+class MSSerial_CommProperties : MSSerial
+{
+	boolean Active;
+	[key] string InstanceName;
+	[read, WmiDataId(1)] uint16 wPacketLength;
+	[read, WmiDataId(2)] uint16 wPacketVersion;
+	[read, WmiDataId(3), BitMap{"0"}] uint32 dwServiceMask;
+	[read, WmiDataId(4)] uint32 dwReserved1;
+	[read, WmiDataId(5)] uint32 dwMaxTxQueue;
+	[read, WmiDataId(6)] uint32 dwMaxRxQueue;
+	[read, WmiDataId(7), BitMap{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "28"}] uint32 dwMaxBaud;
+	[read, WmiDataId(8), ValueMap{"0x00000000", "0x00000001", "0x00000002", "0x00000003", "0x00000004", "0x00000005", "0x00000006", "0x00000021", "0x00000022", "0x00000100", "0x00000101", "0x00000102", "0x00000103"}] uint32 dwProvSubType;
+	[read, WmiDataId(9), BitMap{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}] uint32 dwProvCapabilities;
+	[read, WmiDataId(10), BitMap{"0", "1", "2", "3", "4", "5", "6"}] uint32 dwSettableParams;
+	[read, WmiDataId(11), BitMap{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "28"}] uint32 dwSettableBaud;
+	[read, WmiDataId(12), BitMap{"0", "1", "2", "3", "4", "5"}] uint16 wSettableData;
+	[read, WmiDataId(13), BitMap{"0", "1", "2", "8", "9", "10", "11", "12"}] uint16 wSettableStopParity;
+	[read, WmiDataId(14)] uint32 dwCurrentTxQueue;
+	[read, WmiDataId(15)] uint32 dwCurrentRxQueue;
+	[read, WmiDataId(16)] uint32 dwProvSpec1;
+	[read, WmiDataId(17)] uint32 dwProvSpec2;
+	[read, WmiDataId(18)] uint32 dwProvCharSize;
+	[read, WmiDataId(19), WmiSizeIs("dwProvCharSize")] uint8 wcProvChar[];
+};
+
+//**************************************************************************
+//* Class: MSSerial_HardwareConfiguration
+//* Derived from: MSSerial
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{270B9B86-B16D-11D1-BD98-00A0C906BE2D}"), GuidName1("SERIAL_PORT_WMI_HW_GUID"), HeaderName("SERIAL_WMI_HW_DATA")]
+class MSSerial_HardwareConfiguration : MSSerial
+{
+	boolean Active;
+	[key] string InstanceName;
+	[WmiDataId(1), read] uint32 IrqNumber;
+	[WmiDataId(2), read] uint32 IrqVector;
+	[WmiDataId(3), read] uint32 IrqLevel;
+	[WmiDataId(4), read] uint64 IrqAffinityMask;
+	[WmiDataId(5), ValueMap{"0", "1"}, DefineValues{"SERIAL_WMI_INTTYPE_LATCHED", "SERIAL_WMI_INTTYPE_LEVEL"}, read] uint32 InterruptType;
+	[WmiDataId(6), read] uint64 BaseIOAddress;
+};
+
+//**************************************************************************
+//* Class: MSSerial_PerformanceInformation
+//* Derived from: MSSerial
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{56415ACC-B16D-11D1-BD98-00A0C906BE2D}"), GuidName1("SERIAL_PORT_WMI_PERF_GUID"), HeaderName("SERIAL_WMI_PERF_DATA")]
+class MSSerial_PerformanceInformation : MSSerial
+{
+	boolean Active;
+	[key] string InstanceName;
+	[WmiDataId(1), read] uint32 ReceivedCount;
+	[WmiDataId(2), read] uint32 TransmittedCount;
+	[WmiDataId(3), read] uint32 FrameErrorCount;
+	[WmiDataId(4), read] uint32 SerialOverrunErrorCount;
+	[WmiDataId(5), read] uint32 BufferOverrunErrorCount;
+	[WmiDataId(6), read] uint32 ParityErrorCount;
+};
+
+//**************************************************************************
+//* Class: MSSerial_CommInfo
+//* Derived from: MSSerial
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{EDB16A62-B16C-11D1-BD98-00A0C906BE2D}"), GuidName1("SERIAL_PORT_WMI_COMM_GUID"), HeaderName("SERIAL_WMI_COMM_DATA")]
+class MSSerial_CommInfo : MSSerial
+{
+	boolean Active;
+	[key] string InstanceName;
+	[WmiDataId(1), read] uint32 BaudRate;
+	[WmiDataId(2), read] uint32 BitsPerByte;
+	[WmiDataId(3), read, ValueMap{"0", "1", "2", "3", "4"}, DefineValues{"SERIAL_WMI_PARITY_NONE", "SERIAL_WMI_PARITY_ODD", "SERIAL_WMI_PARITY_EVEN", "SERIAL_WMI_PARITY_SPACE", "SERIAL_WMI_PARITY_MARK"}] uint32 Parity;
+	[WmiDataId(4), read] boolean ParityCheckEnable;
+	[WmiDataId(5), read, ValueMap{"0", "1", "2"}, DefineValues{"SERIAL_WMI_STOP_1", "SERIAL_WMI_STOP_1_5", "SERIAL_WMI_STOP_2"}] uint32 StopBits;
+	[WmiDataId(6), read] uint32 XoffCharacter;
+	[WmiDataId(7), read] uint32 XoffXmitThreshold;
+	[WmiDataId(8), read] uint32 XonCharacter;
+	[WmiDataId(9), read] uint32 XonXmitThreshold;
+	[WmiDataId(10), read] uint32 MaximumBaudRate;
+	[WmiDataId(11), read] uint32 MaximumOutputBufferSize;
+	[WmiDataId(12), read] uint32 MaximumInputBufferSize;
+	[WmiDataId(13), read] boolean Support16BitMode;
+	[WmiDataId(14), read] boolean SupportDTRDSR;
+	[WmiDataId(15), read] boolean SupportIntervalTimeouts;
+	[WmiDataId(16), read] boolean SupportParityCheck;
+	[WmiDataId(17), read] boolean SupportRTSCTS;
+	[WmiDataId(18), read] boolean SupportXonXoff;
+	[WmiDataId(19), read] boolean SettableBaudRate;
+	[WmiDataId(20), read] boolean SettableDataBits;
+	[WmiDataId(21), read] boolean SettableFlowControl;
+	[WmiDataId(22), read] boolean SettableParity;
+	[WmiDataId(23), read] boolean SettableParityCheck;
+	[WmiDataId(24), read] boolean SettableStopBits;
+	[WmiDataId(25), read] boolean IsBusy;
+};
+
+//**************************************************************************
+//* Class: MSSerial_PortName
+//* Derived from: MSSerial
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{A0EC11A8-B16C-11D1-BD98-00A0C906BE2D}"), GuidName1("SERIAL_PORT_WMI_NAME_GUID")]
+class MSSerial_PortName : MSSerial
+{
+	boolean Active;
+	[key] string InstanceName;
+	[WmiDataId(1), read] string PortName;
+};
+
+//**************************************************************************
+//* Class: MSAcpiInfo
+//* Derived from: 
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{5DAF38AE-F6F8-4d90-8199-EBDE6800EC3B}")]
+class MSAcpiInfo
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), ValueMap{"1", "2"}] uint32 BootArchitecture;
+	[WmiDataId(2)] uint32 PreferredProfile;
+	[WmiDataId(3), BitMap{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}] uint32 Capabilities;
+};
+
+//**************************************************************************
+//* Class: RNDISMPStatisticsOID
+//* Derived from: 
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), guid("{F4A8027A-23B7-11d1-9ED9-00A0C9010057}"), localeid(1033), WmiExpense(1), Description("Statistics for a Remote NDIS device)")]
+class RNDISMPStatisticsOID
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, Description("Number of array elements."), WmiDataId(1)] uint32 NumberElements;
+	[read, Description("Query this array to get statistics."), WmiDataId(2), WmiSizeIs("NumberElements")] uint32 StatsArray[];
+};
+
+//**************************************************************************
+//* Class: MSParallel
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSParallel
+{
+};
+
+//**************************************************************************
+//* Class: MSParallel_AllocFreeCounts
+//* Derived from: MSParallel
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{4BBB69EA-6853-11d2-8ECE-00C04F8EF481}"), HeaderName("PARPORT_WMI_ALLOC_FREE_COUNTS"), GuidName1("PARPORT_WMI_ALLOCATE_FREE_COUNTS_GUID")]
+class MSParallel_AllocFreeCounts : MSParallel
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 PortAllocates;
+	[WmiDataId(2), read] uint32 PortFrees;
+};
+
+//**************************************************************************
+//* Class: MSParallel_DeviceBytesTransferred
+//* Derived from: MSParallel
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{89FEF2D6-654B-11d2-9E15-00C04F8EF481}"), GuidName1("PARALLEL_WMI_BYTES_TRANSFERRED_GUID"), HeaderName("PARALLEL_WMI_LOG_INFO")]
+class MSParallel_DeviceBytesTransferred : MSParallel
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Flags1;
+	[WmiDataId(2), read] uint32 Flags2;
+	[WmiDataId(3), read, MAX(2)] uint32 spare[];
+	[WmiDataId(4), read] sint64 SppWriteCount;
+	[WmiDataId(5), read] sint64 NibbleReadCount;
+	[WmiDataId(6), read] sint64 BoundedEcpWriteCount;
+	[WmiDataId(7), read] sint64 BoundedEcpReadCount;
+	[WmiDataId(8), read] sint64 HwEcpWriteCount;
+	[WmiDataId(9), read] sint64 HwEcpReadCount;
+	[WmiDataId(10), read] sint64 SwEcpWriteCount;
+	[WmiDataId(11), read] sint64 SwEcpReadCount;
+	[WmiDataId(12), read] sint64 HwEppWriteCount;
+	[WmiDataId(13), read] sint64 HwEppReadCount;
+	[WmiDataId(14), read] sint64 SwEppWriteCount;
+	[WmiDataId(15), read] sint64 SwEppReadCount;
+	[WmiDataId(16), read] sint64 ByteReadCount;
+	[WmiDataId(17), read] sint64 ChannelNibbleReadCount;
+};
+
+//**************************************************************************
+//* Class: MSDiskDriver
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSDiskDriver
+{
+};
+
+//**************************************************************************
+//* Class: MSDiskDriver_PerformanceData
+//* Derived from: MSDiskDriver
+//**************************************************************************
+[WMI, guid("BDD865D2-D7C1-11d0-A501-00A0C9062910"), HeaderName("WMI_DISK_PERFORMANCE")]
+class MSDiskDriver_PerformanceData : MSDiskDriver
+{
+	[WmiDataId(1), read] sint64 BytesRead;
+	[WmiDataId(2), read] sint64 BytesWritten;
+	[WmiDataId(3), read] sint64 ReadTime;
+	[WmiDataId(4), read] sint64 WriteTime;
+	[WmiDataId(5), read] sint64 IdleTime;
+	[WmiDataId(6), read] uint32 ReadCount;
+	[WmiDataId(7), read] uint32 WriteCount;
+	[WmiDataId(8), read] uint32 QueueDepth;
+	[WmiDataId(9), read] uint32 SplitCount;
+	[WmiDataId(10), read] sint64 QueryTime;
+	[WmiDataId(11), read] uint32 StorageDeviceNumber;
+	[WmiDataId(12), read, MAX(8)] uint16 StorageManagerName[];
+};
+
+//**************************************************************************
+//* Class: MSDiskDriver_Geometry
+//* Derived from: MSDiskDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{25007F51-57C2-11d1-A528-00A0C9062910}"), HeaderName("WMI_DISK_GEOMETRY")]
+class MSDiskDriver_Geometry : MSDiskDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] sint64 Cylinders;
+	[WmiDataId(2), ValueMap{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22"}, read] uint32 MediaType;
+	[WmiDataId(3), read] uint32 TracksPerCylinder;
+	[WmiDataId(4), read] uint32 SectorsPerTrack;
+	[WmiDataId(5), read] uint32 BytesPerSector;
+};
+
+//**************************************************************************
+//* Class: MSDiskDriver_Performance
+//* Derived from: MSDiskDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("BDD865D1-D7C1-11d0-A501-00A0C9062910")]
+class MSDiskDriver_Performance : MSDiskDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] MSDiskDriver_PerformanceData PerfData;
+	[WmiDataId(2), read] string DeviceName;
+};
+
+//**************************************************************************
+//* Class: WDMClassesOfDriver
+//* Derived from: 
+//**************************************************************************
+[Locale(1033)]
+class WDMClassesOfDriver
+{
+	[read, key] string Driver;
+	[read, key] uint32 LowDateTime;
+	[read, key] uint32 HighDateTime;
+	[read, key] string ClassName;
+};
+
+//**************************************************************************
+//* Class: MSMCAEvent_Header
+//* Derived from: 
+//**************************************************************************
+[WMI, guid("{6381C27F-C8FA-4da7-8953-B86833736E15}")]
+class MSMCAEvent_Header
+{
+	[WmiDataId(1)] uint64 RecordId;
+	[WmiDataId(2), Values{"0", "1", "2"}, ValueMap{"Recoverable", "Fatal", "Correctable"}] uint8 ErrorSeverity;
+	[WmiDataId(3), ValueMap{}] uint32 Type;
+	[WmiDataId(4)] uint32 Cpu;
+	[WmiDataId(5)] uint32 AdditionalErrors;
+};
+
+//**************************************************************************
+//* Class: EventTrace
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class EventTrace
+{
+	[HeaderDataId(1), read] uint16 EventSize;
+	[HeaderDataId(2), read] uint16 ReservedHeaderField;
+	[HeaderDataId(3), read] uint8 EventType;
+	[HeaderDataId(4), read] uint8 TraceLevel;
+	[HeaderDataId(5), read] uint16 TraceVersion;
+	[HeaderDataId(6), PointerType, read] uint64 ThreadId;
+	[HeaderDataId(7), read] uint64 TimeStamp;
+	[HeaderDataId(8), read, MAX(16)] uint8 EventGuid[];
+	[HeaderDataId(9), read] uint32 KernelTime;
+	[HeaderDataId(10), read] uint32 UserTime;
+	[HeaderDataId(11), read] uint32 InstanceId;
+	[HeaderDataId(12), read, MAX(16)] uint8 ParentGuid[];
+	[HeaderDataId(13), read] uint32 ParentInstanceId;
+	[HeaderDataId(14), PointerType, read] uint32 MofData;
+	[HeaderDataId(15), read] uint32 MofLength;
+};
+
+//**************************************************************************
+//* Class: HttpEtwTrace
+//* Derived from: EventTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{dd5ef90a-6398-47a4-ad34-4dcecdef795f}"), locale("MS\\0x409")]
+class HttpEtwTrace : EventTrace
+{
+};
+
+//**************************************************************************
+//* Class: HttpRequest
+//* Derived from: HttpEtwTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{3c419e3d-1d18-415b-a91a-9b558938de4b}"), locale("MS\\0x409")]
+class HttpRequest : HttpEtwTrace
+{
+};
+
+//**************************************************************************
+//* Class: HttpReceiveResponse
+//* Derived from: HttpRequest
+//**************************************************************************
+[dynamic: ToInstance, EventType{12, 13, 16}]
+class HttpReceiveResponse : HttpRequest
+{
+	[WmiDataId(1), read] uint64 RequestId;
+};
+
+//**************************************************************************
+//* Class: HttpParseRequest
+//* Derived from: HttpRequest
+//**************************************************************************
+[dynamic: ToInstance, EventType(10)]
+class HttpParseRequest : HttpRequest
+{
+	[WmiDataId(1), PointerType, read] uint32 RequestObj;
+	[WmiDataId(2), read] uint32 HttpVerb;
+	[WmiDataId(3), StringTermination("NullTerminated"), format("w"), read] string Url;
+};
+
+//**************************************************************************
+//* Class: HttpCachedNoModSend
+//* Derived from: HttpRequest
+//**************************************************************************
+[dynamic: ToInstance, EventType(20)]
+class HttpCachedNoModSend : HttpRequest
+{
+	[WmiDataId(1), PointerType, read] uint32 RequestObj;
+	[WmiDataId(2), read] uint32 SiteId;
+	[WmiDataId(3), read] uint32 BytesSent;
+};
+
+//**************************************************************************
+//* Class: HttpSendComplete
+//* Derived from: HttpRequest
+//**************************************************************************
+[dynamic: ToInstance, EventType{2, 15, 17, 18, 19}]
+class HttpSendComplete : HttpRequest
+{
+	[WmiDataId(1), read] uint64 RequestId;
+	[WmiDataId(2), read] uint16 HttpStatus;
+};
+
+//**************************************************************************
+//* Class: HttpCachedSend
+//* Derived from: HttpRequest
+//**************************************************************************
+[dynamic: ToInstance, EventType(14)]
+class HttpCachedSend : HttpRequest
+{
+	[WmiDataId(1), PointerType, read] uint32 RequestObj;
+	[WmiDataId(2), read] uint32 SiteId;
+	[WmiDataId(3), read] uint32 BytesSent;
+};
+
+//**************************************************************************
+//* Class: HttpDeliverRequest
+//* Derived from: HttpRequest
+//**************************************************************************
+[dynamic: ToInstance, EventType(11)]
+class HttpDeliverRequest : HttpRequest
+{
+	[WmiDataId(1), PointerType, read] uint32 RequestObj;
+	[WmiDataId(2), read] uint64 RequestId;
+	[WmiDataId(3), read] uint32 SiteId;
+	[WmiDataId(4), StringTermination("NullTerminated"), format("w"), read] string AppPoolName;
+	[WmiDataId(5), StringTermination("NullTerminated"), format("w"), read] string Url;
+};
+
+//**************************************************************************
+//* Class: HttpReceiveRequest
+//* Derived from: HttpRequest
+//**************************************************************************
+[dynamic: ToInstance, EventType(1)]
+class HttpReceiveRequest : HttpRequest
+{
+	[WmiDataId(1), PointerType, read] uint32 RequestObj;
+	[WmiDataId(2), values{"IP", "APPLETALK", "NETBIOS", "802.2", "IP Version 6"}, valueMap{"2", "16", "17", "18", "23"}, extension("TDIAddrType"), read] uint16 AddressType;
+	[WmiDataId(3), read] object IpAddr;
+};
+
+//**************************************************************************
+//* Class: MSNT_SystemTrace
+//* Derived from: EventTrace
+//**************************************************************************
+[dynamic: ToInstance, Description("Windows Kernel Trace"), Guid("{9e814aad-3204-11d2-9a82-006008a86939}")]
+class MSNT_SystemTrace : EventTrace
+{
+	[DefineValues{"EVENT_TRACE_FLAG_PROCESS", "EVENT_TRACE_FLAG_THREAD", "EVENT_TRACE_FLAG_IMAGE_LOAD", "EVENT_TRACE_FLAG_DISK_IO", "EVENT_TRACE_FLAG_DISK_FILE_IO", "EVENT_TRACE_FLAG_MEMORY_PAGE_FAULTS", "EVENT_TRACE_FLAG_MEMORY_HARD_FAULTS", "EVENT_TRACE_FLAG_NETWORK_TCPIP", "EVENT_TRACE_FLAG_REGISTRY", "EVENT_TRACE_FLAG_DBGPRINT"}, ValueMap{"0x00000001", "0x00000002", "0x00000004", "0x00000100", "0x00000200", "0x00001000", "0x00002000", "0x00010000", "0x00020000", "0x00040000"}] uint32 Flags;
+};
+
+//**************************************************************************
+//* Class: EventTraceEvent
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{68fdd900-4a3e-11d1-84f4-0000f80464e3}")]
+class EventTraceEvent : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: EventTrace_Header
+//* Derived from: EventTraceEvent
+//**************************************************************************
+[dynamic: ToInstance, EventType(0)]
+class EventTrace_Header : EventTraceEvent
+{
+	[WmiDataId(1), read] uint32 BufferSize;
+	[WmiDataId(2), read] uint32 Version;
+	[WmiDataId(3), read] uint32 ProviderVersion;
+	[WmiDataId(4), read] uint32 NumberOfProcessors;
+	[WmiDataId(5), read] uint64 EndTime;
+	[WmiDataId(6), read] uint32 TimerResolution;
+	[WmiDataId(7), read] uint32 MaxFileSize;
+	[WmiDataId(8), format("x"), read] uint32 LogFileMode;
+	[WmiDataId(9), read] uint32 BuffersWritten;
+	[WmiDataId(10), read] uint32 StartBuffers;
+	[WmiDataId(11), read] uint32 PointerSize;
+	[WmiDataId(12), read] uint32 EventsLost;
+	[WmiDataId(13), read] uint32 CPUSpeed;
+	[WmiDataId(14), pointer, read] uint32 LoggerName;
+	[WmiDataId(15), pointer, read] uint32 LogFileName;
+	[WmiDataId(16), extension("NoPrint"), read, MAX(176)] uint8 TimeZoneInformation[];
+	[WmiDataId(17), read] uint64 BootTime;
+	[WmiDataId(18), read] uint64 PerfFreq;
+	[WmiDataId(19), read] uint64 StartTime;
+	[WmiDataId(20), read] uint32 ReservedFlags;
+	[WmiDataId(21), read] uint32 BuffersLost;
+};
+
+//**************************************************************************
+//* Class: PageFault
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}")]
+class PageFault : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: PageFault_TransitionFault
+//* Derived from: PageFault
+//**************************************************************************
+[dynamic: ToInstance, EventType{10, 11, 12, 13, 14}]
+class PageFault_TransitionFault : PageFault
+{
+	[WmiDataId(1), pointer, read] uint32 VirtualAddress;
+	[WmiDataId(2), pointer, read] uint32 ProgramCounter;
+};
+
+//**************************************************************************
+//* Class: UdpIp
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{bf3a50c5-a9c9-4988-a005-2df0b7c80f80}")]
+class UdpIp : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: UdpIp_TypeGroup1
+//* Derived from: UdpIp
+//**************************************************************************
+[dynamic: ToInstance, EventType{10, 11}]
+class UdpIp_TypeGroup1 : UdpIp
+{
+	[WmiDataId(1), read] uint32 PID;
+	[WmiDataId(2), read] uint32 size;
+	[WmiDataId(3), extension("IPAddr"), read] object daddr;
+	[WmiDataId(4), extension("IPAddr"), read] object saddr;
+	[WmiDataId(5), extension("Port"), read] object dport;
+	[WmiDataId(6), extension("Port"), read] object sport;
+};
+
+//**************************************************************************
+//* Class: TcpIp_V0
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{9a280ac0-c8e0-11d1-84e2-00c04fb998a2}"), EventVersion(0)]
+class TcpIp_V0 : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: TcpIp_V0_TypeGroup1
+//* Derived from: TcpIp_V0
+//**************************************************************************
+[dynamic: ToInstance, EventType{10, 11, 12, 13, 14, 15}]
+class TcpIp_V0_TypeGroup1 : TcpIp_V0
+{
+	[WmiDataId(1), extension("IPAddr"), read] object daddr;
+	[WmiDataId(2), extension("IPAddr"), read] object saddr;
+	[WmiDataId(3), extension("Port"), read] object dport;
+	[WmiDataId(4), extension("Port"), read] object sport;
+	[WmiDataId(5), read] uint32 size;
+	[WmiDataId(6), read] uint32 PID;
+};
+
+//**************************************************************************
+//* Class: Image
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{2cb15d1d-5fc1-11d2-abe1-00a0c911f518}"), EventVersion(1)]
+class Image : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: Image_Load
+//* Derived from: Image
+//**************************************************************************
+[dynamic: ToInstance, EventType(10)]
+class Image_Load : Image
+{
+	[WmiDataId(1), pointer, read] uint32 ImageBase;
+	[WmiDataId(2), pointer, read] uint32 ImageSize;
+	[WmiDataId(3), read] uint32 ProcessId;
+	[WmiDataId(4), StringTermination("NullTerminated"), format("w"), read] string FileName;
+};
+
+//**************************************************************************
+//* Class: Process
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}"), EventVersion(1)]
+class Process : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: Process_TypeGroup1
+//* Derived from: Process
+//**************************************************************************
+[dynamic: ToInstance, EventType{1, 2, 3, 4}]
+class Process_TypeGroup1 : Process
+{
+	[WmiDataId(1), pointer, read] uint32 PageDirectoryBase;
+	[WmiDataId(2), read] uint32 ProcessId;
+	[WmiDataId(3), read] uint32 ParentId;
+	[WmiDataId(4), read] uint32 SessionId;
+	[WmiDataId(5), read] sint32 ExitStatus;
+	[WmiDataId(6), extension("Sid"), read] object UserSID;
+	[WmiDataId(7), StringTermination("NullTerminated"), read] string ImageFileName;
+};
+
+//**************************************************************************
+//* Class: Thread_V0
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}"), EventVersion(0)]
+class Thread_V0 : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: Thread_V0_TypeGroup1
+//* Derived from: Thread_V0
+//**************************************************************************
+[dynamic: ToInstance, EventType{1, 2, 3, 4}]
+class Thread_V0_TypeGroup1 : Thread_V0
+{
+	[WmiDataId(1), format("x"), read] uint32 TThreadId;
+	[WmiDataId(2), format("x"), read] uint32 ProcessId;
+};
+
+//**************************************************************************
+//* Class: Thread
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}"), EventVersion(1)]
+class Thread : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: Thread_TypeGroup1
+//* Derived from: Thread
+//**************************************************************************
+[dynamic: ToInstance, EventType{1, 3}]
+class Thread_TypeGroup1 : Thread
+{
+	[WmiDataId(1), read] uint32 ProcessId;
+	[WmiDataId(2), read] uint32 TThreadId;
+	[WmiDataId(3), pointer, read] uint32 StackBase;
+	[WmiDataId(4), pointer, read] uint32 StackLimit;
+	[WmiDataId(5), pointer, read] uint32 UserStackBase;
+	[WmiDataId(6), pointer, read] uint32 UserStackLimit;
+	[WmiDataId(7), pointer, read] uint32 StartAddr;
+	[WmiDataId(8), pointer, read] uint32 Win32StartAddr;
+	[WmiDataId(9), format("c"), read] sint8 WaitMode;
+};
+
+//**************************************************************************
+//* Class: Thread_TypeGroup2
+//* Derived from: Thread
+//**************************************************************************
+[dynamic: ToInstance, EventType{2, 4}]
+class Thread_TypeGroup2 : Thread
+{
+	[WmiDataId(1), read] uint32 ProcessId;
+	[WmiDataId(2), read] uint32 TThreadId;
+};
+
+//**************************************************************************
+//* Class: HWConfig
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{01853a65-418f-4f36-aefc-dc0f1d2fd235}")]
+class HWConfig : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: HWConfig_CPU
+//* Derived from: HWConfig
+//**************************************************************************
+[dynamic: ToInstance, EventType(10)]
+class HWConfig_CPU : HWConfig
+{
+	[WmiDataId(1), read] uint32 MHz;
+	[WmiDataId(2), read] uint32 NumberOfProcessors;
+	[WmiDataId(3), read] uint32 MemSize;
+	[WmiDataId(4), read] uint32 PageSize;
+	[WmiDataId(5), read] uint32 AllocationGranularity;
+	[WmiDataId(6), StringTermination("NullTerminated"), format("w"), read] string ComputerName;
+};
+
+//**************************************************************************
+//* Class: HWConfig_NIC
+//* Derived from: HWConfig
+//**************************************************************************
+[dynamic: ToInstance, EventType(13)]
+class HWConfig_NIC : HWConfig
+{
+	[WmiDataId(1), StringTermination("NullTerminated"), format("w"), read] string NICName;
+};
+
+//**************************************************************************
+//* Class: HWConfig_PhyDisk
+//* Derived from: HWConfig
+//**************************************************************************
+[dynamic: ToInstance, EventType(11)]
+class HWConfig_PhyDisk : HWConfig
+{
+	[WmiDataId(1), read] uint32 DiskNumber;
+	[WmiDataId(2), read] uint32 BytesPerSector;
+	[WmiDataId(3), read] uint32 SectorsPerTrack;
+	[WmiDataId(4), read] uint32 TracksPerCylinder;
+	[WmiDataId(5), read] uint64 Cylinders;
+	[WmiDataId(6), read] uint32 SCSIPort;
+	[WmiDataId(7), read] uint32 SCSIPath;
+	[WmiDataId(8), read] uint32 SCSITarget;
+	[WmiDataId(9), read] uint32 SCSILun;
+	[WmiDataId(10), StringTermination("NullTerminated"), format("w"), read] string Manufacturer;
+};
+
+//**************************************************************************
+//* Class: HWConfig_LogDisk
+//* Derived from: HWConfig
+//**************************************************************************
+[dynamic: ToInstance, EventType(12)]
+class HWConfig_LogDisk : HWConfig
+{
+	[WmiDataId(1), read] uint32 DiskNumber;
+	[WmiDataId(2), read] uint32 Pad;
+	[WmiDataId(3), read] uint64 StartOffset;
+	[WmiDataId(4), read] uint64 PartitionSize;
+};
+
+//**************************************************************************
+//* Class: UdpIp_V0
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{bf3a50c5-a9c9-4988-a005-2df0b7c80f80}"), EventVersion(0)]
+class UdpIp_V0 : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: UdpIp_V0_TypeGroup1
+//* Derived from: UdpIp_V0
+//**************************************************************************
+[dynamic: ToInstance, EventType{10, 11}]
+class UdpIp_V0_TypeGroup1 : UdpIp_V0
+{
+	[WmiDataId(1), pointer, read] uint32 context;
+	[WmiDataId(2), extension("IPAddr"), read] object saddr;
+	[WmiDataId(3), extension("Port"), read] object sport;
+	[WmiDataId(4), read] uint16 size;
+	[WmiDataId(5), extension("IPAddr"), read] object daddr;
+	[WmiDataId(6), extension("Port"), read] object dport;
+	[WmiDataId(7), read] uint16 dsize;
+};
+
+//**************************************************************************
+//* Class: Process_V0
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}"), EventVersion(0)]
+class Process_V0 : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: Process_V0_TypeGroup1
+//* Derived from: Process_V0
+//**************************************************************************
+[dynamic: ToInstance, EventType{1, 2, 3, 4}]
+class Process_V0_TypeGroup1 : Process_V0
+{
+	[WmiDataId(1), pointer, read] uint32 ProcessId;
+	[WmiDataId(2), pointer, read] uint32 ParentId;
+	[WmiDataId(3), extension("Sid"), read] object UserSID;
+	[WmiDataId(4), StringTermination("NullTerminated"), read] string ImageFileName;
+};
+
+//**************************************************************************
+//* Class: FileIo_V0
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{90cbdc39-4a3e-11d1-84f4-0000f80464e3}"), EventVersion(0)]
+class FileIo_V0 : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: FileIo_V0_Name
+//* Derived from: FileIo_V0
+//**************************************************************************
+[dynamic: ToInstance, EventType(0)]
+class FileIo_V0_Name : FileIo_V0
+{
+	[WmiDataId(1), pointer, read] uint32 FileObject;
+	[WmiDataId(2), StringTermination("NullTerminated"), format("w"), read] string FileName;
+};
+
+//**************************************************************************
+//* Class: DiskIo
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{3d6fa8d4-fe05-11d0-9dda-00c04fd7ba7c}")]
+class DiskIo : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: DiskIo_TypeGroup1
+//* Derived from: DiskIo
+//**************************************************************************
+[dynamic: ToInstance, EventType{10, 11}]
+class DiskIo_TypeGroup1 : DiskIo
+{
+	[WmiDataId(1), read] uint32 DiskNumber;
+	[WmiDataId(2), format("x"), read] uint32 IrpFlags;
+	[WmiDataId(3), read] uint32 TransferSize;
+	[WmiDataId(4), read] uint32 QueueDepth;
+	[WmiDataId(5), read] sint64 ByteOffset;
+	[WmiDataId(6), pointer, read] uint32 FileObject;
+};
+
+//**************************************************************************
+//* Class: Image_V0
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{2cb15d1d-5fc1-11d2-abe1-00a0c911f518}"), EventVersion(0)]
+class Image_V0 : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: Image_V0_Load
+//* Derived from: Image_V0
+//**************************************************************************
+[dynamic: ToInstance, EventType(10)]
+class Image_V0_Load : Image_V0
+{
+	[WmiDataId(1), pointer, read] uint32 BaseAddress;
+	[WmiDataId(2), read] uint32 ModuleSize;
+	[WmiDataId(3), StringTermination("NullTerminated"), format("w"), read] string ImageFileName;
+};
+
+//**************************************************************************
+//* Class: Registry
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{ae53722e-c863-11d2-8659-00c04fa321a1}"), EventVersion(1)]
+class Registry : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: Registry_TypeGroup1
+//* Derived from: Registry
+//**************************************************************************
+[dynamic: ToInstance, EventType{10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22}]
+class Registry_TypeGroup1 : Registry
+{
+	[WmiDataId(1), pointer, read] uint32 Status;
+	[WmiDataId(2), pointer, read] uint32 KeyHandle;
+	[WmiDataId(3), read] sint64 ElapsedTime;
+	[WmiDataId(4), read] uint32 Index;
+	[WmiDataId(5), StringTermination("NullTerminated"), format("w"), read] string KeyName;
+};
+
+//**************************************************************************
+//* Class: TcpIp
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{9a280ac0-c8e0-11d1-84e2-00c04fb998a2}")]
+class TcpIp : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: TcpIp_TypeGroup1
+//* Derived from: TcpIp
+//**************************************************************************
+[dynamic: ToInstance, EventType{10, 11, 12, 13, 14, 15, 16}]
+class TcpIp_TypeGroup1 : TcpIp
+{
+	[WmiDataId(1), read] uint32 PID;
+	[WmiDataId(2), read] uint32 size;
+	[WmiDataId(3), extension("IPAddr"), read] object daddr;
+	[WmiDataId(4), extension("IPAddr"), read] object saddr;
+	[WmiDataId(5), extension("Port"), read] object dport;
+	[WmiDataId(6), extension("Port"), read] object sport;
+};
+
+//**************************************************************************
+//* Class: Registry_V0
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{ae53722e-c863-11d2-8659-00c04fa321a1}"), EventVersion(0)]
+class Registry_V0 : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: Registry_V0_TypeGroup1
+//* Derived from: Registry_V0
+//**************************************************************************
+[dynamic: ToInstance, EventType{10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21}]
+class Registry_V0_TypeGroup1 : Registry_V0
+{
+	[WmiDataId(1), pointer, read] uint32 Status;
+	[WmiDataId(2), pointer, read] uint32 KeyHandle;
+	[WmiDataId(3), read] sint64 ElapsedTime;
+	[WmiDataId(4), StringTermination("NullTerminated"), format("w"), read] string KeyName;
+};
+
+//**************************************************************************
+//* Class: FileIo
+//* Derived from: MSNT_SystemTrace
+//**************************************************************************
+[dynamic: ToInstance, Guid("{90cbdc39-4a3e-11d1-84f4-0000f80464e3}"), EventVersion(1)]
+class FileIo : MSNT_SystemTrace
+{
+};
+
+//**************************************************************************
+//* Class: FileIo_Name
+//* Derived from: FileIo
+//**************************************************************************
+[dynamic: ToInstance, EventType{0, 32}]
+class FileIo_Name : FileIo
+{
+	[WmiDataId(1), pointer, read] uint32 FileObject;
+	[WmiDataId(2), StringTermination("NullTerminated"), format("w"), read] string FileName;
+};
+
+//**************************************************************************
+//* Class: ACPITrace
+//* Derived from: EventTrace
+//**************************************************************************
+[dynamic: ToInstance, guid("{dab01d4d-2d48-477d-b1c3-daad0ce6f06b}"), locale("MS\\0x409")]
+class ACPITrace : EventTrace
+{
+};
+
+//**************************************************************************
+//* Class: AMLIEvalData1
+//* Derived from: ACPITrace
+//**************************************************************************
+[dynamic: ToInstance, guid("{f2e0e060-bf32-4b88-b8e4-5cad15af6ae9}"), locale("MS\\0x409")]
+class AMLIEvalData1 : ACPITrace
+{
+};
+
+//**************************************************************************
+//* Class: AMLIEvalData1_TypeGroup1
+//* Derived from: AMLIEvalData1
+//**************************************************************************
+[dynamic: ToInstance, EventType{1, 2}, locale("MS\\0x409")]
+class AMLIEvalData1_TypeGroup1 : AMLIEvalData1
+{
+	[WmiDataId(1), read] string DataString;
+};
+
+//**************************************************************************
+//* Class: MSStorageDriver
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSStorageDriver
+{
+};
+
+//**************************************************************************
+//* Class: MSStorageDriver_ScsiInfoExceptions
+//* Derived from: MSStorageDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{1101D829-167B-4ebf-ACAE-28CAB7C34802}"), HeaderName("STORAGE_SCSI_INFO_EXCEPTIONS"), GuidName1("WMI_STORAGE_SCSI_INFO_EXCEPTIONS_GUID")]
+class MSStorageDriver_ScsiInfoExceptions : MSStorageDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read, write] boolean PageSavable;
+	[WmiDataId(2), BitMap{"7", "3", "2", "0"}, read, write] uint8 Flags;
+	[WmiDataId(3), ValueMap{"0", "1", "2", "3", "4", "5", "6"}, read, write] uint8 MRIE;
+	[WmiDataId(4), read] uint8 Padding;
+	[WmiDataId(5), read, write] uint32 IntervalTimer;
+	[WmiDataId(6), read, write] uint32 ReportCount;
+};
+
+//**************************************************************************
+//* Class: MSStorageDriver_FailurePredictData
+//* Derived from: MSStorageDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{78ebc103-4cf9-11d2-ba4a-00a0c9062910}"), HeaderName("STORAGE_FAILURE_PREDICT_DATA"), GuidName1("WMI_STORAGE_FAILURE_PREDICT_DATA_GUID")]
+class MSStorageDriver_FailurePredictData : MSStorageDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Length;
+	[WmiDataId(2), read, MAX(512)] uint8 VendorSpecific[];
+};
+
+//**************************************************************************
+//* Class: MSStorageDriver_FailurePredictFunction
+//* Derived from: MSStorageDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{78ebc105-4cf9-11d2-ba4a-00a0c9062910}"), HeaderName("STORAGE_FAILURE_PREDICT_FUNCTION"), GuidName1("WMI_STORAGE_FAILURE_PREDICT_FUNCTION_GUID")]
+class MSStorageDriver_FailurePredictFunction : MSStorageDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiMethodId(1), Implemented, HeaderName("ALLOW_PERFORMANCE_HIT")] void AllowPerformanceHit([in] boolean Allow);
+	[WmiMethodId(2), Implemented, HeaderName("ENABLE_DISABLE_FP")] void EnableDisableHardwareFailurePrediction([in] boolean Enable);
+	[WmiMethodId(3), Implemented, HeaderName("ENABLE_DISABLE_FP_POLLING")] void EnableDisableFailurePredictionPolling([in] uint32 Period, [in] boolean Enable);
+	[WmiMethodId(4), Implemented, HeaderName("GET_FP_CAPABILITY")] void GetFailurePredictionCapability([out, ValueMap{"0", "1", "2", "3"}] uint32 Capability);
+	[WmiMethodId(5), HeaderName("ENABLE_OFFLINE_DIAGS"), Implemented] void EnableOfflineDiags([out] boolean Success);
+	[WmiMethodId(6), Implemented, HeaderName("READ_LOG_SECTORS")] void ReadLogSectors([in] uint8 LogAddress, [in] uint8 SectorCount, [out] uint32 Length, [out, WmiSizeIs("Length")] uint8 LogSectors[]);
+	[WmiMethodId(7), Implemented, HeaderName("WRITE_LOG_SECTORS")] void WriteLogSectors([in] uint8 LogAddress, [in] uint8 SectorCount, [in] uint32 Length, [in, WmiSizeIs("Length")] uint8 LogSectors[], [out] boolean Success);
+	[WmiMethodId(8), Implemented, HeaderName("EXECUTE_SELF_TEST")] void ExecuteSelfTest([in] uint8 Subcommand, [out, ValueMap{"0", "1", "2"}] uint32 ReturnCode);
+};
+
+//**************************************************************************
+//* Class: MSStorageDriver_FailurePredictThresholds
+//* Derived from: MSStorageDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{DAE10783-CC31-4d2a-8A0F-861C04077A95}"), HeaderName("STORAGE_FAILURE_PREDICT_THRESHOLDS"), GuidName1("WMI_STORAGE_FAILURE_PREDICT_THRESHOLDS_GUID")]
+class MSStorageDriver_FailurePredictThresholds : MSStorageDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read, MAX(512)] uint8 VendorSpecific[];
+};
+
+//**************************************************************************
+//* Class: MSStorageDriver_FailurePredictStatus
+//* Derived from: MSStorageDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{78ebc102-4cf9-11d2-ba4a-00a0c9062910}"), HeaderName("STORAGE_FAILURE_PREDICT_STATUS"), GuidName1("WMI_STORAGE_FAILURE_PREDICT_STATUS_GUID")]
+class MSStorageDriver_FailurePredictStatus : MSStorageDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), ValueMap{"0", "255"}, read] uint32 Reason;
+	[WmiDataId(2), read] boolean PredictFailure;
+};
+
+//**************************************************************************
+//* Class: MSStorageDriver_ATAPISmartData
+//* Derived from: MSStorageDriver
+//**************************************************************************
+[dynamic: ToInstance, provider("WMIProv"), WMI, guid("{78ebc103-4cf9-11d2-ba4a-00a0c9062910}"), HeaderName("ATAPI_FAILURE_PREDICT_DATA"), GuidName1("WMI_ATAPI_FAILURE_PREDICT_DATA_GUID"), read]
+class MSStorageDriver_ATAPISmartData : MSStorageDriver
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[WmiDataId(1), read] uint32 Length;
+	[WmiDataId(2), read, MAX(362)] uint8 VendorSpecific[];
+	[WmiDataId(3), read, Values{"0", "2", "4", "5", "6", "128", "130", "132", "133", "134"}] uint8 OfflineCollectionStatus;
+	[WmiDataId(4), read, Values{"0", "1", "2", "3", "4", "5", "6", "7", "15"}] uint8 SelfTestStatus;
+	[WmiDataId(5), read] uint16 TotalTime;
+	[WmiDataId(6), read] uint8 VendorSpecific2;
+	[WmiDataId(7), BitMap{"0", "1", "2", "3", "4"}, read] uint8 OfflineCollectCapability;
+	[WmiDataId(8), read, BitMap{"0", "1"}] uint16 SmartCapability;
+	[WmiDataId(9), read, BitMap{"0"}] uint8 ErrorLogCapability;
+	[WmiDataId(10), read] uint8 VendorSpecific3;
+	[WmiDataId(11), read] uint8 ShortPollTimeInMinutes;
+	[WmiDataId(12), read] uint8 ExtendedPollTimeInMinutes;
+	[WmiDataId(13), Description("Reserved"), read, MAX(12)] uint8 Reserved[];
+	[WmiDataId(14), read, MAX(125)] uint8 VendorSpecific4[];
+	[WmiDataId(15), read] uint8 Checksum;
+};
+
+//**************************************************************************
+//* Class: MSIPNAT
+//* Derived from: 
+//**************************************************************************
+[abstract]
+class MSIPNAT
+{
+};
+
+//**************************************************************************
+//* Class: MS_SystemInformation
+//* Derived from: 
+//**************************************************************************
+[WMI, dynamic: ToInstance, provider("WMIProv"), Guid("{98A2B9D7-94DD-496a-847E-67A5557A59F2}"), Locale(1033)]
+class MS_SystemInformation
+{
+	[key, read] string InstanceName;
+	[read] boolean Active;
+	[read, WMIDataID(1)] string BIOSVendor;
+	[read, WMIDataID(2)] string BIOSVersion;
+	[read, WMIDataID(3)] string BIOSReleaseDate;
+	[read, WMIDataID(4)] string SystemManufacturer;
+	[read, WMIDataID(5)] string SystemProductName;
+	[read, WMIDataID(6)] string SystemVersion;
+	[read, WMIDataID(7)] string BaseBoardManufacturer;
+	[read, WMIDataID(8)] string BaseBoardProduct;
+	[read, WMIDataID(9)] string BaseBoardVersion;
+};
+
+//* EOF WinXpProSp3WMI.mof

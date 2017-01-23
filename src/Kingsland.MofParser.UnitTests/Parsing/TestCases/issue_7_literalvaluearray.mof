@@ -1,0 +1,4 @@
+instance of TYPEA as $Alias0000006E
+{
+    ServerURLs = { "https://URL1", "https://URL2" };
+};

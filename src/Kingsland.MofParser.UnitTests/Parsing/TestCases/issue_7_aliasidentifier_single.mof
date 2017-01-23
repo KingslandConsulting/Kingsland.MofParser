@@ -1,0 +1,9 @@
+instance of TYPEA as $Alias0000006E
+{
+    ServerURL = "https://URL";
+};
+
+instance of TYPEB as $Alias00000070
+{
+    Reference = $Alias0000006E;
+};

@@ -36,15 +36,26 @@ namespace Kingsland.MofParser.Ast
         /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
         /// A.14 Complex type value
         ///
-        ///     propertyValue     = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
+        ///     propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
         ///
-        ///     alias             = AS aliasIdentifier
-        ///     INSTANCE          = "instance" ; keyword: case insensitive
-        ///     VALUE             = "value"    ; keyword: case insensitive
-        ///     AS                = "as"       ; keyword: case insensitive
-        ///     OF                = "of"       ; keyword: case insensitive
+        /// 7.3.5
         ///
-        ///     propertyName      = IDENTIFIER
+        ///     primitiveTypeValue = literalValue / literalValueArray
+        ///     primitiveType = DT_Integer / DT_Real / DT_STRING / DT_DATETIME / DT_BOOLEAN / DT_OCTETSTRING
+        ///
+        /// A.1
+        ///
+        ///     complexTypeValue = complexValue / complexValueArray
+        ///
+        /// A.19
+        ///
+        ///     referenceTypeValue  = referenceValue / referenceValueArray
+        ///     referenceValueArray = "{" [ objectPathValue *( "," objectPathValue ) ] 1163 "}"
+        ///
+        /// A.7
+        ///
+        ///     enumTypeValue = enumValue / enumValueArray
+        ///     enumDeclaration = enumTypeHeader enumName ":" enumTypeDeclaration ";"
         ///
         /// </remarks>
         internal static PropertyValueAst Parse(ParserStream stream)
@@ -60,7 +71,7 @@ namespace Kingsland.MofParser.Ast
             else if (peek is BlockOpenToken)
             {
                 // we need to read the subsequent token to work out whether
-                // this is a complexValueArray or a literalValueArray
+                // this is a complexValueArray, literalValueArray, referenceValueArray or enumValueArray
                 stream.Read();
                 peek = stream.Peek();
                 if (LiteralValueAst.IsLiteralValueToken(peek))
