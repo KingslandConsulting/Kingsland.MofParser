@@ -73,6 +73,13 @@
     <Compile Include="Parsing\UnsupportedTokenException.cs" />
     <Compile Include="PowerShellDscHelper.cs" />
     <Compile Include="Lexing\LexerStreamBase.cs" />
+    <Compile Include="Source\SourceChar.cs" />
+    <Compile Include="Source\SourceExtent.cs" />
+    <Compile Include="Source\SourcePosition.cs" />
+    <Compile Include="Source\SourceReader.cs" />
+    <Compile Include="Source\SourceStream.cs" />
+    <Compile Include="Source\UnexpectedCharacterException.cs" />
+    <Compile Include="Source\UnexpectedEndOfStreamException.cs" />
     <Compile Include="Tokens\AttributeCloseToken.cs" />
     <Compile Include="Tokens\AttributeOpenToken.cs" />
     <Compile Include="Tokens\NullLiteralToken.cs" />
