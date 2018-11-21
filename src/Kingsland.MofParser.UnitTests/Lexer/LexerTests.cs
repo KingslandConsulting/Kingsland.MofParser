@@ -1,8 +1,10 @@
 ﻿using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.UnitTests.Helpers;
 using NUnit.Framework;
+using System;
 using System.Collections;
 using System.IO;
+using System.Reflection;
 
 namespace Kingsland.MofParser.UnitTests.Lexer
 {
@@ -36,7 +38,13 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 {
                     get
                     {
-                        return TestUtils.GetMofTestCase("..\\..\\Lexer\\TestCases");
+                        var codebase = Assembly.GetExecutingAssembly().CodeBase;
+                        var filename = Uri.UnescapeDataString(new UriBuilder(codebase).Path);
+                        var path = Path.Combine(
+                            Path.GetDirectoryName(filename),
+                            "Lexer\\TestCases"
+                        );
+                        return Directory.GetFiles(path, "*.mof");
                     }
                 }
             }
