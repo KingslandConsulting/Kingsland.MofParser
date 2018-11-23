@@ -4,58 +4,19 @@
     public sealed class SourcePosition
     {
 
-        #region Builder
-
-        public sealed class Builder
-        {
-
-            public int Position
-            {
-                get;
-                set;
-            }
-
-            public int LineNumber
-            {
-                get;
-                set;
-            }
-
-            public int ColumnNumber
-            {
-                get;
-                set;
-            }
-
-            public SourcePosition Build()
-            {
-                return new SourcePosition
-                {
-                    Position = this.Position,
-                    LineNumber = this.LineNumber,
-                    ColumnNumber = this.ColumnNumber,
-                };
-            }
-
-        }
-
-        #endregion
-
         #region Fields
 
-        public static readonly SourcePosition Empty = new SourcePosition.Builder
-        {
-            Position = -1,
-            LineNumber = -1,
-            ColumnNumber = -1
-        }.Build();
+        public static readonly SourcePosition Empty = new SourcePosition(-1, 0, 0);
 
         #endregion
 
         #region Constructor
 
-        private SourcePosition()
+        internal SourcePosition(int position, int lineNumber, int columnNumber)
         {
+            this.Position = position;
+            this.LineNumber = lineNumber;
+            this.ColumnNumber = columnNumber;
         }
 
         #endregion

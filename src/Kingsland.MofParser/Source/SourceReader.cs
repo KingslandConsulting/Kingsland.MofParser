@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Kingsland.MofParser.Source
 {
@@ -6,40 +8,12 @@ namespace Kingsland.MofParser.Source
     public sealed class SourceReader
     {
 
-        #region Builder
-
-        public sealed class Builder
-        {
-
-            public SourceStream Stream
-            {
-                get;
-                set;
-            }
-
-            public int Position
-            {
-                get;
-                set;
-            }
-
-            public SourceReader Build()
-            {
-                return new SourceReader
-                {
-                    Stream = this.Stream,
-                    Position = this.Position
-                };
-            }
-
-        }
-
-        #endregion
-
         #region Constructors
 
-        private SourceReader()
+        private SourceReader(SourceStream stream, int position)
         {
+            this.Stream = stream;
+            this.Position = position;
         }
 
         #endregion
@@ -77,6 +51,10 @@ namespace Kingsland.MofParser.Source
         /// <returns></returns>
         public SourceChar Peek()
         {
+            if (this.Eof())
+            {
+                throw new EndOfStreamException();
+            }
             return this.Stream.Read(this.Position);
         }
 
@@ -90,51 +68,19 @@ namespace Kingsland.MofParser.Source
             return (peek.Value == value);
         }
 
+        /// <summary>
+        /// Returns true if the current character on the input stream matches the specified predicate.
+        /// </summary>
+        /// <returns></returns>
+        public bool Peek(Func<char, bool> predicate)
+        {
+            var peek = this.Peek();
+            return predicate(peek.Value);
+        }
+
         #endregion
 
         #region Read Methods
-
-        /// <summary>
-        /// Reads the current character off of the input stream and advances the current position.
-        /// </summary>
-        /// <returns></returns>
-        public SourceChar Read()
-        {
-            return this.Peek();
-        }
-
-        /// <summary>
-        /// Reads the current character off of the input stream and advances the current position.
-        /// Throws an exception if the character does not match the specified value.
-        /// </summary>
-        /// <returns></returns>
-        public SourceChar Read(char value)
-        {
-            var peek = this.Peek();
-            if (peek.Value != value)
-            {
-                throw new UnexpectedCharacterException(peek, value);
-            }
-            return peek;
-        }
-
-        ///// <summary>
-        ///// Reads a string off of the input stream and advances the current position beyond the end of the string.
-        ///// Throws an exception if the string does not match the specified value.
-        ///// </summary>
-        ///// <returns></returns>
-        //public (ReadOnlyCollection<SourceChar> value, SourceReader nextReader) Read(string value)
-        //{
-        //    var @string = new List<SourceChar>();
-        //    var reader = default(SourceReader);
-        //    foreach (var @char in value)
-        //    {
-        //        var (outChar, outReader) = this.Read(@char);
-        //        @string.Add(outChar);
-        //        reader = outReader;
-        //    }
-        //    return (new ReadOnlyCollection<SourceChar>(@string), reader);
-        //}
 
         private SourceReader next;
 
@@ -142,37 +88,91 @@ namespace Kingsland.MofParser.Source
         {
             if (this.next == null)
             {
-                this.next = new SourceReader.Builder
-                {
-                    Stream = this.Stream,
-                    Position = this.Position + 1
-                }.Build();
+                this.next = this.Eof() ?
+                    throw new UnexpectedEndOfStreamException() :
+                    new SourceReader(
+                        stream: this.Stream,
+                        position: this.Position + 1
+                    );
             }
             return this.next;
+        }
+
+        /// <summary>
+        /// Reads the current character off of the input stream and advances the current position.
+        /// </summary>
+        /// <returns></returns>
+        public (SourceChar SourceChar, SourceReader NextReader) Read()
+        {
+            return (this.Peek(), this.Next());
+        }
+
+        /// <summary>
+        /// Reads the current character off of the input stream and advances the current position.
+        /// Throws an exception if the character does not match the specified value.
+        /// </summary>
+        /// <returns></returns>
+        public (SourceChar SourceChar, SourceReader NextReader) Read(char value)
+        {
+            var peek = this.Peek();
+            if (peek.Value != value)
+            {
+                throw new UnexpectedCharacterException(peek, value);
+            }
+            return (peek, this.Next());
+        }
+
+        /// <summary>
+        /// Reads the current character off of the input stream and advances the current position.
+        /// Throws an exception if the character does not match the specified predicate.
+        /// </summary>
+        /// <returns></returns>
+        public (SourceChar SourceChar, SourceReader NextReader) Read(Func<char, bool> predicate)
+        {
+            var peek = this.Peek();
+            if (!predicate(peek.Value))
+            {
+                throw new UnexpectedCharacterException(peek);
+            }
+            return (peek, this.Next());
+        }
+
+        /// <summary>
+        /// Reads a string off of the input stream and advances the current position beyond the end of the string.
+        /// Throws an exception if the string does not match the specified value.
+        /// </summary>
+        /// <returns></returns>
+        public (List<SourceChar> SourceChars, SourceReader NextReader) ReadString(string value)
+        {
+            var thisReader = this;
+            var sourceChar = default(SourceChar);
+            var sourceChars = new List<SourceChar>();
+            foreach (var expectedChar in value)
+            {
+                (sourceChar, thisReader) = thisReader.Read(expectedChar);
+                sourceChars.Add(sourceChar);
+            }
+            return (sourceChars, thisReader);
         }
 
         #endregion
 
         #region Factory Methods
 
-        public static SourceReader FromTextReader(TextReader value)
+        public static SourceReader From(TextReader value)
         {
-            var sourceStream = SourceStream.FromTextReader(value);
-            return new SourceReader.Builder
-            {
-                Stream = sourceStream,
-                Position = 0
-            }.Build();
+            return new SourceReader(
+                stream: SourceStream.From(value),
+                position: 0
+            );
         }
 
-        public static SourceReader FromString(string value)
+        public static SourceReader From(string value)
         {
-            var sourceStream = SourceStream.FromString(value);
-            return new SourceReader.Builder
-            {
-                Stream = sourceStream,
-                Position = 0
-            }.Build();
+            return new SourceReader(
+                stream: SourceStream.From(value),
+                position: 0
+            );
         }
 
         #endregion

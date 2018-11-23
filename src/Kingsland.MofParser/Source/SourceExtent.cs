@@ -10,58 +10,23 @@ namespace Kingsland.MofParser.Source
     public sealed class SourceExtent
     {
 
-        #region Builder
-
-        public sealed class Builder
-        {
-
-            public SourcePosition StartPosition
-            {
-                get;
-                set;
-            }
-
-            public SourcePosition EndPosition
-            {
-                get;
-                set;
-            }
-
-            public string Text
-            {
-                get;
-                set;
-            }
-
-            public SourceExtent Build()
-            {
-                return new SourceExtent
-                {
-                    StartPosition = this.StartPosition,
-                    EndPosition = this.EndPosition,
-                    Text = this.Text
-                };
-            }
-
-        }
-
-        #endregion
-
         #region Fields
 
-        public readonly static SourceExtent Empty = new SourceExtent.Builder
-        {
-            StartPosition = SourcePosition.Empty,
-            EndPosition = SourcePosition.Empty,
-            Text = string.Empty
-        }.Build();
+        public readonly static SourceExtent Empty = new SourceExtent(
+            SourcePosition.Empty,
+            SourcePosition.Empty,
+            string.Empty
+        );
 
         #endregion
 
         #region Constructors
 
-        private SourceExtent()
+        private SourceExtent(SourcePosition startPosition, SourcePosition endPosition, string text)
         {
+            this.StartPosition = startPosition;
+            this.EndPosition = endPosition;
+            this.Text = text;
         }
 
         #endregion
@@ -90,26 +55,24 @@ namespace Kingsland.MofParser.Source
 
         #region Factory Methods
 
-        public static SourceExtent FromChar(SourceChar @char)
+        public static SourceExtent From(SourceChar @char)
         {
-            return new Builder
-            {
-                StartPosition = @char.Position,
-                EndPosition = @char.Position,
-                Text = new string(@char.Value, 1)
-            }.Build();
+            return new SourceExtent(
+                startPosition: @char.Position,
+                endPosition: @char.Position,
+                text: new string(@char.Value, 1)
+            );
         }
 
-        public static SourceExtent FromChars(IList<SourceChar> chars)
+        public static SourceExtent From(IList<SourceChar> chars)
         {
             return ((chars == null) || (chars.Count == 0)) ?
                 SourceExtent.Empty :
-                new SourceExtent.Builder
-                {
-                    StartPosition = chars.First().Position,
-                    EndPosition = chars.Last().Position,
-                    Text = new string(chars.Select(n => n.Value).ToArray())
-                }.Build();
+                new SourceExtent(
+                    startPosition: chars.First().Position,
+                    endPosition: chars.Last().Position,
+                    text: new string(chars.Select(n => n.Value).ToArray())
+                );
         }
 
         #endregion

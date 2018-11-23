@@ -4,26 +4,38 @@
     {
       "$type": "Kingsland.MofParser.Tokens.CommentToken, Kingsland.MofParser",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 0,
-        "StartLineNumber": 1,
-        "StartColumnNumber": 1,
-        "EndPosition": 85,
-        "EndLineNumber": 1,
-        "EndColumnNumber": 86,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 0,
+          "LineNumber": 1,
+          "ColumnNumber": 1
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 85,
+          "LineNumber": 1,
+          "ColumnNumber": 86
+        },
         "Text": "/* example of a comment between property definition tokens and a multi-line comment */"
       }
     },
     {
       "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 86,
-        "StartLineNumber": 1,
-        "StartColumnNumber": 87,
-        "EndPosition": 87,
-        "EndLineNumber": 1,
-        "EndColumnNumber": 88,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 86,
+          "LineNumber": 1,
+          "ColumnNumber": 87
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 87,
+          "LineNumber": 1,
+          "ColumnNumber": 88
+        },
         "Text": "\r\n"
       }
     },
@@ -31,52 +43,76 @@
       "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
       "Name": "uint16",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 88,
-        "StartLineNumber": 2,
-        "StartColumnNumber": 1,
-        "EndPosition": 93,
-        "EndLineNumber": 2,
-        "EndColumnNumber": 6,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 88,
+          "LineNumber": 2,
+          "ColumnNumber": 1
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 93,
+          "LineNumber": 2,
+          "ColumnNumber": 6
+        },
         "Text": "uint16"
       }
     },
     {
       "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 94,
-        "StartLineNumber": 2,
-        "StartColumnNumber": 7,
-        "EndPosition": 94,
-        "EndLineNumber": 2,
-        "EndColumnNumber": 7,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 94,
+          "LineNumber": 2,
+          "ColumnNumber": 7
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 94,
+          "LineNumber": 2,
+          "ColumnNumber": 7
+        },
         "Text": " "
       }
     },
     {
       "$type": "Kingsland.MofParser.Tokens.CommentToken, Kingsland.MofParser",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 95,
-        "StartLineNumber": 2,
-        "StartColumnNumber": 8,
-        "EndPosition": 123,
-        "EndLineNumber": 2,
-        "EndColumnNumber": 36,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 95,
+          "LineNumber": 2,
+          "ColumnNumber": 8
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 123,
+          "LineNumber": 2,
+          "ColumnNumber": 36
+        },
         "Text": "/* 16-bit integer property */"
       }
     },
     {
       "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 124,
-        "StartLineNumber": 2,
-        "StartColumnNumber": 37,
-        "EndPosition": 124,
-        "EndLineNumber": 2,
-        "EndColumnNumber": 37,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 124,
+          "LineNumber": 2,
+          "ColumnNumber": 37
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 124,
+          "LineNumber": 2,
+          "ColumnNumber": 37
+        },
         "Text": " "
       }
     },
@@ -84,52 +120,76 @@
       "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
       "Name": "MyProperty",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 125,
-        "StartLineNumber": 2,
-        "StartColumnNumber": 38,
-        "EndPosition": 134,
-        "EndLineNumber": 2,
-        "EndColumnNumber": 47,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 125,
+          "LineNumber": 2,
+          "ColumnNumber": 38
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 134,
+          "LineNumber": 2,
+          "ColumnNumber": 47
+        },
         "Text": "MyProperty"
       }
     },
     {
       "$type": "Kingsland.MofParser.Tokens.StatementEndToken, Kingsland.MofParser",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 135,
-        "StartLineNumber": 2,
-        "StartColumnNumber": 48,
-        "EndPosition": 135,
-        "EndLineNumber": 2,
-        "EndColumnNumber": 48,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 135,
+          "LineNumber": 2,
+          "ColumnNumber": 48
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 135,
+          "LineNumber": 2,
+          "ColumnNumber": 48
+        },
         "Text": ";"
       }
     },
     {
       "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 136,
-        "StartLineNumber": 2,
-        "StartColumnNumber": 49,
-        "EndPosition": 136,
-        "EndLineNumber": 2,
-        "EndColumnNumber": 49,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 136,
+          "LineNumber": 2,
+          "ColumnNumber": 49
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 136,
+          "LineNumber": 2,
+          "ColumnNumber": 49
+        },
         "Text": " "
       }
     },
     {
       "$type": "Kingsland.MofParser.Tokens.CommentToken, Kingsland.MofParser",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 137,
-        "StartLineNumber": 2,
-        "StartColumnNumber": 50,
-        "EndPosition": 191,
-        "EndLineNumber": 3,
-        "EndColumnNumber": 34,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 137,
+          "LineNumber": 2,
+          "ColumnNumber": 50
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 191,
+          "LineNumber": 3,
+          "ColumnNumber": 34
+        },
         "Text": "/* and a multi-line\r\n                        comment */"
       }
     }

@@ -8,40 +8,12 @@
     public sealed class SourceChar
     {
 
-        #region Builder
-
-        public sealed class Builder
-        {
-
-            public SourcePosition Position
-            {
-                get;
-                set;
-            }
-
-            public char Value
-            {
-                get;
-                set;
-            }
-
-            public SourceChar Build()
-            {
-                return new SourceChar
-                {
-                    Position = this.Position,
-                    Value = this.Value,
-                };
-            }
-
-        }
-
-        #endregion
-
         #region Constructors
 
-        private SourceChar()
+        internal SourceChar(SourcePosition position, char value)
         {
+            this.Position = position;
+            this.Value = value;
         }
 
         #endregion

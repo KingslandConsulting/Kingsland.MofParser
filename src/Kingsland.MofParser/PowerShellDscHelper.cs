@@ -2,6 +2,7 @@
 using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Objects;
 using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Source;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,10 +20,10 @@ namespace Kingsland.MofParser
             var sourceText = File.ReadAllText(filename);
 
             // turn the text into a stream of characters for lexing
-            var stream = new StringLexerStream(sourceText);
+            var reader = SourceReader.From(sourceText);
 
             // lex the characters into a sequence of tokens
-            var tokens = Lexer.Lex(stream);
+            var tokens = TokenLexer.Lex(reader);
 
             // parse the tokens into an ast tree
             var ast = Parser.Parse(tokens);

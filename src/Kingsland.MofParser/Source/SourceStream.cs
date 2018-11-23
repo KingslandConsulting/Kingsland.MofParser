@@ -8,18 +8,12 @@ namespace Kingsland.MofParser.Source
     public sealed class SourceStream
     {
 
-        #region Builder
-
-        public sealed class Builder
-        {
-        }
-
-        #endregion
-
         #region Constructors
 
-        private SourceStream()
+        private SourceStream(TextReader baseReader)
         {
+            this.BaseReader = baseReader;
+            this.Buffer = new List<SourceChar>();
         }
 
         #endregion
@@ -83,76 +77,75 @@ namespace Kingsland.MofParser.Source
             var streamChar = (char)streamRead;
             // append a char to the buffer
             var lastChar = this.Buffer.LastOrDefault();
-            var nextChar = new SourceChar.Builder
-            {
-                Value = streamChar,
-                Position = SourceStream.GetNextPosition(lastChar, streamChar),
-            }.Build();
+            var nextChar = new SourceChar(
+                SourceStream.GetNextPosition(lastChar, streamChar),
+                streamChar
+            );
             this.Buffer.Add(nextChar);
             return true;
         }
 
         private static SourcePosition GetNextPosition(SourceChar lastChar, char nextChar)
         {
-            var lastPosition = lastChar?.Position ?? new SourcePosition.Builder
+            var lastPosition = lastChar?.Position;
+            if (lastPosition == null)
             {
-                Position = -1,
-                LineNumber = 1,
-                ColumnNumber = 0
-            }.Build();
-            var nextPosition = new SourcePosition.Builder
-            {
-                Position = lastPosition.Position + 1
-            };
-            switch (nextChar)
+                return SourceStream.StartOfStream();
+            }
+            switch (lastChar.Value)
             {
                 case '\r':
-                    // start a new line
-                    nextPosition.LineNumber = lastPosition.LineNumber + 1;
-                    nextPosition.ColumnNumber = 0;
-                    break;
+                    return (nextChar == '\n') ?
+                        SourceStream.MoveToNext(lastPosition) :
+                        SourceStream.StartNewLine(lastPosition);
                 case '\n':
-                    if ((lastChar != null) && (lastChar.Value == '\r'))
-                    {
-                        // this is a "\r\n" pair, so don't move
-                        nextPosition.LineNumber = lastPosition.LineNumber;
-                        nextPosition.ColumnNumber = lastPosition.ColumnNumber;
-                    }
-                    else
-                    {
-                        // start a new line
-                        nextPosition.LineNumber = lastPosition.LineNumber + 1;
-                        nextPosition.ColumnNumber = 0;
-                    }
-                    break;
+                    return SourceStream.StartNewLine(lastPosition);
                 default:
-                    nextPosition.LineNumber = lastPosition.LineNumber;
-                    nextPosition.ColumnNumber = lastPosition.ColumnNumber + 1;
-                    break;
+                    return SourceStream.MoveToNext(lastPosition);
             }
-            return nextPosition.Build();
+        }
+
+        private static SourcePosition StartOfStream()
+        {
+            return new SourcePosition(
+                position: 0,
+                lineNumber: 1,
+                columnNumber: 1
+            );
+        }
+
+        private static SourcePosition StartNewLine(SourcePosition lastPosition)
+        {
+            return new SourcePosition(
+                position: lastPosition.Position + 1,
+                lineNumber: lastPosition.LineNumber + 1,
+                columnNumber: 1
+            );
+        }
+
+        private static SourcePosition MoveToNext(SourcePosition lastPosition)
+        {
+            return new SourcePosition(
+                position: lastPosition.Position + 1,
+                lineNumber: lastPosition.LineNumber,
+                columnNumber: lastPosition.ColumnNumber + 1
+            );
         }
 
         #endregion
 
         #region Factory Methods
 
-        public static SourceStream FromTextReader(TextReader value)
+        public static SourceStream From(TextReader value)
         {
-            return new SourceStream
-            {
-                BaseReader = value,
-                Buffer = new List<SourceChar>()
-            };
+            return new SourceStream(value);
         }
 
-        public static SourceStream FromString(string value)
+        public static SourceStream From(string value)
         {
-            return new SourceStream
-            {
-                BaseReader = new StringReader(value ?? string.Empty),
-                Buffer = new List<SourceChar>()
-            };
+            return new SourceStream(
+                new StringReader(value ?? string.Empty)
+            );
         }
 
         #endregion

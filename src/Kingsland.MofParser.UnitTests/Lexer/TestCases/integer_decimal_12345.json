@@ -5,13 +5,19 @@
       "$type": "Kingsland.MofParser.Tokens.IntegerLiteralToken, Kingsland.MofParser",
       "Value": 12345,
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 0,
-        "StartLineNumber": 1,
-        "StartColumnNumber": 1,
-        "EndPosition": 4,
-        "EndLineNumber": 1,
-        "EndColumnNumber": 5,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 0,
+          "LineNumber": 1,
+          "ColumnNumber": 1
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 4,
+          "LineNumber": 1,
+          "ColumnNumber": 5
+        },
         "Text": "12345"
       }
     }

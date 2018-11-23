@@ -46,7 +46,7 @@ namespace Kingsland.MofParser.Source
                 var foundPosition = this.FoundChar.Position;
                 if (this.ExpectedChar.HasValue)
                 {
-                    return $"Unexpected character '{this.FoundChar.Value}' found at" +
+                    return $"Unexpected character '{this.FoundChar.Value}' found at " +
                            $"Position {foundPosition.Position}, " +
                            $"Line Number {foundPosition.LineNumber}, " +
                            $"Column Number {foundPosition.ColumnNumber} " +
@@ -54,7 +54,7 @@ namespace Kingsland.MofParser.Source
                 }
                 else
                 {
-                    return $"Unexpected character '{this.FoundChar.Value}' found at" +
+                    return $"Unexpected character '{this.FoundChar.Value}' found at " +
                            $"Position {foundPosition.Position}, " +
                            $"Line Number {foundPosition.LineNumber}, " +
                            $"Column Number {foundPosition.ColumnNumber}";

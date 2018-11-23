@@ -5,26 +5,38 @@
       "$type": "Kingsland.MofParser.Tokens.AliasIdentifierToken, Kingsland.MofParser",
       "Name": "myAliasIdentifier",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 0,
-        "StartLineNumber": 1,
-        "StartColumnNumber": 1,
-        "EndPosition": 17,
-        "EndLineNumber": 1,
-        "EndColumnNumber": 18,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 0,
+          "LineNumber": 1,
+          "ColumnNumber": 1
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 17,
+          "LineNumber": 1,
+          "ColumnNumber": 18
+        },
         "Text": "$myAliasIdentifier"
       }
     },
     {
       "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 18,
-        "StartLineNumber": 1,
-        "StartColumnNumber": 19,
-        "EndPosition": 19,
-        "EndLineNumber": 1,
-        "EndColumnNumber": 20,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 18,
+          "LineNumber": 1,
+          "ColumnNumber": 19
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 19,
+          "LineNumber": 1,
+          "ColumnNumber": 20
+        },
         "Text": "\r\n"
       }
     },
@@ -32,13 +44,19 @@
       "$type": "Kingsland.MofParser.Tokens.AliasIdentifierToken, Kingsland.MofParser",
       "Name": "myAliasIdentifier2",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 20,
-        "StartLineNumber": 2,
-        "StartColumnNumber": 1,
-        "EndPosition": 38,
-        "EndLineNumber": 2,
-        "EndColumnNumber": 19,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 20,
+          "LineNumber": 2,
+          "ColumnNumber": 1
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 38,
+          "LineNumber": 2,
+          "ColumnNumber": 19
+        },
         "Text": "$myAliasIdentifier2"
       }
     }

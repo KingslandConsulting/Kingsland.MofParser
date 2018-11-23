@@ -1,5 +1,6 @@
 ﻿using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Source;
 using Kingsland.MofParser.UnitTests.Helpers;
 using NUnit.Framework;
 using System;
@@ -24,7 +25,8 @@ namespace Kingsland.MofParser.UnitTests.Lexer
             {
                 //Console.WriteLine(mofFilename);
                 var mofText = File.ReadAllText(mofFilename);
-                var tokens = Lexing.Lexer.Lex(new StringLexerStream(mofText));
+                var reader = SourceReader.From(mofText);
+                var tokens = TokenLexer.Lex(reader);
                 var ast = Parser.Parse(tokens);
                 var actualText = TestUtils.ConvertToJson(ast);
                 var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),
