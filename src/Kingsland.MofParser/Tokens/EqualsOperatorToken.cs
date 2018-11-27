@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Source;
+﻿using Kingsland.MofParser.Source;
 
 namespace Kingsland.MofParser.Tokens
 {
