@@ -1,6 +1,4 @@
 ﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -8,10 +6,41 @@ namespace Kingsland.MofParser.Ast
     public sealed class CompilerDirectiveAst : MofProductionAst
     {
 
+        #region Builder
+
+        public sealed class Builder
+        {
+
+            public string Pragma
+            {
+                get;
+                set;
+            }
+
+            public string Argument
+            {
+                get;
+                set;
+            }
+
+            public CompilerDirectiveAst Build()
+            {
+                return new CompilerDirectiveAst(
+                    this.Pragma,
+                    this.Argument
+                );
+            }
+
+        }
+
+        #endregion
+
         #region Constructors
 
-        private CompilerDirectiveAst()
+        private CompilerDirectiveAst(string pragma, string argument)
         {
+            this.Pragma = pragma;
+            this.Argument = argument;
         }
 
         #endregion
@@ -28,23 +57,6 @@ namespace Kingsland.MofParser.Ast
         {
             get;
             private set;
-        }
-
-        #endregion
-
-        #region Parsing Methods
-
-        internal new static CompilerDirectiveAst Parse(ParserStream stream)
-        {
-            var ast = new CompilerDirectiveAst();
-
-            stream.Read<PragmaToken>();
-            ast.Pragma = stream.Read<IdentifierToken>().Name;
-            stream.Read<ParenthesesOpenToken>();
-            ast.Argument = stream.Read<StringLiteralToken>().Value;
-            stream.Read<ParenthesesCloseToken>();
-
-            return ast;
         }
 
         #endregion

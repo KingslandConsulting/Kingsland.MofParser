@@ -1,6 +1,4 @@
 ﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -8,10 +6,33 @@ namespace Kingsland.MofParser.Ast
     public sealed class StringValueAst : LiteralValueAst
     {
 
+        #region Builder
+
+        public sealed class Builder
+        {
+
+            public string Value
+            {
+                get;
+                set;
+            }
+
+            public StringValueAst Build()
+            {
+                return new StringValueAst(
+                    this.Value
+                );
+            }
+
+        }
+
+        #endregion
+
         #region Constructors
 
-        private StringValueAst()
+        private StringValueAst(string value)
         {
+            this.Value = value;
         }
 
         #endregion
@@ -22,18 +43,6 @@ namespace Kingsland.MofParser.Ast
         {
             get;
             private set;
-        }
-
-        #endregion
-
-        #region Parsing Methods
-
-        internal new static StringValueAst Parse(ParserStream stream)
-        {
-            return new StringValueAst
-            {
-                Value = stream.Read<StringLiteralToken>().Value
-            };
         }
 
         #endregion

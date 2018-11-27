@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Kingsland.MofParser.CodeGen;
 using System.Collections.Generic;
-using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Tokens;
-using Kingsland.MofParser.CodeGen;
+using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -10,15 +8,75 @@ namespace Kingsland.MofParser.Ast
     public sealed class ComplexValueAst : ComplexTypeValueAst
     {
 
-        #region Fields
+        #region Builder
 
-        private Dictionary<string, PropertyValueAst> _properties;
+        public sealed class Builder
+        {
+
+            public QualifierListAst Qualifiers
+            {
+                get;
+                set;
+            }
+
+            public bool IsInstance
+            {
+                get;
+                set;
+            }
+
+            public bool IsValue
+            {
+                get;
+                set;
+            }
+
+            public string TypeName
+            {
+                get;
+                set;
+            }
+
+            public string Alias
+            {
+                get;
+                set;
+            }
+
+            public Dictionary<string, PropertyValueAst> Properties
+            {
+                get;
+                set;
+            }
+
+            public ComplexValueAst Build()
+            {
+                return new ComplexValueAst(
+                    this.Qualifiers,
+                    this.IsInstance,
+                    this.IsValue,
+                    this.TypeName,
+                    this.Alias,
+                    new ReadOnlyDictionary<string, PropertyValueAst>(
+                        this.Properties ?? new Dictionary<string, PropertyValueAst>()
+                    )
+                );
+            }
+
+        }
 
         #endregion
 
         #region Constructors
 
-        private ComplexValueAst()
+        private ComplexValueAst(
+            QualifierListAst qualifiers,
+            bool isInstance,
+            bool isValue,
+            string typeName,
+            string alias,
+            ReadOnlyDictionary<string, PropertyValueAst> properties
+        ) : base(qualifiers)
         {
         }
 
@@ -50,119 +108,10 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public Dictionary<string, PropertyValueAst> Properties
+        public ReadOnlyDictionary<string, PropertyValueAst> Properties
         {
-            get
-            {
-                if (_properties == null)
-                {
-                    _properties = new Dictionary<string, PropertyValueAst>();
-                }
-                return _properties;
-            }
-        }
-
-        #endregion
-
-        #region Parsing Properties
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.14 Complex type value
-        ///
-        ///     complexValue      = ( INSTANCE / VALUE ) OF
-        ///                         ( structureName / className / associationName )
-        ///                         [ alias ] propertyValueList ";"
-        ///     propertyValueList = "{" *propertySlot "}"
-        ///     propertySlot      = propertyName "=" propertyValue ";"
-        ///     propertyValue     = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
-        ///     alias             = AS aliasIdentifier
-        ///     INSTANCE          = "instance" ; keyword: case insensitive
-        ///     VALUE             = "value"    ; keyword: case insensitive
-        ///     AS                = "as"       ; keyword: case insensitive
-        ///     OF                = "of"       ; keyword: case insensitive
-        ///
-        ///     propertyName      = IDENTIFIER
-        ///
-        /// </remarks>
-        internal new static ComplexValueAst Parse(ParserStream stream)
-        {
-
-            // complexValue =
-            var node = new ComplexValueAst();
-
-            // ( INSTANCE / VALUE )
-            var keyword = stream.ReadIdentifier();
-            switch (keyword.GetNormalizedName())
-            {
-                case Keywords.INSTANCE:
-                    node.IsInstance = true;
-                    node.IsValue = false;
-                    break;
-                case Keywords.VALUE:
-                    node.IsInstance = false;
-                    node.IsValue = true;
-                    break;
-                default:
-                    throw new UnexpectedTokenException(keyword);
-            }
-
-            // OF
-            stream.ReadIdentifier(Keywords.OF);
-
-            // ( structureName / className / associationName )
-            node.TypeName = stream.Read<IdentifierToken>().Name;
-            if (!StringValidator.IsStructureName(node.TypeName) &&
-                !StringValidator.IsClassName(node.TypeName) &&
-                !StringValidator.IsAssociationName(node.TypeName))
-            {
-                throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
-            }
-
-            // [ alias ]
-            if (stream.PeekIdentifier(Keywords.AS))
-            {
-                stream.ReadIdentifier(Keywords.AS);
-                var aliasName = stream.Read<AliasIdentifierToken>().Name;
-                if (!StringValidator.IsIdentifier(aliasName))
-                {
-                    throw new InvalidOperationException("Value is not a valid aliasIdentifier");
-                }
-                node.Alias = aliasName;
-            }
-
-            // propertyValueList
-            stream.Read<BlockOpenToken>();
-            while (!stream.Eof && (stream.Peek<BlockCloseToken>() == null))
-            {
-                // propertyName
-                var propertyName = stream.Read<IdentifierToken>().Name;
-                if (!StringValidator.IsIdentifier(propertyName))
-                {
-                    throw new InvalidOperationException("Value is not a valid property name.");
-                }
-                // "="
-                stream.Read<EqualsOperatorToken>();
-                // propertyValue
-                var propertyValue = PropertyValueAst.Parse(stream);
-                // ";"
-                stream.Read<StatementEndToken>();
-                node.Properties.Add(propertyName, propertyValue);
-            }
-
-            // "}"
-            stream.Read<BlockCloseToken>();
-
-            // ";"
-            stream.Read<StatementEndToken>();
-
-            // return the result
-            return node;
-
+            get;
+            private set;
         }
 
         #endregion

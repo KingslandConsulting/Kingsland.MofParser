@@ -1,55 +1,53 @@
-﻿using System.Collections.Generic;
-using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Tokens;
-using Kingsland.MofParser.CodeGen;
+﻿using Kingsland.MofParser.CodeGen;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
+
     public sealed class QualifierListAst : AstNode
     {
 
+        #region Builder
+
+        public sealed class Builder
+        {
+
+            public List<QualifierDeclarationAst> Qualifiers
+            {
+                get;
+                set;
+            }
+
+            public QualifierListAst Build()
+            {
+                return new QualifierListAst(
+                    new ReadOnlyCollection<QualifierDeclarationAst>(
+                        this.Qualifiers ?? new List<QualifierDeclarationAst>()
+                    )
+                );
+            }
+
+        }
+
+        #endregion
+
         #region Constructors
 
-        private QualifierListAst()
+        private QualifierListAst(ReadOnlyCollection<QualifierDeclarationAst> qualifiers)
         {
-            this.Qualifiers = new List<QualifierDeclarationAst>();
+            this.Qualifiers = qualifiers ?? throw new ArgumentNullException(nameof(qualifiers));
         }
 
         #endregion
 
         #region Properties
 
-        public List<QualifierDeclarationAst> Qualifiers
+        public ReadOnlyCollection<QualifierDeclarationAst> Qualifiers
         {
             get;
             private set;
-        }
-
-        #endregion
-
-        #region Parsing Methods
-
-        internal static QualifierListAst Parse(ParserStream stream)
-        {
-
-            var ast = new QualifierListAst();
-
-            stream.Read<AttributeOpenToken>();
-
-            while (!stream.Eof)
-            {
-                ast.Qualifiers.Add(QualifierDeclarationAst.Parse(stream));
-                if (stream.Peek<CommaToken>() == null)
-                {
-                    break;
-                }
-                stream.Read<CommaToken>();
-            }
-
-            stream.Read<AttributeCloseToken>();
-
-            return ast;
-
         }
 
         #endregion

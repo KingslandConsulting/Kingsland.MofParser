@@ -1,6 +1,6 @@
 ﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -8,10 +8,80 @@ namespace Kingsland.MofParser.Ast
     public sealed class ParameterDeclarationAst : AstNode
     {
 
+        #region Builder
+
+        public sealed class Builder
+        {
+
+            public QualifierListAst Qualifiers
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken Name
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken Type
+            {
+                get;
+                set;
+            }
+
+            public bool IsRef
+            {
+                get;
+                set;
+            }
+
+            public bool IsArray
+            {
+                get;
+                set;
+            }
+
+            public AstNode DefaultValue
+            {
+                get;
+                set;
+            }
+
+            public ParameterDeclarationAst Build()
+            {
+                return new ParameterDeclarationAst(
+                    this.Qualifiers,
+                    this.Name,
+                    this.Type,
+                    this.IsRef,
+                    this.IsArray,
+                    this.DefaultValue
+                );
+            }
+
+        }
+
+        #endregion
+
         #region Constructors
 
-        private ParameterDeclarationAst()
+        private ParameterDeclarationAst(
+            QualifierListAst qualifiers,
+            IdentifierToken name,
+            IdentifierToken type,
+            bool isRef,
+            bool isArray,
+            AstNode defaultValue
+        )
         {
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
+            this.Qualifiers = qualifiers ?? throw new ArgumentNullException(nameof(qualifiers));
+            this.Type = type ?? throw new ArgumentNullException(nameof(type));
+            this.IsRef = isRef;
+            this.IsArray = isArray;
+            this.DefaultValue = defaultValue ?? throw new ArgumentNullException(nameof(defaultValue));
         }
 
         #endregion
@@ -39,84 +109,19 @@ namespace Kingsland.MofParser.Ast
         public bool IsRef
         {
             get;
-            set;
+            private set;
         }
 
         public bool IsArray
         {
             get;
-            set;
+            private set;
         }
 
         public AstNode DefaultValue
         {
             get;
-            set;
-        }
-
-        #endregion
-
-        #region Parsing Methods
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        /// <remarks>
-        ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.12 Parameter declaration
-        ///
-        ///     parameterDeclaration = [ qualifierList ] ( primitiveParamDeclaration /
-        ///                            complexParamDeclaration /
-        ///                            enumParamDeclaration /
-        ///                            referenceParamDeclaration )
-        ///
-        ///     primitiveParamDeclaration = primitiveType parameterName [ array ]
-        ///                                 [ "=" primitiveTypeValue ]
-        ///     complexParamDeclaration   = structureOrClassName parameterName [ array ]
-        ///                                 [ "=" ( complexTypeValue / aliasIdentifier ) ]
-        ///     enumParamDeclaration      = enumName parameterName [ array ]
-        ///                                 [ "=" enumValue ]
-        ///     referenceParamDeclaration = classReference parameterName [ array ]
-        ///                                 [ "=" referenceTypeValue ]
-        ///
-        ///     parameterName = IDENTIFIER
-        ///
-        /// </remarks>
-        internal static ParameterDeclarationAst Parse(ParserStream stream)
-        {
-            var parameter = new ParameterDeclarationAst();
-            var qualifiers = default(QualifierListAst);
-            if (stream.Peek<AttributeOpenToken>() != null)
-            {
-                qualifiers = QualifierListAst.Parse(stream);
-            }
-            parameter.Qualifiers = qualifiers;
-            parameter.Type = stream.Read<IdentifierToken>();
-            if (stream.PeekIdentifier(Keywords.REF))
-            {
-                stream.ReadIdentifier(Keywords.REF);
-                parameter.IsRef = true;
-            }
-            else
-            {
-                parameter.IsRef = false;
-            }
-            parameter.Name = stream.Read<IdentifierToken>();
-            if (stream.Peek<AttributeOpenToken>() != null)
-            {
-                stream.Read<AttributeOpenToken>();
-                stream.Read<AttributeCloseToken>();
-                parameter.IsArray = true;
-            }
-            if (stream.Peek<EqualsOperatorToken>() != null)
-            {
-                stream.Read<EqualsOperatorToken>();
-                parameter.DefaultValue = ClassFeatureAst.ReadDefaultValue(stream, parameter.Type);
-            }
-            return parameter;
+            private set;
         }
 
         #endregion

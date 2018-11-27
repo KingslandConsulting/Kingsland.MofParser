@@ -1,7 +1,7 @@
 ﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Tokens;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -9,74 +9,45 @@ namespace Kingsland.MofParser.Ast
     public sealed class LiteralValueArrayAst : PrimitiveTypeValueAst
     {
 
-        #region Fields
+        #region Builder
 
-        private List<LiteralValueAst> _values;
+        public sealed class Builder
+        {
+            public List<LiteralValueAst> Values
+            {
+                get;
+                set;
+            }
+
+            public LiteralValueArrayAst Build()
+            {
+                return new LiteralValueArrayAst(
+                    new ReadOnlyCollection<LiteralValueAst>(
+                        this.Values ?? new List<LiteralValueAst>()
+                    )
+                );
+            }
+
+
+        }
 
         #endregion
 
         #region Constructors
 
-        private LiteralValueArrayAst()
+        private LiteralValueArrayAst(ReadOnlyCollection<LiteralValueAst> values)
         {
+            this.Values = values ?? throw new ArgumentNullException(nameof(values));
         }
 
         #endregion
 
         #region Properties
 
-        public List<LiteralValueAst> Values
+        public ReadOnlyCollection<LiteralValueAst> Values
         {
-            get
-            {
-                if (_values == null)
-                {
-                    _values = new List<LiteralValueAst>();
-                }
-                return _values;
-            }
-        }
-
-        #endregion
-
-        #region Parsing Methods
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.1 Value definitions
-        ///
-        ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
-        ///
-        /// </remarks>
-        internal new static LiteralValueArrayAst Parse(ParserStream stream)
-        {
-            var node = new LiteralValueArrayAst();
-            // "{"
-            stream.Read<BlockOpenToken>();
-            // [ literalValue *( "," literalValue) ]
-            if (stream.Peek<BlockCloseToken>() == null)
-            {
-                while (!stream.Eof)
-                {
-                    if (node.Values.Count > 0)
-                    {
-                        stream.Read<CommaToken>();
-                    }
-                    node.Values.Add(LiteralValueAst.Parse(stream));
-                    if (stream.Peek<BlockCloseToken>() != null)
-                    {
-                        break;
-                    }
-                }
-            }
-            // "}"
-            stream.Read<BlockCloseToken>();
-            // return the result
-            return node;
+            get;
+            private set;
         }
 
         #endregion
