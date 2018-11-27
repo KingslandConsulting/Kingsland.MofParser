@@ -479,7 +479,7 @@ namespace Kingsland.MofParser.Parsing
                 case Keywords.DT_BOOLEAN:
                 case Keywords.DT_OCTECTSTRING:
                     // primitiveType
-                    return PrimitiveTypeValueAst.Parse(stream);
+                    return ParserEngine.ParsePrimitiveTypeValueAst(stream);
                 default:
                     /// structureOrClassName
                     /// enumName
@@ -487,7 +487,7 @@ namespace Kingsland.MofParser.Parsing
                     var peek = stream.Peek();
                     if (peek is NullLiteralToken)
                     {
-                        return NullValueAst.Parse(stream);
+                        return ParserEngine.ParseNullValueAst(stream);
                     }
                     throw new UnsupportedTokenException(stream.Peek());
             }
@@ -548,12 +548,12 @@ namespace Kingsland.MofParser.Parsing
             if (stream.Peek<ParenthesesOpenToken>() != null)
             {
                 stream.Read<ParenthesesOpenToken>();
-                node.Initializer = LiteralValueAst.Parse(stream);
+                node.Initializer = ParserEngine.ParseLiteralValueAst(stream);
                 stream.Read<ParenthesesCloseToken>();
             }
             else if (stream.Peek<BlockOpenToken>() != null)
             {
-                node.Initializer = LiteralValueArrayAst.Parse(stream);
+                node.Initializer = ParserEngine.ParseLiteralValueArrayAst(stream);
             }
 
             if (stream.Peek<ColonToken>() != null)
@@ -864,7 +864,7 @@ namespace Kingsland.MofParser.Parsing
             if (ParserEngine.IsLiteralValueToken(peek))
             {
                 // primitiveTypeValue -> literalValue
-                node.Value = PrimitiveTypeValueAst.Parse(stream);
+                node.Value = ParserEngine.ParsePrimitiveTypeValueAst(stream);
             }
             else if (peek is BlockOpenToken)
             {
@@ -876,7 +876,7 @@ namespace Kingsland.MofParser.Parsing
                 {
                     // literalValueArray
                     stream.Backtrack();
-                    node.Value = LiteralValueArrayAst.Parse(stream);
+                    node.Value = ParserEngine.ParseLiteralValueArrayAst(stream);
                 }
                 else
                 {
@@ -918,7 +918,7 @@ namespace Kingsland.MofParser.Parsing
         ///     primitiveTypeValue = literalValue / literalValueArray
         ///
         /// </remarks>
-        public static PrimitiveTypeValueAst Parse(ParserStream stream)
+        public static PrimitiveTypeValueAst ParsePrimitiveTypeValueAst(ParserStream stream)
         {
             var peek = stream.Peek();
             if (ParserEngine.IsLiteralValueToken(peek))
