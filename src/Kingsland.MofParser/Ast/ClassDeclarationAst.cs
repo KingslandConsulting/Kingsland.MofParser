@@ -14,6 +14,11 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
+            public Builder()
+            {
+                this.Features = new List<ClassFeatureAst>();
+            }
+
             public IdentifierToken ClassName
             {
                 get;

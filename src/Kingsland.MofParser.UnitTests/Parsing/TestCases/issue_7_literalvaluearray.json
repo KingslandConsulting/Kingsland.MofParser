@@ -1,7 +1,7 @@
 {
   "$type": "Kingsland.MofParser.Ast.MofSpecificationAst, Kingsland.MofParser",
   "Productions": {
-    "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.MofProductionAst, Kingsland.MofParser]], mscorlib",
+    "$type": "System.Collections.ObjectModel.ReadOnlyCollection`1[[Kingsland.MofParser.Ast.MofProductionAst, Kingsland.MofParser]], mscorlib",
     "$values": [
       {
         "$type": "Kingsland.MofParser.Ast.ComplexValueAst, Kingsland.MofParser",
@@ -10,13 +10,13 @@
         "TypeName": "TYPEA",
         "Alias": "Alias0000006E",
         "Properties": {
-          "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser]], mscorlib",
+          "$type": "System.Collections.ObjectModel.ReadOnlyDictionary`2[[System.String, mscorlib],[Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser]], mscorlib",
           "ServerURLs": {
             "$type": "Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser",
             "Value": {
               "$type": "Kingsland.MofParser.Ast.LiteralValueArrayAst, Kingsland.MofParser",
               "Values": {
-                "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.LiteralValueAst, Kingsland.MofParser]], mscorlib",
+                "$type": "System.Collections.ObjectModel.ReadOnlyCollection`1[[Kingsland.MofParser.Ast.LiteralValueAst, Kingsland.MofParser]], mscorlib",
                 "$values": [
                   {
                     "$type": "Kingsland.MofParser.Ast.StringValueAst, Kingsland.MofParser",
@@ -31,7 +31,13 @@
             }
           }
         },
-        "Qualifiers": null
+        "Qualifiers": {
+          "$type": "Kingsland.MofParser.Ast.QualifierListAst, Kingsland.MofParser",
+          "Qualifiers": {
+            "$type": "System.Collections.ObjectModel.ReadOnlyCollection`1[[Kingsland.MofParser.Ast.QualifierDeclarationAst, Kingsland.MofParser]], mscorlib",
+            "$values": []
+          }
+        }
       }
     ]
   }

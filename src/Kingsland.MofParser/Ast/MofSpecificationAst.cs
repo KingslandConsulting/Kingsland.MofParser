@@ -14,6 +14,11 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
+            public Builder()
+            {
+                this.Productions = new List<MofProductionAst>();
+            }
+
             public List<MofProductionAst> Productions
             {
                 get;

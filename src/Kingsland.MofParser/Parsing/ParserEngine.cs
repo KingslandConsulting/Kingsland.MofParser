@@ -258,8 +258,7 @@ namespace Kingsland.MofParser.Parsing
             // *classFeature
             while (!stream.Eof)
             {
-                var peek = stream.Peek() as BlockCloseToken;
-                if (peek != null)
+                if (stream.Peek() is BlockCloseToken)
                 {
                     break;
                 }

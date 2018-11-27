@@ -15,6 +15,11 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
+            public Builder()
+            {
+                this.Flavors = new List<string>();
+            }
+
             public IdentifierToken Name
             {
                 get;

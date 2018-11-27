@@ -14,6 +14,11 @@ namespace Kingsland.MofParser.Ast
         public class Builder
         {
 
+            public Builder()
+            {
+                this.Values = new List<ComplexValueAst>();
+            }
+
             public QualifierListAst Qualifiers
             {
                 get;

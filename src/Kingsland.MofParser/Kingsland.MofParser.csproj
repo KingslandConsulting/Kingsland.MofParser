@@ -67,6 +67,7 @@
     <Compile Include="Ast\StructureFeatureAst.cs" />
     <Compile Include="CodeGen\MofGenerator.cs" />
     <Compile Include="CodeGen\MofQuirks.cs" />
+    <Compile Include="Lexing\LexerEngine.cs" />
     <Compile Include="Parsing\ParserEngine.cs" />
     <Compile Include="Parsing\Keywords.cs" />
     <Compile Include="Parsing\StringValidator.cs" />

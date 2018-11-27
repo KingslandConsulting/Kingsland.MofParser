@@ -13,6 +13,12 @@ namespace Kingsland.MofParser.Ast
 
         public sealed class Builder
         {
+
+            public Builder()
+            {
+                this.Values = new List<LiteralValueAst>();
+            }
+
             public List<LiteralValueAst> Values
             {
                 get;

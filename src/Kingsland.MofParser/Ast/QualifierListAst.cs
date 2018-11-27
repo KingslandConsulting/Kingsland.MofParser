@@ -14,6 +14,11 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
+            public Builder()
+            {
+                this.Qualifiers = new List<QualifierDeclarationAst>();
+            }
+
             public List<QualifierDeclarationAst> Qualifiers
             {
                 get;

@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -12,6 +13,11 @@ namespace Kingsland.MofParser.Ast
 
         public sealed class Builder
         {
+
+            public Builder()
+            {
+                this.Properties = new Dictionary<string, PropertyValueAst>();
+            }
 
             public QualifierListAst Qualifiers
             {
@@ -52,7 +58,7 @@ namespace Kingsland.MofParser.Ast
             public ComplexValueAst Build()
             {
                 return new ComplexValueAst(
-                    this.Qualifiers,
+                    this.Qualifiers ?? new QualifierListAst.Builder().Build(),
                     this.IsInstance,
                     this.IsValue,
                     this.TypeName,
@@ -78,6 +84,11 @@ namespace Kingsland.MofParser.Ast
             ReadOnlyDictionary<string, PropertyValueAst> properties
         ) : base(qualifiers)
         {
+            this.IsInstance = isInstance;
+            this.IsValue = isValue;
+            this.TypeName = typeName;
+            this.Alias = alias;
+            this.Properties = properties ?? throw new ArgumentNullException(nameof(properties));
         }
 
         #endregion
