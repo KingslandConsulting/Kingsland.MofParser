@@ -67,6 +67,7 @@
     <Compile Include="Ast\StructureFeatureAst.cs" />
     <Compile Include="CodeGen\MofGenerator.cs" />
     <Compile Include="CodeGen\MofQuirks.cs" />
+    <Compile Include="Parsing\ParserEngine.cs" />
     <Compile Include="Parsing\Keywords.cs" />
     <Compile Include="Parsing\StringValidator.cs" />
     <Compile Include="Parsing\UnexpectedEndOfStreamException.cs" />
@@ -90,7 +91,7 @@
     <Compile Include="Objects\Instance.cs" />
     <Compile Include="Parsing\ParserStream.cs" />
     <Compile Include="Ast\_AstNode.cs" />
-    <Compile Include="Lexing\TokenLexer.cs" />
+    <Compile Include="Lexing\Lexer.cs" />
     <Compile Include="Tokens\BlockOpenToken.cs" />
     <Compile Include="Tokens\AliasIdentifierToken.cs" />
     <Compile Include="Tokens\BlockCloseToken.cs" />

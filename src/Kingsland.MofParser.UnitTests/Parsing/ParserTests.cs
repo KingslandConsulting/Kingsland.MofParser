@@ -26,7 +26,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 //Console.WriteLine(mofFilename);
                 var mofText = File.ReadAllText(mofFilename);
                 var reader = SourceReader.From(mofText);
-                var tokens = TokenLexer.Lex(reader);
+                var tokens = Lexing.Lexer.Lex(reader);
                 var ast = Parser.Parse(tokens);
                 var actualText = TestUtils.ConvertToJson(ast);
                 var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),

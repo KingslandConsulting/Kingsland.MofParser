@@ -23,7 +23,7 @@ namespace Kingsland.MofParser
             var reader = SourceReader.From(sourceText);
 
             // lex the characters into a sequence of tokens
-            var tokens = TokenLexer.Lex(reader);
+            var tokens = Lexer.Lex(reader);
 
             // parse the tokens into an ast tree
             var ast = Parser.Parse(tokens);

@@ -53,7 +53,7 @@ namespace Kingsland.MofParser.Source
         {
             if (this.Eof())
             {
-                throw new EndOfStreamException();
+                throw new UnexpectedEndOfStreamException();
             }
             return this.Stream.Read(this.Position);
         }

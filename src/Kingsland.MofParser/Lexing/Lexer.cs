@@ -9,12 +9,12 @@ using System.Text;
 namespace Kingsland.MofParser.Lexing
 {
 
-    public sealed class TokenLexer
+    public sealed class Lexer
     {
 
         #region Constructors
 
-        public TokenLexer(SourceReader reader)
+        public Lexer(SourceReader reader)
         {
             this.Reader = reader ??
                 throw new ArgumentNullException(nameof(reader));
@@ -44,7 +44,7 @@ namespace Kingsland.MofParser.Lexing
 
         public static List<Token> Lex(SourceReader reader)
         {
-            var lexer = new TokenLexer(reader);
+            var lexer = new Lexer(reader);
             return lexer.AllTokens().ToList();
         }
 
@@ -65,98 +65,98 @@ namespace Kingsland.MofParser.Lexing
             {
                 case '$':
                     {
-                        var (aliasIdentifierToken, nextReader) = TokenLexer.ReadAliasIdentifierToken(reader);
+                        var (aliasIdentifierToken, nextReader) = Lexer.ReadAliasIdentifierToken(reader);
                         this.Reader = nextReader;
                         return aliasIdentifierToken;
                     }
                 case ']':
                     {
-                        var (attributeClosetoken, nextReader) = TokenLexer.ReadAttributeCloseToken(reader);
+                        var (attributeClosetoken, nextReader) = Lexer.ReadAttributeCloseToken(reader);
                         this.Reader = nextReader;
                         return attributeClosetoken;
                     }
                 case '[':
                     {
-                        var (attributeOpenToken, nextReader) = TokenLexer.ReadAttributeOpenToken(reader);
+                        var (attributeOpenToken, nextReader) = Lexer.ReadAttributeOpenToken(reader);
                         this.Reader = nextReader;
                         return attributeOpenToken;
                     }
                 case '}':
                     {
-                        var (blockCloseToken, nextReader) = TokenLexer.ReadBlockCloseToken(reader);
+                        var (blockCloseToken, nextReader) = Lexer.ReadBlockCloseToken(reader);
                         this.Reader = nextReader;
                         return blockCloseToken;
                     }
                 case '{':
                     {
-                        var (blockOpenToken, nextReader) = TokenLexer.ReadBlockOpenToken(reader);
+                        var (blockOpenToken, nextReader) = Lexer.ReadBlockOpenToken(reader);
                         this.Reader = nextReader;
                         return blockOpenToken;
                     }
                 case ':':
                     {
-                        var (colonToken, nextReader) = TokenLexer.ReadColonToken(reader);
+                        var (colonToken, nextReader) = Lexer.ReadColonToken(reader);
                         this.Reader = nextReader;
                         return colonToken;
                     }
                 case ',':
                     {
-                        var (commaToken, nextReader) = TokenLexer.ReadCommaToken(reader);
+                        var (commaToken, nextReader) = Lexer.ReadCommaToken(reader);
                         this.Reader = nextReader;
                         return commaToken;
                     }
                 case '/':
                     {
-                        var (forwardSlashToken, nextReader) = TokenLexer.ReadCommentToken(reader);
+                        var (forwardSlashToken, nextReader) = Lexer.ReadCommentToken(reader);
                         this.Reader = nextReader;
                         return forwardSlashToken;
                     }
                 case '=':
                     {
-                        var (equalsToken, nextReader) = TokenLexer.ReadEqualsOperatorToken(reader);
+                        var (equalsToken, nextReader) = Lexer.ReadEqualsOperatorToken(reader);
                         this.Reader = nextReader;
                         return equalsToken;
                     }
                 case ')':
                     {
-                        var (parenthesesCloseToken, nextReader) = TokenLexer.ReadParenthesesCloseToken(reader);
+                        var (parenthesesCloseToken, nextReader) = Lexer.ReadParenthesesCloseToken(reader);
                         this.Reader = nextReader;
                         return parenthesesCloseToken;
                     }
                 case '(':
                     {
-                        var (parenthesesOpenToken, nextReader) = TokenLexer.ReadParenthesesOpenToken(reader);
+                        var (parenthesesOpenToken, nextReader) = Lexer.ReadParenthesesOpenToken(reader);
                         this.Reader = nextReader;
                         return parenthesesOpenToken;
                     }
                 case '#':
                     {
-                        var (pragmaToken, nextReader) = TokenLexer.ReadPragmaToken(reader);
+                        var (pragmaToken, nextReader) = Lexer.ReadPragmaToken(reader);
                         this.Reader = nextReader;
                         return pragmaToken;
                     }
                 case ';':
                     {
-                        var (statementEndToken, nextReader) = TokenLexer.ReadStatementEndToken(reader);
+                        var (statementEndToken, nextReader) = Lexer.ReadStatementEndToken(reader);
                         this.Reader = nextReader;
                         return statementEndToken;
                     }
                 case '"':
                     {
-                        var (stringLiteralToken, nextReader) = TokenLexer.ReadStringLiteralToken(reader);
+                        var (stringLiteralToken, nextReader) = Lexer.ReadStringLiteralToken(reader);
                         this.Reader = nextReader;
                         return stringLiteralToken;
                     }
                 default:
                     if (StringValidator.IsWhitespace(peek.Value))
                     {
-                        var (whitespaceToken, nextReader) = TokenLexer.ReadWhitespaceToken(reader);
+                        var (whitespaceToken, nextReader) = Lexer.ReadWhitespaceToken(reader);
                         this.Reader = nextReader;
                         return whitespaceToken;
                     }
                     else if (StringValidator.IsFirstIdentifierChar(peek.Value))
                     {
-                        var (identifierToken, nextReader) = TokenLexer.ReadIdentifierToken(reader);
+                        var (identifierToken, nextReader) = Lexer.ReadIdentifierToken(reader);
                         this.Reader = nextReader;
                         if (StringValidator.IsFalse(identifierToken.Name))
                         {
@@ -196,7 +196,7 @@ namespace Kingsland.MofParser.Lexing
                     else if ((peek.Value == '+') || (peek.Value == '-') ||
                              (StringValidator.IsDecimalDigit(peek.Value)))
                     {
-                        var (integerToken, nextReader) = TokenLexer.ReadIntegerLiteralToken(reader);
+                        var (integerToken, nextReader) = Lexer.ReadIntegerLiteralToken(reader);
                         this.Reader = nextReader;
                         return integerToken;
                     }
@@ -613,7 +613,6 @@ namespace Kingsland.MofParser.Lexing
         #region A.17.3 String values
 
         /// <summary>
-        ///
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>

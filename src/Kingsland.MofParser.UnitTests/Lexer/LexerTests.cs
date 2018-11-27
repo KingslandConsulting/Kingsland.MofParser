@@ -22,7 +22,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
             {
                 var mofText = File.ReadAllText(mofFilename);
                 var reader = SourceReader.From(mofText);
-                var tokens = TokenLexer.Lex(reader);
+                var tokens = Lexing.Lexer.Lex(reader);
                 var actualText = TestUtils.ConvertToJson(tokens);
                 var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),
                                                     Path.GetFileNameWithoutExtension(mofFilename) + ".json");
