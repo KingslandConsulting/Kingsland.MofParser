@@ -45,6 +45,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGen\MofGeneratorTests.cs" />
     <Compile Include="Lexer\LexerTests.cs" />
     <Compile Include="Parsing\ParserTests.cs" />
     <Compile Include="Parsing\StringValidatorTests.cs" />
