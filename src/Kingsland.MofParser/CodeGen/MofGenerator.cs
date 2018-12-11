@@ -372,6 +372,11 @@ namespace Kingsland.MofParser.CodeGen
             return string.Format("${0}", node.Name);
         }
 
+        public static string ConvertToMof(ReferenceValueArrayAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            return $"{{{string.Join(", ", node.Values.Select(v => v.ToString()).ToArray())}}}";
+        }
+
         #endregion
 
     }

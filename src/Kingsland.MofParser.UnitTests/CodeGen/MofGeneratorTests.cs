@@ -8,7 +8,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
     public class MofGeneratorTests
     {
         [Test]
-        public void ConvertingAPropertyNodeShouldNotCauseStackOverflow()
+        public void ConvertingAReferenceValueArrayNodeShouldNotCauseStackOverflow()
         {
             PropertyValueAst node = (PropertyValueAst) Activator.CreateInstance(typeof(ReferenceValueArrayAst), true);
 
