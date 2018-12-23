@@ -36,17 +36,11 @@ namespace Kingsland.MofParser.UnitTests.Lexer
 
             private static class LexMethodTestCases
             {
-                public static IEnumerable TestCases
+                public static IEnumerable<TestCaseData> TestCases
                 {
                     get
                     {
-                        var codebase = Assembly.GetExecutingAssembly().CodeBase;
-                        var filename = Uri.UnescapeDataString(new UriBuilder(codebase).Path);
-                        var path = Path.Combine(
-                            Path.GetDirectoryName(filename),
-                            "Lexer\\TestCases"
-                        );
-                        return Directory.GetFiles(path, "*.mof");
+                        return TestUtils.GetMofTestCase("Lexer\\TestCases");
                     }
                 }
             }

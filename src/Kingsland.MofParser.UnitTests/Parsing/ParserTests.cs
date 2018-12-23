@@ -45,13 +45,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 {
                     get
                     {
-                        var codebase = Assembly.GetExecutingAssembly().CodeBase;
-                        var filename = Uri.UnescapeDataString(new UriBuilder(codebase).Path);
-                        var path = Path.Combine(
-                            Path.GetDirectoryName(filename),
-                            "Parsing\\TestCases"
-                        );
-                        return Directory.GetFiles(path, "*.mof");
+                        return TestUtils.GetMofTestCase("Parsing\\TestCases");
                     }
                 }
             }
@@ -62,7 +56,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 {
                     get
                     {
-                        return TestUtils.GetMofTestCase("..\\..\\Parsing\\WMI\\Win81");
+                        return TestUtils.GetMofTestCase("Parsing\\WMI\\Win81");
                     }
                 }
             }
@@ -73,7 +67,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 {
                     get
                     {
-                        return TestUtils.GetMofTestCase("..\\..\\Parsing\\WMI\\WinXp");
+                        return TestUtils.GetMofTestCase("Parsing\\WMI\\WinXp");
                     }
                 }
             }

@@ -1,5 +1,7 @@
-src/.vs/
-src/packages
+.vs
+bin
+obj
 
-**/bin/
-**/obj/
+*.user
+
+src/Kingsland.MofParser.UnitTests/Parsing/WMI/Win81
