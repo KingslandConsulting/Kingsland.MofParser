@@ -1,5 +1,5 @@
 ﻿using Kingsland.MofParser.HtmlReport.Wrappers;
-using RazorEngine;
+using RazorEngine.Templating;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,8 +34,8 @@ namespace Kingsland.MofParser.Sample
                 );
             }
 
-            string template = File.ReadAllText("MofFileSummary.cshtml");
-            string result = Razor.Parse(template, wrappers);
+            var template = File.ReadAllText("MofFileSummary.cshtml");
+            var result = RazorEngine.Engine.Razor.RunCompile(template, model: wrappers);
             File.WriteAllText("summary.htm", result);
 
         }
