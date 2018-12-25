@@ -63,7 +63,7 @@ namespace Kingsland.MofParser.Ast
         {
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
             this.Initializer = initializer ?? throw new ArgumentNullException(nameof(initializer));
-            this.Flavors = Flavors ?? throw new ArgumentNullException(nameof(flavors));
+            this.Flavors = flavors ?? throw new ArgumentNullException(nameof(flavors));
         }
 
         #endregion
