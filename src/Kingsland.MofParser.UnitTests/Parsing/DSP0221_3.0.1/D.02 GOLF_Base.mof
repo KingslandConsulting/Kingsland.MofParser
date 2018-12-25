@@ -1,0 +1,22 @@
+// ==================================================================
+// GOLF_Base
+// ==================================================================
+       [Abstract,
+        OCL { "-- the key property cannot be NULL\n"
+              "inv: not InstanceId.oclIsUndefined()",
+              "-- in the GOLF model the InstanceId must have exactly "
+              "10 characters\n"
+              "inv: InstanceId.size() = 10" } ]
+class GOLF_Base {
+// =========================== properties ===========================
+        [Description (
+          "InstanceID is a property that opaquely and uniquely identifies "
+         "an instance of a class that derives from the GOLF_Base class. " ),
+         Key]
+    string InstanceID;
+
+         [Description ( "A short textual description (one- line string) of the
+instance." ),
+          MaxLen(64)]
+    string Caption = Null;
+};

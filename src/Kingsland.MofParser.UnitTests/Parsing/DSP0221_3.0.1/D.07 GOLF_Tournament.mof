@@ -1,0 +1,39 @@
+// ==================================================================
+//  GOLF_Tournament
+// ==================================================================
+    [Description ("Instances of this class represent golf tournaments."),
+     OCL {"-- each participant must belong to a represented club\n"
+          "inv: self.GOLF_TournamentParticipant.Participant->forAll(p | "
+           "self.RepresentedClubs -> includes(p.Club))",
+          "-- tournament must be hosted by a club \n"
+          "inv: not self.HostClub.oclIsUndefined()" } ]
+class GOLF_Tournament: GOLF_Base {
+// ======================== local structures ========================
+        [OCL {"-- none of the result properties can be undefined or empty \n"
+              "inv: not oclIsUndefined(self.ParticipantName) and \n"
+              "\t not oclIsUndefined(self.ParticipantGolfClubName) and \n"
+              "\t self.FinalPosition > 0)" } ]
+   structure IndividualResult {
+       string ParticipantName;
+       string ParticipantGolfClubName;
+       unit32 FinalPosition;
+   };
+
+// =========================== properties ===========================
+   string TournamentName;
+   string HostingClubName;
+   GOLF_Address HostingClubAddress;
+   GOLF_PhoneNumber HostingClubPhoneNo;
+   string HostingClubWebPage;
+
+   GOLF_Date StartDate;
+   GOLF_Date EndDate;
+
+   string Sponsors[];
+
+   GOLF_Club REF HostClub;
+   GOLF_Club REF RepresentedClubs[];
+
+// ============================ methods =============================
+   GOLF_ResultCodeEnum GetResults([Out] IndividualResult results[]);
+};

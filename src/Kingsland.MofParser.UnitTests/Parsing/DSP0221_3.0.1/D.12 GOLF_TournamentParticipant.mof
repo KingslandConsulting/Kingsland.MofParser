@@ -1,0 +1,13 @@
+// ==================================================================
+//  GOLF_ TournamentParticipant
+// ==================================================================
+    [Description ( "Instances of this association represent golf members of"
+        "golf clubs participating in tournaments." ),
+     OCL { "-- the club of the participant must be represented in the "
+            "tournament \n"
+           "inv: Tournament.RepresentedClubs->includes(Participant.Club)" } ]
+association GOLF_TournamentParticipant : GOLF_Base {
+   GOLF_ClubMember REF Participant;
+   GOLF_Tournament REF Tournament;
+   Integer FinalPosition = 0;
+};

@@ -1,0 +1,34 @@
+// ==================================================================
+// GOLF_Club
+// ==================================================================
+   [Description (
+       "Instances of this class represent golf clubs. A golf club is "
+       "an organization that provides member services to golf players "
+       "both amateur and professional." )]
+class GOLF_Club: GOLF_Base {
+// =========================== properties ===========================
+    string ClubName;
+    GOLF_Date YearEstablished;
+
+    GOLF_Address ClubAddress;
+    GOLF_PhoneNumber ClubPhoneNo;
+    GOLF_PhoneNumber ClubFaxNo;
+    string ClubWebSiteURL;
+
+    GOLF_ClubMember REF AllMembers[];
+
+// ============================ methods =============================
+    GOLF_ResultCodeEnum AddNonProfessionalMember (
+        [In] GOLF_ClubMember newMember
+    );
+        GOLF_ResultCodeEnum AddProfessionalMember (
+           [In] GOLF_Professional newProfessional
+    );
+    Integer GetMembersWithOutstandingFees (
+       [In] GOLF_Date referenceDate,
+       [Out] GOLF_ClubMember REF lateMembers[]
+    );
+    GOLF_ResultCodeEnum TerminateMembership (
+       [In] GOLF_ClubMember REF memberURI
+    );
+};

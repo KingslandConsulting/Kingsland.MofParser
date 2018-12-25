@@ -1,0 +1,31 @@
+// ==================================================================
+//  GOLF_Professional
+// ==================================================================
+    [Description("instances of this class represent professional members "
+        "of the golf club"),
+     OCL{"-- to have the sponsored professional status a member must "
+         "have at least one sponsor\n"
+         "inv: self.Status = SponsoredProfessional implies "
+         "\t self.Sponsors->size() > 0" } ]
+class GOLF_Professional : GOLF_ClubMember {
+// ======================== local structures ========================
+   structure Sponsor {
+      string Name;
+      GOLF_Date ContractSignedDate;
+      real32 ContractAmount;
+   };
+
+// =========================== properties ===========================
+       [Override]
+   GOLF_ProfessionalStatusEnum Status = Professional;
+   Sponsor Sponsors[];
+   Boolean Ranked;
+
+// ============================ methods =============================
+       [Static]
+   GOLF_ResultCodeEnum GetNumberOfProfessionals (
+       [Out] Integer NoOfPros,
+       [In] GOLF_Club Club,
+       [In] ProfessionalStatusEnum Status = Professional
+   )
+};

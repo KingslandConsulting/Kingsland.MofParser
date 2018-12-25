@@ -1,0 +1,9 @@
+// ==================================================================
+//  GOLF_MemberStatusEnum
+// ==================================================================
+enumeration GOLF_MemberStatusEnum : GOLF_ProfessionalStatusEnum
+{
+    Basic = 0,
+    Extended = 1,
+    VP = 2
+};

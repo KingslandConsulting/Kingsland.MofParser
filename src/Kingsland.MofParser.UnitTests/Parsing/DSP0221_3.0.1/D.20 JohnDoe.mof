@@ -1,0 +1,42 @@
+// ==================================================================
+// Instance of GOLF_ClubMember John Doe
+// ==================================================================
+
+value of GOLF_Date as $JohnDoesStartDate
+{
+   Year = 2011;
+   Month = July;
+   Day = 17;
+};
+
+value of GOLF_PhoneNumber as $JohnDoesPhoneNo
+{
+   AreaCode = {"9", "0", "7"};
+   Number = {"7", "4", "7", "4", "8", "8", "4"};
+};
+
+instance of GOLF_ClubMember
+{
+   Caption = "Instance of John Doe\'s GOLF_ClubMember object";
+   FirstName = "John";
+   LastName = "Doe";
+   Status = Basic;
+   MembershipEstablishedDate = $JohnDoesStartDate;
+   MonthlyFee = 250.00;
+   LastPaymentDate = instance of GOLF_Date
+      {
+         Year = 2011;
+         Month = July;
+         Day = 31;
+      };
+   MemberAddress = value of GOLF_Address
+      {
+         State = IL;
+         City = "Oak Park";
+         Street = "Oak Park Av.";
+         StreetNo = "1177";
+         ApartmentNo = "3B";
+      };
+   MemberPhoneNo = $JohnDoesPhoneNo;
+   MemberEmailAddress = "JonDoe@hotmail.com";
+};

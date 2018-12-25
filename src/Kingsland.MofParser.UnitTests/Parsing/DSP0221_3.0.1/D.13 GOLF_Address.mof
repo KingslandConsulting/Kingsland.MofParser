@@ -1,0 +1,10 @@
+// ==================================================================
+//  GOLF_Address
+// ==================================================================
+structure GOLF_Address {
+   GOLF_StateEnum State;
+   string City;
+   string Street;
+   string StreetNo;
+   string ApartmentNo;
+};

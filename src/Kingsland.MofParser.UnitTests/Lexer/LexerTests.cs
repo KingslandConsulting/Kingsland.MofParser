@@ -15,10 +15,10 @@ namespace Kingsland.MofParser.UnitTests.Lexer
     {
 
         [TestFixture]
-        public static class LexMethodTokenTests
+        public static class LexMethodTestCases
         {
 
-            [Test, TestCaseSource(typeof(LexMethodTestCases), "TestCases")]
+            [Test, TestCaseSource(typeof(LexMethodTokenTests), "GetTestCases")]
             public static void LexMethodTestsFromDisk(string mofFilename)
             {
                 var mofText = File.ReadAllText(mofFilename);
@@ -35,14 +35,11 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 Assert.AreEqual(expectedText, actualText);
             }
 
-            private static class LexMethodTestCases
+            public static IEnumerable<TestCaseData> GetTestCases
             {
-                public static IEnumerable<TestCaseData> TestCases
+                get
                 {
-                    get
-                    {
-                        return TestUtils.GetMofTestCase("Lexer\\TestCases");
-                    }
+                    return TestUtils.GetMofTestCase("Lexer\\TestCases");
                 }
             }
 

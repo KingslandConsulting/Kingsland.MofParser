@@ -338,6 +338,66 @@
     <Content Include="Parsing\TestCases\issue_7_literalvaluearray.mof">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.01 GOLF_Schema.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.02 GOLF_Base.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.03 GOLF_Club.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.04 GOLF_ClubMember.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.05 GOLF_Professional.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.06 GOLF_Locker.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.07 GOLF_Tournament.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.08 GOLF_MemberLocker.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.09 GOLF_Lesson.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.10 GOLF_ProfessionalMember.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.11 GOLF_ProfessionalStaffMember.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.12 GOLF_TournamentParticipant.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.13 GOLF_Address.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.14 GOLF_Date.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.15 GOLF_PhoneNumber.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.16 GOLF_ResultCodeEnum.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.17 GOLF_ProfessionalStatusEnum.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.18 GOLF_MemberStatusEnum.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.19 GOLF_StatesEnum.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\DSP0221_3.0.1\D.20 JohnDoe.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

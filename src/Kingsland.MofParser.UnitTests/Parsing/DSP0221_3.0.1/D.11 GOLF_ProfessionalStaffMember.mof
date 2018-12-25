@@ -1,0 +1,12 @@
+// ==================================================================
+//  GOLF_ ProfessionalStaffMember
+// ==================================================================
+    [Description ( "Instances of this association represent club membership "
+      "of professional golfers who are members of the club staff "
+      "and earn a salary." ) ]
+association GOLF_ProfessionalStaffMember : GOLF_ProfessionalNonStaffMember {
+   GOLF_Professional REF Professional;
+   GOLF_Club REF Club;
+       [Description ( "Monthly salary in $US" ) ]
+   real32 Salary;
+};

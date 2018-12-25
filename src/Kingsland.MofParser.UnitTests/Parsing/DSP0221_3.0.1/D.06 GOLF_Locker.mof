@@ -1,0 +1,8 @@
+// ==================================================================
+//  GOLF_Locker
+// ==================================================================
+class GOLF_Locker : GOLF_Base {
+   string Location;
+   Integer LockerNo;
+   real32 MonthlyRentFee;
+};
