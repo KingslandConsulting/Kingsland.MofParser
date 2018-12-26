@@ -35,7 +35,7 @@ namespace Kingsland.MofParser.Sample
             }
 
             var template = File.ReadAllText("MofFileSummary.cshtml");
-            var result = RazorEngine.Engine.Razor.RunCompile(template, model: wrappers);
+            var result = RazorEngine.Engine.Razor.RunCompile(template, "summary", null, wrappers);
             File.WriteAllText("summary.htm", result);
 
         }

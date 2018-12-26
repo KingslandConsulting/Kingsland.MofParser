@@ -1,12 +1,8 @@
-﻿using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Source;
+﻿using Kingsland.MofParser.Source;
 using Kingsland.MofParser.UnitTests.Helpers;
 using NUnit.Framework;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 
 namespace Kingsland.MofParser.UnitTests.Lexer
 {
@@ -18,7 +14,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
         public static class LexMethodTestCases
         {
 
-            [Test, TestCaseSource(typeof(LexMethodTokenTests), "GetTestCases")]
+            [Test, TestCaseSource(typeof(LexMethodTestCases), "GetTestCases")]
             public static void LexMethodTestsFromDisk(string mofFilename)
             {
                 var mofText = File.ReadAllText(mofFilename);

@@ -1,13 +1,9 @@
-﻿using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Source;
 using Kingsland.MofParser.UnitTests.Helpers;
 using NUnit.Framework;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 
 namespace Kingsland.MofParser.UnitTests.Lexer
 {
