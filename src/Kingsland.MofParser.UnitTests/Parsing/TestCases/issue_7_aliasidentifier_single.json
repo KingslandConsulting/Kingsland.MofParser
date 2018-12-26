@@ -1,7 +1,7 @@
 {
   "$type": "Kingsland.MofParser.Ast.MofSpecificationAst, Kingsland.MofParser",
   "Productions": {
-    "$type": "System.Collections.Generic.List`1[[Kingsland.MofParser.Ast.MofProductionAst, Kingsland.MofParser]], mscorlib",
+    "$type": "System.Collections.ObjectModel.ReadOnlyCollection`1[[Kingsland.MofParser.Ast.MofProductionAst, Kingsland.MofParser]], mscorlib",
     "$values": [
       {
         "$type": "Kingsland.MofParser.Ast.ComplexValueAst, Kingsland.MofParser",
@@ -10,7 +10,7 @@
         "TypeName": "TYPEA",
         "Alias": "Alias0000006E",
         "Properties": {
-          "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser]], mscorlib",
+          "$type": "System.Collections.ObjectModel.ReadOnlyDictionary`2[[System.String, mscorlib],[Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser]], mscorlib",
           "ServerURL": {
             "$type": "Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser",
             "Value": {
@@ -19,7 +19,13 @@
             }
           }
         },
-        "Qualifiers": null
+        "Qualifiers": {
+          "$type": "Kingsland.MofParser.Ast.QualifierListAst, Kingsland.MofParser",
+          "Qualifiers": {
+            "$type": "System.Collections.ObjectModel.ReadOnlyCollection`1[[Kingsland.MofParser.Ast.QualifierDeclarationAst, Kingsland.MofParser]], mscorlib",
+            "$values": []
+          }
+        }
       },
       {
         "$type": "Kingsland.MofParser.Ast.ComplexValueAst, Kingsland.MofParser",
@@ -28,7 +34,7 @@
         "TypeName": "TYPEB",
         "Alias": "Alias00000070",
         "Properties": {
-          "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser]], mscorlib",
+          "$type": "System.Collections.ObjectModel.ReadOnlyDictionary`2[[System.String, mscorlib],[Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser]], mscorlib",
           "Reference": {
             "$type": "Kingsland.MofParser.Ast.PropertyValueAst, Kingsland.MofParser",
             "Value": {
@@ -37,7 +43,13 @@
             }
           }
         },
-        "Qualifiers": null
+        "Qualifiers": {
+          "$type": "Kingsland.MofParser.Ast.QualifierListAst, Kingsland.MofParser",
+          "Qualifiers": {
+            "$type": "System.Collections.ObjectModel.ReadOnlyCollection`1[[Kingsland.MofParser.Ast.QualifierDeclarationAst, Kingsland.MofParser]], mscorlib",
+            "$values": []
+          }
+        }
       }
     ]
   }

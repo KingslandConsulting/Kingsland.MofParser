@@ -5,26 +5,38 @@
       "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
       "Name": "myIdentifier",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 0,
-        "StartLineNumber": 1,
-        "StartColumnNumber": 1,
-        "EndPosition": 11,
-        "EndLineNumber": 1,
-        "EndColumnNumber": 12,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 0,
+          "LineNumber": 1,
+          "ColumnNumber": 1
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 11,
+          "LineNumber": 1,
+          "ColumnNumber": 12
+        },
         "Text": "myIdentifier"
       }
     },
     {
       "$type": "Kingsland.MofParser.Tokens.WhitespaceToken, Kingsland.MofParser",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 12,
-        "StartLineNumber": 1,
-        "StartColumnNumber": 13,
-        "EndPosition": 13,
-        "EndLineNumber": 1,
-        "EndColumnNumber": 14,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 12,
+          "LineNumber": 1,
+          "ColumnNumber": 13
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 13,
+          "LineNumber": 1,
+          "ColumnNumber": 14
+        },
         "Text": "\r\n"
       }
     },
@@ -32,13 +44,19 @@
       "$type": "Kingsland.MofParser.Tokens.IdentifierToken, Kingsland.MofParser",
       "Name": "myIdentifier2",
       "Extent": {
-        "$type": "Kingsland.MofParser.Lexing.SourceExtent, Kingsland.MofParser",
-        "StartPosition": 14,
-        "StartLineNumber": 2,
-        "StartColumnNumber": 1,
-        "EndPosition": 26,
-        "EndLineNumber": 2,
-        "EndColumnNumber": 13,
+        "$type": "Kingsland.MofParser.Source.SourceExtent, Kingsland.MofParser",
+        "StartPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 14,
+          "LineNumber": 2,
+          "ColumnNumber": 1
+        },
+        "EndPosition": {
+          "$type": "Kingsland.MofParser.Source.SourcePosition, Kingsland.MofParser",
+          "Position": 26,
+          "LineNumber": 2,
+          "ColumnNumber": 13
+        },
         "Text": "myIdentifier2"
       }
     }

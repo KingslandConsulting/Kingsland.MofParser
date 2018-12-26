@@ -32,7 +32,7 @@ namespace Kingsland.MofParser.Parsing
             private set;
         }
 
-        public override String Message
+        public override string Message
         {
             get
             {
@@ -43,13 +43,13 @@ namespace Kingsland.MofParser.Parsing
                 }
                 else
                 {
-                    var template = "Unhandled token found at Position {0}, Line Number {1}, Column Number {2}.\r\n" +
-                                   "Token Type: '{3}'\r\n" +
-                                   "Token Text: '{4}'";
                     var token = this.FoundToken;
                     var extent = this.FoundToken.Extent;
-                    var message = string.Format(template, extent.StartPosition, extent.StartLineNumber, extent.StartColumnNumber, token.GetType().Name, token);
-                    return message;
+                    var startPosition = extent.StartPosition;
+                    var endPosition = extent.EndPosition;
+                    return $"Unhandled token found at Position {startPosition.Position}, Line Number {startPosition.LineNumber}, Column Number {startPosition.ColumnNumber}.\r\n" +
+                           $"Token Type: '{token.GetType().FullName}'\r\n" +
+                           $"Token Text: '{extent.Text}'";
                 }
             }
         }

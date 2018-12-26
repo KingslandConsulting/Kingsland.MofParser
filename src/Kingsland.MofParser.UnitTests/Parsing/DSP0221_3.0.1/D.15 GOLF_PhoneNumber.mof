@@ -1,0 +1,9 @@
+// ==================================================================
+//  GOLF_PhoneNumber
+// ==================================================================
+    [OCL { "inv: AreaCode -> size() = 3",
+           "inv: Number->size() = 7" } ]
+structure GOLF_PhoneNumber {
+    Integer AreaCode[];
+    Integer Number[];
+};

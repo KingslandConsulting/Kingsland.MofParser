@@ -1,6 +1,7 @@
 ﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Parsing;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -8,58 +9,48 @@ namespace Kingsland.MofParser.Ast
     public sealed class MofSpecificationAst : AstNode
     {
 
-        #region Fields
+        #region Builder
 
-        private List<MofProductionAst> _productions;
+        public sealed class Builder
+        {
+
+            public Builder()
+            {
+                this.Productions = new List<MofProductionAst>();
+            }
+
+            public List<MofProductionAst> Productions
+            {
+                get;
+            }
+
+            public MofSpecificationAst Build()
+            {
+                return new MofSpecificationAst(
+                    new ReadOnlyCollection<MofProductionAst>(
+                        this.Productions ?? new List<MofProductionAst>()
+                    )
+                );
+            }
+
+        }
 
         #endregion
 
         #region Constructors
 
-        private MofSpecificationAst()
+        private MofSpecificationAst(ReadOnlyCollection<MofProductionAst> productions)
         {
+            this.Productions = productions ?? throw new ArgumentNullException(nameof(productions));
         }
 
         #endregion
 
         #region Properties
 
-        public List<MofProductionAst> Productions
+        public ReadOnlyCollection<MofProductionAst> Productions
         {
-            get
-            {
-                if (_productions == null)
-                {
-                    _productions = new List<MofProductionAst>();
-                }
-                return _productions;
-            }
-        }
-
-        #endregion
-
-        #region Parsing Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
-        /// Section A.2 - MOF specification
-        ///
-        ///     mofSpecification = *mofProduction
-        ///
-        /// </remarks>
-        internal static MofSpecificationAst Parse(ParserStream stream)
-        {
-            var specification = new MofSpecificationAst();
-            while (!stream.Eof)
-            {
-                var production = MofProductionAst.Parse(stream);
-                specification.Productions.Add(production);
-            }
-            return specification;
+            get;
         }
 
         #endregion

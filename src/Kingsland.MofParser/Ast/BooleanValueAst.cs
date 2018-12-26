@@ -1,6 +1,6 @@
 ﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -8,10 +8,41 @@ namespace Kingsland.MofParser.Ast
     public sealed class BooleanValueAst : LiteralValueAst
     {
 
+        #region Builder
+
+        public sealed class Builder
+        {
+
+            public BooleanLiteralToken Token
+            {
+                get;
+                set;
+            }
+
+            public bool Value
+            {
+                get;
+                set;
+            }
+
+            public BooleanValueAst Build()
+            {
+                return new BooleanValueAst(
+                    this.Token,
+                    this.Value
+                );
+            }
+
+        }
+
+        #endregion
+
         #region Constructors
 
-        private BooleanValueAst()
+        internal BooleanValueAst(BooleanLiteralToken token, bool value)
         {
+            this.Token = token ?? throw new ArgumentNullException(nameof(token));
+            this.Value = value;
         }
 
         #endregion
@@ -28,33 +59,6 @@ namespace Kingsland.MofParser.Ast
         {
             get;
             private set;
-        }
-
-        #endregion
-
-        #region Parsing Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
-        /// A.17.6 Boolean value
-        ///
-        ///     booleanValue = TRUE / FALSE
-        ///     FALSE        = "false" ; keyword: case insensitive
-        ///     TRUE         = "true"  ; keyword: case insensitive
-        ///
-        /// </remarks>
-        internal new static BooleanValueAst Parse(ParserStream stream)
-        {
-            var token = stream.Read<BooleanLiteralToken>();
-            return new BooleanValueAst
-            {
-                Token = token,
-                Value = token.Value
-            };
         }
 
         #endregion

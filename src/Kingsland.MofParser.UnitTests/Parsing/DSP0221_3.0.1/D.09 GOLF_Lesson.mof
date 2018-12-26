@@ -1,0 +1,19 @@
+// ==================================================================
+//  GOLF_Lesson
+// ==================================================================
+    [Description ( "Instances of the association represent past and "
+        "future golf lessons." ),
+     OCL {"-- lesson can be given only by a professional who is a member "
+          "of the club staff \n"
+          "inv: Instructor.GOLF_ProfessionalStaffMember.Club->size() = 1" } ]
+association GOLF_Lesson : GOLF_Base {
+   GOLF_Professional REF Instructor;
+   GOLF_ClubMember REF Student;
+
+   datetime Schedule;
+      [Description ( "The duration of the lesson" )]
+   datetime Length = "000000000060**.******:000";
+   string Location;
+      [Description ( " Cost of the lesson in US$ ")]
+   real32 LessonFee;
+};

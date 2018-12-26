@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Parsing
                                                  !(lt is WhitespaceToken)).ToList();
 
             var stream = new ParserStream(tokens);
-            var program = MofSpecificationAst.Parse(stream);
+            var program = ParserEngine.ParseMofSpecificationAst(stream);
 
             return program;
 

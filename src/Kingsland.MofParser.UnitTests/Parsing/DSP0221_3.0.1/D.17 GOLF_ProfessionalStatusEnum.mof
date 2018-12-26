@@ -1,0 +1,8 @@
+// ==================================================================
+//  GOLF_ProfessionalStatusEnum
+// ==================================================================
+enumeration GOLF_ProfessionalStatusEnum : Integer
+{
+   Professional = 6,
+   SponsoredProfessional = 7
+};

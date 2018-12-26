@@ -1,0 +1,30 @@
+// ==================================================================
+// Copyright 2012 Distributed Management Task Force, Inc. (DMTF).
+// Example domain used to illustrate CIM v3 and MOF v3 features
+// ==================================================================
+#pragma include ("GOLF_Base.mof")
+#pragma include ("GOLF_Club.mof")
+#pragma include ("GOLF_ClubMember.mof")
+#pragma include ("GOLF_Professional.mof")
+#pragma include ("GOLF_Locker.mof")
+#pragma include ("GOLF_MemberLocker.mof")
+#pragma include ("GOLF_Lesson.mof")
+#pragma include ("GOLF_Tournament.mof")
+#pragma include ("GOLF_TournamentParticipant.mof")
+//
+// Schema level structures
+//
+#pragma include ("GlobalStructs/GOLF_Address.mof")
+#pragma include ("GlobalStructs/GOLF_Date.mof")
+#pragma include ("GlobalStructs/GOLF_PhoneNumber.mof")
+//
+// Global enumerations
+//
+#pragma include ("GlobalEnums/GOLF_ResultCodeEnum.mof")
+#pragma include ("GlobalEnums/GOLF_MemberStatusEnum.mof")
+#pragma include ("GlobalEnums/GOLF_ProfessionalStatusEnum.mof")
+#pragma include ("GlobalEnums/GOLF_GOLF_StatesEnum.mof")
+//
+// Instances
+//
+#pragma include ("Instances/JohnDoe.mof")

@@ -1,19 +1,76 @@
 using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
     public sealed class ClassDeclarationAst : MofProductionAst
     {
 
+        #region Builder
+
+        public sealed class Builder
+        {
+
+            public Builder()
+            {
+                this.Features = new List<ClassFeatureAst>();
+            }
+
+            public IdentifierToken ClassName
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken Superclass
+            {
+                get;
+                set;
+            }
+
+            public List<ClassFeatureAst> Features
+            {
+                get;
+                set;
+            }
+
+            public QualifierListAst Qualifiers
+            {
+                get;
+                set;
+            }
+
+            public ClassDeclarationAst Build()
+            {
+                return new ClassDeclarationAst(
+                    this.ClassName,
+                    this.Superclass,
+                    new ReadOnlyCollection<ClassFeatureAst>(
+                        this.Features ?? new List<ClassFeatureAst>()
+                    ),
+                    this.Qualifiers
+                );
+            }
+
+        }
+
+        #endregion
+
         #region Constructors
 
         private ClassDeclarationAst()
         {
-            Features = new List<ClassFeatureAst>();
+        }
+
+        internal ClassDeclarationAst(IdentifierToken className, IdentifierToken superClass, ReadOnlyCollection<ClassFeatureAst> features, QualifierListAst qualifiers)
+        {
+            this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
+            this.Superclass = superClass ?? throw new ArgumentNullException(nameof(superClass));
+            this.Features = features ?? throw new ArgumentNullException(nameof(features));
+            this.Qualifiers = qualifiers ?? throw new ArgumentNullException(nameof(qualifiers));
         }
 
         #endregion
@@ -32,7 +89,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public List<ClassFeatureAst> Features
+        public ReadOnlyCollection<ClassFeatureAst> Features
         {
             get;
             private set;
@@ -42,91 +99,6 @@ namespace Kingsland.MofParser.Ast
         {
             get;
             private set;
-        }
-
-        #endregion
-
-        #region Parsing Methods
-
-        internal new static ClassDeclarationAst Parse(ParserStream stream)
-        {
-            return ClassDeclarationAst.ParseClassAst(stream, null);
-        }
-
-        internal static ClassDeclarationAst Parse(ParserStream stream, QualifierListAst qualifiers)
-        {
-            return ClassDeclarationAst.ParseClassAst(stream, qualifiers);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.5 Class declaration
-        ///
-        ///     classDeclaration = [ qualifierList ] CLASS className [ superClass ]
-        ///                        "{" *classFeature "}" ";"
-        ///
-        ///     className        = elementName
-        ///     superClass       = ":" className
-        ///     classFeature     = structureFeature /
-        ///                        methodDeclaration
-        ///     CLASS            = "class" ; keyword: case insensitive
-        ///
-        /// </remarks>
-        internal static ClassDeclarationAst ParseClassAst(ParserStream stream, QualifierListAst qualifiers)
-        {
-
-            var node = new ClassDeclarationAst();
-
-            // [ qualifierList ]
-            node.Qualifiers = qualifiers;
-
-            // CLASS
-            stream.ReadIdentifier(Keywords.CLASS);
-
-            // className
-            var className = stream.Read<IdentifierToken>();
-            if (!StringValidator.IsClassName(className.Name))
-            {
-                throw new InvalidOperationException("Identifer is not a valid class name.");
-            }
-            node.ClassName = className;
-
-            // [ superClass ]
-            if (stream.Peek<ColonToken>() != null)
-            {
-                stream.Read<ColonToken>();
-                var superclass = stream.Read<IdentifierToken>();
-                if (!StringValidator.IsClassName(className.Name))
-                {
-                    throw new InvalidOperationException("Identifer is not a valid superclass name.");
-                }
-                node.Superclass = superclass;
-            }
-
-            // "{"
-            stream.Read<BlockOpenToken>();
-
-            // *classFeature
-            while (!stream.Eof)
-            {
-                var peek = stream.Peek() as BlockCloseToken;
-                if (peek != null)
-                {
-                    break;
-                }
-                var classFeature = ClassFeatureAst.Parse(stream);
-                node.Features.Add(classFeature);
-            }
-
-            // "}" ";"
-            stream.Read<BlockCloseToken>();
-            stream.Read<StatementEndToken>();
-
-            return node;
-
         }
 
         #endregion

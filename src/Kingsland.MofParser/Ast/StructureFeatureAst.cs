@@ -6,7 +6,7 @@
 
         #region Constructors
 
-        internal StructureFeatureAst()
+        protected StructureFeatureAst()
         {
         }
 

@@ -1,7 +1,7 @@
-﻿using Kingsland.MofParser.Lexing;
+﻿using Kingsland.MofParser.Source;
 using Kingsland.MofParser.UnitTests.Helpers;
 using NUnit.Framework;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Kingsland.MofParser.UnitTests.Lexer
@@ -11,14 +11,15 @@ namespace Kingsland.MofParser.UnitTests.Lexer
     {
 
         [TestFixture]
-        public static class LexMethodTokenTests
+        public static class LexMethodTestCases
         {
 
-            [Test, TestCaseSource(typeof(LexMethodTestCases), "TestCases")]
+            [Test, TestCaseSource(typeof(LexMethodTestCases), "GetTestCases")]
             public static void LexMethodTestsFromDisk(string mofFilename)
             {
                 var mofText = File.ReadAllText(mofFilename);
-                var tokens = Lexing.Lexer.Lex(new StringLexerStream(mofText));
+                var reader = SourceReader.From(mofText);
+                var tokens = Lexing.Lexer.Lex(reader);
                 var actualText = TestUtils.ConvertToJson(tokens);
                 var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),
                                                     Path.GetFileNameWithoutExtension(mofFilename) + ".json");
@@ -30,14 +31,11 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 Assert.AreEqual(expectedText, actualText);
             }
 
-            private static class LexMethodTestCases
+            public static IEnumerable<TestCaseData> GetTestCases
             {
-                public static IEnumerable TestCases
+                get
                 {
-                    get
-                    {
-                        return TestUtils.GetMofTestCase("..\\..\\Lexer\\TestCases");
-                    }
+                    return TestUtils.GetMofTestCase("Lexer\\TestCases");
                 }
             }
 

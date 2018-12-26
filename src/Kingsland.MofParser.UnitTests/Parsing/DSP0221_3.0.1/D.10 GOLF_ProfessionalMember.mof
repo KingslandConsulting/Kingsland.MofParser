@@ -1,0 +1,11 @@
+// ==================================================================
+//  GOLF_ProfessionalMember
+// ==================================================================
+    [Description (
+     "Instances of this association represent club membership "
+     "of professional golfers that are not members of the club staff." )
+    ]
+association GOLF_ProfessionalMember : GOLF_Base {
+   GOLF_Professional REF Professional;
+   GOLF_Club REF Club;
+};

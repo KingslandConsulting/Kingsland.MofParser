@@ -1,0 +1,26 @@
+// ==================================================================
+// GOLF_Date
+// ==================================================================
+structure GOLF_Date {
+// ======================= local enumerations =======================
+    enumeration MonthsEnum : String {
+       January,
+       February,
+       March,
+       April,
+       May,
+       June,
+       July,
+       August,
+       September,
+       October,
+       November,
+       December
+   };
+
+// =========================== properties ===========================
+   Integer Year = 2000;
+   MonthsEnum Month = MonthsEnum.January;
+       [MinValue(1), MaxValue(31)]
+   Integer Day = 1;
+};

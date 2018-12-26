@@ -1,0 +1,30 @@
+// ==================================================================
+//  GOLF_ClubMember
+// ==================================================================
+    [Description (
+    "Instances of this class represent members of a golf club." ),
+    OCL{"-- a member with Basic status may only have one locker\n"
+        "inv: Status = MemberStatusEnum.Basic implies not "
+       "(GOLF_MemberLocker.Locker->size() > 1)",
+        "inv: not MemberPhoneNo.oclIsUndefined()",
+        "inv: not Club.oclIsUndefined()" } ]
+class GOLF_ClubMember: GOLF_Base {
+
+// =========================== properties ===========================
+   string FirstName;
+   string LastName;
+   GOLF_Club REF Club;
+   GOLF_MemberStatusEnum Status;
+   GOLF_Date MembershipEstablishedDate;
+
+   real32 MembershipSignUpFee;
+   real32 MonthlyFee;
+   GOLF_Date LastPaymentDate;
+
+   GOLF_Address MemberAddress;
+   GOLF_PhoneNumber MemberPhoneNo;
+   string MemberEmailAddress;
+
+// ============================ methods =============================
+   GOLF_ResultCodeEnum SendPaymentReminderMessage();
+};
