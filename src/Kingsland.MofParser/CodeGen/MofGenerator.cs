@@ -203,7 +203,7 @@ namespace Kingsland.MofParser.CodeGen
             source.AppendFormat("{0} ", node.Type.Name);
             if (node.IsRef)
             {
-                source.AppendFormat("{0} ", Keywords.REF);
+                source.AppendFormat("{0} ", Constants.REF);
             }
             source.Append(node.Name.Name);
             if (node.IsArray)
@@ -261,7 +261,7 @@ namespace Kingsland.MofParser.CodeGen
             source.AppendFormat("{0} ", node.Type.Name);
             if (node.IsRef)
             {
-                source.AppendFormat("{0} ", Keywords.REF);
+                source.AppendFormat("{0} ", Constants.REF);
             }
             source.Append(node.Name.Name);
             if (node.IsArray)

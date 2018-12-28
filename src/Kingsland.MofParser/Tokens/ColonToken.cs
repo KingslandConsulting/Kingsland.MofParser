@@ -6,7 +6,7 @@ namespace Kingsland.MofParser.Tokens
     public sealed class ColonToken : Token
     {
 
-        internal ColonToken(SourceExtent extent)
+        public ColonToken(SourceExtent extent)
             : base(extent)
         {
         }

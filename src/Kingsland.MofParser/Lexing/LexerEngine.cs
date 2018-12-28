@@ -9,7 +9,7 @@ using System.Text;
 namespace Kingsland.MofParser.Lexing
 {
 
-    internal static class LexerEngine
+    public static class LexerEngine
     {
 
         public static (Token Token, Lexer NextLexer) ReadToken(Lexer lexer)
@@ -115,7 +115,7 @@ namespace Kingsland.MofParser.Lexing
                         var nextLexer = new Lexer(nextReader);
                         if (StringValidator.IsFalse(identifierToken.Name))
                         {
-                            /// A.17.6 Boolean value
+                            /// 7.6.1.5 Boolean value
                             ///
                             ///     booleanValue = TRUE / FALSE
                             ///
@@ -127,7 +127,7 @@ namespace Kingsland.MofParser.Lexing
                         }
                         else if (StringValidator.IsTrue(identifierToken.Name))
                         {
-                            /// A.17.6 Boolean value
+                            /// 7.6.1.5 Boolean value
                             ///
                             ///     booleanValue = TRUE / FALSE
                             ///
@@ -138,7 +138,7 @@ namespace Kingsland.MofParser.Lexing
                         }
                         else if (StringValidator.IsNull(identifierToken.Name))
                         {
-                            /// A.17.7 Null value
+                            /// 7.6.1.6 Null value
                             ///
                             ///     nullValue = NULL
                             ///
@@ -249,16 +249,16 @@ namespace Kingsland.MofParser.Lexing
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        /// 5.2 - Whitespace
+        /// 5.2 Whitespace
         ///
         /// Whitespace in a MOF file is any combination of the following characters:
         ///
-        ///     Space (U+0020),
-        ///     Horizontal Tab (U+0009),
-        ///     Carriage Return (U+000D) and
-        ///     Line Feed (U+000A).
+        ///     * Space (U+0020),
+        ///     * Horizontal Tab (U+0009),
+        ///     * Carriage Return (U+000D) and
+        ///     * Line Feed (U+000A).
         ///
         /// The WS ABNF rule represents any one of these whitespace characters:
         ///
@@ -295,25 +295,26 @@ namespace Kingsland.MofParser.Lexing
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
         /// 5.4 Comments
+        ///
         /// Comments in a MOF file do not create, modify, or annotate language elements. They shall be treated as if
         /// they were whitespace.
         ///
         /// Comments may appear anywhere in MOF syntax where whitespace is allowed and are indicated by either
-        /// a leading double slash( // ) or a pair of matching /* and */ character sequences. Occurrences of these
+        /// a leading double slash (//) or a pair of matching /* and */ character sequences. Occurrences of these
         /// character sequences in string literals shall not be treated as comments.
         ///
         /// A // comment is terminated by the end of line (see 5.3), as shown in the example below.
         ///
-        ///     uint16 MyProperty; // This is an example of a single-line comment
+        ///     Integer MyProperty; // This is an example of a single-line comment
         ///
         /// A comment that begins with /* is terminated by the next */ sequence, or by the end of the MOF file,
         /// whichever comes first.
         ///
         ///     /* example of a comment between property definition tokens and a multi-line comment */
-        ///     uint16 /* 16-bit integer property */ MyProperty; /* and a multi-line
+        ///     Integer /* 16-bit integer property */ MyProperty; /* and a multi-line
         ///                             comment */
         ///
         /// </remarks>
@@ -364,7 +365,7 @@ namespace Kingsland.MofParser.Lexing
 
         #endregion
 
-        #region A.3 Compiler directive
+        #region 7.3 Compiler directives
 
         /// <summary>
         /// </summary>
@@ -372,33 +373,41 @@ namespace Kingsland.MofParser.Lexing
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        /// A.3 Compiler directive
+        /// 7.3 Compiler directives
         ///
-        /// compilerDirective = PRAGMA ( pragmaName / standardPragmaName )
-        ///                     "(" pragmaParameter ")"
+        /// Compiler directives direct the processing of MOF files. Compiler directives do not create, modify, or
+        /// annotate the language elements.
         ///
-        /// pragmaName         = IDENTIFIER
-        /// standardPragmaName = INCLUDE
-        /// pragmaParameter    = stringValue ; if the pragma is INCLUDE,
-        ///                                  ; the parameter value
-        ///                                  ; shall represent a relative
-        ///                                  ; or full file path
-        /// PRAGMA             = "#pragma"  ; keyword: case insensitive
-        /// INCLUDE            = "include"  ; keyword: case insensitive
+        /// Compiler directives shall conform to the format defined by ABNF rule compilerDirective (whitespace
+        /// as defined in 5.2 is allowed between the elements of the rules in this ABNF section):
+        ///
+        ///     compilerDirective = PRAGMA ( pragmaName / standardPragmaName )
+        ///                         "(" pragmaParameter ")"
+        ///
+        ///     pragmaName         = directiveName
+        ///     standardPragmaName = INCLUDE
+        ///     pragmaParameter    = stringValue ; if the pragma is INCLUDE,
+        ///                                      ; the parameter value
+        ///                                      ; shall represent a relative
+        ///                                      ; or full file path
+        ///     PRAGMA             = "#pragma"  ; keyword: case insensitive
+        ///     INCLUDE            = "include"  ; keyword: case insensitive
+        ///
+        ///     directiveName      = org-id "_" IDENTIFIER
         ///
         /// </remarks>
         public static (PragmaToken, SourceReader) ReadPragmaToken(SourceReader reader)
         {
-            (var sourceChars, var thisReader) = reader.ReadString(Keywords.PRAGMA);
+            (var sourceChars, var thisReader) = reader.ReadString(Constants.PRAGMA);
             var extent = SourceExtent.From(sourceChars.ToList());
             return (new PragmaToken(extent), thisReader);
         }
 
         #endregion
 
-        #region A.13 Names
+        #region 7.7.1 Names
 
         /// <summary>
         ///
@@ -407,11 +416,12 @@ namespace Kingsland.MofParser.Lexing
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        /// A.13 Names
+        /// 7.7.1 Names
         ///
         /// MOF names are identifiers with the format defined by the IDENTIFIER rule.
+        ///
         /// No whitespace is allowed between the elements of the rules in this ABNF section.
         ///
         ///     IDENTIFIER          = firstIdentifierChar *( nextIdentifierChar )
@@ -446,7 +456,7 @@ namespace Kingsland.MofParser.Lexing
 
         #endregion
 
-        #region A.13.2 Alias identifier
+        #region 7.7.3 Alias identifier
 
         /// <summary>
         ///
@@ -455,13 +465,15 @@ namespace Kingsland.MofParser.Lexing
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        /// A.13.2 Alias identifier
+        /// 7.7.3 Alias identifier
+        ///
+        /// An aliasIdentifier identifies an Instance or Value within the context of a MOF compilation unit.
         ///
         /// No whitespace is allowed between the elements of this rule.
         ///
-        ///     aliasIdentifier = "$" IDENTIFIER
+        ///     aliasIdentifier     = "$" IDENTIFIER
         ///
         ///     IDENTIFIER          = firstIdentifierChar *( nextIdentifierChar )
         ///     firstIdentifierChar = UPPERALPHA / LOWERALPHA / UNDERSCORE
@@ -476,7 +488,7 @@ namespace Kingsland.MofParser.Lexing
             var sourceChar = default(SourceChar);
             var sourceChars = new List<SourceChar>();
             var nameChars = new StringBuilder();
-            // read the first character
+            // "$"
             (sourceChar, thisReader) = thisReader.Read('$');
             sourceChars.Add(sourceChar);
             // firstIdentifierChar
@@ -498,7 +510,7 @@ namespace Kingsland.MofParser.Lexing
 
         #endregion
 
-        #region A.17.1 Integer value
+        #region 7.6.1.1 Integer value
 
         /// <summary>
         ///
@@ -507,9 +519,9 @@ namespace Kingsland.MofParser.Lexing
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        /// A.17.1 Integer value
+        /// 7.6.1.1 Integer value
         ///
         /// No whitespace is allowed between the elements of the rules in this ABNF section.
         ///
@@ -528,6 +540,7 @@ namespace Kingsland.MofParser.Lexing
         ///
         ///     decimalValue         = [ "+" / "-" ] unsignedDecimalValue
         ///     unsignedDecimalValue = positiveDecimalDigit *decimalDigit
+        ///
         ///     decimalDigit         = "0" / positiveDecimalDigit
         ///     positiveDecimalDigit = "1"..."9"
         ///
@@ -565,7 +578,7 @@ namespace Kingsland.MofParser.Lexing
 
         #endregion
 
-        #region A.17.3 String values
+        #region 7.6.1.3 String values
 
         /// <summary>
         /// </summary>
@@ -573,16 +586,46 @@ namespace Kingsland.MofParser.Lexing
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        /// A.17.3 String values
+        /// 7.6.1.3 String values
         ///
         /// Unless explicitly specified via ABNF rule WS, no whitespace is allowed between the elements of the rules
         /// in this ABNF section.
         ///
-        ///     stringValue   = DOUBLEQUOTE *stringChar DOUBLEQUOTE
-        ///                     *( *WS DOUBLEQUOTE *stringChar DOUBLEQUOTE )
-        ///     stringChar    = stringUCSchar / stringEscapeSequence
+        ///     singleStringValue = DOUBLEQUOTE *stringChar DOUBLEQUOTE
+        ///     stringValue       = singleStringValue *( *WS singleStringValue )
+        ///
+        ///     stringChar        = stringUCSchar / stringEscapeSequence
+        ///     stringUCSchar     = U+0020...U+0021 / U+0023...U+D7FF /
+        ///                         U+E000...U+FFFD / U+10000...U+10FFFF
+        ///                         ; Note that these UCS characters can be
+        ///                         ; represented in XML without any escaping
+        ///                         ; (see W3C XML).
+        ///
+        ///     stringEscapeSequence = BACKSLASH ( BACKSLASH / DOUBLEQUOTE / SINGLEQUOTE /
+        ///                            BACKSPACE_ESC / TAB_ESC / LINEFEED_ESC /
+        ///                            FORMFEED_ESC / CARRIAGERETURN_ESC /
+        ///                            escapedUCSchar )
+        ///
+        ///     BACKSPACE_ESC      = "b" ; escape for back space (U+0008)
+        ///     TAB_ESC            = "t" ; escape for horizontal tab(U+0009)
+        ///     LINEFEED_ESC       = "n" ; escape for line feed(U+000A)
+        ///     FORMFEED_ESC       = "f" ; escape for form feed(U+000C)
+        ///     CARRIAGERETURN_ESC = "r" ; escape for carriage return (U+000D)
+        ///
+        ///     escapedUCSchar     = ( "x" / "X" ) 1*6(hexDigit ) ; escaped UCS
+        ///                          ; character with a UCS code position that is
+        ///                          ; the numeric value of the hex number
+        ///
+        /// The following special characters are also used in other ABNF rules in this specification:
+        ///
+        ///     BACKSLASH   = U+005C ; \
+        ///     DOUBLEQUOTE = U+0022 ; "
+        ///     SINGLEQUOTE = U+0027 ; '
+        ///     UPPERALPHA  = U+0041...U+005A ; A ... Z
+        ///     LOWERALPHA  = U+0061...U+007A ; a ... z
+        ///     UNDERSCORE  = U+005F ; _
         ///
         /// </remarks>
         public static (StringLiteralToken, SourceReader) ReadStringLiteralToken(SourceReader reader)
@@ -595,7 +638,7 @@ namespace Kingsland.MofParser.Lexing
             var sourceChars = new List<SourceChar>();
             var stringChars = new StringBuilder();
             // read the first double-quote character
-            (sourceChar, thisReader) = thisReader.Read('"');
+            (sourceChar, thisReader) = thisReader.Read(Constants.DOUBLEQUOTE);
             sourceChars.Add(sourceChar);
             // read the remaining characters
             bool isEscaped = false;
@@ -609,28 +652,28 @@ namespace Kingsland.MofParser.Lexing
                     var escapedChar = default(char);
                     switch (peek.Value)
                     {
-                        case '\\':
-                            escapedChar = '\\';
+                        case Constants.BACKSLASH:
+                            escapedChar = Constants.BACKSLASH;
                             break;
-                        case '\"':
-                            escapedChar = '\"';
+                        case Constants.DOUBLEQUOTE:
+                            escapedChar = Constants.DOUBLEQUOTE;
                             break;
-                        case '\'':
-                            escapedChar = '\'';
+                        case Constants.SINGLEQUOTE:
+                            escapedChar = Constants.SINGLEQUOTE;
                             break;
-                        case 'b':
+                        case Constants.BACKSPACE_ESC:
                             escapedChar = '\b';
                             break;
-                        case 't':
+                        case Constants.TAB_ESC:
                             escapedChar = '\t';
                             break;
-                        case 'n':
+                        case Constants.LINEFEED_ESC:
                             escapedChar = '\n';
                             break;
-                        case 'f':
+                        case Constants.FORMFEED_ESC:
                             escapedChar = '\f';
                             break;
-                        case 'r':
+                        case Constants.CARRIAGERETURN_ESC:
                             escapedChar = '\r';
                             break;
                         default:
@@ -641,17 +684,17 @@ namespace Kingsland.MofParser.Lexing
                     stringChars.Append(escapedChar);
                     isEscaped = false;
                 }
-                else if (peek.Value == '\\')
+                else if (peek.Value == Constants.BACKSLASH)
                 {
                     // read the first character in an escape sequence
                     thisReader = thisReader.Next();
                     sourceChars.Add(peek);
                     isEscaped = true;
                 }
-                else if (peek.Value == '\"')
+                else if (peek.Value == Constants.DOUBLEQUOTE)
                 {
                     // read the last double-quote character
-                    (_, thisReader) = thisReader.Read('"');
+                    (_, thisReader) = thisReader.Read(Constants.DOUBLEQUOTE);
                     sourceChars.Add(peek);
                     isTerminated = true;
                     break;

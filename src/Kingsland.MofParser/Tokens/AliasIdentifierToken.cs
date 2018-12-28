@@ -6,7 +6,7 @@ namespace Kingsland.MofParser.Tokens
     public sealed class AliasIdentifierToken : Token
     {
 
-        internal AliasIdentifierToken(SourceExtent extent, string name)
+        public AliasIdentifierToken(SourceExtent extent, string name)
             : base(extent)
         {
             this.Name = name;

@@ -8,112 +8,17 @@ namespace Kingsland.MofParser.Parsing
     internal sealed class ParserEngine
     {
 
-        #region A.1 Value definitions
-
-        internal static bool IsLiteralValueToken(Token token)
-        {
-            return (token is IntegerLiteralToken) ||
-                   //(token is RealLiteralToken) ||
-                   //(token is DateTimeLiteralToken) ||
-                   (token is StringLiteralToken) ||
-                   (token is BooleanLiteralToken) ||
-                   //(token is OctetStringLiteralToken) ||
-                   (token is NullLiteralToken);
-        }
+        #region 7.2 MOF specification
 
         /// <summary>
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.1 Value definitions
         ///
-        ///     literalValue = integerValue / realValue /
-        ///                    stringValue / octetStringValue
-        ///                    booleanValue /
-        ///                    nullValue /
-        ///                    dateTimeValue
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        /// </remarks>
-        public static LiteralValueAst ParseLiteralValueAst(ParserStream stream)
-        {
-            var peek = stream.Peek();
-            if (peek is IntegerLiteralToken)
-            {
-                // integerValue
-                return ParserEngine.ParseIntegerValueAst(stream);
-            }
-            else if (peek is StringLiteralToken)
-            {
-                // stringValue
-                return ParserEngine.ParseStringValueAst(stream);
-            }
-            else if (peek is BooleanLiteralToken)
-            {
-                // booleanValue
-                return ParserEngine.ParseBooleanValueAst(stream);
-            }
-            else if (peek is NullLiteralToken)
-            {
-                // nullValue
-                return ParserEngine.ParseNullValueAst(stream);
-            }
-            else
-            {
-                throw new UnexpectedTokenException(peek);
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.1 Value definitions
-        ///
-        ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
-        ///
-        /// </remarks>
-        public static LiteralValueArrayAst ParseLiteralValueArrayAst(ParserStream stream)
-        {
-            var node = new LiteralValueArrayAst.Builder();
-            // "{"
-            stream.Read<BlockOpenToken>();
-            // [ literalValue *( "," literalValue) ]
-            if (stream.Peek<BlockCloseToken>() == null)
-            {
-                while (!stream.Eof)
-                {
-                    if (node.Values.Count > 0)
-                    {
-                        stream.Read<CommaToken>();
-                    }
-                    node.Values.Add(ParserEngine.ParseLiteralValueAst(stream));
-                    if (stream.Peek<BlockCloseToken>() != null)
-                    {
-                        break;
-                    }
-                }
-            }
-            // "}"
-            stream.Read<BlockCloseToken>();
-            // return the result
-            return node.Build();
-        }
-
-        #endregion
-
-        #region A.2 MOF specification
-
-        /// <summary>
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
-        /// A.2 MOF specification
+        /// 7.2 MOF specification
         ///
         ///     mofSpecification = *mofProduction
         ///
@@ -168,28 +73,28 @@ namespace Kingsland.MofParser.Parsing
             switch (identifier.GetNormalizedName())
             {
 
-                case Keywords.STRUCTURE:
+                case Constants.STRUCTURE:
                     // structureDeclaration
                     throw new UnsupportedTokenException(identifier);
 
-                case Keywords.CLASS:
+                case Constants.CLASS:
                     // classDeclaration
                     return ParserEngine.ParseClassDeclarationAst(stream, qualifiers);
 
-                case Keywords.ASSOCIATION:
+                case Constants.ASSOCIATION:
                     // associationDeclaration
                     throw new UnsupportedTokenException(identifier);
 
-                case Keywords.ENUMERATION:
+                case Constants.ENUMERATION:
                     // enumerationDeclaration
                     throw new UnsupportedTokenException(identifier);
 
-                case Keywords.INSTANCE:
-                case Keywords.VALUE:
+                case Constants.INSTANCE:
+                case Constants.VALUE:
                     // instanceDeclaration
                     return ParserEngine.ParseComplexTypeValueAst(stream);
 
-                case Keywords.QUALIFIER:
+                case Constants.QUALIFIER:
                     // qualifierDeclaration
                     throw new UnsupportedTokenException(identifier);
 
@@ -202,14 +107,168 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.5 Class declaration
+        #region 7.3 Compiler directives
+
+        /// <summary>
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.3 Compiler directives
+        ///
+        /// Compiler directives direct the processing of MOF files. Compiler directives do not create, modify, or
+        /// annotate the language elements.
+        ///
+        /// Compiler directives shall conform to the format defined by ABNF rule compilerDirective (whitespace
+        /// as defined in 5.2 is allowed between the elements of the rules in this ABNF section):
+        ///
+        ///     compilerDirective = PRAGMA ( pragmaName / standardPragmaName )
+        ///                         "(" pragmaParameter ")"
+        ///
+        ///     pragmaName         = directiveName
+        ///     standardPragmaName = INCLUDE
+        ///     pragmaParameter    = stringValue ; if the pragma is INCLUDE,
+        ///                                      ; the parameter value
+        ///                                      ; shall represent a relative
+        ///                                      ; or full file path
+        ///     PRAGMA             = "#pragma"  ; keyword: case insensitive
+        ///     INCLUDE            = "include"  ; keyword: case insensitive
+        ///
+        ///     directiveName      = org-id "_" IDENTIFIER
+        ///
+        /// </remarks>
+        public static CompilerDirectiveAst ParseCompilerDirectiveAst(ParserStream stream)
+        {
+
+            var node = new CompilerDirectiveAst.Builder();
+
+            // PRAGMA
+            stream.Read<PragmaToken>();
+
+            // directiveName
+            node.Pragma = stream.Read<IdentifierToken>().Name;
+
+            // "("
+            stream.Read<ParenthesesOpenToken>();
+
+            // stringValue
+            node.Argument = stream.Read<StringLiteralToken>().Value;
+
+            // ")"
+            stream.Read<ParenthesesCloseToken>();
+
+            return node.Build();
+
+        }
+
+        #endregion
+
+        #region 7.4 Qualifiers
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.4 Qualifiers
+        ///
+        /// </returns>
+        public static QualifierDeclarationAst ParseQualifierDeclarationAst(ParserStream stream)
+        {
+
+            var node = new QualifierDeclarationAst.Builder();
+
+            node.Name = stream.Read<IdentifierToken>();
+
+            if (stream.Peek<ParenthesesOpenToken>() != null)
+            {
+                stream.Read<ParenthesesOpenToken>();
+                node.Initializer = ParserEngine.ParseLiteralValueAst(stream);
+                stream.Read<ParenthesesCloseToken>();
+            }
+            else if (stream.Peek<BlockOpenToken>() != null)
+            {
+                node.Initializer = ParserEngine.ParseLiteralValueArrayAst(stream);
+            }
+
+            if (stream.Peek<ColonToken>() != null)
+            {
+                stream.Read<ColonToken>();
+                while (stream.Peek<IdentifierToken>() != null)
+                {
+                    node.Flavors.Add(stream.Read<IdentifierToken>().Name);
+                }
+            }
+
+            return node.Build();
+
+        }
+
+        #endregion
+
+        #region 7.4.1 QualifierList
+
+        /// <summary>
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.4.1 QualifierList
+        ///
+        ///     qualifierList                 = "[" qualifierValue *( "," qualifierValue ) "]"
+        ///     qualifierValue                = qualifierName [ qualifierValueInitializer /
+        ///                                     qualiferValueArrayInitializer ]
+        ///     qualifierValueInitializer     = "(" literalValue ")"
+        ///     qualiferValueArrayInitializer = "{" literalValue *( "," literalValue ) "}"
+        ///
+        /// </remarks>
+        public static QualifierListAst ParseQualifierListAst(ParserStream stream)
+        {
+
+            var node = new QualifierListAst.Builder();
+
+            // "["
+            stream.Read<AttributeOpenToken>();
+
+            // qualifierValue *( "," qualifierValue )
+            while (!stream.Eof)
+            {
+                node.Qualifiers.Add(ParserEngine.ParseQualifierDeclarationAst(stream));
+                if (stream.Peek<CommaToken>() == null)
+                {
+                    break;
+                }
+                stream.Read<CommaToken>();
+            }
+
+            // "]"
+            stream.Read<AttributeCloseToken>();
+
+            return node.Build();
+
+        }
+
+        #endregion
+
+        #region 7.5.2 Class declaration
 
         /// <summary>
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.5 Class declaration
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.2 Class declaration
         ///
         ///     classDeclaration = [ qualifierList ] CLASS className [ superClass ]
         ///                        "{" *classFeature "}" ";"
@@ -230,7 +289,7 @@ namespace Kingsland.MofParser.Parsing
             node.Qualifiers = qualifiers;
 
             // CLASS
-            stream.ReadIdentifier(Keywords.CLASS);
+            stream.ReadIdentifier(Constants.CLASS);
 
             // className
             var className = stream.Read<IdentifierToken>();
@@ -278,8 +337,10 @@ namespace Kingsland.MofParser.Parsing
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.5 Class declaration
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.2 Class declaration
         ///
         ///     classFeature     = structureFeature / methodDeclaration
         ///
@@ -307,12 +368,12 @@ namespace Kingsland.MofParser.Parsing
             {
                 throw new UnexpectedTokenException(peek);
             }
-            else if (identifierName == Keywords.STRUCTURE)
+            else if (identifierName == Constants.STRUCTURE)
             {
                 // structureDeclaration
                 throw new UnsupportedTokenException(identifier);
             }
-            else if (identifierName == Keywords.ENUMERATION)
+            else if (identifierName == Constants.ENUMERATION)
             {
                 // enumDeclaration
                 throw new UnsupportedTokenException(identifier);
@@ -329,8 +390,11 @@ namespace Kingsland.MofParser.Parsing
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.10 Property declaration
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.5 Property declaration
+        ///
         /// Whitespace as defined in 5.2 is allowed between the elements of the rules in this ABNF section.
         ///
         ///     propertyDeclaration = [ qualifierList ] ( primitivePropertyDeclaration /
@@ -354,7 +418,8 @@ namespace Kingsland.MofParser.Parsing
         ///     DT_REFERENCE                 = className REF
         ///     REF                          = "ref" ; keyword: case insensitive
         ///
-        /// A.11 Method declaration
+        /// 7.5.6 Method declaration
+        ///
         /// Whitespace as defined in 5.2 is allowed between the elements of the rules in this ABNF section.
         ///
         ///     methodDeclaration = [ qualifierList ] ( ( returnDataType [ array ] ) /
@@ -380,9 +445,9 @@ namespace Kingsland.MofParser.Parsing
             var returnType = stream.Read<IdentifierToken>();
 
             var @ref = default(IdentifierToken);
-            if (stream.PeekIdentifier(Keywords.REF))
+            if (stream.PeekIdentifier(Constants.REF))
             {
-                @ref = stream.ReadIdentifier(Keywords.REF);
+                @ref = stream.ReadIdentifier(Constants.REF);
             }
 
             // [ array ]
@@ -463,20 +528,13 @@ namespace Kingsland.MofParser.Parsing
         {
             switch (returnType.GetNormalizedName())
             {
-                case Keywords.DT_UINT8:
-                case Keywords.DT_UINT16:
-                case Keywords.DT_UINT32:
-                case Keywords.DT_UINT64:
-                case Keywords.DT_SINT8:
-                case Keywords.DT_SINT16:
-                case Keywords.DT_SINT32:
-                case Keywords.DT_SINT64:
-                case Keywords.DT_REAL32:
-                case Keywords.DT_REAL64:
-                case Keywords.DT_STRING:
-                case Keywords.DT_DATETIME:
-                case Keywords.DT_BOOLEAN:
-                case Keywords.DT_OCTECTSTRING:
+                case Constants.DT_INTEGER:
+                case Constants.DT_REAL32:
+                case Constants.DT_REAL64:
+                case Constants.DT_STRING:
+                case Constants.DT_DATETIME:
+                case Constants.DT_BOOLEAN:
+                case Constants.DT_OCTECTSTRING:
                     // primitiveType
                     return ParserEngine.ParsePrimitiveTypeValueAst(stream);
                 default:
@@ -494,128 +552,7 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.7.1 Compiler directives
-
-        /// <summary>
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
-        /// A.7.1 Compiler directives
-        ///
-        ///     compilerDirective = PRAGMA directiveName "(" stringValue ")"
-        ///     PRAGMA = "#pragma"                        ; keyword: case insensitive
-        ///     directiveName = IDENTIFIER
-        ///
-        /// </remarks>
-        public static CompilerDirectiveAst ParseCompilerDirectiveAst(ParserStream stream)
-        {
-
-            var node = new CompilerDirectiveAst.Builder();
-
-            // PRAGMA
-            stream.Read<PragmaToken>();
-
-            // directiveName
-            node.Pragma = stream.Read<IdentifierToken>().Name;
-
-            // "("
-            stream.Read<ParenthesesOpenToken>();
-
-            // stringValue
-            node.Argument = stream.Read<StringLiteralToken>().Value;
-
-            // ")"
-            stream.Read<ParenthesesCloseToken>();
-
-            return node.Build();
-
-        }
-
-        #endregion
-
-        #region A.7.2 Qualifiers
-
-        public static QualifierDeclarationAst ParseQualifierDeclarationAst(ParserStream stream)
-        {
-
-            var node = new QualifierDeclarationAst.Builder();
-
-            node.Name = stream.Read<IdentifierToken>();
-
-            if (stream.Peek<ParenthesesOpenToken>() != null)
-            {
-                stream.Read<ParenthesesOpenToken>();
-                node.Initializer = ParserEngine.ParseLiteralValueAst(stream);
-                stream.Read<ParenthesesCloseToken>();
-            }
-            else if (stream.Peek<BlockOpenToken>() != null)
-            {
-                node.Initializer = ParserEngine.ParseLiteralValueArrayAst(stream);
-            }
-
-            if (stream.Peek<ColonToken>() != null)
-            {
-                stream.Read<ColonToken>();
-                while (stream.Peek<IdentifierToken>() != null)
-                {
-                    node.Flavors.Add(stream.Read<IdentifierToken>().Name);
-                }
-            }
-
-            return node.Build();
-
-        }
-
-        #endregion
-
-        #region A.9 Qualifier list
-
-        /// <summary>
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
-        /// A.9 Qualifier list
-        ///
-        ///     qualifierList                = "[" qualifierValue *( "," qualifierValue ) "]"
-        ///     qualifierValue               = qualifierName [ qualifierValueInitializer /
-        ///                                    qualiferValueArrayInitializer ]
-        ///     qualifierValueInitializer     = "(" literalValue ")"
-        ///     qualiferValueArrayInitializer = "{" literalValue *( "," literalValue ) "}"
-        ///
-        /// </remarks>
-        public static QualifierListAst ParseQualifierListAst(ParserStream stream)
-        {
-
-            var node = new QualifierListAst.Builder();
-
-            // "["
-            stream.Read<AttributeOpenToken>();
-
-            // qualifierValue *( "," qualifierValue )
-            while (!stream.Eof)
-            {
-                node.Qualifiers.Add(ParserEngine.ParseQualifierDeclarationAst(stream));
-                if (stream.Peek<CommaToken>() == null)
-                {
-                    break;
-                }
-                stream.Read<CommaToken>();
-            }
-
-            // "]"
-            stream.Read<AttributeCloseToken>();
-
-            return node.Build();
-
-        }
-
-        #endregion
-
-        #region A.12 Parameter declaration
+        #region 7.5.7 Parameter declaration
 
         /// <summary>
         ///
@@ -624,8 +561,9 @@ namespace Kingsland.MofParser.Parsing
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.12 Parameter declaration
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.7 Parameter declaration
         ///
         ///     parameterDeclaration = [ qualifierList ] ( primitiveParamDeclaration /
         ///                            complexParamDeclaration /
@@ -654,9 +592,9 @@ namespace Kingsland.MofParser.Parsing
             }
             node.Qualifiers = qualifiers;
             node.Type = stream.Read<IdentifierToken>();
-            if (stream.PeekIdentifier(Keywords.REF))
+            if (stream.PeekIdentifier(Constants.REF))
             {
-                stream.ReadIdentifier(Keywords.REF);
+                stream.ReadIdentifier(Constants.REF);
                 node.IsRef = true;
             }
             else
@@ -680,15 +618,16 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.14 Complex type value
+        #region 7.5.9 Complex type value
 
         /// <summary>
         /// </summary>
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.14 Complex type value
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.9 Complex type value
         ///
         ///     complexTypeValue  = complexValue / complexValueArray
         ///
@@ -745,11 +684,11 @@ namespace Kingsland.MofParser.Parsing
             var keyword = stream.ReadIdentifier();
             switch (keyword.GetNormalizedName())
             {
-                case Keywords.INSTANCE:
+                case Constants.INSTANCE:
                     node.IsInstance = true;
                     node.IsValue = false;
                     break;
-                case Keywords.VALUE:
+                case Constants.VALUE:
                     node.IsInstance = false;
                     node.IsValue = true;
                     break;
@@ -758,7 +697,7 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // OF
-            stream.ReadIdentifier(Keywords.OF);
+            stream.ReadIdentifier(Constants.OF);
 
             // ( structureName / className / associationName )
             node.TypeName = stream.Read<IdentifierToken>().Name;
@@ -770,9 +709,9 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // [ alias ]
-            if (stream.PeekIdentifier(Keywords.AS))
+            if (stream.PeekIdentifier(Constants.AS))
             {
-                stream.ReadIdentifier(Keywords.AS);
+                stream.ReadIdentifier(Constants.AS);
                 var aliasName = stream.Read<AliasIdentifierToken>().Name;
                 if (!StringValidator.IsIdentifier(aliasName))
                 {
@@ -899,10 +838,20 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-
         #endregion
 
-        #region A.17 Primitive type values
+        #region 7.6.1 Primitive type value
+
+        internal static bool IsLiteralValueToken(Token token)
+        {
+            return (token is IntegerLiteralToken) ||
+                   //(token is RealLiteralToken) ||
+                   //(token is DateTimeLiteralToken) ||
+                   (token is StringLiteralToken) ||
+                   (token is BooleanLiteralToken) ||
+                   //(token is OctetStringLiteralToken) ||
+                   (token is NullLiteralToken);
+        }
 
         /// <summary>
         ///
@@ -911,8 +860,9 @@ namespace Kingsland.MofParser.Parsing
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.17 Primitive type values
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.6.1 Primitive type value
         ///
         ///     primitiveTypeValue = literalValue / literalValueArray
         ///
@@ -936,58 +886,94 @@ namespace Kingsland.MofParser.Parsing
             }
         }
 
-        #endregion
-
-        #region A.17.6 Boolean value
-
         /// <summary>
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
-        /// A.17.6 Boolean value
         ///
-        ///     booleanValue = TRUE / FALSE
-        ///     FALSE        = "false" ; keyword: case insensitive
-        ///     TRUE         = "true"  ; keyword: case insensitive
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        /// </remarks>
-        public static BooleanValueAst ParseBooleanValueAst(ParserStream stream)
-        {
-            var token = stream.Read<BooleanLiteralToken>();
-            return new BooleanValueAst(token, token.Value);
-        }
-
-        #endregion
-
-        #region A.17.7 Null value
-
-        /// <summary>
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// A.17.7 Null value
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
+        /// 7.6.1 Primitive type value
         ///
-        ///     nullValue = NULL
-        ///     NULL = "null" ; keyword: case insensitive
-        ///                   ; second
+        ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
         ///
         /// </remarks>
-        public static NullValueAst ParseNullValueAst(ParserStream stream)
+        public static LiteralValueArrayAst ParseLiteralValueArrayAst(ParserStream stream)
         {
-            var token = stream.Read<NullLiteralToken>();
-            return new NullValueAst.Builder
+            var node = new LiteralValueArrayAst.Builder();
+            // "{"
+            stream.Read<BlockOpenToken>();
+            // [ literalValue *( "," literalValue) ]
+            if (stream.Peek<BlockCloseToken>() == null)
             {
-                Token = token
-            }.Build();
+                while (!stream.Eof)
+                {
+                    if (node.Values.Count > 0)
+                    {
+                        stream.Read<CommaToken>();
+                    }
+                    node.Values.Add(ParserEngine.ParseLiteralValueAst(stream));
+                    if (stream.Peek<BlockCloseToken>() != null)
+                    {
+                        break;
+                    }
+                }
+            }
+            // "}"
+            stream.Read<BlockCloseToken>();
+            // return the result
+            return node.Build();
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.6.1 Primitive type value
+        ///
+        ///     literalValue = integerValue / realValue /
+        ///                    stringValue / octetStringValue
+        ///                    booleanValue /
+        ///                    nullValue /
+        ///                    dateTimeValue
+        ///
+        /// </remarks>
+        public static LiteralValueAst ParseLiteralValueAst(ParserStream stream)
+        {
+            var peek = stream.Peek();
+            if (peek is IntegerLiteralToken)
+            {
+                // integerValue
+                return ParserEngine.ParseIntegerValueAst(stream);
+            }
+            else if (peek is StringLiteralToken)
+            {
+                // stringValue
+                return ParserEngine.ParseStringValueAst(stream);
+            }
+            else if (peek is BooleanLiteralToken)
+            {
+                // booleanValue
+                return ParserEngine.ParseBooleanValueAst(stream);
+            }
+            else if (peek is NullLiteralToken)
+            {
+                // nullValue
+                return ParserEngine.ParseNullValueAst(stream);
+            }
+            else
+            {
+                throw new UnexpectedTokenException(peek);
+            }
         }
 
         #endregion
 
-        #region A.17.1 Integer value
+        #region 7.6.1.1 Integer value
 
         /// <summary>
         ///
@@ -995,12 +981,14 @@ namespace Kingsland.MofParser.Parsing
         /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.17.1 Integer value
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.6.1.1 Integer value
         ///
         /// No whitespace is allowed between the elements of the rules in this ABNF section.
         ///
-        ///     integerValue         = binaryValue / octalValue / hexValue / decimalValue
+        ///     integerValue = binaryValue / octalValue / hexValue / decimalValue
         ///
         /// </remarks>
         public static IntegerValueAst ParseIntegerValueAst(ParserStream stream)
@@ -1013,15 +1001,17 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.17.2 Real value
+        #region 7.6.1.2 Real value
 
         /// <summary>
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.17.2 Real value
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.6.1.2 Real value
         ///
         ///     realValue            = ["+" / "-"] * decimalDigit "." 1*decimalDigit
         ///                            [ ("e" / "E") [ "+" / "-" ] 1*decimalDigit ]
@@ -1039,22 +1029,54 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.17.3 String values
+        #region 7.6.1.3 String values
 
         /// <summary>
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.17.3 String values
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.6.1.3 String values
         ///
         /// Unless explicitly specified via ABNF rule WS, no whitespace is allowed between the elements of the rules
         /// in this ABNF section.
         ///
-        ///     stringValue   = DOUBLEQUOTE *stringChar DOUBLEQUOTE
-        ///                     *( *WS DOUBLEQUOTE *stringChar DOUBLEQUOTE )
-        ///     stringChar    = stringUCSchar / stringEscapeSequence
+        ///     singleStringValue = DOUBLEQUOTE *stringChar DOUBLEQUOTE
+        ///     stringValue       = singleStringValue *( *WS singleStringValue )
+        ///
+        ///     stringChar        = stringUCSchar / stringEscapeSequence
+        ///     stringUCSchar     = U+0020...U+0021 / U+0023...U+D7FF /
+        ///                         U+E000...U+FFFD / U+10000...U+10FFFF
+        ///                         ; Note that these UCS characters can be
+        ///                         ; represented in XML without any escaping
+        ///                         ; (see W3C XML).
+        ///
+        ///     stringEscapeSequence = BACKSLASH ( BACKSLASH / DOUBLEQUOTE / SINGLEQUOTE /
+        ///                            BACKSPACE_ESC / TAB_ESC / LINEFEED_ESC /
+        ///                            FORMFEED_ESC / CARRIAGERETURN_ESC /
+        ///                            escapedUCSchar )
+        ///
+        ///     BACKSPACE_ESC      = "b" ; escape for back space (U+0008)
+        ///     TAB_ESC            = "t" ; escape for horizontal tab(U+0009)
+        ///     LINEFEED_ESC       = "n" ; escape for line feed(U+000A)
+        ///     FORMFEED_ESC       = "f" ; escape for form feed(U+000C)
+        ///     CARRIAGERETURN_ESC = "r" ; escape for carriage return (U+000D)
+        ///
+        ///     escapedUCSchar     = ( "x" / "X" ) 1*6(hexDigit ) ; escaped UCS
+        ///                          ; character with a UCS code position that is
+        ///                          ; the numeric value of the hex number
+        ///
+        /// The following special characters are also used in other ABNF rules in this specification:
+        ///
+        ///     BACKSLASH   = U+005C ; \
+        ///     DOUBLEQUOTE = U+0022 ; "
+        ///     SINGLEQUOTE = U+0027 ; '
+        ///     UPPERALPHA  = U+0041...U+005A ; A ... Z
+        ///     LOWERALPHA  = U+0061...U+007A ; a ... z
+        ///     UNDERSCORE  = U+005F ; _
         ///
         /// </remarks>
         public static StringValueAst ParseStringValueAst(ParserStream stream)
@@ -1067,14 +1089,69 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.19 Reference type value
+        #region 7.6.1.5 Boolean value
+
+        /// <summary>
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.6.1.5 Boolean value
+        ///
+        ///     booleanValue = TRUE / FALSE
+        ///     FALSE        = "false" ; keyword: case insensitive
+        ///     TRUE         = "true"  ; keyword: case insensitive
+        ///
+        /// </remarks>
+        public static BooleanValueAst ParseBooleanValueAst(ParserStream stream)
+        {
+            var token = stream.Read<BooleanLiteralToken>();
+            return new BooleanValueAst(token, token.Value);
+        }
+
+        #endregion
+
+        #region 7.6.1.6 Null value
+
+        /// <summary>
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// 7.6.1.6 Null value
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        ///     nullValue = NULL
+        ///     NULL      = "null" ; keyword: case insensitive
+        ///                        ; second
+        ///
+        /// </remarks>
+        public static NullValueAst ParseNullValueAst(ParserStream stream)
+        {
+            var token = stream.Read<NullLiteralToken>();
+            return new NullValueAst.Builder
+            {
+                Token = token
+            }.Build();
+        }
+
+        #endregion
+
+        #region 7.6.4 Reference type value
 
         /// <summary>
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
-        /// A.19 Reference type value
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.6.4 Reference type value
         ///
         ///     referenceTypeValue  = referenceValue / referenceValueArray
         ///     referenceValueArray = "{" [ objectPathValue *( "," objectPathValue ) ]

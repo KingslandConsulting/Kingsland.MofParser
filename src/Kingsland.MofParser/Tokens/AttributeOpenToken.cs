@@ -6,7 +6,7 @@ namespace Kingsland.MofParser.Tokens
     public sealed class AttributeOpenToken : Token
     {
 
-        internal AttributeOpenToken(SourceExtent extent)
+        public AttributeOpenToken(SourceExtent extent)
             : base(extent)
         {
         }

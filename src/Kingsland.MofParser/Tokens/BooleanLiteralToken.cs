@@ -6,7 +6,7 @@ namespace Kingsland.MofParser.Tokens
     public sealed class BooleanLiteralToken : Token
     {
 
-        internal BooleanLiteralToken(SourceExtent extent, bool value)
+        public BooleanLiteralToken(SourceExtent extent, bool value)
             : base(extent)
         {
             this.Value = value;
