@@ -400,7 +400,7 @@ namespace Kingsland.MofParser.Lexing
         /// </remarks>
         public static (PragmaToken, SourceReader) ReadPragmaToken(SourceReader reader)
         {
-            (var sourceChars, var thisReader) = reader.ReadString(Constants.PRAGMA);
+            (var sourceChars, var thisReader) = reader.ReadString(Constants.PRAGMA, true);
             var extent = SourceExtent.From(sourceChars.ToList());
             return (new PragmaToken(extent), thisReader);
         }

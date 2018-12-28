@@ -142,15 +142,32 @@ namespace Kingsland.MofParser.Source
         /// Throws an exception if the string does not match the specified value.
         /// </summary>
         /// <returns></returns>
-        public (List<SourceChar> SourceChars, SourceReader NextReader) ReadString(string value)
+        public (List<SourceChar> SourceChars, SourceReader NextReader) ReadString(string value, bool ignoreCase = false)
         {
             var thisReader = this;
             var sourceChar = default(SourceChar);
             var sourceChars = new List<SourceChar>();
             foreach (var expectedChar in value)
             {
-                (sourceChar, thisReader) = thisReader.Read(expectedChar);
-                sourceChars.Add(sourceChar);
+                sourceChar = thisReader.Peek();
+                if (sourceChar.Value == expectedChar)
+                {
+                    // case sensitive match
+                    (sourceChar, thisReader) = thisReader.Read();
+                    sourceChars.Add(sourceChar);
+                }
+                else if (ignoreCase &&
+                    string.Equals(new string(sourceChar.Value, 1), new string(expectedChar, 1), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    // case insensitive match
+                    (sourceChar, thisReader) = thisReader.Read();
+                    sourceChars.Add(sourceChar);
+                }
+                else
+                {
+                    // not a match, so force an exception
+                    (sourceChar, thisReader) = thisReader.Read(expectedChar);
+                }
             }
             return (sourceChars, thisReader);
         }
