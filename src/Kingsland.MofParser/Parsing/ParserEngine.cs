@@ -827,6 +827,22 @@ namespace Kingsland.MofParser.Parsing
         ///
         ///     propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
         ///
+        /// 7.6.1 Primitive type value
+        ///
+        ///     primitiveTypeValue = literalValue / literalValueArray
+        ///
+        /// 7.5.9 Complex type value
+        ///
+        ///     complexTypeValue = complexValue / complexValueArray
+        ///
+        /// 7.6.4 Reference type value
+        ///
+        ///     referenceTypeValue = objectPathValue / objectPathValueArray
+        ///
+        /// 7.6.3 Enum type value
+        ///
+        ///     enumTypeValue = enumValue / enumValueArray
+        ///
         /// </remarks>
         internal static PropertyValueAst ParsePropertyValueAst(ParserStream stream)
         {
@@ -844,7 +860,7 @@ namespace Kingsland.MofParser.Parsing
                 // this is a complexValueArray, literalValueArray, referenceValueArray or enumValueArray
                 stream.Read();
                 peek = stream.Peek();
-                if (!ParserEngine.IsLiteralValueToken(peek))
+                if (ParserEngine.IsLiteralValueToken(peek))
                 {
                     // literalValueArray
                     stream.Backtrack();
