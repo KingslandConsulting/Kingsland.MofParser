@@ -48,7 +48,7 @@ namespace Kingsland.MofParser.Objects
             var instance = new Instance
             {
                 ClassName = node.TypeName.Name,
-                Alias = node.Alias.Name
+                Alias = node?.Alias?.Name
             };
             foreach (var property in node.PropertyValues.PropertyValues)
             {
