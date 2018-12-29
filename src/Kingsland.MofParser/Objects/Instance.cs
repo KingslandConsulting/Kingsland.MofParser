@@ -52,7 +52,7 @@ namespace Kingsland.MofParser.Objects
             };
             foreach (var property in node.PropertyValues.PropertyValues)
             {
-                var propertyValue = property.Value.Value;
+                var propertyValue = property.Value;
                 if ((propertyValue as LiteralValueArrayAst) != null)
                 {
                     var itemValues = ((LiteralValueArrayAst)propertyValue).Values

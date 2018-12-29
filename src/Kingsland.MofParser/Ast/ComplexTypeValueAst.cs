@@ -12,7 +12,7 @@
     ///     complexTypeValue = complexValue / complexValueArray
     ///
     /// </remarks>
-    public abstract class ComplexTypeValueAst : AstNode
+    public abstract class ComplexTypeValueAst : PropertyValueAst
     {
 
         #region Constructors

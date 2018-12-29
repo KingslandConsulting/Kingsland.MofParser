@@ -54,9 +54,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                 new PropertyValueListAst(
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
-                                            { "ServerURL", new PropertyValueAst(
-                                                new StringValueAst("https://URL")
-                                            )}
+                                            { "ServerURL", new StringValueAst("https://URL") }
                                         }
                                     )
                                 )
@@ -105,9 +103,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                 new PropertyValueListAst(
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
-                                            { "Reference", new PropertyValueAst(
-                                                new ReferenceTypeValueAst("Alias0000006E")
-                                            )}
+                                            { "Reference", new ReferenceTypeValueAst("Alias0000006E") }
                                         }
                                     )
                                 )
@@ -156,13 +152,11 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                 new PropertyValueListAst(
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
-                                            { "Reference", new PropertyValueAst(
-                                                new ComplexValueArrayAst(
-                                                    new ReadOnlyCollection<ComplexValueAst>(
-                                                        new List<ComplexValueAst>()
-                                                    )
-                                                )
-                                            )}
+                                            { "Reference", new ComplexValueArrayAst(
+                                                new ReadOnlyCollection<ComplexValueAst>(
+                                                    new List<ComplexValueAst>()
+                                                ))
+                                            }
                                         }
                                     )
                                 )
@@ -211,36 +205,34 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                 new PropertyValueListAst(
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
-                                            { "Reference", new PropertyValueAst(
-                                                new ComplexValueArrayAst(
-                                                    new ReadOnlyCollection<ComplexValueAst>(
-                                                        new List<ComplexValueAst> {
-                                                            new ComplexValueAst(
-                                                                true, false,
-                                                                new AliasIdentifierToken(
-                                                                    new SourceExtent(
-                                                                        new SourcePosition(58, 3, 18),
-                                                                        new SourcePosition(71, 3, 31),
-                                                                        "$Alias0000006E"
-                                                                    ),
-                                                                    "Alias0000006E"
+                                            { "Reference", new ComplexValueArrayAst(
+                                                new ReadOnlyCollection<ComplexValueAst>(
+                                                    new List<ComplexValueAst> {
+                                                        new ComplexValueAst(
+                                                            true, false,
+                                                            new AliasIdentifierToken(
+                                                                new SourceExtent(
+                                                                    new SourcePosition(58, 3, 18),
+                                                                    new SourcePosition(71, 3, 31),
+                                                                    "$Alias0000006E"
                                                                 ),
-                                                                new IdentifierToken(
-                                                                    new SourceExtent(
-                                                                        new SourcePosition(12, 1, 13),
-                                                                        new SourcePosition(17, 1, 18),
-                                                                        "myType"
-                                                                    ),
+                                                                "Alias0000006E"
+                                                            ),
+                                                            new IdentifierToken(
+                                                                new SourceExtent(
+                                                                    new SourcePosition(12, 1, 13),
+                                                                    new SourcePosition(17, 1, 18),
                                                                     "myType"
                                                                 ),
-                                                                new PropertyValueListAst(
-                                                                    new ReadOnlyDictionary<string, PropertyValueAst>(
-                                                                        new Dictionary<string, PropertyValueAst>()
-                                                                    )
+                                                                "myType"
+                                                            ),
+                                                            new PropertyValueListAst(
+                                                                new ReadOnlyDictionary<string, PropertyValueAst>(
+                                                                    new Dictionary<string, PropertyValueAst>()
                                                                 )
                                                             )
-                                                        }
-                                                    )
+                                                        )
+                                                    }
                                                 )
                                             )}
                                         }
@@ -291,14 +283,12 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                 new PropertyValueListAst(
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
-                                            { "ServerURLs", new PropertyValueAst(
-                                                new LiteralValueArrayAst(
-                                                    new ReadOnlyCollection<LiteralValueAst>(
-                                                        new List<LiteralValueAst> {
-                                                            new StringValueAst("https://URL1"),
-                                                            new StringValueAst("https://URL2")
-                                                        }
-                                                    )
+                                            { "ServerURLs", new LiteralValueArrayAst(
+                                                new ReadOnlyCollection<LiteralValueAst>(
+                                                    new List<LiteralValueAst> {
+                                                        new StringValueAst("https://URL1"),
+                                                        new StringValueAst("https://URL2")
+                                                    }
                                                 )
                                             )}
                                         }

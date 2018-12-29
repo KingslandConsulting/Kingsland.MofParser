@@ -29,7 +29,7 @@ namespace Kingsland.MofParser.Ast
     ///     keyValue         = propertyName "=" literalValue
     ///
     /// </remarks>
-    public sealed class ReferenceTypeValueAst : AstNode
+    public sealed class ReferenceTypeValueAst : PropertyValueAst
     {
 
         #region Builder

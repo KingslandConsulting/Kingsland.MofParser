@@ -12,7 +12,7 @@
     ///     primitiveTypeValue = literalValue / literalValueArray
     ///
     /// </remarks>
-    public abstract class PrimitiveTypeValueAst : AstNode
+    public abstract class PrimitiveTypeValueAst : PropertyValueAst
     {
 
         #region Constructors

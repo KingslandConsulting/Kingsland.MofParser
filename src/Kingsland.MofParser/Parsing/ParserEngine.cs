@@ -830,13 +830,13 @@ namespace Kingsland.MofParser.Parsing
         /// </remarks>
         internal static PropertyValueAst ParsePropertyValueAst(ParserStream stream)
         {
-            var node = new PropertyValueAst.Builder();
+            var node = default(PropertyValueAst);
             var peek = stream.Peek();
-            // propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
+            // primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
             if (ParserEngine.IsLiteralValueToken(peek))
             {
                 // primitiveTypeValue -> literalValue
-                node.Value = ParserEngine.ParsePrimitiveTypeValueAst(stream);
+                node = ParserEngine.ParsePrimitiveTypeValueAst(stream);
             }
             else if (peek is BlockOpenToken)
             {
@@ -844,30 +844,30 @@ namespace Kingsland.MofParser.Parsing
                 // this is a complexValueArray, literalValueArray, referenceValueArray or enumValueArray
                 stream.Read();
                 peek = stream.Peek();
-                if (ParserEngine.IsLiteralValueToken(peek))
+                if (!ParserEngine.IsLiteralValueToken(peek))
                 {
                     // literalValueArray
                     stream.Backtrack();
-                    node.Value = ParserEngine.ParseLiteralValueArrayAst(stream);
+                    node = ParserEngine.ParseLiteralValueArrayAst(stream);
                 }
                 else
                 {
                     // complexValueType
                     stream.Backtrack();
-                    node.Value = ParserEngine.ParseComplexValueArrayAst(stream);
+                    node = ParserEngine.ParseComplexValueArrayAst(stream);
                 }
             }
             else if (peek is AliasIdentifierToken)
             {
                 // referenceTypeValue
-                node.Value = ParserEngine.ParseReferenceTypeValueAst(stream);
+                node = ParserEngine.ParseReferenceTypeValueAst(stream);
             }
             else
             {
                 throw new UnexpectedTokenException(peek);
             }
             // return the result
-            return node.Build();
+            return node;
         }
 
         #endregion
