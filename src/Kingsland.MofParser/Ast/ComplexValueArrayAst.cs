@@ -11,7 +11,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Builder
 
-        public class Builder
+        public sealed class Builder
         {
 
             public Builder()
@@ -34,7 +34,10 @@ namespace Kingsland.MofParser.Ast
             public ComplexValueArrayAst Build()
             {
                 return new ComplexValueArrayAst(
-                    this.Qualifiers,
+                    this.Qualifiers ?? new QualifierListAst(
+                        new ReadOnlyCollection<QualifierDeclarationAst>(
+                            new List<QualifierDeclarationAst>()
+                        )),
                     new ReadOnlyCollection<ComplexValueAst>(
                         this.Values ?? new List<ComplexValueAst>()
                     )
@@ -47,7 +50,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private ComplexValueArrayAst(
+        public ComplexValueArrayAst(
             QualifierListAst qualifiers,
             ReadOnlyCollection<ComplexValueAst> values
         ) : base(qualifiers)

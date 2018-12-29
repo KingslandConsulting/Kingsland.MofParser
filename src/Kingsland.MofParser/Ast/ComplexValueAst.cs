@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,18 +15,13 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public Builder()
-            {
-                this.Properties = new Dictionary<string, PropertyValueAst>();
-            }
-
             public QualifierListAst Qualifiers
             {
                 get;
                 set;
             }
 
-            public bool IsInstance
+            public bool IsAlias
             {
                 get;
                 set;
@@ -37,19 +33,19 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public string TypeName
+            public AliasIdentifierToken Alias
             {
                 get;
                 set;
             }
 
-            public string Alias
+            public IdentifierToken TypeName
             {
                 get;
                 set;
             }
 
-            public Dictionary<string, PropertyValueAst> Properties
+            public PropertyValueListAst Properties
             {
                 get;
                 set;
@@ -59,13 +55,11 @@ namespace Kingsland.MofParser.Ast
             {
                 return new ComplexValueAst(
                     this.Qualifiers ?? new QualifierListAst.Builder().Build(),
-                    this.IsInstance,
+                    this.IsAlias,
                     this.IsValue,
-                    this.TypeName,
                     this.Alias,
-                    new ReadOnlyDictionary<string, PropertyValueAst>(
-                        this.Properties ?? new Dictionary<string, PropertyValueAst>()
-                    )
+                    this.TypeName,
+                    this.Properties ?? new PropertyValueListAst.Builder().Build()
                 );
             }
 
@@ -75,27 +69,27 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private ComplexValueAst(
+        public ComplexValueAst(
             QualifierListAst qualifiers,
-            bool isInstance,
+            bool isAlias,
             bool isValue,
-            string typeName,
-            string alias,
-            ReadOnlyDictionary<string, PropertyValueAst> properties
+            AliasIdentifierToken alias,
+            IdentifierToken typeName,
+            PropertyValueListAst properties
         ) : base(qualifiers)
         {
-            this.IsInstance = isInstance;
+            this.IsAlias = isAlias;
             this.IsValue = isValue;
-            this.TypeName = typeName;
             this.Alias = alias;
-            this.Properties = properties ?? throw new ArgumentNullException(nameof(properties));
+            this.TypeName = TypeName;
+            this.Properties = properties;
         }
 
         #endregion
 
         #region Properties
 
-        public bool IsInstance
+        public bool IsAlias
         {
             get;
             private set;
@@ -107,19 +101,19 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public string TypeName
+        public AliasIdentifierToken Alias
         {
             get;
             private set;
         }
 
-        public string Alias
+        public IdentifierToken TypeName
         {
             get;
             private set;
         }
 
-        public ReadOnlyDictionary<string, PropertyValueAst> Properties
+        public PropertyValueListAst Properties
         {
             get;
             private set;

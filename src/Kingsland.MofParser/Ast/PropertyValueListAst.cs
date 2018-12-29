@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 namespace Kingsland.MofParser.Ast
 {
 
-    public sealed class LiteralValueArrayAst : PrimitiveTypeValueAst
+    public sealed class PropertyValueListAst : AstNode
     {
 
         #region Builder
@@ -16,24 +16,23 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
-                this.Values = new List<LiteralValueAst>();
+                this.PropertyValues = new Dictionary<string, PropertyValueAst>();
             }
 
-            public List<LiteralValueAst> Values
+            public Dictionary<string, PropertyValueAst> PropertyValues
             {
                 get;
                 set;
             }
 
-            public LiteralValueArrayAst Build()
+            public PropertyValueListAst Build()
             {
-                return new LiteralValueArrayAst(
-                    new ReadOnlyCollection<LiteralValueAst>(
-                        this.Values ?? new List<LiteralValueAst>()
+                return new PropertyValueListAst(
+                    new ReadOnlyDictionary<string, PropertyValueAst>(
+                        this.PropertyValues ?? new Dictionary<string, PropertyValueAst>()
                     )
                 );
             }
-
 
         }
 
@@ -41,16 +40,16 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public LiteralValueArrayAst(ReadOnlyCollection<LiteralValueAst> values)
+        public PropertyValueListAst(ReadOnlyDictionary<string, PropertyValueAst> propertyValues)
         {
-            this.Values = values ?? throw new ArgumentNullException(nameof(values));
+            this.PropertyValues = propertyValues ?? throw new ArgumentNullException(nameof(propertyValues));
         }
 
         #endregion
 
         #region Properties
 
-        public ReadOnlyCollection<LiteralValueAst> Values
+        public ReadOnlyDictionary<string, PropertyValueAst> PropertyValues
         {
             get;
             private set;

@@ -39,22 +39,18 @@ namespace Kingsland.MofParser.Objects
             }
         }
 
-        public static Instance FromAstNode(ComplexValueAst node)
+        public static Instance FromAstNode(InstanceValueDeclarationAst node)
         {
             if (node == null)
             {
                 throw new ArgumentNullException("node");
             }
-            if (!node.IsInstance)
-            {
-                throw new ArgumentException("Value must represent an instance.", "node");
-            }
             var instance = new Instance
             {
-                ClassName = node.TypeName,
-                Alias = node.Alias
+                ClassName = node.TypeName.Name,
+                Alias = node.Alias.Name
             };
-            foreach (var property in node.Properties)
+            foreach (var property in node.PropertyValues.PropertyValues)
             {
                 var propertyValue = property.Value.Value;
                 if ((propertyValue as LiteralValueArrayAst) != null)

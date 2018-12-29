@@ -40,7 +40,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private QualifierListAst(ReadOnlyCollection<QualifierDeclarationAst> qualifiers)
+        public QualifierListAst(ReadOnlyCollection<QualifierDeclarationAst> qualifiers)
         {
             this.Qualifiers = qualifiers ?? throw new ArgumentNullException(nameof(qualifiers));
         }

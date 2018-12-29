@@ -266,6 +266,22 @@ namespace Kingsland.MofParser.UnitTests.Lexer
         #endregion
 
         [TestFixture]
+        public static class EmptyFileTests
+        {
+
+            [Test]
+            public static void ShouldReadEmptyFile()
+            {
+                var actualTokens = Lexing.Lexer.Lex(
+                    SourceReader.From(string.Empty)
+                );
+                var expectedTokens = new List<Token>();
+                LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
+            }
+
+        }
+
+        [TestFixture]
         public static class ReadWhitespaceTokenMethod
         {
 

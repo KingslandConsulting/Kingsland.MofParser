@@ -8,7 +8,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Builder
 
-        public class Builder
+        public sealed class Builder
         {
 
             public object Value
@@ -30,7 +30,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private PropertyValueAst(object value)
+        public PropertyValueAst(object value)
         {
             this.Value = value;
         }

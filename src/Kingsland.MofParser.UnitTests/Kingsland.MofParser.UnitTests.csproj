@@ -49,12 +49,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lexer\TestCases\empty_file.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Lexer\TestCases\empty_file.mof">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Lexer\TestCases\MyServer.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -62,21 +56,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
-    <Content Include="Parsing\TestCases\issue_7_aliasidentifier_array.mof">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Parsing\TestCases\issue_7_aliasidentifier_single.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Parsing\TestCases\issue_7_aliasidentifier_single.mof">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Parsing\TestCases\issue_7_literalvaluearray.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Parsing\TestCases\issue_7_literalvaluearray.mof">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Parsing\DSP0221_3.0.1\D.01 GOLF_Schema.mof">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -39,7 +39,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private MofSpecificationAst(ReadOnlyCollection<MofProductionAst> productions)
+        public MofSpecificationAst(ReadOnlyCollection<MofProductionAst> productions)
         {
             this.Productions = productions ?? throw new ArgumentNullException(nameof(productions));
         }

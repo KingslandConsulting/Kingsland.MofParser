@@ -33,6 +33,9 @@
   <ItemGroup>
     <Compile Include="Ast\ClassDeclarationAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />
+    <Compile Include="Ast\PropertyValueListAst.cs" />
+    <Compile Include="Ast\StructureValueDeclarationAst.cs" />
+    <Compile Include="Ast\InstanceValueDeclarationAst.cs" />
     <Compile Include="Ast\ComplexValueArrayAst.cs" />
     <Compile Include="Ast\ComplexValueAst.cs" />
     <Compile Include="Ast\BooleanValueAst.cs" />

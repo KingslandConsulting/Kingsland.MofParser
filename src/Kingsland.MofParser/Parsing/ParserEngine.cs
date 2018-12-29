@@ -39,16 +39,19 @@ namespace Kingsland.MofParser.Parsing
         /// <param name="stream"></param>
         /// <returns></returns>
         /// <remarks>
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0.pdf
-        /// A.2 MOF specification
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.2 MOF specification
         ///
         ///     mofProduction = compilerDirective /
         ///                     structureDeclaration /
         ///                     classDeclaration /
         ///                     associationDeclaration /
         ///                     enumerationDeclaration /
-        ///                     instanceDeclaration /
-        ///                     qualifierDeclaration
+        ///                     instanceValueDeclaration /
+        ///                     structureValueDeclaration /
+        ///                     qualifierTypeDeclaration
         ///
         /// </remarks>
         public static MofProductionAst ParseMofProductionAst(ParserStream stream)
@@ -62,6 +65,17 @@ namespace Kingsland.MofParser.Parsing
                 return ParserEngine.ParseCompilerDirectiveAst(stream);
             }
 
+            var identifier = stream.Peek<IdentifierToken>();
+            switch (identifier.GetNormalizedName())
+            {
+                case Constants.INSTANCE:
+                    // instanceValueDeclaration
+                    return ParserEngine.ParseInstanceValueDeclarationAst(stream);
+                case Constants.VALUE:
+                    // structureValueDeclaration
+                    return ParserEngine.ParseStructureValueDeclarationAst(stream);
+            }
+
             // all other mofProduction structures can start with an optional qualifierList
             var qualifiers = default(QualifierListAst);
             if (peek is AttributeOpenToken)
@@ -69,38 +83,26 @@ namespace Kingsland.MofParser.Parsing
                 qualifiers = ParserEngine.ParseQualifierListAst(stream);
             }
 
-            var identifier = stream.Peek<IdentifierToken>();
+            identifier = stream.Peek<IdentifierToken>();
             switch (identifier.GetNormalizedName())
             {
-
                 case Constants.STRUCTURE:
                     // structureDeclaration
                     throw new UnsupportedTokenException(identifier);
-
                 case Constants.CLASS:
                     // classDeclaration
                     return ParserEngine.ParseClassDeclarationAst(stream, qualifiers);
-
                 case Constants.ASSOCIATION:
                     // associationDeclaration
                     throw new UnsupportedTokenException(identifier);
-
                 case Constants.ENUMERATION:
                     // enumerationDeclaration
                     throw new UnsupportedTokenException(identifier);
-
-                case Constants.INSTANCE:
-                case Constants.VALUE:
-                    // instanceDeclaration
-                    return ParserEngine.ParseComplexTypeValueAst(stream);
-
                 case Constants.QUALIFIER:
-                    // qualifierDeclaration
+                    // qualifierTypeDeclaration
                     throw new UnsupportedTokenException(identifier);
-
                 default:
                     throw new UnexpectedTokenException(peek);
-
             }
 
         }
@@ -629,7 +631,7 @@ namespace Kingsland.MofParser.Parsing
         ///
         /// 7.5.9 Complex type value
         ///
-        ///     complexTypeValue  = complexValue / complexValueArray
+        ///     complexTypeValue = complexValue / complexValueArray
         ///
         /// </remarks>
         public static ComplexTypeValueAst ParseComplexTypeValueAst(ParserStream stream)
@@ -656,23 +658,50 @@ namespace Kingsland.MofParser.Parsing
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.14 Complex type value
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        ///     complexValue      = ( INSTANCE / VALUE ) OF
-        ///                         ( structureName / className / associationName )
-        ///                         [ alias ] propertyValueList ";"
-        ///     propertyValueList = "{" *propertySlot "}"
-        ///     propertySlot      = propertyName "=" propertyValue ";"
-        ///     propertyValue     = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
-        ///     alias             = AS aliasIdentifier
-        ///     INSTANCE          = "instance" ; keyword: case insensitive
-        ///     VALUE             = "value"    ; keyword: case insensitive
-        ///     AS                = "as"       ; keyword: case insensitive
-        ///     OF                = "of"       ; keyword: case insensitive
+        /// 7.5.9 Complex type value
         ///
-        ///     propertyName      = IDENTIFIER
+        ///     complexValueArray = "{" [ complexValue *( "," complexValue) ] "}"
         ///
+        /// </remarks>
+        public static ComplexValueArrayAst ParseComplexValueArrayAst(ParserStream stream)
+        {
+            // complexValueArray =
+            var node = new ComplexValueArrayAst.Builder();
+            // "{"
+            stream.Read<BlockOpenToken>();
+            if (stream.Peek<BlockCloseToken>() == null)
+            {
+                // [ complexValue
+                node.Values.Add(ParserEngine.ParseComplexValueAst(stream));
+                // *( "," complexValue) ]
+                while (stream.Peek<CommaToken>() != null)
+                {
+                    stream.Read<CommaToken>();
+                    node.Values.Add(ParserEngine.ParseComplexValueAst(stream));
+                }
+            }
+            // "}"
+            stream.Read<BlockCloseToken>();
+            // return the result
+            return node.Build();
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.9 Complex type value
+        ///
+        ///     complexValue      = aliasIdentifier /
+        ///                         ( VALUE OF
+        ///                           ( structureName / className / associationName )
+        ///                           propertyValueList )
+        /// 
         /// </remarks>
         public static ComplexValueAst ParseComplexValueAst(ParserStream stream)
         {
@@ -680,48 +709,62 @@ namespace Kingsland.MofParser.Parsing
             // complexValue =
             var node = new ComplexValueAst.Builder();
 
-            // ( INSTANCE / VALUE )
-            var keyword = stream.ReadIdentifier();
-            switch (keyword.GetNormalizedName())
+            // aliasIdentifier /
+            if (stream.Peek<AliasIdentifierToken>() != null)
             {
-                case Constants.INSTANCE:
-                    node.IsInstance = true;
-                    node.IsValue = false;
-                    break;
-                case Constants.VALUE:
-                    node.IsInstance = false;
-                    node.IsValue = true;
-                    break;
-                default:
-                    throw new UnexpectedTokenException(keyword);
+                var aliasIdentifierToken = stream.Read<AliasIdentifierToken>();
+                node.IsAlias = true;
+                node.Alias = aliasIdentifierToken;
+                return node.Build();
             }
 
-            // OF
-            stream.ReadIdentifier(Constants.OF);
+            // ( VALUE OF
+            var valueKeyword = stream.ReadIdentifier(Constants.VALUE);
+            var ofKeyword = stream.ReadIdentifier(Constants.OF);
+            node.IsValue = true;
 
             // ( structureName / className / associationName )
-            node.TypeName = stream.Read<IdentifierToken>().Name;
-            if (!StringValidator.IsStructureName(node.TypeName) &&
-                !StringValidator.IsClassName(node.TypeName) &&
-                !StringValidator.IsAssociationName(node.TypeName))
+            if (stream.Peek<IdentifierToken>() != null)
             {
-                throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
-            }
-
-            // [ alias ]
-            if (stream.PeekIdentifier(Constants.AS))
-            {
-                stream.ReadIdentifier(Constants.AS);
-                var aliasName = stream.Read<AliasIdentifierToken>().Name;
-                if (!StringValidator.IsIdentifier(aliasName))
+                var identifierToken = stream.Read<IdentifierToken>();
+                if (!StringValidator.IsStructureName(identifierToken.Name) &&
+                    !StringValidator.IsClassName(identifierToken.Name) &&
+                    !StringValidator.IsAssociationName(identifierToken.Name))
                 {
-                    throw new InvalidOperationException("Value is not a valid aliasIdentifier");
+                    throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
                 }
-                node.Alias = aliasName;
+                node.TypeName = identifierToken;
             }
 
-            // propertyValueList
+            // propertyValueList )
+            node.Properties = ParserEngine.ParsePropertyValueListAst(stream);
+
+            // return the result
+            return node.Build();
+
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.9 Complex type value
+        ///
+        ///     propertyValueList = "{" *propertySlot "}"
+        ///     propertySlot      = propertyName "=" propertyValue ";"
+        ///     propertyValue     = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
+        ///     propertyName      = IDENTIFIER
+        ///
+        /// </remarks>
+        internal static PropertyValueListAst ParsePropertyValueListAst(ParserStream stream)
+        {
+            var node = new PropertyValueListAst.Builder();
+            // "{"
             stream.Read<BlockOpenToken>();
+            // *propertySlot
             while (!stream.Eof && (stream.Peek<BlockCloseToken>() == null))
             {
                 // propertyName
@@ -736,60 +779,23 @@ namespace Kingsland.MofParser.Parsing
                 var propertyValue = ParserEngine.ParsePropertyValueAst(stream);
                 // ";"
                 stream.Read<StatementEndToken>();
-                node.Properties.Add(propertyName, propertyValue);
+                node.PropertyValues.Add(propertyName, propertyValue);
             }
-
             // "}"
             stream.Read<BlockCloseToken>();
-
-            // ";"
-            stream.Read<StatementEndToken>();
-
-            // return the result
             return node.Build();
-
         }
+
+
 
         /// <summary>
         /// </summary>
         /// <returns></returns>
         /// <remarks>
         ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.14 Complex type value
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        ///     complexValueArray = "{" [ complexValue *( "," complexValue) ] "}"
-        ///
-        /// </remarks>
-        public static ComplexValueArrayAst ParseComplexValueArrayAst(ParserStream stream)
-        {
-            // complexValueArray =
-            var node = new ComplexValueArrayAst.Builder();
-            // "{"
-            stream.Read<BlockOpenToken>();
-            // [ complexValue
-            node.Values.Add(ParserEngine.ParseComplexValueAst(stream));
-            // *( "," complexValue) ]
-            while (stream.Peek<CommaToken>() != null)
-            {
-                stream.Read<CommaToken>();
-                node.Values.Add(ParserEngine.ParseComplexValueAst(stream));
-            }
-            // "}"
-            stream.Read<BlockCloseToken>();
-            // return the result
-            return node.Build();
-        }
-
-        #region Parsing Methods
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        ///
-        /// See http://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.0a.pdf
-        /// A.14 Complex type value
+        /// 7.5.9 Complex type value
         ///
         ///     propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
         ///
@@ -835,8 +841,6 @@ namespace Kingsland.MofParser.Parsing
             // return the result
             return node.Build();
         }
-
-        #endregion
 
         #endregion
 
@@ -1139,6 +1143,90 @@ namespace Kingsland.MofParser.Parsing
                 Token = token
             }.Build();
         }
+
+        #endregion
+
+        #region 7.6.2 Complex type value
+
+        /// <summary>
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// 7.6.2 Complex type value
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        ///     instanceValueDeclaration = INSTANCE OF ( className / associationName )
+        ///                                [alias]
+        ///                                propertyValueList ";"
+        ///                                
+        ///     alias                    = AS aliasIdentifier
+        ///
+        /// </remarks>
+        public static InstanceValueDeclarationAst ParseInstanceValueDeclarationAst(ParserStream stream)
+        {
+
+            var node = new InstanceValueDeclarationAst.Builder();
+
+            // INSTANCE
+            stream.ReadIdentifier(Constants.INSTANCE);
+
+            // OF
+            stream.ReadIdentifier(Constants.OF);
+
+            // ( className / associationName )
+            var nameToken = stream.Read<IdentifierToken>();
+            if (!StringValidator.IsClassName(nameToken.Name) &&
+                !StringValidator.IsAssociationName(nameToken.Name))
+            {
+                throw new InvalidOperationException("Identifer is not a className or associationName");
+            }
+            node.TypeName = nameToken;
+
+            // [alias]
+            if (stream.PeekIdentifier(Constants.AS))
+            {
+
+                stream.ReadIdentifier(Constants.AS);
+
+                var aliasIdentifierToken = stream.Read<AliasIdentifierToken>();
+                node.Alias = aliasIdentifierToken;
+
+            }
+
+            // propertyValueList
+            node.PropertyValues = ParserEngine.ParsePropertyValueListAst(stream);
+
+            // ";"
+            stream.Read<StatementEndToken>();
+
+            return node.Build();
+
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// 7.6.2 Complex type value
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        ///     structureValueDeclaration = VALUE OF
+        ///                                 ( className / associationName / structureName )
+        ///                                 alias
+        ///                                 propertyValueList ";"
+        ///
+        /// </remarks>
+        public static StructureValueDeclarationAst ParseStructureValueDeclarationAst(ParserStream stream)
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion
 

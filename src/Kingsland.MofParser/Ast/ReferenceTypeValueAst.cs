@@ -30,7 +30,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private ReferenceTypeValueAst(string name)
+        public ReferenceTypeValueAst(string name)
         {
             this.Name = name;
         }
