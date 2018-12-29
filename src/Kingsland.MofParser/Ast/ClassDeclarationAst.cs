@@ -6,6 +6,25 @@ using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.5.2 Class declaration
+    ///
+    ///     classDeclaration = [ qualifierList ] CLASS className [ superClass ]
+    ///                        "{" *classFeature "}" ";"
+    ///
+    ///     className        = elementName
+    ///     superClass       = ":" className
+    ///     classFeature     = structureFeature /
+    ///                        methodDeclaration
+    ///     CLASS            = "class" ; keyword: case insensitive
+    ///
+    /// </remarks>
     public sealed class ClassDeclarationAst : MofProductionAst
     {
 
@@ -17,6 +36,12 @@ namespace Kingsland.MofParser.Ast
             public Builder()
             {
                 this.Features = new List<ClassFeatureAst>();
+            }
+
+            public QualifierListAst Qualifiers
+            {
+                get;
+                set;
             }
 
             public IdentifierToken ClassName
@@ -37,21 +62,15 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public QualifierListAst Qualifiers
-            {
-                get;
-                set;
-            }
-
             public ClassDeclarationAst Build()
             {
                 return new ClassDeclarationAst(
+                    this.Qualifiers,
                     this.ClassName,
                     this.Superclass,
                     new ReadOnlyCollection<ClassFeatureAst>(
                         this.Features ?? new List<ClassFeatureAst>()
-                    ),
-                    this.Qualifiers
+                    )
                 );
             }
 
@@ -61,21 +80,23 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private ClassDeclarationAst()
+        public ClassDeclarationAst(QualifierListAst qualifiers, IdentifierToken className, IdentifierToken superClass, ReadOnlyCollection<ClassFeatureAst> features)
         {
-        }
-
-        internal ClassDeclarationAst(IdentifierToken className, IdentifierToken superClass, ReadOnlyCollection<ClassFeatureAst> features, QualifierListAst qualifiers)
-        {
+            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
             this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
             this.Superclass = superClass ?? throw new ArgumentNullException(nameof(superClass));
-            this.Features = features ?? throw new ArgumentNullException(nameof(features));
-            this.Qualifiers = qualifiers ?? throw new ArgumentNullException(nameof(qualifiers));
+            this.Features = features ?? new ReadOnlyCollection<ClassFeatureAst>(new List<ClassFeatureAst>());
         }
 
         #endregion
 
         #region Properties
+
+        public QualifierListAst Qualifiers
+        {
+            get;
+            private set;
+        }
 
         public IdentifierToken ClassName
         {
@@ -90,12 +111,6 @@ namespace Kingsland.MofParser.Ast
         }
 
         public ReadOnlyCollection<ClassFeatureAst> Features
-        {
-            get;
-            private set;
-        }
-
-        public QualifierListAst Qualifiers
         {
             get;
             private set;

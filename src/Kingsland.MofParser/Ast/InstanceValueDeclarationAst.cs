@@ -7,6 +7,21 @@ using System.Collections.ObjectModel;
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// 7.6.2 Complex type value
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    ///     instanceValueDeclaration = INSTANCE OF ( className / associationName )
+    ///                                [alias]
+    ///                                propertyValueList ";"
+    ///
+    ///     alias                    = AS aliasIdentifier
+    ///
+    /// </remarks>
     public sealed class InstanceValueDeclarationAst : MofProductionAst
     {
 
@@ -64,7 +79,11 @@ namespace Kingsland.MofParser.Ast
         {
             this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
             this.Alias = alias;
-            this.PropertyValues = propertyValues ?? throw new ArgumentNullException(nameof(propertyValues));
+            this.PropertyValues = propertyValues ?? new PropertyValueListAst(
+                new ReadOnlyDictionary<string, PropertyValueAst>(
+                    new Dictionary<string, PropertyValueAst>()
+                )
+            );
         }
 
         #endregion

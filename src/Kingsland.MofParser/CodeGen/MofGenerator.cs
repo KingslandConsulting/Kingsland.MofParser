@@ -29,7 +29,7 @@ namespace Kingsland.MofParser.CodeGen
             // A.5 Class declaration
             if (node is ClassDeclarationAst) { return MofGenerator.ConvertToMof((ClassDeclarationAst)node, quirks); }
             // A.8 Qualifier type declaration
-            if (node is QualifierDeclarationAst) { return MofGenerator.ConvertToMof((QualifierDeclarationAst)node, quirks); }
+            if (node is QualifierTypeDeclarationAst) { return MofGenerator.ConvertToMof((QualifierTypeDeclarationAst)node, quirks); }
             // A.9 Qualifier list
             if (node is QualifierListAst) { return MofGenerator.ConvertToMof((QualifierListAst)node, quirks); }
             // A.10 Property declaration
@@ -131,7 +131,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region A.8 Qualifier type declaration
 
-        public static string ConvertToMof(QualifierDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertToMof(QualifierTypeDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
             if (!string.IsNullOrEmpty(node.Name.Name))
@@ -200,12 +200,12 @@ namespace Kingsland.MofParser.CodeGen
             {
                 source.AppendFormat("{0} ", MofGenerator.ConvertToMof(node.Qualifiers, quirks));
             }
-            source.AppendFormat("{0} ", node.Type.Name);
+            source.AppendFormat("{0} ", node.ReturnType.Name);
             if (node.IsRef)
             {
                 source.AppendFormat("{0} ", Constants.REF);
             }
-            source.Append(node.Name.Name);
+            source.Append(node.PropertyName.Name);
             if (node.IsArray)
             {
                 source.Append("[]");

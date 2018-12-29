@@ -1,11 +1,25 @@
 ﻿using Kingsland.MofParser.CodeGen;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.5.9 Complex type value
+    ///
+    ///     propertyValueList = "{" *propertySlot "}"
+    ///
+    ///     propertySlot      = propertyName "=" propertyValue ";"
+    ///     propertyValue     = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
+    ///     propertyName      = IDENTIFIER
+    ///
+    /// </remarks>
     public sealed class PropertyValueListAst : AstNode
     {
 
@@ -42,7 +56,9 @@ namespace Kingsland.MofParser.Ast
 
         public PropertyValueListAst(ReadOnlyDictionary<string, PropertyValueAst> propertyValues)
         {
-            this.PropertyValues = propertyValues ?? throw new ArgumentNullException(nameof(propertyValues));
+            this.PropertyValues = propertyValues ?? new ReadOnlyDictionary<string, PropertyValueAst>(
+                new Dictionary<string, PropertyValueAst>()
+            );
         }
 
         #endregion

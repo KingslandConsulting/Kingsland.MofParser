@@ -1,12 +1,23 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.5.9 Complex type value
+    ///
+    ///     complexValue      = aliasIdentifier /
+    ///                         ( VALUE OF
+    ///                           ( structureName / className / associationName )
+    ///                           propertyValueList )
+    ///
+    /// </remarks>
     public sealed class ComplexValueAst : ComplexTypeValueAst
     {
 
@@ -14,12 +25,6 @@ namespace Kingsland.MofParser.Ast
 
         public sealed class Builder
         {
-
-            public QualifierListAst Qualifiers
-            {
-                get;
-                set;
-            }
 
             public bool IsAlias
             {
@@ -54,12 +59,11 @@ namespace Kingsland.MofParser.Ast
             public ComplexValueAst Build()
             {
                 return new ComplexValueAst(
-                    this.Qualifiers ?? new QualifierListAst.Builder().Build(),
                     this.IsAlias,
                     this.IsValue,
                     this.Alias,
                     this.TypeName,
-                    this.Properties ?? new PropertyValueListAst.Builder().Build()
+                    this.Properties
                 );
             }
 
@@ -70,19 +74,18 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         public ComplexValueAst(
-            QualifierListAst qualifiers,
             bool isAlias,
             bool isValue,
             AliasIdentifierToken alias,
             IdentifierToken typeName,
             PropertyValueListAst properties
-        ) : base(qualifiers)
+        )
         {
             this.IsAlias = isAlias;
             this.IsValue = isValue;
             this.Alias = alias;
             this.TypeName = TypeName;
-            this.Properties = properties;
+            this.Properties = properties ?? new PropertyValueListAst.Builder().Build();
         }
 
         #endregion

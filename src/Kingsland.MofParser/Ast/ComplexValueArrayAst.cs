@@ -6,6 +6,17 @@ using System.Collections.ObjectModel;
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.5.9 Complex type value
+    ///
+    ///     complexValueArray = "{" [ complexValue *( "," complexValue) ] "}"
+    ///
+    /// </remarks>
     public sealed class ComplexValueArrayAst : ComplexTypeValueAst
     {
 
@@ -19,12 +30,6 @@ namespace Kingsland.MofParser.Ast
                 this.Values = new List<ComplexValueAst>();
             }
 
-            public QualifierListAst Qualifiers
-            {
-                get;
-                set;
-            }
-
             public List<ComplexValueAst> Values
             {
                 get;
@@ -34,10 +39,6 @@ namespace Kingsland.MofParser.Ast
             public ComplexValueArrayAst Build()
             {
                 return new ComplexValueArrayAst(
-                    this.Qualifiers ?? new QualifierListAst(
-                        new ReadOnlyCollection<QualifierDeclarationAst>(
-                            new List<QualifierDeclarationAst>()
-                        )),
                     new ReadOnlyCollection<ComplexValueAst>(
                         this.Values ?? new List<ComplexValueAst>()
                     )
@@ -51,9 +52,8 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         public ComplexValueArrayAst(
-            QualifierListAst qualifiers,
             ReadOnlyCollection<ComplexValueAst> values
-        ) : base(qualifiers)
+        )
         {
             this.Values = values ?? throw new ArgumentNullException(nameof(values));
         }

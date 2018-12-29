@@ -158,11 +158,6 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                         new Dictionary<string, PropertyValueAst> {
                                             { "Reference", new PropertyValueAst(
                                                 new ComplexValueArrayAst(
-                                                    new QualifierListAst(
-                                                        new ReadOnlyCollection<QualifierDeclarationAst>(
-                                                            new List<QualifierDeclarationAst>()
-                                                        )
-                                                    ),
                                                     new ReadOnlyCollection<ComplexValueAst>(
                                                         new List<ComplexValueAst>()
                                                     )
@@ -218,19 +213,9 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                         new Dictionary<string, PropertyValueAst> {
                                             { "Reference", new PropertyValueAst(
                                                 new ComplexValueArrayAst(
-                                                    new QualifierListAst(
-                                                        new ReadOnlyCollection<QualifierDeclarationAst>(
-                                                            new List<QualifierDeclarationAst>()
-                                                        )
-                                                    ),
                                                     new ReadOnlyCollection<ComplexValueAst>(
                                                         new List<ComplexValueAst> {
                                                             new ComplexValueAst(
-                                                                new QualifierListAst(
-                                                                    new ReadOnlyCollection<QualifierDeclarationAst>(
-                                                                        new List<QualifierDeclarationAst>()
-                                                                    )
-                                                                ),
                                                                 true, false,
                                                                 new AliasIdentifierToken(
                                                                     new SourceExtent(

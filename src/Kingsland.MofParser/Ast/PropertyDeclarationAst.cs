@@ -5,6 +5,39 @@ using System;
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.5.5 Property declaration
+    ///
+    ///     propertyDeclaration = [ qualifierList ] ( primitivePropertyDeclaration /
+    ///                                               complexPropertyDeclaration /
+    ///                                               enumPropertyDeclaration /
+    ///                                               referencePropertyDeclaration) ";"
+    ///
+    ///     primitivePropertyDeclaration = primitiveType propertyName [ array ]
+    ///                                    [ "=" primitiveTypeValue]
+    ///
+    ///     complexPropertyDeclaration   = structureOrClassName propertyName [ array ]
+    ///                                    [ "=" ( complexTypeValue / aliasIdentifier ) ]
+    ///
+    ///     enumPropertyDeclaration      = enumName propertyName [ array ]
+    ///                                    [ "=" enumTypeValue]
+    ///
+    ///     referencePropertyDeclaration = classReference propertyName [ array ]
+    ///                                    [ "=" referenceTypeValue ]
+    ///
+    ///     array                        = "[" "]"
+    ///     propertyName                 = IDENTIFIER
+    ///     structureOrClassName         = IDENTIFIER
+    ///     classReference               = DT_REFERENCE
+    ///     DT_REFERENCE                 = className REF
+    ///     REF                          = "ref" ; keyword: case insensitive
+    ///
+
     public sealed class PropertyDeclarationAst : StructureFeatureAst
     {
 
@@ -13,19 +46,19 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public IdentifierToken Name
-            {
-                get;
-                set;
-            }
-
             public QualifierListAst Qualifiers
             {
                 get;
                 set;
             }
 
-            public IdentifierToken Type
+            public IdentifierToken ReturnType
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken PropertyName
             {
                 get;
                 set;
@@ -52,9 +85,9 @@ namespace Kingsland.MofParser.Ast
             public PropertyDeclarationAst Build()
             {
                 return new PropertyDeclarationAst(
-                    this.Name,
                     this.Qualifiers,
-                    this.Type,
+                    this.ReturnType,
+                    this.PropertyName,
                     this.IsArray,
                     this.IsRef,
                     this.Initializer
@@ -68,17 +101,17 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         private PropertyDeclarationAst(
-            IdentifierToken name,
             QualifierListAst qualifiers,
-            IdentifierToken type,
+            IdentifierToken returnType,
+            IdentifierToken propertyName,
             bool isArray,
             bool isRef,
             PrimitiveTypeValueAst initializer
         )
         {
-            this.Name = name ?? throw new ArgumentNullException(nameof(name));
-            this.Qualifiers = qualifiers ?? throw new ArgumentNullException(nameof(qualifiers));
-            this.Type = type ?? throw new ArgumentNullException(nameof(type));
+            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
+            this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
+            this.PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
             this.IsArray = isArray;
             this.IsRef = isRef;
             this.Initializer = initializer ?? throw new ArgumentNullException(nameof(initializer));
@@ -88,19 +121,19 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public IdentifierToken Name
-        {
-            get;
-            private set;
-        }
-
         public QualifierListAst Qualifiers
         {
             get;
             private set;
         }
 
-        public IdentifierToken Type
+        public IdentifierToken ReturnType
+        {
+            get;
+            private set;
+        }
+
+        public IdentifierToken PropertyName
         {
             get;
             private set;

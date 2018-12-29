@@ -57,7 +57,6 @@
     <Compile Include="Ast\PrimitiveTypeValueAst.cs" />
     <Compile Include="Ast\PropertyValueAst.cs" />
     <Compile Include="Ast\ReferenceTypeValueAst.cs" />
-    <Compile Include="Ast\StructureFeatureAst.cs" />
     <Compile Include="CodeGen\MofGenerator.cs" />
     <Compile Include="CodeGen\MofQuirks.cs" />
     <Compile Include="Lexing\LexerEngine.cs" />

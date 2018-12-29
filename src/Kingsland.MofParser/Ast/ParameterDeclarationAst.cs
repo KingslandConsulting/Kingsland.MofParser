@@ -5,6 +5,35 @@ using System;
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.5.7 Parameter declaration
+    ///
+    ///     parameterDeclaration      = [ qualifierList ] ( primitiveParamDeclaration /
+    ///                                 complexParamDeclaration /
+    ///                                 enumParamDeclaration /
+    ///                                 referenceParamDeclaration )
+    ///
+    ///     primitiveParamDeclaration = primitiveType parameterName [ array ]
+    ///                                 [ "=" primitiveTypeValue
+    ///                                 ]
+    ///     complexParamDeclaration   = structureOrClassName parameterName [ array ]
+    ///                                 [ "=" ( complexTypeValue / aliasIdentifier ) ]
+    ///
+    ///     enumParamDeclaration      = enumName parameterName [ array ]
+    ///                                 [ "=" enumValue ]
+    ///
+    ///     referenceParamDeclaration = classReference parameterName [ array ]
+    ///                                 [ "=" referenceTypeValue ]
+    ///
+    ///     parameterName             = IDENTIFIER
+    ///
+    /// </remarks>
     public sealed class ParameterDeclarationAst : AstNode
     {
 
@@ -76,8 +105,8 @@ namespace Kingsland.MofParser.Ast
             AstNode defaultValue
         )
         {
+            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
-            this.Qualifiers = qualifiers ?? throw new ArgumentNullException(nameof(qualifiers));
             this.Type = type ?? throw new ArgumentNullException(nameof(type));
             this.IsRef = isRef;
             this.IsArray = isArray;

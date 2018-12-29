@@ -1,26 +1,24 @@
-﻿using System;
-
-namespace Kingsland.MofParser.Ast
+﻿namespace Kingsland.MofParser.Ast
 {
 
-    public abstract class ComplexTypeValueAst : MofProductionAst
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.5.9 Complex type value
+    ///
+    ///     complexTypeValue = complexValue / complexValueArray
+    ///
+    /// </remarks>
+    public abstract class ComplexTypeValueAst : AstNode
     {
 
         #region Constructors
 
-        protected ComplexTypeValueAst(QualifierListAst qualifiers)
+        protected ComplexTypeValueAst()
         {
-            this.Qualifiers = qualifiers ?? throw new ArgumentNullException(nameof(qualifiers));
-        }
-
-        #endregion
-
-        #region Properties
-
-        public QualifierListAst Qualifiers
-        {
-            get;
-            private set;
         }
 
         #endregion

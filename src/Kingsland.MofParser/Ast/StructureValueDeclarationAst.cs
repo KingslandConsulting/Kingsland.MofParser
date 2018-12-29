@@ -7,6 +7,22 @@ using System.Collections.ObjectModel;
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// 7.6.2 Complex type value
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    ///     structureValueDeclaration = VALUE OF
+    ///                                 ( className / associationName / structureName )
+    ///                                 alias
+    ///                                 propertyValueList ";"
+    ///
+    ///     alias                     = AS aliasIdentifier
+    ///
+    /// </remarks>
     public sealed class StructureValueDeclarationAst : MofProductionAst
     {
 
@@ -20,7 +36,13 @@ namespace Kingsland.MofParser.Ast
                 this.PropertyValues = new List<PropertyValueAst>();
             }
 
-            public IdentifierToken Name
+            public IdentifierToken TypeName
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken Alias
             {
                 get;
                 set;
@@ -35,7 +57,8 @@ namespace Kingsland.MofParser.Ast
             public StructureValueDeclarationAst Build()
             {
                 return new StructureValueDeclarationAst(
-                    this.Name,
+                    this.TypeName,
+                    this.Alias,
                     new ReadOnlyCollection<PropertyValueAst>(
                         this.PropertyValues ?? new List<PropertyValueAst>()
                     )
@@ -49,19 +72,29 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         public StructureValueDeclarationAst(
-            IdentifierToken name,
+            IdentifierToken typeName,
+            IdentifierToken alias,
             ReadOnlyCollection<PropertyValueAst> propertyValues
         )
         {
-            this.Name = name ?? throw new ArgumentNullException(nameof(name));
-            this.PropertyValues = propertyValues ?? throw new ArgumentNullException(nameof(propertyValues));
+            this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
+            this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));
+            this.PropertyValues = propertyValues ?? new ReadOnlyCollection<PropertyValueAst>(
+                new List<PropertyValueAst>()
+            );
         }
 
         #endregion
 
         #region Properties
 
-        public IdentifierToken Name
+        public IdentifierToken TypeName
+        {
+            get;
+            private set;
+        }
+
+        public IdentifierToken Alias
         {
             get;
             private set;

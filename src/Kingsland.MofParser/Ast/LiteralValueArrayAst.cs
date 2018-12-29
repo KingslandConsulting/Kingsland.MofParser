@@ -1,11 +1,22 @@
 ﻿using Kingsland.MofParser.CodeGen;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.6.1 Primitive type value
+    ///
+    ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
+    ///
+    /// </remarks>
     public sealed class LiteralValueArrayAst : PrimitiveTypeValueAst
     {
 
@@ -43,7 +54,9 @@ namespace Kingsland.MofParser.Ast
 
         public LiteralValueArrayAst(ReadOnlyCollection<LiteralValueAst> values)
         {
-            this.Values = values ?? throw new ArgumentNullException(nameof(values));
+            this.Values = values ?? new ReadOnlyCollection<LiteralValueAst>(
+                new List<LiteralValueAst>()
+            );
         }
 
         #endregion
