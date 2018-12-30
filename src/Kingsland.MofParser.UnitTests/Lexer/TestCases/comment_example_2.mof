@@ -1,3 +1,0 @@
-/* example of a comment between property definition tokens and a multi-line comment */
-uint16 /* 16-bit integer property */ MyProperty; /* and a multi-line
-                        comment */

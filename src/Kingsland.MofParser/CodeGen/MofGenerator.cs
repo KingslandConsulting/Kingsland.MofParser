@@ -19,39 +19,39 @@ namespace Kingsland.MofParser.CodeGen
             {
                 return null;
             }
-            // A.1 Value definitions
-            if (node is LiteralValueArrayAst) { return MofGenerator.ConvertToMof((LiteralValueArrayAst)node, quirks); }
-            if (node is PropertyValueAst) { return MofGenerator.ConvertToMof((PropertyValueAst)node, quirks); }
-            // A.2 MOF specification
+            // 7.2 MOF specification
             if (node is MofSpecificationAst) { return MofGenerator.ConvertToMof((MofSpecificationAst)node, quirks); }
-            // A.3 Compiler directive
+            // 7.3 Compiler directives
             if (node is CompilerDirectiveAst) { return MofGenerator.ConvertToMof((CompilerDirectiveAst)node, quirks); }
-            // A.5 Class declaration
-            if (node is ClassDeclarationAst) { return MofGenerator.ConvertToMof((ClassDeclarationAst)node, quirks); }
-            // A.8 Qualifier type declaration
-            if (node is QualifierDeclarationAst) { return MofGenerator.ConvertToMof((QualifierDeclarationAst)node, quirks); }
-            // A.9 Qualifier list
+            // 7.4 Qualifiers
+            if (node is QualifierTypeDeclarationAst) { return MofGenerator.ConvertToMof((QualifierTypeDeclarationAst)node, quirks); }
+            // 7.4.1 QualifierList
             if (node is QualifierListAst) { return MofGenerator.ConvertToMof((QualifierListAst)node, quirks); }
-            // A.10 Property declaration
+            // 7.5.2 Class declaration
+            if (node is ClassDeclarationAst) { return MofGenerator.ConvertToMof((ClassDeclarationAst)node, quirks); }
+            // 7.5.5 Property declaration
             if (node is PropertyDeclarationAst) { return MofGenerator.ConvertToMof((PropertyDeclarationAst)node, quirks); }
-            // A.11 Method declaration
+            // 7.5.6 Method declaration
             if (node is MethodDeclarationAst) { return MofGenerator.ConvertToMof((MethodDeclarationAst)node, quirks); }
-            // A.12 Parameter declaration
+            // 7.5.7 Parameter declaration
             if (node is ParameterDeclarationAst) { return MofGenerator.ConvertToMof((ParameterDeclarationAst)node, quirks); }
-            // A.14 Complex type value
+            // 7.5.9 Complex type value
             if (node is ComplexValueArrayAst) { return MofGenerator.ConvertToMof((ComplexValueArrayAst)node, quirks); }
             if (node is ComplexValueAst) { return MofGenerator.ConvertToMof((ComplexValueAst)node, quirks); }
-            // A.17.1 Integer value
+            if (node is PropertyValueAst) { return MofGenerator.ConvertToMof((PropertyValueAst)node, quirks); }
+            // 7.6.1 Primitive type value
+            if (node is LiteralValueArrayAst) { return MofGenerator.ConvertToMof((LiteralValueArrayAst)node, quirks); }
+            // 7.6.1.1 Integer value
             if (node is IntegerValueAst) { return MofGenerator.ConvertToMof((IntegerValueAst)node, quirks); }
-            // A.17.2 Real value
+            // 7.6.1.2 Real value
             if (node is RealValueAst) { return MofGenerator.ConvertToMof((RealValueAst)node, quirks); }
-            // A.17.3 String values
+            // 7.6.1.3 String values
             if (node is StringValueAst) { return MofGenerator.ConvertToMof((StringValueAst)node, quirks); }
-            // A.17.6 Boolean value
+            // 7.6.1.5 Boolean value
             if (node is BooleanValueAst) { return MofGenerator.ConvertToMof((BooleanValueAst)node, quirks); }
-            // A.17.7 Null value
+            // 7.6.1.6 Null value
             if (node is NullValueAst) { return MofGenerator.ConvertToMof((NullValueAst)node, quirks); }
-            // A.19 Reference type value
+            // 7.6.4 Reference type value
             if (node is ReferenceTypeValueAst) { return MofGenerator.ConvertToMof((ReferenceTypeValueAst)node, quirks); }
             // unknown
             throw new InvalidOperationException(node.GetType().FullName);
@@ -59,22 +59,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.1 Value definitions
-
-        public static string ConvertToMof(LiteralValueArrayAst node, MofQuirks quirks = MofQuirks.None)
-        {
-            var values = node.Values.Select(v => MofGenerator.ConvertToMof(v, quirks)).ToArray();
-            return string.Format("{{{0}}}", string.Join(", ", values));
-        }
-
-        public static string ConvertToMof(PropertyValueAst node, MofQuirks quirks = MofQuirks.None)
-        {
-            return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
-        }
-
-        #endregion
-
-        #region A.2 MOF specification
+        #region 7.2 MOF specification
 
         public static string ConvertToMof(MofSpecificationAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -92,7 +77,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.3 Compiler directive
+        #region 7.3 Compiler directives
 
         public static string ConvertToMof(CompilerDirectiveAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -101,37 +86,9 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.5 Class declaration
+        #region 7.4 Qualifiers
 
-        public static string ConvertToMof(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None)
-        {
-            var source = new StringBuilder();
-            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
-            {
-                source.AppendLine(MofGenerator.ConvertToMof(node.Qualifiers, quirks));
-            }
-            if (node.Superclass == null)
-            {
-                source.AppendFormat("class {0}\r\n", node.ClassName.Name);
-            }
-            else
-            {
-                source.AppendFormat("class {0} : {1}\r\n", node.ClassName.Name, node.Superclass.Name);
-            }
-            source.AppendLine("{");
-            foreach (var feature in node.Features)
-            {
-                source.AppendFormat("\t{0}\r\n", MofGenerator.ConvertToMof(feature, quirks));
-            }
-            source.AppendLine("};");
-            return source.ToString();
-        }
-
-        #endregion
-
-        #region A.8 Qualifier type declaration
-
-        public static string ConvertToMof(QualifierDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertToMof(QualifierTypeDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
             if (!string.IsNullOrEmpty(node.Name.Name))
@@ -162,7 +119,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.9 Qualifier list
+        #region 7.4.1 QualifierList
 
         public static string ConvertToMof(QualifierListAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -191,7 +148,35 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.10 Property declaration
+        #region 7.5.2 Class declaration
+
+        public static string ConvertToMof(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            var source = new StringBuilder();
+            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            {
+                source.AppendLine(MofGenerator.ConvertToMof(node.Qualifiers, quirks));
+            }
+            if (node.Superclass == null)
+            {
+                source.AppendFormat("class {0}\r\n", node.ClassName.Name);
+            }
+            else
+            {
+                source.AppendFormat("class {0} : {1}\r\n", node.ClassName.Name, node.Superclass.Name);
+            }
+            source.AppendLine("{");
+            foreach (var feature in node.Features)
+            {
+                source.AppendFormat("\t{0}\r\n", MofGenerator.ConvertToMof(feature, quirks));
+            }
+            source.AppendLine("};");
+            return source.ToString();
+        }
+
+        #endregion
+
+        #region 7.5.5 Property declaration
 
         public static string ConvertToMof(PropertyDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -200,12 +185,12 @@ namespace Kingsland.MofParser.CodeGen
             {
                 source.AppendFormat("{0} ", MofGenerator.ConvertToMof(node.Qualifiers, quirks));
             }
-            source.AppendFormat("{0} ", node.Type.Name);
+            source.AppendFormat("{0} ", node.ReturnType.Name);
             if (node.IsRef)
             {
-                source.AppendFormat("{0} ", Keywords.REF);
+                source.AppendFormat("{0} ", Constants.REF);
             }
-            source.Append(node.Name.Name);
+            source.Append(node.PropertyName.Name);
             if (node.IsArray)
             {
                 source.Append("[]");
@@ -220,7 +205,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.11 Method declaration
+        #region 7.5.6 Method declaration
 
         public static string ConvertToMof(MethodDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -249,7 +234,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.12 Parameter declaration
+        #region 7.5.7 Parameter declaration
 
         public static string ConvertToMof(ParameterDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -261,7 +246,7 @@ namespace Kingsland.MofParser.CodeGen
             source.AppendFormat("{0} ", node.Type.Name);
             if (node.IsRef)
             {
-                source.AppendFormat("{0} ", Keywords.REF);
+                source.AppendFormat("{0} ", Constants.REF);
             }
             source.Append(node.Name.Name);
             if (node.IsArray)
@@ -277,7 +262,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.14 Complex type value
+        #region 7.5.9 Complex type value
 
         public static string ConvertToMof(ComplexValueArrayAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -289,9 +274,24 @@ namespace Kingsland.MofParser.CodeGen
             return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
         }
 
+        public static string ConvertToMof(PropertyValueAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
+        }
+
         #endregion
 
-        #region A.17.1 Integer value
+        #region 7.6.1 Primitive type value
+
+        public static string ConvertToMof(LiteralValueArrayAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            var values = node.Values.Select(v => MofGenerator.ConvertToMof(v, quirks)).ToArray();
+            return string.Format("{{{0}}}", string.Join(", ", values));
+        }
+
+        #endregion
+
+        #region 7.6.1.1 Integer value
 
         public static string ConvertToMof(IntegerValueAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -300,7 +300,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.17.2 Real value
+        #region 7.6.1.2 Real value
 
         public static string ConvertToMof(RealValueAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -309,7 +309,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.17.3 String values
+        #region 7.6.1.3 String values
 
         public static string ConvertToMof(StringValueAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -347,7 +347,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.17.6 Boolean value
+        #region 7.6.1.5 Boolean value
 
         public static string ConvertToMof(BooleanValueAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -356,7 +356,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.17.7 Null value
+        #region 7.6.1.6 Null value
 
         public static string ConvertToMof(NullValueAst node, MofQuirks quirks = MofQuirks.None)
         {
@@ -365,7 +365,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #endregion
 
-        #region A.19 Reference type value
+        #region 7.6.4 Reference type value
 
         public static string ConvertToMof(ReferenceTypeValueAst node, MofQuirks quirks = MofQuirks.None)
         {

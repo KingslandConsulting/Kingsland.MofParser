@@ -33,6 +33,10 @@
   <ItemGroup>
     <Compile Include="Ast\ClassDeclarationAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />
+    <Compile Include="Ast\PropertyValueListAst.cs" />
+    <Compile Include="Ast\StructureFeatureAst.cs" />
+    <Compile Include="Ast\StructureValueDeclarationAst.cs" />
+    <Compile Include="Ast\InstanceValueDeclarationAst.cs" />
     <Compile Include="Ast\ComplexValueArrayAst.cs" />
     <Compile Include="Ast\ComplexValueAst.cs" />
     <Compile Include="Ast\BooleanValueAst.cs" />
@@ -54,12 +58,11 @@
     <Compile Include="Ast\PrimitiveTypeValueAst.cs" />
     <Compile Include="Ast\PropertyValueAst.cs" />
     <Compile Include="Ast\ReferenceTypeValueAst.cs" />
-    <Compile Include="Ast\StructureFeatureAst.cs" />
     <Compile Include="CodeGen\MofGenerator.cs" />
     <Compile Include="CodeGen\MofQuirks.cs" />
     <Compile Include="Lexing\LexerEngine.cs" />
     <Compile Include="Parsing\ParserEngine.cs" />
-    <Compile Include="Parsing\Keywords.cs" />
+    <Compile Include="Parsing\Constants.cs" />
     <Compile Include="Parsing\StringValidator.cs" />
     <Compile Include="Parsing\UnexpectedEndOfStreamException.cs" />
     <Compile Include="Parsing\UnexpectedTokenException.cs" />

@@ -22,7 +22,7 @@ namespace Kingsland.MofParser.Source
 
         #region Constructors
 
-        private SourceExtent(SourcePosition startPosition, SourcePosition endPosition, string text)
+        public SourceExtent(SourcePosition startPosition, SourcePosition endPosition, string text)
         {
             this.StartPosition = startPosition;
             this.EndPosition = endPosition;
@@ -79,13 +79,26 @@ namespace Kingsland.MofParser.Source
 
         #region Methods
 
-        public bool EqualTo(SourceExtent obj)
+        public bool IsEqualTo(SourceExtent obj)
         {
             return object.ReferenceEquals(obj, this) ||
                    ((obj != null) &&
-                    obj.StartPosition.EqualTo(this.StartPosition) &&
-                    obj.EndPosition.EqualTo(this.EndPosition) &&
+                    obj.StartPosition.IsEqualTo(this.StartPosition) &&
+                    obj.EndPosition.IsEqualTo(this.EndPosition) &&
                     (obj.Text == this.Text));
+        }
+
+        #endregion
+
+        #region Object Overrides
+
+        public override string ToString()
+        {
+            var start = this.StartPosition;
+            var end = this.EndPosition;
+            return $"StartPosition=[{start.Position},{start.LineNumber},{start.ColumnNumber}]," +
+                   $"EndPosition=[{end.Position},{end.LineNumber},{end.ColumnNumber}]," +
+                   $"Text=\"{this.Text}\"";
         }
 
         #endregion

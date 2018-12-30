@@ -344,7 +344,7 @@ namespace Kingsland.MofParser.Parsing
 
         public static bool IsFalse(string value)
         {
-            return string.Equals(value, Keywords.FALSE, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(value, Constants.FALSE, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion
@@ -353,7 +353,7 @@ namespace Kingsland.MofParser.Parsing
 
         public static bool IsTrue(string value)
         {
-            return string.Equals(value, Keywords.TRUE, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(value, Constants.TRUE, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion
@@ -366,7 +366,7 @@ namespace Kingsland.MofParser.Parsing
 
         public static bool IsNull(string value)
         {
-            return string.Equals(value, Keywords.NULL, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(value, Constants.NULL, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion

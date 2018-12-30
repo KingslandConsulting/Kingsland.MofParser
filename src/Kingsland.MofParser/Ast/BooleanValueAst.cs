@@ -5,6 +5,19 @@ using System;
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.6.1.5 Boolean value
+    ///
+    ///     booleanValue = TRUE / FALSE
+    ///     FALSE        = "false" ; keyword: case insensitive
+    ///     TRUE         = "true"  ; keyword: case insensitive
+    ///
+    /// </remarks>
     public sealed class BooleanValueAst : LiteralValueAst
     {
 
@@ -19,17 +32,10 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public bool Value
-            {
-                get;
-                set;
-            }
-
             public BooleanValueAst Build()
             {
                 return new BooleanValueAst(
-                    this.Token,
-                    this.Value
+                    this.Token
                 );
             }
 
@@ -39,10 +45,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        internal BooleanValueAst(BooleanLiteralToken token, bool value)
+        public BooleanValueAst(BooleanLiteralToken token)
         {
             this.Token = token ?? throw new ArgumentNullException(nameof(token));
-            this.Value = value;
         }
 
         #endregion
@@ -57,8 +62,10 @@ namespace Kingsland.MofParser.Ast
 
         public bool Value
         {
-            get;
-            private set;
+            get
+            {
+                return this.Token.Value;
+            }
         }
 
         #endregion

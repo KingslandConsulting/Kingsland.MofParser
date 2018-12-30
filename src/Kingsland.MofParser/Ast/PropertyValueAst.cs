@@ -3,58 +3,35 @@
 namespace Kingsland.MofParser.Ast
 {
 
-    public sealed class PropertyValueAst : AstNode
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.5.9 Complex type value
+    ///
+    ///     propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
+    ///
+    /// 7.6.1 Primitive type value
+    ///
+    ///     primitiveTypeValue = literalValue / literalValueArray
+    ///
+    /// 7.5.9 Complex type value
+    ///
+    ///     complexTypeValue = complexValue / complexValueArray
+    ///
+    /// 7.6.4 Reference type value
+    ///
+    ///     referenceTypeValue = objectPathValue / objectPathValueArray
+    ///
+    /// 7.6.3 Enum type value
+    ///
+    ///     enumTypeValue = enumValue / enumValueArray
+    ///
+    /// </remarks>
+    public abstract class PropertyValueAst : AstNode
     {
-
-        #region Builder
-
-        public class Builder
-        {
-
-            public object Value
-            {
-                get;
-                set;
-            }
-
-            public PropertyValueAst Build()
-            {
-                return new PropertyValueAst(
-                    this.Value
-                );
-            }
-
-        }
-
-        #endregion
-
-        #region Constructors
-
-        private PropertyValueAst(object value)
-        {
-            this.Value = value;
-        }
-
-        #endregion
-
-        #region Properties
-
-        public object Value
-        {
-            get;
-            private set;
-        }
-
-        #endregion
-
-        #region Object Overrides
-
-        public override string ToString()
-        {
-            return MofGenerator.ConvertToMof(this);
-        }
-
-        #endregion
 
     }
 

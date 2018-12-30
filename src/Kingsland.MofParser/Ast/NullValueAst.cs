@@ -5,6 +5,19 @@ using System;
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// 7.6.1.6 Null value
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    ///     nullValue = NULL
+    ///     NULL      = "null" ; keyword: case insensitive
+    ///                        ; second
+    ///
+    /// </remarks>
     public sealed class NullValueAst : LiteralValueAst
     {
 

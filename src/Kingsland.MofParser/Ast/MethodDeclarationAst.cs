@@ -6,6 +6,32 @@ using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
+
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.5.6 Method declaration
+    ///
+    ///     methodDeclaration = [ qualifierList ]
+    ///                         ( ( returnDataType [ array ] ) / VOID ) methodName
+    ///                         "(" [ parameterList ] ")" ";"
+    ///
+    ///     returnDataType    = primitiveType /
+    ///                         structureOrClassName /
+    ///                         enumName /
+    ///                         classReference
+    ///
+    ///     array             = "[" "]"
+    ///     methodName        = IDENTIFIER
+    ///     classReference    = DT_REFERENCE
+    ///     DT_REFERENCE      = className REF
+    ///     REF               = "ref" ; keyword: case insensitive
+    ///     VOID              = "void" ; keyword: case insensitive
+    ///     parameterList     = parameterDeclaration *( "," parameterDeclaration )
+    ///
     public sealed class MethodDeclarationAst : ClassFeatureAst
     {
 
@@ -19,13 +45,13 @@ namespace Kingsland.MofParser.Ast
                 this.Parameters = new List<ParameterDeclarationAst>();
             }
 
-            public IdentifierToken Name
+            public QualifierListAst Qualifiers
             {
                 get;
                 set;
             }
 
-            public QualifierListAst Qualifiers
+            public IdentifierToken Name
             {
                 get;
                 set;
@@ -52,8 +78,8 @@ namespace Kingsland.MofParser.Ast
             public MethodDeclarationAst Build()
             {
                 return new MethodDeclarationAst(
-                    this.Name,
                     this.Qualifiers,
+                    this.Name,
                     this.ReturnType,
                     this.ReturnTypeIsArray,
                     new ReadOnlyCollection<ParameterDeclarationAst>(
@@ -69,31 +95,33 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         private MethodDeclarationAst(
-            IdentifierToken name,
             QualifierListAst qualifiers,
+            IdentifierToken name,
             IdentifierToken returnType,
             bool returnTypeIsArray,
             ReadOnlyCollection<ParameterDeclarationAst> parameters
         )
         {
+            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
-            this.Qualifiers = qualifiers ?? throw new ArgumentNullException(nameof(qualifiers));
             this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
             this.ReturnTypeIsArray = returnTypeIsArray;
-            this.Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
+            this.Parameters = parameters ?? new ReadOnlyCollection<ParameterDeclarationAst>(
+                new List<ParameterDeclarationAst>()
+            );
         }
 
         #endregion
 
         #region Properties
 
-        public IdentifierToken Name
+        public QualifierListAst Qualifiers
         {
             get;
             private set;
         }
 
-        public QualifierListAst Qualifiers
+        public IdentifierToken Name
         {
             get;
             private set;

@@ -6,7 +6,7 @@ namespace Kingsland.MofParser.Tokens
     public sealed class IntegerLiteralToken : Token
     {
 
-        internal IntegerLiteralToken(SourceExtent extent, long value)
+        public IntegerLiteralToken(SourceExtent extent, long value)
             : base(extent)
         {
             this.Value = value;

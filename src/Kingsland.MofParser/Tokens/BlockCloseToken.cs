@@ -6,7 +6,7 @@ namespace Kingsland.MofParser.Tokens
     public sealed class BlockCloseToken : Token
     {
 
-        internal BlockCloseToken(SourceExtent extent)
+        public BlockCloseToken(SourceExtent extent)
             : base(extent)
         {
         }

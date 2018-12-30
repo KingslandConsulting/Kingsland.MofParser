@@ -1,11 +1,23 @@
 ﻿using Kingsland.MofParser.CodeGen;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
 
+    /// <summary>
+    /// </summary>
+    /// <remarks>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.5.9 Complex type value
+    ///
+    ///     complexValue      = aliasIdentifier /
+    ///                         ( VALUE OF
+    ///                           ( structureName / className / associationName )
+    ///                           propertyValueList )
+    ///
+    /// </remarks>
     public sealed class ComplexValueAst : ComplexTypeValueAst
     {
 
@@ -14,18 +26,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public Builder()
-            {
-                this.Properties = new Dictionary<string, PropertyValueAst>();
-            }
-
-            public QualifierListAst Qualifiers
-            {
-                get;
-                set;
-            }
-
-            public bool IsInstance
+            public bool IsAlias
             {
                 get;
                 set;
@@ -37,19 +38,19 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public string TypeName
+            public AliasIdentifierToken Alias
             {
                 get;
                 set;
             }
 
-            public string Alias
+            public IdentifierToken TypeName
             {
                 get;
                 set;
             }
 
-            public Dictionary<string, PropertyValueAst> Properties
+            public PropertyValueListAst Properties
             {
                 get;
                 set;
@@ -58,14 +59,11 @@ namespace Kingsland.MofParser.Ast
             public ComplexValueAst Build()
             {
                 return new ComplexValueAst(
-                    this.Qualifiers ?? new QualifierListAst.Builder().Build(),
-                    this.IsInstance,
+                    this.IsAlias,
                     this.IsValue,
-                    this.TypeName,
                     this.Alias,
-                    new ReadOnlyDictionary<string, PropertyValueAst>(
-                        this.Properties ?? new Dictionary<string, PropertyValueAst>()
-                    )
+                    this.TypeName,
+                    this.Properties
                 );
             }
 
@@ -75,27 +73,26 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private ComplexValueAst(
-            QualifierListAst qualifiers,
-            bool isInstance,
+        public ComplexValueAst(
+            bool isAlias,
             bool isValue,
-            string typeName,
-            string alias,
-            ReadOnlyDictionary<string, PropertyValueAst> properties
-        ) : base(qualifiers)
+            AliasIdentifierToken alias,
+            IdentifierToken typeName,
+            PropertyValueListAst properties
+        )
         {
-            this.IsInstance = isInstance;
+            this.IsAlias = isAlias;
             this.IsValue = isValue;
-            this.TypeName = typeName;
             this.Alias = alias;
-            this.Properties = properties ?? throw new ArgumentNullException(nameof(properties));
+            this.TypeName = TypeName;
+            this.Properties = properties ?? new PropertyValueListAst.Builder().Build();
         }
 
         #endregion
 
         #region Properties
 
-        public bool IsInstance
+        public bool IsAlias
         {
             get;
             private set;
@@ -107,19 +104,19 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public string TypeName
+        public AliasIdentifierToken Alias
         {
             get;
             private set;
         }
 
-        public string Alias
+        public IdentifierToken TypeName
         {
             get;
             private set;
         }
 
-        public ReadOnlyDictionary<string, PropertyValueAst> Properties
+        public PropertyValueListAst Properties
         {
             get;
             private set;

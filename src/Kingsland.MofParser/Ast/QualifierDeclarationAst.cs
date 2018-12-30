@@ -7,7 +7,18 @@ using System.Collections.ObjectModel;
 namespace Kingsland.MofParser.Ast
 {
 
-    public sealed class QualifierDeclarationAst : MofProductionAst
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <returns>
+    ///
+    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+    ///
+    /// 7.4 Qualifiers
+    ///
+    /// </returns>
+    public sealed class QualifierTypeDeclarationAst : MofProductionAst
     {
 
         #region Builder
@@ -38,9 +49,9 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public QualifierDeclarationAst Build()
+            public QualifierTypeDeclarationAst Build()
             {
-                return new QualifierDeclarationAst(
+                return new QualifierTypeDeclarationAst(
                     this.Name,
                     this.Initializer,
                     new ReadOnlyCollection<string>(
@@ -55,7 +66,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private QualifierDeclarationAst(
+        private QualifierTypeDeclarationAst(
             IdentifierToken name,
             PrimitiveTypeValueAst initializer,
             ReadOnlyCollection<string> flavors

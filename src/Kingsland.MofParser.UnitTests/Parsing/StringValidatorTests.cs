@@ -91,7 +91,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.4 Structure declaration
+        #region 7.5.1 Structure declaration
 
         #region structureName = elementName
 
@@ -151,7 +151,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.5 Class declaration
+        #region 7.5.2 Class declaration
 
         #region className = elementName
 
@@ -211,7 +211,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.6 Association declaration
+        #region 7.5.3 Association declaration
 
         #region associationName = elementName
 
@@ -271,7 +271,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.13 Names
+        #region 7.7.1 Names
 
         #region IDENTIFIER = firstIdentifierChar *( nextIdentifierChar )
 
@@ -477,7 +477,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.13.1 Schema-qualified name
+        #region 7.7.2 Schema-qualified name
 
         #region schemaQualifiedName = schemaName UNDERSCORE IDENTIFIER
 
@@ -645,7 +645,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.13.2 Alias identifier
+        #region 7.7.3 Alias identifier
 
         #region aliasIdentifier = "$" IDENTIFIER
 
@@ -710,7 +710,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.17.1 Integer value
+        #region 7.6.1.1 Integer value
 
         #region decimalValue = [ "+" / "-" ] unsignedDecimalValue
 
@@ -809,7 +809,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.17.2 Real value
+        #region 7.6.1.2 Real value
 
         #region decimalDigit = "0" / positiveDecimalDigit
 
@@ -885,7 +885,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.17.4 Special Characters
+        #region 7.6.1.3 String values
 
         #region BACKSLASH = U+005C ; \
 
@@ -1105,7 +1105,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.17.6 Boolean value
+        #region 7.6.1.5 Boolean value
 
         #region FALSE = "false" ; keyword: case insensitive
 
@@ -1163,7 +1163,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         #endregion
 
-        #region A.17.7 Null value
+        #region 7.6.1.6 Null value
 
         #region NULL = "null" ; keyword: case insensitive
 

@@ -6,7 +6,7 @@ namespace Kingsland.MofParser.Tokens
     public sealed class StatementEndToken : Token
     {
 
-        internal StatementEndToken(SourceExtent extent)
+        public StatementEndToken(SourceExtent extent)
             : base(extent)
         {
         }

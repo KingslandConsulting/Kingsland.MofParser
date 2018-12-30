@@ -12,7 +12,7 @@
 
         #region Constructor
 
-        internal SourcePosition(int position, int lineNumber, int columnNumber)
+        public SourcePosition(int position, int lineNumber, int columnNumber)
         {
             this.Position = position;
             this.LineNumber = lineNumber;
@@ -45,7 +45,7 @@
 
         #region Methods
 
-        public bool EqualTo(SourcePosition obj)
+        public bool IsEqualTo(SourcePosition obj)
         {
             return object.ReferenceEquals(obj, this) ||
                    ((obj != null) &&
