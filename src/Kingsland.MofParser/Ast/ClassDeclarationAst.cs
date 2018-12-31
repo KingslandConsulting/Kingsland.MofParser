@@ -22,6 +22,7 @@ namespace Kingsland.MofParser.Ast
     ///     superClass       = ":" className
     ///     classFeature     = structureFeature /
     ///                        methodDeclaration
+    ///
     ///     CLASS            = "class" ; keyword: case insensitive
     ///
     /// </remarks>
@@ -84,7 +85,7 @@ namespace Kingsland.MofParser.Ast
         {
             this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
             this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
-            this.Superclass = superClass ?? throw new ArgumentNullException(nameof(superClass));
+            this.Superclass = superClass;
             this.Features = features ?? new ReadOnlyCollection<ClassFeatureAst>(new List<ClassFeatureAst>());
         }
 
@@ -122,7 +123,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertClassDeclarationAst(this);
         }
 
         #endregion

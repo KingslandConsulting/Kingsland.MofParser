@@ -19,49 +19,77 @@ namespace Kingsland.MofParser.CodeGen
             {
                 return null;
             }
-            // 7.2 MOF specification
-            if (node is MofSpecificationAst) { return MofGenerator.ConvertToMof((MofSpecificationAst)node, quirks); }
-            // 7.3 Compiler directives
-            if (node is CompilerDirectiveAst) { return MofGenerator.ConvertToMof((CompilerDirectiveAst)node, quirks); }
-            // 7.4 Qualifiers
-            if (node is QualifierTypeDeclarationAst) { return MofGenerator.ConvertToMof((QualifierTypeDeclarationAst)node, quirks); }
-            // 7.4.1 QualifierList
-            if (node is QualifierListAst) { return MofGenerator.ConvertToMof((QualifierListAst)node, quirks); }
-            // 7.5.2 Class declaration
-            if (node is ClassDeclarationAst) { return MofGenerator.ConvertToMof((ClassDeclarationAst)node, quirks); }
-            // 7.5.5 Property declaration
-            if (node is PropertyDeclarationAst) { return MofGenerator.ConvertToMof((PropertyDeclarationAst)node, quirks); }
-            // 7.5.6 Method declaration
-            if (node is MethodDeclarationAst) { return MofGenerator.ConvertToMof((MethodDeclarationAst)node, quirks); }
-            // 7.5.7 Parameter declaration
-            if (node is ParameterDeclarationAst) { return MofGenerator.ConvertToMof((ParameterDeclarationAst)node, quirks); }
-            // 7.5.9 Complex type value
-            if (node is ComplexValueArrayAst) { return MofGenerator.ConvertToMof((ComplexValueArrayAst)node, quirks); }
-            if (node is ComplexValueAst) { return MofGenerator.ConvertToMof((ComplexValueAst)node, quirks); }
-            if (node is PropertyValueAst) { return MofGenerator.ConvertToMof((PropertyValueAst)node, quirks); }
-            // 7.6.1 Primitive type value
-            if (node is LiteralValueArrayAst) { return MofGenerator.ConvertToMof((LiteralValueArrayAst)node, quirks); }
-            // 7.6.1.1 Integer value
-            if (node is IntegerValueAst) { return MofGenerator.ConvertToMof((IntegerValueAst)node, quirks); }
-            // 7.6.1.2 Real value
-            if (node is RealValueAst) { return MofGenerator.ConvertToMof((RealValueAst)node, quirks); }
-            // 7.6.1.3 String values
-            if (node is StringValueAst) { return MofGenerator.ConvertToMof((StringValueAst)node, quirks); }
-            // 7.6.1.5 Boolean value
-            if (node is BooleanValueAst) { return MofGenerator.ConvertToMof((BooleanValueAst)node, quirks); }
-            // 7.6.1.6 Null value
-            if (node is NullValueAst) { return MofGenerator.ConvertToMof((NullValueAst)node, quirks); }
-            // 7.6.4 Reference type value
-            if (node is ReferenceTypeValueAst) { return MofGenerator.ConvertToMof((ReferenceTypeValueAst)node, quirks); }
-            // unknown
-            throw new InvalidOperationException(node.GetType().FullName);
+            switch (node)
+            {
+                case MofSpecificationAst ast:
+                    // 7.2 MOF specification
+                    return MofGenerator.ConvertMofSpecificationAst(ast, quirks);
+                case CompilerDirectiveAst ast:
+                    // 7.3 Compiler directives
+                    return MofGenerator.ConvertCompilerDirectiveAst(ast, quirks);
+                case QualifierTypeDeclarationAst ast:
+                    // 7.4 Qualifiers
+                    return MofGenerator.ConvertQualifierTypeDeclarationAst(ast, quirks);
+                case QualifierListAst ast:
+                    // 7.4.1 QualifierList
+                    return MofGenerator.ConvertQualifierListAst(ast, quirks);
+                case ClassDeclarationAst ast:
+                    // 7.5.2 Class declaration
+                    return MofGenerator.ConvertClassDeclarationAst(ast, quirks);
+                case PropertyDeclarationAst ast:
+                    // 7.5.5 Property declaration
+                    return MofGenerator.ConvertPropertyDeclarationAst(ast, quirks);
+                case MethodDeclarationAst ast:
+                    // 7.5.6 Method declaration
+                    return MofGenerator.ConvertMethodDeclarationAst(ast, quirks);
+                case ParameterDeclarationAst ast:
+                    // 7.5.7 Parameter declaration
+                    return MofGenerator.ConvertParameterDeclarationAst(ast, quirks);
+                case ComplexValueArrayAst ast:
+                    // 7.5.9 Complex type value
+                    return MofGenerator.ConvertComplexValueArrayAst(ast, quirks);
+                case ComplexValueAst ast:
+                    // 7.5.9 Complex type value
+                    return MofGenerator.ConvertComplexValueAst(ast, quirks);
+                case PropertyValueListAst ast:
+                    // 7.5.9 Complex type value
+                    return MofGenerator.ConvertPropertyValueListAst(ast, quirks);
+                case LiteralValueArrayAst ast:
+                    // 7.6.1 Primitive type value
+                    return MofGenerator.ConvertLiteralValueArrayAst(ast, quirks);
+                case IntegerValueAst ast:
+                    // 7.6.1.1 Integer value
+                    return MofGenerator.ConvertIntegerValueAst(ast, quirks);
+                case RealValueAst ast:
+                    // 7.6.1.2 Real value
+                    return MofGenerator.ConvertRealValueAst(ast, quirks);
+                case StringValueAst ast:
+                    // 7.6.1.3 String values
+                    return MofGenerator.ConvertStringValueAst(ast, quirks);
+                case BooleanValueAst ast:
+                    // 7.6.1.5 Boolean value
+                    return MofGenerator.ConvertBooleanValueAst(ast, quirks);
+                case NullValueAst ast:
+                    // 7.6.1.6 Null value
+                    return MofGenerator.ConvertNullValueAst(ast, quirks);
+                case InstanceValueDeclarationAst ast:
+                    // 7.6.2 Complex type value
+                    return MofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks);
+                case StructureValueDeclarationAst ast:
+                    // 7.6.2 Complex type value
+                    return MofGenerator.ConvertStructureValueDeclarationAst(ast, quirks);
+                default:
+                    // unknown
+                    throw new InvalidOperationException(node.GetType().FullName);
+            }
+
         }
 
         #endregion
 
         #region 7.2 MOF specification
 
-        public static string ConvertToMof(MofSpecificationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertMofSpecificationAst(MofSpecificationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
             for (var i = 0; i < node.Productions.Count; i++)
@@ -70,25 +98,47 @@ namespace Kingsland.MofParser.CodeGen
                 {
                     source.AppendLine();
                 }
-                source.Append(MofGenerator.ConvertToMof(node.Productions[i], quirks));
+                source.Append(MofGenerator.ConvertMofProductionAst(node.Productions[i], quirks));
             }
             return source.ToString();
+        }
+
+        public static string ConvertMofProductionAst(MofProductionAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            switch (node)
+            {
+                case CompilerDirectiveAst ast:
+                    return MofGenerator.ConvertCompilerDirectiveAst(ast, quirks);
+                //case StructureDeclarationAst ast:
+                case ClassDeclarationAst ast:
+                    return MofGenerator.ConvertClassDeclarationAst(ast, quirks);
+                //case AssociationDeclarationAst ast:
+                //case EnumerationDeclarationAst ast:
+                case InstanceValueDeclarationAst ast:
+                    return MofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks);
+                case StructureValueDeclarationAst ast:
+                    return MofGenerator.ConvertStructureValueDeclarationAst(ast, quirks);
+                case QualifierTypeDeclarationAst ast:
+                    return MofGenerator.ConvertQualifierTypeDeclarationAst(ast, quirks);
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         #endregion
 
         #region 7.3 Compiler directives
 
-        public static string ConvertToMof(CompilerDirectiveAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertCompilerDirectiveAst(CompilerDirectiveAst node, MofQuirks quirks = MofQuirks.None)
         {
             return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
         }
 
-        #endregion
+    #endregion
 
         #region 7.4 Qualifiers
 
-        public static string ConvertToMof(QualifierTypeDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertQualifierTypeDeclarationAst(QualifierTypeDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
             if (!string.IsNullOrEmpty(node.Name.Name))
@@ -99,11 +149,11 @@ namespace Kingsland.MofParser.CodeGen
             {
                 if (node.Initializer is LiteralValueAst)
                 {
-                    source.AppendFormat("({0})", MofGenerator.ConvertToMof(node.Initializer, quirks));
+                    source.AppendFormat("({0})", MofGenerator.ConvertPrimitiveTypeValueAst(node.Initializer, quirks));
                 }
                 else if (node.Initializer is LiteralValueArrayAst)
                 {
-                    source.Append(MofGenerator.ConvertToMof(node.Initializer, quirks));
+                    source.Append(MofGenerator.ConvertPrimitiveTypeValueAst(node.Initializer, quirks));
                 }
                 else
                 {
@@ -121,15 +171,19 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.4.1 QualifierList
 
-        public static string ConvertToMof(QualifierListAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertQualifierListAst(QualifierListAst node, MofQuirks quirks = MofQuirks.None)
         {
+
+            // [Abstract, OCL]
+
             var source = new StringBuilder();
             var lastQualifierName = default(string);
+
             source.Append("[");
             for (var i = 0; i < node.Qualifiers.Count; i++)
             {
                 var thisQualifier = node.Qualifiers[i];
-                var thisQualifierName = node.Qualifiers[i].Name.GetNormalizedName();
+                var thisQualifierName = thisQualifier.QualifierName.GetNormalizedName();
                 if (i > 0)
                 {
                     source.Append(",");
@@ -139,23 +193,78 @@ namespace Kingsland.MofParser.CodeGen
                         source.Append(" ");
                     }
                 }
-                source.Append(MofGenerator.ConvertToMof(thisQualifier, quirks));
+                source.Append(MofGenerator.ConvertQualifierValueAst(thisQualifier, quirks));
                 lastQualifierName = thisQualifierName;
             }
             source.Append("]");
             return source.ToString();
         }
 
+        public static string ConvertQualifierValueAst(QualifierValueAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            // Abstract
+            // Description("an instance of a class that derives from the GOLF_Base class. ")
+            // OCL{"-- the key property cannot be NULL", "inv: InstanceId.size() = 10"}
+            var source = new StringBuilder();
+            source.Append(node.QualifierName.Extent.Text);
+            if (node.ValueInitializer != null)
+            {
+                source.Append("(");
+                source.Append(MofGenerator.ConvertLiteralValueAst(node.ValueInitializer));
+                source.Append(")");
+            }
+            else if (node.ValueArrayInitializer != null)
+            {
+                source.Append(MofGenerator.ConvertLiteralValueArrayAst(node.ValueArrayInitializer));
+            }
+            ///
+            /// 7.4 Qualifiers
+            ///
+            /// NOTE A MOF v2 qualifier declaration has to be converted to MOF v3 qualifierTypeDeclaration because the
+            /// MOF v2 qualifier flavor has been replaced by the MOF v3 qualifierPolicy.
+            ///
+            /// These aren't part of the MOF 3.0.1 spec, but we'll include them anyway for backward compatibility.
+            ///
+            if (node.Flavors.Count > 0)
+            {
+                source.Append(": ");
+                source.Append(
+                    string.Join(
+                        " ",
+                        node.Flavors.Select(f => f.Name)
+                    )
+                );
+            }
+            return source.ToString();
+        }
+
+        #endregion
+
+        #region 7.5.1 Structure declaration
+
+        public static string ConvertStructureFeatureAst(StructureFeatureAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            switch (node)
+            {
+                //case StructureDeclarationAst ast:
+                //case EnumerationDeclarationAst ast:
+                case PropertyDeclarationAst ast:
+                    return MofGenerator.ConvertPropertyDeclarationAst(ast, quirks);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         #endregion
 
         #region 7.5.2 Class declaration
 
-        public static string ConvertToMof(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertClassDeclarationAst(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
             if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
             {
-                source.AppendLine(MofGenerator.ConvertToMof(node.Qualifiers, quirks));
+                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
             }
             if (node.Superclass == null)
             {
@@ -168,22 +277,35 @@ namespace Kingsland.MofParser.CodeGen
             source.AppendLine("{");
             foreach (var feature in node.Features)
             {
-                source.AppendFormat("\t{0}\r\n", MofGenerator.ConvertToMof(feature, quirks));
+                source.AppendFormat("\t{0}\r\n", MofGenerator.ConvertClassFeatureAst(feature, quirks));
             }
-            source.AppendLine("};");
+            source.Append("};");
             return source.ToString();
+        }
+
+        public static string ConvertClassFeatureAst(ClassFeatureAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            switch (node)
+            {
+                case StructureFeatureAst ast:
+                    return MofGenerator.ConvertStructureFeatureAst(ast, quirks);
+                case MethodDeclarationAst ast:
+                    return MofGenerator.ConvertMethodDeclarationAst(ast, quirks);
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         #endregion
 
         #region 7.5.5 Property declaration
 
-        public static string ConvertToMof(PropertyDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertPropertyDeclarationAst(PropertyDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
             if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
             {
-                source.AppendFormat("{0} ", MofGenerator.ConvertToMof(node.Qualifiers, quirks));
+                source.AppendFormat("{0} ", MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
             }
             source.AppendFormat("{0} ", node.ReturnType.Name);
             if (node.IsRef)
@@ -197,7 +319,7 @@ namespace Kingsland.MofParser.CodeGen
             }
             if (node.Initializer != null)
             {
-                source.AppendFormat(" = {0}", MofGenerator.ConvertToMof(node.Initializer, quirks));
+                source.AppendFormat(" = {0}", MofGenerator.ConvertPrimitiveTypeValueAst(node.Initializer, quirks));
             }
             source.Append(";");
             return source.ToString();
@@ -207,12 +329,12 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.6 Method declaration
 
-        public static string ConvertToMof(MethodDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertMethodDeclarationAst(MethodDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
             if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
             {
-                source.AppendFormat("{0}", MofGenerator.ConvertToMof(node.Qualifiers, quirks));
+                source.AppendFormat("{0}", MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
             }
             var quirkEnabled = (quirks & MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations) == MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations;
             if (quirkEnabled || ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0))
@@ -226,7 +348,7 @@ namespace Kingsland.MofParser.CodeGen
             }
             else
             {
-                var values = node.Parameters.Select(p => MofGenerator.ConvertToMof(p, quirks)).ToArray();
+                var values = node.Parameters.Select(p => MofGenerator.ConvertParameterDeclarationAst(p, quirks)).ToArray();
                 source.AppendFormat("({0});", string.Join(", ", values));
             }
             return source.ToString();
@@ -236,12 +358,12 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.7 Parameter declaration
 
-        public static string ConvertToMof(ParameterDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertParameterDeclarationAst(ParameterDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
             if (node.Qualifiers.Qualifiers.Count > 0)
             {
-                source.AppendFormat("{0} ", MofGenerator.ConvertToMof(node.Qualifiers, quirks));
+                source.AppendFormat("{0} ", MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
             }
             source.AppendFormat("{0} ", node.Type.Name);
             if (node.IsRef)
@@ -264,28 +386,99 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.9 Complex type value
 
-        public static string ConvertToMof(ComplexValueArrayAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertComplexTypeValueAst(ComplexTypeValueAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            switch (node)
+            {
+                case ComplexValueArrayAst ast:
+                    return MofGenerator.ConvertComplexValueArrayAst(ast, quirks);
+                case ComplexValueAst ast:
+                    return MofGenerator.ConvertComplexValueAst(ast, quirks);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+
+        public static string ConvertComplexValueArrayAst(ComplexValueArrayAst node, MofQuirks quirks = MofQuirks.None)
         {
             return string.Format("{{{0}}}", string.Join(", ", node.Values.Select(v => v.ToString()).ToArray()));
         }
 
-        public static string ConvertToMof(ComplexValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertComplexValueAst(ComplexValueAst node, MofQuirks quirks = MofQuirks.None)
         {
             return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
         }
 
-        public static string ConvertToMof(PropertyValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertPropertyValueListAst(PropertyValueListAst node, MofQuirks quirks = MofQuirks.None)
         {
-            return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
+            // {
+            //     Reference = TRUE;
+            // }
+            var source = new StringBuilder();
+            source.AppendLine("{");
+            foreach (var propertyValue in node.PropertyValues)
+            {
+                source.AppendLine($"    {propertyValue.Key} = {MofGenerator.ConvertPropertyValueAst(propertyValue.Value)};");
+            }
+            source.Append("}");
+            return source.ToString();
+        }
+
+        public static string ConvertPropertyValueAst(PropertyValueAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            switch (node)
+            {
+                case PrimitiveTypeValueAst ast:
+                    return MofGenerator.ConvertPrimitiveTypeValueAst(ast, quirks);
+                case ComplexTypeValueAst ast:
+                    return MofGenerator.ConvertComplexTypeValueAst(ast, quirks);
+                //case ReferenceTypeValueAst ast:
+                //case EnumTypeValueAst ast:
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         #endregion
 
         #region 7.6.1 Primitive type value
 
-        public static string ConvertToMof(LiteralValueArrayAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertPrimitiveTypeValueAst(PrimitiveTypeValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            var values = node.Values.Select(v => MofGenerator.ConvertToMof(v, quirks)).ToArray();
+            switch (node)
+            {
+                case LiteralValueAst ast:
+                    return MofGenerator.ConvertLiteralValueAst(ast, quirks);
+                case LiteralValueArrayAst ast:
+                    return MofGenerator.ConvertLiteralValueArrayAst(ast, quirks);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public static string ConvertLiteralValueAst(LiteralValueAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            switch (node)
+            {
+                case IntegerValueAst ast:
+                    return MofGenerator.ConvertIntegerValueAst(ast, quirks);
+                case RealValueAst ast:
+                    return MofGenerator.ConvertRealValueAst(ast, quirks);
+                case BooleanValueAst ast:
+                    return MofGenerator.ConvertBooleanValueAst(ast, quirks);
+                case NullValueAst ast:
+                    return MofGenerator.ConvertNullValueAst(ast, quirks);
+                case StringValueAst ast:
+                    return MofGenerator.ConvertStringValueAst(ast, quirks);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public static string ConvertLiteralValueArrayAst(LiteralValueArrayAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            var values = node.Values.Select(v => MofGenerator.ConvertLiteralValueAst(v, quirks)).ToArray();
             return string.Format("{{{0}}}", string.Join(", ", values));
         }
 
@@ -293,7 +486,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.6.1.1 Integer value
 
-        public static string ConvertToMof(IntegerValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertIntegerValueAst(IntegerValueAst node, MofQuirks quirks = MofQuirks.None)
         {
             return node.Value.ToString();
         }
@@ -302,7 +495,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.6.1.2 Real value
 
-        public static string ConvertToMof(RealValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertRealValueAst(RealValueAst node, MofQuirks quirks = MofQuirks.None)
         {
             return node.Value.ToString();
         }
@@ -311,7 +504,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.6.1.3 String values
 
-        public static string ConvertToMof(StringValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertStringValueAst(StringValueAst node, MofQuirks quirks = MofQuirks.None)
         {
             return string.Format("\"{0}\"", MofGenerator.EscapeString(node.Value));
         }
@@ -349,7 +542,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.6.1.5 Boolean value
 
-        public static string ConvertToMof(BooleanValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertBooleanValueAst(BooleanValueAst node, MofQuirks quirks = MofQuirks.None)
         {
             return node.Token.Extent.Text;
         }
@@ -358,22 +551,52 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.6.1.6 Null value
 
-        public static string ConvertToMof(NullValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertNullValueAst(NullValueAst node, MofQuirks quirks = MofQuirks.None)
         {
             return node.Token.Extent.Text;
         }
 
         #endregion
 
-        #region 7.6.4 Reference type value
+        #region 7.6.2 Complex type value
 
-        public static string ConvertToMof(ReferenceTypeValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertInstanceValueDeclarationAst(InstanceValueDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
-            return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
+            // instance of myType as $Alias00000070
+            // {
+            //     Reference = TRUE;
+            // };
+            var source = new StringBuilder();
+            // instance of myType as $Alias00000070
+            source.Append(node.Instance.Extent.Text);
+            source.Append(' ');
+            source.Append(node.Of.Extent.Text);
+            source.Append(' ');
+            source.Append(node.TypeName.Name);
+            if (node.Alias != null)
+            {
+                source.Append(' ');
+                source.Append(node.As.Extent.Text);
+                source.Append(' ');
+                source.Append($"${node.Alias.Name}");
+            }
+            source.AppendLine();
+            // {
+            //     Reference = TRUE;
+            // }
+            source.Append(MofGenerator.ConvertPropertyValueListAst(node.PropertyValues));
+            // ;
+            source.Append(node.StatementEnd.Extent.Text);
+            return source.ToString();
+        }
+
+        public static string ConvertStructureValueDeclarationAst(StructureValueDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
 
-    }
+        }
 
 }

@@ -15,14 +15,7 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.4.1 QualifierList
     ///
-    ///     qualifierList                 = "[" qualifierValue *( "," qualifierValue ) "]"
-    ///
-    ///     qualifierValue                = qualifierName [ qualifierValueInitializer /
-    ///                                     qualiferValueArrayInitializer ]
-    ///
-    ///     qualifierValueInitializer     = "(" literalValue ")"
-    ///
-    ///     qualiferValueArrayInitializer = "{" literalValue *( "," literalValue ) "}"
+    ///     qualifierList = "[" qualifierValue *( "," qualifierValue ) "]"
     ///
     /// </remarks>
     public sealed class QualifierListAst : AstNode
@@ -35,10 +28,10 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
-                this.Qualifiers = new List<QualifierTypeDeclarationAst>();
+                this.Qualifiers = new List<QualifierValueAst>();
             }
 
-            public List<QualifierTypeDeclarationAst> Qualifiers
+            public List<QualifierValueAst> Qualifiers
             {
                 get;
                 set;
@@ -47,8 +40,8 @@ namespace Kingsland.MofParser.Ast
             public QualifierListAst Build()
             {
                 return new QualifierListAst(
-                    new ReadOnlyCollection<QualifierTypeDeclarationAst>(
-                        this.Qualifiers ?? new List<QualifierTypeDeclarationAst>()
+                    new ReadOnlyCollection<QualifierValueAst>(
+                        this.Qualifiers ?? new List<QualifierValueAst>()
                     )
                 );
             }
@@ -59,10 +52,10 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public QualifierListAst(ReadOnlyCollection<QualifierTypeDeclarationAst> qualifiers)
+        public QualifierListAst(ReadOnlyCollection<QualifierValueAst> qualifiers)
         {
-            this.Qualifiers = qualifiers ?? new ReadOnlyCollection<QualifierTypeDeclarationAst>(
-                new List<QualifierTypeDeclarationAst>()
+            this.Qualifiers = qualifiers ?? new ReadOnlyCollection<QualifierValueAst>(
+                new List<QualifierValueAst>()
             );
         }
 
@@ -70,7 +63,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public ReadOnlyCollection<QualifierTypeDeclarationAst> Qualifiers
+        public ReadOnlyCollection<QualifierValueAst> Qualifiers
         {
             get;
             private set;
@@ -82,7 +75,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertQualifierListAst(this);
         }
 
         #endregion

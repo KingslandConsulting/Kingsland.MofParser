@@ -34,6 +34,7 @@
     <Compile Include="Ast\ClassDeclarationAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />
     <Compile Include="Ast\PropertyValueListAst.cs" />
+    <Compile Include="Ast\QualifierValueAst.cs" />
     <Compile Include="Ast\StructureFeatureAst.cs" />
     <Compile Include="Ast\StructureValueDeclarationAst.cs" />
     <Compile Include="Ast\InstanceValueDeclarationAst.cs" />
@@ -48,7 +49,7 @@
     <Compile Include="Ast\MethodDeclarationAst.cs" />
     <Compile Include="Ast\NullValueAst.cs" />
     <Compile Include="Ast\CompilerDirectiveAst.cs" />
-    <Compile Include="Ast\QualifierDeclarationAst.cs" />
+    <Compile Include="Ast\QualifierTypeDeclarationAst.cs" />
     <Compile Include="Ast\QualifierListAst.cs" />
     <Compile Include="Ast\RealValueAst.cs" />
     <Compile Include="Ast\StringValueAst.cs" />
@@ -57,7 +58,6 @@
     <Compile Include="Ast\MofProductionAst.cs" />
     <Compile Include="Ast\PrimitiveTypeValueAst.cs" />
     <Compile Include="Ast\PropertyValueAst.cs" />
-    <Compile Include="Ast\ReferenceTypeValueAst.cs" />
     <Compile Include="CodeGen\MofGenerator.cs" />
     <Compile Include="CodeGen\MofQuirks.cs" />
     <Compile Include="Lexing\LexerEngine.cs" />

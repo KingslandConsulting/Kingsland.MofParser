@@ -8,6 +8,7 @@ using System.IO;
 namespace Kingsland.MofParser.UnitTests.Lexer
 {
 
+    [TestFixture]
     public static class LexerTests
     {
 

@@ -11,7 +11,7 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.5.9 Complex type value
     ///
-    ///     propertyValue = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
+    ///     propertyValue      = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
     ///
     /// 7.6.1 Primitive type value
     ///
@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.5.9 Complex type value
     ///
-    ///     complexTypeValue = complexValue / complexValueArray
+    ///     complexTypeValue   = complexValue / complexValueArray
     ///
     /// 7.6.4 Reference type value
     ///
@@ -27,7 +27,7 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.6.3 Enum type value
     ///
-    ///     enumTypeValue = enumValue / enumValueArray
+    ///     enumTypeValue      = enumValue / enumValueArray
     ///
     /// </remarks>
     public abstract class PropertyValueAst : AstNode

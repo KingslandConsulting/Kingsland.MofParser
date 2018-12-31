@@ -14,7 +14,7 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.6.1 Primitive type value
     ///
-    ///     literalValueArray  = "{" [ literalValue *( "," literalValue ) ] "}"
+    ///     literalValueArray = "{" [ literalValue *( "," literalValue ) ] "}"
     ///
     /// </remarks>
     public sealed class LiteralValueArrayAst : PrimitiveTypeValueAst
@@ -75,7 +75,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertLiteralValueArrayAst(this);
         }
 
         #endregion

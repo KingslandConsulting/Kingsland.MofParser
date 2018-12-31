@@ -22,6 +22,7 @@ namespace Kingsland.MofParser.Ast
     ///     primitiveParamDeclaration = primitiveType parameterName [ array ]
     ///                                 [ "=" primitiveTypeValue
     ///                                 ]
+    ///
     ///     complexParamDeclaration   = structureOrClassName parameterName [ array ]
     ///                                 [ "=" ( complexTypeValue / aliasIdentifier ) ]
     ///
@@ -159,7 +160,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertParameterDeclarationAst(this);
         }
 
         #endregion

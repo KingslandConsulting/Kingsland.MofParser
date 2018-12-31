@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
         {
 
             [Test]
-            public static void ParsePropetyValueLiteralString()
+            public static void ParsePropetyValueWithLiteralString()
             {
                 var tokens = Lexing.Lexer.Lex(
                     SourceReader.From(
@@ -37,11 +37,35 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new InstanceValueDeclarationAst(
                                 new IdentifierToken(
                                     new SourceExtent(
+                                        new SourcePosition(0, 1, 1),
+                                        new SourcePosition(7, 1, 8),
+                                        "instance"
+                                    ),
+                                    "instance"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(9, 1, 10),
+                                        new SourcePosition(10, 1, 11),
+                                        "of"
+                                    ),
+                                    "of"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
                                         new SourcePosition(12, 1, 13),
                                         new SourcePosition(17, 1, 18),
                                         "myType"
                                     ),
                                     "myType"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(19, 1, 20),
+                                        new SourcePosition(20, 1, 21),
+                                        "as"
+                                    ),
+                                    "as"
                                 ),
                                 new AliasIdentifierToken(
                                     new SourceExtent(
@@ -57,6 +81,13 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                             { "ServerURL", new StringValueAst("https://URL") }
                                         }
                                     )
+                                ),
+                                new StatementEndToken(
+                                    new SourceExtent(
+                                        new SourcePosition(74, 4, 2),
+                                        new SourcePosition(74, 4, 2),
+                                        ";"
+                                    )
                                 )
                             )
                         }
@@ -68,7 +99,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
             }
 
             [Test]
-            public static void ParsePropetyValueWithReferenceTypeValue()
+            public static void ParsePropetyValueWithAliasIdentifier()
             {
                 var tokens = Lexing.Lexer.Lex(
                     SourceReader.From(
@@ -86,11 +117,35 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new InstanceValueDeclarationAst(
                                 new IdentifierToken(
                                     new SourceExtent(
+                                        new SourcePosition(0, 1, 1),
+                                        new SourcePosition(7, 1, 8),
+                                        "instance"
+                                    ),
+                                    "instance"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(9, 1, 10),
+                                        new SourcePosition(10, 1, 11),
+                                        "of"
+                                    ),
+                                    "of"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
                                         new SourcePosition(12, 1, 13),
                                         new SourcePosition(17, 1, 18),
                                         "myType"
                                     ),
                                     "myType"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(19, 1, 20),
+                                        new SourcePosition(20, 1, 21),
+                                        "as"
+                                    ),
+                                    "as"
                                 ),
                                 new AliasIdentifierToken(
                                     new SourceExtent(
@@ -103,8 +158,34 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                 new PropertyValueListAst(
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
-                                            { "Reference", new ReferenceTypeValueAst("Alias0000006E") }
-                                        }
+                                            { "Reference", new ComplexValueAst(
+                                                true, false,
+                                                new AliasIdentifierToken(
+                                                    new SourceExtent(
+                                                        new SourcePosition(57, 3, 17),
+                                                        new SourcePosition(70, 3, 30),
+                                                        "$Alias0000006E"
+                                                    ),
+                                                    "Alias0000006E"
+                                                ),
+                                                new IdentifierToken(
+                                                    new SourceExtent(
+                                                        new SourcePosition(12, 1, 13),
+                                                        new SourcePosition(17, 1, 18),
+                                                        "myType"
+                                                    ),
+                                                    "myType"
+                                                ),
+                                                null
+                                            )
+                                        }}
+                                    )
+                                ),
+                                new StatementEndToken(
+                                    new SourceExtent(
+                                        new SourcePosition(75, 4, 2),
+                                        new SourcePosition(75, 4, 2),
+                                        ";"
                                     )
                                 )
                             )
@@ -117,7 +198,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
             }
 
             [Test]
-            public static void ParsePropetyValueEmptyArray()
+            public static void ParsePropetyValueWithEmptyArray()
             {
                 var tokens = Lexing.Lexer.Lex(
                     SourceReader.From(
@@ -135,11 +216,35 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new InstanceValueDeclarationAst(
                                 new IdentifierToken(
                                     new SourceExtent(
+                                        new SourcePosition(0, 1, 1),
+                                        new SourcePosition(7, 1, 8),
+                                        "instance"
+                                    ),
+                                    "instance"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(9, 1, 10),
+                                        new SourcePosition(10, 1, 11),
+                                        "of"
+                                    ),
+                                    "of"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
                                         new SourcePosition(12, 1, 13),
                                         new SourcePosition(17, 1, 18),
                                         "myType"
                                     ),
                                     "myType"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(19, 1, 20),
+                                        new SourcePosition(20, 1, 21),
+                                        "as"
+                                    ),
+                                    "as"
                                 ),
                                 new AliasIdentifierToken(
                                     new SourceExtent(
@@ -152,12 +257,15 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                 new PropertyValueListAst(
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
-                                            { "Reference", new ComplexValueArrayAst(
-                                                new ReadOnlyCollection<ComplexValueAst>(
-                                                    new List<ComplexValueAst>()
-                                                ))
-                                            }
+                                            { "Reference", new LiteralValueArrayAst(null) }
                                         }
+                                    )
+                                ),
+                                new StatementEndToken(
+                                    new SourceExtent(
+                                        new SourcePosition(63, 4, 2),
+                                        new SourcePosition(63, 4, 2),
+                                        ";"
                                     )
                                 )
                             )
@@ -170,7 +278,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
             }
 
             [Test]
-            public static void ParsePropetyValueArrayWithSingleItem()
+            public static void ParsePropetyValueArrayWithAliasIdentifier()
             {
                 var tokens = Lexing.Lexer.Lex(
                     SourceReader.From(
@@ -188,11 +296,35 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new InstanceValueDeclarationAst(
                                 new IdentifierToken(
                                     new SourceExtent(
+                                        new SourcePosition(0, 1, 1),
+                                        new SourcePosition(7, 1, 8),
+                                        "instance"
+                                    ),
+                                    "instance"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(9, 1, 10),
+                                        new SourcePosition(10, 1, 11),
+                                        "of"
+                                    ),
+                                    "of"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
                                         new SourcePosition(12, 1, 13),
                                         new SourcePosition(17, 1, 18),
                                         "myType"
                                     ),
                                     "myType"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(19, 1, 20),
+                                        new SourcePosition(20, 1, 21),
+                                        "as"
+                                    ),
+                                    "as"
                                 ),
                                 new AliasIdentifierToken(
                                     new SourceExtent(
@@ -226,16 +358,19 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                                                 ),
                                                                 "myType"
                                                             ),
-                                                            new PropertyValueListAst(
-                                                                new ReadOnlyDictionary<string, PropertyValueAst>(
-                                                                    new Dictionary<string, PropertyValueAst>()
-                                                                )
-                                                            )
+                                                            null
                                                         )
                                                     }
                                                 )
                                             )}
                                         }
+                                    )
+                                ),
+                                new StatementEndToken(
+                                    new SourceExtent(
+                                        new SourcePosition(77, 4, 2),
+                                        new SourcePosition(77, 4, 2),
+                                        ";"
                                     )
                                 )
                             )
@@ -248,7 +383,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
             }
 
             [Test]
-            public static void ParsePropetyValueArrayWithMultipleItems()
+            public static void ParsePropetyValueArrayWitLiteralStrings()
             {
                 var tokens = Lexing.Lexer.Lex(
                     SourceReader.From(
@@ -266,11 +401,35 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new InstanceValueDeclarationAst(
                                 new IdentifierToken(
                                     new SourceExtent(
+                                        new SourcePosition(0, 1, 1),
+                                        new SourcePosition(7, 1, 8),
+                                        "instance"
+                                    ),
+                                    "instance"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(9, 1, 10),
+                                        new SourcePosition(10, 1, 11),
+                                        "of"
+                                    ),
+                                    "of"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
                                         new SourcePosition(12, 1, 13),
                                         new SourcePosition(17, 1, 18),
                                         "myType"
                                     ),
                                     "myType"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(19, 1, 20),
+                                        new SourcePosition(20, 1, 21),
+                                        "as"
+                                    ),
+                                    "as"
                                 ),
                                 new AliasIdentifierToken(
                                     new SourceExtent(
@@ -292,6 +451,13 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                                                 )
                                             )}
                                         }
+                                    )
+                                ),
+                                new StatementEndToken(
+                                    new SourceExtent(
+                                        new SourcePosition(96, 4, 2),
+                                        new SourcePosition(96, 4, 2),
+                                        ";"
                                     )
                                 )
                             )
@@ -331,7 +497,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
         public static class ParseMethodGolfExamples
         {
 
-            //[Test, TestCaseSource(typeof(ParseMethodGolfExamples), "GetTestCases")]
+            [Test, TestCaseSource(typeof(ParseMethodGolfExamples), "GetTestCases")]
             public static void ParseMethodTestsFromDisk(string mofFilename)
             {
                 //Console.WriteLine(mofFilename);

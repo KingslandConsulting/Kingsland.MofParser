@@ -14,6 +14,7 @@ namespace Kingsland.MofParser.Ast
     /// 7.6.1.5 Boolean value
     ///
     ///     booleanValue = TRUE / FALSE
+    ///
     ///     FALSE        = "false" ; keyword: case insensitive
     ///     TRUE         = "true"  ; keyword: case insensitive
     ///
@@ -74,7 +75,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertBooleanValueAst(this);
         }
 
         #endregion

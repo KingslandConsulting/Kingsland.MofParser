@@ -17,6 +17,10 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.4 Qualifiers
     ///
+    ///     qualifierTypeDeclaration = [qualifierList] QUALIFIER qualifierName ":"
+    ///                                qualifierType qualifierScope
+    ///                                [qualifierPolicy] ";"
+    ///
     /// </returns>
     public sealed class QualifierTypeDeclarationAst : MofProductionAst
     {
@@ -29,6 +33,12 @@ namespace Kingsland.MofParser.Ast
             public Builder()
             {
                 this.Flavors = new List<string>();
+            }
+
+            public QualifierListAst Qualifiers
+            {
+                get;
+                set;
             }
 
             public IdentifierToken Name
@@ -52,6 +62,7 @@ namespace Kingsland.MofParser.Ast
             public QualifierTypeDeclarationAst Build()
             {
                 return new QualifierTypeDeclarationAst(
+                    this.Qualifiers,
                     this.Name,
                     this.Initializer,
                     new ReadOnlyCollection<string>(
@@ -67,11 +78,13 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         private QualifierTypeDeclarationAst(
+            QualifierListAst qualifiers,
             IdentifierToken name,
             PrimitiveTypeValueAst initializer,
             ReadOnlyCollection<string> flavors
         )
         {
+            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
             this.Initializer = initializer ?? throw new ArgumentNullException(nameof(initializer));
             this.Flavors = flavors ?? throw new ArgumentNullException(nameof(flavors));
@@ -80,6 +93,12 @@ namespace Kingsland.MofParser.Ast
         #endregion
 
         #region Properties
+
+        public QualifierListAst Qualifiers
+        {
+            get;
+            private set;
+        }
 
         public IdentifierToken Name
         {
@@ -105,7 +124,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertQualifierTypeDeclarationAst(this);
         }
 
         #endregion
