@@ -652,14 +652,14 @@ namespace Kingsland.MofParser.Lexing
 
                     case stateFirstDigitBlock:
                         // we're reading the first block of digits in the value,
-                        // but we won't necessarily know which until we've read more of the stream
+                        // but we won't necessarily know which type we're reading
+                        // until we've consumed more of the input stream
                         //
                         //     binaryValue  => 1*binaryDigit
                         //     octalValue   => "0" 1*octalDigit
                         //     hexValue     => ( "0x" / "0X" )
                         //     decimalValue => positiveDecimalDigit *decimalDigit
                         //     realValue    => *decimalDigit
-                        //
                         //
                         if (thisReader.Peek('.'))
                         {
@@ -672,7 +672,8 @@ namespace Kingsland.MofParser.Lexing
                             break;
                         }
                         // we don't know which base the value is in yet, but if it's hexadecimal them
-                        // we should be reading the "0x" part here, so restrict digits to decimal
+                        // we should be reading the "0x" part here, so restrict digits to decimal in
+                        // all cases
                         (firstDigitBlock, thisReader) = thisReader.ReadWhile(StringValidator.IsDecimalDigit);
                         sourceChars.AddRange(firstDigitBlock);
                         // now we can do some validation
@@ -739,7 +740,7 @@ namespace Kingsland.MofParser.Lexing
                         sourceChars.Add(sourceChar);
                         // now build the return value
                         var binaryValue = ParseBinaryValueDigits(firstDigitBlock, signChar);
-                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), binaryValue);
+                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), IntegerKind.BinaryValue, binaryValue);
                         // and we're done
                         currentState = stateDone;
                         break;
@@ -758,7 +759,7 @@ namespace Kingsland.MofParser.Lexing
                         }
                         // now build the return value
                         var octalValue = ParseOctalValueDigits(firstDigitBlock, signChar);
-                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), octalValue);
+                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), IntegerKind.OctalValue, octalValue);
                         // and we're done
                         currentState = stateDone;
                         break;
@@ -782,7 +783,7 @@ namespace Kingsland.MofParser.Lexing
                         sourceChars.AddRange(hexDigits);
                         // build the return value
                         var hexValue = ParseHexValueDigits(hexDigits, signChar);
-                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), hexValue);
+                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), IntegerKind.HexValue, hexValue);
                         // and we're done
                         currentState = stateDone;
                         break;
@@ -805,7 +806,7 @@ namespace Kingsland.MofParser.Lexing
                         }
                         // build the return value
                         var decimalValue = ParseDecimalValueDigits(firstDigitBlock, signChar);
-                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), decimalValue);
+                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), IntegerKind.DecimalValue, decimalValue);
                         // and we're done
                         currentState = stateDone;
                         break;

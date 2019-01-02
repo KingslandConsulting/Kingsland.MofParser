@@ -6,10 +6,17 @@ namespace Kingsland.MofParser.Tokens
     public sealed class IntegerLiteralToken : Token
     {
 
-        public IntegerLiteralToken(SourceExtent extent, long value)
+        public IntegerLiteralToken(SourceExtent extent, IntegerKind kind, long value)
             : base(extent)
         {
+            this.Kind = kind;
             this.Value = value;
+        }
+
+        public IntegerKind Kind
+        {
+            get;
+            private set;
         }
 
         public long Value
@@ -31,6 +38,7 @@ namespace Kingsland.MofParser.Tokens
             else
             {
                 return obj1.Extent.IsEqualTo(obj2.Extent) &&
+                       (obj1.Kind == obj2.Kind) &&
                        (obj1.Value == obj2.Value);
             }
         }

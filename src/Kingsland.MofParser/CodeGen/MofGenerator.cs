@@ -1,5 +1,6 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -488,7 +489,19 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertIntegerValueAst(IntegerValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            return node.Value.ToString();
+            switch (node.Kind)
+            {
+                case IntegerKind.BinaryValue:
+                    return "0" + Convert.ToString(node.Value, 2) + "b";
+                case IntegerKind.OctalValue:
+                    return "0" + Convert.ToString(node.Value, 8);
+                case IntegerKind.HexValue:
+                    return "0x" + Convert.ToString(node.Value, 16).ToUpperInvariant();
+                case IntegerKind.DecimalValue:
+                    return Convert.ToString(node.Value, 10);
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         #endregion

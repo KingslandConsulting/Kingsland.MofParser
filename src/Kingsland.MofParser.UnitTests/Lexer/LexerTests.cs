@@ -1257,7 +1257,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(1, 1, 2),
                             "0b"
                         ),
-                        0
+                        IntegerKind.BinaryValue, 0
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1277,7 +1277,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(1, 1, 2),
                             "1b"
                         ),
-                        1
+                        IntegerKind.BinaryValue, 1
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1297,7 +1297,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(5, 1, 6),
                             "00000b"
                         ),
-                        0
+                        IntegerKind.BinaryValue, 0
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1317,7 +1317,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(5, 1, 6),
                             "10000b"
                         ),
-                        16
+                        IntegerKind.BinaryValue, 16
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1337,7 +1337,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(5, 1, 6),
                             "11111b"
                         ),
-                        31
+                        IntegerKind.BinaryValue, 31
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1359,7 +1359,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(1, 1, 2),
                             "00"
                         ),
-                        0
+                        IntegerKind.OctalValue, 0
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1379,7 +1379,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(1, 1, 2),
                             "01"
                         ),
-                        1
+                        IntegerKind.OctalValue, 1
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1399,7 +1399,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(4, 1, 5),
                             "00000"
                         ),
-                        0
+                        IntegerKind.OctalValue, 0
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1419,7 +1419,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(4, 1, 5),
                             "01000"
                         ),
-                        512
+                        IntegerKind.OctalValue, 512
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1439,7 +1439,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(4, 1, 5),
                             "01111"
                         ),
-                        585
+                        IntegerKind.OctalValue, 585
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1459,7 +1459,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(4, 1, 5),
                             "04444"
                         ),
-                        2340
+                        IntegerKind.OctalValue, 2340
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1479,7 +1479,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(4, 1, 5),
                             "07777"
                         ),
-                        4095
+                        IntegerKind.OctalValue, 4095
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1501,7 +1501,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(2, 1, 3),
                             "0x0"
                         ),
-                        0
+                        IntegerKind.HexValue, 0
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1521,7 +1521,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(5, 1, 6),
                             "0x0000"
                         ),
-                        0
+                        IntegerKind.HexValue, 0
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1541,7 +1541,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(5, 1, 6),
                             "0x8888"
                         ),
-                        34952
+                        IntegerKind.HexValue, 34952
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1561,7 +1561,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(5, 1, 6),
                             "0xabcd"
                         ),
-                        43981
+                        IntegerKind.HexValue, 43981
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1581,7 +1581,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(5, 1, 6),
                             "0xABCD"
                         ),
-                        43981
+                        IntegerKind.HexValue, 43981
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1603,7 +1603,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(0, 1, 1),
                             "0"
                         ),
-                        0
+                        IntegerKind.DecimalValue, 0
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1623,7 +1623,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(4, 1, 5),
                             "12345"
                         ),
-                        12345
+                        IntegerKind.DecimalValue, 12345
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1643,7 +1643,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(5, 1, 6),
                             "+12345"
                         ),
-                        12345
+                        IntegerKind.DecimalValue, 12345
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1663,7 +1663,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(5, 1, 6),
                             "-12345"
                         ),
-                        -12345
+                        IntegerKind.DecimalValue, -12345
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
@@ -1683,7 +1683,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                             new SourcePosition(9, 1, 10),
                             "1234567890"
                         ),
-                        1234567890
+                        IntegerKind.DecimalValue, 1234567890
                     )
                 };
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
