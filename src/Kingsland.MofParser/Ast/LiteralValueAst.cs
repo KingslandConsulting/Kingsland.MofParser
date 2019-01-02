@@ -9,11 +9,13 @@
     ///
     /// 7.6.1 Primitive type value
     ///
-    ///     literalValue = integerValue / realValue /
-    ///                    stringValue / octetStringValue
+    ///     literalValue = integerValue /
+    ///                    realValue /
     ///                    booleanValue /
     ///                    nullValue /
-    ///                    dateTimeValue
+    ///                    stringValue
+    ///                      ; NOTE stringValue covers octetStringValue and
+    ///                      ; dateTimeValue
     ///
     /// </remarks>
     public abstract class LiteralValueAst : PrimitiveTypeValueAst

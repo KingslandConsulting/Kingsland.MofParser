@@ -3,22 +3,22 @@
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class StringLiteralToken : Token
+    public sealed class RealLiteralToken : Token
     {
 
-        public StringLiteralToken(SourceExtent extent, string value)
+        public RealLiteralToken(SourceExtent extent, double value)
             : base(extent)
         {
             this.Value = value;
         }
 
-        public string Value
+        public double Value
         {
             get;
             private set;
         }
 
-        public static bool AreEqual(StringLiteralToken obj1, StringLiteralToken obj2)
+        public static bool AreEqual(RealLiteralToken obj1, RealLiteralToken obj2)
         {
             if ((obj1 == null) && (obj2 == null))
             {

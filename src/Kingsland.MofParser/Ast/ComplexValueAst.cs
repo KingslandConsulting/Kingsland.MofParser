@@ -12,10 +12,10 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.5.9 Complex type value
     ///
-    ///     complexValue      = aliasIdentifier /
-    ///                         ( VALUE OF
-    ///                           ( structureName / className / associationName )
-    ///                           propertyValueList )
+    ///     complexValue = aliasIdentifier /
+    ///                    ( VALUE OF
+    ///                      ( structureName / className / associationName )
+    ///                      propertyValueList )
     ///
     /// </remarks>
     public sealed class ComplexValueAst : ComplexTypeValueAst
@@ -128,7 +128,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertComplexValueAst(this);
         }
 
         #endregion

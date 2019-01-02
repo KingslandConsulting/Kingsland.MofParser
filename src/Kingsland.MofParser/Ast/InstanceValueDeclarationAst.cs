@@ -30,11 +30,25 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public Builder()
+            public IdentifierToken Instance
             {
+                get;
+                set;
+            }
+
+            public IdentifierToken Of
+            {
+                get;
+                set;
             }
 
             public IdentifierToken TypeName
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken As
             {
                 get;
                 set;
@@ -52,16 +66,22 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
+            public StatementEndToken StatementEnd
+            {
+                get;
+                set;
+            }
+
             public InstanceValueDeclarationAst Build()
             {
                 return new InstanceValueDeclarationAst(
-                    this.TypeName,
-                    this.Alias,
-                    this.PropertyValues ?? new PropertyValueListAst(
-                        new ReadOnlyDictionary<string, PropertyValueAst>(
-                            new Dictionary<string, PropertyValueAst>()
-                        )
-                    )
+                    instance: this.Instance,
+                    of: this.Of,
+                    typeName: this.TypeName,
+                    @as: this.As,
+                    alias: this.Alias,
+                    propertyValues: this.PropertyValues,
+                    statementEnd: this.StatementEnd
                 );
             }
 
@@ -72,25 +92,51 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         public InstanceValueDeclarationAst(
+            IdentifierToken instance,
+            IdentifierToken of,
             IdentifierToken typeName,
+            IdentifierToken @as,
             AliasIdentifierToken alias,
-            PropertyValueListAst propertyValues
+            PropertyValueListAst propertyValues,
+            StatementEndToken statementEnd
         )
         {
+            this.Instance = instance ?? throw new ArgumentNullException(nameof(instance));
+            this.Of = of ?? throw new ArgumentNullException(nameof(of));
             this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
+            this.As = @as;
             this.Alias = alias;
             this.PropertyValues = propertyValues ?? new PropertyValueListAst(
                 new ReadOnlyDictionary<string, PropertyValueAst>(
                     new Dictionary<string, PropertyValueAst>()
                 )
             );
+            this.StatementEnd = statementEnd ?? throw new ArgumentNullException(nameof(statementEnd));
         }
 
         #endregion
 
         #region Properties
 
+        public IdentifierToken Instance
+        {
+            get;
+            private set;
+        }
+
+        public IdentifierToken Of
+        {
+            get;
+            private set;
+        }
+
         public IdentifierToken TypeName
+        {
+            get;
+            private set;
+        }
+
+        public IdentifierToken As
         {
             get;
             private set;
@@ -108,13 +154,19 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
+        public StatementEndToken StatementEnd
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Object Overrides
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertInstanceValueDeclarationAst(this);
         }
 
         #endregion

@@ -24,13 +24,15 @@ namespace Kingsland.MofParser.Ast
     ///                         enumName /
     ///                         classReference
     ///
-    ///     array             = "[" "]"
     ///     methodName        = IDENTIFIER
     ///     classReference    = DT_REFERENCE
     ///     DT_REFERENCE      = className REF
-    ///     REF               = "ref" ; keyword: case insensitive
     ///     VOID              = "void" ; keyword: case insensitive
     ///     parameterList     = parameterDeclaration *( "," parameterDeclaration )
+    ///
+    /// 7.5.5 Property declaration
+    ///
+    ///    array             = "[" "]"
     ///
     public sealed class MethodDeclarationAst : ClassFeatureAst
     {
@@ -151,7 +153,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertMethodDeclarationAst(this);
         }
 
         #endregion

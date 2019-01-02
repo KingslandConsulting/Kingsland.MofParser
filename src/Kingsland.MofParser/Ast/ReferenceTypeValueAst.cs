@@ -11,16 +11,21 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.6.4 Reference type value
     ///
-    ///     referenceTypeValue  = referenceValue / referenceValueArray
-    ///     referenceValueArray = "{" [ objectPathValue *( "," objectPathValue ) ]
+    /// Whitespace as defined in 5.2 is allowed between the elements of the rules in this ABNF section.
     ///
+    ///     referenceTypeValue   = objectPathValue / objectPathValueArray
+    ///     objectPathValueArray = "{" [ objectPathValue *( "," objectPathValue ) ]
+    ///                            "}"
     /// No whitespace is allowed between the elements of the rules in this ABNF section.
     ///
-    ///     objectPathValue = [namespacePath ":"] instanceId
-    ///     namespacePath   = [serverPath] namespaceName
+    ///     ; Note: objectPathValues are URLs and shall conform to RFC 3986 (Uniform
+    ///     ; Resource Identifiers(URI): Generic Syntax) and to the following ABNF.
     ///
-    /// ; Note: The production rules for host and port are defined in IETF
-    /// ; RFC 3986 (Uniform Resource Identifiers (URI): Generic Syntax).
+    ///     objectPathValue  = [namespacePath ":"] instanceId
+    ///     namespacePath    = [serverPath] namespaceName
+    ///
+    ///     ; Note: The production rules for host and port are defined in IETF
+    ///     ; RFC 3986 (Uniform Resource Identifiers (URI): Generic Syntax).
     ///
     ///     serverPath       = (host / LOCALHOST) [ ":" port] "/"
     ///     LOCALHOST        = "localhost" ; Case insensitive

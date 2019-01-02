@@ -13,10 +13,10 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.5.5 Property declaration
     ///
-    ///     propertyDeclaration = [ qualifierList ] ( primitivePropertyDeclaration /
-    ///                                               complexPropertyDeclaration /
-    ///                                               enumPropertyDeclaration /
-    ///                                               referencePropertyDeclaration) ";"
+    ///     propertyDeclaration          = [ qualifierList ] ( primitivePropertyDeclaration /
+    ///                                    complexPropertyDeclaration /
+    ///                                    enumPropertyDeclaration /
+    ///                                    referencePropertyDeclaration) ";"
     ///
     ///     primitivePropertyDeclaration = primitiveType propertyName [ array ]
     ///                                    [ "=" primitiveTypeValue]
@@ -33,11 +33,11 @@ namespace Kingsland.MofParser.Ast
     ///     array                        = "[" "]"
     ///     propertyName                 = IDENTIFIER
     ///     structureOrClassName         = IDENTIFIER
+    ///
     ///     classReference               = DT_REFERENCE
     ///     DT_REFERENCE                 = className REF
     ///     REF                          = "ref" ; keyword: case insensitive
     ///
-
     public sealed class PropertyDeclarationAst : StructureFeatureAst
     {
 
@@ -114,7 +114,7 @@ namespace Kingsland.MofParser.Ast
             this.PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
             this.IsArray = isArray;
             this.IsRef = isRef;
-            this.Initializer = initializer ?? throw new ArgumentNullException(nameof(initializer));
+            this.Initializer = initializer;
         }
 
         #endregion
@@ -163,7 +163,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertPropertyDeclarationAst(this);
         }
 
         #endregion

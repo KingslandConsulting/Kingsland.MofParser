@@ -26,6 +26,7 @@ namespace Kingsland.MofParser.Ast
     ///                                      ; the parameter value
     ///                                      ; shall represent a relative
     ///                                      ; or full file path
+    ///
     ///     PRAGMA             = "#pragma"  ; keyword: case insensitive
     ///     INCLUDE            = "include"  ; keyword: case insensitive
     ///
@@ -94,7 +95,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertToMof(this);
+            return MofGenerator.ConvertCompilerDirectiveAst(this);
         }
 
         #endregion

@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CodeGen\MofGeneratorTests.cs" />
     <Compile Include="Lexer\LexerHelper.cs" />
     <Compile Include="Lexer\LexerTests.cs" />
     <Compile Include="Parsing\ParserTests.cs" />

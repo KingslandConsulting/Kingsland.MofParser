@@ -152,12 +152,15 @@ namespace Kingsland.MofParser.Lexing
                             return (identifierToken, nextLexer);
                         }
                     }
-                    else if ((peek.Value == '+') || (peek.Value == '-') ||
-                             (StringValidator.IsDecimalDigit(peek.Value)))
+                    else if ((peek.Value == '+') || (peek.Value == '-') || (peek.Value == '.') ||
+                             StringValidator.IsDecimalDigit(peek.Value))
                     {
-                        var (integerToken, nextReader) = LexerEngine.ReadIntegerLiteralToken(reader);
+                        //var (integerToken, nextReader) = LexerEngine.ReadIntegerLiteralToken(reader);
+                        //var nextLexer = new Lexer(nextReader);
+                        //return (integerToken, nextLexer);
+                        var (numericToken, nextReader) = LexerEngine.ReadNumericLiteralToken(reader);
                         var nextLexer = new Lexer(nextReader);
-                        return (integerToken, nextLexer);
+                        return (numericToken, nextLexer);
                     }
                     else
                     {
@@ -510,7 +513,7 @@ namespace Kingsland.MofParser.Lexing
 
         #endregion
 
-        #region 7.6.1.1 Integer value
+        #region 7.6.1.1 Integer value / 7.6.1.2 Real value
 
         /// <summary>
         ///
@@ -539,41 +542,332 @@ namespace Kingsland.MofParser.Lexing
         ///                                           "d" / "D" / "e" / "E" / "f" / "F"
         ///
         ///     decimalValue         = [ "+" / "-" ] unsignedDecimalValue
-        ///     unsignedDecimalValue = positiveDecimalDigit *decimalDigit
+        ///     unsignedDecimalValue = "0" / positiveDecimalDigit *decimalDigit
+        ///
+        ///     decimalDigit         = "0" / positiveDecimalDigit
+        ///     positiveDecimalDigit = "1"..."9"
+        ///
+        /// 7.6.1.2 Real value
+        ///
+        /// No whitespace is allowed between the elements of the rules in this ABNF section.
+        ///
+        ///     realValue            = [ "+" / "-" ] *decimalDigit "." 1*decimalDigit
+        ///                            [ ( "e" / "E" ) [ "+" / "-" ] 1*decimalDigit ]
         ///
         ///     decimalDigit         = "0" / positiveDecimalDigit
         ///     positiveDecimalDigit = "1"..."9"
         ///
         /// </remarks>
-        public static (IntegerLiteralToken, SourceReader) ReadIntegerLiteralToken(SourceReader reader)
+        public static (Token, SourceReader) ReadNumericLiteralToken(SourceReader reader)
         {
-            /// BUGBUG - this method is woefully underimplemented!
+
+            int ParseBinaryValueDigits(IEnumerable<SourceChar> binaryChars, SourceChar sign)
+            {
+                return ParseIntegerValueDigits(new Dictionary<char, int>
+                {
+                    { '0', 0 }, { '1', 1 }
+                }, 2, binaryChars, sign);
+            }
+
+            int ParseOctalValueDigits(IEnumerable<SourceChar> octalChars, SourceChar sign)
+            {
+                return ParseIntegerValueDigits(new Dictionary<char, int>
+                {
+                    { '0', 0 }, { '1', 1 }, { '2', 2 }, { '3', 3 }, { '4', 4 }, { '5', 5 }, { '6', 6 }, { '7', 7 }
+                }, 8, octalChars, sign);
+            }
+
+            int ParseHexValueDigits(IEnumerable<SourceChar> hexChars, SourceChar sign)
+            {
+                return ParseIntegerValueDigits(new Dictionary<char, int>
+                {
+                    { '0', 0 }, { '1', 1 }, { '2', 2 }, { '3', 3 }, { '4', 4 }, { '5', 5 }, { '6', 6 }, { '7', 7 }, { '8', 8 }, { '9', 9 },
+                    { 'a', 10 }, { 'b', 11 }, { 'c', 12 }, { 'd', 13 }, { 'e', 14 }, { 'f', 15 },
+                    { 'A', 10 }, { 'B', 11 }, { 'C', 12 }, { 'D', 13 }, { 'E', 14 }, { 'F', 15 }
+                }, 16, hexChars, sign);
+            }
+
+            int ParseDecimalValueDigits(IEnumerable<SourceChar> decimalChars, SourceChar sign)
+            {
+                return ParseIntegerValueDigits(new Dictionary<char, int>
+                {
+                    { '0', 0 }, { '1', 1 }, { '2', 2 }, { '3', 3 }, { '4', 4 }, { '5', 5 }, { '6', 6 }, { '7', 7 }, { '8', 8 }, { '9', 9 }
+                }, 10, decimalChars, sign);
+            }
+
+            int ParseIntegerValueDigits(Dictionary<char, int> alphabet, int radix, IEnumerable<SourceChar> chars, SourceChar sign)
+            {
+                var literalValue = 0;
+                foreach (var digit in chars)
+                {
+                    var digitValue = alphabet[digit.Value];
+                    literalValue = (literalValue * radix) + digitValue;
+                }
+                if (sign?.Value == '-')
+                {
+                    literalValue = -literalValue;
+                }
+                return literalValue;
+            }
+
+            const int stateLeadingSign = 1;
+            const int stateFirstDigitBlock = 2;
+            const int stateOctalOrDecimalValue = 3;
+            const int stateBinaryValue = 4;
+            const int stateOctalValue = 5;
+            const int stateHexValue = 6;
+            const int stateDecimalValue = 7;
+            const int stateRealValue = 8;
+            const int stateRealValueFraction = 9;
+            const int stateDone = 99;
+
             var thisReader = reader;
             var sourceChar = default(SourceChar);
             var sourceChars = new List<SourceChar>();
-            // read the sign (if there is one)
-            var sign = default(SourceChar);
-            var peek = thisReader.Peek();
-            switch (peek.Value)
+
+            var token = default(Token);
+            var signChar = default(SourceChar);
+            var firstDigitBlock = new List<SourceChar>();
+
+            var currentState = stateLeadingSign;
+            while (currentState != stateDone)
             {
-                case '+':
-                case '-':
-                    (sign, thisReader) = thisReader.Read();
-                    sourceChars.Add(sign);
-                    break;
+                switch (currentState)
+                {
+
+                    case stateLeadingSign:
+                        // we're reading the initial optional leading sign
+                        // [ "+" / "-" ]
+                        sourceChar = thisReader.Peek();
+                        switch (sourceChar.Value)
+                        {
+                            case '+':
+                            case '-':
+                                (signChar, thisReader) = thisReader.Read();
+                                sourceChars.Add(signChar);
+                                break;
+                        }
+                        currentState = stateFirstDigitBlock;
+                        break;
+
+                    case stateFirstDigitBlock:
+                        // we're reading the first block of digits in the value,
+                        // but we won't necessarily know which until we've read more of the stream
+                        //
+                        //     binaryValue  => 1*binaryDigit
+                        //     octalValue   => "0" 1*octalDigit
+                        //     hexValue     => ( "0x" / "0X" )
+                        //     decimalValue => positiveDecimalDigit *decimalDigit
+                        //     realValue    => *decimalDigit
+                        //
+                        //
+                        if (thisReader.Peek('.'))
+                        {
+                            // we're reading a realValue with no "*decimalDigit" characters before the "."
+                            // e.g. ".45", "+.45", "-.45", so consume the decimal point
+                            (sourceChar, thisReader) = thisReader.Read();
+                            sourceChars.Add(sourceChar);
+                            // and go to the next state
+                            currentState = stateRealValueFraction;
+                            break;
+                        }
+                        // we don't know which base the value is in yet, but if it's hexadecimal them
+                        // we should be reading the "0x" part here, so restrict digits to decimal
+                        (firstDigitBlock, thisReader) = thisReader.ReadWhile(StringValidator.IsDecimalDigit);
+                        sourceChars.AddRange(firstDigitBlock);
+                        // now we can do some validation
+                        if (firstDigitBlock.Count == 0)
+                        {
+                            // only realValue allows no digits in the first block, and
+                            // we've already handled that at the start of this case
+                            throw new UnexpectedCharacterException(sourceChar);
+                        }
+                        // if we've reached the end of the stream then there's no suffix
+                        // (e.g. b, B, x, X, .) so this must be an octalValue or decimalValue
+                        if (thisReader.Eof())
+                        {
+                            currentState = stateOctalOrDecimalValue;
+                            break;
+                        }
+                        // check the next character to see if it tells us anything
+                        // about which type of literal we're reading
+                        sourceChar = thisReader.Peek();
+                        switch (sourceChar.Value)
+                        {
+                            case 'b':
+                            case 'B':
+                                // binaryValue
+                                currentState = stateBinaryValue;
+                                break;
+                            case 'x':
+                            case 'X':
+                                // hexValue
+                                currentState = stateHexValue;
+                                break;
+                            case '.':
+                                // realValue
+                                currentState = stateRealValue;
+                                break;
+                            default:
+                                // by elmination, this must be an octalValue or decimalValue
+                                currentState = stateOctalOrDecimalValue;
+                                break;
+                        }
+                        break;
+
+                    case stateOctalOrDecimalValue:
+                        // we're reading an octalValue or decimalValue, but we're not sure which yet...
+                        if ((firstDigitBlock.First().Value == '0') && (firstDigitBlock.Count > 1))
+                        {
+                            currentState = stateOctalValue;
+                        }
+                        else
+                        {
+                            currentState = stateDecimalValue;
+                        }
+                        break;
+
+                    case stateBinaryValue:
+                        // we're trying to read a binaryValue, so check all the characters in the digit block are valid,
+                        // i.e. 1*binaryDigit
+                        if (firstDigitBlock.Any(c => !StringValidator.IsBinaryDigit(c.Value)))
+                        {
+                            throw new UnexpectedCharacterException(sourceChar);
+                        }
+                        // all the characters are valid, so consume the suffix
+                        (sourceChar, thisReader) = thisReader.Read(c => (c == 'b') || (c == 'B'));
+                        sourceChars.Add(sourceChar);
+                        // now build the return value
+                        var binaryValue = ParseBinaryValueDigits(firstDigitBlock, signChar);
+                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), binaryValue);
+                        // and we're done
+                        currentState = stateDone;
+                        break;
+
+                    case stateOctalValue:
+                        // we're trying to read an octalValue (since decimalValue can't start with a
+                        // leading '0') so check all the characters in the digit block are valid,
+                        // i.e. "0" 1*octalDigit
+                        if ((firstDigitBlock.Count < 2) || (firstDigitBlock.First().Value != '0'))
+                        {
+                            throw new UnexpectedCharacterException(sourceChar);
+                        }
+                        if (firstDigitBlock.Skip(1).Any(c => !StringValidator.IsOctalDigit(c.Value)))
+                        {
+                            throw new UnexpectedCharacterException(sourceChar);
+                        }
+                        // now build the return value
+                        var octalValue = ParseOctalValueDigits(firstDigitBlock, signChar);
+                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), octalValue);
+                        // and we're done
+                        currentState = stateDone;
+                        break;
+
+                    case stateHexValue:
+                        // we're trying to read a hexValue, so we should have just read a leading zero
+                        if ((firstDigitBlock.Count != 1) || (firstDigitBlock.First().Value != '0'))
+                        {
+                            throw new UnexpectedCharacterException(sourceChar);
+                        }
+                        // all the characters are valid, so consume the suffix
+                        (sourceChar, thisReader) = thisReader.Read(c => (c == 'x') || (c == 'X'));
+                        sourceChars.Add(sourceChar);
+                        // 1*hexDigit
+                        var hexDigits = default(List<SourceChar>);
+                        (hexDigits, thisReader) = thisReader.ReadWhile(StringValidator.IsHexDigit);
+                        if (hexDigits.Count == 0)
+                        {
+                            throw new UnexpectedCharacterException(thisReader.Peek());
+                        }
+                        sourceChars.AddRange(hexDigits);
+                        // build the return value
+                        var hexValue = ParseHexValueDigits(hexDigits, signChar);
+                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), hexValue);
+                        // and we're done
+                        currentState = stateDone;
+                        break;
+
+                    case stateDecimalValue:
+                        // we're trying to read a decimalValue (since that's the only remaining option),
+                        // so check all the characters in the digit block are valid,
+                        // i.e. "0" / positiveDecimalDigit *decimalDigit
+                        if ((firstDigitBlock.Count == 1) && (firstDigitBlock.First().Value == '0'))
+                        {
+                            // "0"
+                        }
+                        else if (!StringValidator.IsPositiveDecimalDigit(firstDigitBlock.First().Value))
+                        {
+                            throw new UnexpectedCharacterException(sourceChar);
+                        }
+                        else if (firstDigitBlock.Skip(1).Any(c => !StringValidator.IsDecimalDigit(c.Value)))
+                        {
+                            throw new UnexpectedCharacterException(sourceChar);
+                        }
+                        // build the return value
+                        var decimalValue = ParseDecimalValueDigits(firstDigitBlock, signChar);
+                        token = new IntegerLiteralToken(SourceExtent.From(sourceChars), decimalValue);
+                        // and we're done
+                        currentState = stateDone;
+                        break;
+
+                    case stateRealValue:
+                        // we're trying to read a realValue, so check all the characters in the digit block are valid,
+                        // i.e. *decimalDigit
+                        if (firstDigitBlock.Any(c => !StringValidator.IsDecimalDigit(c.Value)))
+                        {
+                            throw new UnexpectedCharacterException(sourceChar);
+                        }
+                        // all the characters are valid, so consume the decimal point
+                        (sourceChar, thisReader) = thisReader.Read('.');
+                        sourceChars.Add(sourceChar);
+                        // and go to the next state
+                        currentState = stateRealValueFraction;
+                        break;
+
+                    case stateRealValueFraction:
+                        // 1*decimalDigit
+                        var realFractionDigits = default(List<SourceChar>);
+                        (realFractionDigits, thisReader) = thisReader.ReadWhile(StringValidator.IsHexDigit);
+                        if (realFractionDigits.Count == 0)
+                        {
+                            throw new UnexpectedCharacterException(thisReader.Peek());
+                        }
+                        sourceChars.AddRange(realFractionDigits);
+                        // ( "e" / "E" )
+                        if (!thisReader.Eof())
+                        {
+                            sourceChar = thisReader.Peek();
+                            if ((sourceChar.Value == 'e') || (sourceChar.Value == 'E'))
+                            {
+                                throw new NotImplementedException();
+                            }
+                        }
+                        // build the return value
+                        var realIntegerValue = ParseDecimalValueDigits(firstDigitBlock, signChar);
+                        var realFractionValue = (double)ParseDecimalValueDigits(realFractionDigits, signChar);
+                        if (realFractionDigits.Count > 0)
+                        {
+                            realFractionValue = realFractionValue / Math.Pow(10, realFractionDigits.Count);
+                        }
+                        token = new RealLiteralToken(
+                            SourceExtent.From(sourceChars),
+                            realIntegerValue + realFractionValue
+                        );
+                        // and we're done
+                        currentState = stateDone;
+                        break;
+
+                    case stateDone:
+                        throw new InvalidOperationException();
+
+                    default:
+                        throw new InvalidOperationException();
+
+                }
             }
-            // read the remaining characters
-            // BUGBUG - only handles decimalValue
-            (sourceChar, thisReader) = thisReader.Read(StringValidator.IsDecimalDigit);
-            sourceChars.Add(sourceChar);
-            while (!thisReader.Eof() && thisReader.Peek(StringValidator.IsDecimalDigit))
-            {
-                (sourceChar, thisReader) = thisReader.Read();
-                sourceChars.Add(sourceChar);
-            }
-            // return the result
-            var extent = SourceExtent.From(sourceChars);
-            return (new IntegerLiteralToken(extent, long.Parse(extent.Text)), thisReader);
+
+            return (token, thisReader);
+
         }
 
         #endregion

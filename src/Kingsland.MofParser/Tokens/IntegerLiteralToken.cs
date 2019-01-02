@@ -18,6 +18,23 @@ namespace Kingsland.MofParser.Tokens
             private set;
         }
 
+        public static bool AreEqual(IntegerLiteralToken obj1, IntegerLiteralToken obj2)
+        {
+            if ((obj1 == null) && (obj2 == null))
+            {
+                return true;
+            }
+            else if ((obj1 == null) || (obj2 == null))
+            {
+                return false;
+            }
+            else
+            {
+                return obj1.Extent.IsEqualTo(obj2.Extent) &&
+                       (obj1.Value == obj2.Value);
+            }
+        }
+
     }
 
 }

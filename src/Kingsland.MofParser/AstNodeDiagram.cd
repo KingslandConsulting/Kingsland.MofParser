@@ -16,6 +16,13 @@
   </Class>
   <Class Name="Kingsland.MofParser.Ast.LiteralValueArrayAst" Collapsed="true">
     <Position X="5.75" Y="4.25" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Kingsland.MofParser.Ast.LiteralValueArrayAst.Builder" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Ast\LiteralValueArrayAst.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Ast\LiteralValueArrayAst.cs</FileName>
@@ -57,28 +64,13 @@
       <FileName>Ast\PropertyValueAst.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Kingsland.MofParser.Ast.ReferenceTypeValueAst" Collapsed="true">
-    <Position X="11.75" Y="3" Width="1.5" />
-    <InheritanceLine Type="Kingsland.MofParser.Ast.PropertyValueAst" FixedToPoint="true">
-      <Path>
-        <Point X="11.25" Y="2.441" />
-        <Point X="11.25" Y="2.7" />
-        <Point X="12.5" Y="2.7" />
-        <Point X="12.5" Y="3" />
-      </Path>
-    </InheritanceLine>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Ast\ReferenceTypeValueAst.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Kingsland.MofParser.Ast.BooleanValueAst" Collapsed="true">
-    <Position X="8.75" Y="5.25" Width="1.5" />
+    <Position X="8.75" Y="7.25" Width="1.5" />
     <InheritanceLine Type="Kingsland.MofParser.Ast.LiteralValueAst" FixedToPoint="true">
       <Path>
         <Point X="8.5" Y="4.941" />
-        <Point X="8.5" Y="5.687" />
-        <Point X="8.75" Y="5.687" />
+        <Point X="8.5" Y="7.687" />
+        <Point X="8.75" Y="7.687" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -101,12 +93,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Kingsland.MofParser.Ast.IntegerValueAst" Collapsed="true">
-    <Position X="8.75" Y="6.25" Width="1.5" />
+    <Position X="8.75" Y="5.25" Width="1.5" />
     <InheritanceLine Type="Kingsland.MofParser.Ast.LiteralValueAst" FixedToPoint="true">
       <Path>
         <Point X="8.5" Y="4.941" />
-        <Point X="8.5" Y="6.625" />
-        <Point X="8.75" Y="6.625" />
+        <Point X="8.5" Y="5.625" />
+        <Point X="8.75" Y="5.625" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -145,12 +137,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Kingsland.MofParser.Ast.RealValueAst" Collapsed="true">
-    <Position X="8.75" Y="8.25" Width="1.5" />
+    <Position X="8.75" Y="6.25" Width="1.5" />
     <InheritanceLine Type="Kingsland.MofParser.Ast.LiteralValueAst" FixedToPoint="true">
       <Path>
         <Point X="8.5" Y="4.941" />
-        <Point X="8.5" Y="8.562" />
-        <Point X="8.75" Y="8.562" />
+        <Point X="8.5" Y="6.562" />
+        <Point X="8.75" Y="6.562" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -173,12 +165,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Kingsland.MofParser.Ast.NullValueAst" Collapsed="true">
-    <Position X="8.75" Y="7.25" Width="1.5" />
+    <Position X="8.75" Y="8.25" Width="1.5" />
     <InheritanceLine Type="Kingsland.MofParser.Ast.LiteralValueAst" FixedToPoint="true">
       <Path>
         <Point X="8.5" Y="4.941" />
-        <Point X="8.5" Y="7.625" />
-        <Point X="8.75" Y="7.625" />
+        <Point X="8.5" Y="8.625" />
+        <Point X="8.75" Y="8.625" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -310,7 +302,7 @@
     </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAABQAAAAAAAAAAAAAAAAABAA=</HashCode>
-      <FileName>Ast\QualifierDeclarationAst.cs</FileName>
+      <FileName>Ast\QualifierTypeDeclarationAst.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
