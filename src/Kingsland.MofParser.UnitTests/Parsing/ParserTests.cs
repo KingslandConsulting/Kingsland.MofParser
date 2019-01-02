@@ -497,7 +497,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
         public static class ParseMethodGolfExamples
         {
 
-            [Test, TestCaseSource(typeof(ParseMethodGolfExamples), "GetTestCases")]
+            //[Test, TestCaseSource(typeof(ParseMethodGolfExamples), "GetTestCases")]
             public static void ParseMethodTestsFromDisk(string mofFilename)
             {
                 //Console.WriteLine(mofFilename);

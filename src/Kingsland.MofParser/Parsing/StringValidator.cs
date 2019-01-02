@@ -33,7 +33,7 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.4 Structure declaration
+        #region 7.5.1 Structure declaration
 
         #region structureName = elementName
 
@@ -52,7 +52,7 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.5 Class declaration
+        #region 7.5.2 Class declaration
 
         #region className = elementName
 
@@ -71,7 +71,7 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.6 Association declaration
+        #region 7.5.3 Association declaration
 
         #region associationName = elementName
 
@@ -90,7 +90,187 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.13 Names
+        #region 7.6.1.1 Integer value
+
+        #region binaryDigit = "0" / "1"
+
+        public static bool IsBinaryDigit(char value)
+        {
+            return (value >= '0') && (value <= '1');
+        }
+
+        #endregion
+
+        #region octalDigit = "0" / "1" / "2" / "3" / "4" / "5" / "6" / "7"
+
+        public static bool IsOctalDigit(char value)
+        {
+            return (value >= '0') && (value <= '7');
+        }
+
+        #endregion
+
+        #region hexDigit = decimalDigit / "a" / "A" / "b" / "B" / "c" / "C" / "d" / "D" / "e" / "E" / "f" / "F"
+
+        public static bool IsHexDigit(char value)
+        {
+            return StringValidator.IsDecimalDigit(value) ||
+                   ((value >= 'a') && (value <= 'f')) ||
+                   ((value >= 'A') && (value <= 'F'));
+        }
+
+        #endregion
+
+        #region decimalValue = [ "+" / "-" ] unsignedDecimalValue
+
+        public static bool IsDecimalValue(string value)
+        {
+            if (string.IsNullOrEmpty(value)) { return false; }
+            var chars = value.AsEnumerable();
+            if (new[] { '+', '-' }.Contains(chars.First()))
+            {
+                chars = chars.Skip(1);
+            }
+            return StringValidator.IsPositiveDecimalDigit(chars.First()) &&
+                   chars.Skip(1).All(StringValidator.IsDecimalDigit);
+        }
+
+        #endregion
+
+        #region  unsignedDecimalValue = positiveDecimalDigit *decimalDigit
+
+        public static bool IsUnsignedDecimalValue(string value)
+        {
+            if (string.IsNullOrEmpty(value)) { return false; }
+            return StringValidator.IsPositiveDecimalDigit(value.First()) &&
+                   value.Skip(1).All(StringValidator.IsDecimalDigit);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 7.6.1.2 Real value
+
+        // realValue = ["+" / "-"] * decimalDigit "." 1*decimalDigit
+        //             [ ("e" / "E") [ "+" / "-" ] 1*decimalDigit ]
+
+        #region decimalDigit = "0" / positiveDecimalDigit
+
+        public static bool IsDecimalDigit(char value)
+        {
+            return (value == '0') || StringValidator.IsPositiveDecimalDigit(value);
+        }
+
+        #endregion
+
+        #region positiveDecimalDigit = "1"..."9"
+
+        public static bool IsPositiveDecimalDigit(char value)
+        {
+            return (value >= '1') && (value <= '9');
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 7.6.1.3 String values
+
+        // The following special characters are used in other ABNF rules in this specification:
+
+        #region BACKSLASH = U+005C ; \
+
+        public static bool IsBackslash(char @char)
+        {
+            return (@char == Constants.BACKSLASH);
+        }
+
+        #endregion
+
+        #region DOUBLEQUOTE = U+0022 ; "
+
+        public static bool IsDoubleQuote(char @char)
+        {
+            return (@char == Constants.DOUBLEQUOTE);
+        }
+
+        #endregion
+
+        #region SINGLEQUOTE = U+0027 ; '
+
+        public static bool IsSingleQuote(char @char)
+        {
+            return (@char == Constants.SINGLEQUOTE);
+        }
+
+        #endregion
+
+        #region UPPERALPHA = U+0041...U+005A ; A ... Z
+
+        public static bool IsUpperAlpha(char @char)
+        {
+            return (@char >= '\u0041') && (@char <= '\u005A');
+        }
+
+        #endregion
+
+        #region LOWERALPHA = U+0061...U+007A ; a ... z
+
+        public static bool IsLowerAlpha(char @char)
+        {
+            return (@char >= '\u0061') && (@char <= '\u007A');
+        }
+
+        #endregion
+
+        #region UNDERSCORE = U+005F ; _
+
+        public static bool IsUnderscore(char @char)
+        {
+            return (@char == Constants.UNDERSCORE);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 7.6.1.5 Boolean value
+
+        #region FALSE = "false" ; keyword: case insensitive
+
+        public static bool IsFalse(string value)
+        {
+            return string.Equals(value, Constants.FALSE, StringComparison.OrdinalIgnoreCase);
+        }
+
+        #endregion
+
+        #region TRUE = "true" ; keyword: case insensitive
+
+        public static bool IsTrue(string value)
+        {
+            return string.Equals(value, Constants.TRUE, StringComparison.OrdinalIgnoreCase);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 7.6.1.6 Null value
+
+        #region NULL = "null" ; keyword: case insensitive
+
+        public static bool IsNull(string value)
+        {
+            return string.Equals(value, Constants.NULL, StringComparison.OrdinalIgnoreCase);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 7.7.1 Names
 
         #region IDENTIFIER = firstIdentifierChar *( nextIdentifierChar )
 
@@ -145,7 +325,7 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.13.1 Schema-qualified name
+        #region 7.7.2 Schema-qualified name
 
         #region schemaQualifiedName = schemaName UNDERSCORE IDENTIFIER
 
@@ -155,7 +335,7 @@ namespace Kingsland.MofParser.Parsing
             {
                 return false;
             }
-            var underscore = value.IndexOf(StringValidator.Underscore);
+            var underscore = value.IndexOf(Constants.UNDERSCORE);
             if ((underscore < 1) || (underscore == value.Length - 1))
             {
                 return false;
@@ -199,7 +379,7 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
-        #region A.13.2 Alias identifier
+        #region 7.7.3 Alias identifier
 
         #region aliasIdentifier = "$" IDENTIFIER
 
@@ -208,165 +388,6 @@ namespace Kingsland.MofParser.Parsing
             return !string.IsNullOrEmpty(value) &&
                    (value.First() == '$') &&
                    StringValidator.IsIdentifier(value.Substring(1));
-        }
-
-        #endregion
-
-        #endregion
-
-        #region A.17.1 Integer value
-
-        #region decimalValue = [ "+" / "-" ] unsignedDecimalValue
-
-        public static bool IsDecimalValue(string value)
-        {
-            if (string.IsNullOrEmpty(value)) { return false; }
-            var chars = value.AsEnumerable();
-            if (new[] { '+', '-' }.Contains(chars.First()))
-            {
-                chars = chars.Skip(1);
-            }
-            return StringValidator.IsPositiveDecimalDigit(chars.First()) &&
-                   chars.Skip(1).All(StringValidator.IsDecimalDigit);
-        }
-
-        #endregion
-
-        #region  unsignedDecimalValue = positiveDecimalDigit *decimalDigit
-
-        public static bool IsUnsignedDecimalValue(string value)
-        {
-            if (string.IsNullOrEmpty(value)) { return false; }
-            return StringValidator.IsPositiveDecimalDigit(value.First()) &&
-                   value.Skip(1).All(StringValidator.IsDecimalDigit);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region A.17.2 Real value
-
-        // realValue = ["+" / "-"] * decimalDigit "." 1*decimalDigit
-        //             [ ("e" / "E") [ "+" / "-" ] 1*decimalDigit ]
-
-        #region decimalDigit = "0" / positiveDecimalDigit
-
-        public static bool IsDecimalDigit(char value)
-        {
-            return (value == '0') || StringValidator.IsPositiveDecimalDigit(value);
-        }
-
-        #endregion
-
-        #region positiveDecimalDigit = "1"..."9"
-
-        public static bool IsPositiveDecimalDigit(char value)
-        {
-            return (value >= '1') && (value <= '9');
-        }
-
-        #endregion
-
-        #endregion
-
-        #region A.17.4 Special characters
-
-        // The following special characters are used in other ABNF rules in this specification:
-
-        #region BACKSLASH = U+005C ; \
-
-        public static readonly char Backslash = '\u005C';
-
-        public static bool IsBackslash(char @char)
-        {
-            return (@char == StringValidator.Backslash);
-        }
-
-        #endregion
-
-        #region DOUBLEQUOTE = U+0022 ; "
-
-        public static readonly char DoubleQuote = '\u0022';
-
-        public static bool IsDoubleQuote(char @char)
-        {
-            return (@char == StringValidator.DoubleQuote);
-        }
-
-        #endregion
-
-        #region SINGLEQUOTE = U+0027 ; '
-
-        public static readonly char SingleQuote = '\u0027';
-
-        public static bool IsSingleQuote(char @char)
-        {
-            return (@char == StringValidator.SingleQuote);
-        }
-
-        #endregion
-
-        #region UPPERALPHA = U+0041...U+005A ; A ... Z
-
-        public static bool IsUpperAlpha(char @char)
-        {
-            return (@char >= '\u0041') && (@char <= '\u005A');
-        }
-
-        #endregion
-
-        #region LOWERALPHA = U+0061...U+007A ; a ... z
-
-        public static bool IsLowerAlpha(char @char)
-        {
-            return (@char >= '\u0061') && (@char <= '\u007A');
-        }
-
-        #endregion
-
-        #region UNDERSCORE = U+005F ; _
-
-        public static readonly char Underscore = '\u005F';
-
-        public static bool IsUnderscore(char @char)
-        {
-            return (@char == StringValidator.Underscore);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region A.17.6 Boolean value
-
-        #region FALSE = "false" ; keyword: case insensitive
-
-        public static bool IsFalse(string value)
-        {
-            return string.Equals(value, Constants.FALSE, StringComparison.OrdinalIgnoreCase);
-        }
-
-        #endregion
-
-        #region TRUE = "true" ; keyword: case insensitive
-
-        public static bool IsTrue(string value)
-        {
-            return string.Equals(value, Constants.TRUE, StringComparison.OrdinalIgnoreCase);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region A.17.7 Null value
-
-        #region NULL = "null" ; keyword: case insensitive
-
-        public static bool IsNull(string value)
-        {
-            return string.Equals(value, Constants.NULL, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion
