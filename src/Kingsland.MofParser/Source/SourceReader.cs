@@ -138,6 +138,31 @@ namespace Kingsland.MofParser.Source
         }
 
         /// <summary>
+        /// Reads the current character off of the input stream and advances the current position.
+        /// Throws an exception if the character does not match the specified predicate.
+        /// </summary>
+        /// <returns></returns>
+        public (List<SourceChar>, SourceReader NextReader) ReadWhile(Func<char, bool> predicate)
+        {
+            var thisReader = this;
+            var sourceChar = default(SourceChar);
+            var sourceChars = new List<SourceChar>();
+            while (!thisReader.Eof())
+            {
+                if (predicate(thisReader.Peek().Value))
+                {
+                    (sourceChar, thisReader) = thisReader.Read();
+                    sourceChars.Add(sourceChar);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return (sourceChars, thisReader);
+        }
+
+        /// <summary>
         /// Reads a string off of the input stream and advances the current position beyond the end of the string.
         /// Throws an exception if the string does not match the specified value.
         /// </summary>
