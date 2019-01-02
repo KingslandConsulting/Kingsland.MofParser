@@ -1024,7 +1024,7 @@ namespace Kingsland.MofParser.Parsing
             bool IsLiteralValueToken(Token token)
             {
                 return (token is IntegerLiteralToken) ||
-                       //(token is RealLiteralToken) ||
+                       (token is RealLiteralToken) ||
                        //(token is DateTimeLiteralToken) ||
                        (token is StringLiteralToken) ||
                        (token is BooleanLiteralToken) ||
@@ -1187,11 +1187,11 @@ namespace Kingsland.MofParser.Parsing
                 // integerValue
                 return ParserEngine.ParseIntegerValueAst(stream);
             }
-            //else if (peek is RealLiteralToken)
-            //{
-            //    // realValue
-            //    return ParserEngine.ParseRealValueAst(stream);
-            //}
+            else if (peek is RealLiteralToken)
+            {
+                // realValue
+                return ParserEngine.ParseRealValueAst(stream);
+            }
             else if (peek is BooleanLiteralToken)
             {
                 // booleanValue
@@ -1235,9 +1235,11 @@ namespace Kingsland.MofParser.Parsing
         /// </remarks>
         public static IntegerValueAst ParseIntegerValueAst(ParserStream stream)
         {
+            var integerLiteral = stream.Read<IntegerLiteralToken>();
             return new IntegerValueAst.Builder()
             {
-                Value = stream.Read<IntegerLiteralToken>().Value
+               Kind = integerLiteral.Kind,
+               Value = integerLiteral.Value
             }.Build();
         }
 
@@ -1267,7 +1269,7 @@ namespace Kingsland.MofParser.Parsing
         {
             return new RealValueAst.Builder
             {
-                Value = stream.Read<IntegerLiteralToken>().Value
+                Value = stream.Read<RealLiteralToken>().Value
             }.Build();
         }
 

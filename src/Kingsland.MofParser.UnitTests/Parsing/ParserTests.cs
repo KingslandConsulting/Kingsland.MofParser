@@ -4,6 +4,7 @@ using Kingsland.MofParser.Source;
 using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Helpers;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -383,7 +384,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
             }
 
             [Test]
-            public static void ParsePropetyValueArrayWitLiteralStrings()
+            public static void ParsePropetyValueArrayWithLiteralStrings()
             {
                 var tokens = Lexing.Lexer.Lex(
                     SourceReader.From(
@@ -468,6 +469,95 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var expectedJson = TestUtils.ConvertToJson(expectedAst);
                 Assert.AreEqual(expectedJson, actualJson);
             }
+
+            [Test]
+            public static void ParsePropetyValueArrayWithNumericLiteralValues()
+            {
+                var tokens = Lexing.Lexer.Lex(
+                    SourceReader.From(
+                        "instance of myType as $Alias00000070\r\n" +
+                        "{\r\n" +
+                        "    MyBinaryValue = 0101010b;\r\n" +
+                        "    MyOctalValue = 0444444;\r\n" +
+                        "    MyHexValue = 0xABC123;\r\n" +
+                        "    MyDecimalValue = 12345;\r\n" +
+                        "    MyRealValue = 123.45;\r\n" +
+                        "};"
+                    )
+                );
+                var actualAst = Parser.Parse(tokens);
+                var expectedAst = new MofSpecificationAst(
+                    new ReadOnlyCollection<MofProductionAst>(
+                        new List<MofProductionAst>
+                        {
+                            new InstanceValueDeclarationAst(
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(0, 1, 1),
+                                        new SourcePosition(7, 1, 8),
+                                        "instance"
+                                    ),
+                                    "instance"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(9, 1, 10),
+                                        new SourcePosition(10, 1, 11),
+                                        "of"
+                                    ),
+                                    "of"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(12, 1, 13),
+                                        new SourcePosition(17, 1, 18),
+                                        "myType"
+                                    ),
+                                    "myType"
+                                ),
+                                new IdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(19, 1, 20),
+                                        new SourcePosition(20, 1, 21),
+                                        "as"
+                                    ),
+                                    "as"
+                                ),
+                                new AliasIdentifierToken(
+                                    new SourceExtent(
+                                        new SourcePosition(22, 1, 23),
+                                        new SourcePosition(35, 1, 36),
+                                        "$Alias00000070"
+                                    ),
+                                    "Alias00000070"
+                                ),
+                                new PropertyValueListAst(
+                                    new ReadOnlyDictionary<string, PropertyValueAst>(
+                                        new Dictionary<string, PropertyValueAst> {
+                                            { "MyBinaryValue", new IntegerValueAst(IntegerKind.BinaryValue, 0b101010) },
+                                            { "MyOctalValue", new IntegerValueAst(IntegerKind.OctalValue, Convert.ToInt32("444444", 8)) },
+                                            { "MyHexValue", new IntegerValueAst(IntegerKind.HexValue, 0xABC123) },
+                                            { "MyDecimalValue", new IntegerValueAst(IntegerKind.DecimalValue, 12345) },
+                                            { "MyRealValue", new RealValueAst(123.45) }
+                                        }
+                                    )
+                                ),
+                                new StatementEndToken(
+                                    new SourceExtent(
+                                        new SourcePosition(186, 8, 2),
+                                        new SourcePosition(186, 8, 2),
+                                        ";"
+                                    )
+                                )
+                            )
+                        }
+                    )
+                );
+                var actualJson = TestUtils.ConvertToJson(actualAst);
+                var expectedJson = TestUtils.ConvertToJson(expectedAst);
+                Assert.AreEqual(expectedJson, actualJson);
+            }
+
 
         }
 

@@ -33,6 +33,7 @@
   <ItemGroup>
     <Compile Include="Ast\ClassDeclarationAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />
+    <Compile Include="Tokens\IntegerKind.cs" />
     <Compile Include="Ast\PropertyValueListAst.cs" />
     <Compile Include="Ast\QualifierValueAst.cs" />
     <Compile Include="Ast\StructureFeatureAst.cs" />

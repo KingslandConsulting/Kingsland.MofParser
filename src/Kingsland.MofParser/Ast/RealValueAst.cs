@@ -27,7 +27,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public float Value
+            public double Value
             {
                 get;
                 set;
@@ -46,7 +46,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private RealValueAst(float value)
+        public RealValueAst(double value)
         {
             this.Value = value;
         }
@@ -55,7 +55,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public float Value
+        public double Value
         {
             get;
             private set;

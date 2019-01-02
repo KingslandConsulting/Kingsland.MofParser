@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -31,9 +32,16 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
+            public IntegerKind Kind
+            {
+                get;
+                set;
+            }
+
             public IntegerValueAst Build()
             {
                 return new IntegerValueAst(
+                    this.Kind,
                     this.Value
                 );
             }
@@ -44,14 +52,21 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private IntegerValueAst(long value)
+        public IntegerValueAst(IntegerKind kind, long value)
         {
+            this.Kind = kind;
             this.Value = value;
         }
 
         #endregion
 
         #region Properties
+
+        public IntegerKind Kind
+        {
+            get;
+            private set;
+        }
 
         public long Value
         {

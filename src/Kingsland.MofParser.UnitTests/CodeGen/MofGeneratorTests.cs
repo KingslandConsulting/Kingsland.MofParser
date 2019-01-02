@@ -1,8 +1,6 @@
-﻿using Kingsland.MofParser.Ast;
-using Kingsland.MofParser.CodeGen;
+﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Source;
-using Kingsland.MofParser.Tokens;
 using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
@@ -53,6 +51,24 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
                     "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void ClassDeclarationsAstTestWithNumericPropertiesShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of myType as $Alias00000070\r\n" +
+                    "{\r\n" +
+                    "    MyBinaryValue = 0101010b;\r\n" +
+                    "    MyOctalValue = 0444444;\r\n" +
+                    "    MyHexValue = 0xABC123;\r\n" +
+                    "    MyDecimalValue = 12345;\r\n" +
+                    "    MyRealValue = 123.45;\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
