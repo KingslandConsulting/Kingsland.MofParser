@@ -1925,7 +1925,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
         [TestFixture]
         public static class LexMethodTestCases
         {
-            [Test, TestCaseSource(typeof(LexMethodTestCases), "GetTestCases")]
+            //[Test, TestCaseSource(typeof(LexMethodTestCases), "GetTestCases")]
             public static void LexMethodTestsFromDisk(string mofFilename)
             {
                 LexerTests.LexMethodTest(mofFilename);

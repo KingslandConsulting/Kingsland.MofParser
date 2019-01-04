@@ -2,6 +2,7 @@
 using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Kingsland.MofParser.Parsing
 {
@@ -706,94 +707,169 @@ namespace Kingsland.MofParser.Parsing
         public static ClassFeatureAst ParseMemberDeclaration(ParserStream stream, QualifierListAst qualifiers)
         {
 
-            // primitiveType / structureOrClassName / enumName / classReference
-            var returnType = stream.Read<IdentifierToken>();
+            var peek = default(Token);
+            var isMethodDeclaration = default(bool?);
+            var isPropertyDeclaration = default(bool?);
 
-            var @ref = default(IdentifierToken);
-            if (stream.PeekIdentifier(Constants.REF))
+            // [ qualifierList ]
+            // note - this has already been read for us and gets passed in as a parameter
+
+            // read the type of the property
+            //
+            //     primitivePropertyDeclaration => primitiveType
+            //     complexPropertyDeclaration   => structureOrClassName
+            //     enumPropertyDeclaration      => enumName
+            //     referencePropertyDeclaration => classReference
+            //
+            //     methodDeclaration            => returnDataType => primitiveType /
+            //                                                       structureOrClassName /
+            //                                                       enumName /
+            //                                                       classReference
+            //
+            var memberReturnType = stream.Read<IdentifierToken>();
+
+            // if we're reading a:
+            //     + referencePropertyDeclaration or a
+            //     + methodDeclaration that returns a classReference type
+            // then the next token is the REF keyword in the classReference
+            var memberReturnTypeRef = default(IdentifierToken);
+            if (stream.PeekIdentifier(Constants.REF, true))
             {
-                @ref = stream.ReadIdentifier(Constants.REF);
+                memberReturnTypeRef = stream.ReadIdentifier(Constants.REF);
             }
 
-            // [ array ]
-            var returnTypeIsArray = false;
-            if (stream.Peek<AttributeOpenToken>() != null)
+            // if we're reading a methodDeclaration then the next token
+            // in the methodDeclaration after returnDataType could be [ array ]
+            var methodReturnTypeIsArray = false;
+            peek = stream.Peek<AttributeOpenToken>();
+            if (peek != null)
             {
+                if (isPropertyDeclaration.HasValue && isPropertyDeclaration.Value)
+                {
+                    // this can't be a methodDeclaration *and* a propertyDeclaration
+                    throw new UnsupportedTokenException(peek);
+                }
                 stream.Read<AttributeOpenToken>();
                 stream.Read<AttributeCloseToken>();
-                returnTypeIsArray = true;
+                methodReturnTypeIsArray = true;
+                isMethodDeclaration = true;
             }
 
             // propertyName / methodName
             var memberName = stream.Read<IdentifierToken>();
 
-            if ((stream.Peek<ParenthesesOpenToken>() != null) && (@ref == null))
+            // if we're reading a propertyDeclaration then the next token
+            // after the propertyName could be [ array ]
+            var propertyReturnTypeIsArray = false;
+            if (stream.Peek<AttributeOpenToken>() != null)
             {
-                // read the remainder of a methodDeclaration
-                var node = new MethodDeclarationAst.Builder()
+                if (isMethodDeclaration.HasValue && isMethodDeclaration.Value)
                 {
-                    Qualifiers = qualifiers,
-                    Name = memberName,
-                    ReturnType = returnType,
-                    ReturnTypeIsArray = returnTypeIsArray
-                };
+                    // this can't be a propertyDeclaration *and* a methodDeclaration
+                    throw new UnsupportedTokenException(peek);
+                }
+                stream.Read<AttributeOpenToken>();
+                stream.Read<AttributeCloseToken>();
+                propertyReturnTypeIsArray = true;
+                isPropertyDeclaration = true;
+            }
+
+            // if we're reading a methodDeclaration, then the next tokens *must*
+            // be "(" [ parameterList ] ")"
+            var methodParameterDeclarations = new List<ParameterDeclarationAst>();
+            peek = stream.Peek<ParenthesesOpenToken>();
+            if (peek != null)
+            {
+                if (isPropertyDeclaration.HasValue && isPropertyDeclaration.Value)
+                {
+                    // this can't be a methodDeclaration *and* a propertyDeclaration
+                    throw new UnsupportedTokenException(peek);
+                }
                 // "("
                 stream.Read<ParenthesesOpenToken>();
-                //  [ parameterList ]
+                //  [ parameterDeclaration *( "," parameterDeclaration ) ]
                 if (stream.Peek<ParenthesesCloseToken>() == null)
                 {
-                    while (!stream.Eof)
+                    var methodParameterDeclaration = default(ParameterDeclarationAst);
+                    // parameterDeclaration
+                    methodParameterDeclaration = ParserEngine.ParseParameterDeclarationAst(stream);
+                    methodParameterDeclarations.Add(methodParameterDeclaration);
+                    // *( "," parameterDeclaration )
+                    while (stream.Peek<CommaToken>() != null)
                     {
-                        if (node.Parameters.Count > 0)
-                        {
-                            stream.Read<CommaToken>();
-                        }
-                        var parameter = ParserEngine.ParseParameterDeclarationAst(stream);
-                        node.Parameters.Add(parameter);
-                        if (stream.Peek<ParenthesesCloseToken>() != null)
-                        {
-                            break;
-                        }
+                        var commaToken = stream.Read<CommaToken>();
+                        methodParameterDeclaration = ParserEngine.ParseParameterDeclarationAst(stream);
+                        methodParameterDeclarations.Add(methodParameterDeclaration);
                     }
                 }
                 // ")"
                 stream.Read<ParenthesesCloseToken>();
-                // ";"
-                stream.Read<StatementEndToken>();
+                isMethodDeclaration = true;
+            }
+            else
+            {
+                // we're not reading a methodDeclaration, so we *must* be reading a propertyDeclaration
+                if (isMethodDeclaration.HasValue && isMethodDeclaration.Value)
+                {
+                    // this can't be a methodDeclaration *and* a propertyDeclaration
+                    throw new UnsupportedTokenException(peek);
+                }
+                isPropertyDeclaration = true;
+            }
+
+            // if we're reading a propertyDeclaration, then there *could* be
+            // be a property initializer:
+            //
+            //     primitiveParamDeclaration => [ "=" primitiveTypeValue ]
+            //     complexParamDeclaration   => [ "=" ( complexTypeValue / aliasIdentifier ) ]
+            //     enumParamDeclaration      => [ "=" enumValue ]
+            //     referenceParamDeclaration => [ "=" referenceTypeValue ]
+            //
+            var propertyInitializer = default(PrimitiveTypeValueAst);
+            if (stream.Peek<EqualsOperatorToken>() != null)
+            {
+                stream.Read<EqualsOperatorToken>();
+                propertyInitializer = ParserEngine.ReadClassFeatureAstDefaultValue(stream, memberReturnType);
+            }
+
+            // ";"
+            stream.Read<StatementEndToken>();
+
+            if (isPropertyDeclaration.HasValue && isPropertyDeclaration.Value)
+            {
+                if (isMethodDeclaration.HasValue && isMethodDeclaration.Value)
+                {
+                    // this can't be a propertyDeclaration *and* a methodDeclaration
+                    throw new InvalidOperationException();
+                }
+                var node = new PropertyDeclarationAst.Builder
+                {
+                    Qualifiers = qualifiers,
+                    ReturnType = memberReturnType,
+                    ReturnTypeRef = memberReturnTypeRef,
+                    PropertyName = memberName,
+                    ReturnTypeIsArray = propertyReturnTypeIsArray,
+                    Initializer = propertyInitializer
+                };
+                return node.Build();
+            }
+            else if (isMethodDeclaration.HasValue && isMethodDeclaration.Value)
+            {
+                var node = new MethodDeclarationAst.Builder
+                {
+                    Qualifiers = qualifiers,
+                    ReturnType = memberReturnType,
+                    ReturnTypeRef = memberReturnTypeRef,
+                    ReturnTypeIsArray = methodReturnTypeIsArray,
+                    MethodName = memberName,
+                    Parameters = methodParameterDeclarations
+                };
                 return node.Build();
             }
             else
             {
-                // read the remainder of a propertyDeclaration
-                var node = new PropertyDeclarationAst.Builder()
-                {
-                    Qualifiers = qualifiers,
-                    ReturnType = returnType,
-                    PropertyName = memberName,
-                    IsRef = (@ref != null)
-                };
-                // [ array ]
-                if (stream.Peek<AttributeOpenToken>() != null)
-                {
-                    stream.Read<AttributeOpenToken>();
-                    stream.Read<AttributeCloseToken>();
-                    node.IsArray = true;
-                }
-                // read the default value if there is one
-                //
-                //     primitiveParamDeclaration => [ "=" primitiveTypeValue ]
-                //     complexParamDeclaration   => [ "=" ( complexTypeValue / aliasIdentifier ) ]
-                //     enumParamDeclaration      => [ "=" enumValue ]
-                //     referenceParamDeclaration => [ "=" referenceTypeValue ]
-                //
-                if (stream.Peek<EqualsOperatorToken>() != null)
-                {
-                    stream.Read<EqualsOperatorToken>();
-                    node.Initializer = ParserEngine.ReadClassFeatureAstDefaultValue(stream, returnType);
-                }
-                // ";"
-                stream.Read<StatementEndToken>();
-                return node.Build();
+                // we couldn't work out whether this was a propertyDeclaration or a methodDeclaration
+                throw new InvalidOperationException();
             }
 
         }
@@ -888,11 +964,10 @@ namespace Kingsland.MofParser.Parsing
 
             // if we're reading a referenceParamDeclaration then the next token
             // is the 'ref' keyword
-            var parameterIsRef = false;
-            if (stream.PeekIdentifier(Constants.REF))
+            var parameterRef = default(IdentifierToken);
+            if (stream.PeekIdentifier(Constants.REF, true))
             {
-                stream.ReadIdentifier(Constants.REF);
-                parameterIsRef = true;
+                parameterRef = stream.ReadIdentifier(Constants.REF);
             }
 
             // parameterName
@@ -923,10 +998,10 @@ namespace Kingsland.MofParser.Parsing
 
             return new ParameterDeclarationAst.Builder {
                 Qualifiers = qualifiers,
-                Type = parameterTypeName,
-                Name = parameterName,
-                IsRef = parameterIsRef,
-                IsArray = parameterIsArray,
+                ParameterType = parameterTypeName,
+                ParameterRef = parameterRef,
+                ParameterName = parameterName,
+                ParameterIsArray = parameterIsArray,
                 DefaultValue = parameterDefaultValue
             }.Build();
 
@@ -1392,46 +1467,36 @@ namespace Kingsland.MofParser.Parsing
         /// in this ABNF section.
         ///
         ///     singleStringValue = DOUBLEQUOTE *stringChar DOUBLEQUOTE
+        ///
         ///     stringValue       = singleStringValue *( *WS singleStringValue )
-        ///
-        ///     stringChar        = stringUCSchar / stringEscapeSequence
-        ///     stringUCSchar     = U+0020...U+0021 / U+0023...U+D7FF /
-        ///                         U+E000...U+FFFD / U+10000...U+10FFFF
-        ///                         ; Note that these UCS characters can be
-        ///                         ; represented in XML without any escaping
-        ///                         ; (see W3C XML).
-        ///
-        ///     stringEscapeSequence = BACKSLASH ( BACKSLASH / DOUBLEQUOTE / SINGLEQUOTE /
-        ///                            BACKSPACE_ESC / TAB_ESC / LINEFEED_ESC /
-        ///                            FORMFEED_ESC / CARRIAGERETURN_ESC /
-        ///                            escapedUCSchar )
-        ///
-        ///     BACKSPACE_ESC      = "b" ; escape for back space (U+0008)
-        ///     TAB_ESC            = "t" ; escape for horizontal tab(U+0009)
-        ///     LINEFEED_ESC       = "n" ; escape for line feed(U+000A)
-        ///     FORMFEED_ESC       = "f" ; escape for form feed(U+000C)
-        ///     CARRIAGERETURN_ESC = "r" ; escape for carriage return (U+000D)
-        ///
-        ///     escapedUCSchar     = ( "x" / "X" ) 1*6(hexDigit ) ; escaped UCS
-        ///                          ; character with a UCS code position that is
-        ///                          ; the numeric value of the hex number
-        ///
-        /// The following special characters are also used in other ABNF rules in this specification:
-        ///
-        ///     BACKSLASH   = U+005C ; \
-        ///     DOUBLEQUOTE = U+0022 ; "
-        ///     SINGLEQUOTE = U+0027 ; '
-        ///     UPPERALPHA  = U+0041...U+005A ; A ... Z
-        ///     LOWERALPHA  = U+0061...U+007A ; a ... z
-        ///     UNDERSCORE  = U+005F ; _
         ///
         /// </remarks>
         public static StringValueAst ParseStringValueAst(ParserStream stream)
         {
-            return new StringValueAst.Builder()
+
+            var node = new StringValueAst.Builder();
+            var singleStringValue = default(StringLiteralToken);
+
+            // singleStringValue *( *WS singleStringValue )
+
+            // singleStringValue
+            singleStringValue = stream.Read<StringLiteralToken>();
+            node.StringLiteralValues.Add(singleStringValue);
+
+            // *( *WS singleStringValue )
+            while (!stream.Eof && (stream.Peek<StringLiteralToken>() != null))
             {
-                Value = stream.Read<StringLiteralToken>().Value
-            }.Build();
+                singleStringValue = stream.Read<StringLiteralToken>();
+                node.StringLiteralValues.Add(singleStringValue);
+            }
+
+            node.Value = string.Join(
+                string.Empty,
+                node.StringLiteralValues.Select(s => s.Value).ToList()
+            );
+
+            return node.Build();
+
         }
 
         #endregion

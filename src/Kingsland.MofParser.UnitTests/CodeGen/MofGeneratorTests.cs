@@ -48,7 +48,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             }
 
             [Test]
-            public static void ClassDeclarationsAstTestWithMofV2QualifierFlavorsShouldRoundtrip()
+            public static void ClassDeclarationsAstWithMofV2QualifierFlavorsShouldRoundtrip()
             {
                 var expectedMof =
                     "[Locale(1033): ToInstance, UUID(\"{BE46D060-7A7C-11d2-BC85-00104B2CF71C}\"): ToInstance]\r\n" +
@@ -64,7 +64,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             }
 
             [Test]
-            public static void ClassDeclarationsAstTestWithNumericPropertiesShouldRoundtrip()
+            public static void ClassDeclarationsAstWithNumericPropertiesShouldRoundtrip()
             {
                 var expectedMof =
                     "instance of myType as $Alias00000070\r\n" +
@@ -74,6 +74,34 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "    MyHexValue = 0xABC123;\r\n" +
                     "    MyDecimalValue = 12345;\r\n" +
                     "    MyRealValue = 123.45;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void ClassDeclarationsAstWithReferencePropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class GOLF_Club : GOLF_Base\r\n" +
+                    "{\r\n" +
+                    "\tGOLF_ClubMember REF AllMembers[];\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void ClassDeclarationsAstWithMethodWithRefArrayParameters()
+            {
+                var expectedMof =
+                    "class GOLF_Club : GOLF_Base\r\n" +
+                    "{\r\n" +
+                    "\tInteger GetMembersWithOutstandingFees([Out] GOLF_ClubMember REF lateMembers[]);\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);

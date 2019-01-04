@@ -58,19 +58,19 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
+            public IdentifierToken ReturnTypeRef
+            {
+                get;
+                set;
+            }
+
             public IdentifierToken PropertyName
             {
                 get;
                 set;
             }
 
-            public bool IsArray
-            {
-                get;
-                set;
-            }
-
-            public bool IsRef
+            public bool ReturnTypeIsArray
             {
                 get;
                 set;
@@ -87,9 +87,9 @@ namespace Kingsland.MofParser.Ast
                 return new PropertyDeclarationAst(
                     this.Qualifiers,
                     this.ReturnType,
+                    this.ReturnTypeRef,
                     this.PropertyName,
-                    this.IsArray,
-                    this.IsRef,
+                    this.ReturnTypeIsArray,
                     this.Initializer
                 );
             }
@@ -103,17 +103,17 @@ namespace Kingsland.MofParser.Ast
         private PropertyDeclarationAst(
             QualifierListAst qualifiers,
             IdentifierToken returnType,
+            IdentifierToken returnTypeRef,
             IdentifierToken propertyName,
-            bool isArray,
-            bool isRef,
+            bool returnTypeIsArray,
             PrimitiveTypeValueAst initializer
         )
         {
             this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
             this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
+            this.ReturnTypeRef = returnTypeRef;
             this.PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
-            this.IsArray = isArray;
-            this.IsRef = isRef;
+            this.ReturnTypeIsArray = returnTypeIsArray;
             this.Initializer = initializer;
         }
 
@@ -133,19 +133,27 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
+        public bool ReturnTypeIsRef
+        {
+            get
+            {
+                return (this.ReturnTypeRef != null);
+            }
+        }
+
+        public IdentifierToken ReturnTypeRef
+        {
+            get;
+            private set;
+        }
+
         public IdentifierToken PropertyName
         {
             get;
             private set;
         }
 
-        public bool IsArray
-        {
-            get;
-            private set;
-        }
-
-        public bool IsRef
+        public bool ReturnTypeIsArray
         {
             get;
             private set;
