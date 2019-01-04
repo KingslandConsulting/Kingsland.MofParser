@@ -708,13 +708,14 @@ namespace Kingsland.MofParser.Parsing
         {
 
             var peek = default(Token);
+
             var isMethodDeclaration = default(bool?);
             var isPropertyDeclaration = default(bool?);
 
             // [ qualifierList ]
             // note - this has already been read for us and gets passed in as a parameter
 
-            // read the type of the property
+            // read the return type of the propertyDeclaration or methodDeclaration
             //
             //     primitivePropertyDeclaration => primitiveType
             //     complexPropertyDeclaration   => structureOrClassName
@@ -752,6 +753,7 @@ namespace Kingsland.MofParser.Parsing
                 stream.Read<AttributeOpenToken>();
                 stream.Read<AttributeCloseToken>();
                 methodReturnTypeIsArray = true;
+                // we know this is a methodDeclaration now
                 isMethodDeclaration = true;
             }
 
@@ -771,6 +773,7 @@ namespace Kingsland.MofParser.Parsing
                 stream.Read<AttributeOpenToken>();
                 stream.Read<AttributeCloseToken>();
                 propertyReturnTypeIsArray = true;
+                // we know this is a propertyDeclaration now
                 isPropertyDeclaration = true;
             }
 
@@ -778,7 +781,8 @@ namespace Kingsland.MofParser.Parsing
             // be "(" [ parameterList ] ")"
             var methodParameterDeclarations = new List<ParameterDeclarationAst>();
             peek = stream.Peek<ParenthesesOpenToken>();
-            if (peek != null)
+            if ((isMethodDeclaration.HasValue && isMethodDeclaration.Value)  ||
+                (peek != null))
             {
                 if (isPropertyDeclaration.HasValue && isPropertyDeclaration.Value)
                 {
@@ -804,6 +808,7 @@ namespace Kingsland.MofParser.Parsing
                 }
                 // ")"
                 stream.Read<ParenthesesCloseToken>();
+                // we know this is a methodDeclaration now
                 isMethodDeclaration = true;
             }
             else
@@ -814,6 +819,7 @@ namespace Kingsland.MofParser.Parsing
                     // this can't be a methodDeclaration *and* a propertyDeclaration
                     throw new UnsupportedTokenException(peek);
                 }
+                // we know this is a propertyDeclaration now
                 isPropertyDeclaration = true;
             }
 
@@ -826,10 +832,18 @@ namespace Kingsland.MofParser.Parsing
             //     referenceParamDeclaration => [ "=" referenceTypeValue ]
             //
             var propertyInitializer = default(PrimitiveTypeValueAst);
-            if (stream.Peek<EqualsOperatorToken>() != null)
+            if (isPropertyDeclaration.HasValue && isPropertyDeclaration.Value)
             {
-                stream.Read<EqualsOperatorToken>();
-                propertyInitializer = ParserEngine.ReadClassFeatureAstDefaultValue(stream, memberReturnType);
+                if (stream.Peek<EqualsOperatorToken>() != null)
+                {
+                    if (isMethodDeclaration.HasValue && isMethodDeclaration.Value)
+                    {
+                        // this can't be a propertyDeclaration *and* a methodDeclaration
+                        throw new UnsupportedTokenException(peek);
+                    }
+                    stream.Read<EqualsOperatorToken>();
+                    propertyInitializer = ParserEngine.ReadClassFeatureAstDefaultValue(stream, memberReturnType);
+                }
             }
 
             // ";"
