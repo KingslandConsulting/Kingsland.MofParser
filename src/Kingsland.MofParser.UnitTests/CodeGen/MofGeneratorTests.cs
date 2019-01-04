@@ -1,7 +1,10 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Source;
+using Kingsland.MofParser.UnitTests.Helpers;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -11,6 +14,8 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
 
         public static class ConvertToMofTests
         {
+
+            #region Individual Roundtrip Tests
 
             [Test]
             public static void BooleanValueAstShouldRoundtrip()
@@ -75,6 +80,56 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var actualMof = MofGenerator.ConvertToMof(actualAst);
                 Assert.AreEqual(expectedMof, actualMof);
             }
+
+            #endregion
+
+            #region Roundtrip Test Cases
+
+            //[TestFixture]
+            //public static class ConvertToMofMethodTestCasesWmiWinXp
+            //{
+            //    [Test, TestCaseSource(typeof(ConvertToMofMethodTestCasesWmiWinXp), "GetTestCases")]
+            //    public static void ConvertToMofMethodTestsFromDisk(string mofFilename)
+            //    {
+            //        ConvertToMofTests.MofGeneratorRoundtripTest(mofFilename);
+            //    }
+            //    public static IEnumerable<TestCaseData> GetTestCases
+            //    {
+            //        get
+            //        {
+            //            return TestUtils.GetMofTestCase("Parsing\\WMI\\WinXp");
+            //        }
+            //    }
+            //}
+
+            //[TestFixture]
+            //public static class ConvertToMofMethodGolfExamples
+            //{
+            //    //[Test, TestCaseSource(typeof(ConvertToMofMethodGolfExamples), "GetTestCases")]
+            //    public static void ConvertToMofMethodTestsFromDisk(string mofFilename)
+            //    {
+            //        ConvertToMofTests.MofGeneratorRoundtripTest(mofFilename);
+            //    }
+            //    public static IEnumerable<TestCaseData> GetTestCases
+            //    {
+            //        get
+            //        {
+            //            return TestUtils.GetMofTestCase("Parsing\\DSP0221_3.0.1");
+            //        }
+            //    }
+            //}
+
+            //private static void MofGeneratorRoundtripTest(string mofFilename)
+            //{
+            //    var expectedMof = File.ReadAllText(mofFilename);
+            //    var reader = SourceReader.From(expectedMof);
+            //    var tokens = Lexing.Lexer.Lex(reader);
+            //    var ast = Parser.Parse(tokens);
+            //    var actualMof = MofGenerator.ConvertToMof(ast);
+            //    Assert.AreEqual(expectedMof, actualMof);
+            //}
+
+            #endregion
 
         }
 

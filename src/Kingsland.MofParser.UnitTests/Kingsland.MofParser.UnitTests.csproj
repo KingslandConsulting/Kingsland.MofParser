@@ -117,6 +117,24 @@
     <Content Include="Parsing\DSP0221_3.0.1\D.20 JohnDoe.mof">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Parsing\WMI\WinXp\WinXpProSp3CIMV2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\WMI\WinXp\WinXpProSp3CIMV2.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\WMI\WinXp\WinXpProSp3Microsoft.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\WMI\WinXp\WinXpProSp3Microsoft.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\WMI\WinXp\WinXpProSp3WMI.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Parsing\WMI\WinXp\WinXpProSp3WMI.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
