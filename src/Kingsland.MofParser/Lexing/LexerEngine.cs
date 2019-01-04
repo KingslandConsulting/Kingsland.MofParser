@@ -619,6 +619,7 @@ namespace Kingsland.MofParser.Lexing
             const int stateDecimalValue = 7;
             const int stateRealValue = 8;
             const int stateRealValueFraction = 9;
+            const int stateRealValueExponent = 10;
             const int stateDone = 99;
 
             var thisReader = reader;
@@ -840,7 +841,8 @@ namespace Kingsland.MofParser.Lexing
                             sourceChar = thisReader.Peek();
                             if ((sourceChar.Value == 'e') || (sourceChar.Value == 'E'))
                             {
-                                throw new NotImplementedException();
+                                currentState = stateRealValueExponent;
+                                break;
                             }
                         }
                         // build the return value
@@ -858,7 +860,11 @@ namespace Kingsland.MofParser.Lexing
                         currentState = stateDone;
                         break;
 
+                    case stateRealValueExponent:
+                        throw new InvalidOperationException();
+
                     case stateDone:
+                        // the main while loop should exit before we ever get here
                         throw new InvalidOperationException();
 
                     default:

@@ -20,8 +20,7 @@ namespace Kingsland.MofParser.Ast
     ///                                 referenceParamDeclaration )
     ///
     ///     primitiveParamDeclaration = primitiveType parameterName [ array ]
-    ///                                 [ "=" primitiveTypeValue
-    ///                                 ]
+    ///                                 [ "=" primitiveTypeValue ]
     ///
     ///     complexParamDeclaration   = structureOrClassName parameterName [ array ]
     ///                                 [ "=" ( complexTypeValue / aliasIdentifier ) ]
@@ -111,7 +110,7 @@ namespace Kingsland.MofParser.Ast
             this.Type = type ?? throw new ArgumentNullException(nameof(type));
             this.IsRef = isRef;
             this.IsArray = isArray;
-            this.DefaultValue = defaultValue ?? throw new ArgumentNullException(nameof(defaultValue));
+            this.DefaultValue = defaultValue;
         }
 
         #endregion

@@ -1925,24 +1925,28 @@ namespace Kingsland.MofParser.UnitTests.Lexer
         [TestFixture]
         public static class LexMethodTestCases
         {
-
             [Test, TestCaseSource(typeof(LexMethodTestCases), "GetTestCases")]
             public static void LexMethodTestsFromDisk(string mofFilename)
             {
-                var mofText = File.ReadAllText(mofFilename);
-                var reader = SourceReader.From(mofText);
-                var actualTokens = Lexing.Lexer.Lex(reader);
-                var actualText = TestUtils.ConvertToJson(actualTokens);
-                var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),
-                                                    Path.GetFileNameWithoutExtension(mofFilename) + ".json");
-                if (!File.Exists(expectedFilename))
-                {
-                    File.WriteAllText(expectedFilename, actualText);
-                }
-                var expectedText = File.ReadAllText(expectedFilename);
-                Assert.AreEqual(expectedText, actualText);
+                LexerTests.LexMethodTest(mofFilename);
             }
+            public static IEnumerable<TestCaseData> GetTestCases
+            {
+                get
+                {
+                    return TestUtils.GetMofTestCase("cim_schema_2.51.0Final-MOFs");
+                }
+            }
+        }
 
+        [TestFixture]
+        public static class LexCimSpec
+        {
+            //[Test, TestCaseSource(typeof(LexCimSpec), "GetTestCases")]
+            public static void LexMethodTestsFromDisk(string mofFilename)
+            {
+                LexerTests.LexMethodTest(mofFilename);
+            }
             public static IEnumerable<TestCaseData> GetTestCases
             {
                 get
@@ -1950,7 +1954,23 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                     return TestUtils.GetMofTestCase("Lexer\\TestCases");
                 }
             }
+        }
 
+
+        private static void LexMethodTest(string mofFilename)
+        {
+            var mofText = File.ReadAllText(mofFilename);
+            var reader = SourceReader.From(mofText);
+            var actualTokens = Lexing.Lexer.Lex(reader);
+            var actualText = TestUtils.ConvertToJson(actualTokens);
+            var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),
+                                                Path.GetFileNameWithoutExtension(mofFilename) + ".json");
+            if (!File.Exists(expectedFilename))
+            {
+                File.WriteAllText(expectedFilename, actualText);
+            }
+            var expectedText = File.ReadAllText(expectedFilename);
+            Assert.AreEqual(expectedText, actualText);
         }
 
     }
