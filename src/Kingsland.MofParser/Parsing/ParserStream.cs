@@ -67,10 +67,21 @@ namespace Kingsland.MofParser.Parsing
             return this.Peek<IdentifierToken>();
         }
 
-        public bool PeekIdentifier(string name)
+        public bool PeekIdentifier(string name, bool ignoreCase = false)
         {
             var token = this.Peek<IdentifierToken>();
-            return (token != null) && (token.Name == name);
+            if (token == null)
+            {
+                return false;
+            }
+            else if (ignoreCase)
+            {
+                return string.Equals(token.Name, name, StringComparison.InvariantCultureIgnoreCase);
+            }
+            else
+            {
+                return (token != null) && (token.Name == name);
+            }
         }
 
         #endregion
