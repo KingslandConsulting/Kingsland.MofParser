@@ -48,25 +48,25 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken Name
+            public IdentifierToken ParameterType
             {
                 get;
                 set;
             }
 
-            public IdentifierToken Type
+            public IdentifierToken ParameterRef
             {
                 get;
                 set;
             }
 
-            public bool IsRef
+            public IdentifierToken ParameterName
             {
                 get;
                 set;
             }
 
-            public bool IsArray
+            public bool ParameterIsArray
             {
                 get;
                 set;
@@ -82,10 +82,10 @@ namespace Kingsland.MofParser.Ast
             {
                 return new ParameterDeclarationAst(
                     this.Qualifiers,
-                    this.Name,
-                    this.Type,
-                    this.IsRef,
-                    this.IsArray,
+                    this.ParameterType,
+                    this.ParameterRef,
+                    this.ParameterName,
+                    this.ParameterIsArray,
                     this.DefaultValue
                 );
             }
@@ -98,18 +98,18 @@ namespace Kingsland.MofParser.Ast
 
         private ParameterDeclarationAst(
             QualifierListAst qualifiers,
-            IdentifierToken name,
-            IdentifierToken type,
-            bool isRef,
-            bool isArray,
+            IdentifierToken parameterType,
+            IdentifierToken parameterRef,
+            IdentifierToken parameterName,
+            bool parameterIsArray,
             AstNode defaultValue
         )
         {
             this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
-            this.Name = name ?? throw new ArgumentNullException(nameof(name));
-            this.Type = type ?? throw new ArgumentNullException(nameof(type));
-            this.IsRef = isRef;
-            this.IsArray = isArray;
+            this.ParameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
+            this.ParameterRef = parameterRef;
+            this.ParameterName = parameterName ?? throw new ArgumentNullException(nameof(parameterName));
+            this.ParameterIsArray = parameterIsArray;
             this.DefaultValue = defaultValue;
         }
 
@@ -123,25 +123,33 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public IdentifierToken Name
+        public IdentifierToken ParameterType
         {
             get;
             private set;
         }
 
-        public IdentifierToken Type
+        public IdentifierToken ParameterName
         {
             get;
             private set;
         }
 
-        public bool IsRef
+        public bool ParameterIsRef
+        {
+            get
+            {
+                return (this.ParameterRef != null);
+            }
+        }
+
+        public IdentifierToken ParameterRef
         {
             get;
             private set;
         }
 
-        public bool IsArray
+        public bool ParameterIsArray
         {
             get;
             private set;

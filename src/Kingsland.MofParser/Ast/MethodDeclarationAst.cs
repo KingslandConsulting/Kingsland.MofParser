@@ -53,19 +53,25 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken Name
-            {
-                get;
-                set;
-            }
-
             public IdentifierToken ReturnType
             {
                 get;
                 set;
             }
 
+            public IdentifierToken ReturnTypeRef
+            {
+                get;
+                set;
+            }
+
             public bool ReturnTypeIsArray
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken MethodName
             {
                 get;
                 set;
@@ -81,9 +87,10 @@ namespace Kingsland.MofParser.Ast
             {
                 return new MethodDeclarationAst(
                     this.Qualifiers,
-                    this.Name,
                     this.ReturnType,
+                    this.ReturnTypeRef,
                     this.ReturnTypeIsArray,
+                    this.MethodName,
                     new ReadOnlyCollection<ParameterDeclarationAst>(
                         this.Parameters ?? new List<ParameterDeclarationAst>()
                     )
@@ -98,16 +105,18 @@ namespace Kingsland.MofParser.Ast
 
         private MethodDeclarationAst(
             QualifierListAst qualifiers,
-            IdentifierToken name,
             IdentifierToken returnType,
+            IdentifierToken returnTypeRef,
             bool returnTypeIsArray,
+            IdentifierToken methodName,
             ReadOnlyCollection<ParameterDeclarationAst> parameters
         )
         {
             this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
-            this.Name = name ?? throw new ArgumentNullException(nameof(name));
             this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
+            this.ReturnTypeRef = returnTypeRef;
             this.ReturnTypeIsArray = returnTypeIsArray;
+            this.Name = methodName ?? throw new ArgumentNullException(nameof(methodName));
             this.Parameters = parameters ?? new ReadOnlyCollection<ParameterDeclarationAst>(
                 new List<ParameterDeclarationAst>()
             );
@@ -123,19 +132,33 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public IdentifierToken Name
-        {
-            get;
-            private set;
-        }
-
         public IdentifierToken ReturnType
         {
             get;
             private set;
         }
 
+        public bool ReturnTypeIsRef
+        {
+            get
+            {
+                return (this.ReturnTypeRef != null);
+            }
+        }
+
+        public IdentifierToken ReturnTypeRef
+        {
+            get;
+            private set;
+        }
+
         public bool ReturnTypeIsArray
+        {
+            get;
+            private set;
+        }
+
+        public IdentifierToken Name
         {
             get;
             private set;

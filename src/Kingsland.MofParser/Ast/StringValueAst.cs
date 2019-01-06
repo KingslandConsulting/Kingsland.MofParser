@@ -1,4 +1,8 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Tokens;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -59,6 +63,17 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
+            public Builder()
+            {
+                this.StringLiteralValues = new List<StringLiteralToken>();
+            }
+
+            public List<StringLiteralToken> StringLiteralValues
+            {
+                get;
+                set;
+            }
+
             public string Value
             {
                 get;
@@ -68,6 +83,7 @@ namespace Kingsland.MofParser.Ast
             public StringValueAst Build()
             {
                 return new StringValueAst(
+                    new ReadOnlyCollection<StringLiteralToken>(this.StringLiteralValues),
                     this.Value
                 );
             }
@@ -78,14 +94,29 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public StringValueAst(string value)
+        public StringValueAst(ReadOnlyCollection<StringLiteralToken> stringLiteralValues, string value)
         {
+            if (stringLiteralValues == null)
+            {
+                throw new ArgumentNullException(nameof(stringLiteralValues));
+            }
+            if (stringLiteralValues.Count == 0)
+            {
+                throw new ArgumentException(nameof(stringLiteralValues));
+            }
+            this.StringLiteralValues = stringLiteralValues;
             this.Value = value;
         }
 
         #endregion
 
         #region Properties
+
+        public ReadOnlyCollection<StringLiteralToken> StringLiteralValues
+        {
+            get;
+            private set;
+        }
 
         public string Value
         {

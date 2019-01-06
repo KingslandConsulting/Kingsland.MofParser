@@ -177,6 +177,8 @@ namespace Kingsland.MofParser.CodeGen
 
             // [Abstract, OCL]
 
+            var omitSpacesQuirkEnabled = (quirks & MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations) == MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations;
+
             var source = new StringBuilder();
             var lastQualifierName = default(string);
 
@@ -188,8 +190,7 @@ namespace Kingsland.MofParser.CodeGen
                 if (i > 0)
                 {
                     source.Append(",");
-                    var quirkEnabled = (quirks & MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations) == MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations;
-                    if (!quirkEnabled || (lastQualifierName != "in") || (thisQualifierName != "out"))
+                    if (!omitSpacesQuirkEnabled || (lastQualifierName != "in") || (thisQualifierName != "out"))
                     {
                         source.Append(" ");
                     }
@@ -198,7 +199,9 @@ namespace Kingsland.MofParser.CodeGen
                 lastQualifierName = thisQualifierName;
             }
             source.Append("]");
+
             return source.ToString();
+
         }
 
         public static string ConvertQualifierValueAst(QualifierValueAst node, MofQuirks quirks = MofQuirks.None)
@@ -309,12 +312,12 @@ namespace Kingsland.MofParser.CodeGen
                 source.AppendFormat("{0} ", MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
             }
             source.AppendFormat("{0} ", node.ReturnType.Name);
-            if (node.IsRef)
+            if (node.ReturnTypeIsRef)
             {
-                source.AppendFormat("{0} ", Constants.REF);
+                source.AppendFormat("{0} ", node.ReturnTypeRef.Name);
             }
             source.Append(node.PropertyName.Name);
-            if (node.IsArray)
+            if (node.ReturnTypeIsArray)
             {
                 source.Append("[]");
             }
@@ -332,17 +335,23 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertMethodDeclarationAst(MethodDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
+
+            var prefixQuirkEnabled = (quirks & MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations) == MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations;
+
             var source = new StringBuilder();
+
             if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
             {
                 source.AppendFormat("{0}", MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
             }
-            var quirkEnabled = (quirks & MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations) == MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations;
-            if (quirkEnabled || ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0))
+
+            if (prefixQuirkEnabled || ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0))
             {
                 source.AppendFormat(" ");
             }
+
             source.AppendFormat("{0} {1}", node.ReturnType.Name, node.Name.Name);
+
             if (node.Parameters.Count == 0)
             {
                 source.Append("();");
@@ -352,7 +361,9 @@ namespace Kingsland.MofParser.CodeGen
                 var values = node.Parameters.Select(p => MofGenerator.ConvertParameterDeclarationAst(p, quirks)).ToArray();
                 source.AppendFormat("({0});", string.Join(", ", values));
             }
+
             return source.ToString();
+
         }
 
         #endregion
@@ -366,13 +377,13 @@ namespace Kingsland.MofParser.CodeGen
             {
                 source.AppendFormat("{0} ", MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
             }
-            source.AppendFormat("{0} ", node.Type.Name);
-            if (node.IsRef)
+            source.AppendFormat("{0} ", node.ParameterType.Name);
+            if (node.ParameterIsRef)
             {
-                source.AppendFormat("{0} ", Constants.REF);
+                source.AppendFormat("{0} ", node.ParameterRef.Name);
             }
-            source.Append(node.Name.Name);
-            if (node.IsArray)
+            source.Append(node.ParameterName.Name);
+            if (node.ParameterIsArray)
             {
                 source.Append("[]");
             }
@@ -519,7 +530,10 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertStringValueAst(StringValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            return string.Format("\"{0}\"", MofGenerator.EscapeString(node.Value));
+            var singleStringValues = node.StringLiteralValues
+                                         .Select(n => $"\"{MofGenerator.EscapeString(n.Value)}\"")
+                                         .ToList();
+            return string.Join(" ", singleStringValues);
         }
 
         internal static string EscapeString(string value)

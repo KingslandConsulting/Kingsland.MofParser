@@ -79,7 +79,19 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                                 new PropertyValueListAst(
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
-                                            { "ServerURL", new StringValueAst("https://URL") }
+                                            { "ServerURL", new StringValueAst.Builder {
+                                                StringLiteralValues = new List<StringLiteralToken> {
+                                                    new StringLiteralToken(
+                                                        new SourceExtent(
+                                                            new SourcePosition(57, 3, 17),
+                                                            new SourcePosition(69, 3, 29),
+                                                            "\"https://URL\""
+                                                        ),
+                                                        "https://URL"
+                                                    )
+                                                },
+                                                Value = "https://URL"
+                                            }.Build() }
                                         }
                                     )
                                 ),
@@ -446,8 +458,32 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                                             { "ServerURLs", new LiteralValueArrayAst(
                                                 new ReadOnlyCollection<LiteralValueAst>(
                                                     new List<LiteralValueAst> {
-                                                        new StringValueAst("https://URL1"),
-                                                        new StringValueAst("https://URL2")
+                                                        new StringValueAst.Builder {
+                                                            StringLiteralValues = new List<StringLiteralToken> {
+                                                                new StringLiteralToken(
+                                                                    new SourceExtent(
+                                                                        new SourcePosition(60, 3, 20),
+                                                                        new SourcePosition(73, 3, 33),
+                                                                        "\"https://URL1\""
+                                                                    ),
+                                                                    "https://URL1"
+                                                                )
+                                                            },
+                                                            Value = "https://URL1"
+                                                        }.Build(),
+                                                        new StringValueAst.Builder {
+                                                            StringLiteralValues = new List<StringLiteralToken> {
+                                                                new StringLiteralToken(
+                                                                    new SourceExtent(
+                                                                        new SourcePosition(76, 3, 36),
+                                                                        new SourcePosition(89, 3, 49),
+                                                                        "\"https://URL2\""
+                                                                    ),
+                                                                    "https://URL2"
+                                                                )
+                                                            },
+                                                            Value = "https://URL2"
+                                                        }.Build()
                                                     }
                                                 )
                                             )}
@@ -592,7 +628,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
         [TestFixture]
         public static class ParseMethodGolfExamples
         {
-            //[Test, TestCaseSource(typeof(ParseMethodGolfExamples), "GetTestCases")]
+            [Test, TestCaseSource(typeof(ParseMethodGolfExamples), "GetTestCases")]
             public static void ParseMethodTestsFromDisk(string mofFilename)
             {
                 ParserTests.ParseMethodTest(mofFilename);
@@ -608,7 +644,6 @@ namespace Kingsland.MofParser.UnitTests.Parsing
 
         private static void ParseMethodTest(string mofFilename)
         {
-            //Console.WriteLine(mofFilename);
             var mofText = File.ReadAllText(mofFilename);
             var reader = SourceReader.From(mofText);
             var tokens = Lexing.Lexer.Lex(reader);

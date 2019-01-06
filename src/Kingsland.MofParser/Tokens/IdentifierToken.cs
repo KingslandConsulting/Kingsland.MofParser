@@ -21,7 +21,7 @@ namespace Kingsland.MofParser.Tokens
         public string GetNormalizedName()
         {
             var name = this.Name;
-            if(string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 return name;
             }
