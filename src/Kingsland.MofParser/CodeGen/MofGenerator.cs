@@ -570,9 +570,10 @@ namespace Kingsland.MofParser.CodeGen
 
         internal static string EscapeString(string value)
         {
-            var escapeMap = new Dictionary<char, char>()
+            var escapeMap = new Dictionary<char, string>()
             {
-                { '\\' , '\\' }, { '\"' , '\"' },  {'\b', 'b'}, {'\t', 't'},  {'\n', 'n'}, {'\f', 'f'}, {'\r', 'r'}
+                { '\\' , "\\\\" }, { '\"' , "\\\"" },  { '\'' , "\\\'" },
+                { '\b', "\\b" }, { '\t', "\\t" },  { '\n', "\\n" }, { '\f', "\\f" }, { '\r', "\\r" }
             };
             if (string.IsNullOrEmpty(value))
             {
@@ -583,7 +584,7 @@ namespace Kingsland.MofParser.CodeGen
             {
                 if (escapeMap.ContainsKey(@char))
                 {
-                    escaped.AppendFormat("\\{0}", escapeMap[@char]);
+                    escaped.Append(escapeMap[@char]);
                 }
                 else if ((@char >= 32) && (@char <= 126))
                 {
