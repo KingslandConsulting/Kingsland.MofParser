@@ -109,6 +109,45 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
+            [Test]
+            public static void ClassDeclarationsAstWithStructureDeclarationPropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class GOLF_Professional : GOLF_ClubMember\r\n" +
+                    "{\r\n" +
+                    "\tstructure Sponsor\r\n" +
+                    "\t{\r\n" +
+                    "\t\tstring Name;\r\n" +
+                    "\t\tGOLF_Date ContractSignedDate;\r\n" +
+                    "\t\treal32 ContractAmount;\r\n" +
+                    "\t};\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            #region 7.5.1 Structure declaration
+
+            [Test]
+            public static void StructureDeclarationAstShouldRoundtrip()
+            {
+                var expectedMof =
+                    "structure Sponsor\r\n" +
+                    "{\r\n" +
+                    "\tstring Name;\r\n" +
+                    "\tGOLF_Date ContractSignedDate;\r\n" +
+                    "\treal32 ContractAmount;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            #endregion
+
             #endregion
 
             #region Roundtrip Test Cases
