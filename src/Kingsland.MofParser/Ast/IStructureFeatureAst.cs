@@ -14,16 +14,8 @@
     ///                        propertyDeclaration
     ///
     /// </remarks>
-    public abstract class StructureFeatureAst : ClassFeatureAst
+    public interface IStructureFeatureAst : IClassFeatureAst
     {
-
-        #region Constructors
-
-        protected StructureFeatureAst()
-        {
-        }
-
-        #endregion
 
     }
 

@@ -34,7 +34,7 @@ namespace Kingsland.MofParser.Ast
     ///
     ///    array             = "[" "]"
     ///
-    public sealed class MethodDeclarationAst : ClassFeatureAst
+    public sealed class MethodDeclarationAst : AstNode, IClassFeatureAst
     {
 
         #region Builder

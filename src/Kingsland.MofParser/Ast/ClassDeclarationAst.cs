@@ -36,7 +36,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
-                this.Features = new List<ClassFeatureAst>();
+                this.Features = new List<IClassFeatureAst>();
             }
 
             public QualifierListAst Qualifiers
@@ -57,7 +57,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public List<ClassFeatureAst> Features
+            public List<IClassFeatureAst> Features
             {
                 get;
                 set;
@@ -69,8 +69,8 @@ namespace Kingsland.MofParser.Ast
                     this.Qualifiers,
                     this.ClassName,
                     this.Superclass,
-                    new ReadOnlyCollection<ClassFeatureAst>(
-                        this.Features ?? new List<ClassFeatureAst>()
+                    new ReadOnlyCollection<IClassFeatureAst>(
+                        this.Features ?? new List<IClassFeatureAst>()
                     )
                 );
             }
@@ -81,12 +81,12 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public ClassDeclarationAst(QualifierListAst qualifiers, IdentifierToken className, IdentifierToken superClass, ReadOnlyCollection<ClassFeatureAst> features)
+        public ClassDeclarationAst(QualifierListAst qualifiers, IdentifierToken className, IdentifierToken superClass, ReadOnlyCollection<IClassFeatureAst> features)
         {
             this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
             this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
             this.Superclass = superClass;
-            this.Features = features ?? new ReadOnlyCollection<ClassFeatureAst>(new List<ClassFeatureAst>());
+            this.Features = features ?? new ReadOnlyCollection<IClassFeatureAst>(new List<IClassFeatureAst>());
         }
 
         #endregion
@@ -111,7 +111,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public ReadOnlyCollection<ClassFeatureAst> Features
+        public ReadOnlyCollection<IClassFeatureAst> Features
         {
             get;
             private set;

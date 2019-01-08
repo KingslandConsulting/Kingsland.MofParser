@@ -137,7 +137,7 @@ namespace Kingsland.MofParser.Parsing
             {
                 case Constants.STRUCTURE:
                     // structureDeclaration
-                    throw new UnsupportedTokenException(identifier);
+                    return ParserEngine.ParseStructureDeclarationAst(stream, qualifiers);
                 case Constants.CLASS:
                     // classDeclaration
                     return ParserEngine.ParseClassDeclarationAst(stream, qualifiers);
@@ -499,6 +499,170 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
+        #region 7.5.1 Structure declaration
+
+        /// <summary>
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="qualifiers"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.1 Structure declaration
+        ///
+        ///     structureDeclaration = [ qualifierList ] STRUCTURE structureName
+        ///                            [ superStructure ]
+        ///                            "{" *structureFeature "}" ";"
+        ///
+        ///     structureName        = elementName
+        ///     superStructure       = ":" structureName
+        ///     structureFeature     = structureDeclaration / ; local structure
+        ///                            enumerationDeclaration / ; local enumeration
+        ///                            propertyDeclaration
+        ///
+        ///     STRUCTURE            = "structure" ; keyword: case insensitive
+        ///
+        /// </remarks>
+        public static StructureDeclarationAst ParseStructureDeclarationAst(ParserStream stream, QualifierListAst qualifiers)
+        {
+
+            var node = new StructureDeclarationAst.Builder();
+
+            // [ qualifierList ]
+            node.Qualifiers = qualifiers;
+
+            // STRUCTURE
+            stream.ReadIdentifier(Constants.STRUCTURE);
+
+            // structureName
+            var structureName = stream.Read<IdentifierToken>();
+            if (!StringValidator.IsStructureName(structureName.Name))
+            {
+                throw new InvalidOperationException("Identifer is not a valid class name.");
+            }
+            node.StructureName = structureName;
+
+            // [ superStructure ]
+            if (stream.Peek<ColonToken>() != null)
+            {
+                // ":"
+                stream.Read<ColonToken>();
+                // structureName
+                var superStructureName = stream.Read<IdentifierToken>();
+                if (!StringValidator.IsStructureName(superStructureName.Name))
+                {
+                    throw new InvalidOperationException("Identifer is not a valid superclass name.");
+                }
+                node.SuperStructure = superStructureName;
+            }
+
+            // "{"
+            stream.Read<BlockOpenToken>();
+
+            // *structureFeature
+            while (!stream.Eof)
+            {
+                if (stream.Peek() is BlockCloseToken)
+                {
+                    break;
+                }
+                var structureFeature = ParserEngine.ParseStructureFeatureAst(stream);
+                node.Features.Add(structureFeature);
+            }
+
+            // "}"
+            stream.Read<BlockCloseToken>();
+
+            // ";"
+            stream.Read<StatementEndToken>();
+
+            return node.Build();
+
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.1 Structure declaration
+        ///
+        ///     structureFeature     = structureDeclaration / ; local structure
+        ///                            enumerationDeclaration / ; local enumeration
+        ///                            propertyDeclaration
+        ///
+        /// 7.5.1 Structure declaration
+        ///
+        ///     structureDeclaration   = [ qualifierList ] STRUCTURE structureName
+        ///                              [superStructure]
+        ///                              "{" *structureFeature "}" ";"
+        ///
+        /// 7.5.4 Enumeration declaration
+        ///
+        ///     enumerationDeclaration = enumTypeHeader enumName ":" enumTypeDeclaration ";"
+        ///     enumTypeHeader         = [qualifierList] ENUMERATION
+        ///
+        /// 7.5.5 Property declaration
+        ///
+        ///     propertyDeclaration    = [ qualifierList ] ( primitivePropertyDeclaration /
+        ///                              complexPropertyDeclaration /
+        ///                              enumPropertyDeclaration /
+        ///                              referencePropertyDeclaration ) ";"
+        ///
+        /// </remarks>
+        public static IStructureFeatureAst ParseStructureFeatureAst(ParserStream stream)
+        {
+
+            // all structureFeatures start with an optional "[ qualifierList ]"
+            var qualifierList = default(QualifierListAst);
+            var peek = stream.Peek() as AttributeOpenToken;
+            if ((peek as AttributeOpenToken) != null)
+            {
+                qualifierList = ParserEngine.ParseQualifierListAst(stream);
+            }
+
+            // we now need to work out if it's a structureDeclaration, enumerationDeclaration,
+            // or propertyDeclaration
+            var identifier = stream.Peek<IdentifierToken>();
+            if (identifier == null)
+            {
+                throw new UnexpectedTokenException(peek);
+            }
+            var identifierName = identifier.GetNormalizedName();
+            if (identifierName == Constants.STRUCTURE)
+            {
+                // structureDeclaration
+                return ParserEngine.ParseStructureDeclarationAst(stream, qualifierList);
+            }
+            else if (identifierName == Constants.ENUMERATION)
+            {
+                // enumerationDeclaration
+                //return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList);
+                throw new NotImplementedException();
+            }
+            else
+            {
+                // propertyDeclaration
+                var memberDeclaration = ParserEngine.ParseMemberDeclaration(stream, qualifierList, true, false);
+                if (memberDeclaration is PropertyDeclarationAst propertyDeclaration)
+                {
+                    return propertyDeclaration;
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+
+        }
+
+        #endregion
+
         #region 7.5.2 Class declaration
 
         /// <summary>
@@ -616,7 +780,7 @@ namespace Kingsland.MofParser.Parsing
         ///                              "(" [parameterList] ")" ";"
         ///
         /// </remarks>
-        public static ClassFeatureAst ParseClassFeatureAst(ParserStream stream)
+        public static IClassFeatureAst ParseClassFeatureAst(ParserStream stream)
         {
 
             // all classFeatures start with an optional "[ qualifierList ]"
@@ -638,17 +802,17 @@ namespace Kingsland.MofParser.Parsing
             if (identifierName == Constants.STRUCTURE)
             {
                 // structureDeclaration
-                throw new UnsupportedTokenException(identifier);
+                return ParserEngine.ParseStructureDeclarationAst(stream, qualifierList);
             }
             else if (identifierName == Constants.ENUMERATION)
             {
-                // enumDeclaration
+                // enumerationDeclaration
                 throw new UnsupportedTokenException(identifier);
             }
             else
             {
                 // propertyDeclaration or methodDeclaration
-                return ParserEngine.ParseMemberDeclaration(stream, qualifierList);
+                return ParserEngine.ParseMemberDeclaration(stream, qualifierList, true, true);
             }
 
         }
@@ -704,7 +868,10 @@ namespace Kingsland.MofParser.Parsing
         ///     VOID              = "void" ; keyword: case insensitive
         ///     parameterList     = parameterDeclaration *( "," parameterDeclaration )
         ///
-        public static ClassFeatureAst ParseMemberDeclaration(ParserStream stream, QualifierListAst qualifiers)
+        public static IClassFeatureAst ParseMemberDeclaration(
+            ParserStream stream, QualifierListAst qualifiers,
+            bool allowPropertyDeclaration, bool allowMethodDeclaration
+        )
         {
 
             var peek = default(Token);
