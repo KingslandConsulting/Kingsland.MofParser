@@ -1816,7 +1816,43 @@ namespace Kingsland.MofParser.Parsing
         /// </remarks>
         public static StructureValueDeclarationAst ParseStructureValueDeclarationAst(ParserStream stream)
         {
-            throw new NotImplementedException();
+
+            var node = new StructureValueDeclarationAst.Builder();
+
+            // VALUE
+            node.Value = stream.ReadIdentifier(Constants.VALUE);
+
+            // OF
+            node.Of = stream.ReadIdentifier(Constants.OF);
+
+            // ( className / associationName / structureName )
+            var nameToken = stream.Read<IdentifierToken>();
+            if (!StringValidator.IsClassName(nameToken.Name) &&
+                !StringValidator.IsAssociationName(nameToken.Name) &&
+                !StringValidator.IsStructureName(nameToken.Name))
+            {
+                throw new InvalidOperationException("Identifer is not a className, associationName or structureName");
+            }
+            node.TypeName = nameToken;
+
+            // [alias]
+            if (stream.PeekIdentifier(Constants.AS))
+            {
+                // AS
+                node.As = stream.ReadIdentifier(Constants.AS);
+                // aliasIdentifier
+                var aliasIdentifierToken = stream.Read<AliasIdentifierToken>();
+                node.Alias = aliasIdentifierToken;
+            }
+
+            // propertyValueList
+            node.PropertyValues = ParserEngine.ParsePropertyValueListAst(stream);
+
+            // ";"
+            node.StatementEnd = stream.Read<StatementEndToken>();
+
+            return node.Build();
+
         }
 
 

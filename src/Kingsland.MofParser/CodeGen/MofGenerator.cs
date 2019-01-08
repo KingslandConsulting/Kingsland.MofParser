@@ -652,7 +652,34 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertStructureValueDeclarationAst(StructureValueDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
-            throw new NotImplementedException();
+            // value of GOLF_PhoneNumber as $JohnDoesPhoneNo
+            // {
+            //     AreaCode = { "9", "0", "7" };
+            //     Number = { "7", "4", "7", "4", "8", "8", "4" };
+            // };
+            var source = new StringBuilder();
+            // value of GOLF_PhoneNumber as $JohnDoesPhoneNo
+            source.Append(node.Value.Extent.Text);
+            source.Append(" ");
+            source.Append(node.Of.Extent.Text);
+            source.Append(" ");
+            source.Append(node.TypeName.Name);
+            if (node.Alias != null)
+            {
+                source.Append(" ");
+                source.Append(node.As.Extent.Text);
+                source.Append(" $");
+                source.Append(node.Alias.Name);
+            }
+            source.AppendLine();
+            // {
+            //     AreaCode = { "9", "0", "7" };
+            //     Number = { "7", "4", "7", "4", "8", "8", "4" };
+            // }
+            source.Append(MofGenerator.ConvertPropertyValueListAst(node.PropertyValues));
+            // ;
+            source.Append(node.StatementEnd.Extent.Text);
+            return source.ToString();
         }
 
         #endregion
