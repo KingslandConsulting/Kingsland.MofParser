@@ -463,7 +463,7 @@ namespace Kingsland.MofParser.CodeGen
             source.AppendLine("{");
             foreach (var propertyValue in node.PropertyValues)
             {
-                source.AppendLine($"    {propertyValue.Key} = {MofGenerator.ConvertPropertyValueAst(propertyValue.Value)};");
+                source.AppendLine($"\t{propertyValue.Key} = {MofGenerator.ConvertPropertyValueAst(propertyValue.Value)};");
             }
             source.Append("}");
             return source.ToString();

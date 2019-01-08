@@ -23,7 +23,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var expectedMof =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
-                    "    Caption = \"Instance of John Doe\\\'s GOLF_ClubMember object\";\r\n" +
+                    "\tCaption = \"Instance of John Doe\\\'s GOLF_ClubMember object\";\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
@@ -41,7 +41,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var expectedMof =
                     "instance of myType as $Alias00000070\r\n" +
                     "{\r\n" +
-                    "    Reference = TRUE;\r\n" +
+                    "\tReference = TRUE;\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
@@ -91,11 +91,11 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var expectedMof =
                     "instance of myType as $Alias00000070\r\n" +
                     "{\r\n" +
-                    "    MyBinaryValue = 0101010b;\r\n" +
-                    "    MyOctalValue = 0444444;\r\n" +
-                    "    MyHexValue = 0xABC123;\r\n" +
-                    "    MyDecimalValue = 12345;\r\n" +
-                    "    MyRealValue = 123.45;\r\n" +
+                    "\tMyBinaryValue = 0101010b;\r\n" +
+                    "\tMyOctalValue = 0444444;\r\n" +
+                    "\tMyHexValue = 0xABC123;\r\n" +
+                    "\tMyDecimalValue = 12345;\r\n" +
+                    "\tMyRealValue = 123.45;\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
@@ -180,7 +180,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var expectedMof =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
-                    "    Caption = \"Instance of John Doe\\\'s GOLF_ClubMember object\";\r\n" +
+                    "\tCaption = \"Instance of John Doe\\\'s GOLF_ClubMember object\";\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
@@ -209,7 +209,6 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var actualMof = MofGenerator.ConvertToMof(actualAst);
                 Assert.AreEqual(expectedMof, actualMof);
             }
-
 
             [Test]
             public static void StructureValueDeclarationAstShouldRoundtrip()
