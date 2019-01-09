@@ -60,7 +60,7 @@ namespace Kingsland.MofParser.Parsing
         /// </summary>
         /// <param name="value"></param>
         /// <remarks>
-        /// className = schemaQualifiedName
+        /// className = elementName
         /// </remarks>
         public static bool IsClassName(string value)
         {
@@ -82,6 +82,25 @@ namespace Kingsland.MofParser.Parsing
         /// associationName = schemaQualifiedName
         /// </remarks>
         public static bool IsAssociationName(string value)
+        {
+            return StringValidator.IsElementName(value);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 7.5.4 Enumeration declaration
+
+        #region enumName = elementName
+
+        /// <summary>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <remarks>
+        /// enumName = elementName
+        /// </remarks>
+        public static bool IsEnumName(string value)
         {
             return StringValidator.IsElementName(value);
         }

@@ -146,8 +146,7 @@ namespace Kingsland.MofParser.Parsing
                     return ParserEngine.ParseAssociationDeclarationAst(stream, qualifiers);
                 case Constants.ENUMERATION:
                     // enumerationDeclaration
-                    //return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifiers);
-                    throw new NotImplementedException($"MofProduction type '{identifier.Name}' not implemented.");
+                    return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifiers);
                 case Constants.QUALIFIER:
                     // qualifierTypeDeclaration
                     //return ParserEngine.ParseQualifierTypeDeclarationAst(stream, qualifiers);
@@ -644,8 +643,7 @@ namespace Kingsland.MofParser.Parsing
             else if (identifierName == Constants.ENUMERATION)
             {
                 // enumerationDeclaration
-                //return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList);
-                throw new NotImplementedException();
+                return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList);
             }
             else
             {
@@ -811,7 +809,7 @@ namespace Kingsland.MofParser.Parsing
             else if (identifierName == Constants.ENUMERATION)
             {
                 // enumerationDeclaration
-                throw new UnsupportedTokenException(identifier);
+                return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList);
             }
             else
             {
@@ -1163,6 +1161,156 @@ namespace Kingsland.MofParser.Parsing
 
             return node.Build();
 
+        }
+
+        #endregion
+
+        #region 7.5.4 Enumeration declaration
+
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.4 Enumeration declaration
+        ///
+        ///     enumerationDeclaration = enumTypeHeader enumName ":" enumTypeDeclaration ";"
+        ///
+        ///     enumTypeHeader         = [ qualifierList ] ENUMERATION
+        ///     enumName               = elementName
+        ///     enumTypeDeclaration    = ( DT_INTEGER / integerEnumName ) integerEnumDeclaration /
+        ///                              ( DT_STRING / stringEnumName ) stringEnumDeclaration
+        ///
+        ///     integerEnumName        = enumName
+        ///     stringEnumName         = enumName
+        ///
+        ///     integerEnumDeclaration = "{" [ integerEnumElement *( "," integerEnumElement ) ] "}"
+        ///     stringEnumDeclaration  = "{" [ stringEnumElement *( "," stringEnumElement ) ] "}"
+        ///
+        ///     ENUMERATION            = "enumeration" ; keyword: case insensitive
+        ///
+        /// </remarks>
+        public static EnumerationDeclarationAst ParseEnumerationDeclarationAst(ParserStream stream, QualifierListAst qualifiers)
+        {
+
+            var node = new EnumerationDeclarationAst.Builder();
+
+            var isIntegerEnum = false;
+            var isStringEnum = false;
+
+            // [ qualifierList ]
+            // note - this has already been read for us and gets passed in as a parameter
+            node.Qualifiers = qualifiers;
+
+            // ENUMERATION
+            var enumeration = stream.ReadIdentifier(Constants.ENUMERATION);
+
+            // enumName
+            var enumName = stream.PeekIdentifier();
+            if ((enumName == null) || !StringValidator.IsEnumName(enumName.Name))
+            {
+                throw new UnexpectedTokenException(enumName);
+            }
+            node.EnumName = stream.ReadIdentifier();
+
+            // ":"
+            stream.Read<ColonToken>();
+
+            // ( DT_INTEGER / integerEnumName ) / ( DT_STRING / stringEnumName )
+            var enumTypeDeclaration = stream.PeekIdentifier();
+            if ((enumTypeDeclaration == null) || !StringValidator.IsEnumName(enumTypeDeclaration.Name))
+            {
+                throw new UnexpectedTokenException(enumName);
+            }
+            switch (enumTypeDeclaration.GetNormalizedName())
+            {
+                case Constants.DT_INTEGER:
+                    isIntegerEnum = true;
+                    break;
+                case Constants.DT_STRING:
+                    isStringEnum = true;
+                    break;
+                default:
+                    // this enumerationDeclaration is inheriting from a base enum.
+                    // as a result, we don't know whether this is an integer or
+                    // string enum until we inspect the type of the base enum
+                    break;
+            }
+            node.EnumType = stream.ReadIdentifier();
+
+            // "{"
+            stream.Read<BlockOpenToken>();
+
+            // [ integerEnumElement *( "," integerEnumElement ) ]
+            // [ stringEnumElement *( "," stringEnumElement ) ]
+            if (stream.Peek<BlockCloseToken>() == null)
+            {
+                // integerEnumElement / stringEnumElement
+                node.EnumElements.Add(ParserEngine.ParseEnumElementAst(stream, isIntegerEnum, isStringEnum));
+                // *( "," integerEnumElement ) / *( "," stringEnumElement )
+                while (stream.Peek<CommaToken>() != null)
+                {
+                    stream.Read<CommaToken>();
+                    node.EnumElements.Add(ParserEngine.ParseEnumElementAst(stream, isIntegerEnum, isStringEnum));
+                }
+            }
+
+            // "}"
+            stream.Read<BlockCloseToken>();
+
+            // ";"
+            stream.Read<StatementEndToken>();
+
+            return node.Build();
+
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.4 Enumeration declaration
+        ///
+        ///     integerEnumElement = [ qualifierList ] enumLiteral "=" integerValue
+        ///     stringEnumElement  = [ qualifierList ] enumLiteral [ "=" stringValue ]
+        ///
+        ///     enumLiteral        = IDENTIFIER
+        ///
+        /// </remarks>
+        public static EnumElementAst ParseEnumElementAst(ParserStream stream, bool isIntegerEnum, bool isStringEnum)
+        {
+            var node = new EnumElementAst.Builder();
+            // [ qualifierList ]
+            if (stream.Peek<AttributeOpenToken>() != null)
+            {
+                node.Qualifiers = ParserEngine.ParseQualifierListAst(stream);
+            }
+            // enumLiteral
+            node.EnumElementName = stream.ReadIdentifier();
+            // "=" integerValue / [ "=" stringValue ]
+            var peek = stream.Peek();
+            if (isIntegerEnum || (peek is EqualsOperatorToken))
+            {
+                var equalsOperator = stream.Read<EqualsOperatorToken>();
+                var enumValue = stream.Peek();
+                switch (enumValue)
+                {
+                    case IntegerLiteralToken integerValue:
+                        node.EnumElementValue = ParserEngine.ParseIntegerValueAst(stream);
+                        break;
+                    case StringLiteralToken stringValue:
+                        node.EnumElementValue = ParserEngine.ParseStringValueAst(stream);
+                        break;
+                    default:
+                        throw new UnsupportedTokenException(enumValue);
+                }
+            }
+            return node.Build();
         }
 
         #endregion

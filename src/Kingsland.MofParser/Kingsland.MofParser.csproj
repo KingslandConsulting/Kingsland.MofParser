@@ -32,7 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Ast\AssociationDeclarationAst.cs" />
+    <Compile Include="Ast\EnumerationDeclarationAst.cs" />
     <Compile Include="Ast\IAstNode.cs" />
+    <Compile Include="Ast\EnumElementAst.cs" />
+    <Compile Include="Ast\IEnumValueAst.cs" />
     <Compile Include="Ast\StructureDeclarationAst.cs" />
     <Compile Include="Ast\ClassDeclarationAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />

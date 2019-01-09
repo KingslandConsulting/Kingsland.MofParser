@@ -116,7 +116,8 @@ namespace Kingsland.MofParser.CodeGen
                     return MofGenerator.ConvertClassDeclarationAst(ast, quirks);
                 case AssociationDeclarationAst ast:
                     return MofGenerator.ConvertAssociationDeclarationAst(ast, quirks);
-                //case EnumerationDeclarationAst ast:
+                case EnumerationDeclarationAst ast:
+                    return MofGenerator.ConvertEnumerationDeclarationAst(ast, quirks);
                 case InstanceValueDeclarationAst ast:
                     return MofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks);
                 case StructureValueDeclarationAst ast:
@@ -281,7 +282,8 @@ namespace Kingsland.MofParser.CodeGen
             {
                 case StructureDeclarationAst ast:
                     return MofGenerator.ConvertStructureDeclarationAst(ast, quirks, indent);
-                //case EnumerationDeclarationAst ast:
+                case EnumerationDeclarationAst ast:
+                    return MofGenerator.ConvertEnumerationDeclarationAst(ast, quirks, indent);
                 case PropertyDeclarationAst ast:
                     return MofGenerator.ConvertPropertyDeclarationAst(ast, quirks);
                 default:
@@ -363,6 +365,69 @@ namespace Kingsland.MofParser.CodeGen
             source.Append(indent);
             source.Append("};");
             return source.ToString();
+        }
+
+        #endregion
+
+        #region 7.5.4 Enumeration declaration
+
+        public static string ConvertEnumerationDeclarationAst(EnumerationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        {
+            var source = new StringBuilder();
+            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            {
+                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(indent);
+            }
+            source.Append($"{Constants.ENUMERATION} {node.EnumName.Name}");
+            source.Append($" : {node.EnumType.Name}");
+            source.AppendLine();
+            source.Append(indent);
+            source.AppendLine("{");
+            for (var i = 0; i < node.EnumElements.Count; i++)
+            {
+                source.Append(indent);
+                source.Append("\t");
+                source.Append(MofGenerator.ConvertEnumElementAst(node.EnumElements[i], quirks));
+                if (i < (node.EnumElements.Count - 1))
+                {
+                    source.Append(",");
+                }
+                source.AppendLine();
+            }
+            source.Append(indent);
+            source.Append("};");
+            return source.ToString();
+        }
+
+        public static string ConvertEnumElementAst(EnumElementAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            var source = new StringBuilder();
+            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            {
+                source.Append(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(" ");
+            }
+            source.Append(node.EnumElementName.Name);
+            if (node.EnumElementValue != null)
+            {
+                source.Append(" = ");
+                source.Append(MofGenerator.ConvertIEnumValueAst(node.EnumElementValue, quirks));
+            }
+            return source.ToString();
+        }
+
+        public static string ConvertIEnumValueAst(IEnumValueAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            switch (node)
+            {
+                case IntegerValueAst ast:
+                    return MofGenerator.ConvertIntegerValueAst(ast, quirks);
+                case StringValueAst ast:
+                    return MofGenerator.ConvertStringValueAst(ast, quirks);
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         #endregion
