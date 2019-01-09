@@ -1,5 +1,6 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Tokens;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -26,19 +27,19 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public bool IsAlias
-            {
-                get;
-                set;
-            }
-
-            public bool IsValue
-            {
-                get;
-                set;
-            }
-
             public AliasIdentifierToken Alias
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken Value
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken Of
             {
                 get;
                 set;
@@ -50,7 +51,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public PropertyValueListAst Properties
+            public PropertyValueListAst PropertyValues
             {
                 get;
                 set;
@@ -58,13 +59,21 @@ namespace Kingsland.MofParser.Ast
 
             public ComplexValueAst Build()
             {
-                return new ComplexValueAst(
-                    this.IsAlias,
-                    this.IsValue,
-                    this.Alias,
-                    this.TypeName,
-                    this.Properties
-                );
+                if (!(this.Alias == null))
+                {
+                    return new ComplexValueAst(
+                        this.Alias
+                    );
+                }
+                else
+                {
+                    return new ComplexValueAst(
+                        this.Value,
+                        this.Of,
+                        this.TypeName,
+                        this.PropertyValues
+                    );
+                }
             }
 
         }
@@ -74,18 +83,28 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         public ComplexValueAst(
-            bool isAlias,
-            bool isValue,
-            AliasIdentifierToken alias,
-            IdentifierToken typeName,
-            PropertyValueListAst properties
+            AliasIdentifierToken alias
         )
         {
-            this.IsAlias = isAlias;
-            this.IsValue = isValue;
-            this.Alias = alias;
-            this.TypeName = TypeName;
-            this.Properties = properties ?? new PropertyValueListAst.Builder().Build();
+            this.Alias = alias ?? throw new ArgumentException(nameof(alias));
+            this.Value = null;
+            this.Of = null;
+            this.TypeName = null;
+            this.PropertyValues = new PropertyValueListAst.Builder().Build();
+        }
+
+        public ComplexValueAst(
+            IdentifierToken value,
+            IdentifierToken of,
+            IdentifierToken typeName,
+            PropertyValueListAst propertyValues
+        )
+        {
+            this.Alias = null;
+            this.Value = value ?? throw new ArgumentException(nameof(value));
+            this.Of = of;
+            this.TypeName = typeName;
+            this.PropertyValues = propertyValues ?? new PropertyValueListAst.Builder().Build();
         }
 
         #endregion
@@ -94,17 +113,33 @@ namespace Kingsland.MofParser.Ast
 
         public bool IsAlias
         {
-            get;
-            private set;
+            get
+            {
+                return !(this.Alias == null);
+            }
         }
 
         public bool IsValue
+        {
+            get
+            {
+                return !(this.Value == null);
+            }
+        }
+
+        public AliasIdentifierToken Alias
         {
             get;
             private set;
         }
 
-        public AliasIdentifierToken Alias
+        public IdentifierToken Value
+        {
+            get;
+            private set;
+        }
+
+        public IdentifierToken Of
         {
             get;
             private set;
@@ -116,7 +151,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public PropertyValueListAst Properties
+        public PropertyValueListAst PropertyValues
         {
             get;
             private set;

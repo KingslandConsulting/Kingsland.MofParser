@@ -194,11 +194,11 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var expectedMof =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
-                    "\tCaption = \"Instance of John Doe\\\'s GOLF_ClubMember object\"\r\n; " +
+                    "\tCaption = \"Instance of John Doe\\\'s GOLF_ClubMember object\";\r\n" +
                     "\tMemberAddress = value of GOLF_Address\r\n" +
                     "\t{\r\n" +
-                    "\t\tState = \"IL\"\r\n;" +
-                    "\t\tCity = \"Oak Park\"\r\n;" +
+                    "\t\tState = \"IL\";\r\n" +
+                    "\t\tCity = \"Oak Park\";\r\n" +
                     "\t\tStreet = \"Oak Park Av.\";\r\n" +
                     "\t\tStreetNo = \"1177\";\r\n" +
                     "\t\tApartmentNo = \"3B\";\r\n" +

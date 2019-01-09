@@ -1273,35 +1273,39 @@ namespace Kingsland.MofParser.Parsing
 
             var node = new ComplexValueAst.Builder();
 
-            // aliasIdentifier
             if (stream.Peek<AliasIdentifierToken>() != null)
             {
-                var aliasIdentifierToken = stream.Read<AliasIdentifierToken>();
-                node.IsAlias = true;
-                node.Alias = aliasIdentifierToken;
-                return node.Build();
+
+                // aliasIdentifier
+                node.Alias = stream.Read<AliasIdentifierToken>();
+
             }
-
-            // VALUE OF
-            var valueKeyword = stream.ReadIdentifier(Constants.VALUE);
-            var ofKeyword = stream.ReadIdentifier(Constants.OF);
-            node.IsValue = true;
-
-            // ( structureName / className / associationName )
-            if (stream.Peek<IdentifierToken>() != null)
+            else
             {
-                var typeName = stream.Read<IdentifierToken>();
-                if (!StringValidator.IsStructureName(typeName.Name) &&
-                    !StringValidator.IsClassName(typeName.Name) &&
-                    !StringValidator.IsAssociationName(typeName.Name))
-                {
-                    throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
-                }
-                node.TypeName = typeName;
-            }
 
-            // propertyValueList
-            node.Properties = ParserEngine.ParsePropertyValueListAst(stream);
+                // VALUE
+                node.Value = stream.ReadIdentifier(Constants.VALUE);
+
+                // OF
+                node.Of = stream.ReadIdentifier(Constants.OF);
+
+                // ( structureName / className / associationName )
+                if (stream.Peek<IdentifierToken>() != null)
+                {
+                    var typeName = stream.Read<IdentifierToken>();
+                    if (!StringValidator.IsStructureName(typeName.Name) &&
+                        !StringValidator.IsClassName(typeName.Name) &&
+                        !StringValidator.IsAssociationName(typeName.Name))
+                    {
+                        throw new InvalidOperationException("Identifer is not a structureName, className or associationName");
+                    }
+                    node.TypeName = typeName;
+                }
+
+                // propertyValueList
+                node.PropertyValues = ParserEngine.ParsePropertyValueListAst(stream);
+
+            }
 
             // return the result
             return node.Build();
@@ -1398,7 +1402,8 @@ namespace Kingsland.MofParser.Parsing
             }
             bool IsComplexValueToken(Token token)
             {
-                return (token is AliasIdentifierToken);
+                return (token is AliasIdentifierToken) ||
+                       ((token is IdentifierToken identifier) && (identifier.GetNormalizedName() == Constants.VALUE));
             }
             var node = default(PropertyValueAst);
             var peek = stream.Peek();
@@ -1442,8 +1447,8 @@ namespace Kingsland.MofParser.Parsing
                 }
                 else if (IsComplexValueToken(peek))
                 {
-                    // complexValue
-                    node = ParserEngine.ParseComplexTypeValueAst(stream);
+                    // complexValueArray
+                    node = ParserEngine.ParseComplexValueArrayAst(stream);
                 }
                 else
                 {
