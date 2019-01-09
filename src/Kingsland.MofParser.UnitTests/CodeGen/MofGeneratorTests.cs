@@ -170,6 +170,34 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
+            [Test]
+            public static void StructureDeclarationAstWithLocalEnumerationDeclarationShouldRoundtrip()
+            {
+                var expectedMof =
+                    "structure GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tenumeration MonthsEnum : String\r\n" +
+                    "\t{\r\n" +
+                    "\t\tJanuary,\r\n" +
+                    "\t\tFebruary,\r\n" +
+                    "\t\tMarch,\r\n" +
+                    "\t\tApril,\r\n" +
+                    "\t\tMay,\r\n" +
+                    "\t\tJune,\r\n" +
+                    "\t\tJuly,\r\n" +
+                    "\t\tAugust,\r\n" +
+                    "\t\tSeptember,\r\n" +
+                    "\t\tOctober,\r\n" +
+                    "\t\tNovember,\r\n" +
+                    "\t\tDecember\r\n" +
+                    "\t};\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
             #endregion
 
             #region 7.5.3 Association declaration
@@ -183,6 +211,35 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\tGOLF_ClubMember REF Member;\r\n" +
                     "\tGOLF_Locker REF Locker;\r\n" +
                     "\tGOLF_Date AssignedOnDate;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            #endregion
+
+            #region 7.5.4 Enumeration declaration
+
+            [Test]
+            public static void EnumerationDeclarationAstShouldRoundtrip()
+            {
+                var expectedMof =
+                    "enumeration MonthsEnum : String\r\n" +
+                    "{\r\n" +
+                    "\tJanuary,\r\n" +
+                    "\tFebruary,\r\n" +
+                    "\tMarch,\r\n" +
+                    "\tApril,\r\n" +
+                    "\tMay,\r\n" +
+                    "\tJune,\r\n" +
+                    "\tJuly,\r\n" +
+                    "\tAugust,\r\n" +
+                    "\tSeptember,\r\n" +
+                    "\tOctober,\r\n" +
+                    "\tNovember,\r\n" +
+                    "\tDecember\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
