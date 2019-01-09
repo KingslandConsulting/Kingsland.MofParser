@@ -143,15 +143,17 @@ namespace Kingsland.MofParser.Parsing
                     return ParserEngine.ParseClassDeclarationAst(stream, qualifiers);
                 case Constants.ASSOCIATION:
                     // associationDeclaration
-                    throw new UnsupportedTokenException(identifier);
+                    return ParserEngine.ParseAssociationDeclarationAst(stream, qualifiers);
                 case Constants.ENUMERATION:
                     // enumerationDeclaration
-                    throw new UnsupportedTokenException(identifier);
+                    //return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifiers);
+                    throw new NotImplementedException($"MofProduction type '{identifier.Name}' not implemented.");
                 case Constants.QUALIFIER:
                     // qualifierTypeDeclaration
-                    throw new UnsupportedTokenException(identifier);
+                    //return ParserEngine.ParseQualifierTypeDeclarationAst(stream, qualifiers);
+                    throw new NotImplementedException($"MofProduction type '{identifier.Name}' not implemented.");
                 default:
-                    throw new UnexpectedTokenException(peek);
+                    throw new UnexpectedTokenException(identifier);
             }
 
         }
@@ -707,13 +709,15 @@ namespace Kingsland.MofParser.Parsing
             // [ superClass ]
             if (stream.Peek<ColonToken>() != null)
             {
+                // ":"
                 stream.Read<ColonToken>();
-                var superclass = stream.Read<IdentifierToken>();
-                if (!StringValidator.IsClassName(className.Name))
+                // className
+                var superClassName = stream.Read<IdentifierToken>();
+                if (!StringValidator.IsClassName(superClassName.Name))
                 {
                     throw new InvalidOperationException("Identifer is not a valid superclass name.");
                 }
-                node.Superclass = superclass;
+                node.SuperClass = superClassName;
             }
 
             // "{"
@@ -1079,6 +1083,86 @@ namespace Kingsland.MofParser.Parsing
                     }
                     throw new UnsupportedTokenException(stream.Peek());
             }
+        }
+
+        #endregion
+
+        #region 7.5.3 Association declaration
+
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.5.3 Association declaration
+        ///
+        ///     associationDeclaration = [ qualifierList ] ASSOCIATION associationName
+        ///                              [ superAssociation ]
+        ///                              "{" * classFeature "}" ";"
+        ///
+        ///     associationName        = elementName
+        ///     superAssociation       = ":" elementName
+        ///
+        ///     ASSOCIATION            = "association" ; keyword: case insensitive
+        ///
+        /// </remarks>
+        public static AssociationDeclarationAst ParseAssociationDeclarationAst(ParserStream stream, QualifierListAst qualifiers)
+        {
+
+            var node = new AssociationDeclarationAst.Builder();
+
+            // [ qualifierList ]
+            node.Qualifiers = qualifiers;
+
+            // ASSOCIATION
+            stream.ReadIdentifier(Constants.ASSOCIATION);
+
+            // associationName
+            var associationName = stream.Read<IdentifierToken>();
+            if (!StringValidator.IsAssociationName(associationName.Name))
+            {
+                throw new InvalidOperationException("Identifer is not a valid asociation name.");
+            }
+            node.AssociationName = associationName;
+
+            // [ superAssociation ]
+            if (stream.Peek<ColonToken>() != null)
+            {
+                // ":"
+                stream.Read<ColonToken>();
+                // associationName
+                var superAssociationName = stream.Read<IdentifierToken>();
+                if (!StringValidator.IsAssociationName(superAssociationName.Name))
+                {
+                    throw new InvalidOperationException("Identifer is not a valid superassociation name.");
+                }
+                node.SuperAssociation = superAssociationName;
+            }
+
+            // "{"
+            stream.Read<BlockOpenToken>();
+
+            // *classFeature
+            while (!stream.Eof)
+            {
+                if (stream.Peek() is BlockCloseToken)
+                {
+                    break;
+                }
+                var classFeature = ParserEngine.ParseClassFeatureAst(stream);
+                node.Features.Add(classFeature);
+            }
+
+            // "}"
+            stream.Read<BlockCloseToken>();
+
+            // ";"
+            stream.Read<StatementEndToken>();
+
+            return node.Build();
+
         }
 
         #endregion

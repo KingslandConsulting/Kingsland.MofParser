@@ -13,20 +13,18 @@ namespace Kingsland.MofParser.Ast
     ///
     /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
     ///
-    /// 7.5.2 Class declaration
+    /// 7.5.3 Association declaration
     ///
-    ///     classDeclaration = [ qualifierList ] CLASS className [ superClass ]
-    ///                        "{" *classFeature "}" ";"
+    ///     associationDeclaration = [ qualifierList ] ASSOCIATION associationName
+    ///                              [ superAssociation ]
+    ///                              "{" * classFeature "}" ";"
     ///
-    ///     className        = elementName
-    ///     superClass       = ":" className
-    ///     classFeature     = structureFeature /
-    ///                        methodDeclaration
+    ///     associationName        = elementName
+    ///     superAssociation       = ":" elementName
     ///
-    ///     CLASS            = "class" ; keyword: case insensitive
-    ///
+    ///     ASSOCIATION            = "association" ; keyword: case insensitive
     /// </remarks>
-    public sealed class ClassDeclarationAst : MofProductionAst
+    public sealed class AssociationDeclarationAst : MofProductionAst
     {
 
         #region Builder
@@ -45,13 +43,13 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken ClassName
+            public IdentifierToken AssociationName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken SuperClass
+            public IdentifierToken SuperAssociation
             {
                 get;
                 set;
@@ -63,12 +61,12 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public ClassDeclarationAst Build()
+            public AssociationDeclarationAst Build()
             {
-                return new ClassDeclarationAst(
+                return new AssociationDeclarationAst(
                     this.Qualifiers,
-                    this.ClassName,
-                    this.SuperClass,
+                    this.AssociationName,
+                    this.SuperAssociation,
                     new ReadOnlyCollection<IClassFeatureAst>(
                         this.Features ?? new List<IClassFeatureAst>()
                     )
@@ -81,11 +79,11 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public ClassDeclarationAst(QualifierListAst qualifiers, IdentifierToken className, IdentifierToken superClass, ReadOnlyCollection<IClassFeatureAst> features)
+        public AssociationDeclarationAst(QualifierListAst qualifiers, IdentifierToken associationName, IdentifierToken superAssociation, ReadOnlyCollection<IClassFeatureAst> features)
         {
             this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
-            this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
-            this.SuperClass = superClass;
+            this.AssociationName = associationName ?? throw new ArgumentNullException(nameof(associationName));
+            this.SuperAssociation = superAssociation;
             this.Features = features ?? new ReadOnlyCollection<IClassFeatureAst>(new List<IClassFeatureAst>());
         }
 
@@ -99,13 +97,13 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public IdentifierToken ClassName
+        public IdentifierToken AssociationName
         {
             get;
             private set;
         }
 
-        public IdentifierToken SuperClass
+        public IdentifierToken SuperAssociation
         {
             get;
             private set;
@@ -123,7 +121,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertClassDeclarationAst(this);
+            return MofGenerator.ConvertAssociationDeclarationAst(this);
         }
 
         #endregion

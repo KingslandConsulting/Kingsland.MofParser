@@ -170,6 +170,8 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
+            #endregion
+
             #region 7.5.3 Association declaration
 
             [Test]

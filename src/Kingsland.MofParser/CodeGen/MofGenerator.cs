@@ -114,7 +114,8 @@ namespace Kingsland.MofParser.CodeGen
                     return MofGenerator.ConvertStructureDeclarationAst(ast, quirks);
                 case ClassDeclarationAst ast:
                     return MofGenerator.ConvertClassDeclarationAst(ast, quirks);
-                //case AssociationDeclarationAst ast:
+                case AssociationDeclarationAst ast:
+                    return MofGenerator.ConvertAssociationDeclarationAst(ast, quirks);
                 //case EnumerationDeclarationAst ast:
                 case InstanceValueDeclarationAst ast:
                     return MofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks);
@@ -301,9 +302,9 @@ namespace Kingsland.MofParser.CodeGen
                 source.Append(indent);
             }
             source.Append($"{Constants.CLASS} {node.ClassName.Name}");
-            if (node.Superclass != null)
+            if (node.SuperClass != null)
             {
-                source.Append($" : {node.Superclass.Name}");
+                source.Append($" : {node.SuperClass.Name}");
             }
             source.AppendLine();
             source.Append(indent);
@@ -331,6 +332,37 @@ namespace Kingsland.MofParser.CodeGen
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        #endregion
+
+        #region 7.5.3 Association declaration
+
+        public static string ConvertAssociationDeclarationAst(AssociationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        {
+            var source = new StringBuilder();
+            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            {
+                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(indent);
+            }
+            source.Append($"{Constants.ASSOCIATION} {node.AssociationName.Name}");
+            if (node.SuperAssociation != null)
+            {
+                source.Append($" : {node.SuperAssociation.Name}");
+            }
+            source.AppendLine();
+            source.Append(indent);
+            source.AppendLine("{");
+            foreach (var feature in node.Features)
+            {
+                source.Append(indent);
+                source.Append("\t");
+                source.AppendLine(MofGenerator.ConvertClassFeatureAst(feature, quirks, indent + '\t'));
+            }
+            source.Append(indent);
+            source.Append("};");
+            return source.ToString();
         }
 
         #endregion
