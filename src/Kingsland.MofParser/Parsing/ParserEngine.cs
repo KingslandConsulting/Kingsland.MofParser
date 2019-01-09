@@ -111,8 +111,7 @@ namespace Kingsland.MofParser.Parsing
                 return ParserEngine.ParseCompilerDirectiveAst(stream);
             }
 
-            var identifier = stream.Peek<IdentifierToken>();
-            if (identifier != null)
+            if (peek is IdentifierToken identifier)
             {
                 switch (identifier.GetNormalizedName())
                 {
@@ -277,9 +276,9 @@ namespace Kingsland.MofParser.Parsing
             // [qualifierPolicy]
 
             // ";"
-            stream.Read<StatementEndToken>();
+            //stream.Read<StatementEndToken>();
 
-            return node.Build();
+            //return node.Build();
 
         }
 
@@ -1011,7 +1010,7 @@ namespace Kingsland.MofParser.Parsing
                         throw new UnsupportedTokenException(peek);
                     }
                     stream.Read<EqualsOperatorToken>();
-                    propertyInitializer = ParserEngine.ReadClassFeatureAstDefaultValue(stream, memberReturnType);
+                    propertyInitializer = ParserEngine.ReadClassFeatureAstInitializer(stream, memberReturnType);
                 }
             }
 
@@ -1057,7 +1056,7 @@ namespace Kingsland.MofParser.Parsing
 
         }
 
-        public static PrimitiveTypeValueAst ReadClassFeatureAstDefaultValue(ParserStream stream, IdentifierToken returnType)
+        public static PrimitiveTypeValueAst ReadClassFeatureAstInitializer(ParserStream stream, IdentifierToken returnType)
         {
             switch (returnType.GetNormalizedName())
             {
@@ -1079,7 +1078,7 @@ namespace Kingsland.MofParser.Parsing
                     {
                         return ParserEngine.ParseNullValueAst(stream);
                     }
-                    throw new UnsupportedTokenException(stream.Peek());
+                    throw new NotImplementedException($"classFeature initializer type '{returnType.Name}'");
             }
         }
 
@@ -1406,7 +1405,7 @@ namespace Kingsland.MofParser.Parsing
             if (stream.Peek<EqualsOperatorToken>() != null)
             {
                 stream.Read<EqualsOperatorToken>();
-                parameterDefaultValue = ParserEngine.ReadClassFeatureAstDefaultValue(stream, parameterTypeName);
+                parameterDefaultValue = ParserEngine.ReadClassFeatureAstInitializer(stream, parameterTypeName);
             }
 
             return new ParameterDeclarationAst.Builder {
