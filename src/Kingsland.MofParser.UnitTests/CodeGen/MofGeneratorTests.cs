@@ -18,7 +18,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             #region 7.6.1.3 String values
 
             [Test]
-            public static void StringValueWithSinglewQuoteShouldRoundtrip()
+            public static void StringValueWithSingleQuoteShouldRoundtrip()
             {
                 var expectedMof =
                     "instance of GOLF_ClubMember\r\n" +
@@ -163,6 +163,24 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\tstring Name;\r\n" +
                     "\tGOLF_Date ContractSignedDate;\r\n" +
                     "\treal32 ContractAmount;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            #region 7.5.3 Association declaration
+
+            [Test]
+            public static void AssociationDeclarationAstShouldRoundtrip()
+            {
+                var expectedMof =
+                    "association GOLF_MemberLocker : GOLF_Base\r\n" +
+                    "{\r\n" +
+                    "\tGOLF_ClubMember REF Member;\r\n" +
+                    "\tGOLF_Locker REF Locker;\r\n" +
+                    "\tGOLF_Date AssignedOnDate;\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
