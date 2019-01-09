@@ -877,8 +877,8 @@ namespace Kingsland.MofParser.Parsing
 
             var peek = default(Token);
 
-            var isMethodDeclaration = default(bool?);
-            var isPropertyDeclaration = default(bool?);
+            var isMethodDeclaration = false;
+            var isPropertyDeclaration = false;
 
             // [ qualifierList ]
             // note - this has already been read for us and gets passed in as a parameter
@@ -910,14 +910,15 @@ namespace Kingsland.MofParser.Parsing
             // if we're reading a methodDeclaration then the next token
             // in the methodDeclaration after returnDataType could be [ array ]
             var methodReturnTypeIsArray = false;
-            peek = stream.Peek<AttributeOpenToken>();
-            if (peek != null)
+            var methodAttributeOpen = stream.Peek<AttributeOpenToken>();
+            if (methodAttributeOpen != null)
             {
-                if (isPropertyDeclaration.HasValue && isPropertyDeclaration.Value)
+                // check we're expecting a methodDeclaration
+                if (isPropertyDeclaration || !allowMethodDeclaration)
                 {
-                    // this can't be a methodDeclaration *and* a propertyDeclaration
                     throw new UnsupportedTokenException(peek);
                 }
+                // [ array ]
                 stream.Read<AttributeOpenToken>();
                 stream.Read<AttributeCloseToken>();
                 methodReturnTypeIsArray = true;
@@ -933,11 +934,12 @@ namespace Kingsland.MofParser.Parsing
             var propertyReturnTypeIsArray = false;
             if (stream.Peek<AttributeOpenToken>() != null)
             {
-                if (isMethodDeclaration.HasValue && isMethodDeclaration.Value)
+                // check we're expecting a propertyDeclaration
+                if (isMethodDeclaration || !allowPropertyDeclaration)
                 {
-                    // this can't be a propertyDeclaration *and* a methodDeclaration
                     throw new UnsupportedTokenException(peek);
                 }
+                // [ array ]
                 stream.Read<AttributeOpenToken>();
                 stream.Read<AttributeCloseToken>();
                 propertyReturnTypeIsArray = true;
@@ -948,13 +950,12 @@ namespace Kingsland.MofParser.Parsing
             // if we're reading a methodDeclaration, then the next tokens *must*
             // be "(" [ parameterList ] ")"
             var methodParameterDeclarations = new List<ParameterDeclarationAst>();
-            peek = stream.Peek<ParenthesesOpenToken>();
-            if ((isMethodDeclaration.HasValue && isMethodDeclaration.Value)  ||
-                (peek != null))
+            var methodParenthesisOpenToken = stream.Peek<ParenthesesOpenToken>();
+            if (isMethodDeclaration  || (methodParenthesisOpenToken != null))
             {
-                if (isPropertyDeclaration.HasValue && isPropertyDeclaration.Value)
+                // check we're expecting a methodDeclaration
+                if (isPropertyDeclaration || !allowMethodDeclaration)
                 {
-                    // this can't be a methodDeclaration *and* a propertyDeclaration
                     throw new UnsupportedTokenException(peek);
                 }
                 // "("
@@ -981,10 +982,9 @@ namespace Kingsland.MofParser.Parsing
             }
             else
             {
-                // we're not reading a methodDeclaration, so we *must* be reading a propertyDeclaration
-                if (isMethodDeclaration.HasValue && isMethodDeclaration.Value)
+                // check we're expecting a propertyDeclaration
+                if (isMethodDeclaration || !allowPropertyDeclaration)
                 {
-                    // this can't be a methodDeclaration *and* a propertyDeclaration
                     throw new UnsupportedTokenException(peek);
                 }
                 // we know this is a propertyDeclaration now
@@ -1000,15 +1000,16 @@ namespace Kingsland.MofParser.Parsing
             //     referenceParamDeclaration => [ "=" referenceTypeValue ]
             //
             var propertyInitializer = default(PrimitiveTypeValueAst);
-            if (isPropertyDeclaration.HasValue && isPropertyDeclaration.Value)
+            if (isPropertyDeclaration && isPropertyDeclaration)
             {
                 if (stream.Peek<EqualsOperatorToken>() != null)
                 {
-                    if (isMethodDeclaration.HasValue && isMethodDeclaration.Value)
+                    // check we're expecting a propertyDeclaration
+                    if (isMethodDeclaration || !allowPropertyDeclaration)
                     {
-                        // this can't be a propertyDeclaration *and* a methodDeclaration
                         throw new UnsupportedTokenException(peek);
                     }
+                    // "="
                     stream.Read<EqualsOperatorToken>();
                     propertyInitializer = ParserEngine.ReadClassFeatureAstInitializer(stream, memberReturnType);
                 }
@@ -1017,11 +1018,11 @@ namespace Kingsland.MofParser.Parsing
             // ";"
             stream.Read<StatementEndToken>();
 
-            if (isPropertyDeclaration.HasValue && isPropertyDeclaration.Value)
+            if (isPropertyDeclaration)
             {
-                if (isMethodDeclaration.HasValue && isMethodDeclaration.Value)
+                // check we're expecting a propertyDeclaration
+                if (isMethodDeclaration || !allowPropertyDeclaration)
                 {
-                    // this can't be a propertyDeclaration *and* a methodDeclaration
                     throw new InvalidOperationException();
                 }
                 var node = new PropertyDeclarationAst.Builder
@@ -1035,8 +1036,13 @@ namespace Kingsland.MofParser.Parsing
                 };
                 return node.Build();
             }
-            else if (isMethodDeclaration.HasValue && isMethodDeclaration.Value)
+            else if (isMethodDeclaration)
             {
+                // check we're expecting a methodDeclaration
+                if (isPropertyDeclaration || !allowMethodDeclaration)
+                {
+                    throw new InvalidOperationException();
+                }
                 var node = new MethodDeclarationAst.Builder
                 {
                     Qualifiers = qualifiers,
