@@ -23,7 +23,7 @@
 
         #region Constructors
 
-        protected LiteralValueAst()
+        internal LiteralValueAst()
         {
         }
 

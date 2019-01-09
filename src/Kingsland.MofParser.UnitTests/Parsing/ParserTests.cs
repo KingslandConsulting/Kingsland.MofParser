@@ -172,7 +172,6 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
                                             { "Reference", new ComplexValueAst(
-                                                true, false,
                                                 new AliasIdentifierToken(
                                                     new SourceExtent(
                                                         new SourcePosition(57, 3, 17),
@@ -180,18 +179,9 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                                                         "$Alias0000006E"
                                                     ),
                                                     "Alias0000006E"
-                                                ),
-                                                new IdentifierToken(
-                                                    new SourceExtent(
-                                                        new SourcePosition(12, 1, 13),
-                                                        new SourcePosition(17, 1, 18),
-                                                        "myType"
-                                                    ),
-                                                    "myType"
-                                                ),
-                                                null
-                                            )
-                                        }}
+                                                )
+                                            )}
+                                        }
                                     )
                                 ),
                                 new StatementEndToken(
@@ -354,7 +344,6 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                                                 new ReadOnlyCollection<ComplexValueAst>(
                                                     new List<ComplexValueAst> {
                                                         new ComplexValueAst(
-                                                            true, false,
                                                             new AliasIdentifierToken(
                                                                 new SourceExtent(
                                                                     new SourcePosition(58, 3, 18),
@@ -362,16 +351,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                                                                     "$Alias0000006E"
                                                                 ),
                                                                 "Alias0000006E"
-                                                            ),
-                                                            new IdentifierToken(
-                                                                new SourceExtent(
-                                                                    new SourcePosition(12, 1, 13),
-                                                                    new SourcePosition(17, 1, 18),
-                                                                    "myType"
-                                                                ),
-                                                                "myType"
-                                                            ),
-                                                            null
+                                                            )
                                                         )
                                                     }
                                                 )

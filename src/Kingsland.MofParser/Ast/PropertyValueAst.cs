@@ -33,6 +33,14 @@ namespace Kingsland.MofParser.Ast
     public abstract class PropertyValueAst : AstNode
     {
 
+        #region Constructors
+
+        internal PropertyValueAst()
+        {
+        }
+
+        #endregion
+
     }
 
 }

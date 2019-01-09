@@ -17,7 +17,7 @@
 
         #region Constructors
 
-        protected ComplexTypeValueAst()
+        internal ComplexTypeValueAst()
         {
         }
 

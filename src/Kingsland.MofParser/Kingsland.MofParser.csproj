@@ -31,12 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Ast\AssociationDeclarationAst.cs" />
+    <Compile Include="Ast\EnumerationDeclarationAst.cs" />
+    <Compile Include="Ast\IAstNode.cs" />
+    <Compile Include="Ast\EnumElementAst.cs" />
+    <Compile Include="Ast\IEnumValueAst.cs" />
+    <Compile Include="Ast\StructureDeclarationAst.cs" />
     <Compile Include="Ast\ClassDeclarationAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />
     <Compile Include="Tokens\IntegerKind.cs" />
     <Compile Include="Ast\PropertyValueListAst.cs" />
     <Compile Include="Ast\QualifierValueAst.cs" />
-    <Compile Include="Ast\StructureFeatureAst.cs" />
+    <Compile Include="Ast\IStructureFeatureAst.cs" />
     <Compile Include="Ast\StructureValueDeclarationAst.cs" />
     <Compile Include="Ast\InstanceValueDeclarationAst.cs" />
     <Compile Include="Ast\ComplexValueArrayAst.cs" />
@@ -46,7 +52,7 @@
     <Compile Include="Ast\PropertyDeclarationAst.cs" />
     <Compile Include="Ast\LiteralValueArrayAst.cs" />
     <Compile Include="Ast\LiteralValueAst.cs" />
-    <Compile Include="Ast\ClassFeatureAst.cs" />
+    <Compile Include="Ast\IClassFeatureAst.cs" />
     <Compile Include="Ast\MethodDeclarationAst.cs" />
     <Compile Include="Ast\NullValueAst.cs" />
     <Compile Include="Ast\CompilerDirectiveAst.cs" />

@@ -55,7 +55,7 @@ namespace Kingsland.MofParser.Ast
     ///     UNDERSCORE  = U+005F ; _
     ///
     /// </remarks>
-    public sealed class StringValueAst : LiteralValueAst
+    public sealed class StringValueAst : LiteralValueAst, IEnumValueAst
     {
 
         #region Builder

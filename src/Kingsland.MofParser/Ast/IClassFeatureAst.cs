@@ -16,16 +16,8 @@ namespace Kingsland.MofParser.Ast
     ///                        propertyDeclaration
     ///
     /// </remarks>
-    public abstract class ClassFeatureAst : AstNode
+    public interface IClassFeatureAst : IAstNode
     {
-
-        #region Constructors
-
-        protected ClassFeatureAst()
-        {
-        }
-
-        #endregion
 
     }
 

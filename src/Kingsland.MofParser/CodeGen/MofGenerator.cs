@@ -110,11 +110,14 @@ namespace Kingsland.MofParser.CodeGen
             {
                 case CompilerDirectiveAst ast:
                     return MofGenerator.ConvertCompilerDirectiveAst(ast, quirks);
-                //case StructureDeclarationAst ast:
+                case StructureDeclarationAst ast:
+                    return MofGenerator.ConvertStructureDeclarationAst(ast, quirks);
                 case ClassDeclarationAst ast:
                     return MofGenerator.ConvertClassDeclarationAst(ast, quirks);
-                //case AssociationDeclarationAst ast:
-                //case EnumerationDeclarationAst ast:
+                case AssociationDeclarationAst ast:
+                    return MofGenerator.ConvertAssociationDeclarationAst(ast, quirks);
+                case EnumerationDeclarationAst ast:
+                    return MofGenerator.ConvertEnumerationDeclarationAst(ast, quirks);
                 case InstanceValueDeclarationAst ast:
                     return MofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks);
                 case StructureValueDeclarationAst ast:
@@ -132,10 +135,10 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertCompilerDirectiveAst(CompilerDirectiveAst node, MofQuirks quirks = MofQuirks.None)
         {
-            return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
+            return $"!!!!!{node.GetType().Name}!!!!!";
         }
 
-    #endregion
+        #endregion
 
         #region 7.4 Qualifiers
 
@@ -150,7 +153,9 @@ namespace Kingsland.MofParser.CodeGen
             {
                 if (node.Initializer is LiteralValueAst)
                 {
-                    source.AppendFormat("({0})", MofGenerator.ConvertPrimitiveTypeValueAst(node.Initializer, quirks));
+                    source.Append("(");
+                    source.Append(MofGenerator.ConvertPrimitiveTypeValueAst(node.Initializer, quirks));
+                    source.Append(")");
                 }
                 else if (node.Initializer is LiteralValueArrayAst)
                 {
@@ -163,7 +168,8 @@ namespace Kingsland.MofParser.CodeGen
             }
             if (node.Flavors.Count > 0)
             {
-                source.AppendFormat(": {0}", string.Join(" ", node.Flavors.ToArray()));
+                source.Append(": ");
+                source.Append(string.Join(" ", node.Flavors.ToArray()));
             }
             return source.ToString();
         }
@@ -214,12 +220,12 @@ namespace Kingsland.MofParser.CodeGen
             if (node.ValueInitializer != null)
             {
                 source.Append("(");
-                source.Append(MofGenerator.ConvertLiteralValueAst(node.ValueInitializer));
+                source.Append(MofGenerator.ConvertLiteralValueAst(node.ValueInitializer, quirks));
                 source.Append(")");
             }
             else if (node.ValueArrayInitializer != null)
             {
-                source.Append(MofGenerator.ConvertLiteralValueArrayAst(node.ValueArrayInitializer));
+                source.Append(MofGenerator.ConvertLiteralValueArrayAst(node.ValueArrayInitializer, quirks));
             }
             ///
             /// 7.4 Qualifiers
@@ -246,12 +252,41 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.1 Structure declaration
 
-        public static string ConvertStructureFeatureAst(StructureFeatureAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertStructureDeclarationAst(StructureDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        {
+            var source = new StringBuilder();
+            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            {
+                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(indent);
+            }
+            source.Append($"{Constants.STRUCTURE} {node.StructureName.Name}");
+            if (node.SuperStructure != null)
+            {
+                source.Append($" : {node.SuperStructure.Name}");
+            }
+            source.AppendLine();
+            source.Append(indent);
+            source.AppendLine("{");
+            foreach (var feature in node.Features)
+            {
+                source.Append(indent);
+                source.Append("\t");
+                source.AppendLine(MofGenerator.ConvertStructureFeatureAst(feature, quirks, indent + '\t'));
+            }
+            source.Append(indent);
+            source.Append("};");
+            return source.ToString();
+        }
+
+        public static string ConvertStructureFeatureAst(IStructureFeatureAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             switch (node)
             {
-                //case StructureDeclarationAst ast:
-                //case EnumerationDeclarationAst ast:
+                case StructureDeclarationAst ast:
+                    return MofGenerator.ConvertStructureDeclarationAst(ast, quirks, indent);
+                case EnumerationDeclarationAst ast:
+                    return MofGenerator.ConvertEnumerationDeclarationAst(ast, quirks, indent);
                 case PropertyDeclarationAst ast:
                     return MofGenerator.ConvertPropertyDeclarationAst(ast, quirks);
                 default:
@@ -263,38 +298,136 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.2 Class declaration
 
-        public static string ConvertClassDeclarationAst(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertClassDeclarationAst(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             var source = new StringBuilder();
             if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
             {
                 source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(indent);
             }
-            if (node.Superclass == null)
+            source.Append($"{Constants.CLASS} {node.ClassName.Name}");
+            if (node.SuperClass != null)
             {
-                source.AppendFormat("class {0}\r\n", node.ClassName.Name);
+                source.Append($" : {node.SuperClass.Name}");
             }
-            else
-            {
-                source.AppendFormat("class {0} : {1}\r\n", node.ClassName.Name, node.Superclass.Name);
-            }
+            source.AppendLine();
+            source.Append(indent);
             source.AppendLine("{");
             foreach (var feature in node.Features)
             {
-                source.AppendFormat("\t{0}\r\n", MofGenerator.ConvertClassFeatureAst(feature, quirks));
+                source.Append(indent);
+                source.Append("\t");
+                source.Append(MofGenerator.ConvertClassFeatureAst(feature, quirks, indent + '\t'));
+				source.AppendLine();
             }
+            source.Append(indent);
             source.Append("};");
             return source.ToString();
         }
 
-        public static string ConvertClassFeatureAst(ClassFeatureAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertClassFeatureAst(IClassFeatureAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             switch (node)
             {
-                case StructureFeatureAst ast:
-                    return MofGenerator.ConvertStructureFeatureAst(ast, quirks);
+                case IStructureFeatureAst ast:
+                    return MofGenerator.ConvertStructureFeatureAst(ast, quirks, indent);
                 case MethodDeclarationAst ast:
                     return MofGenerator.ConvertMethodDeclarationAst(ast, quirks);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region 7.5.3 Association declaration
+
+        public static string ConvertAssociationDeclarationAst(AssociationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        {
+            var source = new StringBuilder();
+            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            {
+                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(indent);
+            }
+            source.Append($"{Constants.ASSOCIATION} {node.AssociationName.Name}");
+            if (node.SuperAssociation != null)
+            {
+                source.Append($" : {node.SuperAssociation.Name}");
+            }
+            source.AppendLine();
+            source.Append(indent);
+            source.AppendLine("{");
+            foreach (var feature in node.Features)
+            {
+                source.Append(indent);
+                source.Append("\t");
+                source.AppendLine(MofGenerator.ConvertClassFeatureAst(feature, quirks, indent + '\t'));
+            }
+            source.Append(indent);
+            source.Append("};");
+            return source.ToString();
+        }
+
+        #endregion
+
+        #region 7.5.4 Enumeration declaration
+
+        public static string ConvertEnumerationDeclarationAst(EnumerationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        {
+            var source = new StringBuilder();
+            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            {
+                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(indent);
+            }
+            source.Append($"{Constants.ENUMERATION} {node.EnumName.Name}");
+            source.Append($" : {node.EnumType.Name}");
+            source.AppendLine();
+            source.Append(indent);
+            source.AppendLine("{");
+            for (var i = 0; i < node.EnumElements.Count; i++)
+            {
+                source.Append(indent);
+                source.Append("\t");
+                source.Append(MofGenerator.ConvertEnumElementAst(node.EnumElements[i], quirks));
+                if (i < (node.EnumElements.Count - 1))
+                {
+                    source.Append(",");
+                }
+                source.AppendLine();
+            }
+            source.Append(indent);
+            source.Append("};");
+            return source.ToString();
+        }
+
+        public static string ConvertEnumElementAst(EnumElementAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            var source = new StringBuilder();
+            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            {
+                source.Append(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(" ");
+            }
+            source.Append(node.EnumElementName.Name);
+            if (node.EnumElementValue != null)
+            {
+                source.Append(" = ");
+                source.Append(MofGenerator.ConvertIEnumValueAst(node.EnumElementValue, quirks));
+            }
+            return source.ToString();
+        }
+
+        public static string ConvertIEnumValueAst(IEnumValueAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            switch (node)
+            {
+                case IntegerValueAst ast:
+                    return MofGenerator.ConvertIntegerValueAst(ast, quirks);
+                case StringValueAst ast:
+                    return MofGenerator.ConvertStringValueAst(ast, quirks);
                 default:
                     throw new NotImplementedException();
             }
@@ -309,12 +442,15 @@ namespace Kingsland.MofParser.CodeGen
             var source = new StringBuilder();
             if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
             {
-                source.AppendFormat("{0} ", MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(" ");
             }
-            source.AppendFormat("{0} ", node.ReturnType.Name);
+            source.Append(node.ReturnType.Name);
+            source.Append(" ");
             if (node.ReturnTypeIsRef)
             {
-                source.AppendFormat("{0} ", node.ReturnTypeRef.Name);
+                source.Append(node.ReturnTypeRef.Name);
+                source.Append(" ");
             }
             source.Append(node.PropertyName.Name);
             if (node.ReturnTypeIsArray)
@@ -323,7 +459,8 @@ namespace Kingsland.MofParser.CodeGen
             }
             if (node.Initializer != null)
             {
-                source.AppendFormat(" = {0}", MofGenerator.ConvertPrimitiveTypeValueAst(node.Initializer, quirks));
+                source.Append(" = ");
+                source.Append(MofGenerator.ConvertPrimitiveTypeValueAst(node.Initializer, quirks));
             }
             source.Append(";");
             return source.ToString();
@@ -342,15 +479,15 @@ namespace Kingsland.MofParser.CodeGen
 
             if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
             {
-                source.AppendFormat("{0}", MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
             }
 
             if (prefixQuirkEnabled || ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0))
             {
-                source.AppendFormat(" ");
+                source.Append(" ");
             }
 
-            source.AppendFormat("{0} {1}", node.ReturnType.Name, node.Name.Name);
+            source.Append($"{node.ReturnType.Name} {node.Name.Name}");
 
             if (node.Parameters.Count == 0)
             {
@@ -359,7 +496,9 @@ namespace Kingsland.MofParser.CodeGen
             else
             {
                 var values = node.Parameters.Select(p => MofGenerator.ConvertParameterDeclarationAst(p, quirks)).ToArray();
-                source.AppendFormat("({0});", string.Join(", ", values));
+                source.Append("(");
+                source.Append(string.Join(", ", values));
+                source.Append(");");
             }
 
             return source.ToString();
@@ -375,12 +514,15 @@ namespace Kingsland.MofParser.CodeGen
             var source = new StringBuilder();
             if (node.Qualifiers.Qualifiers.Count > 0)
             {
-                source.AppendFormat("{0} ", MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(" ");
             }
-            source.AppendFormat("{0} ", node.ParameterType.Name);
+            source.Append(node.ParameterType.Name);
+            source.Append(" ");
             if (node.ParameterIsRef)
             {
-                source.AppendFormat("{0} ", node.ParameterRef.Name);
+                source.Append(node.ParameterRef.Name);
+                source.Append(" ");
             }
             source.Append(node.ParameterName.Name);
             if (node.ParameterIsArray)
@@ -389,7 +531,8 @@ namespace Kingsland.MofParser.CodeGen
             }
             if (node.DefaultValue != null)
             {
-                source.AppendFormat(" = {0}", MofGenerator.ConvertToMof(node.DefaultValue, quirks));
+                source.Append(" = ");
+                source.Append(MofGenerator.ConvertToMof(node.DefaultValue, quirks));
             }
             return source.ToString();
         }
@@ -398,53 +541,91 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.9 Complex type value
 
-        public static string ConvertComplexTypeValueAst(ComplexTypeValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertComplexTypeValueAst(ComplexTypeValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             switch (node)
             {
                 case ComplexValueArrayAst ast:
-                    return MofGenerator.ConvertComplexValueArrayAst(ast, quirks);
+                    return MofGenerator.ConvertComplexValueArrayAst(ast, quirks, indent);
                 case ComplexValueAst ast:
-                    return MofGenerator.ConvertComplexValueAst(ast, quirks);
+                    return MofGenerator.ConvertComplexValueAst(ast, quirks, indent);
                 default:
                     throw new NotImplementedException();
             }
         }
 
-
-        public static string ConvertComplexValueArrayAst(ComplexValueArrayAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertComplexValueArrayAst(ComplexValueArrayAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
-            return string.Format("{{{0}}}", string.Join(", ", node.Values.Select(v => v.ToString()).ToArray()));
-        }
-
-        public static string ConvertComplexValueAst(ComplexValueAst node, MofQuirks quirks = MofQuirks.None)
-        {
-            return string.Format("!!!!!{0}!!!!!", node.GetType().Name);
-        }
-
-        public static string ConvertPropertyValueListAst(PropertyValueListAst node, MofQuirks quirks = MofQuirks.None)
-        {
-            // {
-            //     Reference = TRUE;
-            // }
             var source = new StringBuilder();
-            source.AppendLine("{");
-            foreach (var propertyValue in node.PropertyValues)
-            {
-                source.AppendLine($"    {propertyValue.Key} = {MofGenerator.ConvertPropertyValueAst(propertyValue.Value)};");
-            }
+            source.Append("{");
+            source.Append(
+                string.Join(
+                    ", ",
+                    node.Values
+                        .Select(n => MofGenerator.ConvertComplexValueAst(n, quirks, indent))
+                )
+            );
             source.Append("}");
             return source.ToString();
         }
 
-        public static string ConvertPropertyValueAst(PropertyValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertComplexValueAst(ComplexValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        {
+            if (node.IsAlias)
+            {
+                return $"${node.Alias.Name}";
+            }
+            else
+            {
+                var source = new StringBuilder();
+                // value of GOLF_PhoneNumber
+                source.Append(node.Value.Extent.Text);
+                source.Append(" ");
+                source.Append(node.Of.Extent.Text);
+                source.Append(" ");
+                source.Append(node.TypeName.Name);
+                source.AppendLine();
+                // {
+                //     AreaCode = { "9", "0", "7" };
+                //     Number = { "7", "4", "7", "4", "8", "8", "4" };
+                // }
+                source.Append(indent);
+                source.Append(MofGenerator.ConvertPropertyValueListAst(node.PropertyValues, quirks, indent));
+                return source.ToString();
+            }
+        }
+
+        public static string ConvertPropertyValueListAst(PropertyValueListAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        {
+            // {
+            var source = new StringBuilder();
+            source.Append("{");
+            source.AppendLine();
+            //     Reference = TRUE;
+            foreach (var propertyValue in node.PropertyValues)
+            {
+                source.Append(indent);
+                source.Append("\t");
+                source.Append(propertyValue.Key);
+                source.Append(" = ");
+                source.Append(MofGenerator.ConvertPropertyValueAst(propertyValue.Value, quirks, indent + "\t"));
+                source.Append(";");
+                source.AppendLine();
+            }
+            // }
+            source.Append(indent);
+            source.Append("}");
+            return source.ToString();
+        }
+
+        public static string ConvertPropertyValueAst(PropertyValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             switch (node)
             {
                 case PrimitiveTypeValueAst ast:
-                    return MofGenerator.ConvertPrimitiveTypeValueAst(ast, quirks);
+                    return MofGenerator.ConvertPrimitiveTypeValueAst(ast, quirks, indent);
                 case ComplexTypeValueAst ast:
-                    return MofGenerator.ConvertComplexTypeValueAst(ast, quirks);
+                    return MofGenerator.ConvertComplexTypeValueAst(ast, quirks, indent);
                 //case ReferenceTypeValueAst ast:
                 //case EnumTypeValueAst ast:
                 default:
@@ -456,7 +637,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.6.1 Primitive type value
 
-        public static string ConvertPrimitiveTypeValueAst(PrimitiveTypeValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertPrimitiveTypeValueAst(PrimitiveTypeValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             switch (node)
             {
@@ -490,8 +671,16 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertLiteralValueArrayAst(LiteralValueArrayAst node, MofQuirks quirks = MofQuirks.None)
         {
-            var values = node.Values.Select(v => MofGenerator.ConvertLiteralValueAst(v, quirks)).ToArray();
-            return string.Format("{{{0}}}", string.Join(", ", values));
+            var source = new StringBuilder();
+            source.Append("{");
+            source.Append(
+                string.Join(
+                    ", ",
+                    node.Values.Select(v => MofGenerator.ConvertLiteralValueAst(v, quirks))
+                )
+            );
+            source.Append("}");
+            return source.ToString();
         }
 
         #endregion
@@ -530,17 +719,19 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertStringValueAst(StringValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            var singleStringValues = node.StringLiteralValues
-                                         .Select(n => $"\"{MofGenerator.EscapeString(n.Value)}\"")
-                                         .ToList();
-            return string.Join(" ", singleStringValues);
+            return string.Join(
+                " ",
+                node.StringLiteralValues
+                    .Select(n => $"\"{MofGenerator.EscapeString(n.Value)}\"")
+            );
         }
 
         internal static string EscapeString(string value)
         {
-            var escapeMap = new Dictionary<char, char>()
+            var escapeMap = new Dictionary<char, string>()
             {
-                { '\\' , '\\' }, { '\"' , '\"' },  {'\b', 'b'}, {'\t', 't'},  {'\n', 'n'}, {'\f', 'f'}, {'\r', 'r'}
+                { '\\' , "\\\\" }, { '\"' , "\\\"" },  { '\'' , "\\\'" },
+                { '\b', "\\b" }, { '\t', "\\t" },  { '\n', "\\n" }, { '\f', "\\f" }, { '\r', "\\r" }
             };
             if (string.IsNullOrEmpty(value))
             {
@@ -551,10 +742,11 @@ namespace Kingsland.MofParser.CodeGen
             {
                 if (escapeMap.ContainsKey(@char))
                 {
-                    escaped.AppendFormat("\\{0}", escapeMap[@char]);
+                    escaped.Append(escapeMap[@char]);
                 }
                 else if ((@char >= 32) && (@char <= 126))
                 {
+                    // printable characters ' ' - '~'
                     escaped.Append(@char);
                 }
                 else
@@ -587,7 +779,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.6.2 Complex type value
 
-        public static string ConvertInstanceValueDeclarationAst(InstanceValueDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertInstanceValueDeclarationAst(InstanceValueDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             // instance of myType as $Alias00000070
             // {
@@ -596,22 +788,23 @@ namespace Kingsland.MofParser.CodeGen
             var source = new StringBuilder();
             // instance of myType as $Alias00000070
             source.Append(node.Instance.Extent.Text);
-            source.Append(' ');
+            source.Append(" ");
             source.Append(node.Of.Extent.Text);
-            source.Append(' ');
+            source.Append(" ");
             source.Append(node.TypeName.Name);
             if (node.Alias != null)
             {
-                source.Append(' ');
+                source.Append(" ");
                 source.Append(node.As.Extent.Text);
-                source.Append(' ');
-                source.Append($"${node.Alias.Name}");
+                source.Append(" ");
+                source.Append("$");
+                source.Append(node.Alias.Name);
             }
             source.AppendLine();
             // {
             //     Reference = TRUE;
             // }
-            source.Append(MofGenerator.ConvertPropertyValueListAst(node.PropertyValues));
+            source.Append(MofGenerator.ConvertPropertyValueListAst(node.PropertyValues, quirks, indent));
             // ;
             source.Append(node.StatementEnd.Extent.Text);
             return source.ToString();
@@ -619,11 +812,38 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertStructureValueDeclarationAst(StructureValueDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
-            throw new NotImplementedException();
+            // value of GOLF_PhoneNumber as $JohnDoesPhoneNo
+            // {
+            //     AreaCode = { "9", "0", "7" };
+            //     Number = { "7", "4", "7", "4", "8", "8", "4" };
+            // };
+            var source = new StringBuilder();
+            // value of GOLF_PhoneNumber as $JohnDoesPhoneNo
+            source.Append(node.Value.Extent.Text);
+            source.Append(" ");
+            source.Append(node.Of.Extent.Text);
+            source.Append(" ");
+            source.Append(node.TypeName.Name);
+            if (node.Alias != null)
+            {
+                source.Append(" ");
+                source.Append(node.As.Extent.Text);
+                source.Append(" $");
+                source.Append(node.Alias.Name);
+            }
+            source.AppendLine();
+            // {
+            //     AreaCode = { "9", "0", "7" };
+            //     Number = { "7", "4", "7", "4", "8", "8", "4" };
+            // }
+            source.Append(MofGenerator.ConvertPropertyValueListAst(node.PropertyValues, quirks));
+            // ;
+            source.Append(node.StatementEnd.Extent.Text);
+            return source.ToString();
         }
 
         #endregion
 
-        }
+    }
 
 }

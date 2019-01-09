@@ -31,9 +31,16 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public Builder()
+            public IdentifierToken Value
             {
-                this.PropertyValues = new List<PropertyValueAst>();
+                get;
+                set;
+            }
+
+            public IdentifierToken Of
+            {
+                get;
+                set;
             }
 
             public IdentifierToken TypeName
@@ -42,13 +49,25 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken Alias
+            public IdentifierToken As
             {
                 get;
                 set;
             }
 
-            public List<PropertyValueAst> PropertyValues
+            public AliasIdentifierToken Alias
+            {
+                get;
+                set;
+            }
+
+            public PropertyValueListAst PropertyValues
+            {
+                get;
+                set;
+            }
+
+            public StatementEndToken StatementEnd
             {
                 get;
                 set;
@@ -57,11 +76,13 @@ namespace Kingsland.MofParser.Ast
             public StructureValueDeclarationAst Build()
             {
                 return new StructureValueDeclarationAst(
-                    this.TypeName,
-                    this.Alias,
-                    new ReadOnlyCollection<PropertyValueAst>(
-                        this.PropertyValues ?? new List<PropertyValueAst>()
-                    )
+                    value: this.Value,
+                    of: this.Of,
+                    typeName: this.TypeName,
+                    @as: this.As,
+                    alias: this.Alias,
+                    propertyValues: this.PropertyValues,
+                    statementEnd: this.StatementEnd
                 );
             }
 
@@ -72,21 +93,43 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         public StructureValueDeclarationAst(
+            IdentifierToken value,
+            IdentifierToken of,
             IdentifierToken typeName,
-            IdentifierToken alias,
-            ReadOnlyCollection<PropertyValueAst> propertyValues
+            IdentifierToken @as,
+            AliasIdentifierToken alias,
+            PropertyValueListAst propertyValues,
+            StatementEndToken statementEnd
         )
         {
+            this.Value = value ?? throw new ArgumentNullException(nameof(value));
+            this.Of = of ?? throw new ArgumentNullException(nameof(of));
             this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
-            this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));
-            this.PropertyValues = propertyValues ?? new ReadOnlyCollection<PropertyValueAst>(
-                new List<PropertyValueAst>()
+            this.As = @as;
+            this.Alias = alias;
+            this.PropertyValues = propertyValues ?? new PropertyValueListAst(
+                new ReadOnlyDictionary<string, PropertyValueAst>(
+                    new Dictionary<string, PropertyValueAst>()
+                )
             );
+            this.StatementEnd = statementEnd ?? throw new ArgumentNullException(nameof(statementEnd));
         }
 
         #endregion
 
         #region Properties
+
+        public IdentifierToken Value
+        {
+            get;
+            private set;
+        }
+
+        public IdentifierToken Of
+        {
+            get;
+            private set;
+        }
 
         public IdentifierToken TypeName
         {
@@ -94,13 +137,25 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public IdentifierToken Alias
+        public IdentifierToken As
         {
             get;
             private set;
         }
 
-        public ReadOnlyCollection<PropertyValueAst> PropertyValues
+        public AliasIdentifierToken Alias
+        {
+            get;
+            private set;
+        }
+
+        public PropertyValueListAst PropertyValues
+        {
+            get;
+            private set;
+        }
+
+        public StatementEndToken StatementEnd
         {
             get;
             private set;
