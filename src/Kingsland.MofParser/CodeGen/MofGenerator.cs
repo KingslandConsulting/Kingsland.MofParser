@@ -309,9 +309,9 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertClassDeclarationAst(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             var source = new StringBuilder();
-            if ((node.Qualifiers != null) && node.Qualifiers.QualifierValues.Count > 0)
+            if (node.QualifierList.QualifierValues.Count > 0)
             {
-                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(indent);
             }
             source.Append($"{Constants.CLASS} {node.ClassName.Name}");

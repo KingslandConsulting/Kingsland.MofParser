@@ -77,7 +77,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             #region 7.5.2 Class declaration
 
             [Test]
-            public static void ClassDeclarationsAstWithQualifiersShouldRoundtrip()
+            public static void ClassDeclarationsAstWithQualifierListShouldRoundtrip()
             {
                 var expectedMof =
                    "[Abstract, OCL{\"-- the key property cannot be NULL\", \"inv: InstanceId.size() = 10\"}]\r\n" +

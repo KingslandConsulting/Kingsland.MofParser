@@ -125,10 +125,10 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // all other mofProduction structures can start with an optional qualifierList
-            var qualifiers = default(QualifierListAst);
+            var qualifierList = default(QualifierListAst);
             if (peek is AttributeOpenToken)
             {
-                qualifiers = ParserEngine.ParseQualifierListAst(stream);
+                qualifierList = ParserEngine.ParseQualifierListAst(stream);
             }
 
             identifier = stream.Peek<IdentifierToken>();
@@ -136,19 +136,19 @@ namespace Kingsland.MofParser.Parsing
             {
                 case Constants.STRUCTURE:
                     // structureDeclaration
-                    return ParserEngine.ParseStructureDeclarationAst(stream, qualifiers);
+                    return ParserEngine.ParseStructureDeclarationAst(stream, qualifierList);
                 case Constants.CLASS:
                     // classDeclaration
-                    return ParserEngine.ParseClassDeclarationAst(stream, qualifiers);
+                    return ParserEngine.ParseClassDeclarationAst(stream, qualifierList);
                 case Constants.ASSOCIATION:
                     // associationDeclaration
-                    return ParserEngine.ParseAssociationDeclarationAst(stream, qualifiers);
+                    return ParserEngine.ParseAssociationDeclarationAst(stream, qualifierList);
                 case Constants.ENUMERATION:
                     // enumerationDeclaration
-                    return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifiers);
+                    return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList);
                 case Constants.QUALIFIER:
                     // qualifierTypeDeclaration
-                    //return ParserEngine.ParseQualifierTypeDeclarationAst(stream, qualifiers);
+                    //return ParserEngine.ParseQualifierTypeDeclarationAst(stream, qualifierList);
                     throw new NotImplementedException($"MofProduction type '{identifier.Name}' not implemented.");
                 default:
                     throw new UnexpectedTokenException(identifier);
@@ -525,13 +525,13 @@ namespace Kingsland.MofParser.Parsing
         ///     STRUCTURE            = "structure" ; keyword: case insensitive
         ///
         /// </remarks>
-        public static StructureDeclarationAst ParseStructureDeclarationAst(ParserStream stream, QualifierListAst qualifiers)
+        public static StructureDeclarationAst ParseStructureDeclarationAst(ParserStream stream, QualifierListAst qualifierList)
         {
 
             var node = new StructureDeclarationAst.Builder();
 
             // [ qualifierList ]
-            node.QualifierList = qualifiers;
+            node.QualifierList = qualifierList;
 
             // STRUCTURE
             stream.ReadIdentifier(Constants.STRUCTURE);
@@ -684,13 +684,13 @@ namespace Kingsland.MofParser.Parsing
         ///     CLASS            = "class" ; keyword: case insensitive
         ///
         /// </remarks>
-        public static ClassDeclarationAst ParseClassDeclarationAst(ParserStream stream, QualifierListAst qualifiers)
+        public static ClassDeclarationAst ParseClassDeclarationAst(ParserStream stream, QualifierListAst qualifierList)
         {
 
             var node = new ClassDeclarationAst.Builder();
 
             // [ qualifierList ]
-            node.Qualifiers = qualifiers;
+            node.QualifierList = qualifierList;
 
             // CLASS
             stream.ReadIdentifier(Constants.CLASS);
