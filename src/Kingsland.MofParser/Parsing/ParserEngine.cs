@@ -259,7 +259,7 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // QUALIFIER
-            stream.ReadIdentifier(Constants.QUALIFIER);
+            node.QualifierKeyword = stream.ReadIdentifier(Constants.QUALIFIER);
 
             // qualifierName
             node.QualifierName = stream.Read<IdentifierToken>();
