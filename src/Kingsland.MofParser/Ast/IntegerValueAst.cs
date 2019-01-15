@@ -18,7 +18,7 @@ namespace Kingsland.MofParser.Ast
     ///     integerValue = binaryValue / octalValue / hexValue / decimalValue
     ///
     /// </remarks>
-    public sealed class IntegerValueAst : LiteralValueAst, IEnumValueAst
+    public sealed class IntegerValueAst : LiteralValueAst, IEnumElementValueAst
     {
 
         #region Builder

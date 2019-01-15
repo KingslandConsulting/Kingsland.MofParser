@@ -423,12 +423,12 @@ namespace Kingsland.MofParser.CodeGen
             if (node.EnumElementValue != null)
             {
                 source.Append(" = ");
-                source.Append(MofGenerator.ConvertIEnumValueAst(node.EnumElementValue, quirks));
+                source.Append(MofGenerator.ConvertIEnumElementValueAst(node.EnumElementValue, quirks));
             }
             return source.ToString();
         }
 
-        public static string ConvertIEnumValueAst(IEnumValueAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertIEnumElementValueAst(IEnumElementValueAst node, MofQuirks quirks = MofQuirks.None)
         {
             switch (node)
             {

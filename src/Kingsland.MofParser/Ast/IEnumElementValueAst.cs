@@ -14,7 +14,7 @@ namespace Kingsland.MofParser.Ast
     ///     stringEnumElement      = [ qualifierList ] enumLiteral [ "=" stringValue ]
     ///
     /// </remarks>
-    public interface IEnumValueAst : IAstNode
+    public interface IEnumElementValueAst : IAstNode
     {
 
     }
