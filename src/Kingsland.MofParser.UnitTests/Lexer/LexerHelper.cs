@@ -120,6 +120,12 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
+                case DotOperatorToken token:
+                    Assert.IsTrue(
+                        DotOperatorToken.AreEqual((DotOperatorToken)expectedToken, (DotOperatorToken)actualToken),
+                        LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
+                    );
+                    break;
                 case EqualsOperatorToken token:
                     Assert.IsTrue(
                         EqualsOperatorToken.AreEqual((EqualsOperatorToken)expectedToken, (EqualsOperatorToken)actualToken),

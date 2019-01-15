@@ -165,6 +165,59 @@ namespace Kingsland.MofParser.UnitTests.Lexer
         }
 
         [TestFixture]
+        public static class ReadDotOperatorTokenMethod
+        {
+
+            [Test]
+            public static void ShouldReadDotOperatorToken()
+            {
+                var actualTokens = Lexing.Lexer.Lex(
+                    SourceReader.From(".")
+                );
+                var expectedTokens = new List<Token> {
+                    new DotOperatorToken(
+                        new SourceExtent
+                        (
+                            new SourcePosition(0, 1, 1),
+                            new SourcePosition(0, 1, 1),
+                            "."
+                        )
+                    )
+                };
+                LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
+            }
+
+            [Test]
+            public static void ShouldReadDotOperatorTokenWithTrailingNonDecimalDigit()
+            {
+                var actualTokens = Lexing.Lexer.Lex(
+                    SourceReader.From(".abc")
+                );
+                var expectedTokens = new List<Token> {
+                    new DotOperatorToken(
+                        new SourceExtent
+                        (
+                            new SourcePosition(0, 1, 1),
+                            new SourcePosition(0, 1, 1),
+                            "."
+                        )
+                    ),
+                    new IdentifierToken(
+                        new SourceExtent
+                        (
+                            new SourcePosition(1, 1, 2),
+                            new SourcePosition(3, 1, 4),
+                            "abc"
+                        ),
+                        "abc"
+                    )
+                };
+                LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
+            }
+
+        }
+
+        [TestFixture]
         public static class ReadEqualsOperatorTokenMethod
         {
 

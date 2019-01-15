@@ -12,6 +12,8 @@ namespace Kingsland.MofParser.Lexing
     public static class LexerEngine
     {
 
+        #region Dispatcher
+
         public static (Token Token, Lexer NextLexer) ReadToken(Lexer lexer)
         {
             var reader = lexer.Reader;
@@ -102,6 +104,32 @@ namespace Kingsland.MofParser.Lexing
                         var nextLexer = new Lexer(nextReader);
                         return (stringLiteralToken, nextLexer);
                     }
+                case '+':
+                case '-':
+                    {
+                        var (numericToken, nextReader) = LexerEngine.ReadNumericLiteralToken(reader);
+                        var nextLexer = new Lexer(nextReader);
+                        return (numericToken, nextLexer);
+                    }
+                case '.':
+                    {
+                        // if the next character is a decimalDigit then we're reading a RealLiteralToken with
+                        // no leading digits before the decimal point (e.g. ".45"), otherwise we're reading
+                        // a DotOperatorToken (e.g. the "." in "MyPropertyValue = MyEnum.Value;")
+                        var readAhead = reader.Read().NextReader;
+                        if (!readAhead.Eof() && StringValidator.IsDecimalDigit(readAhead.Peek().Value))
+                        {
+                            var (numericToken, nextReader) = LexerEngine.ReadNumericLiteralToken(reader);
+                            var nextLexer = new Lexer(nextReader);
+                            return (numericToken, nextLexer);
+                        }
+                        else
+                        {
+                            var (dotOperator, nextReader) = LexerEngine.ReadDotOperatorToken(reader);
+                            var nextLexer = new Lexer(nextReader);
+                            return (dotOperator, nextLexer);
+                        }
+                    }
                 default:
                     if (StringValidator.IsWhitespace(peek.Value))
                     {
@@ -152,12 +180,8 @@ namespace Kingsland.MofParser.Lexing
                             return (identifierToken, nextLexer);
                         }
                     }
-                    else if ((peek.Value == '+') || (peek.Value == '-') || (peek.Value == '.') ||
-                             StringValidator.IsDecimalDigit(peek.Value))
+                    else if (StringValidator.IsDecimalDigit(peek.Value))
                     {
-                        //var (integerToken, nextReader) = LexerEngine.ReadIntegerLiteralToken(reader);
-                        //var nextLexer = new Lexer(nextReader);
-                        //return (integerToken, nextLexer);
                         var (numericToken, nextReader) = LexerEngine.ReadNumericLiteralToken(reader);
                         var nextLexer = new Lexer(nextReader);
                         return (numericToken, nextLexer);
@@ -168,6 +192,8 @@ namespace Kingsland.MofParser.Lexing
                     }
             }
         }
+
+        #endregion
 
         #region Symbols
 
@@ -211,6 +237,13 @@ namespace Kingsland.MofParser.Lexing
             (var sourceChar, var nextReader) = reader.Read(',');
             var extent = SourceExtent.From(sourceChar);
             return (new CommaToken(extent), nextReader);
+        }
+
+        public static (DotOperatorToken, SourceReader) ReadDotOperatorToken(SourceReader reader)
+        {
+            (var sourceChar, var nextReader) = reader.Read('.');
+            var extent = SourceExtent.From(sourceChar);
+            return (new DotOperatorToken(extent), nextReader);
         }
 
         public static (EqualsOperatorToken, SourceReader) ReadEqualsOperatorToken(SourceReader reader)
