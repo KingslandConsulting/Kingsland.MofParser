@@ -173,6 +173,20 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
+            [Test]
+            public static void ClassDeclarationsAstWithEnumerationPropertyInitializerShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class GOLF_Professional : GOLF_ClubMember\r\n" +
+                    "{\r\n" +
+                    "\tGOLF_ProfessionalStatusEnum Status = Professional;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
             #endregion
 
             #region 7.5.1 Structure declaration
@@ -214,6 +228,20 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\t\tNovember,\r\n" +
                     "\t\tDecember\r\n" +
                     "\t};\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void StructureDeclarationAstWithEnumerationPropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "structure GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonthsEnum Month = MonthsEnum.January;\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
@@ -318,6 +346,122 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tAreaCode = {\"9\", \"0\", \"7\"};\r\n" +
                     "\tNumber = {\"7\", \"4\", \"7\", \"4\", \"8\", \"8\", \"4\"};\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            #endregion
+
+            #region 7.6.3 Enum type value
+
+            [Test]
+            public static void ClassDeclarationsAstWithUnqualifiedEnumValuePropertyInitializerShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonthsEnum Month = January;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void ClassDeclarationsAstWithQualifiedEnumValuePropertyInitializerShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonthsEnum Month = MonthsEnum.January;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void InstanceValueDeclarationsAstWithUnqualifiedEnumValuePropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = July;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void InstanceValueDeclarationsAstWithQualifiedEnumValuePropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = MonthsEnum.January;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/25")]
+            public static void InstanceValueDeclarationsAstWithUnqualifiedEnumValueArrayPropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = {July, August};\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/25")]
+            public static void InstanceValueDeclarationsAstWithQualifiedEnumValueArrayPropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = {MonthsEnum.January, MonthEnum.February};\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void StructureValueDeclarationsAstWithUnqualifiedEnumValuePropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "value of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = July;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void StructureValueDeclarationsAstWithQualifiedEnumValuePropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "value of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = MonthsEnum.January;\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
