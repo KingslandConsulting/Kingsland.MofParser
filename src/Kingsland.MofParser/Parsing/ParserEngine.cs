@@ -198,16 +198,16 @@ namespace Kingsland.MofParser.Parsing
             var node = new CompilerDirectiveAst.Builder();
 
             // PRAGMA
-            stream.Read<PragmaToken>();
+            node.PragmaKeyword = stream.Read<PragmaToken>();
 
             // ( pragmaName / standardPragmaName )
-            node.PragmaName = stream.Read<IdentifierToken>().Name;
+            node.PragmaName = stream.Read<IdentifierToken>();
 
             // "("
             stream.Read<ParenthesesOpenToken>();
 
-            // stringValue
-            node.Argument = stream.Read<StringLiteralToken>().Value;
+            // pragmaParameter
+            node.PragmaParameter = ParserEngine.ParseStringValueAst(stream);
 
             // ")"
             stream.Read<ParenthesesCloseToken>();
