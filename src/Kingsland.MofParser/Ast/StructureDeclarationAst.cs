@@ -38,7 +38,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
-                this.Features = new List<IStructureFeatureAst>();
+                this.StructureFeatures = new List<IStructureFeatureAst>();
             }
 
             public QualifierListAst QualifierList
@@ -59,7 +59,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public List<IStructureFeatureAst> Features
+            public List<IStructureFeatureAst> StructureFeatures
             {
                 get;
                 set;
@@ -72,7 +72,7 @@ namespace Kingsland.MofParser.Ast
                     this.StructureName,
                     this.SuperStructure,
                     new ReadOnlyCollection<IStructureFeatureAst>(
-                        this.Features ?? new List<IStructureFeatureAst>()
+                        this.StructureFeatures ?? new List<IStructureFeatureAst>()
                     )
                 );
             }
@@ -83,12 +83,12 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public StructureDeclarationAst(QualifierListAst qualifierList, IdentifierToken structureName, IdentifierToken superStructure, ReadOnlyCollection<IStructureFeatureAst> features)
+        public StructureDeclarationAst(QualifierListAst qualifierList, IdentifierToken structureName, IdentifierToken superStructure, ReadOnlyCollection<IStructureFeatureAst> structureFeatures)
         {
             this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.StructureName = structureName ?? throw new ArgumentNullException(nameof(structureName));
             this.SuperStructure = superStructure;
-            this.Features = features ?? new ReadOnlyCollection<IStructureFeatureAst>(new List<IStructureFeatureAst>());
+            this.StructureFeatures = structureFeatures ?? new ReadOnlyCollection<IStructureFeatureAst>(new List<IStructureFeatureAst>());
         }
 
         #endregion
@@ -113,7 +113,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public ReadOnlyCollection<IStructureFeatureAst> Features
+        public ReadOnlyCollection<IStructureFeatureAst> StructureFeatures
         {
             get;
             private set;

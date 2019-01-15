@@ -276,7 +276,7 @@ namespace Kingsland.MofParser.CodeGen
             source.AppendLine();
             source.Append(indent);
             source.AppendLine("{");
-            foreach (var structureFeature in node.Features)
+            foreach (var structureFeature in node.StructureFeatures)
             {
                 source.Append(indent);
                 source.Append("\t");

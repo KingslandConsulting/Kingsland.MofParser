@@ -518,9 +518,6 @@ namespace Kingsland.MofParser.Parsing
         ///
         ///     structureName        = elementName
         ///     superStructure       = ":" structureName
-        ///     structureFeature     = structureDeclaration / ; local structure
-        ///                            enumerationDeclaration / ; local enumeration
-        ///                            propertyDeclaration
         ///
         ///     STRUCTURE            = "structure" ; keyword: case insensitive
         ///
@@ -569,7 +566,7 @@ namespace Kingsland.MofParser.Parsing
                     break;
                 }
                 var structureFeature = ParserEngine.ParseStructureFeatureAst(stream);
-                node.Features.Add(structureFeature);
+                node.StructureFeatures.Add(structureFeature);
             }
 
             // "}"
