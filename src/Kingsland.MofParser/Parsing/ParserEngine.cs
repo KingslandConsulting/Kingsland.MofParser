@@ -2100,6 +2100,112 @@ namespace Kingsland.MofParser.Parsing
 
         #endregion
 
+        #region 7.6.3 Enum type value
+
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.6.3 Enum type value
+        ///
+        ///     enumValue = [ enumName "." ] enumLiteral
+        ///
+        ///     enumValue      = [ enumName "." ] enumLiteral
+        ///     enumLiteral    = IDENTIFIER
+        ///
+        /// 7.5.4 Enumeration declaration
+        ///
+        ///     enumName       = elementName
+        ///
+        /// </remarks>
+        public static EnumValueAst ParseEnumValueAst(ParserStream stream)
+        {
+
+            var node = new EnumValueAst.Builder();
+
+            // read the first token and try to determine whether we have
+            // a leading [ enumName "." ]
+            var enumIdentifier = stream.Peek<IdentifierToken>();
+            if (StringValidator.IsIdentifier(enumIdentifier.Name))
+            {
+                // this might, or might not have a leading [ enumName "." ] as the first token
+                // *could* be an enumName or an enumLiteral, so read past it and look for the "."
+                stream.Read<IdentifierToken>();
+                var peek = stream.Peek();
+                if (peek is DotOperatorToken)
+                {
+                    // this has a leading [ enumName "." ]
+                    if (!StringValidator.IsEnumName(enumIdentifier.Name))
+                    {
+                        throw new UnexpectedTokenException(peek);
+                    }
+                    node.EnumName = enumIdentifier;
+                    stream.Read<DotOperatorToken>();
+                    node.EnumLiteral = stream.Read<IdentifierToken>();
+                }
+                else
+                {
+                    // no leading [ enumName "." ]
+                    node.EnumLiteral = enumIdentifier;
+                }
+            }
+            else if (StringValidator.IsEnumName(enumIdentifier.Name))
+            {
+                // this has a leading [ enumName "." ]
+                node.EnumName = enumIdentifier;
+                stream.Read<DotOperatorToken>();
+                node.EnumLiteral = stream.Read<IdentifierToken>();
+            }
+            else
+            {
+                // no leading [ enumName "." ]
+                node.EnumLiteral = stream.Read<IdentifierToken>();
+            }
+
+            return node.Build();
+
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        ///
+        /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+        ///
+        /// 7.6.3 Enum type value
+        ///
+        ///     enumValueArray = "{" [ enumName *( "," enumName ) ] "}"
+        ///
+        /// </remarks>
+        public static EnumValueArrayAst ParseEnumValueArrayAst(ParserStream stream)
+        {
+            var node = new EnumValueArrayAst.Builder();
+            // "{"
+            stream.Read<BlockOpenToken>();
+            // [ enumName *( "," enumValue ) ]
+            if (stream.Peek<BlockCloseToken>() == null)
+            {
+                // enumValue
+                node.Values.Add(ParserEngine.ParseEnumValueAst(stream));
+                // *( "," enumValue )
+                while (stream.Peek<CommaToken>() != null)
+                {
+                    stream.Read<CommaToken>();
+                    node.Values.Add(ParserEngine.ParseEnumValueAst(stream));
+                }
+            }
+            // "}"
+            stream.Read<BlockCloseToken>();
+            // return the result
+            return node.Build();
+        }
+
+        #endregion
+
         #region 7.6.4 Reference type value
 
         /// <summary>

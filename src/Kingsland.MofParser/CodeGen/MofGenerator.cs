@@ -635,7 +635,8 @@ namespace Kingsland.MofParser.CodeGen
                 case ComplexTypeValueAst ast:
                     return MofGenerator.ConvertComplexTypeValueAst(ast, quirks, indent);
                 //case ReferenceTypeValueAst ast:
-                //case EnumTypeValueAst ast:
+                case EnumTypeValueAst ast:
+                    return MofGenerator.ConvertEnumTypeValueAst(ast, quirks);
                 default:
                     throw new NotImplementedException();
             }
@@ -847,6 +848,49 @@ namespace Kingsland.MofParser.CodeGen
             source.Append(MofGenerator.ConvertPropertyValueListAst(node.PropertyValues, quirks));
             // ;
             source.Append(node.StatementEnd.Extent.Text);
+            return source.ToString();
+        }
+
+        #endregion
+
+        #region 7.6.3 Enum type value
+
+        public static string ConvertEnumTypeValueAst(EnumTypeValueAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            switch (node)
+            {
+                case EnumValueAst ast:
+                    return MofGenerator.ConvertEnumValueAst(ast, quirks);
+                case EnumValueArrayAst ast:
+                    return MofGenerator.ConvertEnumValueArrayAst(ast, quirks);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public static string ConvertEnumValueAst(EnumValueAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            var source = new StringBuilder();
+            if (node.EnumName != null)
+            {
+                source.Append(node.EnumName.Name);
+                source.Append(".");
+            }
+            source.Append(node.EnumLiteral.Name);
+            return source.ToString();
+        }
+
+        public static string ConvertEnumValueArrayAst(EnumValueArrayAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            var source = new StringBuilder();
+            source.Append("{");
+            source.Append(
+                string.Join(
+                    ", ",
+                    node.Values.Select(v => MofGenerator.ConvertEnumValueAst(v, quirks))
+                )
+            );
+            source.Append("}");
             return source.ToString();
         }
 
