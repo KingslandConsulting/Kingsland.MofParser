@@ -27,7 +27,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public QualifierListAst Qualifiers
+            public QualifierListAst QualifierList
             {
                 get;
                 set;
@@ -48,7 +48,7 @@ namespace Kingsland.MofParser.Ast
             public EnumElementAst Build()
             {
                 return new EnumElementAst(
-                    this.Qualifiers,
+                    this.QualifierList,
                     this.EnumElementName,
                     this.EnumElementValue
                 );
@@ -60,9 +60,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public EnumElementAst(QualifierListAst qualifiers, IdentifierToken enumElementName, IEnumValueAst enumElementValue)
+        public EnumElementAst(QualifierListAst qualifierList, IdentifierToken enumElementName, IEnumValueAst enumElementValue)
         {
-            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
+            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.EnumElementName = enumElementName;
             this.EnumElementValue = enumElementValue;
         }
@@ -71,7 +71,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public QualifierListAst Qualifiers
+        public QualifierListAst QualifierList
         {
             get;
             private set;

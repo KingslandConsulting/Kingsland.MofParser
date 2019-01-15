@@ -153,9 +153,9 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertQualifierTypeDeclarationAst(QualifierTypeDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
-            if (!string.IsNullOrEmpty(node.Name.Name))
+            if (!string.IsNullOrEmpty(node.QualifierName.Name))
             {
-                source.Append(node.Name.Name);
+                source.Append(node.QualifierName.Name);
             }
             if (node.Initializer != null)
             {
@@ -197,10 +197,10 @@ namespace Kingsland.MofParser.CodeGen
             var lastQualifierName = default(string);
 
             source.Append("[");
-            for (var i = 0; i < node.Qualifiers.Count; i++)
+            for (var i = 0; i < node.QualifierValues.Count; i++)
             {
-                var thisQualifier = node.Qualifiers[i];
-                var thisQualifierName = thisQualifier.QualifierName.GetNormalizedName();
+                var thisQualifierValue = node.QualifierValues[i];
+                var thisQualifierName = thisQualifierValue.QualifierName.GetNormalizedName();
                 if (i > 0)
                 {
                     source.Append(",");
@@ -209,7 +209,7 @@ namespace Kingsland.MofParser.CodeGen
                         source.Append(" ");
                     }
                 }
-                source.Append(MofGenerator.ConvertQualifierValueAst(thisQualifier, quirks));
+                source.Append(MofGenerator.ConvertQualifierValueAst(thisQualifierValue, quirks));
                 lastQualifierName = thisQualifierName;
             }
             source.Append("]");
@@ -263,9 +263,9 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertStructureDeclarationAst(StructureDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             var source = new StringBuilder();
-            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            if (node.QualifierList.QualifierValues.Count > 0)
             {
-                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(indent);
             }
             source.Append($"{Constants.STRUCTURE} {node.StructureName.Name}");
@@ -276,11 +276,11 @@ namespace Kingsland.MofParser.CodeGen
             source.AppendLine();
             source.Append(indent);
             source.AppendLine("{");
-            foreach (var feature in node.Features)
+            foreach (var structureFeature in node.Features)
             {
                 source.Append(indent);
                 source.Append("\t");
-                source.AppendLine(MofGenerator.ConvertStructureFeatureAst(feature, quirks, indent + '\t'));
+                source.AppendLine(MofGenerator.ConvertStructureFeatureAst(structureFeature, quirks, indent + '\t'));
             }
             source.Append(indent);
             source.Append("};");
@@ -309,7 +309,7 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertClassDeclarationAst(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             var source = new StringBuilder();
-            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            if ((node.Qualifiers != null) && node.Qualifiers.QualifierValues.Count > 0)
             {
                 source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
                 source.Append(indent);
@@ -354,9 +354,9 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertAssociationDeclarationAst(AssociationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             var source = new StringBuilder();
-            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            if (node.QualifierList.QualifierValues.Count > 0)
             {
-                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(indent);
             }
             source.Append($"{Constants.ASSOCIATION} {node.AssociationName.Name}");
@@ -385,9 +385,9 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertEnumerationDeclarationAst(EnumerationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             var source = new StringBuilder();
-            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            if (node.QualifierList.QualifierValues.Count > 0)
             {
-                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.AppendLine(MofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(indent);
             }
             source.Append($"{Constants.ENUMERATION} {node.EnumName.Name}");
@@ -414,9 +414,9 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertEnumElementAst(EnumElementAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
-            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            if (node.QualifierList.QualifierValues.Count > 0)
             {
-                source.Append(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(MofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(" ");
             }
             source.Append(node.EnumElementName.Name);
@@ -448,9 +448,9 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertPropertyDeclarationAst(PropertyDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
-            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            if (node.QualifierList.QualifierValues.Count > 0)
             {
-                source.Append(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(MofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(" ");
             }
             source.Append(node.ReturnType.Name);
@@ -485,12 +485,12 @@ namespace Kingsland.MofParser.CodeGen
 
             var source = new StringBuilder();
 
-            if ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0)
+            if (node.QualifierList.QualifierValues.Count > 0)
             {
-                source.Append(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(MofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
             }
 
-            if (prefixQuirkEnabled || ((node.Qualifiers != null) && node.Qualifiers.Qualifiers.Count > 0))
+            if (prefixQuirkEnabled || (node.QualifierList.QualifierValues.Count > 0))
             {
                 source.Append(" ");
             }
@@ -520,9 +520,9 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertParameterDeclarationAst(ParameterDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
-            if (node.Qualifiers.Qualifiers.Count > 0)
+            if (node.QualifierList.QualifierValues.Count > 0)
             {
-                source.Append(MofGenerator.ConvertQualifierListAst(node.Qualifiers, quirks));
+                source.Append(MofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(" ");
             }
             source.Append(node.ParameterType.Name);

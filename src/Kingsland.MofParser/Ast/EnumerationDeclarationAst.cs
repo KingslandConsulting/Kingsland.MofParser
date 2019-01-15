@@ -52,7 +52,7 @@ namespace Kingsland.MofParser.Ast
                 this.EnumElements = new List<EnumElementAst>();
             }
 
-            public QualifierListAst Qualifiers
+            public QualifierListAst QualifierList
             {
                 get;
                 set;
@@ -79,7 +79,7 @@ namespace Kingsland.MofParser.Ast
             public EnumerationDeclarationAst Build()
             {
                 return new EnumerationDeclarationAst(
-                    this.Qualifiers,
+                    this.QualifierList,
                     this.EnumName,
                     this.EnumType,
                     new ReadOnlyCollection<EnumElementAst>(
@@ -94,9 +94,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public EnumerationDeclarationAst(QualifierListAst qualifiers, IdentifierToken enumName, IdentifierToken enumType, ReadOnlyCollection<EnumElementAst> enumElements)
+        public EnumerationDeclarationAst(QualifierListAst qualifierList, IdentifierToken enumName, IdentifierToken enumType, ReadOnlyCollection<EnumElementAst> enumElements)
         {
-            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
+            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.EnumName = enumName ?? throw new ArgumentNullException(nameof(enumName));
             this.EnumType = enumType ?? throw new ArgumentNullException(nameof(enumType));
             this.EnumElements = enumElements ?? new ReadOnlyCollection<EnumElementAst>(
@@ -108,7 +108,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public QualifierListAst Qualifiers
+        public QualifierListAst QualifierList
         {
             get;
             private set;
