@@ -27,5 +27,5 @@ class GOLF_Professional : GOLF_ClubMember {
        [Out] Integer NoOfPros,
        [In] GOLF_Club Club,
        [In] ProfessionalStatusEnum Status = Professional
-   )
+   );
 };
