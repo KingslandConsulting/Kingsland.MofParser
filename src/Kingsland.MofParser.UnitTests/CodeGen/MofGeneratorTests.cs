@@ -1,10 +1,7 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Source;
-using Kingsland.MofParser.UnitTests.Helpers;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -14,6 +11,32 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
 
         public static class ConvertToMofTests
         {
+
+            #region 7.3 Compiler directives
+
+            [Test]
+            public static void CompilerDirectiveShouldRoundtrip()
+            {
+                var expectedMof =
+                    "#pragma include (\"GlobalStructs/GOLF_Address.mof\")";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void CompilerDirectiveWithMultipleSingleStringsShouldRoundtrip()
+            {
+                var expectedMof =
+                    "#pragma include (\"GlobalStructs\" \"/\" \"GOLF_Address.mof\")";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            #endregion
 
             #region 7.6.1.3 String values
 

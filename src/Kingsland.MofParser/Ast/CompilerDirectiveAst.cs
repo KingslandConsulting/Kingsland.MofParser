@@ -1,4 +1,6 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Tokens;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -41,13 +43,19 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public string PragmaName
+            public PragmaToken PragmaKeyword
             {
                 get;
                 set;
             }
 
-            public string Argument
+            public IdentifierToken PragmaName
+            {
+                get;
+                set;
+            }
+
+            public StringValueAst PragmaParameter
             {
                 get;
                 set;
@@ -56,8 +64,9 @@ namespace Kingsland.MofParser.Ast
             public CompilerDirectiveAst Build()
             {
                 return new CompilerDirectiveAst(
+                    this.PragmaKeyword,
                     this.PragmaName,
-                    this.Argument
+                    this.PragmaParameter
                 );
             }
 
@@ -67,23 +76,30 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private CompilerDirectiveAst(string pragmaName, string argument)
+        private CompilerDirectiveAst(PragmaToken pragmaKeyword, IdentifierToken pragmaName, StringValueAst pragmaParameter)
         {
-            this.PragmaName = pragmaName;
-            this.Argument = argument;
+            this.PragmaKeyword = pragmaKeyword ?? throw new ArgumentNullException(nameof(pragmaKeyword));
+            this.PragmaName = pragmaName ?? throw new ArgumentNullException(nameof(pragmaName));
+            this.PragmaParameter = pragmaParameter ?? throw new ArgumentNullException(nameof(pragmaParameter));
         }
 
         #endregion
 
         #region Properties
 
-        public string PragmaName
+        public PragmaToken PragmaKeyword
         {
             get;
             private set;
         }
 
-        public string Argument
+        public IdentifierToken PragmaName
+        {
+            get;
+            private set;
+        }
+
+        public StringValueAst PragmaParameter
         {
             get;
             private set;

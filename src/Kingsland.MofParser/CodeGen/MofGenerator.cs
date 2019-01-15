@@ -135,7 +135,15 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertCompilerDirectiveAst(CompilerDirectiveAst node, MofQuirks quirks = MofQuirks.None)
         {
-            return $"!!!!!{node.GetType().Name}!!!!!";
+            var source = new StringBuilder();
+            source.Append(node.PragmaKeyword.Extent.Text);
+            source.Append(" ");
+            source.Append(node.PragmaName);
+            source.Append(" ");
+            source.Append("(");
+            source.Append(MofGenerator.ConvertStringValueAst(node.PragmaParameter));
+            source.Append(")");
+            return source.ToString();
         }
 
         #endregion
