@@ -994,13 +994,13 @@ namespace Kingsland.MofParser.Parsing
             // if we're reading a propertyDeclaration, then there *could* be
             // be a property initializer:
             //
-            //     primitiveParamDeclaration => [ "=" primitiveTypeValue ]
-            //     complexParamDeclaration   => [ "=" ( complexTypeValue / aliasIdentifier ) ]
-            //     enumParamDeclaration      => [ "=" enumValue ]
-            //     referenceParamDeclaration => [ "=" referenceTypeValue ]
+            //     primitivePropertyDeclaration => [ "=" primitiveTypeValue ]
+            //     complexPropertyDeclaration   => [ "=" ( complexTypeValue / aliasIdentifier ) ]
+            //     enumPropertyDeclaration      => [ "=" enumValue ]
+            //     referencePropertyDeclaration => [ "=" referenceTypeValue ]
             //
-            var propertyInitializer = default(PrimitiveTypeValueAst);
-            if (isPropertyDeclaration && isPropertyDeclaration)
+            var propertyInitializer = default(PropertyValueAst);
+            if (isPropertyDeclaration)
             {
                 if (stream.Peek<EqualsOperatorToken>() != null)
                 {
@@ -1011,7 +1011,7 @@ namespace Kingsland.MofParser.Parsing
                     }
                     // "="
                     stream.Read<EqualsOperatorToken>();
-                    propertyInitializer = ParserEngine.ReadClassFeatureAstInitializer(stream, memberReturnType);
+                    propertyInitializer = ParserEngine.ParsePropertyValueAst(stream);
                 }
             }
 
@@ -1060,32 +1060,6 @@ namespace Kingsland.MofParser.Parsing
                 throw new InvalidOperationException();
             }
 
-        }
-
-        public static PrimitiveTypeValueAst ReadClassFeatureAstInitializer(ParserStream stream, IdentifierToken returnType)
-        {
-            switch (returnType.GetNormalizedName())
-            {
-                case Constants.DT_INTEGER:
-                case Constants.DT_REAL32:
-                case Constants.DT_REAL64:
-                case Constants.DT_STRING:
-                case Constants.DT_DATETIME:
-                case Constants.DT_BOOLEAN:
-                case Constants.DT_OCTECTSTRING:
-                    // primitiveType
-                    return ParserEngine.ParsePrimitiveTypeValueAst(stream);
-                default:
-                    /// structureOrClassName
-                    /// enumName
-                    /// classReference
-                    var peek = stream.Peek();
-                    if (peek is NullLiteralToken)
-                    {
-                        return ParserEngine.ParseNullValueAst(stream);
-                    }
-                    throw new NotImplementedException($"classFeature initializer type '{returnType.Name}'");
-            }
         }
 
         #endregion
@@ -1407,11 +1381,11 @@ namespace Kingsland.MofParser.Parsing
             //     enumParamDeclaration      => [ "=" enumValue ]
             //     referenceParamDeclaration => [ "=" referenceTypeValue ]
             //
-            var parameterDefaultValue = default(AstNode);
+            var parameterDefaultValue = default(PropertyValueAst);
             if (stream.Peek<EqualsOperatorToken>() != null)
             {
                 stream.Read<EqualsOperatorToken>();
-                parameterDefaultValue = ParserEngine.ReadClassFeatureAstInitializer(stream, parameterTypeName);
+                parameterDefaultValue = ParserEngine.ParsePropertyValueAst(stream);
             }
 
             return new ParameterDeclarationAst.Builder {
@@ -1616,7 +1590,6 @@ namespace Kingsland.MofParser.Parsing
         ///     referenceTypeValue   = objectPathValue / objectPathValueArray
         ///     objectPathValueArray = "{" [ objectPathValue *( "," objectPathValue ) ]
         ///                            "}"
-        ///
         /// 7.6.3 Enum type value
         ///
         ///     enumTypeValue  = enumValue / enumValueArray
@@ -1643,25 +1616,31 @@ namespace Kingsland.MofParser.Parsing
                        ((token is IdentifierToken identifier) && (identifier.GetNormalizedName() == Constants.VALUE));
             }
             var node = default(PropertyValueAst);
-            var peek = stream.Peek();
+            var propertyValue = stream.Peek();
             // we'll check whether we've got a single value or an array first,
             // and process the value(s) based on that
-            if (!(peek is BlockOpenToken))
+            if (!(propertyValue is BlockOpenToken))
             {
                 // literalValue / complexValue / objectPathValue / enumValue
-                if (IsLiteralValueToken(peek))
+                if (IsLiteralValueToken(propertyValue))
                 {
                     // literalValue
-                    node = ParserEngine.ParsePrimitiveTypeValueAst(stream);
+                    node = ParserEngine.ParseLiteralValueAst(stream);
                 }
-                else if (IsComplexValueToken(peek))
+                else if (IsComplexValueToken(propertyValue))
                 {
                     // complexValue
                     node = ParserEngine.ParseComplexTypeValueAst(stream);
                 }
+                else if (false)
+                {
+                    // objectPathValue
+                    throw new UnexpectedTokenException(propertyValue);
+                }
                 else
                 {
-                    throw new UnexpectedTokenException(peek);
+                    // enumValue
+                    node = ParserEngine.ParseEnumValueAst(stream);
                 }
             }
             else
@@ -1669,27 +1648,33 @@ namespace Kingsland.MofParser.Parsing
                 // we need to read the subsequent token to work out whether this is a
                 // literalValueArray / complexValueArray / objectPathValueArray / enumValueArray
                 stream.Read();
-                peek = stream.Peek();
+                propertyValue = stream.Peek();
                 stream.Backtrack();
-                if (peek is BlockCloseToken)
+                if (propertyValue is BlockCloseToken)
                 {
                     // it's an empty array so we can't tell what type of items it represents,
-                    // so we'll just use complexValueArray an arbitrary type
+                    // so we'll just use complexValueArray as an arbitrary type
                     node = ParserEngine.ParseLiteralValueArrayAst(stream);
                 }
-                else if (IsLiteralValueToken(peek))
+                else if (IsLiteralValueToken(propertyValue))
                 {
                     // literalValueArray
                     node = ParserEngine.ParseLiteralValueArrayAst(stream);
                 }
-                else if (IsComplexValueToken(peek))
+                else if (IsComplexValueToken(propertyValue))
                 {
                     // complexValueArray
                     node = ParserEngine.ParseComplexValueArrayAst(stream);
                 }
+                else if (false)
+                {
+                    // objectPathValueArray
+                    throw new UnexpectedTokenException(propertyValue);
+                }
                 else
                 {
-                    throw new UnexpectedTokenException(peek);
+                    // enumValueArray
+                    node = ParserEngine.ParseEnumValueArrayAst(stream);
                 }
             }
             // return the result
@@ -2096,7 +2081,6 @@ namespace Kingsland.MofParser.Parsing
             return node.Build();
 
         }
-
 
         #endregion
 

@@ -72,7 +72,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public AstNode DefaultValue
+            public PropertyValueAst DefaultValue
             {
                 get;
                 set;
@@ -102,7 +102,7 @@ namespace Kingsland.MofParser.Ast
             IdentifierToken parameterRef,
             IdentifierToken parameterName,
             bool parameterIsArray,
-            AstNode defaultValue
+            PropertyValueAst defaultValue
         )
         {
             this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
@@ -155,7 +155,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public AstNode DefaultValue
+        public PropertyValueAst DefaultValue
         {
             get;
             private set;

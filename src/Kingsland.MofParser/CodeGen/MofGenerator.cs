@@ -468,7 +468,7 @@ namespace Kingsland.MofParser.CodeGen
             if (node.Initializer != null)
             {
                 source.Append(" = ");
-                source.Append(MofGenerator.ConvertPrimitiveTypeValueAst(node.Initializer, quirks));
+                source.Append(MofGenerator.ConvertPropertyValueAst(node.Initializer, quirks));
             }
             source.Append(";");
             return source.ToString();

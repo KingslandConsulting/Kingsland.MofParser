@@ -76,7 +76,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public PrimitiveTypeValueAst Initializer
+            public PropertyValueAst Initializer
             {
                 get;
                 set;
@@ -106,7 +106,7 @@ namespace Kingsland.MofParser.Ast
             IdentifierToken returnTypeRef,
             IdentifierToken propertyName,
             bool returnTypeIsArray,
-            PrimitiveTypeValueAst initializer
+            PropertyValueAst initializer
         )
         {
             this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
@@ -159,7 +159,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public PrimitiveTypeValueAst Initializer
+        public PropertyValueAst Initializer
         {
             get;
             private set;
