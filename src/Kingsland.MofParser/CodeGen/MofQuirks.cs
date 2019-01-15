@@ -1,6 +1,9 @@
-﻿namespace Kingsland.MofParser.CodeGen
+﻿using System;
+
+namespace Kingsland.MofParser.CodeGen
 {
 
+    [Flags]
     public enum MofQuirks
     {
 

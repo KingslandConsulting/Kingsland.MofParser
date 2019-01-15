@@ -77,6 +77,21 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             #region 7.5.2 Class declaration
 
             [Test]
+            public static void ClassDeclarationsAstShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class GOLF_Base\r\n" +
+                    "{\r\n" +
+                    "\tstring InstanceID;\r\n" +
+                    "\tstring Caption = Null;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
             public static void ClassDeclarationsAstWithQualifierListShouldRoundtrip()
             {
                 var expectedMof =
@@ -93,14 +108,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             }
 
             [Test]
-            public static void ClassDeclarationsAstWithMofV2QualifierFlavorsShouldRoundtrip()
+            public static void ClassDeclarationsAstWithZeroValueUint8PropertyShouldRoundtrip()
             {
                 var expectedMof =
-                    "[Locale(1033): ToInstance, UUID(\"{BE46D060-7A7C-11d2-BC85-00104B2CF71C}\"): ToInstance]\r\n" +
-                    "class Win32_PrivilegesStatus : __ExtendedStatus\r\n" +
+                    "class GOLF_Base\r\n" +
                     "{\r\n" +
-                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
-                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
+                    "\tuint8 Severity = 0;\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
@@ -109,16 +122,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             }
 
             [Test]
-            public static void ClassDeclarationsAstWithNumericPropertiesShouldRoundtrip()
+            public static void ClassDeclarationsAstWithMofV2QualifierFlavorsShouldRoundtrip()
             {
                 var expectedMof =
-                    "instance of myType as $Alias00000070\r\n" +
+                    "[Locale(1033): ToInstance, UUID(\"{BE46D060-7A7C-11d2-BC85-00104B2CF71C}\"): ToInstance]\r\n" +
+                    "class Win32_PrivilegesStatus : __ExtendedStatus\r\n" +
                     "{\r\n" +
-                    "\tMyBinaryValue = 0101010b;\r\n" +
-                    "\tMyOctalValue = 0444444;\r\n" +
-                    "\tMyHexValue = 0xABC123;\r\n" +
-                    "\tMyDecimalValue = 12345;\r\n" +
-                    "\tMyRealValue = 123.45;\r\n" +
+                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
+                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
@@ -173,6 +184,20 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
+            [Test]
+            public static void ClassDeclarationsAstWithEnumerationPropertyInitializerShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class GOLF_Professional : GOLF_ClubMember\r\n" +
+                    "{\r\n" +
+                    "\tGOLF_ProfessionalStatusEnum Status = Professional;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
             #endregion
 
             #region 7.5.1 Structure declaration
@@ -214,6 +239,20 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\t\tNovember,\r\n" +
                     "\t\tDecember\r\n" +
                     "\t};\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void StructureDeclarationAstWithEnumerationPropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "structure GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonthsEnum Month = MonthsEnum.January;\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
@@ -272,6 +311,44 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
 
             #endregion
 
+            #region 7.5.6 Method declaration
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/27"),
+             Ignore("https://github.com/mikeclayton/MofParser/issues/27")]
+            public static void ClassDeclarationsWithMethodDeclarationWithEnumParameterShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class GOLF_Professional : GOLF_ClubMember\r\n" +
+                    "{\r\n" +
+                    "\tGOLF_ResultCodeEnum GetNumberOfProfessionals (\r\n" +
+                    "\tInteger NoOfPros,\r\n" +
+                    "\tGOLF_Club Club,\r\n" +
+                    "\tProfessionalStatusEnum Status = Professional\r\n" +
+                    "\t)\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28"),
+             Ignore("https://github.com/mikeclayton/MofParser/issues/28")]
+            public static void ClassDeclarationsWithMethodDeclarationWithDeprecatedPrimtitiveValueTypeInitializerShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class Win32_SoftwareFeature : CIM_SoftwareFeature\r\n" +
+                    "{\r\n" +
+                    "\tuint32 Reinstall(uint16 ReinstallMode = 1);\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            #endregion
+
             #region 7.6.2 Complex type value
 
             [Test]
@@ -289,7 +366,45 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             }
 
             [Test]
-            public static void InstanceValueDeclarationWithLocalStructureValueDeclarationPropertyShouldRoundtrip()
+            public static void ClassDeclarationsAstWithNumericPropertiesShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of myType as $Alias00000070\r\n" +
+                    "{\r\n" +
+                    "\tMyBinaryValue = 0101010b;\r\n" +
+                    "\tMyOctalValue = 0444444;\r\n" +
+                    "\tMyHexValue = 0xABC123;\r\n" +
+                    "\tMyDecimalValue = 12345;\r\n" +
+                    "\tMyRealValue = 123.45;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/26"),
+             Ignore("https://github.com/mikeclayton/MofParser/issues/26")]
+            public static void InstanceValueDeclarationsWithInstanceValuePropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of GOLF_ClubMember\r\n" +
+                    "{\r\n" +
+                    "\tLastPaymentDate = instance of GOLF_Date\r\n" +
+                    "\t{\r\n" +
+                    "\tYear = 2011;\r\n" +
+                    "\tMonth = July;\r\n" +
+                    "\tDay = 31;\r\n" +
+                    "\t};\r\n" +
+                    "}";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void InstanceValueDeclarationWithStructureValueDeclarationPropertyShouldRoundtrip()
             {
                 var expectedMof =
                     "instance of GOLF_ClubMember\r\n" +
@@ -311,13 +426,129 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             }
 
             [Test]
-            public static void StructureValueDeclarationAstShouldRoundtrip()
+            public static void StructureValueDeclarationShouldRoundtrip()
             {
                 var expectedMof =
                     "value of GOLF_PhoneNumber as $JohnDoesPhoneNo\r\n" +
                     "{\r\n" +
                     "\tAreaCode = {\"9\", \"0\", \"7\"};\r\n" +
                     "\tNumber = {\"7\", \"4\", \"7\", \"4\", \"8\", \"8\", \"4\"};\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            #endregion
+
+            #region 7.6.3 Enum type value
+
+            [Test]
+            public static void ClassDeclarationsAstWithUnqualifiedEnumValuePropertyInitializerShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonthsEnum Month = January;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void ClassDeclarationsAstWithQualifiedEnumValuePropertyInitializerShouldRoundtrip()
+            {
+                var expectedMof =
+                    "class GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonthsEnum Month = MonthsEnum.January;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void InstanceValueDeclarationsAstWithUnqualifiedEnumValuePropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = July;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void InstanceValueDeclarationsAstWithQualifiedEnumValuePropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = MonthsEnum.January;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/25")]
+            public static void InstanceValueDeclarationsAstWithUnqualifiedEnumValueArrayPropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = {July, August};\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/25")]
+            public static void InstanceValueDeclarationsAstWithQualifiedEnumValueArrayPropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = {MonthsEnum.January, MonthEnum.February};\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void StructureValueDeclarationsAstWithUnqualifiedEnumValuePropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "value of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = July;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+            [Test]
+            public static void StructureValueDeclarationsAstWithQualifiedEnumValuePropertyShouldRoundtrip()
+            {
+                var expectedMof =
+                    "value of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = MonthsEnum.January;\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);

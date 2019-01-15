@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.Ast
     ///     enumLiteral            = IDENTIFIER
     ///
     /// </remarks>
-    public class EnumElementAst : IAstNode
+    public sealed class EnumElementAst : IAstNode
     {
 
         #region Builder
@@ -39,7 +39,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IEnumValueAst EnumElementValue
+            public IEnumElementValueAst EnumElementValue
             {
                 get;
                 set;
@@ -60,7 +60,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public EnumElementAst(QualifierListAst qualifierList, IdentifierToken enumElementName, IEnumValueAst enumElementValue)
+        public EnumElementAst(QualifierListAst qualifierList, IdentifierToken enumElementName, IEnumElementValueAst enumElementValue)
         {
             this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.EnumElementName = enumElementName;
@@ -83,7 +83,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public IEnumValueAst EnumElementValue
+        public IEnumElementValueAst EnumElementValue
         {
             get;
             private set;
