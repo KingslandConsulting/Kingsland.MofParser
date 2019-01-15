@@ -46,7 +46,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public QualifierListAst Qualifiers
+            public QualifierListAst QualifierList
             {
                 get;
                 set;
@@ -85,7 +85,7 @@ namespace Kingsland.MofParser.Ast
             public PropertyDeclarationAst Build()
             {
                 return new PropertyDeclarationAst(
-                    this.Qualifiers,
+                    this.QualifierList,
                     this.ReturnType,
                     this.ReturnTypeRef,
                     this.PropertyName,
@@ -101,7 +101,7 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         private PropertyDeclarationAst(
-            QualifierListAst qualifiers,
+            QualifierListAst qualifierList,
             IdentifierToken returnType,
             IdentifierToken returnTypeRef,
             IdentifierToken propertyName,
@@ -109,7 +109,7 @@ namespace Kingsland.MofParser.Ast
             PrimitiveTypeValueAst initializer
         )
         {
-            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
+            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
             this.ReturnTypeRef = returnTypeRef;
             this.PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
@@ -121,7 +121,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public QualifierListAst Qualifiers
+        public QualifierListAst QualifierList
         {
             get;
             private set;

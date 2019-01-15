@@ -28,10 +28,10 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
-                this.Qualifiers = new List<QualifierValueAst>();
+                this.QualifierValues = new List<QualifierValueAst>();
             }
 
-            public List<QualifierValueAst> Qualifiers
+            public List<QualifierValueAst> QualifierValues
             {
                 get;
                 set;
@@ -41,7 +41,7 @@ namespace Kingsland.MofParser.Ast
             {
                 return new QualifierListAst(
                     new ReadOnlyCollection<QualifierValueAst>(
-                        this.Qualifiers ?? new List<QualifierValueAst>()
+                        this.QualifierValues ?? new List<QualifierValueAst>()
                     )
                 );
             }
@@ -52,9 +52,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public QualifierListAst(ReadOnlyCollection<QualifierValueAst> qualifiers)
+        public QualifierListAst(ReadOnlyCollection<QualifierValueAst> qualifierValues)
         {
-            this.Qualifiers = qualifiers ?? new ReadOnlyCollection<QualifierValueAst>(
+            this.QualifierValues = qualifierValues ?? new ReadOnlyCollection<QualifierValueAst>(
                 new List<QualifierValueAst>()
             );
         }
@@ -63,7 +63,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public ReadOnlyCollection<QualifierValueAst> Qualifiers
+        public ReadOnlyCollection<QualifierValueAst> QualifierValues
         {
             get;
             private set;

@@ -41,7 +41,7 @@ namespace Kingsland.MofParser.Ast
                 this.Features = new List<IStructureFeatureAst>();
             }
 
-            public QualifierListAst Qualifiers
+            public QualifierListAst QualifierList
             {
                 get;
                 set;
@@ -68,7 +68,7 @@ namespace Kingsland.MofParser.Ast
             public StructureDeclarationAst Build()
             {
                 return new StructureDeclarationAst(
-                    this.Qualifiers,
+                    this.QualifierList,
                     this.StructureName,
                     this.SuperStructure,
                     new ReadOnlyCollection<IStructureFeatureAst>(
@@ -83,9 +83,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public StructureDeclarationAst(QualifierListAst qualifiers, IdentifierToken structureName, IdentifierToken superStructure, ReadOnlyCollection<IStructureFeatureAst> features)
+        public StructureDeclarationAst(QualifierListAst qualifierList, IdentifierToken structureName, IdentifierToken superStructure, ReadOnlyCollection<IStructureFeatureAst> features)
         {
-            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
+            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.StructureName = structureName ?? throw new ArgumentNullException(nameof(structureName));
             this.SuperStructure = superStructure;
             this.Features = features ?? new ReadOnlyCollection<IStructureFeatureAst>(new List<IStructureFeatureAst>());
@@ -95,7 +95,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public QualifierListAst Qualifiers
+        public QualifierListAst QualifierList
         {
             get;
             private set;

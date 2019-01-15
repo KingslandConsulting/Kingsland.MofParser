@@ -42,7 +42,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public QualifierListAst Qualifiers
+            public QualifierListAst QualifierList
             {
                 get;
                 set;
@@ -81,7 +81,7 @@ namespace Kingsland.MofParser.Ast
             public ParameterDeclarationAst Build()
             {
                 return new ParameterDeclarationAst(
-                    this.Qualifiers,
+                    this.QualifierList,
                     this.ParameterType,
                     this.ParameterRef,
                     this.ParameterName,
@@ -97,7 +97,7 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         private ParameterDeclarationAst(
-            QualifierListAst qualifiers,
+            QualifierListAst qualifierList,
             IdentifierToken parameterType,
             IdentifierToken parameterRef,
             IdentifierToken parameterName,
@@ -105,7 +105,7 @@ namespace Kingsland.MofParser.Ast
             AstNode defaultValue
         )
         {
-            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
+            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.ParameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
             this.ParameterRef = parameterRef;
             this.ParameterName = parameterName ?? throw new ArgumentNullException(nameof(parameterName));
@@ -117,7 +117,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public QualifierListAst Qualifiers
+        public QualifierListAst QualifierList
         {
             get;
             private set;

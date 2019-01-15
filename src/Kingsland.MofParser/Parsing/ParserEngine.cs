@@ -255,14 +255,14 @@ namespace Kingsland.MofParser.Parsing
             var peek = stream.Peek<BlockOpenToken>();
             if (peek != null)
             {
-                node.Qualifiers = ParserEngine.ParseQualifierListAst(stream);
+                node.QualifierList = ParserEngine.ParseQualifierListAst(stream);
             }
 
             // QUALIFIER
             stream.ReadIdentifier(Constants.QUALIFIER);
 
             // qualifierName
-            node.Name = stream.Read<IdentifierToken>();
+            node.QualifierName = stream.Read<IdentifierToken>();
 
             // ":"
             stream.Read<ColonToken>();
@@ -310,14 +310,14 @@ namespace Kingsland.MofParser.Parsing
 
             // qualifierValue
             qualifierValue = ParserEngine.ParseQualifierValueAst(stream);
-            node.Qualifiers.Add(qualifierValue);
+            node.QualifierValues.Add(qualifierValue);
 
             // *( "," qualifierValue )
             while (stream.Peek<CommaToken>() != null)
             {
                 var commaToken = stream.Read<CommaToken>();
                 qualifierValue = ParserEngine.ParseQualifierValueAst(stream);
-                node.Qualifiers.Add(qualifierValue);
+                node.QualifierValues.Add(qualifierValue);
             }
 
             // "]"
@@ -531,7 +531,7 @@ namespace Kingsland.MofParser.Parsing
             var node = new StructureDeclarationAst.Builder();
 
             // [ qualifierList ]
-            node.Qualifiers = qualifiers;
+            node.QualifierList = qualifiers;
 
             // STRUCTURE
             stream.ReadIdentifier(Constants.STRUCTURE);
@@ -870,7 +870,7 @@ namespace Kingsland.MofParser.Parsing
         ///     parameterList     = parameterDeclaration *( "," parameterDeclaration )
         ///
         public static IClassFeatureAst ParseMemberDeclaration(
-            ParserStream stream, QualifierListAst qualifiers,
+            ParserStream stream, QualifierListAst qualifierList,
             bool allowPropertyDeclaration, bool allowMethodDeclaration
         )
         {
@@ -1027,7 +1027,7 @@ namespace Kingsland.MofParser.Parsing
                 }
                 var node = new PropertyDeclarationAst.Builder
                 {
-                    Qualifiers = qualifiers,
+                    QualifierList = qualifierList,
                     ReturnType = memberReturnType,
                     ReturnTypeRef = memberReturnTypeRef,
                     PropertyName = memberName,
@@ -1045,7 +1045,7 @@ namespace Kingsland.MofParser.Parsing
                 }
                 var node = new MethodDeclarationAst.Builder
                 {
-                    Qualifiers = qualifiers,
+                    QualifierList = qualifierList,
                     ReturnType = memberReturnType,
                     ReturnTypeRef = memberReturnTypeRef,
                     ReturnTypeIsArray = methodReturnTypeIsArray,
@@ -1111,13 +1111,13 @@ namespace Kingsland.MofParser.Parsing
         ///     ASSOCIATION            = "association" ; keyword: case insensitive
         ///
         /// </remarks>
-        public static AssociationDeclarationAst ParseAssociationDeclarationAst(ParserStream stream, QualifierListAst qualifiers)
+        public static AssociationDeclarationAst ParseAssociationDeclarationAst(ParserStream stream, QualifierListAst qualifierList)
         {
 
             var node = new AssociationDeclarationAst.Builder();
 
             // [ qualifierList ]
-            node.Qualifiers = qualifiers;
+            node.QualifierList = qualifierList;
 
             // ASSOCIATION
             stream.ReadIdentifier(Constants.ASSOCIATION);
@@ -1197,7 +1197,7 @@ namespace Kingsland.MofParser.Parsing
         ///     ENUMERATION            = "enumeration" ; keyword: case insensitive
         ///
         /// </remarks>
-        public static EnumerationDeclarationAst ParseEnumerationDeclarationAst(ParserStream stream, QualifierListAst qualifiers)
+        public static EnumerationDeclarationAst ParseEnumerationDeclarationAst(ParserStream stream, QualifierListAst qualifierList)
         {
 
             var node = new EnumerationDeclarationAst.Builder();
@@ -1207,7 +1207,7 @@ namespace Kingsland.MofParser.Parsing
 
             // [ qualifierList ]
             // note - this has already been read for us and gets passed in as a parameter
-            node.Qualifiers = qualifiers;
+            node.QualifierList = qualifierList;
 
             // ENUMERATION
             var enumeration = stream.ReadIdentifier(Constants.ENUMERATION);
@@ -1293,7 +1293,7 @@ namespace Kingsland.MofParser.Parsing
             // [ qualifierList ]
             if (stream.Peek<AttributeOpenToken>() != null)
             {
-                node.Qualifiers = ParserEngine.ParseQualifierListAst(stream);
+                node.QualifierList = ParserEngine.ParseQualifierListAst(stream);
             }
             // enumLiteral
             node.EnumElementName = stream.ReadIdentifier();
@@ -1365,10 +1365,10 @@ namespace Kingsland.MofParser.Parsing
         {
 
             // [ qualifierList ]
-            var qualifiers = default(QualifierListAst);
+            var qualifierList = default(QualifierListAst);
             if (stream.Peek<AttributeOpenToken>() != null)
             {
-                qualifiers = ParserEngine.ParseQualifierListAst(stream);
+                qualifierList = ParserEngine.ParseQualifierListAst(stream);
             }
 
             // read the type of the parameter
@@ -1415,7 +1415,7 @@ namespace Kingsland.MofParser.Parsing
             }
 
             return new ParameterDeclarationAst.Builder {
-                Qualifiers = qualifiers,
+                QualifierList = qualifierList,
                 ParameterType = parameterTypeName,
                 ParameterRef = parameterRef,
                 ParameterName = parameterName,

@@ -47,7 +47,7 @@ namespace Kingsland.MofParser.Ast
                 this.Parameters = new List<ParameterDeclarationAst>();
             }
 
-            public QualifierListAst Qualifiers
+            public QualifierListAst QualifierList
             {
                 get;
                 set;
@@ -86,7 +86,7 @@ namespace Kingsland.MofParser.Ast
             public MethodDeclarationAst Build()
             {
                 return new MethodDeclarationAst(
-                    this.Qualifiers,
+                    this.QualifierList,
                     this.ReturnType,
                     this.ReturnTypeRef,
                     this.ReturnTypeIsArray,
@@ -104,7 +104,7 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         private MethodDeclarationAst(
-            QualifierListAst qualifiers,
+            QualifierListAst qualifierList,
             IdentifierToken returnType,
             IdentifierToken returnTypeRef,
             bool returnTypeIsArray,
@@ -112,7 +112,7 @@ namespace Kingsland.MofParser.Ast
             ReadOnlyCollection<ParameterDeclarationAst> parameters
         )
         {
-            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
+            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
             this.ReturnTypeRef = returnTypeRef;
             this.ReturnTypeIsArray = returnTypeIsArray;
@@ -126,7 +126,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public QualifierListAst Qualifiers
+        public QualifierListAst QualifierList
         {
             get;
             private set;

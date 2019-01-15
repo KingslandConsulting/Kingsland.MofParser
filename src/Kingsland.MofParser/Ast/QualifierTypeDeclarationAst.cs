@@ -35,13 +35,37 @@ namespace Kingsland.MofParser.Ast
                 this.Flavors = new List<string>();
             }
 
-            public QualifierListAst Qualifiers
+            public QualifierListAst QualifierList
             {
                 get;
                 set;
             }
 
-            public IdentifierToken Name
+            public IdentifierToken QualifierKeyword
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken QualifierName
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken QualifierType
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken QualifierScope
+            {
+                get;
+                set;
+            }
+
+            public IdentifierToken QualifierPolicy
             {
                 get;
                 set;
@@ -62,8 +86,12 @@ namespace Kingsland.MofParser.Ast
             public QualifierTypeDeclarationAst Build()
             {
                 return new QualifierTypeDeclarationAst(
-                    this.Qualifiers,
-                    this.Name,
+                    this.QualifierList,
+                    this.QualifierKeyword,
+                    this.QualifierName,
+                    this.QualifierType,
+                    this.QualifierScope,
+                    this.QualifierPolicy,
                     this.Initializer,
                     new ReadOnlyCollection<string>(
                         this.Flavors ?? new List<string>()
@@ -78,14 +106,22 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         private QualifierTypeDeclarationAst(
-            QualifierListAst qualifiers,
-            IdentifierToken name,
+            QualifierListAst qualifierList,
+            IdentifierToken qualifierKeyword,
+            IdentifierToken qualifierName,
+            IdentifierToken qualifierType,
+            IdentifierToken qualifierScope,
+            IdentifierToken qualifierPolicy,
             PrimitiveTypeValueAst initializer,
             ReadOnlyCollection<string> flavors
         )
         {
-            this.Qualifiers = qualifiers ?? new QualifierListAst.Builder().Build();
-            this.Name = name ?? throw new ArgumentNullException(nameof(name));
+            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
+            this.QualifierKeyword = qualifierKeyword ?? throw new ArgumentNullException(nameof(qualifierKeyword));
+            this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
+            this.QualifierType = qualifierType ?? throw new ArgumentNullException(nameof(qualifierType));
+            this.QualifierScope = qualifierScope ?? throw new ArgumentNullException(nameof(qualifierScope));
+            this.QualifierPolicy = qualifierPolicy ?? throw new ArgumentNullException(nameof(qualifierPolicy));
             this.Initializer = initializer ?? throw new ArgumentNullException(nameof(initializer));
             this.Flavors = flavors ?? throw new ArgumentNullException(nameof(flavors));
         }
@@ -94,17 +130,42 @@ namespace Kingsland.MofParser.Ast
 
         #region Properties
 
-        public QualifierListAst Qualifiers
+        public QualifierListAst QualifierList
         {
             get;
             private set;
         }
 
-        public IdentifierToken Name
+        public IdentifierToken QualifierKeyword
         {
             get;
             private set;
         }
+
+        public IdentifierToken QualifierName
+        {
+            get;
+            private set;
+        }
+
+        public IdentifierToken QualifierType
+        {
+            get;
+            private set;
+        }
+
+        public IdentifierToken QualifierScope
+        {
+            get;
+            private set;
+        }
+
+        public IdentifierToken QualifierPolicy
+        {
+            get;
+            private set;
+        }
+
 
         public PrimitiveTypeValueAst Initializer
         {
