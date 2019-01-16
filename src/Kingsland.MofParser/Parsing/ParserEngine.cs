@@ -204,13 +204,13 @@ namespace Kingsland.MofParser.Parsing
             node.PragmaName = stream.Read<IdentifierToken>();
 
             // "("
-            stream.Read<ParenthesesOpenToken>();
+            stream.Read<ParenthesisOpenToken>();
 
             // pragmaParameter
             node.PragmaParameter = ParserEngine.ParseStringValueAst(stream);
 
             // ")"
-            stream.Read<ParenthesesCloseToken>();
+            stream.Read<ParenthesisCloseToken>();
 
             return node.Build();
 
@@ -362,7 +362,7 @@ namespace Kingsland.MofParser.Parsing
             var peek = stream.Peek();
             switch (peek)
             {
-                case ParenthesesOpenToken paranthesesOpen:
+                case ParenthesisOpenToken paranthesesOpen:
                     // qualifierValueInitializer
                     node.ValueInitializer = ParserEngine.ParseQualifierValueInitializer(stream);
                     break;
@@ -435,11 +435,11 @@ namespace Kingsland.MofParser.Parsing
         public static LiteralValueAst ParseQualifierValueInitializer(ParserStream stream)
         {
             // "("
-            stream.Read<ParenthesesOpenToken>();
+            stream.Read<ParenthesisOpenToken>();
             // literalValue
             var valueInitializer = ParserEngine.ParseLiteralValueAst(stream);
             // ")"
-            stream.Read<ParenthesesCloseToken>();
+            stream.Read<ParenthesisCloseToken>();
             return valueInitializer;
         }
 
@@ -947,7 +947,7 @@ namespace Kingsland.MofParser.Parsing
             // if we're reading a methodDeclaration, then the next tokens *must*
             // be "(" [ parameterList ] ")"
             var methodParameterDeclarations = new List<ParameterDeclarationAst>();
-            var methodParenthesisOpenToken = stream.Peek<ParenthesesOpenToken>();
+            var methodParenthesisOpenToken = stream.Peek<ParenthesisOpenToken>();
             if (isMethodDeclaration  || (methodParenthesisOpenToken != null))
             {
                 // check we're expecting a methodDeclaration
@@ -956,9 +956,9 @@ namespace Kingsland.MofParser.Parsing
                     throw new UnsupportedTokenException(peek);
                 }
                 // "("
-                stream.Read<ParenthesesOpenToken>();
+                stream.Read<ParenthesisOpenToken>();
                 //  [ parameterDeclaration *( "," parameterDeclaration ) ]
-                if (stream.Peek<ParenthesesCloseToken>() == null)
+                if (stream.Peek<ParenthesisCloseToken>() == null)
                 {
                     var methodParameterDeclaration = default(ParameterDeclarationAst);
                     // parameterDeclaration
@@ -973,7 +973,7 @@ namespace Kingsland.MofParser.Parsing
                     }
                 }
                 // ")"
-                stream.Read<ParenthesesCloseToken>();
+                stream.Read<ParenthesisCloseToken>();
                 // we know this is a methodDeclaration now
                 isMethodDeclaration = true;
             }

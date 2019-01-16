@@ -150,15 +150,15 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case ParenthesesCloseToken token:
+                case ParenthesisCloseToken token:
                     Assert.IsTrue(
-                        ParenthesesCloseToken.AreEqual((ParenthesesCloseToken)expectedToken, (ParenthesesCloseToken)actualToken),
+                        ParenthesisCloseToken.AreEqual((ParenthesisCloseToken)expectedToken, (ParenthesisCloseToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case ParenthesesOpenToken token:
+                case ParenthesisOpenToken token:
                     Assert.IsTrue(
-                        ParenthesesOpenToken.AreEqual((ParenthesesOpenToken)expectedToken, (ParenthesesOpenToken)actualToken),
+                        ParenthesisOpenToken.AreEqual((ParenthesisOpenToken)expectedToken, (ParenthesisOpenToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;

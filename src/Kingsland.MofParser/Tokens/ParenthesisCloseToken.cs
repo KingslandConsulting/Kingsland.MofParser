@@ -3,15 +3,15 @@
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class ParenthesesCloseToken : Token
+    public sealed class ParenthesisCloseToken : Token
     {
 
-        public ParenthesesCloseToken(SourceExtent extent)
+        public ParenthesisCloseToken(SourceExtent extent)
             : base(extent)
         {
         }
 
-        public static bool AreEqual(ParenthesesCloseToken obj1, ParenthesesCloseToken obj2)
+        public static bool AreEqual(ParenthesisCloseToken obj1, ParenthesisCloseToken obj2)
         {
             if ((obj1 == null) && (obj2 == null))
             {

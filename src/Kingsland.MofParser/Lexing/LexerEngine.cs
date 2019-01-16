@@ -76,15 +76,15 @@ namespace Kingsland.MofParser.Lexing
                     }
                 case ')':
                     {
-                        var (parenthesesCloseToken, nextReader) = LexerEngine.ReadParenthesesCloseToken(reader);
+                        var (parenthesisCloseToken, nextReader) = LexerEngine.ReadParenthesisCloseToken(reader);
                         var nextLexer = new Lexer(nextReader);
-                        return (parenthesesCloseToken, nextLexer);
+                        return (parenthesisCloseToken, nextLexer);
                     }
                 case '(':
                     {
-                        var (parenthesesOpenToken, nextReader) = LexerEngine.ReadParenthesesOpenToken(reader);
+                        var (parenthesisOpenToken, nextReader) = LexerEngine.ReadParenthesisOpenToken(reader);
                         var nextLexer = new Lexer(nextReader);
-                        return (parenthesesOpenToken, nextLexer);
+                        return (parenthesisOpenToken, nextLexer);
                     }
                 case '#':
                     {
@@ -253,18 +253,18 @@ namespace Kingsland.MofParser.Lexing
             return (new EqualsOperatorToken(extent), nextReader);
         }
 
-        public static (ParenthesesCloseToken, SourceReader) ReadParenthesesCloseToken(SourceReader reader)
+        public static (ParenthesisCloseToken, SourceReader) ReadParenthesisCloseToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read(')');
             var extent = SourceExtent.From(sourceChar);
-            return (new ParenthesesCloseToken(extent), nextReader);
+            return (new ParenthesisCloseToken(extent), nextReader);
         }
 
-        public static (ParenthesesOpenToken, SourceReader) ReadParenthesesOpenToken(SourceReader reader)
+        public static (ParenthesisOpenToken, SourceReader) ReadParenthesisOpenToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read('(');
             var extent = SourceExtent.From(sourceChar);
-            return (new ParenthesesOpenToken(extent), nextReader);
+            return (new ParenthesisOpenToken(extent), nextReader);
         }
 
         public static (StatementEndToken, SourceReader) ReadStatementEndToken(SourceReader reader)
