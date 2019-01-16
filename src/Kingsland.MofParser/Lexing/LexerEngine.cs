@@ -16,10 +16,13 @@ namespace Kingsland.MofParser.Lexing
 
         public static (Token Token, Lexer NextLexer) ReadToken(Lexer lexer)
         {
+
             var reader = lexer.Reader;
             var peek = reader.Peek();
+
             switch (peek.Value)
             {
+
                 case '$':
                     return LexerEngine.ReadAliasIdentifierToken(reader);
                 case ']':
@@ -64,62 +67,103 @@ namespace Kingsland.MofParser.Lexing
                     {
                         return LexerEngine.ReadDotOperatorToken(reader);
                     }
-                default:
-                    if (StringValidator.IsWhitespace(peek.Value))
+
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                case 'e':
+                case 'f':
+                case 'g':
+                case 'h':
+                case 'i':
+                case 'j':
+                case 'k':
+                case 'l':
+                case 'm':
+                case 'n':
+                case 'o':
+                case 'p':
+                case 'q':
+                case 'r':
+                case 's':
+                case 't':
+                case 'u':
+                case 'v':
+                case 'w':
+                case 'x':
+                case 'y':
+                case 'z':
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
+                case 'F':
+                case 'G':
+                case 'H':
+                case 'I':
+                case 'J':
+                case 'K':
+                case 'L':
+                case 'M':
+                case 'N':
+                case 'O':
+                case 'P':
+                case 'Q':
+                case 'R':
+                case 'S':
+                case 'T':
+                case 'U':
+                case 'V':
+                case 'W':
+                case 'X':
+                case 'Y':
+                case 'Z':
+                case '_':
+                    // firstIdentifierChar
+                    var (identifierToken, nextLexer) = LexerEngine.ReadIdentifierToken(reader);
+                    var normalized = identifierToken.Name.ToLowerInvariant();
+                    switch (normalized)
                     {
-                        return LexerEngine.ReadWhitespaceToken(reader);
-                    }
-                    else if (StringValidator.IsFirstIdentifierChar(peek.Value))
-                    {
-                        var (identifierToken, nextLexer) = LexerEngine.ReadIdentifierToken(reader);
-                        if (StringValidator.IsFalse(identifierToken.Name))
-                        {
-                            /// 7.6.1.5 Boolean value
-                            ///
-                            ///     booleanValue = TRUE / FALSE
-                            ///
-                            ///     FALSE        = "false" ; keyword: case insensitive
-                            ///     TRUE         = "true"  ; keyword: case insensitive
-                            ///
-                            var booleanLiteralToken = new BooleanLiteralToken(identifierToken.Extent, false);
-                            return (booleanLiteralToken, nextLexer);
-                        }
-                        else if (StringValidator.IsTrue(identifierToken.Name))
-                        {
-                            /// 7.6.1.5 Boolean value
-                            ///
-                            ///     booleanValue = TRUE / FALSE
-                            ///
-                            ///     FALSE        = "false" ; keyword: case insensitive
-                            ///     TRUE         = "true"  ; keyword: case insensitive
-                            var booleanLiteralToken = new BooleanLiteralToken(identifierToken.Extent, true);
-                            return (booleanLiteralToken, nextLexer);
-                        }
-                        else if (StringValidator.IsNull(identifierToken.Name))
-                        {
-                            /// 7.6.1.6 Null value
-                            ///
-                            ///     nullValue = NULL
-                            ///
-                            ///     NULL = "null" ; keyword: case insensitive
-                            ///                   ; second
+                        case "false":
+                            var falseToken = new BooleanLiteralToken(identifierToken.Extent, false);
+                            return (falseToken, nextLexer);
+                        case "true":
+                            var trueToken = new BooleanLiteralToken(identifierToken.Extent, true);
+                            return (trueToken, nextLexer);
+                        case "null":
                             var nullLiteralToken = new NullLiteralToken(identifierToken.Extent);
                             return (nullLiteralToken, nextLexer);
-                        }
-                        else
-                        {
+                        default:
                             return (identifierToken, nextLexer);
-                        }
                     }
-                    else if (StringValidator.IsDecimalDigit(peek.Value))
-                    {
-                        return LexerEngine.ReadNumericLiteralToken(reader);
-                    }
-                    else
-                    {
-                        throw new UnexpectedCharacterException(peek);
-                    }
+
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    // decimalDigit
+                    return LexerEngine.ReadNumericLiteralToken(reader);
+
+                case '\u0020': // space
+                case '\u0009': // horizontal tab
+                case '\u000D': // carriage return
+                case '\u000A': // line feed
+                    // WS
+                    return LexerEngine.ReadWhitespaceToken(reader);
+
+                default:
+                    throw new UnexpectedCharacterException(peek);
+
             }
+
         }
 
         #endregion
