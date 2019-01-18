@@ -9,7 +9,6 @@ namespace Kingsland.MofParser.Ast
 
     /// <summary>
     /// </summary>
-    /// <returns></returns>
     /// <remarks>
     ///
     /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
@@ -19,17 +18,17 @@ namespace Kingsland.MofParser.Ast
     ///     enumerationDeclaration = enumTypeHeader enumName ":" enumTypeDeclaration ";"
     ///
     ///     enumTypeHeader         = [ qualifierList ] ENUMERATION
+    ///
     ///     enumName               = elementName
-    ///     enumTypeDeclaration    = (DT_INTEGER / integerEnumName ) integerEnumDeclaration /
-    ///                              (DT_STRING / stringEnumName) stringEnumDeclaration
+    ///
+    ///     enumTypeDeclaration    = ( DT_INTEGER / integerEnumName ) integerEnumDeclaration /
+    ///                              ( DT_STRING / stringEnumName ) stringEnumDeclaration
     ///
     ///     integerEnumName        = enumName
     ///     stringEnumName         = enumName
     ///
-    ///     integerEnumDeclaration = "{" [ integerEnumElement
-    ///                              *( "," integerEnumElement) ] "}"
-    ///     stringEnumDeclaration  = "{" [ stringEnumElement
-    ///                              *( "," stringEnumElement) ] "}"
+    ///     integerEnumDeclaration = "{" [ integerEnumElement *( "," integerEnumElement ) ] "}"
+    ///     stringEnumDeclaration  = "{" [ stringEnumElement *( "," stringEnumElement ) ] "}"
     ///
     ///     integerEnumElement     = [ qualifierList ] enumLiteral "=" integerValue
     ///     stringEnumElement      = [ qualifierList ] enumLiteral [ "=" stringValue ]

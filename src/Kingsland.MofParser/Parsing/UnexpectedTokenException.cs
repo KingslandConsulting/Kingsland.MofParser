@@ -15,11 +15,7 @@ namespace Kingsland.MofParser.Parsing
 
         internal UnexpectedTokenException(Token foundToken)
         {
-            if(foundToken == null)
-            {
-                throw new ArgumentNullException("foundToken");
-            }
-            this.FoundToken = foundToken;
+            this.FoundToken = foundToken ?? throw new ArgumentNullException("foundToken");
         }
 
         #endregion

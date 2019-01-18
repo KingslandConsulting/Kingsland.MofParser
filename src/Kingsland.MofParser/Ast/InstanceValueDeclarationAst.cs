@@ -16,7 +16,7 @@ namespace Kingsland.MofParser.Ast
     /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
     ///
     ///     instanceValueDeclaration = INSTANCE OF ( className / associationName )
-    ///                                [alias]
+    ///                                [ alias ]
     ///                                propertyValueList ";"
     ///
     ///     alias                    = AS aliasIdentifier

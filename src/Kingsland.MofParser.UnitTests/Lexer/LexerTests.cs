@@ -253,7 +253,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                     SourceReader.From(")")
                 );
                 var expectedTokens = new List<Token> {
-                    new ParenthesesCloseToken(
+                    new ParenthesisCloseToken(
                         new SourceExtent
                         (
                             new SourcePosition(0, 1, 1),
@@ -278,7 +278,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                     SourceReader.From("(")
                 );
                 var expectedTokens = new List<Token> {
-                    new ParenthesesOpenToken(
+                    new ParenthesisOpenToken(
                         new SourceExtent
                         (
                             new SourcePosition(0, 1, 1),

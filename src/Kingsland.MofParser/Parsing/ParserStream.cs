@@ -9,12 +9,19 @@ namespace Kingsland.MofParser.Parsing
     internal class ParserStream
     {
 
+        #region Field
+
+        private List<Token> source;
+        private int position;
+
+        #endregion
+
         #region Constructors
 
         public ParserStream(List<Token> source)
         {
-            this.Source = source;
-            this.Position = 0;
+            this.source = source ?? throw new ArgumentNullException(nameof(source));
+            this.position = 0;
         }
 
         #endregion
@@ -23,23 +30,26 @@ namespace Kingsland.MofParser.Parsing
 
         private List<Token> Source
         {
-            get;
-            set;
+            get
+            {
+                return this.source;
+            }
         }
 
         public int Position
         {
-            get;
-            private set;
+            get
+            {
+                return this.position;
+            }
         }
 
         public bool Eof
         {
             get
             {
-                return (this.Source == null) ||
-                       (this.Source.Count == 0) ||
-                       this.Position >= this.Source.Count;
+                return (this.source.Count == 0) ||
+                       (this.position >= this.source.Count);
             }
         }
 
@@ -49,39 +59,84 @@ namespace Kingsland.MofParser.Parsing
 
         public Token Peek()
         {
-            if (this.Eof)
+            if ((this.source.Count == 0) ||
+               (this.position >= this.source.Count))
             {
                 throw new UnexpectedEndOfStreamException();
             }
-            return this.Source[this.Position];
+            return this.source[this.position];
         }
 
         public T Peek<T>() where T : Token
         {
-            var peek = this.Peek();
-            return (peek as T);
+            if ((this.source.Count == 0) ||
+               (this.position >= this.source.Count))
+            {
+                throw new UnexpectedEndOfStreamException();
+            }
+            return (this.Source[this.Position] as T);
         }
 
-        public IdentifierToken PeekIdentifier()
-        {
-            return this.Peek<IdentifierToken>();
-        }
+        #endregion
 
-        public bool PeekIdentifier(string name, bool ignoreCase = false)
+        #region TryPeek Methods
+
+        public bool TryPeek<T>() where T : Token
         {
-            var token = this.Peek<IdentifierToken>();
-            if (token == null)
+
+            if ((this.source.Count == 0) ||
+               (this.position >= this.source.Count))
             {
                 return false;
             }
-            else if (ignoreCase)
+            return (this.Source[this.Position] is T);
+        }
+
+        public bool TryPeek<T>(out T result) where T : Token
+        {
+            if ((this.source.Count == 0) ||
+                (this.position >= this.source.Count))
             {
-                return string.Equals(token.Name, name, StringComparison.InvariantCultureIgnoreCase);
+                throw new UnexpectedEndOfStreamException();
             }
-            else
+            var peek = this.source[this.position] as T;
+            if (peek == null)
             {
-                return (token != null) && (token.Name == name);
+                result = null;
+                return false;
             }
+            result = peek;
+            return true;
+        }
+
+        public bool TryPeek<T>(Func<T, bool> predicate, out T result) where T : Token
+        {
+
+            if ((this.source.Count == 0) ||
+                (this.position >= this.source.Count))
+            {
+                throw new UnexpectedEndOfStreamException();
+            }
+            var peek = this.source[this.position] as T;
+            if ((peek != null) && predicate(peek))
+            {
+                result = peek;
+                return true;
+            }
+            result = null;
+            return false;
+        }
+
+        #endregion
+
+        #region PeekIdentifierToken Methods
+
+        public bool TryPeekIdentifierToken(string name, out IdentifierToken result)
+        {
+            return this.TryPeek<IdentifierToken>(
+                t => t.GetNormalizedName() == name,
+                out result
+            );
         }
 
         #endregion
@@ -91,28 +146,40 @@ namespace Kingsland.MofParser.Parsing
         public Token Read()
         {
             var value = this.Peek();
-            this.Position += 1;
+            this.position += 1;
             return value;
         }
 
         public T Read<T>() where T : Token
         {
-            var token = this.Read();
-            var cast = (token as T);
-            if (cast == null)
+            var token = this.Peek();
+            if (token is T cast)
             {
-                throw new UnexpectedTokenException(token);
+                this.Read();
+                return cast;
             }
-            return cast;
+            throw new UnexpectedTokenException(token);
         }
 
-        public IdentifierToken ReadIdentifier()
+        #endregion
+
+        #region TryRead Methods
+
+        public bool TryRead<T>(out T result) where T : Token
         {
-            var token = this.Read<IdentifierToken>();
-            return token;
+            if (this.TryPeek<T>(out result))
+            {
+                this.Read();
+                return true;
+            }
+            return false;
         }
 
-        public IdentifierToken ReadIdentifier(string name)
+        #endregion
+
+        #region ReadIdentifierToken Methods
+
+        public IdentifierToken ReadIdentifierToken(string name)
         {
             var token = this.Read<IdentifierToken>();
             if (token.GetNormalizedName() != name)
@@ -121,6 +188,26 @@ namespace Kingsland.MofParser.Parsing
             }
             return token;
         }
+
+        public IdentifierToken ReadIdentifierToken(Func<IdentifierToken, bool> predicate)
+        {
+            var token = this.Read<IdentifierToken>();
+            return predicate(token) ? token : throw new UnexpectedTokenException(token);
+        }
+
+        public bool TryReadIdentifierToken(string name, out IdentifierToken result)
+        {
+            if (this.TryPeekIdentifierToken(name, out result))
+            {
+                this.Read();
+                return true;
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region Backtrack Methods
 
         /// <summary>
         /// Moves the stream position back a token.
@@ -139,10 +226,12 @@ namespace Kingsland.MofParser.Parsing
             {
                 throw new InvalidOperationException();
             }
-            this.Position -= count;
+            this.position -= count;
         }
 
         #endregion
+
+        #region Object Interface
 
         public override string ToString()
         {
@@ -164,6 +253,9 @@ namespace Kingsland.MofParser.Parsing
             }
             return string.Format("Current = '{0}'", result.ToString());
         }
+
+        #endregion
+
     }
 
 }

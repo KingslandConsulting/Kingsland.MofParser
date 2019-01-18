@@ -6,7 +6,6 @@ namespace Kingsland.MofParser.Ast
 {
 
     /// <summary>
-    ///
     /// </summary>
     /// <remarks>
     ///
@@ -32,6 +31,14 @@ namespace Kingsland.MofParser.Ast
     ///                                 [ "=" referenceTypeValue ]
     ///
     ///     parameterName             = IDENTIFIER
+    ///
+    /// 7.5.6 Method declaration
+    ///
+    ///     classReference            = DT_REFERENCE
+    ///
+    /// 7.5.10 Reference type declaration
+    ///
+    ///     DT_REFERENCE              = className REF
     ///
     /// </remarks>
     public sealed class ParameterDeclarationAst : AstNode

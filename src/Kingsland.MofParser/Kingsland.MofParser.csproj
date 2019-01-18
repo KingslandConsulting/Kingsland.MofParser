@@ -90,7 +90,7 @@
     <Compile Include="Tokens\AttributeOpenToken.cs" />
     <Compile Include="Tokens\RealLiteralToken.cs" />
     <Compile Include="Tokens\NullLiteralToken.cs" />
-    <Compile Include="Tokens\ParenthesesCloseToken.cs" />
+    <Compile Include="Tokens\ParenthesisCloseToken.cs" />
     <Compile Include="Tokens\ColonToken.cs" />
     <Compile Include="Tokens\CommaToken.cs" />
     <Compile Include="Tokens\BooleanLiteralToken.cs" />
@@ -102,7 +102,7 @@
     <Compile Include="Tokens\AliasIdentifierToken.cs" />
     <Compile Include="Tokens\BlockCloseToken.cs" />
     <Compile Include="Tokens\IntegerLiteralToken.cs" />
-    <Compile Include="Tokens\ParenthesesOpenToken.cs" />
+    <Compile Include="Tokens\ParenthesisOpenToken.cs" />
     <Compile Include="Tokens\PragmaToken.cs" />
     <Compile Include="Tokens\StatementEndToken.cs" />
     <Compile Include="Tokens\StringLiteralToken.cs" />

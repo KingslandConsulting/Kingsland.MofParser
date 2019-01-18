@@ -9,7 +9,7 @@
     ///
     /// 7.5.1 Structure declaration
     ///
-    ///     structureFeature = structureDeclaration / ; local structure
+    ///     structureFeature = structureDeclaration /   ; local structure
     ///                        enumerationDeclaration / ; local enumeration
     ///                        propertyDeclaration
     ///

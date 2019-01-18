@@ -16,262 +16,235 @@ namespace Kingsland.MofParser.Lexing
 
         public static (Token Token, Lexer NextLexer) ReadToken(Lexer lexer)
         {
+
             var reader = lexer.Reader;
             var peek = reader.Peek();
+
             switch (peek.Value)
             {
+
                 case '$':
-                    {
-                        var (aliasIdentifierToken, nextReader) = LexerEngine.ReadAliasIdentifierToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (aliasIdentifierToken, nextLexer);
-                    }
+                    return LexerEngine.ReadAliasIdentifierToken(reader);
                 case ']':
-                    {
-                        var (attributeClosetoken, nextReader) = LexerEngine.ReadAttributeCloseToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (attributeClosetoken, nextLexer);
-                    }
+                    return LexerEngine.ReadAttributeCloseToken(reader);
                 case '[':
-                    {
-                        var (attributeOpenToken, nextReader) = LexerEngine.ReadAttributeOpenToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (attributeOpenToken, nextLexer);
-                    }
+                    return LexerEngine.ReadAttributeOpenToken(reader);
                 case '}':
-                    {
-                        var (blockCloseToken, nextReader) = LexerEngine.ReadBlockCloseToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (blockCloseToken, nextLexer);
-                    }
+                    return LexerEngine.ReadBlockCloseToken(reader);
                 case '{':
-                    {
-                        var (blockOpenToken, nextReader) = LexerEngine.ReadBlockOpenToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (blockOpenToken, nextLexer);
-                    }
+                    return LexerEngine.ReadBlockOpenToken(reader);
                 case ':':
-                    {
-                        var (colonToken, nextReader) = LexerEngine.ReadColonToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (colonToken, nextLexer);
-                    }
+                    return LexerEngine.ReadColonToken(reader);
                 case ',':
-                    {
-                        var (commaToken, nextReader) = LexerEngine.ReadCommaToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (commaToken, nextLexer);
-                    }
+                    return LexerEngine.ReadCommaToken(reader);
                 case '/':
-                    {
-                        var (forwardSlashToken, nextReader) = LexerEngine.ReadCommentToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (forwardSlashToken, nextLexer);
-                    }
+                    return LexerEngine.ReadCommentToken(reader);
                 case '=':
-                    {
-                        var (equalsToken, nextReader) = LexerEngine.ReadEqualsOperatorToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (equalsToken, nextLexer);
-                    }
+                    return LexerEngine.ReadEqualsOperatorToken(reader);
                 case ')':
-                    {
-                        var (parenthesesCloseToken, nextReader) = LexerEngine.ReadParenthesesCloseToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (parenthesesCloseToken, nextLexer);
-                    }
+                    return LexerEngine.ReadParenthesisCloseToken(reader);
                 case '(':
-                    {
-                        var (parenthesesOpenToken, nextReader) = LexerEngine.ReadParenthesesOpenToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (parenthesesOpenToken, nextLexer);
-                    }
+                    return LexerEngine.ReadParenthesisOpenToken(reader);
                 case '#':
-                    {
-                        var (pragmaToken, nextReader) = LexerEngine.ReadPragmaToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (pragmaToken, nextLexer);
-                    }
+                    return LexerEngine.ReadPragmaToken(reader);
                 case ';':
-                    {
-                        var (statementEndToken, nextReader) = LexerEngine.ReadStatementEndToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (statementEndToken, nextLexer);
-                    }
+                    return LexerEngine.ReadStatementEndToken(reader);
                 case '"':
-                    {
-                        var (stringLiteralToken, nextReader) = LexerEngine.ReadStringLiteralToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (stringLiteralToken, nextLexer);
-                    }
+                    return LexerEngine.ReadStringLiteralToken(reader);
                 case '+':
                 case '-':
-                    {
-                        var (numericToken, nextReader) = LexerEngine.ReadNumericLiteralToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (numericToken, nextLexer);
-                    }
+                    return LexerEngine.ReadNumericLiteralToken(reader);
                 case '.':
+                    // if the next character is a decimalDigit then we're reading a RealLiteralToken with
+                    // no leading digits before the decimal point (e.g. ".45"), otherwise we're reading
+                    // a DotOperatorToken (e.g. the "." in "MyPropertyValue = MyEnum.Value;")
+                    var readAhead = reader.Read().NextReader;
+                    if (!readAhead.Eof() && StringValidator.IsDecimalDigit(readAhead.Peek().Value))
                     {
-                        // if the next character is a decimalDigit then we're reading a RealLiteralToken with
-                        // no leading digits before the decimal point (e.g. ".45"), otherwise we're reading
-                        // a DotOperatorToken (e.g. the "." in "MyPropertyValue = MyEnum.Value;")
-                        var readAhead = reader.Read().NextReader;
-                        if (!readAhead.Eof() && StringValidator.IsDecimalDigit(readAhead.Peek().Value))
-                        {
-                            var (numericToken, nextReader) = LexerEngine.ReadNumericLiteralToken(reader);
-                            var nextLexer = new Lexer(nextReader);
-                            return (numericToken, nextLexer);
-                        }
-                        else
-                        {
-                            var (dotOperator, nextReader) = LexerEngine.ReadDotOperatorToken(reader);
-                            var nextLexer = new Lexer(nextReader);
-                            return (dotOperator, nextLexer);
-                        }
-                    }
-                default:
-                    if (StringValidator.IsWhitespace(peek.Value))
-                    {
-                        var (whitespaceToken, nextReader) = LexerEngine.ReadWhitespaceToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (whitespaceToken, nextLexer);
-                    }
-                    else if (StringValidator.IsFirstIdentifierChar(peek.Value))
-                    {
-                        var (identifierToken, nextReader) = LexerEngine.ReadIdentifierToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        if (StringValidator.IsFalse(identifierToken.Name))
-                        {
-                            /// 7.6.1.5 Boolean value
-                            ///
-                            ///     booleanValue = TRUE / FALSE
-                            ///
-                            ///     FALSE        = "false" ; keyword: case insensitive
-                            ///     TRUE         = "true"  ; keyword: case insensitive
-                            ///
-                            var booleanLiteralToken = new BooleanLiteralToken(identifierToken.Extent, false);
-                            return (booleanLiteralToken, nextLexer);
-                        }
-                        else if (StringValidator.IsTrue(identifierToken.Name))
-                        {
-                            /// 7.6.1.5 Boolean value
-                            ///
-                            ///     booleanValue = TRUE / FALSE
-                            ///
-                            ///     FALSE        = "false" ; keyword: case insensitive
-                            ///     TRUE         = "true"  ; keyword: case insensitive
-                            var booleanLiteralToken = new BooleanLiteralToken(identifierToken.Extent, true);
-                            return (booleanLiteralToken, nextLexer);
-                        }
-                        else if (StringValidator.IsNull(identifierToken.Name))
-                        {
-                            /// 7.6.1.6 Null value
-                            ///
-                            ///     nullValue = NULL
-                            ///
-                            ///     NULL = "null" ; keyword: case insensitive
-                            ///                   ; second
-                            var nullLiteralToken = new NullLiteralToken(identifierToken.Extent);
-                            return (nullLiteralToken, nextLexer);
-                        }
-                        else
-                        {
-                            return (identifierToken, nextLexer);
-                        }
-                    }
-                    else if (StringValidator.IsDecimalDigit(peek.Value))
-                    {
-                        var (numericToken, nextReader) = LexerEngine.ReadNumericLiteralToken(reader);
-                        var nextLexer = new Lexer(nextReader);
-                        return (numericToken, nextLexer);
+                        return LexerEngine.ReadNumericLiteralToken(reader);
                     }
                     else
                     {
-                        throw new UnexpectedCharacterException(peek);
+                        return LexerEngine.ReadDotOperatorToken(reader);
                     }
+
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                case 'e':
+                case 'f':
+                case 'g':
+                case 'h':
+                case 'i':
+                case 'j':
+                case 'k':
+                case 'l':
+                case 'm':
+                case 'n':
+                case 'o':
+                case 'p':
+                case 'q':
+                case 'r':
+                case 's':
+                case 't':
+                case 'u':
+                case 'v':
+                case 'w':
+                case 'x':
+                case 'y':
+                case 'z':
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
+                case 'F':
+                case 'G':
+                case 'H':
+                case 'I':
+                case 'J':
+                case 'K':
+                case 'L':
+                case 'M':
+                case 'N':
+                case 'O':
+                case 'P':
+                case 'Q':
+                case 'R':
+                case 'S':
+                case 'T':
+                case 'U':
+                case 'V':
+                case 'W':
+                case 'X':
+                case 'Y':
+                case 'Z':
+                case '_':
+                    // firstIdentifierChar
+                    var (identifierToken, nextLexer) = LexerEngine.ReadIdentifierToken(reader);
+                    var normalized = identifierToken.Name.ToLowerInvariant();
+                    switch (normalized)
+                    {
+                        case "false":
+                            var falseToken = new BooleanLiteralToken(identifierToken.Extent, false);
+                            return (falseToken, nextLexer);
+                        case "true":
+                            var trueToken = new BooleanLiteralToken(identifierToken.Extent, true);
+                            return (trueToken, nextLexer);
+                        case "null":
+                            var nullLiteralToken = new NullLiteralToken(identifierToken.Extent);
+                            return (nullLiteralToken, nextLexer);
+                        default:
+                            return (identifierToken, nextLexer);
+                    }
+
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    // decimalDigit
+                    return LexerEngine.ReadNumericLiteralToken(reader);
+
+                case '\u0020': // space
+                case '\u0009': // horizontal tab
+                case '\u000D': // carriage return
+                case '\u000A': // line feed
+                    // WS
+                    return LexerEngine.ReadWhitespaceToken(reader);
+
+                default:
+                    throw new UnexpectedCharacterException(peek);
+
             }
+
         }
 
         #endregion
 
         #region Symbols
 
-        public static (AttributeCloseToken, SourceReader) ReadAttributeCloseToken(SourceReader reader)
+        public static (AttributeCloseToken, Lexer) ReadAttributeCloseToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read(']');
             var extent = SourceExtent.From(sourceChar);
-            return (new AttributeCloseToken(extent), nextReader);
+            return (new AttributeCloseToken(extent), new Lexer(nextReader));
         }
 
-        public static (AttributeOpenToken, SourceReader) ReadAttributeOpenToken(SourceReader reader)
+        public static (AttributeOpenToken, Lexer) ReadAttributeOpenToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read('[');
             var extent = SourceExtent.From(sourceChar);
-            return (new AttributeOpenToken(extent), nextReader);
+            return (new AttributeOpenToken(extent), new Lexer(nextReader));
         }
 
-        public static (BlockCloseToken, SourceReader) ReadBlockCloseToken(SourceReader reader)
+        public static (BlockCloseToken, Lexer) ReadBlockCloseToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read('}');
             var extent = SourceExtent.From(sourceChar);
-            return (new BlockCloseToken(extent), nextReader);
+            return (new BlockCloseToken(extent), new Lexer(nextReader));
         }
 
-        public static (BlockOpenToken, SourceReader) ReadBlockOpenToken(SourceReader reader)
+        public static (BlockOpenToken, Lexer) ReadBlockOpenToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read('{');
             var extent = SourceExtent.From(sourceChar);
-            return (new BlockOpenToken(extent), nextReader);
+            return (new BlockOpenToken(extent), new Lexer(nextReader));
         }
 
-        public static (ColonToken, SourceReader) ReadColonToken(SourceReader reader)
+        public static (ColonToken, Lexer) ReadColonToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read(':');
             var extent = SourceExtent.From(sourceChar);
-            return (new ColonToken(extent), nextReader);
+            return (new ColonToken(extent), new Lexer(nextReader));
         }
 
-        public static (CommaToken, SourceReader) ReadCommaToken(SourceReader reader)
+        public static (CommaToken, Lexer) ReadCommaToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read(',');
             var extent = SourceExtent.From(sourceChar);
-            return (new CommaToken(extent), nextReader);
+            return (new CommaToken(extent), new Lexer(nextReader));
         }
 
-        public static (DotOperatorToken, SourceReader) ReadDotOperatorToken(SourceReader reader)
+        public static (DotOperatorToken, Lexer) ReadDotOperatorToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read('.');
             var extent = SourceExtent.From(sourceChar);
-            return (new DotOperatorToken(extent), nextReader);
+            return (new DotOperatorToken(extent), new Lexer(nextReader));
         }
 
-        public static (EqualsOperatorToken, SourceReader) ReadEqualsOperatorToken(SourceReader reader)
+        public static (EqualsOperatorToken, Lexer) ReadEqualsOperatorToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read('=');
             var extent = SourceExtent.From(sourceChar);
-            return (new EqualsOperatorToken(extent), nextReader);
+            return (new EqualsOperatorToken(extent), new Lexer(nextReader));
         }
 
-        public static (ParenthesesCloseToken, SourceReader) ReadParenthesesCloseToken(SourceReader reader)
+        public static (ParenthesisCloseToken, Lexer) ReadParenthesisCloseToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read(')');
             var extent = SourceExtent.From(sourceChar);
-            return (new ParenthesesCloseToken(extent), nextReader);
+            return (new ParenthesisCloseToken(extent), new Lexer(nextReader));
         }
 
-        public static (ParenthesesOpenToken, SourceReader) ReadParenthesesOpenToken(SourceReader reader)
+        public static (ParenthesisOpenToken, Lexer) ReadParenthesisOpenToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read('(');
             var extent = SourceExtent.From(sourceChar);
-            return (new ParenthesesOpenToken(extent), nextReader);
+            return (new ParenthesisOpenToken(extent), new Lexer(nextReader));
         }
 
-        public static (StatementEndToken, SourceReader) ReadStatementEndToken(SourceReader reader)
+        public static (StatementEndToken, Lexer) ReadStatementEndToken(SourceReader reader)
         {
             (var sourceChar, var nextReader) = reader.Read(';');
             var extent = SourceExtent.From(sourceChar);
-            return (new StatementEndToken(extent), nextReader);
+            return (new StatementEndToken(extent), new Lexer(nextReader));
         }
 
         #endregion
@@ -301,7 +274,7 @@ namespace Kingsland.MofParser.Lexing
         ///     WS = U+0020 / U+0009 / U+000D / U+000A
         ///
         /// </remarks>
-        public static (WhitespaceToken, SourceReader) ReadWhitespaceToken(SourceReader reader)
+        public static (WhitespaceToken, Lexer) ReadWhitespaceToken(SourceReader reader)
         {
             var thisReader = reader;
             var sourceChar = default(SourceChar);
@@ -317,7 +290,7 @@ namespace Kingsland.MofParser.Lexing
             }
             // return the result
             var extent = SourceExtent.From(sourceChars);
-            return (new WhitespaceToken(extent), thisReader);
+            return (new WhitespaceToken(extent), new Lexer(thisReader));
         }
 
         #endregion
@@ -354,7 +327,7 @@ namespace Kingsland.MofParser.Lexing
         ///                             comment */
         ///
         /// </remarks>
-        public static (CommentToken, SourceReader) ReadCommentToken(SourceReader reader)
+        public static (CommentToken, Lexer) ReadCommentToken(SourceReader reader)
         {
             var thisReader = reader;
             var sourceChar = default(SourceChar);
@@ -396,7 +369,7 @@ namespace Kingsland.MofParser.Lexing
             }
             // return the result
             var extent = SourceExtent.From(sourceChars);
-            return (new CommentToken(extent), thisReader);
+            return (new CommentToken(extent), new Lexer(thisReader));
         }
 
         #endregion
@@ -434,11 +407,11 @@ namespace Kingsland.MofParser.Lexing
         ///     directiveName      = org-id "_" IDENTIFIER
         ///
         /// </remarks>
-        public static (PragmaToken, SourceReader) ReadPragmaToken(SourceReader reader)
+        public static (PragmaToken, Lexer) ReadPragmaToken(SourceReader reader)
         {
             (var sourceChars, var thisReader) = reader.ReadString(Constants.PRAGMA, true);
             var extent = SourceExtent.From(sourceChars.ToList());
-            return (new PragmaToken(extent), thisReader);
+            return (new PragmaToken(extent), new Lexer(thisReader));
         }
 
         #endregion
@@ -467,7 +440,7 @@ namespace Kingsland.MofParser.Lexing
         ///     localName           = IDENTIFIER
         ///
         /// </remarks>
-        public static (IdentifierToken, SourceReader) ReadIdentifierToken(SourceReader reader)
+        public static (IdentifierToken, Lexer) ReadIdentifierToken(SourceReader reader)
         {
             var thisReader = reader;
             var sourceChar = default(SourceChar);
@@ -487,7 +460,7 @@ namespace Kingsland.MofParser.Lexing
             // return the result
             var extent = SourceExtent.From(sourceChars);
             var name = nameChars.ToString();
-            return (new IdentifierToken(extent, name), thisReader);
+            return (new IdentifierToken(extent, name), new Lexer(thisReader));
         }
 
         #endregion
@@ -518,7 +491,7 @@ namespace Kingsland.MofParser.Lexing
         ///     localName           = IDENTIFIER
         ///
         /// </remarks>
-        public static (AliasIdentifierToken, SourceReader) ReadAliasIdentifierToken(SourceReader reader)
+        public static (AliasIdentifierToken, Lexer) ReadAliasIdentifierToken(SourceReader reader)
         {
             var thisReader = reader;
             var sourceChar = default(SourceChar);
@@ -541,7 +514,7 @@ namespace Kingsland.MofParser.Lexing
             // return the result
             var extent = SourceExtent.From(sourceChars);
             var name = nameChars.ToString();
-            return (new AliasIdentifierToken(extent, name), thisReader);
+            return (new AliasIdentifierToken(extent, name), new Lexer(thisReader));
         }
 
         #endregion
@@ -591,7 +564,7 @@ namespace Kingsland.MofParser.Lexing
         ///     positiveDecimalDigit = "1"..."9"
         ///
         /// </remarks>
-        public static (Token, SourceReader) ReadNumericLiteralToken(SourceReader reader)
+        public static (Token, Lexer) ReadNumericLiteralToken(SourceReader reader)
         {
 
             int ParseBinaryValueDigits(IEnumerable<SourceChar> binaryChars, SourceChar sign)
@@ -906,7 +879,7 @@ namespace Kingsland.MofParser.Lexing
                 }
             }
 
-            return (token, thisReader);
+            return (token, new Lexer(thisReader));
 
         }
 
@@ -962,7 +935,7 @@ namespace Kingsland.MofParser.Lexing
         ///     UNDERSCORE  = U+005F ; _
         ///
         /// </remarks>
-        public static (StringLiteralToken, SourceReader) ReadStringLiteralToken(SourceReader reader)
+        public static (StringLiteralToken, Lexer) ReadStringLiteralToken(SourceReader reader)
         {
             // BUGBUG - no support for *( *WS DOUBLEQUOTE *stringChar DOUBLEQUOTE )
             // BUGBUG - incomplete escape sequences
@@ -1049,7 +1022,7 @@ namespace Kingsland.MofParser.Lexing
             // return the result
             var extent = SourceExtent.From(sourceChars);
             var stringValue = stringChars.ToString();
-            return (new StringLiteralToken(extent, stringValue), thisReader);
+            return (new StringLiteralToken(extent, stringValue), new Lexer(thisReader));
         }
 
         #endregion

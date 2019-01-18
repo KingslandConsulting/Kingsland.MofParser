@@ -9,8 +9,6 @@ namespace Kingsland.MofParser.Ast
 
     /// <summary>
     /// </summary>
-    /// <param name="stream"></param>
-    /// <returns></returns>
     /// <remarks>
     ///
     /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
@@ -32,6 +30,11 @@ namespace Kingsland.MofParser.Ast
 
         public sealed class Builder
         {
+
+            public Builder()
+            {
+                this.Flavors = new List<IdentifierToken>();
+            }
 
             public IdentifierToken QualifierName
             {
