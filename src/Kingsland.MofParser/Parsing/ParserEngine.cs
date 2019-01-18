@@ -202,13 +202,13 @@ namespace Kingsland.MofParser.Parsing
             node.PragmaName = stream.Read<IdentifierToken>();
 
             // "("
-            stream.Read<ParenthesisOpenToken>();
+            var parenthesisOpen = stream.Read<ParenthesisOpenToken>();
 
             // pragmaParameter
             node.PragmaParameter = ParserEngine.ParseStringValueAst(stream);
 
             // ")"
-            stream.Read<ParenthesisCloseToken>();
+            var parenthesisClose = stream.Read<ParenthesisCloseToken>();
 
             return node.Build();
 
@@ -263,7 +263,7 @@ namespace Kingsland.MofParser.Parsing
             node.QualifierName = stream.Read<IdentifierToken>();
 
             // ":"
-            stream.Read<ColonToken>();
+            var colon = stream.Read<ColonToken>();
 
             throw new NotImplementedException();
 
@@ -304,7 +304,7 @@ namespace Kingsland.MofParser.Parsing
             var qualifierValue = default(QualifierValueAst);
 
             // "["
-            stream.Read<AttributeOpenToken>();
+            var attributeOpen = stream.Read<AttributeOpenToken>();
 
             // qualifierValue
             qualifierValue = ParserEngine.ParseQualifierValueAst(stream);
@@ -313,13 +313,13 @@ namespace Kingsland.MofParser.Parsing
             // *( "," qualifierValue )
             while (stream.Peek<CommaToken>() != null)
             {
-                var commaToken = stream.Read<CommaToken>();
+                var comma = stream.Read<CommaToken>();
                 qualifierValue = ParserEngine.ParseQualifierValueAst(stream);
                 node.QualifierValues.Add(qualifierValue);
             }
 
             // "]"
-            stream.Read<AttributeCloseToken>();
+            var attributeClose = stream.Read<AttributeCloseToken>();
 
             return node.Build();
 
@@ -404,7 +404,7 @@ namespace Kingsland.MofParser.Parsing
                 peek = stream.Peek<ColonToken>();
                 if (peek != null)
                 {
-                    stream.Read<ColonToken>();
+                    var colon = stream.Read<ColonToken>();
                     flavors.Add(stream.Read<IdentifierToken>());
                     while (stream.Peek<IdentifierToken>() != null)
                     {
@@ -434,11 +434,11 @@ namespace Kingsland.MofParser.Parsing
         public static LiteralValueAst ParseQualifierValueInitializer(ParserStream stream)
         {
             // "("
-            stream.Read<ParenthesisOpenToken>();
+            var parenthesisOpen = stream.Read<ParenthesisOpenToken>();
             // literalValue
             var valueInitializer = ParserEngine.ParseLiteralValueAst(stream);
             // ")"
-            stream.Read<ParenthesisCloseToken>();
+            var parenthesisClose = stream.Read<ParenthesisCloseToken>();
             return valueInitializer;
         }
 
@@ -459,10 +459,9 @@ namespace Kingsland.MofParser.Parsing
         {
 
             var valueArrayInitializer = new LiteralValueArrayAst.Builder();
-            var literalValueAst = default(LiteralValueAst);
 
             // "{"
-            stream.Read<BlockOpenToken>();
+            var blockOpen = stream.Read<BlockOpenToken>();
 
             // note - the MOF spec doesn't allow for empty qualifier value arrays like
             // this property from the "MSMCAEvent_InvalidError" class in WinXpProSp3WMI.mof:
@@ -481,21 +480,21 @@ namespace Kingsland.MofParser.Parsing
             {
 
                 // literalValue
-                literalValueAst = ParserEngine.ParseLiteralValueAst(stream);
-                valueArrayInitializer.Values.Add(literalValueAst);
+                var literalValue = ParserEngine.ParseLiteralValueAst(stream);
+                valueArrayInitializer.Values.Add(literalValue);
 
                 // *( "," literalValue )
                 while (!stream.Eof && (stream.Peek<CommaToken>() != null))
                 {
-                    var commaToken = stream.Read<CommaToken>();
-                    literalValueAst = ParserEngine.ParseLiteralValueAst(stream);
-                    valueArrayInitializer.Values.Add(literalValueAst);
+                    var comma = stream.Read<CommaToken>();
+                    literalValue = ParserEngine.ParseLiteralValueAst(stream);
+                    valueArrayInitializer.Values.Add(literalValue);
                 }
 
             }
 
             // "}"
-            stream.Read<BlockCloseToken>();
+            var blockClose = stream.Read<BlockCloseToken>();
 
             return valueArrayInitializer.Build();
 
@@ -555,7 +554,7 @@ namespace Kingsland.MofParser.Parsing
             {
 
                 // ":"
-                stream.Read<ColonToken>();
+                var colon = stream.Read<ColonToken>();
 
                 // structureName
                 var superStructureName = stream.Read<IdentifierToken>();
@@ -568,7 +567,7 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // "{"
-            stream.Read<BlockOpenToken>();
+            var blockOpen = stream.Read<BlockOpenToken>();
 
             // *structureFeature
             while (!stream.Eof)
@@ -582,10 +581,10 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // "}"
-            stream.Read<BlockCloseToken>();
+            var blockClose = stream.Read<BlockCloseToken>();
 
             // ";"
-            stream.Read<StatementEndToken>();
+            var statementEnd = stream.Read<StatementEndToken>();
 
             return node.Build();
 
@@ -748,7 +747,7 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // "{"
-            stream.Read<BlockOpenToken>();
+            var blockOpen = stream.Read<BlockOpenToken>();
 
             // *classFeature
             while (!stream.Eof)
@@ -762,10 +761,10 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // "}"
-            stream.Read<BlockCloseToken>();
+            var blockClose = stream.Read<BlockCloseToken>();
 
             // ";"
-            stream.Read<StatementEndToken>();
+            var statementEnd = stream.Read<StatementEndToken>();
 
             return node.Build();
 
@@ -979,7 +978,7 @@ namespace Kingsland.MofParser.Parsing
                     throw new UnsupportedTokenException(peek);
                 }
                 // "("
-                stream.Read<ParenthesisOpenToken>();
+                var methodParenthesisOpen = stream.Read<ParenthesisOpenToken>();
                 //  [ parameterDeclaration *( "," parameterDeclaration ) ]
                 if (stream.Peek<ParenthesisCloseToken>() == null)
                 {
@@ -996,7 +995,7 @@ namespace Kingsland.MofParser.Parsing
                     }
                 }
                 // ")"
-                stream.Read<ParenthesisCloseToken>();
+                var methodParenthesisClose = stream.Read<ParenthesisCloseToken>();
                 // we know this is a methodDeclaration now
                 isMethodDeclaration = true;
             }
@@ -1030,7 +1029,7 @@ namespace Kingsland.MofParser.Parsing
                         throw new UnsupportedTokenException(peek);
                     }
                     // "="
-                    stream.Read<EqualsOperatorToken>();
+                    var equalsOperator = stream.Read<EqualsOperatorToken>();
                     propertyInitializer = ParserEngine.ParsePropertyValueAst(stream);
                 }
             }
@@ -1129,7 +1128,7 @@ namespace Kingsland.MofParser.Parsing
             if (stream.Peek<ColonToken>() != null)
             {
                 // ":"
-                stream.Read<ColonToken>();
+                var colon = stream.Read<ColonToken>();
                 // associationName
                 var superAssociationName = stream.Read<IdentifierToken>();
                 if (!StringValidator.IsAssociationName(superAssociationName.Name))
@@ -1140,7 +1139,7 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // "{"
-            stream.Read<BlockOpenToken>();
+            var blockOpen = stream.Read<BlockOpenToken>();
 
             // *classFeature
             while (!stream.Eof)
@@ -1154,10 +1153,10 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // "}"
-            stream.Read<BlockCloseToken>();
+            var blockClose = stream.Read<BlockCloseToken>();
 
             // ";"
-            stream.Read<StatementEndToken>();
+            var statementEnd = stream.Read<StatementEndToken>();
 
             return node.Build();
 
@@ -1218,7 +1217,7 @@ namespace Kingsland.MofParser.Parsing
             node.EnumName = stream.Read<IdentifierToken>();
 
             // ":"
-            stream.Read<ColonToken>();
+            var colon = stream.Read<ColonToken>();
 
             // ( DT_INTEGER / integerEnumName ) / ( DT_STRING / stringEnumName )
             var enumTypeDeclaration = stream.Peek<IdentifierToken>();
@@ -1254,16 +1253,16 @@ namespace Kingsland.MofParser.Parsing
                 // *( "," integerEnumElement ) / *( "," stringEnumElement )
                 while (stream.Peek<CommaToken>() != null)
                 {
-                    stream.Read<CommaToken>();
+                    var comma = stream.Read<CommaToken>();
                     node.EnumElements.Add(ParserEngine.ParseEnumElementAst(stream, isIntegerEnum, isStringEnum));
                 }
             }
 
             // "}"
-            stream.Read<BlockCloseToken>();
+            var blockClose = stream.Read<BlockCloseToken>();
 
             // ";"
-            stream.Read<StatementEndToken>();
+            var statementEnd = stream.Read<StatementEndToken>();
 
             return node.Build();
 
@@ -2155,7 +2154,7 @@ namespace Kingsland.MofParser.Parsing
                         throw new UnexpectedTokenException(peek);
                     }
                     node.EnumName = enumIdentifier;
-                    stream.Read<DotOperatorToken>();
+                    var dot = stream.Read<DotOperatorToken>();
                     node.EnumLiteral = stream.Read<IdentifierToken>();
                 }
                 else
@@ -2168,7 +2167,7 @@ namespace Kingsland.MofParser.Parsing
             {
                 // this has a leading [ enumName "." ]
                 node.EnumName = enumIdentifier;
-                stream.Read<DotOperatorToken>();
+                var dot = stream.Read<DotOperatorToken>();
                 node.EnumLiteral = stream.Read<IdentifierToken>();
             }
             else
@@ -2197,7 +2196,7 @@ namespace Kingsland.MofParser.Parsing
         {
             var node = new EnumValueArrayAst.Builder();
             // "{"
-            stream.Read<BlockOpenToken>();
+            var blockOpen = stream.Read<BlockOpenToken>();
             // note - we're using enumValue, not enumName
             // [ enumValue *( "," enumValue ) ]
             if (stream.Peek<BlockCloseToken>() == null)
@@ -2212,7 +2211,7 @@ namespace Kingsland.MofParser.Parsing
                 }
             }
             // "}"
-            stream.Read<BlockCloseToken>();
+            var blockClose = stream.Read<BlockCloseToken>();
             // return the result
             return node.Build();
         }
