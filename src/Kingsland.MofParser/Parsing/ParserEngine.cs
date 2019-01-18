@@ -257,7 +257,7 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // QUALIFIER
-            node.QualifierKeyword = stream.ReadIdentifier(Constants.QUALIFIER);
+            node.QualifierKeyword = stream.ReadIdentifierToken(Constants.QUALIFIER);
 
             // qualifierName
             node.QualifierName = stream.Read<IdentifierToken>();
@@ -349,7 +349,7 @@ namespace Kingsland.MofParser.Parsing
             var node = new QualifierValueAst.Builder();
 
             // qualifierName
-            var qualifierName = stream.ReadIdentifier();
+            var qualifierName = stream.Read<IdentifierToken>();
             if (!StringValidator.IsElementName(qualifierName.Name))
             {
                 throw new UnexpectedTokenException(qualifierName);
@@ -540,7 +540,7 @@ namespace Kingsland.MofParser.Parsing
             node.QualifierList = qualifierList;
 
             // STRUCTURE
-            stream.ReadIdentifier(Constants.STRUCTURE);
+            var structureKeyword = stream.ReadIdentifierToken(Constants.STRUCTURE);
 
             // structureName
             var structureName = stream.Read<IdentifierToken>();
@@ -720,7 +720,7 @@ namespace Kingsland.MofParser.Parsing
             node.QualifierList = qualifierList;
 
             // CLASS
-            stream.ReadIdentifier(Constants.CLASS);
+            var classKeyword = stream.ReadIdentifierToken(Constants.CLASS);
 
             // className
             var className = stream.Read<IdentifierToken>();
@@ -922,9 +922,9 @@ namespace Kingsland.MofParser.Parsing
             //     + methodDeclaration that returns a classReference type
             // then the next token is the REF keyword in the classReference
             var memberReturnTypeRef = default(IdentifierToken);
-            if (stream.PeekIdentifier(Constants.REF, true))
+            if (stream.PeekIdentifierToken(Constants.REF) != null)
             {
-                memberReturnTypeRef = stream.ReadIdentifier(Constants.REF);
+                memberReturnTypeRef = stream.ReadIdentifierToken(Constants.REF);
             }
 
             // if we're reading a methodDeclaration then the next token
@@ -1115,7 +1115,7 @@ namespace Kingsland.MofParser.Parsing
             node.QualifierList = qualifierList;
 
             // ASSOCIATION
-            stream.ReadIdentifier(Constants.ASSOCIATION);
+            stream.ReadIdentifierToken(Constants.ASSOCIATION);
 
             // associationName
             var associationName = stream.Read<IdentifierToken>();
@@ -1207,21 +1207,21 @@ namespace Kingsland.MofParser.Parsing
             node.QualifierList = qualifierList;
 
             // ENUMERATION
-            var enumeration = stream.ReadIdentifier(Constants.ENUMERATION);
+            var enumeration = stream.ReadIdentifierToken(Constants.ENUMERATION);
 
             // enumName
-            var enumName = stream.PeekIdentifier();
+            var enumName = stream.Peek<IdentifierToken>();
             if ((enumName == null) || !StringValidator.IsEnumName(enumName.Name))
             {
                 throw new UnexpectedTokenException(enumName);
             }
-            node.EnumName = stream.ReadIdentifier();
+            node.EnumName = stream.Read<IdentifierToken>();
 
             // ":"
             stream.Read<ColonToken>();
 
             // ( DT_INTEGER / integerEnumName ) / ( DT_STRING / stringEnumName )
-            var enumTypeDeclaration = stream.PeekIdentifier();
+            var enumTypeDeclaration = stream.Peek<IdentifierToken>();
             if ((enumTypeDeclaration == null) || !StringValidator.IsEnumName(enumTypeDeclaration.Name))
             {
                 throw new UnexpectedTokenException(enumName);
@@ -1240,7 +1240,7 @@ namespace Kingsland.MofParser.Parsing
                     // string enum until we inspect the type of the base enum
                     break;
             }
-            node.EnumType = stream.ReadIdentifier();
+            node.EnumType = stream.Read<IdentifierToken>();
 
             // "{"
             stream.Read<BlockOpenToken>();
@@ -1296,7 +1296,7 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // enumLiteral
-            node.EnumElementName = stream.ReadIdentifier();
+            node.EnumElementName = stream.Read<IdentifierToken>();
 
             // "=" integerValue / [ "=" stringValue ]
             var peek = stream.Peek();
@@ -1386,9 +1386,9 @@ namespace Kingsland.MofParser.Parsing
             // if we're reading a referenceParamDeclaration then the next token
             // is the 'ref' keyword
             var parameterRef = default(IdentifierToken);
-            if (stream.PeekIdentifier(Constants.REF, true))
+            if (stream.PeekIdentifierToken(Constants.REF) != null)
             {
-                parameterRef = stream.ReadIdentifier(Constants.REF);
+                parameterRef = stream.ReadIdentifierToken(Constants.REF);
             }
 
             // parameterName
@@ -1524,10 +1524,10 @@ namespace Kingsland.MofParser.Parsing
             {
 
                 // VALUE
-                node.Value = stream.ReadIdentifier(Constants.VALUE);
+                node.Value = stream.ReadIdentifierToken(Constants.VALUE);
 
                 // OF
-                node.Of = stream.ReadIdentifier(Constants.OF);
+                node.Of = stream.ReadIdentifierToken(Constants.OF);
 
                 // ( structureName / className / associationName )
                 if (stream.Peek<IdentifierToken>() != null)
@@ -2018,10 +2018,10 @@ namespace Kingsland.MofParser.Parsing
             var node = new InstanceValueDeclarationAst.Builder();
 
             // INSTANCE
-            node.Instance = stream.ReadIdentifier(Constants.INSTANCE);
+            node.Instance = stream.ReadIdentifierToken(Constants.INSTANCE);
 
             // OF
-            node.Of = stream.ReadIdentifier(Constants.OF);
+            node.Of = stream.ReadIdentifierToken(Constants.OF);
 
             // ( className / associationName )
             var nameToken = stream.Read<IdentifierToken>();
@@ -2033,10 +2033,10 @@ namespace Kingsland.MofParser.Parsing
             node.TypeName = nameToken;
 
             // [ alias ]
-            if (stream.PeekIdentifier(Constants.AS))
+            if (stream.PeekIdentifierToken(Constants.AS) != null)
             {
                 // AS
-                node.As = stream.ReadIdentifier(Constants.AS);
+                node.As = stream.ReadIdentifierToken(Constants.AS);
                 // aliasIdentifier
                 var aliasIdentifierToken = stream.Read<AliasIdentifierToken>();
                 node.Alias = aliasIdentifierToken;
@@ -2076,10 +2076,10 @@ namespace Kingsland.MofParser.Parsing
             var node = new StructureValueDeclarationAst.Builder();
 
             // VALUE
-            node.Value = stream.ReadIdentifier(Constants.VALUE);
+            node.Value = stream.ReadIdentifierToken(Constants.VALUE);
 
             // OF
-            node.Of = stream.ReadIdentifier(Constants.OF);
+            node.Of = stream.ReadIdentifierToken(Constants.OF);
 
             // ( className / associationName / structureName )
             var nameToken = stream.Read<IdentifierToken>();
@@ -2092,10 +2092,10 @@ namespace Kingsland.MofParser.Parsing
             node.TypeName = nameToken;
 
             // [alias]
-            if (stream.PeekIdentifier(Constants.AS))
+            if (stream.PeekIdentifierToken(Constants.AS) != null)
             {
                 // AS
-                node.As = stream.ReadIdentifier(Constants.AS);
+                node.As = stream.ReadIdentifierToken(Constants.AS);
                 // aliasIdentifier
                 var aliasIdentifierToken = stream.Read<AliasIdentifierToken>();
                 node.Alias = aliasIdentifierToken;

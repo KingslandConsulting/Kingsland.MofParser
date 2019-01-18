@@ -56,32 +56,41 @@ namespace Kingsland.MofParser.Parsing
             return this.Source[this.Position];
         }
 
+        public Token Peek(Func<Token, bool> predicate)
+        {
+            var token = this.Peek();
+            if ((token == null) || !predicate(token))
+            {
+                return null;
+            }
+            return token;
+        }
+
         public T Peek<T>() where T : Token
         {
-            var peek = this.Peek();
-            return (peek as T);
+            var token = this.Peek();
+            var cast = (token as T);
+            return cast;
         }
 
-        public IdentifierToken PeekIdentifier()
+        public T Peek<T>(Func<T, bool> predicate) where T : Token
         {
-            return this.Peek<IdentifierToken>();
+            var token = this.Peek<T>();
+            if ((token == null) || !predicate(token))
+            {
+                return null;
+            }
+            return token;
         }
 
-        public bool PeekIdentifier(string name, bool ignoreCase = false)
+        public IdentifierToken PeekIdentifierToken(string name)
         {
             var token = this.Peek<IdentifierToken>();
-            if (token == null)
+            if ((token == null) || (token.GetNormalizedName() != name))
             {
-                return false;
+                return null;
             }
-            else if (ignoreCase)
-            {
-                return string.Equals(token.Name, name, StringComparison.InvariantCultureIgnoreCase);
-            }
-            else
-            {
-                return (token != null) && (token.Name == name);
-            }
+            return token;
         }
 
         #endregion
@@ -106,13 +115,7 @@ namespace Kingsland.MofParser.Parsing
             return cast;
         }
 
-        public IdentifierToken ReadIdentifier()
-        {
-            var token = this.Read<IdentifierToken>();
-            return token;
-        }
-
-        public IdentifierToken ReadIdentifier(string name)
+        public IdentifierToken ReadIdentifierToken(string name)
         {
             var token = this.Read<IdentifierToken>();
             if (token.GetNormalizedName() != name)
