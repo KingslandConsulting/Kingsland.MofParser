@@ -76,7 +76,7 @@ namespace Kingsland.MofParser.Source
             }
             var streamChar = (char)streamRead;
             // append a char to the buffer
-            var lastChar = this.Buffer.LastOrDefault();
+            var lastChar = (this.Buffer?.Count == 0) ? null : this.Buffer[this.Buffer.Count - 1];
             var nextChar = new SourceChar(
                 SourceStream.GetNextPosition(lastChar, streamChar),
                 streamChar
