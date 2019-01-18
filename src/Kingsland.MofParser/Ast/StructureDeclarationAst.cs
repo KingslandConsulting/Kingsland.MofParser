@@ -20,8 +20,10 @@ namespace Kingsland.MofParser.Ast
     ///                            "{" *structureFeature "}" ";"
     ///
     ///     structureName        = elementName
+    ///
     ///     superStructure       = ":" structureName
-    ///     structureFeature     = structureDeclaration / ; local structure
+    ///
+    ///     structureFeature     = structureDeclaration /   ; local structure
     ///                            enumerationDeclaration / ; local enumeration
     ///                            propertyDeclaration
     ///

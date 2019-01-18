@@ -8,18 +8,27 @@ namespace Kingsland.MofParser.Ast
 {
 
     /// <summary>
-    ///
     /// </summary>
-    /// <param name="stream"></param>
     /// <returns>
     ///
     /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
     ///
     /// 7.4 Qualifiers
     ///
-    ///     qualifierTypeDeclaration = [qualifierList] QUALIFIER qualifierName ":"
+    ///     qualifierTypeDeclaration = [ qualifierList ] QUALIFIER qualifierName ":"
     ///                                qualifierType qualifierScope
-    ///                                [qualifierPolicy] ";"
+    ///                                [ qualifierPolicy ] ";"
+    ///
+    ///     qualifierName            = elementName
+    ///
+    ///     qualifierType            = primitiveQualifierType / enumQualiferType
+    ///
+    ///     primitiveQualifierType   = primitiveType [ array ]
+    ///                                [ "=" primitiveTypeValue ] ";"
+    ///
+    ///     enumQualiferType         = enumName [ array ] "=" enumTypeValue ";"
+    ///
+    ///     qualifierScope           = SCOPE "(" ANY / scopeKindList ")"
     ///
     /// </returns>
     public sealed class QualifierTypeDeclarationAst : MofProductionAst

@@ -16,7 +16,9 @@ namespace Kingsland.MofParser.Ast
     ///     propertyValueList = "{" *propertySlot "}"
     ///
     ///     propertySlot      = propertyName "=" propertyValue ";"
+    ///
     ///     propertyValue     = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
+    ///
     ///     propertyName      = IDENTIFIER
     ///
     /// </remarks>

@@ -19,7 +19,9 @@ namespace Kingsland.MofParser.Ast
     ///                        "{" *classFeature "}" ";"
     ///
     ///     className        = elementName
+    ///
     ///     superClass       = ":" className
+    ///
     ///     classFeature     = structureFeature /
     ///                        methodDeclaration
     ///

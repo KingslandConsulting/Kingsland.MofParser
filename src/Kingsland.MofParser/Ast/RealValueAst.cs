@@ -11,7 +11,7 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.6.1.2 Real value
     ///
-    ///     realValue            = ["+" / "-"] * decimalDigit "." 1*decimalDigit
+    ///     realValue            = [ "+" / "-" ] * decimalDigit "." 1*decimalDigit
     ///                            [ ("e" / "E") [ "+" / "-" ] 1*decimalDigit ]
     ///
     ///     decimalDigit         = "0" / positiveDecimalDigit

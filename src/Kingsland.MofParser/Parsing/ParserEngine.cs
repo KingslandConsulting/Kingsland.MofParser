@@ -63,7 +63,7 @@ namespace Kingsland.MofParser.Parsing
         /// 7.5.1 Structure declaration
         ///
         ///     structureDeclaration   = [ qualifierList ] STRUCTURE structureName
-        ///                              [superStructure]
+        ///                              [ superStructure ]
         ///                              "{" *structureFeature "}" ";"
         ///
         /// 7.5.2 Class declaration
@@ -74,22 +74,23 @@ namespace Kingsland.MofParser.Parsing
         /// 7.5.3 Association declaration
         ///
         ///     associationDeclaration = [ qualifierList ] ASSOCIATION associationName
-        ///                              [superAssociation]
+        ///                              [ superAssociation ]
         ///                              "{" * classFeature "}" ";"
         ///
         /// 7.5.4 Enumeration declaration
         ///
         ///     enumerationDeclaration = enumTypeHeader enumName ":" enumTypeDeclaration ";"
+        ///
         ///     enumTypeHeader         = [qualifierList] ENUMERATION
         ///
         /// 7.6.2 Complex type value
         ///
         ///     instanceValueDeclaration  = INSTANCE OF ( className / associationName )
-        ///                                 [alias]
+        ///                                 [ alias ]
         ///                                 propertyValueList ";"
         ///
         ///     structureValueDeclaration = VALUE OF
-        ///                                 (className / associationName / structureName )
+        ///                                 ( className / associationName / structureName )
         ///                                 alias
         ///                                 propertyValueList ";"
         ///
@@ -97,7 +98,7 @@ namespace Kingsland.MofParser.Parsing
         ///
         ///     qualifierTypeDeclaration  = [ qualifierList ] QUALIFIER qualifierName ":"
         ///                                 qualifierType qualifierScope
-        ///                                 [qualifierPolicy] ";"
+        ///                                 [ qualifierPolicy ] ";"
         ///
         /// </remarks>
         public static MofProductionAst ParseMofProductionAst(ParserStream stream)
@@ -124,7 +125,7 @@ namespace Kingsland.MofParser.Parsing
                 }
             }
 
-            // all other mofProduction structures can start with an optional qualifierList
+            // all other mofProduction elements start with [ qualifieList ]
             var qualifierList = default(QualifierListAst);
             if (peek is AttributeOpenToken)
             {
@@ -170,23 +171,20 @@ namespace Kingsland.MofParser.Parsing
         ///
         /// 7.3 Compiler directives
         ///
-        /// Compiler directives direct the processing of MOF files. Compiler directives do not create, modify, or
-        /// annotate the language elements.
-        ///
-        /// Compiler directives shall conform to the format defined by ABNF rule compilerDirective (whitespace
-        /// as defined in 5.2 is allowed between the elements of the rules in this ABNF section):
-        ///
         ///     compilerDirective = PRAGMA ( pragmaName / standardPragmaName )
         ///                         "(" pragmaParameter ")"
         ///
         ///     pragmaName         = directiveName
+        ///
         ///     standardPragmaName = INCLUDE
+        ///
         ///     pragmaParameter    = stringValue ; if the pragma is INCLUDE,
         ///                                      ; the parameter value
         ///                                      ; shall represent a relative
         ///                                      ; or full file path
         ///
         ///     PRAGMA             = "#pragma"   ; keyword: case insensitive
+        ///
         ///     INCLUDE            = "include"   ; keyword: case insensitive
         ///
         ///     directiveName      = org-id "_" IDENTIFIER
@@ -230,9 +228,9 @@ namespace Kingsland.MofParser.Parsing
         ///
         /// 7.4 Qualifiers
         ///
-        ///     qualifierTypeDeclaration = [qualifierList] QUALIFIER qualifierName ":"
+        ///     qualifierTypeDeclaration = [ qualifierList ] QUALIFIER qualifierName ":"
         ///                                qualifierType qualifierScope
-        ///                                [qualifierPolicy] ";"
+        ///                                [ qualifierPolicy ] ";"
         ///
         ///     qualifierName            = elementName
         ///
@@ -251,7 +249,7 @@ namespace Kingsland.MofParser.Parsing
 
             var node = new QualifierTypeDeclarationAst.Builder();
 
-            // [qualifierList]
+            // [ qualifierList ]
             var peek = stream.Peek<BlockOpenToken>();
             if (peek != null)
             {
@@ -338,7 +336,7 @@ namespace Kingsland.MofParser.Parsing
         /// 7.4.1 QualifierList
         ///
         ///     qualifierValue = qualifierName [ qualifierValueInitializer /
-        ///                                     qualiferValueArrayInitializer ]
+        ///                      qualiferValueArrayInitializer ]
         ///
         /// 7.4 Qualifiers
         ///
@@ -399,6 +397,7 @@ namespace Kingsland.MofParser.Parsing
             //
 
             var allowV2QUalifierFlavors = true;
+
             if (allowV2QUalifierFlavors)
             {
                 var flavors = new List<IdentifierToken>();
@@ -474,13 +473,17 @@ namespace Kingsland.MofParser.Parsing
             // System.Management.ManagementBaseObject.GetFormat method returns invalid MOF
             // text for some classes, but we'll provide an option to allow or disallow empty
             // arrays here...
+
             var allowEmptyQualifierArrayInitializer = true;
+
             var isEmptyQualifierArrayInitializer = stream.Peek() is BlockCloseToken;
             if (!isEmptyQualifierArrayInitializer || !allowEmptyQualifierArrayInitializer)
             {
+
                 // literalValue
                 literalValueAst = ParserEngine.ParseLiteralValueAst(stream);
                 valueArrayInitializer.Values.Add(literalValueAst);
+
                 // *( "," literalValue )
                 while (!stream.Eof && (stream.Peek<CommaToken>() != null))
                 {
@@ -488,6 +491,7 @@ namespace Kingsland.MofParser.Parsing
                     literalValueAst = ParserEngine.ParseLiteralValueAst(stream);
                     valueArrayInitializer.Values.Add(literalValueAst);
                 }
+
             }
 
             // "}"
@@ -517,7 +521,12 @@ namespace Kingsland.MofParser.Parsing
         ///                            "{" *structureFeature "}" ";"
         ///
         ///     structureName        = elementName
+        ///
         ///     superStructure       = ":" structureName
+        ///
+        ///     structureFeature     = structureDeclaration /   ; local structure
+        ///                            enumerationDeclaration / ; local enumeration
+        ///                            propertyDeclaration
         ///
         ///     STRUCTURE            = "structure" ; keyword: case insensitive
         ///
@@ -544,8 +553,10 @@ namespace Kingsland.MofParser.Parsing
             // [ superStructure ]
             if (stream.Peek<ColonToken>() != null)
             {
+
                 // ":"
                 stream.Read<ColonToken>();
+
                 // structureName
                 var superStructureName = stream.Read<IdentifierToken>();
                 if (!StringValidator.IsStructureName(superStructureName.Name))
@@ -553,6 +564,7 @@ namespace Kingsland.MofParser.Parsing
                     throw new InvalidOperationException("Identifer is not a valid superclass name.");
                 }
                 node.SuperStructure = superStructureName;
+
             }
 
             // "{"
@@ -589,19 +601,18 @@ namespace Kingsland.MofParser.Parsing
         ///
         /// 7.5.1 Structure declaration
         ///
-        ///     structureFeature     = structureDeclaration / ; local structure
-        ///                            enumerationDeclaration / ; local enumeration
-        ///                            propertyDeclaration
-        ///
-        /// 7.5.1 Structure declaration
+        ///     structureFeature       = structureDeclaration /   ; local structure
+        ///                              enumerationDeclaration / ; local enumeration
+        ///                              propertyDeclaration
         ///
         ///     structureDeclaration   = [ qualifierList ] STRUCTURE structureName
-        ///                              [superStructure]
+        ///                              [ superStructure ]
         ///                              "{" *structureFeature "}" ";"
         ///
         /// 7.5.4 Enumeration declaration
         ///
         ///     enumerationDeclaration = enumTypeHeader enumName ":" enumTypeDeclaration ";"
+        ///
         ///     enumTypeHeader         = [qualifierList] ENUMERATION
         ///
         /// 7.5.5 Property declaration
@@ -610,6 +621,18 @@ namespace Kingsland.MofParser.Parsing
         ///                              complexPropertyDeclaration /
         ///                              enumPropertyDeclaration /
         ///                              referencePropertyDeclaration ) ";"
+        ///
+        ///     primitivePropertyDeclaration = primitiveType propertyName [ array ]
+        ///                                    [ "=" primitiveTypeValue ]
+        ///
+        ///     complexPropertyDeclaration   = structureOrClassName propertyName [ array ]
+        ///                                    [ "=" ( complexTypeValue / aliasIdentifier ) ]
+        ///
+        ///     enumPropertyDeclaration      = enumName propertyName [ array ]
+        ///                                    [ "=" enumTypeValue ]
+        ///
+        ///     referencePropertyDeclaration = classReference propertyName [ array ]
+        ///                                    [ "=" referenceTypeValue ]
         ///
         /// </remarks>
         public static IStructureFeatureAst ParseStructureFeatureAst(ParserStream stream)
@@ -625,11 +648,16 @@ namespace Kingsland.MofParser.Parsing
 
             // we now need to work out if it's a structureDeclaration, enumerationDeclaration,
             // or propertyDeclaration
+
+            // structureDeclaration   => STRUCTURE
+            // enumerationDeclaration => ENUMERATION
+            // propertyDeclaration    => primitiveType / structureOrClassName / enumName / classReference
             var identifier = stream.Peek<IdentifierToken>();
             if (identifier == null)
             {
                 throw new UnexpectedTokenException(peek);
             }
+
             var identifierName = identifier.GetNormalizedName();
             if (identifierName == Constants.STRUCTURE)
             {
@@ -674,7 +702,9 @@ namespace Kingsland.MofParser.Parsing
         ///                        "{" *classFeature "}" ";"
         ///
         ///     className        = elementName
+        ///
         ///     superClass       = ":" className
+        ///
         ///     classFeature     = structureFeature /
         ///                        methodDeclaration
         ///
@@ -703,8 +733,10 @@ namespace Kingsland.MofParser.Parsing
             // [ superClass ]
             if (stream.Peek<ColonToken>() != null)
             {
+
                 // ":"
                 stream.Read<ColonToken>();
+
                 // className
                 var superClassName = stream.Read<IdentifierToken>();
                 if (!StringValidator.IsClassName(superClassName.Name))
@@ -712,6 +744,7 @@ namespace Kingsland.MofParser.Parsing
                     throw new InvalidOperationException("Identifer is not a valid superclass name.");
                 }
                 node.SuperClass = superClassName;
+
             }
 
             // "{"
@@ -747,11 +780,7 @@ namespace Kingsland.MofParser.Parsing
         ///
         /// 7.5.2 Class declaration
         ///
-        ///     classFeature     = structureFeature / methodDeclaration
-        ///
-        ///     structureFeature = structureDeclaration /   ; local structure
-        ///                        enumerationDeclaration / ; local enumeration
-        ///                        propertyDeclaration
+        ///     classFeature           = structureFeature / methodDeclaration
         ///
         /// 7.5.1 Structure declaration
         ///
@@ -759,23 +788,15 @@ namespace Kingsland.MofParser.Parsing
         ///                              [superStructure]
         ///                              "{" *structureFeature "}" ";"
         ///
+        ///     structureFeature       = structureDeclaration /   ; local structure
+        ///                              enumerationDeclaration / ; local enumeration
+        ///                              propertyDeclaration
+        ///
         /// 7.5.4 Enumeration declaration
         ///
         ///     enumerationDeclaration = enumTypeHeader enumName ":" enumTypeDeclaration ";"
+        ///
         ///     enumTypeHeader         = [qualifierList] ENUMERATION
-        ///
-        /// 7.5.5 Property declaration
-        ///
-        ///     propertyDeclaration    = [ qualifierList ] ( primitivePropertyDeclaration /
-        ///                              complexPropertyDeclaration /
-        ///                              enumPropertyDeclaration /
-        ///                              referencePropertyDeclaration ) ";"
-        ///
-        /// 7.5.6 Method declaration
-        ///
-        ///     methodDeclaration      = [ qualifierList ]
-        ///                              ((returnDataType[array] ) / VOID ) methodName
-        ///                              "(" [parameterList] ")" ";"
         ///
         /// </remarks>
         public static IClassFeatureAst ParseClassFeatureAst(ParserStream stream)
@@ -791,11 +812,13 @@ namespace Kingsland.MofParser.Parsing
 
             // we now need to work out if it's a structureDeclaration, enumerationDeclaration,
             // propertyDeclaration or methodDeclaration
+
             var identifier = stream.Peek<IdentifierToken>();
             if (identifier == null)
             {
                 throw new UnexpectedTokenException(peek);
             }
+
             var identifierName = identifier.GetNormalizedName();
             if (identifierName == Constants.STRUCTURE)
             {
@@ -1077,6 +1100,7 @@ namespace Kingsland.MofParser.Parsing
         ///                              "{" * classFeature "}" ";"
         ///
         ///     associationName        = elementName
+        ///
         ///     superAssociation       = ":" elementName
         ///
         ///     ASSOCIATION            = "association" ; keyword: case insensitive
@@ -1155,7 +1179,9 @@ namespace Kingsland.MofParser.Parsing
         ///     enumerationDeclaration = enumTypeHeader enumName ":" enumTypeDeclaration ";"
         ///
         ///     enumTypeHeader         = [ qualifierList ] ENUMERATION
+        ///
         ///     enumName               = elementName
+        ///
         ///     enumTypeDeclaration    = ( DT_INTEGER / integerEnumName ) integerEnumDeclaration /
         ///                              ( DT_STRING / stringEnumName ) stringEnumDeclaration
         ///
@@ -1260,14 +1286,18 @@ namespace Kingsland.MofParser.Parsing
         /// </remarks>
         public static EnumElementAst ParseEnumElementAst(ParserStream stream, bool isIntegerEnum, bool isStringEnum)
         {
+
             var node = new EnumElementAst.Builder();
+
             // [ qualifierList ]
             if (stream.Peek<AttributeOpenToken>() != null)
             {
                 node.QualifierList = ParserEngine.ParseQualifierListAst(stream);
             }
+
             // enumLiteral
             node.EnumElementName = stream.ReadIdentifier();
+
             // "=" integerValue / [ "=" stringValue ]
             var peek = stream.Peek();
             if (isIntegerEnum || (peek is EqualsOperatorToken))
@@ -1277,9 +1307,11 @@ namespace Kingsland.MofParser.Parsing
                 switch (enumValue)
                 {
                     case IntegerLiteralToken integerValue:
+                        // integerValue
                         node.EnumElementValue = ParserEngine.ParseIntegerValueAst(stream);
                         break;
                     case StringLiteralToken stringValue:
+                        // stringValue
                         node.EnumElementValue = ParserEngine.ParseStringValueAst(stream);
                         break;
                     default:
@@ -1530,7 +1562,9 @@ namespace Kingsland.MofParser.Parsing
         /// 7.5.9 Complex type value
         ///
         ///     propertyValueList = "{" *propertySlot "}"
+        ///
         ///     propertySlot      = propertyName "=" propertyValue ";"
+        ///
         ///     propertyName      = IDENTIFIER
         ///
         /// </remarks>
@@ -1813,8 +1847,6 @@ namespace Kingsland.MofParser.Parsing
         ///
         /// 7.6.1.1 Integer value
         ///
-        /// No whitespace is allowed between the elements of the rules in this ABNF section.
-        ///
         ///     integerValue = binaryValue / octalValue / hexValue / decimalValue
         ///
         /// </remarks>
@@ -1840,10 +1872,13 @@ namespace Kingsland.MofParser.Parsing
         ///
         /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
-        /// 7.6.1.2 Real value
         ///
-        ///     realValue            = ["+" / "-"] * decimalDigit "." 1*decimalDigit
+        ///     realValue            = [ "+" / "-" ] * decimalDigit "." 1*decimalDigit
         ///                            [ ("e" / "E") [ "+" / "-" ] 1*decimalDigit ]
+        ///
+        ///     decimalDigit         = "0" / positiveDecimalDigit
+        ///
+        ///     positiveDecimalDigit = "1"..."9"
         ///
         /// </remarks>
         public static RealValueAst ParseRealValueAst(ParserStream stream)
@@ -1867,9 +1902,6 @@ namespace Kingsland.MofParser.Parsing
         /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
         /// 7.6.1.3 String values
-        ///
-        /// Unless explicitly specified via ABNF rule WS, no whitespace is allowed between the elements of the rules
-        /// in this ABNF section.
         ///
         ///     singleStringValue = DOUBLEQUOTE *stringChar DOUBLEQUOTE
         ///
@@ -1974,7 +2006,7 @@ namespace Kingsland.MofParser.Parsing
         /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
         ///
         ///     instanceValueDeclaration = INSTANCE OF ( className / associationName )
-        ///                                [alias]
+        ///                                [ alias ]
         ///                                propertyValueList ";"
         ///
         ///     alias                    = AS aliasIdentifier
@@ -2000,7 +2032,7 @@ namespace Kingsland.MofParser.Parsing
             }
             node.TypeName = nameToken;
 
-            // [alias]
+            // [ alias ]
             if (stream.PeekIdentifier(Constants.AS))
             {
                 // AS
@@ -2092,14 +2124,13 @@ namespace Kingsland.MofParser.Parsing
         ///
         /// 7.6.3 Enum type value
         ///
-        ///     enumValue = [ enumName "." ] enumLiteral
+        ///     enumValue   = [ enumName "." ] enumLiteral
         ///
-        ///     enumValue      = [ enumName "." ] enumLiteral
-        ///     enumLiteral    = IDENTIFIER
+        ///     enumLiteral = IDENTIFIER
         ///
         /// 7.5.4 Enumeration declaration
         ///
-        ///     enumName       = elementName
+        ///     enumName    = elementName
         ///
         /// </remarks>
         public static EnumValueAst ParseEnumValueAst(ParserStream stream)
@@ -2167,7 +2198,8 @@ namespace Kingsland.MofParser.Parsing
             var node = new EnumValueArrayAst.Builder();
             // "{"
             stream.Read<BlockOpenToken>();
-            // [ enumName *( "," enumValue ) ]
+            // note - we're using enumValue, not enumName
+            // [ enumValue *( "," enumValue ) ]
             if (stream.Peek<BlockCloseToken>() == null)
             {
                 // enumValue
@@ -2197,9 +2229,7 @@ namespace Kingsland.MofParser.Parsing
         ///
         /// 7.6.4 Reference type value
         ///
-        /// Whitespace as defined in 5.2 is allowed between the elements of the rules in this ABNF section.
-        ///
-        ///     referenceTypeValue   = objectPathValue / objectPathValueArray
+        ///     referenceTypeValue = objectPathValue / objectPathValueArray
         ///
         /// </remarks>
         public static PrimitiveTypeValueAst ParseReferenceTypeValueAst(ParserStream stream)

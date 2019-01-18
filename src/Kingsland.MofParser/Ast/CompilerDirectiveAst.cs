@@ -13,28 +13,24 @@ namespace Kingsland.MofParser.Ast
     ///
     /// 7.3 Compiler directives
     ///
-    /// Compiler directives direct the processing of MOF files. Compiler directives do not create, modify, or
-    /// annotate the language elements.
-    ///
-    /// Compiler directives shall conform to the format defined by ABNF rule compilerDirective (whitespace
-    /// as defined in 5.2 is allowed between the elements of the rules in this ABNF section):
-    ///
     ///     compilerDirective = PRAGMA ( pragmaName / standardPragmaName )
     ///                         "(" pragmaParameter ")"
     ///
     ///     pragmaName         = directiveName
+    ///
     ///     standardPragmaName = INCLUDE
+    ///
     ///     pragmaParameter    = stringValue ; if the pragma is INCLUDE,
     ///                                      ; the parameter value
     ///                                      ; shall represent a relative
     ///                                      ; or full file path
     ///
     ///     PRAGMA             = "#pragma"  ; keyword: case insensitive
+    ///
     ///     INCLUDE            = "include"  ; keyword: case insensitive
     ///
     ///     directiveName      = org-id "_" IDENTIFIER
     ///
-
     public sealed class CompilerDirectiveAst : MofProductionAst
     {
 

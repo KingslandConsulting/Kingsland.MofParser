@@ -17,12 +17,14 @@ namespace Kingsland.MofParser.Ast
     ///
     ///     associationDeclaration = [ qualifierList ] ASSOCIATION associationName
     ///                              [ superAssociation ]
-    ///                              "{" * classFeature "}" ";"
+    ///                              "{" *classFeature "}" ";"
     ///
     ///     associationName        = elementName
+    ///
     ///     superAssociation       = ":" elementName
     ///
     ///     ASSOCIATION            = "association" ; keyword: case insensitive
+    ///
     /// </remarks>
     public sealed class AssociationDeclarationAst : MofProductionAst
     {
