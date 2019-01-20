@@ -507,7 +507,14 @@ namespace Kingsland.MofParser.CodeGen
                 source.Append(" ");
             }
 
-            source.Append($"{node.ReturnType.Name} {node.Name.Name}");
+            source.Append(node.ReturnType.Name);
+            if (node.ReturnTypeIsArray)
+            {
+                source.Append("[]");
+            }
+
+            source.Append(" ");
+            source.Append(node.Name.Name);
 
             if (node.Parameters.Count == 0)
             {
