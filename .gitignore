@@ -4,5 +4,6 @@ obj
 packages
 
 *.user
+TestResults
 
 src/Kingsland.MofParser.UnitTests/Parsing/WMI/Win81
