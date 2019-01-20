@@ -79,6 +79,18 @@ namespace Kingsland.MofParser.CodeGen
                 case StructureValueDeclarationAst ast:
                     // 7.6.2 Complex type value
                     return MofGenerator.ConvertStructureValueDeclarationAst(ast, quirks);
+                case EnumValueAst ast:
+                    // 7.6.3 Enum type value
+                    return MofGenerator.ConvertEnumValueAst(ast, quirks);
+                case EnumValueArrayAst ast:
+                    // 7.6.3 Enum type value
+                    return MofGenerator.ConvertEnumValueArrayAst(ast, quirks);
+                case EnumTypeValueAst ast:
+                    // 7.6.3 Enum type value
+                    return MofGenerator.ConvertEnumTypeValueAst(ast, quirks);
+                case PropertyValueAst ast:
+                    // 7.5.9 Complex type value
+                    return MofGenerator.ConvertPropertyValueAst(ast, quirks);
                 default:
                     // unknown
                     throw new InvalidOperationException(node.GetType().FullName);

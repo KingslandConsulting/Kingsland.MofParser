@@ -582,18 +582,13 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/27"),
-             Ignore("https://github.com/mikeclayton/MofParser/issues/27")]
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/27")]
             public static void ClassDeclarationsWithMethodDeclarationWithEnumParameterShouldRoundtrip()
             {
                 var expectedMof =
                     "class GOLF_Professional : GOLF_ClubMember\r\n" +
                     "{\r\n" +
-                    "\tGOLF_ResultCodeEnum GetNumberOfProfessionals (\r\n" +
-                    "\tInteger NoOfPros,\r\n" +
-                    "\tGOLF_Club Club,\r\n" +
-                    "\tProfessionalStatusEnum Status = Professional\r\n" +
-                    "\t)\r\n" +
+                    "\tGOLF_ResultCodeEnum GetNumberOfProfessionals(Integer NoOfPros, GOLF_Club Club, ProfessionalStatusEnum Status = Professional);\r\n" +
                     "};";
                 var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
                 var actualAst = Parser.Parse(actualTokens);
