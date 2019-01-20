@@ -625,8 +625,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/38"),
-             Ignore("https://github.com/mikeclayton/MofParser/issues/38")]
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/38")]
             public static void MethodDeclarationWithMultipleParametersShouldRoundtrip()
             {
                 var expectedMof =
