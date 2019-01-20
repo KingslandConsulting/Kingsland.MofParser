@@ -6,13 +6,13 @@ using NUnit.Framework;
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
 
-    public static class MofGeneratorTests
+    public static class RoundtripTests
     {
 
-        public static class ConvertToMofTests
-        {
+        #region 7.3 Compiler directives
 
-            #region 7.3 Compiler directives
+        public static class CompilerDirectiveTests
+        {
 
             [Test]
             public static void CompilerDirectiveShouldRoundtrip()
@@ -36,9 +36,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            #endregion
+        }
 
-            #region 7.5.1 Structure declaration
+        #endregion
+
+        #region 7.5.1 Structure declaration
+
+        public static class StructureDeclarationTests
+        {
 
             [Test]
             public static void StructureDeclarationAstShouldRoundtrip()
@@ -98,9 +103,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            #endregion
+        }
 
-            #region 7.5.2 Class declaration
+        #endregion
+
+        #region 7.5.2 Class declaration
+
+        public static class ClassDeclarationTests
+        {
 
             [Test]
             public static void ClassDeclarationsAstShouldRoundtrip()
@@ -224,9 +234,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            #endregion
+        }
 
-            #region 7.5.3 Association declaration
+        #endregion
+
+        #region 7.5.3 Association declaration
+
+        public static class AssociationDeclarationTests
+        {
 
             [Test]
             public static void AssociationDeclarationAstShouldRoundtrip()
@@ -244,9 +259,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            #endregion
+        }
 
-            #region 7.5.4 Enumeration declaration
+        #endregion
+
+        #region 7.5.4 Enumeration declaration
+
+        public static class EnumerationDeclarationTests
+        {
 
             [Test]
             public static void EnumerationDeclarationAstShouldRoundtrip()
@@ -273,9 +293,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            #endregion
+        }
 
-            #region 7.5.6 Method declaration
+        #endregion
+
+        #region 7.5.6 Method declaration
+
+        public static class MethodDeclarationTests
+        {
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/27"),
              Ignore("https://github.com/mikeclayton/MofParser/issues/27")]
@@ -311,9 +336,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            #endregion
+        }
 
-            #region 7.6.1.3 String values
+        #endregion
+
+        #region 7.6.1.3 String values
+
+        public static class StringValueTests
+        {
 
             [Test]
             public static void StringValueWithSingleQuoteShouldRoundtrip()
@@ -329,9 +359,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            #endregion
+        }
 
-            #region 7.6.1.5 Boolean value
+        #endregion
+
+        #region 7.6.1.5 Boolean value
+
+        public static class BooleanValueTests
+        {
 
             [Test]
             public static void BooleanValueAstShouldRoundtrip()
@@ -347,9 +382,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            #endregion
+        }
 
-            #region 7.6.2 Complex type value
+        #endregion
+
+        #region 7.6.2 Complex type value
+
+        public static class ComplexTypeValueTests
+        {
 
             [Test]
             public static void InstanceValueDeclarationShouldRoundtrip()
@@ -440,9 +480,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            #endregion
+        }
 
-            #region 7.6.3 Enum type value
+        #endregion
+
+        #region 7.6.3 Enum type value
+
+        public static class EnumTypeValueTests
+        {
 
             [Test]
             public static void ClassDeclarationsAstWithUnqualifiedEnumValuePropertyInitializerShouldRoundtrip()
@@ -556,57 +601,57 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            #endregion
-
-            #region Roundtrip Test Cases
-
-            //[TestFixture]
-            //public static class ConvertToMofMethodTestCasesWmiWinXp
-            //{
-            //    [Test, TestCaseSource(typeof(ConvertToMofMethodTestCasesWmiWinXp), "GetTestCases")]
-            //    public static void ConvertToMofMethodTestsFromDisk(string mofFilename)
-            //    {
-            //        ConvertToMofTests.MofGeneratorRoundtripTest(mofFilename);
-            //    }
-            //    public static IEnumerable<TestCaseData> GetTestCases
-            //    {
-            //        get
-            //        {
-            //            return TestUtils.GetMofTestCase("Parsing\\WMI\\WinXp");
-            //        }
-            //    }
-            //}
-
-            //[TestFixture]
-            //public static class ConvertToMofMethodGolfExamples
-            //{
-            //    //[Test, TestCaseSource(typeof(ConvertToMofMethodGolfExamples), "GetTestCases")]
-            //    public static void ConvertToMofMethodTestsFromDisk(string mofFilename)
-            //    {
-            //        ConvertToMofTests.MofGeneratorRoundtripTest(mofFilename);
-            //    }
-            //    public static IEnumerable<TestCaseData> GetTestCases
-            //    {
-            //        get
-            //        {
-            //            return TestUtils.GetMofTestCase("Parsing\\DSP0221_3.0.1");
-            //        }
-            //    }
-            //}
-
-            //private static void MofGeneratorRoundtripTest(string mofFilename)
-            //{
-            //    var expectedMof = File.ReadAllText(mofFilename);
-            //    var reader = SourceReader.From(expectedMof);
-            //    var tokens = Lexing.Lexer.Lex(reader);
-            //    var ast = Parser.Parse(tokens);
-            //    var actualMof = MofGenerator.ConvertToMof(ast);
-            //    Assert.AreEqual(expectedMof, actualMof);
-            //}
-
-            #endregion
-
         }
+
+        #endregion
+
+        #region Roundtrip Test Cases
+
+        //[TestFixture]
+        //public static class ConvertToMofMethodTestCasesWmiWinXp
+        //{
+        //    [Test, TestCaseSource(typeof(ConvertToMofMethodTestCasesWmiWinXp), "GetTestCases")]
+        //    public static void ConvertToMofMethodTestsFromDisk(string mofFilename)
+        //    {
+        //        ConvertToMofTests.MofGeneratorRoundtripTest(mofFilename);
+        //    }
+        //    public static IEnumerable<TestCaseData> GetTestCases
+        //    {
+        //        get
+        //        {
+        //            return TestUtils.GetMofTestCase("Parsing\\WMI\\WinXp");
+        //        }
+        //    }
+        //}
+
+        //[TestFixture]
+        //public static class ConvertToMofMethodGolfExamples
+        //{
+        //    //[Test, TestCaseSource(typeof(ConvertToMofMethodGolfExamples), "GetTestCases")]
+        //    public static void ConvertToMofMethodTestsFromDisk(string mofFilename)
+        //    {
+        //        ConvertToMofTests.MofGeneratorRoundtripTest(mofFilename);
+        //    }
+        //    public static IEnumerable<TestCaseData> GetTestCases
+        //    {
+        //        get
+        //        {
+        //            return TestUtils.GetMofTestCase("Parsing\\DSP0221_3.0.1");
+        //        }
+        //    }
+        //}
+
+        //private static void MofGeneratorRoundtripTest(string mofFilename)
+        //{
+        //    var expectedMof = File.ReadAllText(mofFilename);
+        //    var reader = SourceReader.From(expectedMof);
+        //    var tokens = Lexing.Lexer.Lex(reader);
+        //    var ast = Parser.Parse(tokens);
+        //    var actualMof = MofGenerator.ConvertToMof(ast);
+        //    Assert.AreEqual(expectedMof, actualMof);
+        //}
+
+        #endregion
 
     }
 
