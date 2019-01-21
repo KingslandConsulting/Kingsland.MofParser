@@ -559,7 +559,7 @@ namespace Kingsland.MofParser.CodeGen
             if (node.DefaultValue != null)
             {
                 source.Append(" = ");
-                source.Append(MofGenerator.ConvertToMof(node.DefaultValue, quirks));
+                source.Append(MofGenerator.ConvertPropertyValueAst(node.DefaultValue, quirks));
             }
             return source.ToString();
         }
