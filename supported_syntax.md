@@ -1,8 +1,8 @@
 Kingsland.MofParser
 ===================
 
-Feature Support
----------------
+Supported Syntax
+----------------
 
 The following table shows which features of the [MOF 3.0.1 specification](https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf) are currently supported.
 
