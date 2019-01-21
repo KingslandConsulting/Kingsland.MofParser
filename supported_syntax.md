@@ -35,7 +35,7 @@ If you find a syntax rule which isn't supported, or doesn't process properly, pl
         compilerDirective ........................................... Yes
 
     7.4 Qualifiers
-        qualifierTypeDeclration ..................................... No
+        qualifierTypeDeclaration .................................... No
 
         7.4.1 QualifierList
             qualifierList ........................................... Yes
