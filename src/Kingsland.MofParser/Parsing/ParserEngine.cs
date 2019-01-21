@@ -1244,22 +1244,35 @@ namespace Kingsland.MofParser.Parsing
             node.EnumElementName = stream.Read<IdentifierToken>();
 
             // "=" integerValue / [ "=" stringValue ]
-            if (isIntegerEnum || stream.TryRead<EqualsOperatorToken>(out var equals))
+            if (stream.TryRead<EqualsOperatorToken>(out var equals))
             {
                 var enumValue = stream.Peek();
                 switch (enumValue)
                 {
                     case IntegerLiteralToken integerValue:
                         // integerValue
+                        if (!isIntegerEnum)
+                        {
+                            throw new UnexpectedTokenException(enumValue);
+                        }
                         node.EnumElementValue = ParserEngine.ParseIntegerValueAst(stream);
                         break;
                     case StringLiteralToken stringValue:
                         // stringValue
+                        if (!isStringEnum)
+                        {
+                            throw new UnexpectedTokenException(enumValue);
+                        }
                         node.EnumElementValue = ParserEngine.ParseStringValueAst(stream);
                         break;
                     default:
                         throw new UnsupportedTokenException(enumValue);
                 }
+            }
+            else if (isIntegerEnum)
+            {
+                // "=" is mandatory for integer enums
+                throw new UnexpectedTokenException(stream.Peek());
             }
 
             return node.Build();
