@@ -442,7 +442,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             }
 
             [Test]
-            public static void EnumerationDeclarationWithEnumElementsShouldRoundtrip()
+            public static void EnumerationDeclarationWithoutValuesShouldRoundtrip()
             {
                 var expectedMof =
                     "enumeration MonthsEnum : String\r\n" +
@@ -471,7 +471,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
         public static class EnumElementTests
         {
 
-            [Test, Ignore("")]
+            [Test]
             public static void EnumElementWithQualifiersShouldRoundtrip()
             {
                 var expectedMof =
@@ -485,7 +485,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            [Test, Ignore("")]
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/41")]
             public static void IntegerEnumElementShouldRoundtrip()
             {
                 var expectedMof =
