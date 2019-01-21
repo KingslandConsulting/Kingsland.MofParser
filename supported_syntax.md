@@ -1,10 +1,9 @@
-MOF 3.0.1 Feature Support
--------------------------
+Kingsland.MofParser Feature Support
+===================================
 
 The following table shows which features of the [MOF 3.0.1 specification](https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf) are currently supported.
 
 If you find a syntax rule which isn't supported, or doesn't process properly, please create an issue with an example of the MOF text that fails and I'll look at implementing it.
-
 
 ```text
 5 MOF file content
