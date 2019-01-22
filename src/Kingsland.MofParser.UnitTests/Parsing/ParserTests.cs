@@ -593,8 +593,8 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                                             { "MyRealValue", new RealValueAst(
                                                 new RealLiteralToken(
                                                     new SourceExtent(
-                                                        new SourcePosition(150, 6, 22),
-                                                        new SourcePosition(154, 6, 26),
+                                                        new SourcePosition(176, 7, 19),
+                                                        new SourcePosition(181, 7, 24),
                                                         "123.45"
                                                     ),
                                                     123.45
