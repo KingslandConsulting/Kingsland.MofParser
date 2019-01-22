@@ -717,19 +717,7 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertIntegerValueAst(IntegerValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            switch (node.Kind)
-            {
-                case IntegerKind.BinaryValue:
-                    return "0" + Convert.ToString(node.Value, 2) + "b";
-                case IntegerKind.OctalValue:
-                    return "0" + Convert.ToString(node.Value, 8);
-                case IntegerKind.HexValue:
-                    return "0x" + Convert.ToString(node.Value, 16).ToUpperInvariant();
-                case IntegerKind.DecimalValue:
-                    return Convert.ToString(node.Value, 10);
-                default:
-                    throw new NotImplementedException();
-            }
+            return node.IntegerLiteralToken.Extent.Text;
         }
 
         #endregion
@@ -738,7 +726,7 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertRealValueAst(RealValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            return node.Value.ToString();
+            return node.RealLiteralToken.Extent.Text;
         }
 
         #endregion

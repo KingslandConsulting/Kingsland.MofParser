@@ -117,12 +117,12 @@ namespace Kingsland.MofParser.Parsing
             {
                 switch (identifier.GetNormalizedName())
                 {
-                    case Constants.INSTANCE:
-                        // instanceValueDeclaration
-                        return ParserEngine.ParseInstanceValueDeclarationAst(stream);
                     case Constants.VALUE:
                         // structureValueDeclaration
                         return ParserEngine.ParseStructureValueDeclarationAst(stream);
+                    case Constants.INSTANCE:
+                        // instanceValueDeclaration
+                        return ParserEngine.ParseInstanceValueDeclarationAst(stream);
                 }
             }
 
@@ -1805,12 +1805,9 @@ namespace Kingsland.MofParser.Parsing
         /// </remarks>
         public static IntegerValueAst ParseIntegerValueAst(ParserStream stream)
         {
-            var integerLiteral = stream.Read<IntegerLiteralToken>();
-            return new IntegerValueAst.Builder()
-            {
-                Kind = integerLiteral.Kind,
-                Value = integerLiteral.Value
-            }.Build();
+            var node = new IntegerValueAst.Builder();
+            node.IntegerLiteralToken = stream.Read<IntegerLiteralToken>();
+            return node.Build();
         }
 
         #endregion
@@ -1836,10 +1833,9 @@ namespace Kingsland.MofParser.Parsing
         /// </remarks>
         public static RealValueAst ParseRealValueAst(ParserStream stream)
         {
-            return new RealValueAst.Builder
-            {
-                Value = stream.Read<RealLiteralToken>().Value
-            }.Build();
+            var node = new RealValueAst.Builder();
+            node.RealLiteralToken = stream.Read<RealLiteralToken>();
+            return node.Build();
         }
 
         #endregion

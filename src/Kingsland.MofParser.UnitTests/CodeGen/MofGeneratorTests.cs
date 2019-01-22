@@ -968,6 +968,36 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var actualMof = MofGenerator.ConvertToMof(actualAst);
                 Assert.AreEqual(expectedMof, actualMof);
             }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
+            public static void IntegerValuePropertiesInOtherBasesShouldRoundtrip()
+            {
+                var expectedMof =
+                    "instance of myType as $Alias00000070\r\n" +
+                    "{\r\n" +
+                    "\tMyBinaryValue1 = 0101010b;\r\n" +
+                    "\tMyBinaryValue2 = +0101010b;\r\n" +
+                    "\tMyBinaryValue3 = -0101010b;\r\n" +
+                    "\tMyOctalValue1 = 000444444;\r\n" +
+                    "\tMyOctalValue2 = +000444444;\r\n" +
+                    "\tMyOctalValue3 = -000444444;\r\n" +
+                    "\tMyHexValue1 = 0x00ABC123;\r\n" +
+                    "\tMyHexValue2 = +0x00ABC123;\r\n" +
+                    "\tMyHexValue3 = -0x00ABC123;\r\n" +
+                    "\tMyDecimalValue1 = 12345;\r\n" +
+                    "\tMyDecimalValue2 = +12345;\r\n" +
+                    "\tMyDecimalValue3 = -12345;\r\n" +
+                    "\tMyRealValue1 = 00123.45;\r\n" +
+                    "\tMyRealValue2 = +00123.45;\r\n" +
+                    "\tMyRealValue3 = -123.45;\r\n" +
+                    "};";
+                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
+                var actualAst = Parser.Parse(actualTokens);
+                var actualMof = MofGenerator.ConvertToMof(actualAst);
+                Assert.AreEqual(expectedMof, actualMof);
+            }
+
+
         }
 
         #endregion
@@ -991,7 +1021,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            [Test, Ignore("")]
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void PositiveRealValueShouldRoundtrip()
             {
                 var expectedMof =
@@ -1019,7 +1049,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            [Test, Ignore("")]
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void RealValueWithNoFractionShouldRoundtrip()
             {
                 var expectedMof =
@@ -1033,7 +1063,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            [Test, Ignore("")]
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void RealValueWithTrailingZerosShouldRoundtrip()
             {
                 var expectedMof =
@@ -1047,7 +1077,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 Assert.AreEqual(expectedMof, actualMof);
             }
 
-            [Test, Ignore("")]
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void RealValueWithNoIntegerPartShouldRoundtrip()
             {
                 var expectedMof =
