@@ -1,5 +1,6 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Tokens;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -23,13 +24,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public long Value
-            {
-                get;
-                set;
-            }
-
-            public IntegerKind Kind
+            public IntegerLiteralToken IntegerLiteralToken
             {
                 get;
                 set;
@@ -38,8 +33,7 @@ namespace Kingsland.MofParser.Ast
             public IntegerValueAst Build()
             {
                 return new IntegerValueAst(
-                    this.Kind,
-                    this.Value
+                    this.IntegerLiteralToken
                 );
             }
 
@@ -49,15 +43,22 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public IntegerValueAst(IntegerKind kind, long value)
+        public IntegerValueAst(IntegerLiteralToken integerLiteralToken)
         {
-            this.Kind = kind;
-            this.Value = value;
+            this.IntegerLiteralToken = integerLiteralToken ?? throw new ArgumentNullException(nameof(integerLiteralToken));
+            this.Kind = integerLiteralToken.Kind;
+            this.Value = integerLiteralToken.Value;
         }
 
         #endregion
 
         #region Properties
+
+        public IntegerLiteralToken IntegerLiteralToken
+        {
+            get;
+            private set;
+        }
 
         public IntegerKind Kind
         {

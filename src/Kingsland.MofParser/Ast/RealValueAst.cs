@@ -1,4 +1,6 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Tokens;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -27,7 +29,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public double Value
+            public RealLiteralToken RealLiteralToken
             {
                 get;
                 set;
@@ -36,7 +38,7 @@ namespace Kingsland.MofParser.Ast
             public RealValueAst Build()
             {
                 return new RealValueAst(
-                    this.Value
+                    this.RealLiteralToken
                 );
             }
 
@@ -46,14 +48,21 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public RealValueAst(double value)
+        public RealValueAst(RealLiteralToken realLiteralToken)
         {
-            this.Value = value;
+            this.RealLiteralToken = realLiteralToken ?? throw new ArgumentNullException(nameof(RealLiteralToken));
+            this.Value = realLiteralToken.Value;
         }
 
         #endregion
 
         #region Properties
+
+        public RealLiteralToken RealLiteralToken
+        {
+            get;
+            private set;
+        }
 
         public double Value
         {

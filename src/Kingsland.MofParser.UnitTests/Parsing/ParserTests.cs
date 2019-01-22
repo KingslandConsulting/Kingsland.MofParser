@@ -550,11 +550,56 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                                 new PropertyValueListAst(
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
-                                            { "MyBinaryValue", new IntegerValueAst(IntegerKind.BinaryValue, 0b101010) },
-                                            { "MyOctalValue", new IntegerValueAst(IntegerKind.OctalValue, Convert.ToInt32("444444", 8)) },
-                                            { "MyHexValue", new IntegerValueAst(IntegerKind.HexValue, 0xABC123) },
-                                            { "MyDecimalValue", new IntegerValueAst(IntegerKind.DecimalValue, 12345) },
-                                            { "MyRealValue", new RealValueAst(123.45) }
+                                            { "MyBinaryValue", new IntegerValueAst(
+                                                new IntegerLiteralToken(
+                                                    new SourceExtent(
+                                                        new SourcePosition(61, 3, 21),
+                                                        new SourcePosition(68, 3, 28),
+                                                        "0101010b"
+                                                    ),
+                                                    IntegerKind.BinaryValue, 0b101010
+                                                )
+                                            )},
+                                            { "MyOctalValue", new IntegerValueAst(
+                                                new IntegerLiteralToken(
+                                                    new SourceExtent(
+                                                        new SourcePosition(91, 4, 20),
+                                                        new SourcePosition(97, 4, 26),
+                                                        "0444444"
+                                                    ),
+                                                    IntegerKind.OctalValue, Convert.ToInt32("444444", 8)
+                                                )
+                                            )},
+                                            { "MyHexValue", new IntegerValueAst(
+                                                new IntegerLiteralToken(
+                                                    new SourceExtent(
+                                                        new SourcePosition(118, 5, 18),
+                                                        new SourcePosition(125, 5, 25),
+                                                        "0xABC123"
+                                                    ),
+                                                    IntegerKind.HexValue, 0xABC123
+                                                )
+                                            )},
+                                            { "MyDecimalValue", new IntegerValueAst(
+                                                new IntegerLiteralToken(
+                                                    new SourceExtent(
+                                                        new SourcePosition(150, 6, 22),
+                                                        new SourcePosition(154, 6, 26),
+                                                        "12345"
+                                                    ),
+                                                    IntegerKind.DecimalValue, 12345
+                                                )
+                                            )},
+                                            { "MyRealValue", new RealValueAst(
+                                                new RealLiteralToken(
+                                                    new SourceExtent(
+                                                        new SourcePosition(150, 6, 22),
+                                                        new SourcePosition(154, 6, 26),
+                                                        "123.45"
+                                                    ),
+                                                    123.45
+                                                )
+                                            )}
                                         }
                                     )
                                 ),
