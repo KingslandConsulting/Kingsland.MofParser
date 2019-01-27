@@ -69,7 +69,7 @@
     <Compile Include="Ast\MofProductionAst.cs" />
     <Compile Include="Ast\PrimitiveTypeValueAst.cs" />
     <Compile Include="Ast\PropertyValueAst.cs" />
-    <Compile Include="CodeGen\MofGenerator.cs" />
+    <Compile Include="CodeGen\AstMofGenerator.cs" />
     <Compile Include="CodeGen\MofQuirks.cs" />
     <Compile Include="Lexing\LexerEngine.cs" />
     <Compile Include="Parsing\ParserEngine.cs" />

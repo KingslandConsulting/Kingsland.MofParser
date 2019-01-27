@@ -123,7 +123,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertAssociationDeclarationAst(this);
+            return AstMofGenerator.ConvertAssociationDeclarationAst(this);
         }
 
         #endregion

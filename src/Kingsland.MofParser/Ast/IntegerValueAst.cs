@@ -78,7 +78,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertIntegerValueAst(this);
+            return AstMofGenerator.ConvertIntegerValueAst(this);
         }
 
         #endregion

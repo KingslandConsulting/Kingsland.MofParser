@@ -163,7 +163,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertComplexValueAst(this);
+            return AstMofGenerator.ConvertComplexValueAst(this);
         }
 
         #endregion

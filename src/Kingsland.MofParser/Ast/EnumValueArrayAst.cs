@@ -74,7 +74,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertEnumValueArrayAst(this);
+            return AstMofGenerator.ConvertEnumValueArrayAst(this);
         }
 
         #endregion

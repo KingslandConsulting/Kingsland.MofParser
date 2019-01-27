@@ -75,7 +75,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertBooleanValueAst(this);
+            return AstMofGenerator.ConvertBooleanValueAst(this);
         }
 
         #endregion

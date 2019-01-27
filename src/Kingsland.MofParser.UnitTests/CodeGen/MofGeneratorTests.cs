@@ -1256,7 +1256,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             // check the parser ast roundtrips ok
             var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
             var astNodes  = Parser.Parse(tokens);
-            var astMof = MofGenerator.ConvertToMof(astNodes);
+            var astMof = AstMofGenerator.ConvertToMof(astNodes);
             Assert.AreEqual(sourceMof, astMof);
         }
 

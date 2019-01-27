@@ -194,7 +194,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertQualifierTypeDeclarationAst(this);
+            return AstMofGenerator.ConvertQualifierTypeDeclarationAst(this);
         }
 
         #endregion

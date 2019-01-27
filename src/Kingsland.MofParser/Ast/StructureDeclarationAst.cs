@@ -127,7 +127,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertStructureDeclarationAst(this);
+            return AstMofGenerator.ConvertStructureDeclarationAst(this);
         }
 
         #endregion
