@@ -709,7 +709,7 @@ namespace Kingsland.MofParser.Parsing
             // *classFeature
             while (!stream.TryPeek<BlockCloseToken>())
             {
-                node.Features.Add(
+                node.ClassFeatures.Add(
                     ParserEngine.ParseClassFeatureAst(stream)
                 );
             }
@@ -842,7 +842,7 @@ namespace Kingsland.MofParser.Parsing
             // *classFeature
             while (!stream.TryPeek<BlockCloseToken>())
             {
-                node.Features.Add(
+                node.ClassFeatures.Add(
                     ParserEngine.ParseClassFeatureAst(stream)
                 );
             }
