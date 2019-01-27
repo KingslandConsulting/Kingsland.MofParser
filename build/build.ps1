@@ -37,7 +37,8 @@ $testAssemblies = @(
                       [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.UnitTests\bin\Debug\Kingsland.MofParser.UnitTests.dll")
                   );
 $nuspec = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser.nuspec");
-$nuget  = [System.IO.Path]::Combine($rootFolder, "packages\NuGet.CommandLine.2.8.6\tools\NuGet.exe");
+#$nuget  = [System.IO.Path]::Combine($rootFolder, "packages\NuGet.CommandLine.2.8.6\tools\NuGet.exe");
+$nuget  = "$($env:USERPROFILE)\.nuget\packages\nuget.commandline\4.9.2\tools\NuGet.exe";
 $nupkg  = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser." + $BuildNumber + ".nupkg");
 
 
@@ -50,10 +51,16 @@ if( Test-IsTeamCityBuild )
 
 
 # build the solution
-Invoke-MsBuild -Solution $solution `
-               -Targets @( "Clean", "Build") `
-               -Properties @{ };
-
+$msbuildParameters = @{
+#    "MsBuildExe"   = "$($env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
+    "MsBuildExe"   = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin\MSBuild.exe";
+    "Solution"     = $solution
+    "Targets"      = @( "Clean", "Build" )
+    "Properties"   = @{ }
+    #"ToolsVersion" =  "16.0"
+    #"Verbosity"    =  "detailed"
+};
+Invoke-MsBuild @msbuildParameters;
 
 # copy teamcity addins for nunit into build folder
 if( Test-IsTeamCityBuild )

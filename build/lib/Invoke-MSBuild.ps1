@@ -5,6 +5,9 @@ function Invoke-MsBuild
     (
 
         [Parameter(Mandatory=$true)]
+        [string] $MsBuildExe,
+
+        [Parameter(Mandatory=$true)]
         [string] $Solution,
 
         [Parameter(Mandatory=$false)]
@@ -12,6 +15,9 @@ function Invoke-MsBuild
 
         [Parameter(Mandatory=$false)]
         [hashtable] $Properties,
+
+        [Parameter(Mandatory=$false)]
+        [string] $ToolsVersion,
 
         [Parameter(Mandatory=$false)]
         [ValidateSet("quiet", "minimal", "normal", "detailed", "diagnostic")]
@@ -24,10 +30,9 @@ function Invoke-MsBuild
     write-host "**************";
     write-host "solution = $Solution";
 
-    $msbuild = "$($env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
-    $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($msbuild);
+    $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($msbuildExe);
 
-    write-host "msbuild path = $msbuild";
+    write-host "msbuild path = $MsBuildExe";
     write-host "msbuild version info = ";
     write-host ($version | fl * | out-string);
 
@@ -37,25 +42,32 @@ function Invoke-MsBuild
     $cmdArgs += "`"$solution`""
 
     # /target:<targets>
-    write-host "targets = ";
-    write-host ($Targets | ft -AutoSize | out-string);
-    if( $targets -ne $null )
+    if( $PSBoundParameters.ContainsKey("Targets") )
     {
-        foreach( $target in $targets )
+        write-host "targets = ";
+        write-host ($Targets | ft -AutoSize | out-string);
+        foreach( $target in $Targets )
         {
             $cmdArgs += "/target:`"$target`"";
         }
     }
 
     # /property:<n>=<v>
-    write-host "properties  = ";
-    write-host ($Properties | ft -AutoSize | out-string);
-    if( $properties -ne $null )
+    if( $PSBoundParameters.ContainsKey("Properties") )
     {
-        foreach( $key in $properties.Keys )
+        write-host "properties  = ";
+        write-host ($Properties | ft -AutoSize | out-string);
+        foreach( $key in $Properties.Keys )
         {
-            $cmdArgs += "/property:$key=$($properties[$key])";
+            $cmdArgs += "/property:$key=$($Properties[$key])";
         }
+    }
+
+    # /toolsversion:<version>
+    if( $PSBoundParameters.ContainsKey("ToolsVersion") )
+    {
+        write-host "ToolsVersion = '$ToolsVersion'";
+        $cmdArgs += "/toolsversion:$ToolsVersion";
     }
 
     # /maxcpucount[:n]
@@ -74,6 +86,7 @@ function Invoke-MsBuild
     # /distributedlogger:<central logger>*<forwarding logger>
     # /distributedFileLogger
     # /logger:<logger>
+    # /validate
     # /validate:<schema>
     # /ignoreprojectextensions:<extensions>
 
@@ -82,6 +95,7 @@ function Invoke-MsBuild
 
     # /preprocess[:file]
     # /detailedsummary
+    # @<file>
     # /noautoresponse
 
     # /nologo
@@ -91,10 +105,10 @@ function Invoke-MsBuild
     # /help
 
     # execute msbuild
-    write-host "cmdLine = $msbuild";
+    write-host "cmdLine = $MsBuildExe";
     write-host "cmdArgs = ";
     write-host ($cmdArgs | fl * | out-string);
-    $process = Start-Process -FilePath $msbuild -ArgumentList $cmdArgs -NoNewWindow -Wait -PassThru;
+    $process = Start-Process -FilePath $MsBuildExe -ArgumentList $cmdArgs -NoNewWindow -Wait -PassThru;
     if( $process.ExitCode -ne 0 )
     {
         throw new-object System.InvalidOperationException("MsBuild failed with exit code $($process.ExitCode).");
