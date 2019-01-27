@@ -214,19 +214,20 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertQualifierValueAst(QualifierValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            // Abstract
-            // Description("an instance of a class that derives from the GOLF_Base class. ")
-            // OCL{"-- the key property cannot be NULL", "inv: InstanceId.size() = 10"}
             var source = new StringBuilder();
             source.Append(node.QualifierName.Extent.Text);
             if (node.ValueInitializer != null)
             {
+                // e.g.
+                // Description("an instance of a class that derives from the GOLF_Base class. ")
                 source.Append("(");
                 source.Append(AstMofGenerator.ConvertLiteralValueAst(node.ValueInitializer, quirks));
                 source.Append(")");
             }
             else if (node.ValueArrayInitializer != null)
             {
+                // e.g.
+                // OCL{"-- the key property cannot be NULL", "inv: InstanceId.size() = 10"}
                 source.Append(AstMofGenerator.ConvertLiteralValueArrayAst(node.ValueArrayInitializer, quirks));
             }
             ///

@@ -9,7 +9,7 @@ namespace Kingsland.MofParser.Parsing
     public static class Parser
     {
 
-        public static AstNode Parse(List<Token> lexerTokens)
+        public static MofSpecificationAst Parse(List<Token> lexerTokens)
         {
 
             // remove all comments and whitespace

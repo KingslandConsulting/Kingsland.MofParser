@@ -32,6 +32,7 @@ namespace Kingsland.MofParser.Ast
             public List<MofProductionAst> Productions
             {
                 get;
+                set;
             }
 
             public MofSpecificationAst Build()
