@@ -1253,8 +1253,11 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
 
         private static void AssertRoundtrip(string sourceMof)
         {
-            // check the parser ast roundtrips ok
+            // check the lexer tokens roundtrips ok
             var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+            var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+            Assert.AreEqual(sourceMof, tokensMof);
+            // check the parser ast roundtrips ok
             var astNodes  = Parser.Parse(tokens);
             var astMof = AstMofGenerator.ConvertToMof(astNodes);
             Assert.AreEqual(sourceMof, astMof);

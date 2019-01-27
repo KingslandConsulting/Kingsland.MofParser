@@ -42,6 +42,7 @@
     <Compile Include="Ast\StructureDeclarationAst.cs" />
     <Compile Include="Ast\ClassDeclarationAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />
+    <Compile Include="CodeGen\TokenMofGenerator.cs" />
     <Compile Include="Tokens\DotOperatorToken.cs" />
     <Compile Include="Tokens\IntegerKind.cs" />
     <Compile Include="Ast\PropertyValueListAst.cs" />
