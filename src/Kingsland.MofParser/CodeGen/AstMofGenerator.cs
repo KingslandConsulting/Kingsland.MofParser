@@ -168,23 +168,6 @@ namespace Kingsland.MofParser.CodeGen
             {
                 source.Append(node.QualifierName.Name);
             }
-            if (node.Initializer != null)
-            {
-                if (node.Initializer is LiteralValueAst)
-                {
-                    source.Append("(");
-                    source.Append(AstMofGenerator.ConvertPrimitiveTypeValueAst(node.Initializer, quirks));
-                    source.Append(")");
-                }
-                else if (node.Initializer is LiteralValueArrayAst)
-                {
-                    source.Append(AstMofGenerator.ConvertPrimitiveTypeValueAst(node.Initializer, quirks));
-                }
-                else
-                {
-                    throw new InvalidOperationException();
-                }
-            }
             if (node.Flavors.Count > 0)
             {
                 source.Append(": ");
