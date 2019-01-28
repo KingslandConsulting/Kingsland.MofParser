@@ -462,6 +462,50 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 );
             }
 
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/52")]
+            public static void EnumerationDeclarationDeprecatedMof300IntegerBaseAndQuirksEnabledShouldThrow()
+            {
+                // this should throw because "uint32" is recognized as an integer type.
+                // as a result, "July" (a string) is not a valid value for an integer enumElement value
+                var sourceMof =
+                    "enumeration MonthsEnum : uint32\r\n" +
+                    "{\r\n" +
+                    "\tJuly = \"July\"\r\n" +
+                    "};";
+                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+                var ex = Assert.Throws<UnexpectedTokenException>(
+                    () =>
+                    {
+                        var astNodes = Parser.Parse(
+                            tokens,
+                            ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase
+                        );
+                    }
+                );
+                Assert.AreEqual(
+                    "Unexpected token found at Position 44, Line Number 3, Column Number 9.\r\n" +
+                    "Token Type: 'StringLiteralToken'\r\n" +
+                    "Token Text: '\"July\"'",
+                    ex.Message
+                );
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/52")]
+            public static void EnumerationDeclarationDeprecatedMof300IntegerBaseAndQuirksDisabledShouldRoundtrip()
+            {
+                // this should roundtrip because "uint32" is not recognized as an integer type, and
+                // so it's assumed to be a separate base enum like "enumeration uint32 { ... };".
+                // as a result, there's no validation done on the datattype of the enum element and
+                // it will accept "July" as a valid value
+                RoundtripTests.AssertRoundtrip(
+                    "enumeration MonthsEnum : uint32\r\n" +
+                    "{\r\n" +
+                    "\tJuly = \"July\"\r\n" +
+                    "};"
+                );
+            }
+
         }
 
         public static class EnumElementTests
@@ -553,6 +597,24 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 );
             }
 
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
+            public static void PropertyDeclarationWithDeprecatedMof300IntegerReturnTypesAndQuirksDisabledShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "class GOLF_Base\r\n" +
+                    "{\r\n" +
+                    "\tuint8 SeverityUint8;\r\n" +
+                    "\tuint16 SeverityUint16;\r\n" +
+                    "\tuint32 SeverityUint32;\r\n" +
+                    "\tuint64 SeverityUint64;\r\n" +
+                    "\tsint8 SeveritySint8;\r\n" +
+                    "\tsint16 SeveritySint16;\r\n" +
+                    "\tsint32 SeveritySint32;\r\n" +
+                    "\tsint64 SeveritySint64;\r\n" +
+                    "};"
+                );
+            }
+
         }
 
         #endregion
@@ -617,18 +679,6 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 );
             }
 
-            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28"),
-             Ignore("https://github.com/mikeclayton/MofParser/issues/28")]
-            public static void ClassDeclarationsWithMethodDeclarationWithDeprecatedPrimtitiveValueTypeInitializerShouldRoundtrip()
-            {
-                RoundtripTests.AssertRoundtrip(
-                    "class Win32_SoftwareFeature : CIM_SoftwareFeature\r\n" +
-                    "{\r\n" +
-                    "\tuint32 Reinstall(uint16 ReinstallMode = 1);\r\n" +
-                    "};"
-                );
-            }
-
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/37")]
             public static void MethodDeclarationsWithArrayReturnTypeShouldRoundtrip()
             {
@@ -647,6 +697,42 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "class GOLF_Professional : GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tGOLF_ResultCodeEnum GetNumberOfProfessionals(Integer NoOfPros, GOLF_Club Club, ProfessionalStatusEnum Status = Professional);\r\n" +
+                    "};"
+                );
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
+            public static void MethodDeclarationWithDeprecatedMof300IntegerReturnTypesAndQuirksDisabledShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "class Win32_SoftwareFeature : CIM_SoftwareFeature\r\n" +
+                    "{\r\n" +
+                    "\tuint8 ReinstallUint8(integer ReinstallMode = 1);\r\n" +
+                    "\tuint16 ReinstallUint16(integer ReinstallMode = 1);\r\n" +
+                    "\tuint32 ReinstallUint32(integer ReinstallMode = 1);\r\n" +
+                    "\tuint64 ReinstallUint64(integer ReinstallMode = 1);\r\n" +
+                    "\tsint8 ReinstallUint8(integer ReinstallMode = 1);\r\n" +
+                    "\tsint16 ReinstallUint16(integer ReinstallMode = 1);\r\n" +
+                    "\tsint32 ReinstallUint32(integer ReinstallMode = 1);\r\n" +
+                    "\tsint64 ReinstallUint64(integer ReinstallMode = 1);\r\n" +
+                    "};"
+                );
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
+            public static void MethodDeclarationWithDeprecatedMof300IntegerParameterTypesShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "class Win32_SoftwareFeature : CIM_SoftwareFeature\r\n" +
+                    "{\r\n" +
+                    "\tinteger ReinstallUint8(uint8 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint16(uint16 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint32(uint32 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint64(uint64 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint8(sint8 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint16(sint16 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint32(sint32 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint64(sint64 ReinstallMode = 1);\r\n" +
                     "};"
                 );
             }
@@ -850,7 +936,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 );
             }
 
-            [Test, Ignore("")]
+            [Test]
             public static void PositiveIntegerValueShouldRoundtrip()
             {
                 RoundtripTests.AssertRoundtrip(
@@ -896,7 +982,6 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "};"
                 );
             }
-
 
         }
 

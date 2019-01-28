@@ -48,7 +48,7 @@ namespace Kingsland.MofParser.Parsing
                     var startPosition = extent.StartPosition;
                     var endPosition = extent.EndPosition;
                     return $"Unhandled token found at Position {startPosition.Position}, Line Number {startPosition.LineNumber}, Column Number {startPosition.ColumnNumber}.\r\n" +
-                           $"Token Type: '{token.GetType().FullName}'\r\n" +
+                           $"Token Type: '{token.GetType().Name}'\r\n" +
                            $"Token Text: '{extent.Text}'";
                 }
             }

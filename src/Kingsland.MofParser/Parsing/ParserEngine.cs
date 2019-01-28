@@ -432,27 +432,20 @@ namespace Kingsland.MofParser.Parsing
             // "{"
             var blockOpen = stream.Read<BlockOpenToken>();
 
-            // note - the MOF spec doesn't allow for empty qualifier value arrays like
-            // this property from the "MSMCAEvent_InvalidError" class in WinXpProSp3WMI.mof:
-            //
-            //	[WmiDataId(3), ValueMap{}] uint32 Type;
-            //
-            // it's presumably allowed in earlier versions of the MOF spec, or maybe the
-            // System.Management.ManagementBaseObject.GetFormat method returns invalid MOF
-            // text for some classes, but we'll provide an option to allow or disallow empty
-            // arrays here...
-
-            var allowEmptyQualifierArrayInitializer = true;
-
-            var isEmptyQualifierArrayInitializer = stream.TryPeek<BlockCloseToken>();
-            if (!isEmptyQualifierArrayInitializer || !allowEmptyQualifierArrayInitializer)
+            // check if we allow empty qualifier arrays
+            // see https://github.com/mikeclayton/MofParser/issues/51
+            var quirkEnabled = (quirks & ParserQuirks.AllowEmptyQualifierValueArrays) == ParserQuirks.AllowEmptyQualifierValueArrays;
+            if (quirkEnabled && stream.TryPeek<BlockCloseToken>())
             {
-
+                // this is an empty array, and the quirk to allow empty arrays is enabled,
+                // so skip trying to read the array values
+            }
+            else
+            {
                 // literalValue
                 node.Values.Add(
                     ParserEngine.ParseLiteralValueAst(stream, quirks)
                 );
-
                 // *( "," literalValue )
                 while (stream.TryRead<CommaToken>(out var comma))
                 {
@@ -460,7 +453,6 @@ namespace Kingsland.MofParser.Parsing
                         ParserEngine.ParseLiteralValueAst(stream, quirks)
                     );
                 }
-
             }
 
             // "}"
@@ -894,7 +886,8 @@ namespace Kingsland.MofParser.Parsing
 
             // ( DT_INTEGER / integerEnumName ) / ( DT_STRING / stringEnumName )
             var enumTypeDeclaration = stream.Peek<IdentifierToken>();
-            switch (enumTypeDeclaration.GetNormalizedName())
+            var enumTypeDeclarationName = enumTypeDeclaration.GetNormalizedName();
+            switch (enumTypeDeclarationName)
             {
                 case Constants.DT_INTEGER:
                     isIntegerEnum = true;
@@ -903,6 +896,31 @@ namespace Kingsland.MofParser.Parsing
                     isStringEnum = true;
                     break;
                 default:
+                    // check if we allow deprecated integer sutypes
+                    // see https://github.com/mikeclayton/MofParser/issues/52
+                    var quirksEnabled = (quirks & ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase) == ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase;
+                    if (quirksEnabled)
+                    {
+                        var found = false;
+                        switch (enumTypeDeclarationName)
+                        {
+                            case Constants.DT_UINT8:
+                            case Constants.DT_UINT16:
+                            case Constants.DT_UINT32:
+                            case Constants.DT_UINT64:
+                            case Constants.DT_SINT8:
+                            case Constants.DT_SINT16:
+                            case Constants.DT_SINT32:
+                            case Constants.DT_SINT64:
+                                isIntegerEnum = true;
+                                found = true;
+                                break;
+                        }
+                        if (found)
+                        {
+                            break;
+                        }
+                    }
                     // this enumerationDeclaration is inheriting from a base enum.
                     // as a result, we don't know whether this is an integer or
                     // string enum until we inspect the type of the base enum
@@ -981,14 +999,22 @@ namespace Kingsland.MofParser.Parsing
                 {
                     case IntegerLiteralToken integerValue:
                         // integerValue
+                        if (isStringEnum)
+                        {
+                            throw new UnexpectedTokenException(enumValue);
+                        }
                         node.EnumElementValue = ParserEngine.ParseIntegerValueAst(stream, quirks);
                         break;
                     case StringLiteralToken stringValue:
                         // stringValue
+                        if (isIntegerEnum)
+                        {
+                            throw new UnexpectedTokenException(enumValue);
+                        }
                         node.EnumElementValue = ParserEngine.ParseStringValueAst(stream, quirks);
                         break;
                     default:
-                        throw new UnsupportedTokenException(enumValue);
+                        throw new UnexpectedTokenException(enumValue);
                 }
             }
             else if (isIntegerEnum)
