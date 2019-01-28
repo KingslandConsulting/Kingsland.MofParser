@@ -52,6 +52,16 @@
         public const string DT_BOOLEAN = "boolean";
         public const string DT_OCTECTSTRING = "octetstring";
 
+        // deprecated in MOF 3.0.1, but defined here to support parser quirks
+        public const string DT_UINT8 = "uint8";
+        public const string DT_UINT16 = "uint16";
+        public const string DT_UINT32 = "uint32";
+        public const string DT_UINT64 = "uint64";
+        public const string DT_SINT8 = "sint8";
+        public const string DT_SINT16 = "sint16";
+        public const string DT_SINT32 = "sint32";
+        public const string DT_SINT64 = "sint64";
+
         // 7.5.9 Complex type value
         public const string INSTANCE = "instance";
         public const string VALUE = "value";

@@ -34,6 +34,80 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
 
         #endregion
 
+        #region 7.4 Qualifiers
+
+        public static class QualifierTests
+        {
+
+            [Test]
+            public static void QualifierShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "[Description(\"Instances of this class represent golf clubs. A golf club is \" \"an organization that provides member services to golf players \" \"both amateur and professional.\")]\r\n" +
+                    "class GOLF_Club : GOLF_Base\r\n" +
+                    "{\r\n" +
+                    "};"
+                );
+            }
+
+        }
+
+        #endregion
+
+        #region 7.4.1 QualifierList
+
+        public static class QualifierListTests
+        {
+
+        }
+
+        public static class ParseQualifierValueTests
+        {
+
+            [Test]
+            public static void QualifierWithMofV2FlavorsAndQuirksEnabledShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "[Locale(1033): ToInstance, UUID(\"{BE46D060-7A7C-11d2-BC85-00104B2CF71C}\"): ToInstance]\r\n" +
+                    "class Win32_PrivilegesStatus : __ExtendedStatus\r\n" +
+                    "{\r\n" +
+                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
+                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
+                    "};",
+                    ParserQuirks.AllowMofV2Qualifiers
+                );
+            }
+
+            [Test]
+            public static void QualifierWithMofV2FlavorsAndQuirksDisabledShouldThrow()
+            {
+                var sourceMof =
+                    "[Locale(1033): ToInstance, UUID(\"{BE46D060-7A7C-11d2-BC85-00104B2CF71C}\"): ToInstance]\r\n" +
+                    "class Win32_PrivilegesStatus : __ExtendedStatus\r\n" +
+                    "{\r\n" +
+                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
+                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
+                    "};";
+                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+                var ex = Assert.Throws<UnexpectedTokenException>(
+                    () =>
+                    {
+                        var astNodes = Parser.Parse(tokens);
+                    }
+                );
+                Assert.AreEqual(
+                    "Unexpected token found at Position 13, Line Number 1, Column Number 14.\r\n" +
+                    "Token Type: 'ColonToken'\r\n" +
+                    "Token Text: ':'",
+                    ex.Message
+                );
+            }
+
+        }
+
+        #endregion
+
         #region 7.5.1 Structure declaration
 
         public static class StructureDeclarationTests
@@ -91,19 +165,25 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void InvalidStructureFeatureShouldThrow()
             {
-                var expectedMof =
+
+                var sourceMof =
                     "structure Sponsor\r\n" +
                     "{\r\n" +
                     "\t100\r\n" +
                     "};";
-                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
-                Assert.Throws<UnexpectedTokenException>(
+                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+                Assert.AreEqual(sourceMof, tokensMof);
+                var ex = Assert.Throws<UnexpectedTokenException>(
                     () => {
-                        var actualAst = Parser.Parse(actualTokens);
-                    },
+                        var astNodes = Parser.Parse(tokens);
+                    }
+                );
+                Assert.AreEqual(
                     "Unexpected token found at Position 23, Line Number 3, Column Number 2.\r\n" +
                     "Token Type: 'IntegerLiteralToken'\r\n" +
-                    "Token Text: '100'"
+                    "Token Text: '100'",
+                    ex.Message
                 );
             }
 
@@ -200,19 +280,6 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 );
             }
 
-            [Test]
-            public static void ClassDeclarationsAstWithMofV2QualifierFlavorsShouldRoundtrip()
-            {
-                RoundtripTests.AssertRoundtrip(
-                    "[Locale(1033): ToInstance, UUID(\"{BE46D060-7A7C-11d2-BC85-00104B2CF71C}\"): ToInstance]\r\n" +
-                    "class Win32_PrivilegesStatus : __ExtendedStatus\r\n" +
-                    "{\r\n" +
-                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
-                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
-                    "};"
-                );
-            }
-
         }
 
         public static class ClassFeatureTests
@@ -232,19 +299,23 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void InvalidClassFeatureShouldThrow()
             {
-                var expectedMof =
+                var sourceMof =
                     "class Sponsor\r\n" +
                     "{\r\n" +
                     "\t100\r\n" +
                     "};";
-                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
-                Assert.Throws<UnexpectedTokenException>(
+                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+                var ex = Assert.Throws<UnexpectedTokenException>(
                     () => {
-                        var actualAst = Parser.Parse(actualTokens);
-                    },
-                    "Unexpected token found at Position 23, Line Number 3, Column Number 2.\r\n" +
+                        var astNodes = Parser.Parse(tokens);
+                    }
+                );
+                Assert.AreEqual(
+                    "Unexpected token found at Position 19, Line Number 3, Column Number 2.\r\n" +
                     "Token Type: 'IntegerLiteralToken'\r\n" +
-                    "Token Text: '100'"
+                    "Token Text: '100'",
+                    ex.Message
                 );
             }
 
@@ -391,6 +462,50 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 );
             }
 
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/52")]
+            public static void EnumerationDeclarationDeprecatedMof300IntegerBaseAndQuirksEnabledShouldThrow()
+            {
+                // this should throw because "uint32" is recognized as an integer type.
+                // as a result, "July" (a string) is not a valid value for an integer enumElement value
+                var sourceMof =
+                    "enumeration MonthsEnum : uint32\r\n" +
+                    "{\r\n" +
+                    "\tJuly = \"July\"\r\n" +
+                    "};";
+                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+                var ex = Assert.Throws<UnexpectedTokenException>(
+                    () =>
+                    {
+                        var astNodes = Parser.Parse(
+                            tokens,
+                            ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase
+                        );
+                    }
+                );
+                Assert.AreEqual(
+                    "Unexpected token found at Position 44, Line Number 3, Column Number 9.\r\n" +
+                    "Token Type: 'StringLiteralToken'\r\n" +
+                    "Token Text: '\"July\"'",
+                    ex.Message
+                );
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/52")]
+            public static void EnumerationDeclarationDeprecatedMof300IntegerBaseAndQuirksDisabledShouldRoundtrip()
+            {
+                // this should roundtrip because "uint32" is not recognized as an integer type, and
+                // so it's assumed to be a separate base enum like "enumeration uint32 { ... };".
+                // as a result, there's no validation done on the datattype of the enum element and
+                // it will accept "July" as a valid value
+                RoundtripTests.AssertRoundtrip(
+                    "enumeration MonthsEnum : uint32\r\n" +
+                    "{\r\n" +
+                    "\tJuly = \"July\"\r\n" +
+                    "};"
+                );
+            }
+
         }
 
         public static class EnumElementTests
@@ -482,6 +597,24 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 );
             }
 
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
+            public static void PropertyDeclarationWithDeprecatedMof300IntegerReturnTypesAndQuirksDisabledShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "class GOLF_Base\r\n" +
+                    "{\r\n" +
+                    "\tuint8 SeverityUint8;\r\n" +
+                    "\tuint16 SeverityUint16;\r\n" +
+                    "\tuint32 SeverityUint32;\r\n" +
+                    "\tuint64 SeverityUint64;\r\n" +
+                    "\tsint8 SeveritySint8;\r\n" +
+                    "\tsint16 SeveritySint16;\r\n" +
+                    "\tsint32 SeveritySint32;\r\n" +
+                    "\tsint64 SeveritySint64;\r\n" +
+                    "};"
+                );
+            }
+
         }
 
         #endregion
@@ -546,18 +679,6 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 );
             }
 
-            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28"),
-             Ignore("https://github.com/mikeclayton/MofParser/issues/28")]
-            public static void ClassDeclarationsWithMethodDeclarationWithDeprecatedPrimtitiveValueTypeInitializerShouldRoundtrip()
-            {
-                RoundtripTests.AssertRoundtrip(
-                    "class Win32_SoftwareFeature : CIM_SoftwareFeature\r\n" +
-                    "{\r\n" +
-                    "\tuint32 Reinstall(uint16 ReinstallMode = 1);\r\n" +
-                    "};"
-                );
-            }
-
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/37")]
             public static void MethodDeclarationsWithArrayReturnTypeShouldRoundtrip()
             {
@@ -576,6 +697,42 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "class GOLF_Professional : GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tGOLF_ResultCodeEnum GetNumberOfProfessionals(Integer NoOfPros, GOLF_Club Club, ProfessionalStatusEnum Status = Professional);\r\n" +
+                    "};"
+                );
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
+            public static void MethodDeclarationWithDeprecatedMof300IntegerReturnTypesAndQuirksDisabledShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "class Win32_SoftwareFeature : CIM_SoftwareFeature\r\n" +
+                    "{\r\n" +
+                    "\tuint8 ReinstallUint8(integer ReinstallMode = 1);\r\n" +
+                    "\tuint16 ReinstallUint16(integer ReinstallMode = 1);\r\n" +
+                    "\tuint32 ReinstallUint32(integer ReinstallMode = 1);\r\n" +
+                    "\tuint64 ReinstallUint64(integer ReinstallMode = 1);\r\n" +
+                    "\tsint8 ReinstallUint8(integer ReinstallMode = 1);\r\n" +
+                    "\tsint16 ReinstallUint16(integer ReinstallMode = 1);\r\n" +
+                    "\tsint32 ReinstallUint32(integer ReinstallMode = 1);\r\n" +
+                    "\tsint64 ReinstallUint64(integer ReinstallMode = 1);\r\n" +
+                    "};"
+                );
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
+            public static void MethodDeclarationWithDeprecatedMof300IntegerParameterTypesShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "class Win32_SoftwareFeature : CIM_SoftwareFeature\r\n" +
+                    "{\r\n" +
+                    "\tinteger ReinstallUint8(uint8 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint16(uint16 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint32(uint32 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint64(uint64 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint8(sint8 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint16(sint16 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint32(sint32 ReinstallMode = 1);\r\n" +
+                    "\tinteger ReinstallUint64(sint64 ReinstallMode = 1);\r\n" +
                     "};"
                 );
             }
@@ -779,7 +936,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 );
             }
 
-            [Test, Ignore("")]
+            [Test]
             public static void PositiveIntegerValueShouldRoundtrip()
             {
                 RoundtripTests.AssertRoundtrip(
@@ -825,7 +982,6 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "};"
                 );
             }
-
 
         }
 
@@ -1178,6 +1334,19 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
         {
 
             [Test]
+            public static void EmptyEnumValueArrayShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "instance of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tYear = 2011;\r\n" +
+                    "\tMonth = {June};\r\n" +
+                    "\tDay = 31;\r\n" +
+                    "};"
+                );
+            }
+
+            [Test]
             public static void EnumValueArrayWithSingleEnumValueShouldRoundtrip()
             {
                 RoundtripTests.AssertRoundtrip(
@@ -1201,13 +1370,38 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/25")]
-            public static void EnumValueArrayWithQualifiedEnumValuesShouldRoundtrip()
+            public static void EnumValueArrayWithQualifiedEnumValuesAndQuirksEnabledShouldRoundtrip()
             {
                 RoundtripTests.AssertRoundtrip(
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
                     "\tMonth = {MonthEnums.July};\r\n" +
-                    "};"
+                    "};",
+                    ParserQuirks.EnumValueArrayContainsEnumValuesNotEnumNames
+                );
+            }
+
+            [Test(Description = "https://github.com/mikeclayton/MofParser/issues/25")]
+            public static void EnumValueArrayWithQualifiedEnumValuesAndQuirksDisabledShouldThrow()
+            {
+                var sourceMof =
+                    "instance of GOLF_Date\r\n" +
+                    "{\r\n" +
+                    "\tMonth = {MonthEnums.July};\r\n" +
+                    "};";
+                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+                var ex = Assert.Throws<UnexpectedTokenException>(
+                    () =>
+                    {
+                        var astNodes = Parser.Parse(tokens);
+                    }
+                );
+                Assert.AreEqual(
+                    "Unexpected token found at Position 46, Line Number 3, Column Number 21.\r\n" +
+                    "Token Type: 'DotOperatorToken'\r\n" +
+                    "Token Text: '.'",
+                    ex.Message
                 );
             }
 
@@ -1251,14 +1445,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
         //    }
         //}
 
-        private static void AssertRoundtrip(string sourceMof)
+        private static void AssertRoundtrip(string sourceMof, ParserQuirks parserQuirks = ParserQuirks.None)
         {
             // check the lexer tokens roundtrips ok
             var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
             var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
             Assert.AreEqual(sourceMof, tokensMof);
             // check the parser ast roundtrips ok
-            var astNodes  = Parser.Parse(tokens);
+            var astNodes = Parser.Parse(tokens, parserQuirks);
             var astMof = AstMofGenerator.ConvertToMof(astNodes);
             Assert.AreEqual(sourceMof, astMof);
         }

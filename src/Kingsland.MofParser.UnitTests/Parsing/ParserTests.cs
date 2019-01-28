@@ -15,7 +15,8 @@ namespace Kingsland.MofParser.UnitTests.Parsing
     public static class ParserTests
     {
 
-        [TestFixture]
+        #region 7.5.9 Complex type value
+
         public static class PropertyValueTests
         {
 
@@ -620,6 +621,8 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             }
 
         }
+
+        #endregion
 
         //[TestFixture]
         //private static class ParseMethodTestCasesWmiWin81
