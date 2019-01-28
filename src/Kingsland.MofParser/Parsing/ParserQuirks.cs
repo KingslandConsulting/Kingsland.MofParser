@@ -13,6 +13,9 @@ namespace Kingsland.MofParser.Parsing
         /// Allows deprecated qualifier "flavors" to be used in MOF files.
         /// </summary>
         /// <remarks>
+        ///
+        /// See https://github.com/mikeclayton/MofParser/issues/49
+        ///
         /// A MOF v2 qualifier declaration has to be converted to MOF v3 qualifierTypeDeclaration because the
         /// MOF v2 qualifier flavor has been replaced by the MOF v3 qualifierPolicy.
         ///
@@ -28,8 +31,36 @@ namespace Kingsland.MofParser.Parsing
         /// but this is no longer valid in MOF V3.
         ///
         /// If this quirk is enabled we'll read qualifier flavors anyway for compatibility witn MOF V2 mof files.
+        ///
         /// </remarks>
         AllowMofV2Qualifiers = 1,
+
+        /// <summary>
+        /// Allows deprecated qualifier "flavors" to be used in MOF files.
+        /// </summary>
+        /// <remarks>
+        ///
+        /// See https://github.com/mikeclayton/MofParser/issues/25
+        ///
+        /// Enum value arrays are defined in the MOF 3.0.1 spec as:
+        ///
+        ///     enumValueArray = "{" [ enumName *( "," enumName ) ] "}"
+        ///
+        /// but should *probably* be
+        ///
+        ///     enumValueArray = "{" [ enumValue *( "," enumValue ) ] "}"
+        ///
+        /// because this is invalid otherwise:
+        ///
+        ///     instance of MY_Class
+        ///     {
+        ///         Months = { MonthEnum.January, MonthEnum.April, MonthEnum.June, MonthEnum.September };
+        ///     };
+        ///
+        /// If this quirk is enabled we'll assume enum array entries are enumValues instead of enumNames.
+        ///
+        /// </remarks>
+        EnumValueArrayContainsEnumValuesNotEnumNames = 2
 
     }
 

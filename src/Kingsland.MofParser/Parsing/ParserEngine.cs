@@ -362,11 +362,14 @@ namespace Kingsland.MofParser.Parsing
                     break;
             }
 
+            // see https://github.com/mikeclayton/MofParser/issues/49
+            //
             // Pseudo-ABNF for MOF V2 qualifiers:
             //
             //     qualifierList_v2       = "[" qualifierValue_v2 *( "," qualifierValue_v2 ) "]"
             //     qualifierValue_v2      = qualifierName [ qualifierValueInitializer / qualiferValueArrayInitializer ] ":" qualifierFlavourList_v2
             //     qualifierFlavorList_v2 = qualifierFlavorName *( " " qualifierFlavorName )
+            //
             var quirkEnabled = (quirks & ParserQuirks.AllowMofV2Qualifiers) == ParserQuirks.AllowMofV2Qualifiers;
             if (quirkEnabled)
             {
@@ -2150,22 +2153,51 @@ namespace Kingsland.MofParser.Parsing
             // "{"
             var blockOpen = stream.Read<BlockOpenToken>();
 
-            // note - we're using enumValue, not enumName
-            // [ enumValue *( "," enumValue ) ]
-            if (!stream.TryPeek<BlockCloseToken>())
+            // see  https://github.com/mikeclayton/MofParser/issues/25
+            var quirkEnabled = (quirks & ParserQuirks.EnumValueArrayContainsEnumValuesNotEnumNames) == ParserQuirks.EnumValueArrayContainsEnumValuesNotEnumNames;
+            if (quirkEnabled)
             {
 
-                // enumValue
-                node.Values.Add(
-                    ParserEngine.ParseEnumValueAst(stream, quirks)
-                );
-
-                // *( "," enumValue )
-                while (stream.TryRead<CommaToken>(out var comma))
+                // [ enumValue *( "," enumValue ) ]
+                if (!stream.TryPeek<BlockCloseToken>())
                 {
+                    // enumValue
                     node.Values.Add(
                         ParserEngine.ParseEnumValueAst(stream, quirks)
                     );
+                    // *( "," enumValue )
+                    while (stream.TryRead<CommaToken>(out var comma))
+                    {
+                        node.Values.Add(
+                            ParserEngine.ParseEnumValueAst(stream, quirks)
+                        );
+                    }
+                }
+
+            }
+            else
+            {
+
+                // [ enumName *( "," enumName ) ]
+                if (!stream.TryPeek<BlockCloseToken>())
+                {
+                    // enumName
+                    node.Values.Add(
+                        new EnumValueAst.Builder
+                        {
+                            EnumLiteral = stream.Read<IdentifierToken>()
+                        }.Build()
+                    );
+                    // *( "," enumName )
+                    while (stream.TryRead<CommaToken>(out var comma))
+                    {
+                        node.Values.Add(
+                            new EnumValueAst.Builder
+                            {
+                                EnumLiteral = stream.Read<IdentifierToken>()
+                            }.Build()
+                       );
+                    }
                 }
 
             }
