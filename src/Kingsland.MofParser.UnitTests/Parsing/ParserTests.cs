@@ -675,7 +675,11 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             var mofText = File.ReadAllText(mofFilename);
             var reader = SourceReader.From(mofText);
             var tokens = Lexing.Lexer.Lex(reader);
-            var ast = Parser.Parse(tokens);
+            var ast = Parser.Parse(
+                tokens,
+                ParserQuirks.AllowMofV2Qualifiers |
+                ParserQuirks.AllowEmptyQualifierValueArrays
+            );
             var actualText = TestUtils.ConvertToJson(ast);
             var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),
                                                 Path.GetFileNameWithoutExtension(mofFilename) + ".json");
