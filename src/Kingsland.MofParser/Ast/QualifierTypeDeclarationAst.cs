@@ -80,12 +80,6 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public PrimitiveTypeValueAst Initializer
-            {
-                get;
-                set;
-            }
-
             public List<string> Flavors
             {
                 get;
@@ -101,7 +95,6 @@ namespace Kingsland.MofParser.Ast
                     this.QualifierType,
                     this.QualifierScope,
                     this.QualifierPolicy,
-                    this.Initializer,
                     new ReadOnlyCollection<string>(
                         this.Flavors ?? new List<string>()
                     )
@@ -121,7 +114,6 @@ namespace Kingsland.MofParser.Ast
             IdentifierToken qualifierType,
             IdentifierToken qualifierScope,
             IdentifierToken qualifierPolicy,
-            PrimitiveTypeValueAst initializer,
             ReadOnlyCollection<string> flavors
         )
         {
@@ -131,7 +123,6 @@ namespace Kingsland.MofParser.Ast
             this.QualifierType = qualifierType ?? throw new ArgumentNullException(nameof(qualifierType));
             this.QualifierScope = qualifierScope ?? throw new ArgumentNullException(nameof(qualifierScope));
             this.QualifierPolicy = qualifierPolicy ?? throw new ArgumentNullException(nameof(qualifierPolicy));
-            this.Initializer = initializer ?? throw new ArgumentNullException(nameof(initializer));
             this.Flavors = flavors ?? throw new ArgumentNullException(nameof(flavors));
         }
 
@@ -175,13 +166,6 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-
-        public PrimitiveTypeValueAst Initializer
-        {
-            get;
-            private set;
-        }
-
         public ReadOnlyCollection<string> Flavors
         {
             get;
@@ -194,7 +178,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertQualifierTypeDeclarationAst(this);
+            return AstMofGenerator.ConvertQualifierTypeDeclarationAst(this);
         }
 
         #endregion

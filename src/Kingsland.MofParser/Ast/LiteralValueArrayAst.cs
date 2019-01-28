@@ -73,7 +73,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertLiteralValueArrayAst(this);
+            return AstMofGenerator.ConvertLiteralValueArrayAst(this);
         }
 
         #endregion

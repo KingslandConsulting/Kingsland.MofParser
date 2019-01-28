@@ -137,7 +137,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertEnumerationDeclarationAst(this);
+            return AstMofGenerator.ConvertEnumerationDeclarationAst(this);
         }
 
         #endregion

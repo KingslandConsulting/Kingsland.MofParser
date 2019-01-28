@@ -42,6 +42,7 @@
     <Compile Include="Ast\StructureDeclarationAst.cs" />
     <Compile Include="Ast\ClassDeclarationAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />
+    <Compile Include="CodeGen\TokenMofGenerator.cs" />
     <Compile Include="Tokens\DotOperatorToken.cs" />
     <Compile Include="Tokens\IntegerKind.cs" />
     <Compile Include="Ast\PropertyValueListAst.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Ast\MofProductionAst.cs" />
     <Compile Include="Ast\PrimitiveTypeValueAst.cs" />
     <Compile Include="Ast\PropertyValueAst.cs" />
-    <Compile Include="CodeGen\MofGenerator.cs" />
+    <Compile Include="CodeGen\AstMofGenerator.cs" />
     <Compile Include="CodeGen\MofQuirks.cs" />
     <Compile Include="Lexing\LexerEngine.cs" />
     <Compile Include="Parsing\ParserEngine.cs" />

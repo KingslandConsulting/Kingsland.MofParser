@@ -79,7 +79,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertPropertyValueListAst(this);
+            return AstMofGenerator.ConvertPropertyValueListAst(this);
         }
 
         #endregion

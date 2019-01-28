@@ -38,7 +38,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
-                this.Features = new List<IClassFeatureAst>();
+                this.ClassFeatures = new List<IClassFeatureAst>();
             }
 
             public QualifierListAst QualifierList
@@ -59,7 +59,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public List<IClassFeatureAst> Features
+            public List<IClassFeatureAst> ClassFeatures
             {
                 get;
                 set;
@@ -72,7 +72,7 @@ namespace Kingsland.MofParser.Ast
                     this.ClassName,
                     this.SuperClass,
                     new ReadOnlyCollection<IClassFeatureAst>(
-                        this.Features ?? new List<IClassFeatureAst>()
+                        this.ClassFeatures ?? new List<IClassFeatureAst>()
                     )
                 );
             }
@@ -83,12 +83,12 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public ClassDeclarationAst(QualifierListAst qualifierList, IdentifierToken className, IdentifierToken superClass, ReadOnlyCollection<IClassFeatureAst> features)
+        public ClassDeclarationAst(QualifierListAst qualifierList, IdentifierToken className, IdentifierToken superClass, ReadOnlyCollection<IClassFeatureAst> classFeatures)
         {
             this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
             this.SuperClass = superClass;
-            this.Features = features ?? new ReadOnlyCollection<IClassFeatureAst>(new List<IClassFeatureAst>());
+            this.ClassFeatures = classFeatures ?? new ReadOnlyCollection<IClassFeatureAst>(new List<IClassFeatureAst>());
         }
 
         #endregion
@@ -113,7 +113,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public ReadOnlyCollection<IClassFeatureAst> Features
+        public ReadOnlyCollection<IClassFeatureAst> ClassFeatures
         {
             get;
             private set;
@@ -125,7 +125,7 @@ namespace Kingsland.MofParser.Ast
 
         public override string ToString()
         {
-            return MofGenerator.ConvertClassDeclarationAst(this);
+            return AstMofGenerator.ConvertClassDeclarationAst(this);
         }
 
         #endregion
