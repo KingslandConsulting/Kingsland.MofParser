@@ -34,6 +34,80 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
 
         #endregion
 
+        #region 7.4 Qualifiers
+
+        public static class QualifierTests
+        {
+
+            [Test]
+            public static void QualifierShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "[Description(\"Instances of this class represent golf clubs. A golf club is \" \"an organization that provides member services to golf players \" \"both amateur and professional.\")]\r\n" +
+                    "class GOLF_Club : GOLF_Base\r\n" +
+                    "{\r\n" +
+                    "};"
+                );
+            }
+
+        }
+
+        #endregion
+
+        #region 7.4.1 QualifierList
+
+        public static class QualifierListTests
+        {
+
+        }
+
+        public static class ParseQualifierValueTests
+        {
+
+            [Test]
+            public static void QualifierWithMofV2FlavorsAndQuirksEnabledShouldRoundtrip()
+            {
+                RoundtripTests.AssertRoundtrip(
+                    "[Locale(1033): ToInstance, UUID(\"{BE46D060-7A7C-11d2-BC85-00104B2CF71C}\"): ToInstance]\r\n" +
+                    "class Win32_PrivilegesStatus : __ExtendedStatus\r\n" +
+                    "{\r\n" +
+                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
+                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
+                    "};",
+                    ParserQuirks.AllowMofV2Qualifiers
+                );
+            }
+
+            [Test]
+            public static void QualifierWithMofV2FlavorsAndQuirksDisabledShouldThrow()
+            {
+                var sourceMof =
+                    "[Locale(1033): ToInstance, UUID(\"{BE46D060-7A7C-11d2-BC85-00104B2CF71C}\"): ToInstance]\r\n" +
+                    "class Win32_PrivilegesStatus : __ExtendedStatus\r\n" +
+                    "{\r\n" +
+                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
+                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
+                    "};";
+                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+                var ex = Assert.Throws<UnexpectedTokenException>(
+                    () =>
+                    {
+                        var astNodes = Parser.Parse(tokens);
+                    }
+                );
+                Assert.AreEqual(
+                    "Unexpected token found at Position 13, Line Number 1, Column Number 14.\r\n" +
+                    "Token Type: 'ColonToken'\r\n" +
+                    "Token Text: ':'",
+                    ex.Message
+                );
+            }
+
+        }
+
+        #endregion
+
         #region 7.5.1 Structure declaration
 
         public static class StructureDeclarationTests
@@ -91,19 +165,25 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void InvalidStructureFeatureShouldThrow()
             {
-                var expectedMof =
+
+                var sourceMof =
                     "structure Sponsor\r\n" +
                     "{\r\n" +
                     "\t100\r\n" +
                     "};";
-                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
-                Assert.Throws<UnexpectedTokenException>(
+                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+                Assert.AreEqual(sourceMof, tokensMof);
+                var ex = Assert.Throws<UnexpectedTokenException>(
                     () => {
-                        var actualAst = Parser.Parse(actualTokens);
-                    },
+                        var astNodes = Parser.Parse(tokens);
+                    }
+                );
+                Assert.AreEqual(
                     "Unexpected token found at Position 23, Line Number 3, Column Number 2.\r\n" +
                     "Token Type: 'IntegerLiteralToken'\r\n" +
-                    "Token Text: '100'"
+                    "Token Text: '100'",
+                    ex.Message
                 );
             }
 
@@ -200,19 +280,6 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 );
             }
 
-            [Test]
-            public static void ClassDeclarationsAstWithMofV2QualifierFlavorsShouldRoundtrip()
-            {
-                RoundtripTests.AssertRoundtrip(
-                    "[Locale(1033): ToInstance, UUID(\"{BE46D060-7A7C-11d2-BC85-00104B2CF71C}\"): ToInstance]\r\n" +
-                    "class Win32_PrivilegesStatus : __ExtendedStatus\r\n" +
-                    "{\r\n" +
-                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
-                    "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
-                    "};"
-                );
-            }
-
         }
 
         public static class ClassFeatureTests
@@ -232,19 +299,23 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void InvalidClassFeatureShouldThrow()
             {
-                var expectedMof =
+                var sourceMof =
                     "class Sponsor\r\n" +
                     "{\r\n" +
                     "\t100\r\n" +
                     "};";
-                var actualTokens = Lexing.Lexer.Lex(SourceReader.From(expectedMof));
-                Assert.Throws<UnexpectedTokenException>(
+                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+                var ex = Assert.Throws<UnexpectedTokenException>(
                     () => {
-                        var actualAst = Parser.Parse(actualTokens);
-                    },
-                    "Unexpected token found at Position 23, Line Number 3, Column Number 2.\r\n" +
+                        var astNodes = Parser.Parse(tokens);
+                    }
+                );
+                Assert.AreEqual(
+                    "Unexpected token found at Position 19, Line Number 3, Column Number 2.\r\n" +
                     "Token Type: 'IntegerLiteralToken'\r\n" +
-                    "Token Text: '100'"
+                    "Token Text: '100'",
+                    ex.Message
                 );
             }
 
@@ -1251,14 +1322,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
         //    }
         //}
 
-        private static void AssertRoundtrip(string sourceMof)
+        private static void AssertRoundtrip(string sourceMof, ParserQuirks parserQuirks = ParserQuirks.None)
         {
             // check the lexer tokens roundtrips ok
             var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
             var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
             Assert.AreEqual(sourceMof, tokensMof);
             // check the parser ast roundtrips ok
-            var astNodes  = Parser.Parse(tokens);
+            var astNodes = Parser.Parse(tokens, parserQuirks);
             var astMof = AstMofGenerator.ConvertToMof(astNodes);
             Assert.AreEqual(sourceMof, astMof);
         }
