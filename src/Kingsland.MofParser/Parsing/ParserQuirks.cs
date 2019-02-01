@@ -10,7 +10,7 @@ namespace Kingsland.MofParser.Parsing
         None = 0,
 
         /// <summary>
-        /// Allows deprecated qualifier "flavors" to be used in MOF files.
+        /// Allows deprecated MOF V2 qualifier "flavors" to be used in MOF files.
         /// </summary>
         /// <remarks>
         ///
@@ -36,7 +36,7 @@ namespace Kingsland.MofParser.Parsing
         AllowMofV2Qualifiers = 0x0001,
 
         /// <summary>
-        /// Allows deprecated qualifier "flavors" to be used in MOF files.
+        /// Allows fully qualified enum namedto be iused in enum array values, e.g. "{ MonthEnum.January, MonthEnum.April}"
         /// </summary>
         /// <remarks>
         ///
@@ -93,7 +93,7 @@ namespace Kingsland.MofParser.Parsing
         AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase = 0x0004,
 
         /// <summary>
-        /// Allows use of empty qualifier value arrays.
+        /// Allows use of empty qualifier value arrays - e.g. "[ValueMap{}]".
         /// </summary>
         /// <remarks>
         ///
