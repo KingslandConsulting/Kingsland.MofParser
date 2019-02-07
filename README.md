@@ -11,7 +11,7 @@ The library was initially created with the goal of producing documentation from 
 + Compiler directives (```#pragma include```)
 + Instance declarations (```instance of xyz { ... }```)
 + Structure declarations (```value of xyz { ... }```)
-+ Class declaration (```class xyz { ... }```)
++ Class declarations (```class xyz { ... }```)
 + Association declarations (```association xyz { ... }```)
 + Enumeration declarations (```enumeration xyz { ... }```)
 
