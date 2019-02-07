@@ -11,7 +11,7 @@ If you find a syntax rule which isn't supported, or doesn't process properly, pl
 ```text
 5 MOF file content
 
-    5.1 Encoding
+    5.1 Encoding .................................................... N/A
 
     5.2 Whitespace .................................................. Yes
 
@@ -19,13 +19,13 @@ If you find a syntax rule which isn't supported, or doesn't process properly, pl
 
     5.4 Comments
         single-line comments ........................................ Yes
-        multiline comments........................................... Yes
+        multiline comments .......................................... Yes
 
-6 MOF and OCL
+6 MOF and OCL ....................................................... N/A
 
 7 MOF language elements
 
-    7.1 MOF grammar description
+    7.1 MOF grammar description ..................................... N/A
 
     7.2 MOF specification
         mofSpecification ............................................ Yes
@@ -64,20 +64,20 @@ If you find a syntax rule which isn't supported, or doesn't process properly, pl
 
         7.5.5 Property declaration
             propertyDeclaration ..................................... Yes
-            primitivePropertyDeclaration ............................ Yes
-            complexPropertyDeclaration .............................. Yes
-            enumPropertyDeclaration ................................. Yes
-            referencePropertyDeclaration ............................ Yes
+            primitivePropertyDeclaration ............................ Yes (but no explicit ast node)
+            complexPropertyDeclaration .............................. Yes (but no explicit ast node)
+            enumPropertyDeclaration ................................. Yes (but no explicit ast node)
+            referencePropertyDeclaration ............................ Yes (but no explicit ast node)
 
         7.5.6 Method declaration
             methodDeclaration ....................................... Yes
 
         7.5.7 Parameter declaration
             parameterDeclaration .................................... Yes
-            primitiveParamDeclaration ............................... Yes
-            complexParamDeclaration ................................. Yes
-            enumParamDeclaration .................................... Yes
-            referenceParamDeclaration ............................... Yes
+            primitiveParamDeclaration ............................... Yes (but no explicit ast node)
+            complexParamDeclaration ................................. Yes (but no explicit ast node)
+            enumParamDeclaration .................................... Yes (but no explicit ast node)
+            referenceParamDeclaration ............................... Yes (but no explicit ast node)
 
         7.5.8 Primitive type declarations
             primitiveType ........................................... Yes
@@ -106,7 +106,7 @@ If you find a syntax rule which isn't supported, or doesn't process properly, pl
                 decimalValue ........................................ Yes
 
             7.6.1.2 Real value
-                realValue ........................................... Y (no support for exponent)
+                realValue ........................................... Yes (no support for exponent)
 
             7.6.1.3 String values
                 singleStringValue ................................... Yes
