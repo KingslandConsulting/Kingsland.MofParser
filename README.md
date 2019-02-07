@@ -6,9 +6,10 @@ Overview
 
 Kingsland.MofParser is a C# library for parsing the contents of Managed Object Format (MOF) files.
 
-The library was initially created with the goal of producing documentation from Managed Object Format files produced by PowerShell Desired State Configuration scripts, but now supports nearly all of the [MOF 3.0.1 specification ](http://www.dmtf.org/standards/cim) including the following:
+The library was initially created with the goal of producing documentation from Managed Object Format files produced by PowerShell Desired State Configuration scripts, but now supports nearly all of the [MOF 3.0.1 specification ](https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf) including the following:
 
 + Compiler directives (```#pragma include```)
++ Instance declarations (```instance of xyz { ... }```)
 + Structure declarations (```value of xyz { ... }```)
 + Class declaration (```class xyz { ... }```)
 + Association declarations (```association xyz { ... }```)
