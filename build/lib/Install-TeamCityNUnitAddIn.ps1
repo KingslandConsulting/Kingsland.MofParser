@@ -5,21 +5,21 @@ function Install-TeamCityNUnitAddIn()
     (
 
         [Parameter(Mandatory=$true)]
-        [string] $teamcityNUnitAddin,
+        [string] $TeamCityNUnitAddin,
 
         [Parameter(Mandatory=$true)]
-        [string] $nunitRunnersFolder
+        [string] $NUnitRunnersFolder
 
     )
 
     write-host "--------------------------";
     write-host "Install-TeamCityNUnitAddIn";
     write-host "--------------------------";
-    write-host "nunit addin = $teamcityNUnitAddin";
-    write-host "runner dir  = $nunitRunnersFolder";
+    write-host "nunit addin = $TeamCityNUnitAddin";
+    write-host "runner dir  = $NUnitRunnersFolder";
 
     # get the version number of the nunit runner
-    $console = [System.IO.Path]::Combine($nunitRunnersFolder, "tools\nunit-console.exe");
+    $console = [System.IO.Path]::Combine($NUnitRunnersFolder, "tools\nunit-console.exe");
     $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($console);
     $versionString = [string]::Format("{0}.{1}.{2}", `
                                       $version.ProductMajorPart, `
@@ -28,8 +28,8 @@ function Install-TeamCityNUnitAddIn()
     write-host "nunit version = $versionString";
 
     write-host "checking for teamcity addin";
-    $sourceFolder = [System.IO.Path]::GetDirectoryName($teamcityNUnitAddin);
-    $sourceFilename = [System.IO.Path]::GetFileName($teamcityNUnitAddin) + "-" + $versionString + ".dll";
+    $sourceFolder = [System.IO.Path]::GetDirectoryName($TeamCityNUnitAddin);
+    $sourceFilename = [System.IO.Path]::GetFileName($TeamCityNUnitAddin) + "-" + $versionString + ".dll";
     write-host "source folder = $sourceFolder";
     write-host "source file   = $sourceFilename";
     if( -not [System.IO.File]::Exists([System.IO.Path]::Combine($sourceFolder, $sourceFilename)) )

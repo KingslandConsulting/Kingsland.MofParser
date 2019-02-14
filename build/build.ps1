@@ -2,10 +2,10 @@ param
 (
 
     [Parameter(Mandatory=$false)]
-    [string] $NuGetApiKey,
+    [string] $BuildNumber = "1.0.0",
 
     [Parameter(Mandatory=$false)]
-    [string] $BuildNumber = "1.0.0"
+    [string] $NuGetApiKey
 
 )
 
@@ -20,10 +20,12 @@ $rootFolder = [System.IO.Path]::GetDirectoryName($thisFolder);
 
 
 # import all library functions
+write-host "dot-sourcing script files";
 $libFolder = [System.IO.Path]::Combine($thisFolder, "lib");
 $filenames = [System.IO.Directory]::GetFiles($libFolder, "*.ps1");
 foreach( $filename in $filenames )
 {
+    write-host "    $filename";
     . $filename;
 }
 
@@ -31,14 +33,19 @@ foreach( $filename in $filenames )
 Set-PowerShellHostWidth -Width 500;
 
 
-$solution       = [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.sln");
-$nunitRunners   = [System.IO.Path]::Combine($rootFolder, "packages\NUnit.Runners.2.6.4");
-$testAssemblies = @(
-                      [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.UnitTests\bin\Debug\Kingsland.MofParser.UnitTests.dll")
-                  );
+#$msbuild  = "$($env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
+$msbuild  = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin\MSBuild.exe";
+$solution = [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.sln");
+
+
+$nunitConsole = [System.IO.Path]::Combine($rootFolder, "packages\NUnit.ConsoleRunner.3.9.0\tools\nunit3-console.exe");
+$nunitTestAssemblies = @(
+    [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.UnitTests\bin\Debug\Kingsland.MofParser.UnitTests.dll")
+);
+
+
+$nuget  = [System.IO.Path]::Combine($rootFolder, "packages\NuGet.CommandLine.4.9.2\tools\NuGet.exe");
 $nuspec = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser.nuspec");
-#$nuget  = [System.IO.Path]::Combine($rootFolder, "packages\NuGet.CommandLine.2.8.6\tools\NuGet.exe");
-$nuget  = "$($env:USERPROFILE)\.nuget\packages\nuget.commandline\4.9.2\tools\NuGet.exe";
 $nupkg  = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser." + $BuildNumber + ".nupkg");
 
 
@@ -52,12 +59,10 @@ if( Test-IsTeamCityBuild )
 
 # build the solution
 $msbuildParameters = @{
-#    "MsBuildExe"   = "$($env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
-    "MsBuildExe"   = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin\MSBuild.exe";
+    "MsBuildExe"   = $msbuild;
     "Solution"     = $solution
     "Targets"      = @( "Clean", "Build" )
     "Properties"   = @{ }
-    #"ToolsVersion" =  "16.0"
     #"Verbosity"    =  "detailed"
 };
 Invoke-MsBuild @msbuildParameters;
@@ -65,15 +70,15 @@ Invoke-MsBuild @msbuildParameters;
 # copy teamcity addins for nunit into build folder
 if( Test-IsTeamCityBuild )
 {
-    Install-TeamCityNUnitAddIn -teamcityNUnitAddin $properties["system.teamcity.dotnet.nunitaddin"] `
-                               -nunitRunnersFolder $nunitRunners;
+    Install-TeamCityNUnitAddIn -TeamCityNUnitAddin $properties["system.teamcity.dotnet.nunitaddin"] `
+                               -NUnitRunnersFolder $nunitRunners;
 }
 
 
 # execute unit tests
-foreach( $assembly in $testAssemblies )
+foreach( $assembly in $nunitTestAssemblies )
 {
-    Invoke-NUnitConsole -nunitRunnersFolder $nunitRunners -assembly $assembly;
+    Invoke-NUnitConsole -NUnitConsole $nunitConsole -Assembly $assembly;
 }
 
 
@@ -89,4 +94,7 @@ Invoke-NuGetPack -NuGet $nuget -NuSpec $nuspec -OutputDirectory $rootFolder;
 
 
 # push nuget package
-Invoke-NuGetPush -NuGet $nuget -PackagePath $nupkg -Source "https://nuget.org" -ApiKey $NuGetApiKey;
+if( $PSBoundParameters.ContainsKey("NuGetApiKey") )
+{
+    Invoke-NuGetPush -NuGet $nuget -PackagePath $nupkg -Source "https://nuget.org" -ApiKey $NuGetApiKey;
+}

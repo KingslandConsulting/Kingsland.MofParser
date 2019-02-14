@@ -5,7 +5,7 @@ function Set-PowerShellHostWidth
     (
 
         [Parameter(Mandatory=$true)]
-        [uint32] $width
+        [uint32] $Width
 
     )
 
