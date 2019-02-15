@@ -4,7 +4,7 @@ using System.Linq;
 namespace Kingsland.MofParser.Parsing
 {
 
-    public sealed class StringValidator
+    internal sealed class StringValidator
     {
 
         #region 5.2 Whitespace

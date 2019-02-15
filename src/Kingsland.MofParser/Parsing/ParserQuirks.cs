@@ -109,7 +109,7 @@ namespace Kingsland.MofParser.Parsing
         /// text for some classes, but we'll provide an option to allow or disallow empty
         /// arrays here...
         ///
-        /// If this quirk is enabled we'll allow empty qualifier value array.
+        /// If this quirk is enabled we'll allow empty qualifier value arrays.
         ///
         /// </remarks>
         AllowEmptyQualifierValueArrays = 0x0008

@@ -7,11 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.Sample", "samples\Kingsland.MofParser.Sample\Kingsland.MofParser.Sample.csproj", "{A071F2FD-3C3D-43DE-9774-AACEE415EFA2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5438AEF1-A55C-4875-A269-06EB6A4C70FE}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EF2352AD-7832-417F-8EC9-3069D24B9980}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.UnitTests", "src\Kingsland.MofParser.UnitTests\Kingsland.MofParser.UnitTests.csproj", "{6A357A77-6B99-44FA-8FA0-DC8105086C03}"

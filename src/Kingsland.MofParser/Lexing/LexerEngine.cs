@@ -9,7 +9,7 @@ using System.Text;
 namespace Kingsland.MofParser.Lexing
 {
 
-    public static class LexerEngine
+    internal static class LexerEngine
     {
 
         #region Dispatcher

@@ -6,7 +6,7 @@
     /// </summary>
     /// <remarks>
     /// </remarks>
-    public static class Constants
+    internal static class Constants
     {
 
         // 7.3 Compiler directives
