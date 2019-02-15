@@ -6,7 +6,7 @@ using System.Text;
 namespace Kingsland.MofParser.Parsing
 {
 
-    internal class ParserStream
+    internal sealed class ParserStream
     {
 
         #region Field

@@ -12,6 +12,57 @@ namespace Kingsland.MofParser.UnitTests.Lexer
     public static class LexerTests
     {
 
+        [TestFixture]
+        public static class EmptyFileTests
+        {
+
+            [Test]
+            public static void ShouldReadEmptyFile()
+            {
+                var actualTokens = Lexing.Lexer.Lex(
+                    SourceReader.From(string.Empty)
+                );
+                var expectedTokens = new List<Token>();
+                LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
+            }
+
+        }
+
+        [TestFixture]
+        public static class MiscTests
+        {
+
+            [Test]
+            public static void MissingWhitespaceTest()
+            {
+                var actualTokens = Lexing.Lexer.Lex(
+                    SourceReader.From("12345myIdentifier")
+                );
+                var expectedTokens = new List<Token> {
+                    new IntegerLiteralToken(
+                        new SourceExtent
+                        (
+                            new SourcePosition(0, 1, 1),
+                            new SourcePosition(4, 1, 5),
+                            "12345"
+                        ),
+                        IntegerKind.DecimalValue, 12345
+                    ),
+                    new IdentifierToken(
+                        new SourceExtent
+                        (
+                            new SourcePosition(5, 1, 6),
+                            new SourcePosition(16, 1, 17),
+                            "myIdentifier"
+                        ),
+                        "myIdentifier"
+                    )
+                };
+                LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
+            }
+
+        }
+
         #region Symbols
 
         [TestFixture]
@@ -318,22 +369,6 @@ namespace Kingsland.MofParser.UnitTests.Lexer
         }
 
         #endregion
-
-        [TestFixture]
-        public static class EmptyFileTests
-        {
-
-            [Test]
-            public static void ShouldReadEmptyFile()
-            {
-                var actualTokens = Lexing.Lexer.Lex(
-                    SourceReader.From(string.Empty)
-                );
-                var expectedTokens = new List<Token>();
-                LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
-            }
-
-        }
 
         [TestFixture]
         public static class ReadWhitespaceTokenMethod
@@ -2009,7 +2044,6 @@ namespace Kingsland.MofParser.UnitTests.Lexer
             }
         }
 
-
         private static void LexMethodTest(string mofFilename)
         {
             var mofText = File.ReadAllText(mofFilename);
@@ -2029,3 +2063,4 @@ namespace Kingsland.MofParser.UnitTests.Lexer
     }
 
 }
+///
