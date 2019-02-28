@@ -61,7 +61,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
 
         }
 
-        public static class ParseQualifierValueTests
+        public static class QualifierValueTests
         {
 
             [Test]

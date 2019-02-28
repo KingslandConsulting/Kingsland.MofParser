@@ -854,7 +854,7 @@ namespace Kingsland.MofParser.Lexing
                         // build the return value
                         var realIntegerValue = ParseDecimalValueDigits(firstDigitBlock, signChar);
                         var realFractionValue = (double)ParseDecimalValueDigits(realFractionDigits, signChar);
-                        if (realFractionDigits.Count > 0)
+                        if (realFractionDigits.Any())
                         {
                             realFractionValue = realFractionValue / Math.Pow(10, realFractionDigits.Count);
                         }
