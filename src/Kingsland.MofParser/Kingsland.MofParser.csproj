@@ -39,6 +39,9 @@
     <Compile Include="Ast\IAstNode.cs" />
     <Compile Include="Ast\EnumElementAst.cs" />
     <Compile Include="Ast\IEnumElementValueAst.cs" />
+    <Compile Include="Ast\IQualifierInitializerAst.cs" />
+    <Compile Include="Ast\QualifierValueArrayInitializerAst.cs" />
+    <Compile Include="Ast\QualifierValueInitializerAst.cs" />
     <Compile Include="Ast\StructureDeclarationAst.cs" />
     <Compile Include="Ast\ClassDeclarationAst.cs" />
     <Compile Include="Ast\ComplexTypeValueAst.cs" />

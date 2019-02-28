@@ -168,7 +168,7 @@ namespace Kingsland.MofParser.CodeGen
             {
                 source.Append(node.QualifierName.Name);
             }
-            if (node.Flavors.Count > 0)
+            if (node.Flavors.Any())
             {
                 source.Append(": ");
                 source.Append(string.Join(" ", node.Flavors.ToArray()));
@@ -216,19 +216,9 @@ namespace Kingsland.MofParser.CodeGen
         {
             var source = new StringBuilder();
             source.Append(node.QualifierName.Extent.Text);
-            if (node.ValueInitializer != null)
+            if (node.Initializer != null)
             {
-                // e.g.
-                // Description("an instance of a class that derives from the GOLF_Base class. ")
-                source.Append("(");
-                source.Append(AstMofGenerator.ConvertLiteralValueAst(node.ValueInitializer, quirks));
-                source.Append(")");
-            }
-            else if (node.ValueArrayInitializer != null)
-            {
-                // e.g.
-                // OCL{"-- the key property cannot be NULL", "inv: InstanceId.size() = 10"}
-                source.Append(AstMofGenerator.ConvertLiteralValueArrayAst(node.ValueArrayInitializer, quirks));
+                source.Append(AstMofGenerator.ConvertIQualifierInitializerAst(node.Initializer));
             }
             ///
             /// 7.4 Qualifiers
@@ -238,7 +228,7 @@ namespace Kingsland.MofParser.CodeGen
             ///
             /// These aren't part of the MOF 3.0.1 spec, but we'll include them anyway for backward compatibility.
             ///
-            if (node.Flavors.Count > 0)
+            if (node.Flavors.Any())
             {
                 source.Append(": ");
                 source.Append(
@@ -251,6 +241,50 @@ namespace Kingsland.MofParser.CodeGen
             return source.ToString();
         }
 
+        public static string ConvertIQualifierInitializerAst(IQualifierInitializerAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            switch (node)
+            {
+                case QualifierValueInitializerAst ast:
+                    return AstMofGenerator.ConvertQualifierValueInitializerAst(ast, quirks);
+                case QualifierValueArrayInitializerAst ast:
+                    return AstMofGenerator.ConvertQualifierValueArrayInitializerAst(ast, quirks);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public static string ConvertQualifierValueInitializerAst(QualifierValueInitializerAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            var source = new StringBuilder();
+            // e.g.
+            // Description("an instance of a class that derives from the GOLF_Base class. ")
+            source.Append("(");
+            source.Append(AstMofGenerator.ConvertLiteralValueAst(node.Value, quirks));
+            source.Append(")");
+            return source.ToString();
+        }
+
+        public static string ConvertQualifierValueArrayInitializerAst(QualifierValueArrayInitializerAst node, MofQuirks quirks = MofQuirks.None)
+        {
+            var source = new StringBuilder();
+            // e.g.
+            // OCL{"-- the key property cannot be NULL", "inv: InstanceId.size() = 10"}
+            source.Append("{");
+            var index = 0;
+            foreach (var value in node.Values)
+            {
+                if (index > 0)
+                {
+                    source.Append(", ");
+                }
+                source.Append(AstMofGenerator.ConvertLiteralValueAst(value, quirks));
+                index++;
+            }
+            source.Append("}");
+            return source.ToString();
+        }
+
         #endregion
 
         #region 7.5.1 Structure declaration
@@ -258,7 +292,7 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertStructureDeclarationAst(StructureDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             var source = new StringBuilder();
-            if (node.QualifierList.QualifierValues.Count > 0)
+            if (node.QualifierList.QualifierValues.Any())
             {
                 source.AppendLine(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(indent);
@@ -304,7 +338,7 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertClassDeclarationAst(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             var source = new StringBuilder();
-            if (node.QualifierList.QualifierValues.Count > 0)
+            if (node.QualifierList.QualifierValues.Any())
             {
                 source.AppendLine(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(indent);
@@ -349,7 +383,7 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertAssociationDeclarationAst(AssociationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             var source = new StringBuilder();
-            if (node.QualifierList.QualifierValues.Count > 0)
+            if (node.QualifierList.QualifierValues.Any())
             {
                 source.AppendLine(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(indent);
@@ -380,7 +414,7 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertEnumerationDeclarationAst(EnumerationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
             var source = new StringBuilder();
-            if (node.QualifierList.QualifierValues.Count > 0)
+            if (node.QualifierList.QualifierValues.Any())
             {
                 source.AppendLine(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(indent);
@@ -409,7 +443,7 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertEnumElementAst(EnumElementAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
-            if (node.QualifierList.QualifierValues.Count > 0)
+            if (node.QualifierList.QualifierValues.Any())
             {
                 source.Append(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(" ");
@@ -443,7 +477,7 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertPropertyDeclarationAst(PropertyDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
-            if (node.QualifierList.QualifierValues.Count > 0)
+            if (node.QualifierList.QualifierValues.Any())
             {
                 source.Append(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(" ");
@@ -480,12 +514,12 @@ namespace Kingsland.MofParser.CodeGen
 
             var source = new StringBuilder();
 
-            if (node.QualifierList.QualifierValues.Count > 0)
+            if (node.QualifierList.QualifierValues.Any())
             {
                 source.Append(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
             }
 
-            if (prefixQuirkEnabled || (node.QualifierList.QualifierValues.Count > 0))
+            if (prefixQuirkEnabled || node.QualifierList.QualifierValues.Any())
             {
                 source.Append(" ");
             }
@@ -522,7 +556,7 @@ namespace Kingsland.MofParser.CodeGen
         public static string ConvertParameterDeclarationAst(ParameterDeclarationAst node, MofQuirks quirks = MofQuirks.None)
         {
             var source = new StringBuilder();
-            if (node.QualifierList.QualifierValues.Count > 0)
+            if (node.QualifierList.QualifierValues.Any())
             {
                 source.Append(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
                 source.Append(" ");

@@ -354,11 +354,11 @@ namespace Kingsland.MofParser.Parsing
             {
                 case ParenthesisOpenToken paranthesesOpen:
                     // qualifierValueInitializer
-                    node.ValueInitializer = ParserEngine.ParseQualifierValueInitializer(stream, quirks);
+                    node.Initializer = ParserEngine.ParseQualifierValueInitializer(stream, quirks);
                     break;
                 case BlockOpenToken blockOpen:
                     // qualiferValueArrayInitializer
-                    node.ValueArrayInitializer = ParserEngine.ParseQualifierValueArrayInitializer(stream, quirks);
+                    node.Initializer = ParserEngine.ParseQualifierValueArrayInitializer(stream, quirks);
                     break;
             }
 
@@ -400,15 +400,16 @@ namespace Kingsland.MofParser.Parsing
         ///     qualifierValueInitializer = "(" literalValue ")"
         ///
         /// </remarks>
-        public static LiteralValueAst ParseQualifierValueInitializer(ParserStream stream, ParserQuirks quirks = ParserQuirks.None)
+        public static QualifierValueInitializerAst ParseQualifierValueInitializer(ParserStream stream, ParserQuirks quirks = ParserQuirks.None)
         {
+            var node = new QualifierValueInitializerAst.Builder();
             // "("
             var parenthesisOpen = stream.Read<ParenthesisOpenToken>();
             // literalValue
-            var node = ParserEngine.ParseLiteralValueAst(stream, quirks);
+            node.Value = ParserEngine.ParseLiteralValueAst(stream, quirks);
             // ")"
             var parenthesisClose = stream.Read<ParenthesisCloseToken>();
-            return node;
+            return node.Build();
         }
 
         /// <summary>
@@ -424,10 +425,10 @@ namespace Kingsland.MofParser.Parsing
         ///     qualiferValueArrayInitializer = "{" literalValue *( "," literalValue ) "}"
         ///
         /// </remarks>
-        public static LiteralValueArrayAst ParseQualifierValueArrayInitializer(ParserStream stream, ParserQuirks quirks = ParserQuirks.None)
+        public static QualifierValueArrayInitializerAst ParseQualifierValueArrayInitializer(ParserStream stream, ParserQuirks quirks = ParserQuirks.None)
         {
 
-            var node = new LiteralValueArrayAst.Builder();
+            var node = new QualifierValueArrayInitializerAst.Builder();
 
             // "{"
             var blockOpen = stream.Read<BlockOpenToken>();
