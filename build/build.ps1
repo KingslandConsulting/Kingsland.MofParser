@@ -2,9 +2,6 @@ param
 (
 
     [Parameter(Mandatory=$false)]
-    [string] $BuildNumber = "1.0.0",
-
-    [Parameter(Mandatory=$false)]
     [string] $NuGetApiKey
 
 )
@@ -33,6 +30,14 @@ foreach( $filename in $filenames )
 Set-PowerShellHostWidth -Width 500;
 
 
+$gitVersion  = [System.IO.Path]::Combine($rootFolder, "packages\GitVersion.CommandLine.4.0.0\tools\GitVersion.exe");
+$versionInfo = Invoke-GitVersion -GitVersion $gitVersion;
+$buildNumber = $versionInfo.SemVer;
+write-host "version info = ";
+write-host ($versionInfo | fl * | out-string);
+write-host "build number = '$buildNumber'";
+
+
 #$msbuild  = "$($env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
 $msbuild  = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin\MSBuild.exe";
 $solution = [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.sln");
@@ -53,7 +58,6 @@ if( Test-IsTeamCityBuild )
 {
     $properties = Read-TeamCityBuildProperties;
     $NuGetApiKey = $properties.NuGetApiKey;
-    $BuildNumber = $properties["build.number"];
 }
 
 
@@ -85,7 +89,7 @@ foreach( $assembly in $nunitTestAssemblies )
 # configure nuspec package
 $xml = new-object System.Xml.XmlDocument;
 $xml.Load($nuspec);
-$xml.package.metadata.version = $BuildNumber;
+$xml.package.metadata.version = $buildNumber;
 $xml.Save($nuspec);
 
 
