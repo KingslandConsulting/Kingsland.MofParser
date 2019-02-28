@@ -42,13 +42,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public LiteralValueAst ValueInitializer
-            {
-                get;
-                set;
-            }
-
-            public LiteralValueArrayAst ValueArrayInitializer
+            public IQualifierInitializerAst Initializer
             {
                 get;
                 set;
@@ -64,8 +58,7 @@ namespace Kingsland.MofParser.Ast
             {
                 return new QualifierValueAst(
                     this.QualifierName,
-                    this.ValueInitializer,
-                    this.ValueArrayInitializer,
+                    this.Initializer,
                     new ReadOnlyCollection<IdentifierToken>(
                         this.Flavors ?? new List<IdentifierToken>()
                     )
@@ -78,11 +71,10 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public QualifierValueAst(IdentifierToken qualifierName, LiteralValueAst valueInitializer, LiteralValueArrayAst valueArrayInitializer, ReadOnlyCollection<IdentifierToken> flavors)
+        public QualifierValueAst(IdentifierToken qualifierName, IQualifierInitializerAst initializer, ReadOnlyCollection<IdentifierToken> flavors)
         {
             this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
-            this.ValueInitializer = valueInitializer;
-            this.ValueArrayInitializer = valueArrayInitializer;
+            this.Initializer = initializer;
             this.Flavors = flavors ?? new ReadOnlyCollection<IdentifierToken>(
                 new List<IdentifierToken>()
             );
@@ -98,13 +90,7 @@ namespace Kingsland.MofParser.Ast
             private set;
         }
 
-        public LiteralValueAst ValueInitializer
-        {
-            get;
-            private set;
-        }
-
-        public LiteralValueArrayAst ValueArrayInitializer
+        public IQualifierInitializerAst Initializer
         {
             get;
             private set;
