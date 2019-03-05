@@ -71,8 +71,8 @@ $msbuildParameters = @{
     "Solution"     = $solution
     "Targets"      = @( "Clean", "Restore", "Build" )
     "Properties"   = @{}
-    "Verbosity"    =  "minimal"
-    #"Verbosity"    =  "detailed"
+    #"Verbosity"    =  "minimal"
+    "Verbosity"    =  "detailed"
 };
 Invoke-MsBuild @msbuildParameters;
 
