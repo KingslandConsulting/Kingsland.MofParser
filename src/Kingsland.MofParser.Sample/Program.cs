@@ -11,7 +11,6 @@ namespace Kingsland.FileFormat.Mof.Tests
         {
 
             const string filename = "dsc\\MyServer.mof";
-            //const string filename = "..\\..\\..\\..\\src\\Kingsland.MofParser.UnitTests\\Parsing\\TestCases\\issue_7_aliasidentifier_array.mof";
 
             // parse the mof file
             var instances = PowerShellDscHelper.ParseMofFileInstances(filename);

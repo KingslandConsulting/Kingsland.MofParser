@@ -14,6 +14,9 @@ Set-StrictMode -Version "Latest";
 $thisScript = $MyInvocation.MyCommand.Path;
 $thisFolder = [System.IO.Path]::GetDirectoryName($thisScript);
 $rootFolder = [System.IO.Path]::GetDirectoryName($thisFolder);
+write-host "this script = '$thisScript'";
+write-host "this folder = '$thisFolder'";
+write-host "root folder = '$rootFolder'";
 
 
 # import all library functions
@@ -30,53 +33,48 @@ foreach( $filename in $filenames )
 Set-PowerShellHostWidth -Width 500;
 
 
-$gitVersion  = [System.IO.Path]::Combine($rootFolder, "packages\GitVersion.CommandLine.4.0.0\tools\GitVersion.exe");
-$versionInfo = Invoke-GitVersion -GitVersion $gitVersion;
-$buildNumber = $versionInfo.SemVer;
-write-host "version info = ";
-write-host ($versionInfo | fl * | out-string);
-write-host "build number = '$buildNumber'";
+$msbuild      = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin\MSBuild.exe";
+#$msbuild     = "$($env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
+$solution     = [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.sln");
 
+$gitVersion   = [System.IO.Path]::Combine($rootFolder, "packages\gitversion.commandline\4.0.0\tools\GitVersion.exe");
 
-#$msbuild  = "$($env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
-$msbuild  = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin\MSBuild.exe";
-$solution = [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.sln");
-
-
-$nunitConsole = [System.IO.Path]::Combine($rootFolder, "packages\NUnit.ConsoleRunner.3.9.0\tools\nunit3-console.exe");
+$nunitConsole        = [System.IO.Path]::Combine($rootFolder, "packages\nunit.consolerunner\3.9.0\tools\nunit3-console.exe");
 $nunitTestAssemblies = @(
     [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.UnitTests\bin\Debug\Kingsland.MofParser.UnitTests.dll")
 );
 
-
-$nuget  = [System.IO.Path]::Combine($rootFolder, "packages\NuGet.CommandLine.4.9.2\tools\NuGet.exe");
-$nuspec = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser.nuspec");
-$nupkg  = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser." + $BuildNumber + ".nupkg");
+$nuget  = [System.IO.Path]::Combine($rootFolder, "packages\nuget.commandline\4.9.3\tools\NuGet.exe");
+$nuspec = [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.nuspec");
+$pkgdir = [System.IO.Path]::Combine($rootFolder, "packages");
 
 
 if( Test-IsTeamCityBuild )
 {
+
+    # read the build properties
     $properties = Read-TeamCityBuildProperties;
     $NuGetApiKey = $properties.NuGetApiKey;
+
+    # copy teamcity addins for nunit into build folder
+    Install-TeamCityNUnitAddIn -TeamCityNUnitAddin $properties["system.teamcity.dotnet.nunitaddin"] `
+                               -NUnitRunnersFolder $nunitRunners;
+
 }
 
 
 # build the solution
+$env:NUGET_PACKAGES         = $pkgdir;
+$env:NUGET_HTTP_CACHE_PATH  = $pkgdir;
 $msbuildParameters = @{
-    "MsBuildExe"   = $msbuild;
+    "MsBuildExe"   = $msbuild
     "Solution"     = $solution
-    "Targets"      = @( "Clean", "Build" )
-    "Properties"   = @{ }
+    "Targets"      = @( "Clean", "Restore", "Build" )
+    "Properties"   = @{}
+    "Verbosity"    =  "minimal"
     #"Verbosity"    =  "detailed"
 };
 Invoke-MsBuild @msbuildParameters;
-
-# copy teamcity addins for nunit into build folder
-if( Test-IsTeamCityBuild )
-{
-    Install-TeamCityNUnitAddIn -TeamCityNUnitAddin $properties["system.teamcity.dotnet.nunitaddin"] `
-                               -NUnitRunnersFolder $nunitRunners;
-}
 
 
 # execute unit tests
@@ -84,6 +82,15 @@ foreach( $assembly in $nunitTestAssemblies )
 {
     Invoke-NUnitConsole -NUnitConsole $nunitConsole -Assembly $assembly;
 }
+
+
+# determine build number for the nuget package
+$versionInfo = Invoke-GitVersion -GitVersion $gitVersion;
+#$buildNumber = $versionInfo.SemVer;
+$buildNumber = $versionInfo.LegacySemVer;
+write-host "version info = ";
+write-host ($versionInfo | fl * | out-string);
+write-host "build number = '$buildNumber'";
 
 
 # configure nuspec package
@@ -94,6 +101,7 @@ $xml.Save($nuspec);
 
 
 # pack nuget package
+#$nupkg  = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser." + $BuildNumber + ".nupkg");
 Invoke-NuGetPack -NuGet $nuget -NuSpec $nuspec -OutputDirectory $rootFolder;
 
 

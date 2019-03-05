@@ -28,16 +28,12 @@ function Invoke-NUnitConsole
         throw new-object System.IO.FileNotFoundException($assembly);
     }
 
+    $cmdLine = $NUnitConsole;
+
     $cmdArgs = @( "`"$assembly`"");
 
     # execute nunit console
-    write-host "cmdArgs = ";
-    write-host ($cmdArgs | fl * | out-string);
-    $process = Start-Process -FilePath $NUnitConsole -ArgumentList $cmdArgs -NoNewWindow -Wait -PassThru;
-    if( $process.ExitCode -ne 0 )
-    {
-        throw new-object System.InvalidOperationException("nunit-console failed with exit code $($process.ExitCode).");
-    }
+    $null = Invoke-CommandLine -Command $cmdLine -Arguments $cmdArgs;
 
     write-host "------------";
 

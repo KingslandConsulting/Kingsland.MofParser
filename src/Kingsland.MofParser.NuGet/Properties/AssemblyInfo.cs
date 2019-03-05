@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Kingsland.FileFormat.Mof.Tests")]
+[assembly: AssemblyTitle("Kingsland.MofParser.NuGet")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Kingsland.FileFormat.Mof.Tests")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyProduct("Kingsland.MofParser.NuGet")]
+[assembly: AssemblyCopyright("Copyright © 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("11c9432a-1974-48a7-8e37-4d8b0ed2fbbe")]
+[assembly: Guid("ecd9daf2-1fda-4435-b489-886a2cca749e")]
 
 // Version information for an assembly consists of the following four values:
 //

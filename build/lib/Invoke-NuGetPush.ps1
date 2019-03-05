@@ -42,13 +42,7 @@ function Invoke-NuGetPush
         "-ApiKey", $ApiKey
     );
 
-    write-host "cmdLine = $cmdLine";
-    write-host "cmdArgs = ";
-    write-host ($cmdArgs | fl * | out-string);
-    $process = Start-Process -FilePath $cmdLine -ArgumentList $cmdArgs -Wait -NoNewWindow -PassThru;
-    if( $process.ExitCode -ne 0 )
-    {
-        throw new-object System.InvalidOperationException("NuGet.exe failed with exit code $($process.ExitCode)");
-    }
+    # execute nuget push
+    $null = Invoke-CommandLine -Command $cmdLine -Arguments $cmdArgs;
 
 }

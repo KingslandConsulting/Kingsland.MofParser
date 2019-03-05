@@ -15,34 +15,13 @@ namespace Kingsland.MofParser.UnitTests.Helpers
 
         internal static string ConvertToJson<T>(T value)
         {
-            var formatting = Newtonsoft.Json.Formatting.Indented;
+            var formatting = Formatting.Indented;
             var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All
             };
             var json = JsonConvert.SerializeObject(value, formatting, settings);
             return json;
-        }
-
-        internal static string ConvertToXml<T>(T value)
-        {
-            // serialize the result so we can compare it
-            var settings = new XmlWriterSettings
-            {
-                IndentChars = "  ",
-                Indent = true
-            };
-            using (var sw = new StringWriter())
-            {
-                using (XmlWriter xw = XmlWriter.Create(sw, settings))
-                {
-                    var serializer = new DataContractSerializer(typeof(T));
-                    serializer.WriteObject(xw, typeof(T));
-                    xw.Flush();
-                    sw.Flush();
-                    return sw.ToString();
-                }
-            }
         }
 
         public static IEnumerable<TestCaseData> GetMofTestCase(string path)

@@ -3,7 +3,7 @@ bin
 obj
 packages
 
+*.nupkg
 *.user
-TestResults
 
-src/Kingsland.MofParser.UnitTests/Parsing/WMI/Win81
+build/TestResult.xml

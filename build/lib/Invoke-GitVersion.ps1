@@ -25,7 +25,8 @@ function Invoke-GitVersion
     $exitcode = $LASTEXITCODE;
     if( $exitcode -ne 0 )
     {
-        throw new-object System.InvalidOperationException("GitVersion.exe failed with exit code $($process.ExitCode)");
+        write-host ($stdOut | fl * | out-string);
+        throw new-object System.InvalidOperationException("GitVersion.exe failed with exit code $exitcode");
     }
 
     $versionText = [string]::Join("`r`n", $stdOut);
