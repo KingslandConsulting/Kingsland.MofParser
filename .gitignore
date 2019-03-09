@@ -2,6 +2,7 @@
 bin
 obj
 packages
+fusion
 
 *.nupkg
 *.user
