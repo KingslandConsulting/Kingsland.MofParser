@@ -72,6 +72,20 @@ Set-DotNetFusionBinding -EnableLog        $true `
                         -LogPath          $fusiondir;
 
 
+$filename = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll";
+$version  = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($filename);
+write-host ("filename = '$filename'");
+write-host ("version = ");
+write-host ($version | fl * | out-string);
+
+
+$filename = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\CommonExtensions\Microsoft\NuGet\Newtonsoft.Json.dll";
+$version  = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($filename);
+write-host ("filename = '$filename'");
+write-host ("version = ");
+write-host ($version | fl * | out-string);
+
+
 # build the solution
 try
 {
@@ -83,8 +97,9 @@ try
         "Targets"      = @( "Clean", "Restore", "Build" )
         "Properties"   = @{}
         #"Verbosity"    =  "minimal"
+        "Verbosity"    =  "normal"
         #"Verbosity"    =  "detailed"
-        "Verbosity"    =  "diagnostic"
+        #"Verbosity"    =  "diagnostic"
     };
     Invoke-MsBuild @msbuildParameters;
 }
@@ -100,6 +115,7 @@ catch
     write-host "**********";
     throw;
 }
+
 
 # disable fusion binding
 Set-DotNetFusionBinding -EnableLog        $false `
