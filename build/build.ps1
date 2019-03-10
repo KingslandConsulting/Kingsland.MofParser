@@ -117,6 +117,16 @@ catch
 }
 
 
+# echo Newtonsoft.Json binding log
+$logPath = [System.IO.Path]::Combine($fusiondir, "Default\MSBuild.exe\Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed.HTM");
+$logText = [System.IO.File]::ReadAllText($logPath);
+write-host "**********";
+write-host "fusion log";
+write-host "**********";
+write-host $logText
+write-host "**********";
+
+
 # disable fusion binding
 Set-DotNetFusionBinding -EnableLog        $false `
                         -ForceLog         $false `
