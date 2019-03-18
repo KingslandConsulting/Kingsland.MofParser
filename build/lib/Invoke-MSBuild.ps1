@@ -21,7 +21,7 @@ function Invoke-MsBuild
 
         [Parameter(Mandatory=$false)]
         [ValidateSet("quiet", "minimal", "normal", "detailed", "diagnostic")]
-        [string] $Verbosity = "minimal"
+        [string] $Verbosity = "normal"
 
     )
 
@@ -35,6 +35,8 @@ function Invoke-MsBuild
     write-host "msbuild path = $MsBuildExe";
     write-host "msbuild version info = ";
     write-host ($version | fl * | out-string);
+
+    $cmdLine = $MsBuildExe;
 
     $cmdArgs = @();
 
@@ -105,13 +107,6 @@ function Invoke-MsBuild
     # /help
 
     # execute msbuild
-    write-host "cmdLine = $MsBuildExe";
-    write-host "cmdArgs = ";
-    write-host ($cmdArgs | fl * | out-string);
-    $process = Start-Process -FilePath $MsBuildExe -ArgumentList $cmdArgs -NoNewWindow -Wait -PassThru;
-    if( $process.ExitCode -ne 0 )
-    {
-        throw new-object System.InvalidOperationException("MsBuild failed with exit code $($process.ExitCode).");
-    }
+    $null = Invoke-CommandLine -Command $cmdLine -Arguments $cmdArgs;
 
 }

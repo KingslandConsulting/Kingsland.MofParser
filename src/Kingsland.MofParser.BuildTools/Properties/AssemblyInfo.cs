@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Kingsland.MofParser.BuildTools")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Kingsland Consulting")]
 [assembly: AssemblyProduct("Kingsland.MofParser.BuildTools")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright © 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c7c795c8-fffc-430d-93d1-7f25ab403c12")]
+[assembly: Guid("1c627ebc-af18-45a4-8bfb-e0d31a565059")]
 
 // Version information for an assembly consists of the following four values:
 //

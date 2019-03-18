@@ -1,17 +1,11 @@
-function Invoke-NuGetPack
+function Invoke-NuGetInstall
 {
 
     param
     (
 
         [Parameter(Mandatory=$true)]
-        [string] $NuGet,
-
-        [Parameter(Mandatory=$true)]
-        [string] $NuSpec,
-
-        [Parameter(Mandatory=$false)]
-        [string] $OutputDirectory
+        [string] $NuGet
 
     )
 
@@ -19,7 +13,6 @@ function Invoke-NuGetPack
     write-host "Invoke-NuGetPack";
     write-host "****************";
     write-host "nuget  = $NuGet";
-    write-host "nuspec = $NuSpec";
 
     # check nuget.exe exists
     if( -not [System.IO.File]::Exists($NuGet) )
@@ -27,13 +20,9 @@ function Invoke-NuGetPack
         throw new-object System.IO.FileNotFoundException("NuGet.exe not found.");
     }
 
-    # check the *.nuspec exists
-    if( -not [System.IO.File]::Exists($NuSpec) )
-    {
-        throw new-object System.IO.FileNotFoundException("NuSpec file not found.");
-    }
-
     $cmdLine = $NuGet;
+
+throw "aaa"
 
     $cmdArgs = @( "pack", "`"$NuSpec`"" );
 
@@ -44,7 +33,7 @@ function Invoke-NuGetPack
 
     $cmdArgs += @( "-Verbosity", "detailed" );
 
-    # execute nuget pack
+    # execute nuget install
     $null = Invoke-CommandLine -Command $cmdLine -Arguments $cmdArgs;
 
 }

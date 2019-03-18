@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1C627EBC-AF18-45A4-8BFB-E0D31A565059}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{4CCBEEF4-4303-4392-BE3D-A4BB8218D6E0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kingsland.MofParser.BuildTools</RootNamespace>
-    <AssemblyName>Kingsland.MofParser.BuildTools</AssemblyName>
+    <RootNamespace>Kingsland.MofParser.HtmlReport</RootNamespace>
+    <AssemblyName>Kingsland.MofParser.HtmlReport</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -33,21 +33,36 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wrappers\HtmlHelper.cs" />
+    <Compile Include="Wrappers\InstanceWrapper.cs" />
+    <Compile Include="Wrappers\InstanceWrapperGroup.cs" />
+    <Compile Include="Wrappers\ScriptResourceWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersion.CommandLine">
-      <Version>4.0.0</Version>
+    <None Include="MofFileSummary.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Station.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kingsland.MofParser\Kingsland.MofParser.csproj">
+      <Project>{4f48a4be-28e8-4157-a19e-c0b3c8b83ef6}</Project>
+      <Name>Kingsland.MofParser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Razor">
+      <Version>3.2.7</Version>
     </PackageReference>
-    <PackageReference Include="NuGet.CommandLine">
-      <Version>4.9.3</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="NUnit.ConsoleRunner">
-      <Version>3.9.0</Version>
+    <PackageReference Include="RazorEngine">
+      <Version>3.10.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
