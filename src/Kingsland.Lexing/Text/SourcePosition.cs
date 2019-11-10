@@ -1,4 +1,4 @@
-﻿namespace Kingsland.MofParser.Source
+﻿namespace Kingsland.Lexing.Text
 {
 
     public sealed class SourcePosition

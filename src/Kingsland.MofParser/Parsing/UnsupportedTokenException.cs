@@ -1,4 +1,4 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.Lexing;
 using System;
 
 namespace Kingsland.MofParser.Parsing

@@ -10,4 +10,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Kingsland.Lexing\Kingsland.Lexing.csproj" />
+  </ItemGroup>
+
 </Project>

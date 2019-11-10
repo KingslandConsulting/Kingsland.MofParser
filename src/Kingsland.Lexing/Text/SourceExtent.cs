@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingsland.MofParser.Source
+namespace Kingsland.Lexing.Text
 {
 
     /// <summary>

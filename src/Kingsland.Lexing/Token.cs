@@ -1,12 +1,12 @@
-﻿using Kingsland.MofParser.Source;
+﻿using Kingsland.Lexing.Text;
 
-namespace Kingsland.MofParser.Tokens
+namespace Kingsland.Lexing
 {
 
     public abstract class Token
     {
 
-        internal Token(SourceExtent extent)
+        protected Token(SourceExtent extent)
         {
             this.Extent = extent;
         }

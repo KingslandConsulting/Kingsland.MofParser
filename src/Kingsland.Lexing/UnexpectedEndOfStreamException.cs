@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kingsland.MofParser.Source
+namespace Kingsland.Lexing
 {
 
     public sealed class UnexpectedEndOfStreamException : Exception

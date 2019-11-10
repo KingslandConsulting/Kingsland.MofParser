@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Kingsland.MofParser.Source
+namespace Kingsland.Lexing.Text
 {
 
     public sealed class SourceReader
@@ -142,7 +142,7 @@ namespace Kingsland.MofParser.Source
         /// Throws an exception if the character does not match the specified predicate.
         /// </summary>
         /// <returns></returns>
-        public (List<SourceChar>, SourceReader NextReader) ReadWhile(Func<char, bool> predicate)
+        public (List<SourceChar> SourceChars, SourceReader NextReader) ReadWhile(Func<char, bool> predicate)
         {
             var thisReader = this;
             var sourceChar = default(SourceChar);

@@ -1,6 +1,7 @@
-﻿using Kingsland.MofParser.Ast;
+﻿using Kingsland.Lexing.Text;
+using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Source;
 using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Helpers;
 using NUnit.Framework;
@@ -23,13 +24,11 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueWithLiteralString()
             {
-                var tokens = Lexing.Lexer.Lex(
-                    SourceReader.From(
-                        "instance of myType as $Alias0000006E\r\n" +
-                        "{\r\n" +
-                        "    ServerURL = \"https://URL\";\r\n" +
-                        "};"
-                    )
+                var tokens = MofLexer.Lex(
+                    "instance of myType as $Alias0000006E\r\n" +
+                    "{\r\n" +
+                    "    ServerURL = \"https://URL\";\r\n" +
+                    "};"
                 );
                 var actualAst = Parser.Parse(tokens);
                 var expectedAst = new MofSpecificationAst(
@@ -115,13 +114,11 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueWithAliasIdentifier()
             {
-                var tokens = Lexing.Lexer.Lex(
-                    SourceReader.From(
-                        "instance of myType as $Alias00000070\r\n" +
-                        "{\r\n" +
-                        "    Reference = $Alias0000006E;\r\n" +
-                        "};"
-                    )
+                var tokens = MofLexer.Lex(
+                    "instance of myType as $Alias00000070\r\n" +
+                    "{\r\n" +
+                    "    Reference = $Alias0000006E;\r\n" +
+                    "};"
                 );
                 var actualAst = Parser.Parse(tokens);
                 var expectedAst = new MofSpecificationAst(
@@ -204,13 +201,11 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueWithEmptyArray()
             {
-                var tokens = Lexing.Lexer.Lex(
-                    SourceReader.From(
-                        "instance of myType as $Alias00000070\r\n" +
-                        "{\r\n" +
-                        "    Reference = {};\r\n" +
-                        "};"
-                    )
+                var tokens = MofLexer.Lex(
+                    "instance of myType as $Alias00000070\r\n" +
+                    "{\r\n" +
+                    "    Reference = {};\r\n" +
+                    "};"
                 );
                 var actualAst = Parser.Parse(tokens);
                 var expectedAst = new MofSpecificationAst(
@@ -284,13 +279,11 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueArrayWithAliasIdentifier()
             {
-                var tokens = Lexing.Lexer.Lex(
-                    SourceReader.From(
-                        "instance of myType as $Alias00000070\r\n" +
-                        "{\r\n" +
-                        "    Reference = {$Alias0000006E};\r\n" +
-                        "};"
-                    )
+                var tokens = MofLexer.Lex(
+                    "instance of myType as $Alias00000070\r\n" +
+                    "{\r\n" +
+                    "    Reference = {$Alias0000006E};\r\n" +
+                    "};"
                 );
                 var actualAst = Parser.Parse(tokens);
                 var expectedAst = new MofSpecificationAst(
@@ -379,13 +372,11 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueArrayWithLiteralStrings()
             {
-                var tokens = Lexing.Lexer.Lex(
-                    SourceReader.From(
-                        "instance of myType as $Alias00000070\r\n" +
-                        "{\r\n" +
-                        "    ServerURLs = { \"https://URL1\", \"https://URL2\" };\r\n" +
-                        "};"
-                    )
+                var tokens = MofLexer.Lex(
+                    "instance of myType as $Alias00000070\r\n" +
+                    "{\r\n" +
+                    "    ServerURLs = { \"https://URL1\", \"https://URL2\" };\r\n" +
+                    "};"
                 );
                 var actualAst = Parser.Parse(tokens);
                 var expectedAst = new MofSpecificationAst(
@@ -490,17 +481,15 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueArrayWithNumericLiteralValues()
             {
-                var tokens = Lexing.Lexer.Lex(
-                    SourceReader.From(
-                        "instance of myType as $Alias00000070\r\n" +
-                        "{\r\n" +
-                        "    MyBinaryValue = 0101010b;\r\n" +
-                        "    MyOctalValue = 0444444;\r\n" +
-                        "    MyHexValue = 0xABC123;\r\n" +
-                        "    MyDecimalValue = 12345;\r\n" +
-                        "    MyRealValue = 123.45;\r\n" +
-                        "};"
-                    )
+                var tokens = MofLexer.Lex(
+                    "instance of myType as $Alias00000070\r\n" +
+                    "{\r\n" +
+                    "    MyBinaryValue = 0101010b;\r\n" +
+                    "    MyOctalValue = 0444444;\r\n" +
+                    "    MyHexValue = 0xABC123;\r\n" +
+                    "    MyDecimalValue = 12345;\r\n" +
+                    "    MyRealValue = 123.45;\r\n" +
+                    "};"
                 );
                 var actualAst = Parser.Parse(tokens);
                 var expectedAst = new MofSpecificationAst(
@@ -673,8 +662,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
         private static void ParseMethodTest(string mofFilename)
         {
             var mofText = File.ReadAllText(mofFilename);
-            var reader = SourceReader.From(mofText);
-            var tokens = Lexing.Lexer.Lex(reader);
+            var tokens = MofLexer.Lex(mofText);
             var ast = Parser.Parse(
                 tokens,
                 ParserQuirks.AllowMofV2Qualifiers |

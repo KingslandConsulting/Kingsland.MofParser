@@ -117,6 +117,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kingsland.Lexing\Kingsland.Lexing.csproj">
+      <Project>{c572328a-4548-473a-8a83-0b7bdc74c8f3}</Project>
+      <Name>Kingsland.Lexing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kingsland.MofParser\Kingsland.MofParser.csproj">
       <Project>{4f48a4be-28e8-4157-a19e-c0b3c8b83ef6}</Project>
       <Name>Kingsland.MofParser</Name>

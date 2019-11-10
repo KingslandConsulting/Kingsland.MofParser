@@ -1,4 +1,5 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.Lexing;
+using Kingsland.MofParser.Tokens;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

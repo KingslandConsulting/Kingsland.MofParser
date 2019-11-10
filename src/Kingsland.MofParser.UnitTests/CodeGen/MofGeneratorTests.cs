@@ -1,6 +1,7 @@
-﻿using Kingsland.MofParser.CodeGen;
+﻿using Kingsland.Lexing.Text;
+using Kingsland.MofParser.CodeGen;
+using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Source;
 using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
@@ -88,7 +89,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
                     "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
                     "};";
-                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokens = MofLexer.Lex(sourceMof);
                 var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
                 var ex = Assert.Throws<UnexpectedTokenException>(
                     () =>
@@ -171,7 +172,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\t100\r\n" +
                     "};";
-                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokens = MofLexer.Lex(sourceMof);
                 var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
                 Assert.AreEqual(sourceMof, tokensMof);
                 var ex = Assert.Throws<UnexpectedTokenException>(
@@ -304,7 +305,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\t100\r\n" +
                     "};";
-                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokens = MofLexer.Lex(sourceMof);
                 var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
                 var ex = Assert.Throws<UnexpectedTokenException>(
                     () => {
@@ -472,7 +473,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tJuly = \"July\"\r\n" +
                     "};";
-                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokens = MofLexer.Lex(sourceMof);
                 var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
                 var ex = Assert.Throws<UnexpectedTokenException>(
                     () =>
@@ -1389,7 +1390,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tMonth = {MonthEnums.July};\r\n" +
                     "};";
-                var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+                var tokens = MofLexer.Lex(sourceMof);
                 var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
                 var ex = Assert.Throws<UnexpectedTokenException>(
                     () =>
@@ -1448,7 +1449,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
         private static void AssertRoundtrip(string sourceMof, ParserQuirks parserQuirks = ParserQuirks.None)
         {
             // check the lexer tokens roundtrips ok
-            var tokens = Lexing.Lexer.Lex(SourceReader.From(sourceMof));
+            var tokens = MofLexer.Lex(sourceMof);
             var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
             Assert.AreEqual(sourceMof, tokensMof);
             // check the parser ast roundtrips ok

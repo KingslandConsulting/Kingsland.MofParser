@@ -1,18 +1,16 @@
-﻿using Kingsland.MofParser.Source;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.Lexing.Text;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Kingsland.MofParser.Lexing
+namespace Kingsland.Lexing
 {
 
-    public sealed class Lexer
+    public abstract class Lexer
     {
 
         #region Constructors
 
-        public Lexer(SourceReader reader)
+        protected Lexer(SourceReader reader)
         {
             this.Reader = reader ??
                 throw new ArgumentNullException(nameof(reader));
@@ -40,23 +38,18 @@ namespace Kingsland.MofParser.Lexing
 
         #region Lexing Methods
 
-        public static List<Token> Lex(SourceReader reader)
-        {
-            var lexer = new Lexer(reader);
-            var allTokens = lexer.AllTokens().ToList();
-            return allTokens;
-        }
-
-        public IEnumerable<Token> AllTokens()
+        public IEnumerable<Token> ReadAllTokens()
         {
             var thisLexer = this;
             var nextToken = default(Token);
             while (!thisLexer.Eof)
             {
-                (nextToken, thisLexer) = LexerEngine.ReadToken(thisLexer);
+                (nextToken, thisLexer) = thisLexer.ReadToken();
                 yield return nextToken;
             }
         }
+
+        public abstract (Token Token, Lexer NextLexer) ReadToken();
 
         #endregion
 
