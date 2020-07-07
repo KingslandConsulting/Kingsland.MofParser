@@ -53,47 +53,57 @@ namespace Kingsland.MofParser.Objects
             foreach (var property in node.PropertyValues.PropertyValues)
             {
                 var propertyValue = property.Value;
-                if ((propertyValue as LiteralValueArrayAst) != null)
+                switch (propertyValue)
                 {
-                    var itemValues = ((LiteralValueArrayAst)propertyValue).Values
-                                                                          .Select(Instance.GetLiteralValue)
-                                                                          .ToArray();
-                    instance.Properties.Add(property.Key, itemValues);
-                }
-                else if ((propertyValue as LiteralValueAst) != null)
-                {
-                    instance.Properties.Add(property.Key, Instance.GetLiteralValue((LiteralValueAst)propertyValue));
-                }
-                else
-                {
-                    throw new InvalidOperationException();
+                    case ComplexValueArrayAst complexValueArray:
+                        var complexValues = complexValueArray.Values
+                            .Select(Instance.GetComplexValue)
+                            .ToArray();
+                        instance.Properties.Add(property.Key, complexValues);
+                        break;
+                    case LiteralValueArrayAst literalValueArray:
+                        var literalValues = literalValueArray.Values
+                            .Select(Instance.GetLiteralValue)
+                            .ToArray();
+                        instance.Properties.Add(property.Key, literalValues);
+                        break;
+                    case LiteralValueAst literalValue:
+                        instance.Properties.Add(property.Key, Instance.GetLiteralValue(literalValue));
+                        break;
+                    default:
+                        throw new NotImplementedException($"Unhandled property value type '{propertyValue.GetType().FullName}'");
                 }
             }
             return instance;
         }
 
+        private static object GetComplexValue(ComplexValueAst node)
+        {
+            if (node.IsAlias)
+            {
+                return node.Alias;
+            }
+            else
+            {
+                throw new NotImplementedException($"Unhandled value-type complex values.");
+            }
+        }
+
         private static object GetLiteralValue(LiteralValueAst node)
         {
-			if ((node as BooleanValueAst) != null)
-			{
-				return ((BooleanValueAst)node).Value;
-			}
-			else if ((node as IntegerValueAst) != null)
-			{
-				return ((IntegerValueAst)node).Value;
-			}
-			else if ((node as StringValueAst) != null)
-			{
-				return ((StringValueAst)node).Value;
-			}
-			else if ((node as NullValueAst) != null)
-			{
-				return null;
-			}
-			else
-			{
-				throw new InvalidOperationException();
-			}
+            switch (node)
+            {
+                case BooleanValueAst booleanValue:
+                    return booleanValue.Value;
+                case IntegerValueAst integerValue:
+                    return integerValue.Value;
+                case StringValueAst stringValue:
+                    return stringValue.Value;
+                case NullValueAst _:
+                    return null;
+                default:
+                    throw new NotImplementedException($"Unhandled literal value type '{node.GetType().FullName}'");
+            }
         }
 
     }

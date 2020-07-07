@@ -104,26 +104,10 @@ namespace Kingsland.MofParser.HtmlReport.Wrappers
         {
             switch (instance.ClassName)
             {
-                case "HDLE_xAcl":
-                case "HDLE_xHostsEntry":
-                case "HDLE_xServiceResource":
-                case "HDLE_xVolume":
-                case "MSFT_ArchiveResource":
-                case "MSFT_Credential":
-                case "MSFT_DSCMetaConfiguration":
-                case "MSFT_EnvironmentResource":
-                case "MSFT_GroupResource":
-                case "MSFT_FileDirectoryConfiguration":
-                case "MSFT_PackageResource":
-                case "MSFT_RoleResource":
-                case "MSFT_RegistryResource":
-                case "MSFT_UserResource":
-                case "OMI_ConfigurationDocument":
-                    return new InstanceWrapper(filename, computerName, instance);
                 case "MSFT_ScriptResource":
                     return new ScriptResourceWrapper(filename, computerName, instance);
                 default:
-                    throw new NotImplementedException();
+                    return new InstanceWrapper(filename, computerName, instance);
             }
         }
 
