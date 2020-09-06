@@ -1,4 +1,6 @@
-﻿namespace Kingsland.MofParser.Ast
+﻿using Kingsland.ParseFx.Parsing;
+
+namespace Kingsland.MofParser.Ast
 {
 
     /// <summary>
