@@ -1,8 +1,8 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Source;
 using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Helpers;
+using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

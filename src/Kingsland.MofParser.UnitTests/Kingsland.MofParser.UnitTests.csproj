@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="CodeGen\MofGeneratorTests.cs" />
     <Compile Include="Helpers\TestUtils.cs" />
+    <Compile Include="Helpers\TokenComparer.cs" />
     <Compile Include="Lexer\LexerHelper.cs" />
     <Compile Include="Lexer\LexerTests.cs" />
     <Compile Include="Parsing\ParserTests.cs" />
@@ -120,6 +121,10 @@
     <ProjectReference Include="..\Kingsland.MofParser\Kingsland.MofParser.csproj">
       <Project>{4f48a4be-28e8-4157-a19e-c0b3c8b83ef6}</Project>
       <Name>Kingsland.MofParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kingsland.ParseFx\Kingsland.ParseFx.csproj">
+      <Project>{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}</Project>
+      <Name>Kingsland.ParseFx</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.ParseFx.Syntax;
 using System;
 
 namespace Kingsland.MofParser.Parsing
@@ -13,7 +14,7 @@ namespace Kingsland.MofParser.Parsing
         {
         }
 
-        internal UnexpectedTokenException(Token foundToken)
+        internal UnexpectedTokenException(SyntaxToken foundToken)
         {
             this.FoundToken = foundToken ?? throw new ArgumentNullException("foundToken");
         }
@@ -22,7 +23,7 @@ namespace Kingsland.MofParser.Parsing
 
         #region Properties
 
-        public Token FoundToken
+        public SyntaxToken FoundToken
         {
             get;
             private set;

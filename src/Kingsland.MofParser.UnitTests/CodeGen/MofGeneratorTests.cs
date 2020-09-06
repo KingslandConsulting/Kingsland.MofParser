@@ -1,6 +1,7 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Source;
+using Kingsland.ParseFx.Parsing;
+using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen

@@ -1,6 +1,8 @@
 ﻿using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Source;
 using Kingsland.MofParser.Tokens;
+using Kingsland.ParseFx.Lexing;
+using Kingsland.ParseFx.Syntax;
+using Kingsland.ParseFx.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,7 @@ namespace Kingsland.MofParser.Lexing
 
         #region Dispatcher
 
-        public static (Token Token, Lexer NextLexer) ReadToken(Lexer lexer)
+        public static (SyntaxToken Token, Lexer NextLexer) ReadToken(Lexer lexer)
         {
 
             var reader = lexer.Reader;
@@ -564,7 +566,7 @@ namespace Kingsland.MofParser.Lexing
         ///     positiveDecimalDigit = "1"..."9"
         ///
         /// </remarks>
-        public static (Token, Lexer) ReadNumericLiteralToken(SourceReader reader)
+        public static (SyntaxToken, Lexer) ReadNumericLiteralToken(SourceReader reader)
         {
 
             int ParseBinaryValueDigits(IEnumerable<SourceChar> binaryChars, SourceChar sign)
@@ -632,7 +634,7 @@ namespace Kingsland.MofParser.Lexing
             var sourceChar = default(SourceChar);
             var sourceChars = new List<SourceChar>();
 
-            var token = default(Token);
+            var token = default(SyntaxToken);
             var signChar = default(SourceChar);
             var firstDigitBlock = new List<SourceChar>();
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Tokens;
+using Kingsland.ParseFx.Syntax;
 
 namespace Kingsland.MofParser.Parsing
 {
@@ -9,7 +10,7 @@ namespace Kingsland.MofParser.Parsing
     public static class Parser
     {
 
-        public static MofSpecificationAst Parse(List<Token> lexerTokens, ParserQuirks quirks = ParserQuirks.None)
+        public static MofSpecificationAst Parse(List<SyntaxToken> lexerTokens, ParserQuirks quirks = ParserQuirks.None)
         {
 
             // remove all comments and whitespace

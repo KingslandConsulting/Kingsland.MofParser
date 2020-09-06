@@ -1,9 +1,10 @@
-﻿using Kingsland.MofParser.Source;
+﻿using Kingsland.ParseFx.Syntax;
+using Kingsland.ParseFx.Text;
 
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class AliasIdentifierToken : Token
+    public sealed class AliasIdentifierToken : SyntaxToken
     {
 
         public AliasIdentifierToken(SourceExtent extent, string name)
@@ -16,23 +17,6 @@ namespace Kingsland.MofParser.Tokens
         {
             get;
             private set;
-        }
-
-        public static bool AreEqual(AliasIdentifierToken obj1, AliasIdentifierToken obj2)
-        {
-            if ((obj1 == null) && (obj2 == null))
-            {
-                return true;
-            }
-            else if((obj1 == null) || (obj2 == null))
-            {
-                return false;
-            }
-            else
-            {
-                return obj1.Extent.IsEqualTo(obj2.Extent) &&
-                       (obj1.Name == obj2.Name);
-            }
         }
 
     }

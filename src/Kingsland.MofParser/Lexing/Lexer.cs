@@ -1,5 +1,5 @@
-﻿using Kingsland.MofParser.Source;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.ParseFx.Syntax;
+using Kingsland.ParseFx.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,17 +40,17 @@ namespace Kingsland.MofParser.Lexing
 
         #region Lexing Methods
 
-        public static List<Token> Lex(SourceReader reader)
+        public static List<SyntaxToken> Lex(SourceReader reader)
         {
             var lexer = new Lexer(reader);
             var allTokens = lexer.AllTokens().ToList();
             return allTokens;
         }
 
-        public IEnumerable<Token> AllTokens()
+        public IEnumerable<SyntaxToken> AllTokens()
         {
             var thisLexer = this;
-            var nextToken = default(Token);
+            var nextToken = default(SyntaxToken);
             while (!thisLexer.Eof)
             {
                 (nextToken, thisLexer) = LexerEngine.ReadToken(thisLexer);

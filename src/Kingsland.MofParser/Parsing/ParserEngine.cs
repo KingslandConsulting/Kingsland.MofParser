@@ -1,5 +1,7 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Tokens;
+using Kingsland.ParseFx.Parsing;
+using Kingsland.ParseFx.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1110,7 +1112,7 @@ namespace Kingsland.MofParser.Parsing
         )
         {
 
-            var peek = default(Token);
+            var peek = default(SyntaxToken);
 
             var isMethodDeclaration = false;
             var isPropertyDeclaration = false;
@@ -1614,7 +1616,7 @@ namespace Kingsland.MofParser.Parsing
         internal static PropertyValueAst ParsePropertyValueAst(ParserStream stream, ParserQuirks quirks = ParserQuirks.None)
         {
 
-            bool IsPrimitiveValueToken(Token token)
+            bool IsPrimitiveValueToken(SyntaxToken token)
             {
                 return (token is IntegerLiteralToken) ||
                        (token is RealLiteralToken) ||
@@ -1625,13 +1627,13 @@ namespace Kingsland.MofParser.Parsing
                        (token is NullLiteralToken);
             }
 
-            bool IsComplexValueToken(Token token)
+            bool IsComplexValueToken(SyntaxToken token)
             {
                 return (token is AliasIdentifierToken) ||
                        ((token is IdentifierToken identifier) && (identifier.GetNormalizedName() == Constants.VALUE));
             }
 
-            bool IsReferenceValueToken(Token token)
+            bool IsReferenceValueToken(SyntaxToken token)
             {
                 // TODO: not implemented
                 return false;

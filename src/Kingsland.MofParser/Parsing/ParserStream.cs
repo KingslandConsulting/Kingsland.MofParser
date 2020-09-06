@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Kingsland.MofParser.Tokens;
 using System.Text;
+using Kingsland.ParseFx.Syntax;
+using Kingsland.ParseFx.Parsing;
 
 namespace Kingsland.MofParser.Parsing
 {
@@ -11,14 +13,14 @@ namespace Kingsland.MofParser.Parsing
 
         #region Field
 
-        private List<Token> source;
+        private List<SyntaxToken> source;
         private int position;
 
         #endregion
 
         #region Constructors
 
-        public ParserStream(List<Token> source)
+        public ParserStream(List<SyntaxToken> source)
         {
             this.source = source ?? throw new ArgumentNullException(nameof(source));
             this.position = 0;
@@ -28,7 +30,7 @@ namespace Kingsland.MofParser.Parsing
 
         #region Properties
 
-        private List<Token> Source
+        private List<SyntaxToken> Source
         {
             get
             {
@@ -57,7 +59,7 @@ namespace Kingsland.MofParser.Parsing
 
         #region Peek Methods
 
-        public Token Peek()
+        public SyntaxToken Peek()
         {
             if ((this.source.Count == 0) ||
                (this.position >= this.source.Count))
@@ -67,7 +69,7 @@ namespace Kingsland.MofParser.Parsing
             return this.source[this.position];
         }
 
-        public T Peek<T>() where T : Token
+        public T Peek<T>() where T : SyntaxToken
         {
             if ((this.source.Count == 0) ||
                (this.position >= this.source.Count))
@@ -81,7 +83,7 @@ namespace Kingsland.MofParser.Parsing
 
         #region TryPeek Methods
 
-        public bool TryPeek<T>() where T : Token
+        public bool TryPeek<T>() where T : SyntaxToken
         {
 
             if ((this.source.Count == 0) ||
@@ -92,7 +94,7 @@ namespace Kingsland.MofParser.Parsing
             return (this.Source[this.Position] is T);
         }
 
-        public bool TryPeek<T>(out T result) where T : Token
+        public bool TryPeek<T>(out T result) where T : SyntaxToken
         {
             if ((this.source.Count == 0) ||
                 (this.position >= this.source.Count))
@@ -109,7 +111,7 @@ namespace Kingsland.MofParser.Parsing
             return true;
         }
 
-        public bool TryPeek<T>(Func<T, bool> predicate, out T result) where T : Token
+        public bool TryPeek<T>(Func<T, bool> predicate, out T result) where T : SyntaxToken
         {
 
             if ((this.source.Count == 0) ||
@@ -143,14 +145,14 @@ namespace Kingsland.MofParser.Parsing
 
         #region Read Methods
 
-        public Token Read()
+        public SyntaxToken Read()
         {
             var value = this.Peek();
             this.position += 1;
             return value;
         }
 
-        public T Read<T>() where T : Token
+        public T Read<T>() where T : SyntaxToken
         {
             var token = this.Peek();
             if (token is T cast)
@@ -165,7 +167,7 @@ namespace Kingsland.MofParser.Parsing
 
         #region TryRead Methods
 
-        public bool TryRead<T>(out T result) where T : Token
+        public bool TryRead<T>(out T result) where T : SyntaxToken
         {
             if (this.TryPeek<T>(out result))
             {
