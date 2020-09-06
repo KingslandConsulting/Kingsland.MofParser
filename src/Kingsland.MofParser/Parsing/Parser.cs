@@ -2,6 +2,7 @@
 using System.Linq;
 using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Tokens;
+using Kingsland.ParseFx.Parsing;
 using Kingsland.ParseFx.Syntax;
 
 namespace Kingsland.MofParser.Parsing
@@ -17,7 +18,7 @@ namespace Kingsland.MofParser.Parsing
             var tokens = lexerTokens.Where(lt => !(lt is CommentToken) &&
                                                  !(lt is WhitespaceToken)).ToList();
 
-            var stream = new ParserStream(tokens);
+            var stream = new TokenStream(tokens);
             var program = ParserEngine.ParseMofSpecificationAst(stream, quirks);
 
             return program;

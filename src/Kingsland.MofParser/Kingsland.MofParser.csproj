@@ -11,10 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Parsing\ParserStreamExtensions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Kingsland.ParseFx\Kingsland.ParseFx.csproj" />
   </ItemGroup>
 
