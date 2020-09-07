@@ -50,11 +50,11 @@ namespace Kingsland.MofParser.Lexing
         public IEnumerable<SyntaxToken> AllTokens()
         {
             var thisLexer = this;
-            var nextToken = default(SyntaxToken);
             while (!thisLexer.Eof)
             {
-                (nextToken, thisLexer) = LexerEngine.ReadToken(thisLexer);
-                yield return nextToken;
+                var result = LexerEngine.ReadToken(thisLexer);
+                yield return result.Token;
+                thisLexer = new Lexer(result.NextReader);
             }
         }
 

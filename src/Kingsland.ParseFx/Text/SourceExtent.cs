@@ -6,7 +6,7 @@ namespace Kingsland.ParseFx.Text
 {
 
     /// <summary>
-    /// Denotes the start point, end point and text of a section of source code.
+    /// Denotes the start position, end position and text of a section of source code.
     /// </summary>
     public sealed class SourceExtent
     {
