@@ -11,10 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Lexing\LexerEngine.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Kingsland.ParseFx\Kingsland.ParseFx.csproj" />
   </ItemGroup>
 
