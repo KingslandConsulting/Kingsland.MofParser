@@ -8,10 +8,8 @@
     <RepositoryUrl></RepositoryUrl>
     <PackageProjectUrl>https://github.com/KingslandConsulting/Kingsland.MofParser</PackageProjectUrl>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <Description>A C# library to simplify some of the boring bits of writing a lexer and parser for custom text file formats.</Description>
+    <!--<PreserveCompilationContext>false</PreserveCompilationContext>-->
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Kingsland.ParseFx\Kingsland.ParseFx.csproj" />
-  </ItemGroup>
 
 </Project>

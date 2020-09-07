@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Kingsland.ParseFx.Lexing;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Kingsland.MofParser.Source
+namespace Kingsland.ParseFx.Text
 {
 
     public sealed class SourceReader
@@ -142,7 +143,7 @@ namespace Kingsland.MofParser.Source
         /// Throws an exception if the character does not match the specified predicate.
         /// </summary>
         /// <returns></returns>
-        public (List<SourceChar>, SourceReader NextReader) ReadWhile(Func<char, bool> predicate)
+        public (List<SourceChar> SourceChars, SourceReader NextReader) ReadWhile(Func<char, bool> predicate)
         {
             var thisReader = this;
             var sourceChar = default(SourceChar);
@@ -203,18 +204,22 @@ namespace Kingsland.MofParser.Source
 
         public static SourceReader From(TextReader value)
         {
-            return new SourceReader(
-                stream: SourceStream.From(value),
-                position: 0
-            );
+            return (value == null) ?
+                throw new ArgumentNullException(nameof(value)) :
+                new SourceReader(
+                    stream: SourceStream.From(value),
+                    position: 0
+                );
         }
 
         public static SourceReader From(string value)
         {
-            return new SourceReader(
-                stream: SourceStream.From(value),
-                position: 0
-            );
+            return (value == null) ?
+                throw new ArgumentNullException(nameof(value)) :
+                new SourceReader(
+                    stream: SourceStream.From(value),
+                    position: 0
+                );
         }
 
         #endregion

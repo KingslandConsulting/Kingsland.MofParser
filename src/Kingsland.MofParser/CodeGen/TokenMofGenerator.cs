@@ -1,4 +1,4 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.ParseFx.Syntax;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +10,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region Dispatcher
 
-        public static string ConvertToMof(IEnumerable<Token> tokens, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertToMof(IEnumerable<SyntaxToken> tokens, MofQuirks quirks = MofQuirks.None)
         {
             if (tokens == null)
             {

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingsland.MofParser.Source
+namespace Kingsland.ParseFx.Text
 {
 
     /// <summary>
-    /// Denotes the start point, end point and text of a section of source code.
+    /// Denotes the start position, end position and text of a section of source code.
     /// </summary>
     public sealed class SourceExtent
     {
@@ -57,35 +58,27 @@ namespace Kingsland.MofParser.Source
 
         public static SourceExtent From(SourceChar @char)
         {
-            return new SourceExtent(
-                startPosition: @char.Position,
-                endPosition: @char.Position,
-                text: new string(@char.Value, 1)
-            );
+            return (@char == null ) ?
+                throw new ArgumentNullException(nameof(@char)) :
+                new SourceExtent(
+                    startPosition: @char.Position,
+                    endPosition: @char.Position,
+                    text: new string(@char.Value, 1)
+                );
         }
 
         public static SourceExtent From(IList<SourceChar> chars)
         {
-            return ((chars == null) || (chars.Count == 0)) ?
-                SourceExtent.Empty :
+            var text = (chars == null) ?
+                throw new ArgumentNullException(nameof(chars)) :
+                chars.Select(n => n.Value).ToArray();
+            return text.Any() ?
                 new SourceExtent(
                     startPosition: chars.First().Position,
                     endPosition: chars.Last().Position,
-                    text: new string(chars.Select(n => n.Value).ToArray())
-                );
-        }
-
-        #endregion
-
-        #region Methods
-
-        public bool IsEqualTo(SourceExtent obj)
-        {
-            return object.ReferenceEquals(obj, this) ||
-                   ((obj != null) &&
-                    obj.StartPosition.IsEqualTo(this.StartPosition) &&
-                    obj.EndPosition.IsEqualTo(this.EndPosition) &&
-                    (obj.Text == this.Text));
+                    text: new string(text)
+                ) :
+                SourceExtent.Empty;
         }
 
         #endregion

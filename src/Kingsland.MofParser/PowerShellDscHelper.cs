@@ -2,7 +2,7 @@
 using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Objects;
 using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Source;
+using Kingsland.ParseFx.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

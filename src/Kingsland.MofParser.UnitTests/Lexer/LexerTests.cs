@@ -1,6 +1,7 @@
-﻿using Kingsland.MofParser.Source;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Helpers;
+using Kingsland.ParseFx.Syntax;
+using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
@@ -22,7 +23,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From(string.Empty)
                 );
-                var expectedTokens = new List<Token>();
+                var expectedTokens = new List<SyntaxToken>();
                 LexerHelper.AssertAreEqual(expectedTokens, actualTokens);
             }
 
@@ -38,7 +39,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("12345myIdentifier")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -75,7 +76,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("]")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new AttributeCloseToken(
                         new SourceExtent
                         (
@@ -100,7 +101,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("[")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new AttributeOpenToken(
                         new SourceExtent
                         (
@@ -125,7 +126,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("}")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new BlockCloseToken(
                         new SourceExtent
                         (
@@ -150,7 +151,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("{")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new BlockOpenToken(
                         new SourceExtent
                         (
@@ -175,7 +176,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From(":")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new ColonToken(
                         new SourceExtent
                         (
@@ -200,7 +201,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From(",")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new CommaToken(
                         new SourceExtent
                         (
@@ -225,7 +226,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From(".")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new DotOperatorToken(
                         new SourceExtent
                         (
@@ -244,7 +245,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From(".abc")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new DotOperatorToken(
                         new SourceExtent
                         (
@@ -278,7 +279,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("=")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new EqualsOperatorToken(
                         new SourceExtent
                         (
@@ -303,7 +304,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From(")")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new ParenthesisCloseToken(
                         new SourceExtent
                         (
@@ -328,7 +329,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("(")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new ParenthesisOpenToken(
                         new SourceExtent
                         (
@@ -353,7 +354,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From(";")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new StatementEndToken(
                         new SourceExtent
                         (
@@ -380,7 +381,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("     ")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
                         (
@@ -399,7 +400,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("\t\t\t\t\t")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
                         (
@@ -418,7 +419,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("\r\r\r\r\r")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
                         (
@@ -437,7 +438,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("\n\n\n\n\n")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
                         (
@@ -456,7 +457,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("\r\n\r\n\r\n\r\n\r\n")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
                         (
@@ -475,7 +476,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("     \t\t\t\t\t\r\r\r\r\r\n\n\n\n\n\r\n\r\n\r\n\r\n\r\n")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
                         (
@@ -500,7 +501,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("// single line comment")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
                         (
@@ -519,7 +520,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("// single line comment\r\n")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
                         (
@@ -553,7 +554,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                         "*/"
                     )
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
                         (
@@ -583,7 +584,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                         "@GenerationHost=MyDesktop\r\n"
                     )
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
                         (
@@ -613,7 +614,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                         "*************/"
                     )
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
                         (
@@ -649,7 +650,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                         "*/"
                     )
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
                         (
@@ -688,7 +689,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("Integer MyProperty; // This is an example of a single-line comment")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IdentifierToken(
                         new SourceExtent
                         (
@@ -754,7 +755,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                         "                        comment */"
                     )
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
                         (
@@ -854,7 +855,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("false")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
                         (
@@ -874,7 +875,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("False")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
                         (
@@ -894,7 +895,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("FALSE")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
                         (
@@ -914,7 +915,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("true")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
                         (
@@ -934,7 +935,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("True")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
                         (
@@ -954,7 +955,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("TRUE")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
                         (
@@ -980,7 +981,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("null")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new NullLiteralToken(
                         new SourceExtent
                         (
@@ -999,7 +1000,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("Null")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new NullLiteralToken(
                         new SourceExtent
                         (
@@ -1018,7 +1019,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("NULL")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new NullLiteralToken(
                         new SourceExtent
                         (
@@ -1043,7 +1044,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("#pragma")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new PragmaToken(
                         new SourceExtent
                         (
@@ -1062,7 +1063,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("#Pragma")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new PragmaToken(
                         new SourceExtent
                         (
@@ -1081,7 +1082,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("#PRAGMA")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new PragmaToken(
                         new SourceExtent
                         (
@@ -1110,7 +1111,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                         "myIdentifier2"
                     )
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IdentifierToken(
                         new SourceExtent
                         (
@@ -1157,7 +1158,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                         "$myAliasIdentifier2"
                     )
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new AliasIdentifierToken(
                         new SourceExtent
                         (
@@ -1200,7 +1201,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                         "};"
                     )
                 );
-                var expectedTokens = new List<Token>
+                var expectedTokens = new List<SyntaxToken>
                 {
                     new IdentifierToken(
                         new SourceExtent
@@ -1337,7 +1338,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("0b")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1357,7 +1358,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("1b")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1377,7 +1378,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("00000b")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1397,7 +1398,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("10000b")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1417,7 +1418,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("11111b")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1439,7 +1440,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("00")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1459,7 +1460,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("01")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1479,7 +1480,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("00000")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1499,7 +1500,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("01000")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1519,7 +1520,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("01111")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1539,7 +1540,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("04444")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1559,7 +1560,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("07777")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1581,7 +1582,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("0x0")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1601,7 +1602,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("0x0000")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1621,7 +1622,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("0x8888")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1641,7 +1642,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("0xabcd")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1661,7 +1662,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("0xABCD")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1683,7 +1684,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("0")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1703,7 +1704,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("12345")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1723,7 +1724,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("+12345")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1743,7 +1744,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("-12345")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1763,7 +1764,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("1234567890")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new IntegerLiteralToken(
                         new SourceExtent
                         (
@@ -1789,7 +1790,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("0.0")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
                         (
@@ -1809,7 +1810,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("123.45")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
                         (
@@ -1829,7 +1830,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("+123.45")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
                         (
@@ -1849,7 +1850,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("-123.45")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
                         (
@@ -1869,7 +1870,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("1234567890.00")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent(
                             new SourcePosition(0, 1, 1),
@@ -1888,7 +1889,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From(".45")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
                         (
@@ -1908,7 +1909,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("+.45")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
                         (
@@ -1928,7 +1929,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("-.45")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
                         (
@@ -1954,7 +1955,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("\"\"")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new StringLiteralToken(
                         new SourceExtent
                         (
@@ -1974,7 +1975,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From("\"my string literal\"")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new StringLiteralToken(
                         new SourceExtent
                         (
@@ -1994,7 +1995,7 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 var actualTokens = Lexing.Lexer.Lex(
                     SourceReader.From(@"""my \\ string \"" literal \' with \b lots \t and \n lots \f of \r escapes""")
                 );
-                var expectedTokens = new List<Token> {
+                var expectedTokens = new List<SyntaxToken> {
                     new StringLiteralToken(
                         new SourceExtent
                         (

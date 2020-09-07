@@ -1,7 +1,7 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.ParseFx.Syntax;
 using System;
 
-namespace Kingsland.MofParser.Parsing
+namespace Kingsland.ParseFx.Parsing
 {
 
     public sealed class UnsupportedTokenException : Exception
@@ -13,20 +13,16 @@ namespace Kingsland.MofParser.Parsing
         {
         }
 
-        internal UnsupportedTokenException(Token foundToken)
+        public UnsupportedTokenException(SyntaxToken foundToken)
         {
-            if(foundToken == null)
-            {
-                throw new ArgumentNullException("foundToken");
-            }
-            this.FoundToken = foundToken;
+            this.FoundToken = foundToken ?? throw new ArgumentNullException(nameof(foundToken));
         }
 
         #endregion
 
         #region Properties
 
-        public Token FoundToken
+        public SyntaxToken FoundToken
         {
             get;
             private set;
@@ -46,7 +42,6 @@ namespace Kingsland.MofParser.Parsing
                     var token = this.FoundToken;
                     var extent = this.FoundToken.Extent;
                     var startPosition = extent.StartPosition;
-                    var endPosition = extent.EndPosition;
                     return $"Unhandled token found at Position {startPosition.Position}, Line Number {startPosition.LineNumber}, Column Number {startPosition.ColumnNumber}.\r\n" +
                            $"Token Type: '{token.GetType().Name}'\r\n" +
                            $"Token Text: '{extent.Text}'";

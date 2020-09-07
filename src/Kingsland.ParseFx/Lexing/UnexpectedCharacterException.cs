@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Kingsland.ParseFx.Text;
+using System;
 
-namespace Kingsland.MofParser.Source
+namespace Kingsland.ParseFx.Lexing
 {
 
     public sealed class UnexpectedCharacterException : Exception
@@ -8,16 +9,16 @@ namespace Kingsland.MofParser.Source
 
         #region Constructors
 
-        internal UnexpectedCharacterException()
+        private UnexpectedCharacterException()
         {
         }
 
-        internal UnexpectedCharacterException(SourceChar foundChar)
+        public UnexpectedCharacterException(SourceChar foundChar)
         {
             this.FoundChar = foundChar ?? throw new ArgumentNullException("foundChar");
         }
 
-        internal UnexpectedCharacterException(SourceChar foundChar, char expectedChar)
+        public UnexpectedCharacterException(SourceChar foundChar, char expectedChar)
         {
             this.FoundChar = foundChar ?? throw new ArgumentNullException("foundChar");
             this.ExpectedChar = expectedChar;

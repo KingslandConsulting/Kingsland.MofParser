@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kingsland.MofParser.Parsing
+namespace Kingsland.ParseFx.Parsing
 {
 
     public sealed class UnexpectedEndOfStreamException : Exception
@@ -8,7 +8,7 @@ namespace Kingsland.MofParser.Parsing
 
         #region Constructors
 
-        internal UnexpectedEndOfStreamException()
+        public UnexpectedEndOfStreamException()
         {
         }
 

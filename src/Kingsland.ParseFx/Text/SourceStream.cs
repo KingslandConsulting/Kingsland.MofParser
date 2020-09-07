@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Kingsland.ParseFx.Lexing;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
-namespace Kingsland.MofParser.Source
+namespace Kingsland.ParseFx.Text
 {
 
     public sealed class SourceStream

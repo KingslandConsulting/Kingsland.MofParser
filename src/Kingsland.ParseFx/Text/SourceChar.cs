@@ -1,4 +1,4 @@
-﻿namespace Kingsland.MofParser.Source
+﻿namespace Kingsland.ParseFx.Text
 {
 
     /// <summary>
