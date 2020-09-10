@@ -36,18 +36,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeGen\MofGeneratorTests.cs" />
-    <Compile Include="Helpers\ModelAssert.cs" />
+    <Compile Include="Lexing\LexerTests_StringLiteral.cs" />
+    <Compile Include="Lexing\LexerTests_RealLiteral.cs" />
+    <Compile Include="Lexing\LexerTests_IntegerLiteral.cs" />
+    <Compile Include="Lexing\LexerTests_AliasIdentifier.cs" />
+    <Compile Include="Lexing\LexerTests_Identifier.cs" />
+    <Compile Include="Lexing\LexerTests_NullLiteral.cs" />
+    <Compile Include="Lexing\LexerTests_BooleanLiteral.cs" />
+    <Compile Include="Lexing\LexerTests_Comments.cs" />
+    <Compile Include="Lexing\LexerTests_Whitespace.cs" />
+    <Compile Include="Lexing\LexerTests_Symbols.cs" />
+    <Compile Include="Lexing\LexerTests_Pragma.cs" />
+    <Compile Include="Model\ModelAssert.cs" />
     <Compile Include="Helpers\TestUtils.cs" />
-    <Compile Include="Helpers\TokenComparer.cs" />
-    <Compile Include="Lexer\LexerHelper.cs" />
-    <Compile Include="Lexer\LexerTests.cs" />
+    <Compile Include="Tokens\TokenAssert.cs" />
+    <Compile Include="Lexing\LexerAssert.cs" />
+    <Compile Include="Lexing\LexerTests.cs" />
     <Compile Include="Parsing\ParserTests.cs" />
     <Compile Include="Parsing\StringValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Lexer\TestCases\MyServer.json" />
-    <None Include="Lexer\TestCases\MyServer.mof" />
+    <None Include="Lexing\TestCases\MyServer.json" />
+    <None Include="Lexing\TestCases\MyServer.mof" />
     <Content Include="Parsing\DSP0221_3.0.1\D.01 GOLF_Schema.mof">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,8 +1,10 @@
 ﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Model;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Helpers;
+using Kingsland.MofParser.UnitTests.Model;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 using System;
@@ -24,7 +26,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueWithLiteralString()
             {
-                var tokens = Lexing.Lexer.Lex(
+                var tokens = Lexer.Lex(
                     SourceReader.From(
                         "instance of myType as $Alias0000006E\r\n" +
                         "{\r\n" +
@@ -131,7 +133,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueWithAliasIdentifier()
             {
-                var tokens = Lexing.Lexer.Lex(
+                var tokens = Lexer.Lex(
                     SourceReader.From(
                         "instance of myType as $Alias00000070\r\n" +
                         "{\r\n" +
@@ -235,7 +237,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueWithEmptyArray()
             {
-                var tokens = Lexing.Lexer.Lex(
+                var tokens = Lexer.Lex(
                     SourceReader.From(
                         "instance of myType as $Alias00000070\r\n" +
                         "{\r\n" +
@@ -330,7 +332,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueArrayWithAliasIdentifier()
             {
-                var tokens = Lexing.Lexer.Lex(
+                var tokens = Lexer.Lex(
                     SourceReader.From(
                         "instance of myType as $Alias00000070\r\n" +
                         "{\r\n" +
@@ -442,7 +444,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueArrayWithLiteralStrings()
             {
-                var tokens = Lexing.Lexer.Lex(
+                var tokens = Lexer.Lex(
                     SourceReader.From(
                         "instance of myType as $Alias00000070\r\n" +
                         "{\r\n" +
@@ -570,7 +572,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             [Test]
             public static void ParsePropetyValueArrayWithNumericLiteralValues()
             {
-                var tokens = Lexing.Lexer.Lex(
+                var tokens = Lexer.Lex(
                     SourceReader.From(
                         "instance of myType as $Alias00000070\r\n" +
                         "{\r\n" +
@@ -773,7 +775,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
         {
             var mofText = File.ReadAllText(mofFilename);
             var reader = SourceReader.From(mofText);
-            var tokens = Lexing.Lexer.Lex(reader);
+            var tokens = Lexer.Lex(reader);
             var ast = Parser.Parse(
                 tokens,
                 ParserQuirks.AllowMofV2Qualifiers |
