@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Model;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Helpers;
@@ -110,6 +111,21 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                 var actualJson = TestUtils.ConvertToJson(actualAst);
                 var expectedJson = TestUtils.ConvertToJson(expectedAst);
                 Assert.AreEqual(expectedJson, actualJson);
+                var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
+                var expectedModule = new Module.Builder
+                {
+                    Instances = new List<Instance> {
+                        new Instance.Builder
+                        {
+                            TypeName = "myType",
+                            Alias = "Alias0000006E",
+                            Properties = new List<Property> {
+                                new Property("ServerURL", "https://URL")
+                            }
+                        }.Build()
+                    }
+                }.Build();
+                ModelAssert.AreEqual(expectedModule, actualModule);
             }
 
             [Test]
@@ -199,6 +215,21 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                 var actualJson = TestUtils.ConvertToJson(actualAst);
                 var expectedJson = TestUtils.ConvertToJson(expectedAst);
                 Assert.AreEqual(expectedJson, actualJson);
+                var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
+                var expectedModule = new Module.Builder
+                {
+                    Instances = new List<Instance> {
+                        new Instance.Builder
+                        {
+                            TypeName = "myType",
+                            Alias = "Alias00000070",
+                            Properties = new List<Property> {
+                                new Property("Reference", "Alias0000006E")
+                            }
+                        }.Build()
+                    }
+                }.Build();
+                ModelAssert.AreEqual(expectedModule, actualModule);
             }
 
             [Test]
@@ -279,6 +310,21 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                 var actualJson = TestUtils.ConvertToJson(actualAst);
                 var expectedJson = TestUtils.ConvertToJson(expectedAst);
                 Assert.AreEqual(expectedJson, actualJson);
+                var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
+                var expectedModule = new Module.Builder
+                {
+                    Instances = new List<Instance> {
+                        new Instance.Builder
+                        {
+                            TypeName = "myType",
+                            Alias = "Alias00000070",
+                            Properties = new List<Property> {
+                                new Property("Reference", new List<object>())
+                            }
+                        }.Build()
+                    }
+                }.Build();
+                ModelAssert.AreEqual(expectedModule, actualModule);
             }
 
             [Test]
@@ -374,6 +420,23 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                 var actualJson = TestUtils.ConvertToJson(actualAst);
                 var expectedJson = TestUtils.ConvertToJson(expectedAst);
                 Assert.AreEqual(expectedJson, actualJson);
+                var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
+                var expectedModule = new Module.Builder
+                {
+                    Instances = new List<Instance> {
+                        new Instance.Builder
+                        {
+                            TypeName = "myType",
+                            Alias = "Alias00000070",
+                            Properties = new List<Property> {
+                                new Property("Reference", new List<object> {
+                                    "Alias0000006E"
+                                })
+                            }
+                        }.Build()
+                    }
+                }.Build();
+                ModelAssert.AreEqual(expectedModule, actualModule);
             }
 
             [Test]
@@ -485,6 +548,23 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                 var actualJson = TestUtils.ConvertToJson(actualAst);
                 var expectedJson = TestUtils.ConvertToJson(expectedAst);
                 Assert.AreEqual(expectedJson, actualJson);
+                var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
+                var expectedModule = new Module.Builder
+                {
+                    Instances = new List<Instance> {
+                        new Instance.Builder
+                        {
+                            TypeName = "myType",
+                            Alias = "Alias00000070",
+                            Properties = new List<Property> {
+                                new Property("ServerURLs", new List<object> {
+                                    "https://URL1", "https://URL2"
+                                })
+                            }
+                        }.Build()
+                    }
+                }.Build();
+                ModelAssert.AreEqual(expectedModule, actualModule);
             }
 
             [Test]
@@ -618,6 +698,25 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                 var actualJson = TestUtils.ConvertToJson(actualAst);
                 var expectedJson = TestUtils.ConvertToJson(expectedAst);
                 Assert.AreEqual(expectedJson, actualJson);
+                var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
+                var expectedModule = new Module.Builder
+                {
+                    Instances = new List<Instance> {
+                        new Instance.Builder
+                        {
+                            TypeName = "myType",
+                            Alias = "Alias00000070",
+                            Properties = new List<Property> {
+                                new Property("MyBinaryValue", 42),
+                                new Property("MyOctalValue", 149796),
+                                new Property("MyHexValue", 11256099),
+                                new Property("MyDecimalValue", 12345),
+                                new Property("MyRealValue", 123.45)
+                            }
+                        }.Build()
+                    }
+                }.Build();
+                ModelAssert.AreEqual(expectedModule, actualModule);
             }
 
         }

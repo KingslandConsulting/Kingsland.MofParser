@@ -118,27 +118,18 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertMofProductionAst(MofProductionAst node, MofQuirks quirks = MofQuirks.None)
         {
-            switch (node)
+            return node switch
             {
-                case CompilerDirectiveAst ast:
-                    return AstMofGenerator.ConvertCompilerDirectiveAst(ast, quirks);
-                case StructureDeclarationAst ast:
-                    return AstMofGenerator.ConvertStructureDeclarationAst(ast, quirks);
-                case ClassDeclarationAst ast:
-                    return AstMofGenerator.ConvertClassDeclarationAst(ast, quirks);
-                case AssociationDeclarationAst ast:
-                    return AstMofGenerator.ConvertAssociationDeclarationAst(ast, quirks);
-                case EnumerationDeclarationAst ast:
-                    return AstMofGenerator.ConvertEnumerationDeclarationAst(ast, quirks);
-                case InstanceValueDeclarationAst ast:
-                    return AstMofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks);
-                case StructureValueDeclarationAst ast:
-                    return AstMofGenerator.ConvertStructureValueDeclarationAst(ast, quirks);
-                case QualifierTypeDeclarationAst ast:
-                    return AstMofGenerator.ConvertQualifierTypeDeclarationAst(ast, quirks);
-                default:
-                    throw new NotImplementedException();
-            }
+                CompilerDirectiveAst ast => AstMofGenerator.ConvertCompilerDirectiveAst(ast, quirks),
+                StructureDeclarationAst ast => AstMofGenerator.ConvertStructureDeclarationAst(ast, quirks),
+                ClassDeclarationAst ast => AstMofGenerator.ConvertClassDeclarationAst(ast, quirks),
+                AssociationDeclarationAst ast => AstMofGenerator.ConvertAssociationDeclarationAst(ast, quirks),
+                EnumerationDeclarationAst ast => AstMofGenerator.ConvertEnumerationDeclarationAst(ast, quirks),
+                InstanceValueDeclarationAst ast => AstMofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks),
+                StructureValueDeclarationAst ast => AstMofGenerator.ConvertStructureValueDeclarationAst(ast, quirks),
+                QualifierTypeDeclarationAst ast => AstMofGenerator.ConvertQualifierTypeDeclarationAst(ast, quirks),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         #endregion
@@ -319,17 +310,13 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertStructureFeatureAst(IStructureFeatureAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
-            switch (node)
+            return node switch
             {
-                case StructureDeclarationAst ast:
-                    return AstMofGenerator.ConvertStructureDeclarationAst(ast, quirks, indent);
-                case EnumerationDeclarationAst ast:
-                    return AstMofGenerator.ConvertEnumerationDeclarationAst(ast, quirks, indent);
-                case PropertyDeclarationAst ast:
-                    return AstMofGenerator.ConvertPropertyDeclarationAst(ast, quirks);
-                default:
-                    throw new NotImplementedException();
-            }
+                StructureDeclarationAst ast => AstMofGenerator.ConvertStructureDeclarationAst(ast, quirks, indent),
+                EnumerationDeclarationAst ast => AstMofGenerator.ConvertEnumerationDeclarationAst(ast, quirks, indent),
+                PropertyDeclarationAst ast => AstMofGenerator.ConvertPropertyDeclarationAst(ast, quirks),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         #endregion
@@ -366,15 +353,12 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertClassFeatureAst(IClassFeatureAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
-            switch (node)
+            return node switch
             {
-                case IStructureFeatureAst ast:
-                    return AstMofGenerator.ConvertStructureFeatureAst(ast, quirks, indent);
-                case MethodDeclarationAst ast:
-                    return AstMofGenerator.ConvertMethodDeclarationAst(ast, quirks);
-                default:
-                    throw new NotImplementedException();
-            }
+                IStructureFeatureAst ast => AstMofGenerator.ConvertStructureFeatureAst(ast, quirks, indent),
+                MethodDeclarationAst ast => AstMofGenerator.ConvertMethodDeclarationAst(ast, quirks),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         #endregion
@@ -460,15 +444,12 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertIEnumElementValueAst(IEnumElementValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            switch (node)
+            return node switch
             {
-                case IntegerValueAst ast:
-                    return AstMofGenerator.ConvertIntegerValueAst(ast, quirks);
-                case StringValueAst ast:
-                    return AstMofGenerator.ConvertStringValueAst(ast, quirks);
-                default:
-                    throw new NotImplementedException();
-            }
+                IntegerValueAst ast => AstMofGenerator.ConvertIntegerValueAst(ast, quirks),
+                StringValueAst ast => AstMofGenerator.ConvertStringValueAst(ast, quirks),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         #endregion
@@ -588,15 +569,12 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertComplexTypeValueAst(ComplexTypeValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
-            switch (node)
+            return node switch
             {
-                case ComplexValueArrayAst ast:
-                    return AstMofGenerator.ConvertComplexValueArrayAst(ast, quirks, indent);
-                case ComplexValueAst ast:
-                    return AstMofGenerator.ConvertComplexValueAst(ast, quirks, indent);
-                default:
-                    throw new NotImplementedException();
-            }
+                ComplexValueArrayAst ast => AstMofGenerator.ConvertComplexValueArrayAst(ast, quirks, indent),
+                ComplexValueAst ast => AstMofGenerator.ConvertComplexValueAst(ast, quirks, indent),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         public static string ConvertComplexValueArrayAst(ComplexValueArrayAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
@@ -665,18 +643,14 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertPropertyValueAst(PropertyValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
-            switch (node)
+            return node switch
             {
-                case PrimitiveTypeValueAst ast:
-                    return AstMofGenerator.ConvertPrimitiveTypeValueAst(ast, quirks, indent);
-                case ComplexTypeValueAst ast:
-                    return AstMofGenerator.ConvertComplexTypeValueAst(ast, quirks, indent);
-                //case ReferenceTypeValueAst ast:
-                case EnumTypeValueAst ast:
-                    return AstMofGenerator.ConvertEnumTypeValueAst(ast, quirks);
-                default:
-                    throw new NotImplementedException();
-            }
+                PrimitiveTypeValueAst ast => AstMofGenerator.ConvertPrimitiveTypeValueAst(ast, quirks, indent),
+                ComplexTypeValueAst ast => AstMofGenerator.ConvertComplexTypeValueAst(ast, quirks, indent),
+                //ReferenceTypeValueAst ast =>
+                EnumTypeValueAst ast => AstMofGenerator.ConvertEnumTypeValueAst(ast, quirks),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         #endregion
@@ -685,34 +659,25 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertPrimitiveTypeValueAst(PrimitiveTypeValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
         {
-            switch (node)
+            return node switch
             {
-                case LiteralValueAst ast:
-                    return AstMofGenerator.ConvertLiteralValueAst(ast, quirks);
-                case LiteralValueArrayAst ast:
-                    return AstMofGenerator.ConvertLiteralValueArrayAst(ast, quirks);
-                default:
-                    throw new NotImplementedException();
-            }
+                LiteralValueAst ast => AstMofGenerator.ConvertLiteralValueAst(ast, quirks),
+                LiteralValueArrayAst ast => AstMofGenerator.ConvertLiteralValueArrayAst(ast, quirks),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         public static string ConvertLiteralValueAst(LiteralValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            switch (node)
+            return node switch
             {
-                case IntegerValueAst ast:
-                    return AstMofGenerator.ConvertIntegerValueAst(ast, quirks);
-                case RealValueAst ast:
-                    return AstMofGenerator.ConvertRealValueAst(ast, quirks);
-                case BooleanValueAst ast:
-                    return AstMofGenerator.ConvertBooleanValueAst(ast, quirks);
-                case NullValueAst ast:
-                    return AstMofGenerator.ConvertNullValueAst(ast, quirks);
-                case StringValueAst ast:
-                    return AstMofGenerator.ConvertStringValueAst(ast, quirks);
-                default:
-                    throw new NotImplementedException();
-            }
+                IntegerValueAst ast => AstMofGenerator.ConvertIntegerValueAst(ast, quirks),
+                RealValueAst ast => AstMofGenerator.ConvertRealValueAst(ast, quirks),
+                BooleanValueAst ast => AstMofGenerator.ConvertBooleanValueAst(ast, quirks),
+                NullValueAst ast => AstMofGenerator.ConvertNullValueAst(ast, quirks),
+                StringValueAst ast => AstMofGenerator.ConvertStringValueAst(ast, quirks),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         public static string ConvertLiteralValueArrayAst(LiteralValueArrayAst node, MofQuirks quirks = MofQuirks.None)
@@ -882,15 +847,12 @@ namespace Kingsland.MofParser.CodeGen
 
         public static string ConvertEnumTypeValueAst(EnumTypeValueAst node, MofQuirks quirks = MofQuirks.None)
         {
-            switch (node)
+            return node switch
             {
-                case EnumValueAst ast:
-                    return AstMofGenerator.ConvertEnumValueAst(ast, quirks);
-                case EnumValueArrayAst ast:
-                    return AstMofGenerator.ConvertEnumValueArrayAst(ast, quirks);
-                default:
-                    throw new NotImplementedException();
-            }
+                EnumValueAst ast => AstMofGenerator.ConvertEnumValueAst(ast, quirks),
+                EnumValueArrayAst ast => AstMofGenerator.ConvertEnumValueArrayAst(ast, quirks),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         public static string ConvertEnumValueAst(EnumValueAst node, MofQuirks quirks = MofQuirks.None)

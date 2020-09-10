@@ -68,127 +68,127 @@ namespace Kingsland.MofParser.UnitTests.Lexer
                 LexerHelper.GetAssertErrorMessage($"actual Text does not match expected value", index));
             switch (expectedToken)
             {
-                case AliasIdentifierToken token:
+                case AliasIdentifierToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((AliasIdentifierToken)expectedToken, (AliasIdentifierToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case AttributeCloseToken token:
+                case AttributeCloseToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((AttributeCloseToken)expectedToken, (AttributeCloseToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case AttributeOpenToken token:
+                case AttributeOpenToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((AttributeOpenToken)expectedToken, (AttributeOpenToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case BlockCloseToken token:
+                case BlockCloseToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((BlockCloseToken)expectedToken, (BlockCloseToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case BlockOpenToken token:
+                case BlockOpenToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((BlockOpenToken)expectedToken, (BlockOpenToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case BooleanLiteralToken token:
+                case BooleanLiteralToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((BooleanLiteralToken)expectedToken, (BooleanLiteralToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case ColonToken token:
+                case ColonToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((ColonToken)expectedToken, (ColonToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case CommaToken token:
+                case CommaToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((CommaToken)expectedToken, (CommaToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case CommentToken token:
+                case CommentToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((CommentToken)expectedToken, (CommentToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case DotOperatorToken token:
+                case DotOperatorToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((DotOperatorToken)expectedToken, (DotOperatorToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case EqualsOperatorToken token:
+                case EqualsOperatorToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((EqualsOperatorToken)expectedToken, (EqualsOperatorToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case IdentifierToken token:
+                case IdentifierToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((IdentifierToken)expectedToken, (IdentifierToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case IntegerLiteralToken token:
+                case IntegerLiteralToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((IntegerLiteralToken)expectedToken, (IntegerLiteralToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case NullLiteralToken token:
+                case NullLiteralToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((NullLiteralToken)expectedToken, (NullLiteralToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case ParenthesisCloseToken token:
+                case ParenthesisCloseToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((ParenthesisCloseToken)expectedToken, (ParenthesisCloseToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case ParenthesisOpenToken token:
+                case ParenthesisOpenToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((ParenthesisOpenToken)expectedToken, (ParenthesisOpenToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case PragmaToken token:
+                case PragmaToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((PragmaToken)expectedToken, (PragmaToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case RealLiteralToken token:
+                case RealLiteralToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((RealLiteralToken)expectedToken, (RealLiteralToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case StatementEndToken token:
+                case StatementEndToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((StatementEndToken)expectedToken, (StatementEndToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case StringLiteralToken token:
+                case StringLiteralToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((StringLiteralToken)expectedToken, (StringLiteralToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)
                     );
                     break;
-                case WhitespaceToken token:
+                case WhitespaceToken _:
                     Assert.IsTrue(
                         TokenComparer.AreEqual((WhitespaceToken)expectedToken, (WhitespaceToken)actualToken),
                         LexerHelper.GetAssertErrorMessage($"actual token does not match expected token", index)

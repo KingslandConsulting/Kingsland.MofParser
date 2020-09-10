@@ -8,6 +8,7 @@
     <RepositoryUrl></RepositoryUrl>
     <PackageProjectUrl>https://github.com/KingslandConsulting/Kingsland.MofParser</PackageProjectUrl>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

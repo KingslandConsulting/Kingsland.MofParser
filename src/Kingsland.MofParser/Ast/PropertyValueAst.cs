@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.ParseFx.Parsing;
+﻿using Kingsland.ParseFx.Parsing;
 
 namespace Kingsland.MofParser.Ast
 {

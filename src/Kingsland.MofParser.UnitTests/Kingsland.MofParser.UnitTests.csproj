@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeGen\MofGeneratorTests.cs" />
+    <Compile Include="Helpers\ModelAssert.cs" />
     <Compile Include="Helpers\TestUtils.cs" />
     <Compile Include="Helpers\TokenComparer.cs" />
     <Compile Include="Lexer\LexerHelper.cs" />
