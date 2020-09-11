@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
@@ -19,9 +18,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadLowerCaseFalseToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("false")
-                );
+                var sourceText = "false";
                 var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
@@ -33,15 +30,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         false
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadMixedCaseFalseToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("False")
-                );
+                var sourceText = "False";
                 var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
@@ -53,15 +48,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         false
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadUpperCaseFalseToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("FALSE")
-                );
+                var sourceText = "FALSE";
                 var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
@@ -73,15 +66,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         false
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadLowerCaseTrueToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("true")
-                );
+                var sourceText = "true";
                 var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
@@ -93,15 +84,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         true
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadMixedCaseTrueToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("True")
-                );
+                var sourceText = "True";
                 var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
@@ -113,15 +102,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         true
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadUpperCaseTrueToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("TRUE")
-                );
+                var sourceText = "TRUE";
                 var expectedTokens = new List<SyntaxToken> {
                     new BooleanLiteralToken(
                         new SourceExtent
@@ -133,7 +120,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         true
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }

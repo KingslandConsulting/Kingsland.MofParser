@@ -19,9 +19,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadEmptyString()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("\"\"")
-                );
+                var sourceText = "\"\"";
                 var expectedTokens = new List<SyntaxToken> {
                     new StringLiteralToken(
                         new SourceExtent
@@ -33,15 +31,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         string.Empty
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadBasicString()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("\"my string literal\"")
-                );
+                var sourceText = "\"my string literal\"";
                 var expectedTokens = new List<SyntaxToken> {
                     new StringLiteralToken(
                         new SourceExtent
@@ -53,15 +49,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         "my string literal"
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadEscapedString()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(@"""my \\ string \"" literal \' with \b lots \t and \n lots \f of \r escapes""")
-                );
+                var sourceText = @"""my \\ string \"" literal \' with \b lots \t and \n lots \f of \r escapes""";
                 var expectedTokens = new List<SyntaxToken> {
                     new StringLiteralToken(
                         new SourceExtent
@@ -73,7 +67,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         "my \\ string \" literal \' with \b lots \t and \n lots \f of \r escapes"
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }

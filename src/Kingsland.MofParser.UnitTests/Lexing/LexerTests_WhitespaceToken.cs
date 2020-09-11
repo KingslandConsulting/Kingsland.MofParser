@@ -19,9 +19,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadSpaceWhitespaceToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("     ")
-                );
+                var sourceText = "     ";
                 var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
@@ -32,15 +30,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadTabWhitespaceToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("\t\t\t\t\t")
-                );
+                var sourceText = "\t\t\t\t\t";
                 var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
@@ -51,15 +47,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadCrWhitespaceToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("\r\r\r\r\r")
-                );
+                var sourceText = "\r\r\r\r\r";
                 var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
@@ -70,15 +64,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadLfWhitespaceToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("\n\n\n\n\n")
-                );
+                var sourceText = "\n\n\n\n\n";
                 var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
@@ -89,15 +81,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadCrLfWhitespaceToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("\r\n\r\n\r\n\r\n\r\n")
-                );
+                var sourceText = "\r\n\r\n\r\n\r\n\r\n";
                 var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
@@ -108,15 +98,14 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadMixedWhitespaceToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("     \t\t\t\t\t\r\r\r\r\r\n\n\n\n\n\r\n\r\n\r\n\r\n\r\n")
-                );
+                var sourceText =
+                    "     \t\t\t\t\t\r\r\r\r\r\n\n\n\n\n\r\n\r\n\r\n\r\n\r\n";
                 var expectedTokens = new List<SyntaxToken> {
                     new WhitespaceToken(
                         new SourceExtent
@@ -127,7 +116,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }

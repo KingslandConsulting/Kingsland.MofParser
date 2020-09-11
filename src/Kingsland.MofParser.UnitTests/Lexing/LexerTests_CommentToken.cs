@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
@@ -19,9 +18,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadSingleLineEofCommentToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("// single line comment")
-                );
+                var sourceText = "// single line comment";
                 var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
@@ -32,15 +29,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadSingleLineEolCommentToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("// single line comment\r\n")
-                );
+                var sourceText = "// single line comment\r\n";
                 var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
@@ -59,22 +54,19 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadMultilineEofCommentToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(
-                        "/*\r\n" +
-                        "@TargetNode='MyServer'\r\n" +
-                        "@GeneratedBy=mike.clayton\r\n" +
-                        "@GenerationDate=07/19/2014 10:37:04\r\n" +
-                        "@GenerationHost=MyDesktop\r\n" +
-                        "*/"
-                    )
-                );
+                var sourceText =
+                    "/*\r\n" +
+                    "@TargetNode='MyServer'\r\n" +
+                    "@GeneratedBy=mike.clayton\r\n" +
+                    "@GenerationDate=07/19/2014 10:37:04\r\n" +
+                    "@GenerationHost=MyDesktop\r\n" +
+                    "*/";
                 var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
@@ -90,21 +82,18 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadMultilineUnclosedCommentToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(
-                        "/*\r\n" +
-                        "@TargetNode='MyServer'\r\n" +
-                        "@GeneratedBy=mike.clayton\r\n" +
-                        "@GenerationDate=07/19/2014 10:37:04\r\n" +
-                        "@GenerationHost=MyDesktop\r\n"
-                    )
-                );
+                var sourceText =
+                    "/*\r\n" +
+                    "@TargetNode='MyServer'\r\n" +
+                    "@GeneratedBy=mike.clayton\r\n" +
+                    "@GenerationDate=07/19/2014 10:37:04\r\n" +
+                    "@GenerationHost=MyDesktop\r\n";
                 var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
@@ -119,22 +108,19 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadMultilineInlineAsterisks()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(
-                        "/*************\r\n" +
-                        "@TargetNode='MyServer'\r\n" +
-                        "@GeneratedBy=mike.clayton\r\n" +
-                        "@GenerationDate=07/19/2014 10:37:04\r\n" +
-                        "@GenerationHost=MyDesktop\r\n" +
-                        "*************/"
-                    )
-                );
+                var sourceText =
+                    "/*************\r\n" +
+                    "@TargetNode='MyServer'\r\n" +
+                    "@GeneratedBy=mike.clayton\r\n" +
+                    "@GenerationDate=07/19/2014 10:37:04\r\n" +
+                    "@GenerationHost=MyDesktop\r\n" +
+                    "*************/";
                 var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
@@ -150,27 +136,24 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadMultilineMultiple()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(
-                        "/*\r\n" +
-                        "@TargetNode='MyServer'\r\n" +
-                        "@GeneratedBy=mike.clayton\r\n" +
-                        "@GenerationDate=07/19/2014 10:37:04\r\n" +
-                        "@GenerationHost=MyDesktop\r\n" +
-                        "*//*\r\n" +
-                        "@TargetNode='MyServer2'\r\n" +
-                        "@GeneratedBy=mike.clayton\r\n" +
-                        "@GenerationDate=07/19/2014 10:37:04\r\n" +
-                        "@GenerationHost=MyDesktop\r\n" +
-                        "*/"
-                    )
-                );
+                var sourceText =
+                    "/*\r\n" +
+                    "@TargetNode='MyServer'\r\n" +
+                    "@GeneratedBy=mike.clayton\r\n" +
+                    "@GenerationDate=07/19/2014 10:37:04\r\n" +
+                    "@GenerationHost=MyDesktop\r\n" +
+                    "*//*\r\n" +
+                    "@TargetNode='MyServer2'\r\n" +
+                    "@GeneratedBy=mike.clayton\r\n" +
+                    "@GenerationDate=07/19/2014 10:37:04\r\n" +
+                    "@GenerationHost=MyDesktop\r\n" +
+                    "*/";
                 var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
@@ -200,16 +183,15 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                     )
 
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadExample1CommentToken()
             {
                 // see DSP0221_3.0.1.pdf "5.4 Comments"
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("Integer MyProperty; // This is an example of a single-line comment")
-                );
+                var sourceText =
+                    "Integer MyProperty; // This is an example of a single-line comment";
                 var expectedTokens = new List<SyntaxToken> {
                     new IdentifierToken(
                         new SourceExtent
@@ -262,20 +244,17 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadExample2CommentToken()
             {
                 // see DSP0221_3.0.1.pdf "5.4 Comments"
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(
-                        "/* example of a comment between property definition tokens and a multi-line comment */\r\n" +
-                        "Integer /* 16-bit integer property */ MyProperty; /* and a multi-line\r\n" +
-                        "                        comment */"
-                    )
-                );
+                var sourceText =
+                    "/* example of a comment between property definition tokens and a multi-line comment */\r\n" +
+                    "Integer /* 16-bit integer property */ MyProperty; /* and a multi-line\r\n" +
+                    "                        comment */";
                 var expectedTokens = new List<SyntaxToken> {
                     new CommentToken(
                         new SourceExtent
@@ -361,7 +340,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }

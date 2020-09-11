@@ -19,9 +19,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadRealValue0_0()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("0.0")
-                );
+                var sourceText = "0.0";
                 var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
@@ -33,15 +31,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         0
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadRealValue123_45()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("123.45")
-                );
+                var sourceText = "123.45";
                 var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
@@ -53,15 +49,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         123.45
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadRealValuePlus123_45()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("+123.45")
-                );
+                var sourceText = "+123.45";
                 var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
@@ -73,15 +67,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         123.45
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadRealValueMinus123_45()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("-123.45")
-                );
+                var sourceText = "-123.45";
                 var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
@@ -93,15 +85,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         -123.45
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadRealValue1234567890_00()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("1234567890.00")
-                );
+                var sourceText = "1234567890.00";
                 var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent(
@@ -112,15 +102,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         1234567890.00
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadRealValue_45()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(".45")
-                );
+                var sourceText = ".45";
                 var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
@@ -132,15 +120,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         0.45
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadRealValuePlus_45()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("+.45")
-                );
+                var sourceText = "+.45";
                 var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
@@ -152,15 +138,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         0.45
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadRealValueMinus_45()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("-.45")
-                );
+                var sourceText = "-.45";
                 var expectedTokens = new List<SyntaxToken> {
                     new RealLiteralToken(
                         new SourceExtent
@@ -172,7 +156,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         -0.45
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }

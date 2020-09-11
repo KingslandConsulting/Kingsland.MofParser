@@ -36,17 +36,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeGen\MofGeneratorTests.cs" />
-    <Compile Include="Lexing\LexerTests_StringLiteral.cs" />
-    <Compile Include="Lexing\LexerTests_RealLiteral.cs" />
-    <Compile Include="Lexing\LexerTests_IntegerLiteral.cs" />
-    <Compile Include="Lexing\LexerTests_AliasIdentifier.cs" />
-    <Compile Include="Lexing\LexerTests_Identifier.cs" />
-    <Compile Include="Lexing\LexerTests_NullLiteral.cs" />
-    <Compile Include="Lexing\LexerTests_BooleanLiteral.cs" />
-    <Compile Include="Lexing\LexerTests_Comments.cs" />
-    <Compile Include="Lexing\LexerTests_Whitespace.cs" />
-    <Compile Include="Lexing\LexerTests_Symbols.cs" />
-    <Compile Include="Lexing\LexerTests_Pragma.cs" />
+    <Compile Include="Lexing\LexerTests_StringLiteralToken.cs" />
+    <Compile Include="Lexing\LexerTests_RealLiteralToken.cs" />
+    <Compile Include="Lexing\LexerTests_IntegerLiteralToken.cs" />
+    <Compile Include="Lexing\LexerTests_AliasIdentifierToken.cs" />
+    <Compile Include="Lexing\LexerTests_IdentifierToken.cs" />
+    <Compile Include="Lexing\LexerTests_NullLiteralToken.cs" />
+    <Compile Include="Lexing\LexerTests_BooleanLiteralToken.cs" />
+    <Compile Include="Lexing\LexerTests_CommentToken.cs" />
+    <Compile Include="Lexing\LexerTests_WhitespaceToken.cs" />
+    <Compile Include="Lexing\LexerTests_SymbolToken.cs" />
+    <Compile Include="Lexing\LexerTests_PragmaToken.cs" />
     <Compile Include="Model\ModelAssert.cs" />
     <Compile Include="Helpers\TestUtils.cs" />
     <Compile Include="Tokens\TokenAssert.cs" />

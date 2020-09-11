@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
@@ -19,13 +18,9 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadAliasIdentifierToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From
-                    (
-                        "$myAliasIdentifier\r\n" +
-                        "$myAliasIdentifier2"
-                    )
-                );
+                var sourceText =
+                    "$myAliasIdentifier\r\n" +
+                    "$myAliasIdentifier2";
                 var expectedTokens = new List<SyntaxToken> {
                     new AliasIdentifierToken(
                         new SourceExtent
@@ -54,21 +49,17 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         "myAliasIdentifier2"
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadInstanceWithAliasIdentifier()
             {
                 // test case for https://github.com/mikeclayton/MofParser/issues/4
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From
-                    (
-                        "instance of cTentacleAgent as $cTentacleAgent1ref\r\n" +
-                        "{\r\n" +
-                        "};"
-                    )
-                );
+                var sourceText =
+                    "instance of cTentacleAgent as $cTentacleAgent1ref\r\n" +
+                    "{\r\n" +
+                    "};";
                 var expectedTokens = new List<SyntaxToken>
                 {
                     new IdentifierToken(
@@ -189,7 +180,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }

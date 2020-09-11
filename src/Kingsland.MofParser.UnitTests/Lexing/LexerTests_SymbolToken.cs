@@ -19,9 +19,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadAttributeCloseToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("]")
-                );
+                var sourceText = "]";
                 var expectedTokens = new List<SyntaxToken> {
                     new AttributeCloseToken(
                         new SourceExtent
@@ -32,7 +30,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -44,9 +42,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadAttributeOpenToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("[")
-                );
+                var sourceText = "[";
                 var expectedTokens = new List<SyntaxToken> {
                     new AttributeOpenToken(
                         new SourceExtent
@@ -57,7 +53,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -69,9 +65,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadBlockCloseToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("}")
-                );
+                var sourceText = "}";
                 var expectedTokens = new List<SyntaxToken> {
                     new BlockCloseToken(
                         new SourceExtent
@@ -82,7 +76,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -94,9 +88,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReaBlockOpenToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("{")
-                );
+                var sourceText = "{";
                 var expectedTokens = new List<SyntaxToken> {
                     new BlockOpenToken(
                         new SourceExtent
@@ -107,7 +99,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -119,9 +111,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadColonToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(":")
-                );
+                var sourceText = ":";
                 var expectedTokens = new List<SyntaxToken> {
                     new ColonToken(
                         new SourceExtent
@@ -132,7 +122,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -144,9 +134,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadCommaToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(",")
-                );
+                var sourceText = ",";
                 var expectedTokens = new List<SyntaxToken> {
                     new CommaToken(
                         new SourceExtent
@@ -157,7 +145,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -169,9 +157,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadDotOperatorToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(".")
-                );
+                var sourceText = ".";
                 var expectedTokens = new List<SyntaxToken> {
                     new DotOperatorToken(
                         new SourceExtent
@@ -182,15 +168,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadDotOperatorTokenWithTrailingNonDecimalDigit()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(".abc")
-                );
+                var sourceText = ".abc";
                 var expectedTokens = new List<SyntaxToken> {
                     new DotOperatorToken(
                         new SourceExtent
@@ -210,7 +194,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         "abc"
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -222,9 +206,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadEqualsOperatorToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("=")
-                );
+                var sourceText = "=";
                 var expectedTokens = new List<SyntaxToken> {
                     new EqualsOperatorToken(
                         new SourceExtent
@@ -235,7 +217,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -247,9 +229,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadEqualsOperatorToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(")")
-                );
+                var sourceText = ")";
                 var expectedTokens = new List<SyntaxToken> {
                     new ParenthesisCloseToken(
                         new SourceExtent
@@ -260,7 +240,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -272,9 +252,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadParenthesesOpenToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("(")
-                );
+                var sourceText = "(";
                 var expectedTokens = new List<SyntaxToken> {
                     new ParenthesisOpenToken(
                         new SourceExtent
@@ -285,7 +263,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -297,9 +275,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadStatementEndToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(";")
-                );
+                var sourceText = ";";
                 var expectedTokens = new List<SyntaxToken> {
                     new StatementEndToken(
                         new SourceExtent
@@ -310,7 +286,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }

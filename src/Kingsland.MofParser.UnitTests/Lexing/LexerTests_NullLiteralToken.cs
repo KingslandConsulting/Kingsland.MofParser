@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
@@ -19,9 +18,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadLowerCaseNullToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("null")
-                );
+                var sourceText = "null";
                 var expectedTokens = new List<SyntaxToken> {
                     new NullLiteralToken(
                         new SourceExtent
@@ -32,15 +29,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadMixedCaseNullToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("Null")
-                );
+                var sourceText = "Null";
                 var expectedTokens = new List<SyntaxToken> {
                     new NullLiteralToken(
                         new SourceExtent
@@ -51,15 +46,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
             [Test]
             public static void ShouldReadUpperCaseNullToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("NULL")
-                );
+                var sourceText = "NULL";
                 var expectedTokens = new List<SyntaxToken> {
                     new NullLiteralToken(
                         new SourceExtent
@@ -70,7 +63,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         )
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }

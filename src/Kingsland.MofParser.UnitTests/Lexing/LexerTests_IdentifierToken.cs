@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
@@ -19,13 +18,9 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadIdentifierToken()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From
-                    (
-                        "myIdentifier\r\n" +
-                        "myIdentifier2"
-                    )
-                );
+                var sourceText =
+                    "myIdentifier\r\n" +
+                    "myIdentifier2";
                 var expectedTokens = new List<SyntaxToken> {
                     new IdentifierToken(
                         new SourceExtent
@@ -54,7 +49,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                         "myIdentifier2"
                     )
                 };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }

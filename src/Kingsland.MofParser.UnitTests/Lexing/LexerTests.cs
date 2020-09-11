@@ -1,11 +1,9 @@
 ﻿using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Tokens;
-using Kingsland.MofParser.UnitTests.Helpers;
 using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Kingsland.MofParser.UnitTests.Lexing
 {
@@ -65,54 +63,10 @@ namespace Kingsland.MofParser.UnitTests.Lexing
 
         }
 
-        [TestFixture]
-        public static class LexMethodTestCases
+        private static void AssertLexerTest(string sourceText, List<SyntaxToken> expectedTokens)
         {
-            //[Test, TestCaseSource(typeof(LexMethodTestCases), "GetTestCases")]
-            public static void LexMethodTestsFromDisk(string mofFilename)
-            {
-                LexerTests.LexMethodTest(mofFilename);
-            }
-            public static IEnumerable<TestCaseData> GetTestCases
-            {
-                get
-                {
-                    return TestUtils.GetMofTestCase("cim_schema_2.51.0Final-MOFs");
-                }
-            }
-        }
-
-        [TestFixture]
-        public static class LexCimSpec
-        {
-            //[Test, TestCaseSource(typeof(LexCimSpec), "GetTestCases")]
-            public static void LexMethodTestsFromDisk(string mofFilename)
-            {
-                LexerTests.LexMethodTest(mofFilename);
-            }
-            public static IEnumerable<TestCaseData> GetTestCases
-            {
-                get
-                {
-                    return TestUtils.GetMofTestCase("Lexing\\TestCases");
-                }
-            }
-        }
-
-        private static void LexMethodTest(string mofFilename)
-        {
-            var mofText = File.ReadAllText(mofFilename);
-            var reader = SourceReader.From(mofText);
-            var actualTokens = Lexer.Lex(reader);
-            var actualText = TestUtils.ConvertToJson(actualTokens);
-            var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),
-                                                Path.GetFileNameWithoutExtension(mofFilename) + ".json");
-            if (!File.Exists(expectedFilename))
-            {
-                File.WriteAllText(expectedFilename, actualText);
-            }
-            var expectedText = File.ReadAllText(expectedFilename);
-            Assert.AreEqual(expectedText, actualText);
+            var actualTokens = Lexer.Lex(SourceReader.From(sourceText));
+            LexerAssert.AreEqual(expectedTokens, actualTokens);
         }
 
     }
