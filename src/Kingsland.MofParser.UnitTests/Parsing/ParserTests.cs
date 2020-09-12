@@ -1,4 +1,4 @@
-﻿using Kingsland.MofParser.Lexing;
+using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.UnitTests.Helpers;
 using Kingsland.ParseFx.Text;
