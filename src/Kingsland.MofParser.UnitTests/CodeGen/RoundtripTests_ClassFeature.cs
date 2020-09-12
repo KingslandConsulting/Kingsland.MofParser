@@ -1,9 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Parsing;
-using Kingsland.ParseFx.Parsing;
-using Kingsland.ParseFx.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -35,19 +30,11 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\t100\r\n" +
                     "};";
-                var tokens = Lexer.Lex(SourceReader.From(sourceText));
-                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
-                var ex = Assert.Throws<UnexpectedTokenException>(
-                    () => {
-                        var astNodes = Parser.Parse(tokens);
-                    }
-                );
-                Assert.AreEqual(
+                var expectedMessage =
                     "Unexpected token found at Position 19, Line Number 3, Column Number 2.\r\n" +
                     "Token Type: 'IntegerLiteralToken'\r\n" +
-                    "Token Text: '100'",
-                    ex.Message
-                );
+                    "Token Text: '100'";
+                RoundtripTests.AssertRoundtripException(sourceText, expectedMessage);
             }
 
             [Test]

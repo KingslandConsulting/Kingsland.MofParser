@@ -136,20 +136,11 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tMonth = {MonthEnums.July};\r\n" +
                     "};";
-                var tokens = Lexer.Lex(SourceReader.From(sourceText));
-                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
-                var ex = Assert.Throws<UnexpectedTokenException>(
-                    () =>
-                    {
-                        var astNodes = Parser.Parse(tokens);
-                    }
-                );
-                Assert.AreEqual(
+                var expectedMessage =
                     "Unexpected token found at Position 46, Line Number 3, Column Number 21.\r\n" +
                     "Token Type: 'DotOperatorToken'\r\n" +
-                    "Token Text: '.'",
-                    ex.Message
-                );
+                    "Token Text: '.'";
+                RoundtripTests.AssertRoundtripException(sourceText, expectedMessage);
             }
 
         }

@@ -1,8 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Parsing;
-using Kingsland.ParseFx.Parsing;
-using Kingsland.ParseFx.Text;
+﻿using Kingsland.MofParser.Parsing;
 using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
@@ -42,20 +38,11 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesNotHeld[];\r\n" +
                     "\t[read: ToSubClass, MappingStrings{\"Win32API|AccessControl|Windows NT Privileges\"}: ToSubClass] string PrivilegesRequired[];\r\n" +
                     "};";
-                var tokens = Lexer.Lex(SourceReader.From(sourceText));
-                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
-                var ex = Assert.Throws<UnexpectedTokenException>(
-                    () =>
-                    {
-                        var astNodes = Parser.Parse(tokens);
-                    }
-                );
-                Assert.AreEqual(
+                var expectedMessage =
                     "Unexpected token found at Position 13, Line Number 1, Column Number 14.\r\n" +
                     "Token Type: 'ColonToken'\r\n" +
-                    "Token Text: ':'",
-                    ex.Message
-                );
+                    "Token Text: ':'";
+                RoundtripTests.AssertRoundtripException(sourceText, expectedMessage);
             }
 
         }

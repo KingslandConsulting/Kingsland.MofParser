@@ -1,9 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Parsing;
-using Kingsland.ParseFx.Parsing;
-using Kingsland.ParseFx.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -78,23 +73,11 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tJuly = \"July\"\r\n" +
                     "};";
-                var tokens = Lexer.Lex(SourceReader.From(sourceText));
-                var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
-                var ex = Assert.Throws<UnexpectedTokenException>(
-                    () =>
-                    {
-                        var astNodes = Parser.Parse(
-                            tokens,
-                            ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase
-                        );
-                    }
-                );
-                Assert.AreEqual(
+                var expectedMessage =
                     "Unexpected token found at Position 44, Line Number 3, Column Number 9.\r\n" +
                     "Token Type: 'StringLiteralToken'\r\n" +
-                    "Token Text: '\"July\"'",
-                    ex.Message
-                );
+                    "Token Text: '\"July\"'";
+                RoundtripTests.AssertRoundtripException(sourceText, expectedMessage);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/52")]
