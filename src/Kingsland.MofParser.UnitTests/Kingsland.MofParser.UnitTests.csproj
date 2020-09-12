@@ -35,7 +35,24 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGen\MofGeneratorTests.cs" />
+    <Compile Include="CodeGen\RoundtripTests_EnumTypeValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_ComplexTypeValue2.cs" />
+    <Compile Include="CodeGen\RoundtripTests_BooleanValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_StringValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_RealValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_IntegerValues.cs" />
+    <Compile Include="CodeGen\RoundtripTests_PrimitiveTypeValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_ComplexTypeValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_MethodDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_PropertyDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_EnumerationDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_AssociationDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_ClassDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_StructureDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_QualifierList.cs" />
+    <Compile Include="CodeGen\RoundtripTests_Qualifier.cs" />
+    <Compile Include="CodeGen\RoundtripTests_CompilerDirective.cs" />
+    <Compile Include="CodeGen\RoundtripTests.cs" />
     <Compile Include="Lexing\LexerTests_StringLiteralToken.cs" />
     <Compile Include="Lexing\LexerTests_RealLiteralToken.cs" />
     <Compile Include="Lexing\LexerTests_IntegerLiteralToken.cs" />
@@ -49,6 +66,7 @@
     <Compile Include="Lexing\LexerTests_PragmaToken.cs" />
     <Compile Include="Model\ModelAssert.cs" />
     <Compile Include="Helpers\TestUtils.cs" />
+    <Compile Include="Parsing\ParserTests_ComplexTypeValue.cs" />
     <Compile Include="Tokens\TokenAssert.cs" />
     <Compile Include="Lexing\LexerAssert.cs" />
     <Compile Include="Lexing\LexerTests.cs" />
