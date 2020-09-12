@@ -14,12 +14,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void QualifierShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "[Description(\"Instances of this class represent golf clubs. A golf club is \" \"an organization that provides member services to golf players \" \"both amateur and professional.\")]\r\n" +
                     "class GOLF_Club : GOLF_Base\r\n" +
                     "{\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }

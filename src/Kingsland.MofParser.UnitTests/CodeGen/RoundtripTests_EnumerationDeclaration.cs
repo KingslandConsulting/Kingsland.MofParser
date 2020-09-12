@@ -19,37 +19,37 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EmptyIntegerEnumerationDeclarationShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "enumeration MonthsEnum : Integer\r\n" +
                     "{\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void EmptyStringEnumerationDeclarationShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "enumeration MonthsEnum : String\r\n" +
                     "{\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void EmptyInheritedEnumerationDeclarationShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "enumeration MonthsEnum : GOLF_MyEnum\r\n" +
                     "{\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void EnumerationDeclarationWithoutValuesShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "enumeration MonthsEnum : String\r\n" +
                     "{\r\n" +
                     "\tJanuary,\r\n" +
@@ -64,8 +64,8 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\tOctober,\r\n" +
                     "\tNovember,\r\n" +
                     "\tDecember\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/52")]
@@ -73,12 +73,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             {
                 // this should throw because "uint32" is recognized as an integer type.
                 // as a result, "July" (a string) is not a valid value for an integer enumElement value
-                var sourceMof =
+                var sourceText =
                     "enumeration MonthsEnum : uint32\r\n" +
                     "{\r\n" +
                     "\tJuly = \"July\"\r\n" +
                     "};";
-                var tokens = Lexer.Lex(SourceReader.From(sourceMof));
+                var tokens = Lexer.Lex(SourceReader.From(sourceText));
                 var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
                 var ex = Assert.Throws<UnexpectedTokenException>(
                     () =>
@@ -104,12 +104,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 // so it's assumed to be a separate base enum like "enumeration uint32 { ... };".
                 // as a result, there's no validation done on the datattype of the enum element and
                 // it will accept "July" as a valid value
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "enumeration MonthsEnum : uint32\r\n" +
                     "{\r\n" +
                     "\tJuly = \"July\"\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }
@@ -120,45 +120,45 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EnumElementWithQualifiersShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "enumeration MonthsEnum : integer\r\n" +
                     "{\r\n" +
                     "\t[Description(\"myDescription\")] January = 1\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/41")]
             public static void IntegerEnumElementShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "enumeration MonthsEnum : integer\r\n" +
                     "{\r\n" +
                     "\tJanuary = 1\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void StringEnumElementWithoutValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "enumeration GOLF_StatesEnum : string\r\n" +
                     "{\r\n" +
                     "\tAL\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void StringEnumElementWithValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "enumeration GOLF_StatesEnum : string\r\n" +
                     "{\r\n" +
                     "\tAL = \"Alabama\"\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }

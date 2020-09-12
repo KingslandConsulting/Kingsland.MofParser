@@ -14,12 +14,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void BooleanValueAstShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of myType as $Alias00000070\r\n" +
                     "{\r\n" +
                     "\tReference = TRUE;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }

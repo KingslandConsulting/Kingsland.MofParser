@@ -19,27 +19,27 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EnumTypeValueWithEnumValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
                     "\tYear = 2011;\r\n" +
                     "\tMonth = July;\r\n" +
                     "\tDay = 31;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void EnumTypeValueWithEnumValueArrayShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
                     "\tYear = 2011;\r\n" +
                     "\tMonth = {June};\r\n" +
                     "\tDay = 31;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }
@@ -50,27 +50,27 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void UnqalifiedEnumValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
                     "\tYear = 2011;\r\n" +
                     "\tMonth = July;\r\n" +
                     "\tDay = 31;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void QualifiedEnumValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
                     "\tYear = 2011;\r\n" +
                     "\tMonth = MonthEnums.July;\r\n" +
                     "\tDay = 31;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }
@@ -81,47 +81,49 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EmptyEnumValueArrayShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
                     "\tYear = 2011;\r\n" +
                     "\tMonth = {June};\r\n" +
                     "\tDay = 31;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void EnumValueArrayWithSingleEnumValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
                     "\tYear = 2011;\r\n" +
                     "\tMonth = {June};\r\n" +
                     "\tDay = 31;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             public static void EnumValueArrayWithMultipleEnumValuesShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
                     "\tMonth = {January, February};\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/25")]
             public static void EnumValueArrayWithQualifiedEnumValuesAndQuirksEnabledShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
                     "\tMonth = {MonthEnums.July};\r\n" +
-                    "};",
+                    "};";
+                RoundtripTests.AssertRoundtrip(
+                    sourceText,
                     ParserQuirks.EnumValueArrayContainsEnumValuesNotEnumNames
                 );
             }
@@ -129,12 +131,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/25")]
             public static void EnumValueArrayWithQualifiedEnumValuesAndQuirksDisabledShouldThrow()
             {
-                var sourceMof =
+                var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
                     "\tMonth = {MonthEnums.July};\r\n" +
                     "};";
-                var tokens = Lexer.Lex(SourceReader.From(sourceMof));
+                var tokens = Lexer.Lex(SourceReader.From(sourceText));
                 var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
                 var ex = Assert.Throws<UnexpectedTokenException>(
                     () =>

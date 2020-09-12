@@ -14,17 +14,17 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void CompilerDirectiveShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
-                    "#pragma include (\"GlobalStructs/GOLF_Address.mof\")"
-                );
+                var sourceText =
+                    "#pragma include (\"GlobalStructs/GOLF_Address.mof\")";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void CompilerDirectiveWithMultipleSingleStringsShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
-                    "#pragma include (\"GlobalStructs\" \"/\" \"GOLF_Address.mof\")"
-                );
+                var sourceText =
+                    "#pragma include (\"GlobalStructs\" \"/\" \"GOLF_Address.mof\")";
+                 RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }

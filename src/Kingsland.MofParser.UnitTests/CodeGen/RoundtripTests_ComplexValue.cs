@@ -8,11 +8,11 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
 
         #region 7.5.9 Complex type value
 
-        public static class ComplexTypeValueTests
+        public static class ComplexValueTests
         {
 
             [Test]
-            public static void ComplexTypeValueWithComplexValuePropertyShouldRoundtrip()
+            public static void ComplexValuePropertyShouldRoundtrip()
             {
                 var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
@@ -23,12 +23,15 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             }
 
             [Test]
-            public static void ComplexTypeValueWithComplexValueArrayPropertyShouldRoundtrip()
+            public static void ComplexValuePropertyWithValueOfShouldRoundtrip()
             {
                 var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
-                    "\tLastPaymentDate = {$MyAliasIdentifier};\r\n" +
+                    "\tLastPaymentDate = value of GOLF_Date\r\n" +
+                    "\t{\r\n" +
+                    "\t\tMonth = July;\r\n" +
+                    "\t};\r\n" +
                     "};";
                 RoundtripTests.AssertRoundtrip(sourceText);
             }

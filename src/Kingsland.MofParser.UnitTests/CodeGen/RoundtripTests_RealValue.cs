@@ -14,67 +14,67 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void RealValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = 0.5;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void PositiveRealValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = +0.5;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void NegativeRealValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = -0.5;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void RealValueWithNoFractionShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = 5.0;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void RealValueWithTrailingZerosShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = 0.50;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void RealValueWithNoIntegerPartShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = .5;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }

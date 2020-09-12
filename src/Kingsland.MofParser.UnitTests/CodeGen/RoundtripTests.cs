@@ -46,16 +46,16 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
         //    }
         //}
 
-        private static void AssertRoundtrip(string sourceMof, ParserQuirks parserQuirks = ParserQuirks.None)
+        private static void AssertRoundtrip(string sourceText, ParserQuirks parserQuirks = ParserQuirks.None)
         {
             // check the lexer tokens roundtrips ok
-            var tokens = Lexer.Lex(SourceReader.From(sourceMof));
+            var tokens = Lexer.Lex(SourceReader.From(sourceText));
             var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
-            Assert.AreEqual(sourceMof, tokensMof);
+            Assert.AreEqual(sourceText, tokensMof);
             // check the parser ast roundtrips ok
             var astNodes = Parser.Parse(tokens, parserQuirks);
             var astMof = AstMofGenerator.ConvertToMof(astNodes);
-            Assert.AreEqual(sourceMof, astMof);
+            Assert.AreEqual(sourceText, astMof);
         }
 
         #endregion

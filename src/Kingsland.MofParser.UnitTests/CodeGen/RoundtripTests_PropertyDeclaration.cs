@@ -14,40 +14,40 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void PropertyDeclarationShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "class GOLF_Base\r\n" +
                     "{\r\n" +
                     "\tInteger Severity;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void PropertyDeclarationWithArrayTypeShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "class GOLF_Base\r\n" +
                     "{\r\n" +
                     "\tInteger Severity[];\r\n" +
-                    "};"
-                );
+                    "};";
+                 RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void PropertyDeclarationWithDefaultValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "class GOLF_Base\r\n" +
                     "{\r\n" +
                     "\tInteger Severity = 0;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
             public static void PropertyDeclarationWithDeprecatedMof300IntegerReturnTypesAndQuirksDisabledShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "class GOLF_Base\r\n" +
                     "{\r\n" +
                     "\tuint8 SeverityUint8;\r\n" +
@@ -58,8 +58,8 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\tsint16 SeveritySint16;\r\n" +
                     "\tsint32 SeveritySint32;\r\n" +
                     "\tsint64 SeveritySint64;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }

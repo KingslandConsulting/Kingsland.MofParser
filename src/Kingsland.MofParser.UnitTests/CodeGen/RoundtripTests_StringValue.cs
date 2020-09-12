@@ -1,9 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Parsing;
-using Kingsland.ParseFx.Parsing;
-using Kingsland.ParseFx.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -19,34 +14,34 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void SingleStringValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = \"Instance of John Doe\";\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void MultistringValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = \"Instance\" \"of\" \"John\" \"Doe\";\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/20")]
             public static void StringValueWithSingleQuoteShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = \"Instance of John Doe\\\'s GOLF_ClubMember object\";\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }

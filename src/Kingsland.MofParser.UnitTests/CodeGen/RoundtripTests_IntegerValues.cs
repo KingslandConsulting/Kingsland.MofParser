@@ -14,40 +14,40 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void IntegerValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = 100;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void PositiveIntegerValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = +100;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void NegativeIntegerValueShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tCaption = -100;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void IntegerValuePropertiesInOtherBasesShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of myType as $Alias00000070\r\n" +
                     "{\r\n" +
                     "\tMyBinaryValue1 = 0101010b;\r\n" +
@@ -65,8 +65,8 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\tMyRealValue1 = 00123.45;\r\n" +
                     "\tMyRealValue2 = +00123.45;\r\n" +
                     "\tMyRealValue3 = -123.45;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }

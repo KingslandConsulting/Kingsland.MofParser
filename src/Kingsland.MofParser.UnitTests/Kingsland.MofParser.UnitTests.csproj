@@ -35,13 +35,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGen\RoundtripTests_ClassFeature.cs" />
+    <Compile Include="CodeGen\RoundtripTests_ComplexValueArray.cs" />
+    <Compile Include="CodeGen\RoundtripTests_ComplexValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_LiteralValueArray.cs" />
+    <Compile Include="CodeGen\RoundtripTests_QualifierValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_StructureFeature.cs" />
+    <Compile Include="CodeGen\RoundtripTests_StructureValueDeclarationTests.cs" />
+    <Compile Include="CodeGen\RoundtripTests_InstanceValueDeclaration.cs" />
     <Compile Include="CodeGen\RoundtripTests_EnumTypeValue.cs" />
-    <Compile Include="CodeGen\RoundtripTests_ComplexTypeValue2.cs" />
     <Compile Include="CodeGen\RoundtripTests_BooleanValue.cs" />
     <Compile Include="CodeGen\RoundtripTests_StringValue.cs" />
     <Compile Include="CodeGen\RoundtripTests_RealValue.cs" />
     <Compile Include="CodeGen\RoundtripTests_IntegerValues.cs" />
-    <Compile Include="CodeGen\RoundtripTests_PrimitiveTypeValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_LiteralValue.cs" />
     <Compile Include="CodeGen\RoundtripTests_ComplexTypeValue.cs" />
     <Compile Include="CodeGen\RoundtripTests_MethodDeclaration.cs" />
     <Compile Include="CodeGen\RoundtripTests_PropertyDeclaration.cs" />

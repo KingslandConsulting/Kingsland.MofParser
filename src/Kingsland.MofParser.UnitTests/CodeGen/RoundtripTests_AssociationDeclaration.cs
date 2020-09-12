@@ -1,9 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Parsing;
-using Kingsland.ParseFx.Parsing;
-using Kingsland.ParseFx.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -19,37 +14,37 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EmptyAssociationDeclarationShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "association GOLF_MemberLocker\r\n" +
                     "{\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void AssociationDeclarationWithSuperAssociationShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "association GOLF_MemberLocker : GOLF_Base\r\n" +
                     "{\r\n" +
                     "\tGOLF_ClubMember REF Member;\r\n" +
                     "\tGOLF_Locker REF Locker;\r\n" +
                     "\tGOLF_Date AssignedOnDate;\r\n" +
-                    "};"
-                );
+                    "};";
+                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
             [Test]
             public static void AssociationDeclarationWithClassFeaturesShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "association GOLF_MemberLocker\r\n" +
                     "{\r\n" +
                     "\tGOLF_ClubMember REF Member;\r\n" +
                     "\tGOLF_Locker REF Locker;\r\n" +
                     "\tGOLF_Date AssignedOnDate;\r\n" +
-                    "};"
-                );
+                    "};";
+               RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }
