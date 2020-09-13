@@ -59,13 +59,13 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             Assert.AreEqual(sourceText, astMof);
         }
 
-        private static void AssertRoundtripException(string sourceText, string expectedMessage)
+        private static void AssertRoundtripException(string sourceText, string expectedMessage, ParserQuirks parserQuirks = ParserQuirks.None)
         {
             var tokens = Lexer.Lex(SourceReader.From(sourceText));
             var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
             var ex = Assert.Throws<UnexpectedTokenException>(
                 () => {
-                    var astNodes = Parser.Parse(tokens);
+                    var astNodes = Parser.Parse(tokens, parserQuirks);
                 }
             );
             Assert.AreEqual(expectedMessage, ex.Message);

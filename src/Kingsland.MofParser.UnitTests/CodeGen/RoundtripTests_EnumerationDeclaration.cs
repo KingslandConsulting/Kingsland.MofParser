@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Kingsland.MofParser.Parsing;
+using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -77,7 +78,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "Unexpected token found at Position 44, Line Number 3, Column Number 9.\r\n" +
                     "Token Type: 'StringLiteralToken'\r\n" +
                     "Token Text: '\"July\"'";
-                RoundtripTests.AssertRoundtripException(sourceText, expectedMessage);
+                RoundtripTests.AssertRoundtripException(
+                    sourceText, expectedMessage,
+                    ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase
+                );
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/52")]
