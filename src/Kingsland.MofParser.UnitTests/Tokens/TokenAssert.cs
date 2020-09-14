@@ -9,7 +9,7 @@ namespace Kingsland.MofParser.UnitTests.Tokens
 
         #region Token Comparison Methods
 
-        public static bool AreEqual(AliasIdentifierToken expected, AliasIdentifierToken actual)
+        public static bool AreEqual(AliasIdentifierToken expected, AliasIdentifierToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -21,12 +21,12 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent) &&
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent)) &&
                        (expected.Name == actual.Name);
             }
         }
 
-        public static bool AreEqual(AttributeCloseToken expected, AttributeCloseToken actual)
+        public static bool AreEqual(AttributeCloseToken expected, AttributeCloseToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -38,10 +38,10 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
-        public static bool AreEqual(AttributeOpenToken expected, AttributeOpenToken actual)
+        public static bool AreEqual(AttributeOpenToken expected, AttributeOpenToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -53,27 +53,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
-            }
-        }
-
-        public static bool AreEqual(BlockCloseToken expected, BlockCloseToken actual)
-        {
-            if ((expected == null) && (actual == null))
-            {
-                return true;
-            }
-            else if ((expected == null) || (actual == null))
-            {
-                return false;
-            }
-            else
-            {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(BlockOpenToken expected, BlockOpenToken actual)
+        public static bool AreEqual(BlockCloseToken expected, BlockCloseToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -85,11 +69,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(BooleanLiteralToken expected, BooleanLiteralToken actual)
+        public static bool AreEqual(BlockOpenToken expected, BlockOpenToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -101,12 +85,28 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent) &&
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
+            }
+        }
+
+        public static bool AreEqual(BooleanLiteralToken expected, BooleanLiteralToken actual, bool ignoreExtent = false)
+        {
+            if ((expected == null) && (actual == null))
+            {
+                return true;
+            }
+            else if ((expected == null) || (actual == null))
+            {
+                return false;
+            }
+            else
+            {
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent)) &&
                        (expected.Value == actual.Value);
             }
         }
 
-        public static bool AreEqual(ColonToken expected, ColonToken actual)
+        public static bool AreEqual(ColonToken expected, ColonToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -118,11 +118,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(CommaToken expected, CommaToken actual)
+        public static bool AreEqual(CommaToken expected, CommaToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -134,11 +134,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(CommentToken expected, CommentToken actual)
+        public static bool AreEqual(CommentToken expected, CommentToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -150,11 +150,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(DotOperatorToken expected, DotOperatorToken actual)
+        public static bool AreEqual(DotOperatorToken expected, DotOperatorToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -166,11 +166,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(EqualsOperatorToken expected, EqualsOperatorToken actual)
+        public static bool AreEqual(EqualsOperatorToken expected, EqualsOperatorToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -182,11 +182,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(IdentifierToken expected, IdentifierToken actual)
+        public static bool AreEqual(IdentifierToken expected, IdentifierToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -198,12 +198,12 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent) &&
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent)) &&
                        (expected.Name == actual.Name);
             }
         }
 
-        public static bool AreEqual(IntegerLiteralToken expected, IntegerLiteralToken actual)
+        public static bool AreEqual(IntegerLiteralToken expected, IntegerLiteralToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -215,13 +215,13 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent) &&
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent)) &&
                        (expected.Kind == actual.Kind) &&
                        (expected.Value == actual.Value);
             }
         }
 
-        public static bool AreEqual(NullLiteralToken expected, NullLiteralToken actual)
+        public static bool AreEqual(NullLiteralToken expected, NullLiteralToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -233,11 +233,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(ParenthesisCloseToken expected, ParenthesisCloseToken actual)
+        public static bool AreEqual(ParenthesisCloseToken expected, ParenthesisCloseToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -249,11 +249,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(ParenthesisOpenToken expected, ParenthesisOpenToken actual)
+        public static bool AreEqual(ParenthesisOpenToken expected, ParenthesisOpenToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -265,11 +265,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(PragmaToken expected, PragmaToken actual)
+        public static bool AreEqual(PragmaToken expected, PragmaToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -281,11 +281,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(RealLiteralToken expected, RealLiteralToken actual)
+        public static bool AreEqual(RealLiteralToken expected, RealLiteralToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -297,12 +297,12 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent) &&
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent)) &&
                        (expected.Value == actual.Value);
             }
         }
 
-        public static bool AreEqual(StatementEndToken expected, StatementEndToken actual)
+        public static bool AreEqual(StatementEndToken expected, StatementEndToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -314,11 +314,11 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 
-        public static bool AreEqual(StringLiteralToken expected, StringLiteralToken actual)
+        public static bool AreEqual(StringLiteralToken expected, StringLiteralToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -330,12 +330,12 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent) &&
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent)) &&
                        (expected.Value == actual.Value);
             }
         }
 
-        public static bool AreEqual(WhitespaceToken expected, WhitespaceToken actual)
+        public static bool AreEqual(WhitespaceToken expected, WhitespaceToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -347,7 +347,7 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return TokenAssert.AreEqual(expected.Extent, actual.Extent);
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
 

@@ -1,9 +1,13 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.UnitTests.Lexing;
+using Kingsland.MofParser.UnitTests.Tokens;
 using Kingsland.ParseFx.Parsing;
+using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -50,11 +54,11 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
         private static void AssertRoundtrip(string sourceText, ParserQuirks parserQuirks = ParserQuirks.None)
         {
             // check the lexer tokens roundtrips ok
-            var tokens = Lexer.Lex(SourceReader.From(sourceText));
-            var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+            var actualTokens = Lexer.Lex(SourceReader.From(sourceText));
+            var tokensMof = TokenSerializer.ConvertToMofText(actualTokens);
             Assert.AreEqual(sourceText, tokensMof);
             // check the parser ast roundtrips ok
-            var astNodes = Parser.Parse(tokens, parserQuirks);
+            var astNodes = Parser.Parse(actualTokens, parserQuirks);
             var astMof = AstMofGenerator.ConvertToMof(astNodes);
             Assert.AreEqual(sourceText, astMof);
         }
@@ -62,7 +66,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
         private static void AssertRoundtripException(string sourceText, string expectedMessage, ParserQuirks parserQuirks = ParserQuirks.None)
         {
             var tokens = Lexer.Lex(SourceReader.From(sourceText));
-            var tokensMof = TokenMofGenerator.ConvertToMof(tokens);
+            var tokensMof = TokenSerializer.ConvertToMofText(tokens);
             var ex = Assert.Throws<UnexpectedTokenException>(
                 () => {
                     var astNodes = Parser.Parse(tokens, parserQuirks);
