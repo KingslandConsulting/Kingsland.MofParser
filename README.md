@@ -15,7 +15,7 @@ The library was initially created with the goal of producing documentation from 
 + Association declarations (```association xyz { ... }```)
 + Enumeration declarations (```enumeration xyz { ... }```)
 
-For the full list of implemented language elements, see [Supported Syntax](supported_syntax.md).
+For the full list of implemented language elements, see [Supported Syntax](wiki/supported_syntax.md).
 
 
 Quick Start
