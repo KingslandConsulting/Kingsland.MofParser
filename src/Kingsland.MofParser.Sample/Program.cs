@@ -1,9 +1,5 @@
-﻿using Kingsland.MofParser;
-using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Model;
-using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.Parsing;
 using System;
-using System.Linq;
 
 namespace Kingsland.FileFormat.Mof.Tests
 {
@@ -14,7 +10,7 @@ namespace Kingsland.FileFormat.Mof.Tests
         static void Main(string[] args)
         {
 
-            const string mof = @"
+            const string sourceText = @"
                 instance of MSFT_RoleResource as $MSFT_RoleResource1ref
                 {
                     ResourceID = ""[WindowsFeature]IIS"";
@@ -26,7 +22,7 @@ namespace Kingsland.FileFormat.Mof.Tests
                 };";
 
             // parse the mof file
-            var module = Parser.ParseText(mof);
+            var module = Parser.ParseText(sourceText);
 
             // display the instances
             foreach (var instance in module.Instances)
@@ -41,6 +37,18 @@ namespace Kingsland.FileFormat.Mof.Tests
                 }
                 Console.WriteLine($"----------------------------------");
             }
+
+            // ----------------------------------
+            // typename = MSFT_RoleResource
+            // alias    = MSFT_RoleResource1ref
+            // properties:
+            //     ResourceID    = [WindowsFeature]IIS
+            //     Ensure        = Present
+            //     SourceInfo    = D:\dsc\MyServerConfig.ps1::6::9::WindowsFeature
+            //     Name          = Web-Server
+            //     ModuleName    = PSDesiredStateConfiguration
+            //     ModuleVersion = 1.0
+            // ----------------------------------
 
         }
 

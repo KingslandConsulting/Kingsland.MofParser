@@ -31,126 +31,46 @@ Sample Code
 -----------
 
 ```c#
-const string filename = "..\\..\\dsc\\MyServer.mof";
+const string sourceText = @"
+instance of MSFT_RoleResource as $MSFT_RoleResource1ref
+{
+    ResourceID = ""[WindowsFeature]IIS"";
+    Ensure = ""Present"";
+    SourceInfo = ""D:\\dsc\\MyServerConfig.ps1::6::9::WindowsFeature"";
+    Name = ""Web-Server"";
+    ModuleName = ""PSDesiredStateConfiguration"";
+    ModuleVersion = ""1.0"";
+};";
 
 // parse the mof file
-var instances = PowerShellDscHelper.ParseMofFileInstances(filename);
+var module = Parser.ParseText(sourceText);
 
 // display the instances
-foreach (var instance in instances)
+foreach (var instance in module.Instances)
 {
-    Console.WriteLine("--------------------------");
-    if (string.IsNullOrEmpty(instance.Alias))
+    Console.WriteLine($"----------------------------------");
+    Console.WriteLine($"typename = {instance.TypeName}");
+    Console.WriteLine($"alias    = {instance.Alias}");
+    Console.WriteLine($"properties:");
+    foreach (var property in instance.Properties)
     {
-        Console.WriteLine(string.Format("instance of {0}", instance.ClassName));
+        Console.WriteLine("    {0} = {1}", property.Name.PadRight(13), property.Value);
     }
-    else
-    {
-        Console.WriteLine(string.Format("instance of {0} as ${1}", instance.ClassName, instance.Alias));
-    }
-    foreach(var property in instance.Properties)
-    {
-        Console.WriteLine("    {0} = {1}", property.Key.PadRight(14), property.Value.ToString());
-    }
-    Console.WriteLine("--------------------------");
+    Console.WriteLine($"----------------------------------");
 }
-```
 
-Sample MOF
-----------
-
-```
-/*
-@TargetNode='MyServer'
-@GeneratedBy=mike.clayton
-@GenerationDate=07/19/2014 10:37:04
-@GenerationHost=MyDesktop
-*/
-
-instance of MSFT_RoleResource as $MSFT_RoleResource1ref
-{
-ResourceID = "[WindowsFeature]IIS";
- Ensure = "Present";
- SourceInfo = "E:\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::6::9::WindowsFeature";
- Name = "Web-Server";
- ModuleName = "PSDesiredStateConfiguration";
- ModuleVersion = "1.0";
-
-};
-
-instance of MSFT_RoleResource as $MSFT_RoleResource2ref
-{
-ResourceID = "[WindowsFeature]ASP";
- Ensure = "Present";
- SourceInfo = "E:\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::12::9::WindowsFeature";
- Name = "Web-Asp-Net45";
- ModuleName = "PSDesiredStateConfiguration";
- ModuleVersion = "1.0";
-
-};
-
-instance of MSFT_PackageResource as $MSFT_PackageResource1ref
-{
-ResourceID = "[Package]7Zip";
- Path = "E:\\Installers\\Desktop Software\\7-Zip\\7z920-x64.msi";
- Ensure = "Present";
- ProductId = "23170F69-40C1-2702-0920-000001000000";
- SourceInfo = "E:\\MofParser\\src\\Kingsland.MofParser.Sample\\dsc\\MyServerConfig.ps1::18::9::Package";
- Name = "7-Zip 9.20 (x64 edition)";
- ModuleName = "PSDesiredStateConfiguration";
- ModuleVersion = "1.0";
-
-};
-
-instance of OMI_ConfigurationDocument
-{
- Version="1.0.0";
- Author="mike.clayton";
- GenerationDate="07/19/2014 10:37:04";
- GenerationHost="MyDesktop";
-};
-```
-
-Sample Output
--------------
-
-```text
---------------------------
-instance of MSFT_RoleResource as $MSFT_RoleResource1ref
-    ResourceID     = [WindowsFeature]IIS
-    Ensure         = Present
-    SourceInfo     = E:\MofParser\src\Kingsland.MofParser.Sample\dsc\MyServerConfig.ps1::6::9::WindowsFeature
-    Name           = Web-Server
-    ModuleName     = PSDesiredStateConfiguration
-    ModuleVersion  = 1.0
---------------------------
---------------------------
-instance of MSFT_RoleResource as $MSFT_RoleResource2ref
-    ResourceID     = [WindowsFeature]ASP
-    Ensure         = Present
-    SourceInfo     = E:\MofParser\src\Kingsland.MofParser.Sample\dsc\MyServerConfig.ps1::12::9::WindowsFeature
-    Name           = Web-Asp-Net45
-    ModuleName     = PSDesiredStateConfiguration
-    ModuleVersion  = 1.0
---------------------------
---------------------------
-instance of MSFT_PackageResource as $MSFT_PackageResource1ref
-    ResourceID     = [Package]7Zip
-    Path           = E:\Installers\Desktop Software\7-Zip\7z920-x64.msi
-    Ensure         = Present
-    ProductId      = 23170F69-40C1-2702-0920-000001000000
-    SourceInfo     = E:\MofParser\src\Kingsland.MofParser.Sample\dsc\MyServerConfig.ps1::18::9::Package
-    Name           = 7-Zip 9.20 (x64 edition)
-    ModuleName     = PSDesiredStateConfiguration
-    ModuleVersion  = 1.0
---------------------------
---------------------------
-instance of OMI_ConfigurationDocument
-    Version        = 1.0.0
-    Author         = mike.clayton
-    GenerationDate = 07/19/2014 10:37:04
-    GenerationHost = MyDesktop
---------------------------
+// output:
+// ----------------------------------
+// typename = MSFT_RoleResource
+// alias    = MSFT_RoleResource1ref
+// properties:
+//     ResourceID    = [WindowsFeature]IIS
+//     Ensure        = Present
+//     SourceInfo    = D:\dsc\MyServerConfig.ps1::6::9::WindowsFeature
+//     Name          = Web-Server
+//     ModuleName    = PSDesiredStateConfiguration
+//     ModuleVersion = 1.0
+// ----------------------------------
 ```
 
 

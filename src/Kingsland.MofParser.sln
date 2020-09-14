@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.NuGet",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.ParseFx", "Kingsland.ParseFx\Kingsland.ParseFx.csproj", "{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.EditMof", "Kingsland.MofParser.EditMof\Kingsland.MofParser.EditMof.csproj", "{ACF08AA4-D0DE-4B70-AC6D-1892852A4893}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,10 +55,6 @@ Global
 		{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACF08AA4-D0DE-4B70-AC6D-1892852A4893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACF08AA4-D0DE-4B70-AC6D-1892852A4893}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACF08AA4-D0DE-4B70-AC6D-1892852A4893}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACF08AA4-D0DE-4B70-AC6D-1892852A4893}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,7 +64,6 @@ Global
 		{4CCBEEF4-4303-4392-BE3D-A4BB8218D6E0} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
 		{A071F2FD-3C3D-43DE-9774-AACEE415EFA2} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
 		{ECD9DAF2-1FDA-4435-B489-886A2CCA749E} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
-		{ACF08AA4-D0DE-4B70-AC6D-1892852A4893} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02535FFA-CD2C-4FEC-997C-7A49EA77F34A}
