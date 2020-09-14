@@ -1,4 +1,5 @@
 ﻿using Kingsland.ParseFx.Text;
+using System;
 
 namespace Kingsland.ParseFx.Syntax
 {
@@ -8,6 +9,10 @@ namespace Kingsland.ParseFx.Syntax
 
         protected SyntaxToken(SourceExtent extent)
         {
+            if (extent == null)
+            {
+                throw new ArgumentNullException(nameof(extent));
+            }
             this.Extent = extent;
         }
 
@@ -17,9 +22,17 @@ namespace Kingsland.ParseFx.Syntax
             private set;
         }
 
+        public string Text
+        {
+            get
+            {
+                return this.Extent.Text;
+            }
+        }
+
         public override string ToString()
         {
-            return this.Extent.Text;
+            return this.Text;
         }
 
     }

@@ -35,18 +35,55 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGen\MofGeneratorTests.cs" />
+    <Compile Include="CodeGen\RoundtripTests_ClassFeature.cs" />
+    <Compile Include="CodeGen\RoundtripTests_ComplexValueArray.cs" />
+    <Compile Include="CodeGen\RoundtripTests_ComplexValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_LiteralValueArray.cs" />
+    <Compile Include="CodeGen\RoundtripTests_QualifierValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_StructureFeature.cs" />
+    <Compile Include="CodeGen\RoundtripTests_StructureValueDeclarationTests.cs" />
+    <Compile Include="CodeGen\RoundtripTests_InstanceValueDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_EnumTypeValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_BooleanValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_StringValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_RealValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_IntegerValues.cs" />
+    <Compile Include="CodeGen\RoundtripTests_LiteralValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_ComplexTypeValue.cs" />
+    <Compile Include="CodeGen\RoundtripTests_MethodDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_PropertyDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_EnumerationDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_AssociationDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_ClassDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_StructureDeclaration.cs" />
+    <Compile Include="CodeGen\RoundtripTests_QualifierList.cs" />
+    <Compile Include="CodeGen\RoundtripTests_Qualifier.cs" />
+    <Compile Include="CodeGen\RoundtripTests_CompilerDirective.cs" />
+    <Compile Include="CodeGen\RoundtripTests.cs" />
+    <Compile Include="Lexing\LexerTests_StringLiteralToken.cs" />
+    <Compile Include="Lexing\LexerTests_RealLiteralToken.cs" />
+    <Compile Include="Lexing\LexerTests_IntegerLiteralToken.cs" />
+    <Compile Include="Lexing\LexerTests_AliasIdentifierToken.cs" />
+    <Compile Include="Lexing\LexerTests_IdentifierToken.cs" />
+    <Compile Include="Lexing\LexerTests_NullLiteralToken.cs" />
+    <Compile Include="Lexing\LexerTests_BooleanLiteralToken.cs" />
+    <Compile Include="Lexing\LexerTests_CommentToken.cs" />
+    <Compile Include="Lexing\LexerTests_WhitespaceToken.cs" />
+    <Compile Include="Lexing\LexerTests_SymbolToken.cs" />
+    <Compile Include="Lexing\LexerTests_PragmaToken.cs" />
+    <Compile Include="Model\ModelAssert.cs" />
     <Compile Include="Helpers\TestUtils.cs" />
-    <Compile Include="Helpers\TokenComparer.cs" />
-    <Compile Include="Lexer\LexerHelper.cs" />
-    <Compile Include="Lexer\LexerTests.cs" />
+    <Compile Include="Parsing\ParserTests_ComplexTypeValue.cs" />
+    <Compile Include="Tokens\TokenAssert.cs" />
+    <Compile Include="Lexing\LexerAssert.cs" />
+    <Compile Include="Lexing\LexerTests.cs" />
     <Compile Include="Parsing\ParserTests.cs" />
     <Compile Include="Parsing\StringValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Lexer\TestCases\MyServer.json" />
-    <None Include="Lexer\TestCases\MyServer.mof" />
+    <None Include="Lexing\TestCases\MyServer.json" />
+    <None Include="Lexing\TestCases\MyServer.mof" />
     <Content Include="Parsing\DSP0221_3.0.1\D.01 GOLF_Schema.mof">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
