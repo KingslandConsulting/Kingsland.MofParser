@@ -7,17 +7,28 @@ namespace Kingsland.MofParser.Tokens
     public sealed class IdentifierToken : SyntaxToken
     {
 
+        #region Constructors
+
         public IdentifierToken(SourceExtent extent, string name)
             : base(extent)
         {
             this.Name = name;
         }
 
+        #endregion
+
+        #region Properties
+
+
         public string Name
         {
             get;
             private set;
         }
+
+        #endregion
+
+        #region Methods
 
         public string GetNormalizedName()
         {
@@ -28,6 +39,8 @@ namespace Kingsland.MofParser.Tokens
             }
             return name.ToLowerInvariant();
         }
+
+        #endregion
 
     }
 

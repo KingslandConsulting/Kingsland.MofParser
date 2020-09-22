@@ -7,12 +7,18 @@ namespace Kingsland.MofParser.Tokens
     public sealed class IntegerLiteralToken : SyntaxToken
     {
 
+        #region Constructors
+
         public IntegerLiteralToken(SourceExtent extent, IntegerKind kind, long value)
             : base(extent)
         {
             this.Kind = kind;
             this.Value = value;
         }
+
+        #endregion
+
+        #region Properties
 
         public IntegerKind Kind
         {
@@ -25,6 +31,8 @@ namespace Kingsland.MofParser.Tokens
             get;
             private set;
         }
+
+        #endregion
 
     }
 
