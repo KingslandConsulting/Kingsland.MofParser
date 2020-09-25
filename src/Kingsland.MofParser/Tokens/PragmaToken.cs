@@ -1,4 +1,5 @@
-﻿using Kingsland.ParseFx.Syntax;
+﻿using Kingsland.MofParser.Parsing;
+using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 
 namespace Kingsland.MofParser.Tokens
@@ -11,6 +12,15 @@ namespace Kingsland.MofParser.Tokens
             : base(extent)
         {
         }
+
+        #region SyntaxToken Interface
+
+        public override string GetSourceString()
+        {
+            return this?.Extent.Text ?? Constants.PRAGMA;
+        }
+
+        #endregion
 
     }
 

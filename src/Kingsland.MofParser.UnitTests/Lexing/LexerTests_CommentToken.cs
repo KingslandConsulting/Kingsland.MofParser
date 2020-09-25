@@ -51,7 +51,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(22, 1, 23),
                             new SourcePosition(23, 1, 24),
                             "\r\n"
-                        )
+                        ),
+                        "\r\n"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -208,7 +209,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(7, 1, 8),
                             new SourcePosition(7, 1, 8),
                             " "
-                        )
+                        ),
+                        " "
                     ),
                     new IdentifierToken(
                         new SourceExtent
@@ -233,7 +235,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(19, 1, 20),
                             new SourcePosition(19, 1, 20),
                             " "
-                        )
+                        ),
+                        " "
                     ),
                     new CommentToken(
                         new SourceExtent
@@ -270,7 +273,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(86, 1, 87),
                             new SourcePosition(87, 1, 88),
                             "\r\n"
-                        )
+                        ),
+                        "\r\n"
                     ),
                     new IdentifierToken(
                         new SourceExtent
@@ -287,7 +291,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(95, 2, 8),
                             new SourcePosition(95, 2, 8),
                             " "
-                        )
+                        ),
+                        " "
                     ),
                     new CommentToken(
                         new SourceExtent
@@ -303,7 +308,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(125, 2, 38),
                             new SourcePosition(125, 2, 38),
                             " "
-                        )
+                        ),
+                        " "
                     ),
                     new IdentifierToken(
                         new SourceExtent
@@ -328,7 +334,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(137, 2, 50),
                             new SourcePosition(137, 2, 50),
                             " "
-                        )
+                        ),
+                        " "
                     ),
                     new CommentToken(
                         new SourceExtent

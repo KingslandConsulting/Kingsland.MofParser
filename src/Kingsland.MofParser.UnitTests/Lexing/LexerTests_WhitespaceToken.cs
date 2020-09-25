@@ -26,7 +26,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(0, 1, 1),
                             new SourcePosition(4, 1, 5),
                             "     "
-                        )
+                        ),
+                        "     "
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -43,7 +44,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(0, 1, 1),
                             new SourcePosition(4, 1, 5),
                             "\t\t\t\t\t"
-                        )
+                        ),
+                        "\t\t\t\t\t"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -60,7 +62,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(0, 1, 1),
                             new SourcePosition(4, 5, 1),
                             "\r\r\r\r\r"
-                        )
+                        ),
+                        "\r\r\r\r\r"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -77,7 +80,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(0, 1, 1),
                             new SourcePosition(4, 5, 1),
                             "\n\n\n\n\n"
-                        )
+                        ),
+                        "\n\n\n\n\n"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -94,7 +98,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(0, 1, 1),
                             new SourcePosition(9, 5, 2),
                             "\r\n\r\n\r\n\r\n\r\n"
-                        )
+                        ),
+                        "\r\n\r\n\r\n\r\n\r\n"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -112,7 +117,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(0, 1, 1),
                             new SourcePosition(29, 14, 2),
                             "     \t\t\t\t\t\r\r\r\r\r\n\n\n\n\n\r\n\r\n\r\n\r\n\r\n"
-                        )
+                        ),
+                        "     \t\t\t\t\t\r\r\r\r\r\n\n\n\n\n\r\n\r\n\r\n\r\n\r\n"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);

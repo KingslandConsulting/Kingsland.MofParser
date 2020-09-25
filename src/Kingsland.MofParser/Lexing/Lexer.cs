@@ -210,7 +210,7 @@ namespace Kingsland.MofParser.Lexing
             }
             // return the result
             var extent = SourceExtent.From(sourceChars);
-            return new ScannerResult(new WhitespaceToken(extent), thisReader);
+            return new ScannerResult(new WhitespaceToken(extent, extent.Text), thisReader);
         }
 
         #endregion

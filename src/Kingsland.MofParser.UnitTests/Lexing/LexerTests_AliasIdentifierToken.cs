@@ -37,7 +37,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(18, 1, 19),
                             new SourcePosition(19, 1, 20),
                             "\r\n"
-                        )
+                        ),
+                        "\r\n"
                     ),
                     new AliasIdentifierToken(
                         new SourceExtent
@@ -77,7 +78,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(8, 1, 9),
                             new SourcePosition(8, 1, 9),
                             " "
-                        )
+                        ),
+                        " "
                     ),
                     new IdentifierToken(
                         new SourceExtent
@@ -94,7 +96,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(11, 1, 12),
                             new SourcePosition(11, 1, 12),
                             " "
-                        )
+                        ),
+                        " "
                     ),
                     new IdentifierToken(
                         new SourceExtent
@@ -111,7 +114,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(26, 1, 27),
                             new SourcePosition(26, 1, 27),
                             " "
-                        )
+                        ),
+                        " "
                     ),
                     new IdentifierToken(
                         new SourceExtent
@@ -128,7 +132,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(29, 1, 30),
                             new SourcePosition(29, 1, 30),
                             " "
-                        )
+                        ),
+                        " "
                     ),
                     new AliasIdentifierToken(
                         new SourceExtent
@@ -145,7 +150,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(49, 1, 50),
                             new SourcePosition(50, 1, 51),
                             "\r\n"
-                        )
+                        ),
+                        "\r\n"
                     ),
                     new BlockOpenToken(
                         new SourceExtent
@@ -161,7 +167,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(52, 2, 2),
                             new SourcePosition(53, 2, 3),
                             "\r\n"
-                        )
+                        ),
+                        "\r\n"
                     ),
                     new BlockCloseToken(
                         new SourceExtent

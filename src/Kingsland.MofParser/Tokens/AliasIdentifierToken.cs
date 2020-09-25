@@ -19,6 +19,15 @@ namespace Kingsland.MofParser.Tokens
             private set;
         }
 
+        #region SyntaxToken Interface
+
+        public override string GetSourceString()
+        {
+            return this?.Extent.Text ?? $"${this.Name}";
+        }
+
+        #endregion
+
     }
 
 }

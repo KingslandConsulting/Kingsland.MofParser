@@ -37,7 +37,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(12, 1, 13),
                             new SourcePosition(13, 1, 14),
                             "\r\n"
-                        )
+                        ),
+                        "\r\n"
                     ),
                     new IdentifierToken(
                         new SourceExtent

@@ -19,6 +19,17 @@ namespace Kingsland.MofParser.Tokens
             private set;
         }
 
+        #region SyntaxToken Interface
+
+        public override string GetSourceString()
+        {
+            return this?.Extent.Text ?? this.Name;
+        }
+
+        #endregion
+
+        #region Helpers
+
         public string GetNormalizedName()
         {
             var name = this.Name;
@@ -28,6 +39,8 @@ namespace Kingsland.MofParser.Tokens
             }
             return name.ToLowerInvariant();
         }
+
+        #endregion
 
     }
 
