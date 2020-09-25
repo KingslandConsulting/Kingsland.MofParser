@@ -8,11 +8,27 @@ namespace Kingsland.MofParser.Tokens
     public sealed class BooleanLiteralToken : SyntaxToken
     {
 
+        #region Constructors
+
+        public BooleanLiteralToken(bool value)
+            : this(SourceExtent.Empty, value)
+        {
+        }
+
+        public BooleanLiteralToken(SourcePosition start, SourcePosition end, string text, bool value)
+            : this(new SourceExtent(start, end, text), value)
+        {
+        }
+
         public BooleanLiteralToken(SourceExtent extent, bool value)
             : base(extent)
         {
             this.Value = value;
         }
+
+        #endregion
+
+        #region Properties
 
         public bool Value
         {
@@ -20,6 +36,7 @@ namespace Kingsland.MofParser.Tokens
             private set;
         }
 
+        #endregion
 
         #region SyntaxToken Interface
 

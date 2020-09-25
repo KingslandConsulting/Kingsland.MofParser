@@ -26,7 +26,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(0, 1, 1),
                             new SourcePosition(21, 1, 22),
                             "// single line comment"
-                        )
+                        ),
+                        "// single line comment"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -43,7 +44,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(0, 1, 1),
                             new SourcePosition(21, 1, 22),
                             "// single line comment"
-                        )
+                        ),
+                        "// single line comment"
                     ),
                     new WhitespaceToken(
                         new SourceExtent
@@ -80,7 +82,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             "@GenerationDate=07/19/2014 10:37:04\r\n" +
                             "@GenerationHost=MyDesktop\r\n" +
                             "*/"
-                        )
+                        ),
+                        "/*\r\n" +
+                        "@TargetNode='MyServer'\r\n" +
+                        "@GeneratedBy=mike.clayton\r\n" +
+                        "@GenerationDate=07/19/2014 10:37:04\r\n" +
+                        "@GenerationHost=MyDesktop\r\n" +
+                        "*/"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -106,7 +114,12 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             "@GeneratedBy=mike.clayton\r\n" +
                             "@GenerationDate=07/19/2014 10:37:04\r\n" +
                             "@GenerationHost=MyDesktop\r\n"
-                        )
+                        ),
+                        "/*\r\n" +
+                        "@TargetNode='MyServer'\r\n" +
+                        "@GeneratedBy=mike.clayton\r\n" +
+                        "@GenerationDate=07/19/2014 10:37:04\r\n" +
+                        "@GenerationHost=MyDesktop\r\n"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -134,7 +147,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             "@GenerationDate=07/19/2014 10:37:04\r\n" +
                             "@GenerationHost=MyDesktop\r\n" +
                             "*************/"
-                        )
+                        ),
+                        "/*************\r\n" +
+                        "@TargetNode='MyServer'\r\n" +
+                        "@GeneratedBy=mike.clayton\r\n" +
+                        "@GenerationDate=07/19/2014 10:37:04\r\n" +
+                        "@GenerationHost=MyDesktop\r\n" +
+                        "*************/"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -167,7 +186,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             "@GenerationDate=07/19/2014 10:37:04\r\n" +
                             "@GenerationHost=MyDesktop\r\n" +
                             "*/"
-                        )
+                        ),
+                        "/*\r\n" +
+                        "@TargetNode='MyServer'\r\n" +
+                        "@GeneratedBy=mike.clayton\r\n" +
+                        "@GenerationDate=07/19/2014 10:37:04\r\n" +
+                        "@GenerationHost=MyDesktop\r\n" +
+                        "*/"
                     ),
                     new CommentToken(
                         new SourceExtent
@@ -180,7 +205,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             "@GenerationDate=07/19/2014 10:37:04\r\n" +
                             "@GenerationHost=MyDesktop\r\n" +
                             "*/"
-                        )
+                        ),
+                        "/*\r\n" +
+                        "@TargetNode='MyServer2'\r\n" +
+                        "@GeneratedBy=mike.clayton\r\n" +
+                        "@GenerationDate=07/19/2014 10:37:04\r\n" +
+                        "@GenerationHost=MyDesktop\r\n" +
+                        "*/"
                     )
 
                 };
@@ -244,7 +275,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(20, 1, 21),
                             new SourcePosition(65, 1, 66),
                             "// This is an example of a single-line comment"
-                        )
+                        ),
+                        "// This is an example of a single-line comment"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
@@ -265,7 +297,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(0, 1, 1),
                             new SourcePosition(85, 1, 86),
                             "/* example of a comment between property definition tokens and a multi-line comment */"
-                        )
+                        ),
+                        "/* example of a comment between property definition tokens and a multi-line comment */"
                     ),
                     new WhitespaceToken(
                         new SourceExtent
@@ -300,7 +333,8 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(96, 2, 9),
                             new SourcePosition(124, 2, 37),
                             "/* 16-bit integer property */"
-                        )
+                        ),
+                        "/* 16-bit integer property */"
                     ),
                     new WhitespaceToken(
                         new SourceExtent
@@ -344,7 +378,9 @@ namespace Kingsland.MofParser.UnitTests.Lexing
                             new SourcePosition(192, 3, 34),
                             "/* and a multi-line\r\n" +
                             "                        comment */"
-                        )
+                        ),
+                        "/* and a multi-line\r\n" +
+                        "                        comment */"
                     )
                 };
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);

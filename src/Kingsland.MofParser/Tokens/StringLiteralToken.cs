@@ -10,11 +10,25 @@ namespace Kingsland.MofParser.Tokens
     public sealed class StringLiteralToken : SyntaxToken
     {
 
+        #region Constructors
+
+        public StringLiteralToken(string value)
+            : this(SourceExtent.Empty, value)
+        {
+        }
+
+        public StringLiteralToken(SourcePosition start, SourcePosition end, string text, string value)
+            : this(new SourceExtent(start, end, text), value)
+        {
+        }
+
         public StringLiteralToken(SourceExtent extent, string value)
             : base(extent)
         {
             this.Value = value;
         }
+
+        #endregion
 
         #region Properties
 

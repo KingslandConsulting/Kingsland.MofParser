@@ -8,10 +8,24 @@ namespace Kingsland.MofParser.Tokens
     public sealed class NullLiteralToken : SyntaxToken
     {
 
+        #region Constructors
+
+        public NullLiteralToken()
+            : this(SourceExtent.Empty)
+        {
+        }
+
+        public NullLiteralToken(SourcePosition start, SourcePosition end, string text)
+            : this (new SourceExtent(start, end, text))
+        {
+        }
+
         public NullLiteralToken(SourceExtent extent)
             : base(extent)
         {
         }
+
+        #endregion
 
         #region SyntaxToken Interface
 

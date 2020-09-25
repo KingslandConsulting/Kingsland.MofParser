@@ -7,17 +7,35 @@ namespace Kingsland.MofParser.Tokens
     public sealed class IdentifierToken : SyntaxToken
     {
 
+        #region Constructors
+
+        public IdentifierToken(string name)
+            : this(SourceExtent.Empty, name)
+        {
+        }
+
+        public IdentifierToken(SourcePosition start, SourcePosition end, string text)
+            : this(new SourceExtent(start, end, text), text)
+        {
+        }
+
         public IdentifierToken(SourceExtent extent, string name)
             : base(extent)
         {
             this.Name = name;
         }
 
+        #endregion
+
+        #region Properties
+
         public string Name
         {
             get;
             private set;
         }
+
+        #endregion
 
         #region SyntaxToken Interface
 

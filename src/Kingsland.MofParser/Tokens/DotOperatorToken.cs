@@ -7,11 +7,24 @@ namespace Kingsland.MofParser.Tokens
     public sealed class DotOperatorToken : SyntaxToken
     {
 
+        #region Constructors
+
+        public DotOperatorToken()
+            : this(SourceExtent.Empty)
+        {
+        }
+
+        public DotOperatorToken(SourcePosition start, SourcePosition end, string text)
+            : this(new SourceExtent(start, end, text))
+        {
+        }
+
         public DotOperatorToken(SourceExtent extent)
             : base(extent)
         {
         }
 
+        #endregion
 
         #region SyntaxToken Interface
 
