@@ -141,7 +141,7 @@ namespace Kingsland.MofParser.CodeGen
             var source = new StringBuilder();
             source.Append(node.PragmaKeyword.Extent.Text);
             source.Append(" ");
-            source.Append(node.PragmaName);
+            source.Append(node.PragmaName.Name);
             source.Append(" ");
             source.Append("(");
             source.Append(AstMofGenerator.ConvertStringValueAst(node.PragmaParameter));
