@@ -1,89 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{85FB825B-B1C0-47F8-9FF7-09951CD29CF7}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kingsland.MofParser.UnitTests</RootNamespace>
-    <AssemblyName>Kingsland.MofParser.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Company>Kingsland Consulting</Company>
+    <Authors>Michael Clayton</Authors>
+    <Copyright>Copyright © 2019</Copyright>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageProjectUrl>https://github.com/KingslandConsulting/Kingsland.MofParser</PackageProjectUrl>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <Description>A C# library to simplify some of the boring bits of writing a lexer and parser for custom text file formats.</Description>
+    <!--<PreserveCompilationContext>false</PreserveCompilationContext>-->
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CodeGen\RoundtripTests_ClassFeature.cs" />
-    <Compile Include="CodeGen\RoundtripTests_ComplexValueArray.cs" />
-    <Compile Include="CodeGen\RoundtripTests_ComplexValue.cs" />
-    <Compile Include="CodeGen\RoundtripTests_LiteralValueArray.cs" />
-    <Compile Include="CodeGen\RoundtripTests_QualifierValue.cs" />
-    <Compile Include="CodeGen\RoundtripTests_StructureFeature.cs" />
-    <Compile Include="CodeGen\RoundtripTests_StructureValueDeclarationTests.cs" />
-    <Compile Include="CodeGen\RoundtripTests_InstanceValueDeclaration.cs" />
-    <Compile Include="CodeGen\RoundtripTests_EnumTypeValue.cs" />
-    <Compile Include="CodeGen\RoundtripTests_BooleanValue.cs" />
-    <Compile Include="CodeGen\RoundtripTests_StringValue.cs" />
-    <Compile Include="CodeGen\RoundtripTests_RealValue.cs" />
-    <Compile Include="CodeGen\RoundtripTests_IntegerValues.cs" />
-    <Compile Include="CodeGen\RoundtripTests_LiteralValue.cs" />
-    <Compile Include="CodeGen\RoundtripTests_ComplexTypeValue.cs" />
-    <Compile Include="CodeGen\RoundtripTests_MethodDeclaration.cs" />
-    <Compile Include="CodeGen\RoundtripTests_PropertyDeclaration.cs" />
-    <Compile Include="CodeGen\RoundtripTests_EnumerationDeclaration.cs" />
-    <Compile Include="CodeGen\RoundtripTests_AssociationDeclaration.cs" />
-    <Compile Include="CodeGen\RoundtripTests_ClassDeclaration.cs" />
-    <Compile Include="CodeGen\RoundtripTests_StructureDeclaration.cs" />
-    <Compile Include="CodeGen\RoundtripTests_QualifierList.cs" />
-    <Compile Include="CodeGen\RoundtripTests_Qualifier.cs" />
-    <Compile Include="CodeGen\RoundtripTests_CompilerDirective.cs" />
-    <Compile Include="CodeGen\RoundtripTests.cs" />
-    <Compile Include="Lexing\LexerTests_StringLiteralToken.cs" />
-    <Compile Include="Lexing\LexerTests_RealLiteralToken.cs" />
-    <Compile Include="Lexing\LexerTests_IntegerLiteralToken.cs" />
-    <Compile Include="Lexing\LexerTests_AliasIdentifierToken.cs" />
-    <Compile Include="Lexing\LexerTests_IdentifierToken.cs" />
-    <Compile Include="Lexing\LexerTests_NullLiteralToken.cs" />
-    <Compile Include="Lexing\LexerTests_BooleanLiteralToken.cs" />
-    <Compile Include="Lexing\LexerTests_CommentToken.cs" />
-    <Compile Include="Lexing\LexerTests_WhitespaceToken.cs" />
-    <Compile Include="Lexing\LexerTests_SymbolToken.cs" />
-    <Compile Include="Lexing\LexerTests_PragmaToken.cs" />
-    <Compile Include="Model\ModelAssert.cs" />
-    <Compile Include="Helpers\TestUtils.cs" />
-    <Compile Include="Parsing\ParserTests_ComplexTypeValue.cs" />
-    <Compile Include="Tokens\TokenAssert.cs" />
-    <Compile Include="Lexing\LexerAssert.cs" />
-    <Compile Include="Lexing\LexerTests.cs" />
-    <Compile Include="Parsing\ParserTests.cs" />
-    <Compile Include="Parsing\StringValidatorTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Lexing\TestCases\MyServer.json" />
-    <None Include="Lexing\TestCases\MyServer.mof" />
     <Content Include="Parsing\DSP0221_3.0.1\D.01 GOLF_Schema.mof">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -154,26 +83,17 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Kingsland.MofParser\Kingsland.MofParser.csproj">
-      <Project>{4f48a4be-28e8-4157-a19e-c0b3c8b83ef6}</Project>
-      <Name>Kingsland.MofParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kingsland.ParseFx\Kingsland.ParseFx.csproj">
-      <Project>{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}</Project>
-      <Name>Kingsland.ParseFx</Name>
-    </ProjectReference>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="NUnit">
-      <Version>3.11.0</Version>
-    </PackageReference>
-    <PackageReference Include="NUnit3TestAdapter">
-      <Version>3.13.0</Version>
-    </PackageReference>
+    <ProjectReference Include="..\Kingsland.MofParser\Kingsland.MofParser.csproj" />
+    <ProjectReference Include="..\Kingsland.ParseFx\Kingsland.ParseFx.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
