@@ -1,8 +1,6 @@
 ﻿using Kingsland.MofParser.Tokens;
-using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace Kingsland.MofParser.UnitTests.Lexing
 {
@@ -19,16 +17,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             public static void ShouldReadLowerCaseNullToken()
             {
                 var sourceText = "null";
-                var expectedTokens = new List<SyntaxToken> {
-                    new NullLiteralToken(
-                        new SourceExtent
-                        (
-                            new SourcePosition(0, 1, 1),
-                            new SourcePosition(3, 1, 4),
-                            "null"
-                        )
+                var expectedTokens = new TokenBuilder()
+                    .NullLiteralToken(
+                        new SourcePosition(0, 1, 1),
+                        new SourcePosition(3, 1, 4),
+                        "null"
                     )
-                };
+                    .ToList();
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
@@ -36,16 +31,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             public static void ShouldReadMixedCaseNullToken()
             {
                 var sourceText = "Null";
-                var expectedTokens = new List<SyntaxToken> {
-                    new NullLiteralToken(
-                        new SourceExtent
-                        (
-                            new SourcePosition(0, 1, 1),
-                            new SourcePosition(3, 1, 4),
-                            "Null"
-                        )
+                var expectedTokens = new TokenBuilder()
+                    .NullLiteralToken(
+                        new SourcePosition(0, 1, 1),
+                        new SourcePosition(3, 1, 4),
+                        "Null"
                     )
-                };
+                    .ToList();
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
@@ -53,16 +45,13 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             public static void ShouldReadUpperCaseNullToken()
             {
                 var sourceText = "NULL";
-                var expectedTokens = new List<SyntaxToken> {
-                    new NullLiteralToken(
-                        new SourceExtent
-                        (
-                            new SourcePosition(0, 1, 1),
-                            new SourcePosition(3, 1, 4),
-                            "NULL"
-                        )
+                var expectedTokens = new TokenBuilder()
+                    .NullLiteralToken(
+                        new SourcePosition(0, 1, 1),
+                        new SourcePosition(3, 1, 4),
+                        "NULL"
                     )
-                };
+                    .ToList();
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 

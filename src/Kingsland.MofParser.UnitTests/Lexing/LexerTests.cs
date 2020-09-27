@@ -21,11 +21,10 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void ShouldReadEmptyFile()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From(string.Empty)
-                );
-                var expectedTokens = new List<SyntaxToken>();
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                var sourceText = string.Empty;
+                var expectedTokens = new TokenBuilder()
+                    .ToList();
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
@@ -37,30 +36,20 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             [Test]
             public static void MissingWhitespaceTest()
             {
-                var actualTokens = Lexer.Lex(
-                    SourceReader.From("12345myIdentifier")
-                );
-                var expectedTokens = new List<SyntaxToken> {
-                    new IntegerLiteralToken(
-                        new SourceExtent
-                        (
-                            new SourcePosition(0, 1, 1),
-                            new SourcePosition(4, 1, 5),
-                            "12345"
-                        ),
-                        IntegerKind.DecimalValue, 12345
-                    ),
-                    new IdentifierToken(
-                        new SourceExtent
-                        (
-                            new SourcePosition(5, 1, 6),
-                            new SourcePosition(16, 1, 17),
-                            "myIdentifier"
-                        ),
+                var sourceText = "12345myIdentifier";
+                var expectedTokens = new TokenBuilder()
+                    .IntegerLiteralToken(
+                        new SourcePosition(0, 1, 1),
+                        new SourcePosition(4, 1, 5),
+                        "12345", IntegerKind.DecimalValue, 12345
+                    )
+                    .IdentifierToken(
+                        new SourcePosition(5, 1, 6),
+                        new SourcePosition(16, 1, 17),
                         "myIdentifier"
                     )
-                };
-                LexerAssert.AreEqual(expectedTokens, actualTokens);
+                    .ToList();
+                LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
         }
