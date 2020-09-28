@@ -24,7 +24,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "};";
                 RoundtripTests.AssertRoundtrip(
                     sourceText,
-                    null
+                    null,
                     ParserQuirks.AllowMofV2Qualifiers
                 );
             }

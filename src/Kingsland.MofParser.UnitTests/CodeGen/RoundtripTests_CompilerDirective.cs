@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Kingsland.MofParser.Tokens;
+using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -16,7 +17,17 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             {
                 var sourceText =
                     "#pragma include (\"GlobalStructs/GOLF_Address.mof\")";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // #pragma include ("GlobalStructs/GOLF_Address.mof")
+                    .PragmaToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("include")
+                    .WhitespaceToken(" ")
+                    .ParenthesisOpenToken()
+                    .StringLiteralToken("GlobalStructs/GOLF_Address.mof")
+                    .ParenthesisCloseToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -25,6 +36,21 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var sourceText =
                     "#pragma include (\"GlobalStructs\" \"/\" \"GOLF_Address.mof\")";
                  RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // #pragma include ("GlobalStructs" "/" "GOLF_Address.mof")
+                    .PragmaToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("include")
+                    .WhitespaceToken(" ")
+                    .ParenthesisOpenToken()
+                    .StringLiteralToken("GlobalStructs")
+                    .WhitespaceToken(" ")
+                    .StringLiteralToken("/")
+                    .WhitespaceToken(" ")
+                    .StringLiteralToken("GOLF_Address.mof")
+                    .ParenthesisCloseToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
         }

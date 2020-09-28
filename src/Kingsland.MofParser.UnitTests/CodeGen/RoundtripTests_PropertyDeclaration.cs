@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Kingsland.MofParser.Tokens;
+using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -19,7 +20,26 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tInteger Severity;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                   // class GOLF_Base
+                   .IdentifierToken("class")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("GOLF_Base")
+                   .WhitespaceToken("\r\n")
+                   // {
+                   .BlockOpenToken()
+                   .WhitespaceToken("\r\n\t")
+                   // Integer Severity;
+                   .IdentifierToken("Integer")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("Severity")
+                   .StatementEndToken()
+                   .WhitespaceToken("\r\n")
+                   // };
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -30,7 +50,28 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tInteger Severity[];\r\n" +
                     "};";
-                 RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                   // class GOLF_Base
+                   .IdentifierToken("class")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("GOLF_Base")
+                   .WhitespaceToken("\r\n")
+                   // {
+                   .BlockOpenToken()
+                   .WhitespaceToken("\r\n\t")
+                   // Integer Severity[];
+                   .IdentifierToken("Integer")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("Severity")
+                   .AttributeOpenToken()
+                   .AttributeCloseToken()
+                   .StatementEndToken()
+                   .WhitespaceToken("\r\n")
+                   // };
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -41,7 +82,30 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tInteger Severity = 0;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                   // class GOLF_Base
+                   .IdentifierToken("class")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("GOLF_Base")
+                   .WhitespaceToken("\r\n")
+                   // {
+                   .BlockOpenToken()
+                   .WhitespaceToken("\r\n\t")
+                   // Integer Severity = 0;
+                   .IdentifierToken("Integer")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("Severity")
+                   .WhitespaceToken(" ")
+                   .EqualsOperatorToken()
+                   .WhitespaceToken(" ")
+                   .IntegerLiteralToken(IntegerKind.DecimalValue, 0)
+                   .StatementEndToken()
+                   .WhitespaceToken("\r\n")
+                   // };
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
@@ -59,7 +123,68 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\tsint32 SeveritySint32;\r\n" +
                     "\tsint64 SeveritySint64;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                   // class GOLF_Base
+                   .IdentifierToken("class")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("GOLF_Base")
+                   .WhitespaceToken("\r\n")
+                   // {
+                   .BlockOpenToken()
+                   .WhitespaceToken("\r\n\t")
+                    // uint8 SeverityUint8;
+                    .IdentifierToken("uint8")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("SeverityUint8")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n\t")
+                    // uint16 SeverityUint16;
+                    .IdentifierToken("uint16")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("SeverityUint16")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n\t")
+                    // uint32 SeverityUint32;
+                    .IdentifierToken("uint32")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("SeverityUint32")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n\t")
+                    // uint64 SeverityUint64;
+                    .IdentifierToken("uint64")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("SeverityUint64")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n\t")
+                    // sint8 SeveritySint8;
+                    .IdentifierToken("sint8")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("SeveritySint8")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n\t")
+                    // sint16 SeveritySint16;
+                    .IdentifierToken("sint16")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("SeveritySint16")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n\t")
+                    // sint32 SeveritySint32;
+                    .IdentifierToken("sint32")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("SeveritySint32")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n\t")
+                    // sint64 SeveritySint64;
+                    .IdentifierToken("sint64")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("SeveritySint64")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
         }

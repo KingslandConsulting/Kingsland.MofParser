@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Kingsland.MofParser.Tokens;
+using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -14,23 +15,76 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void LiteralValueArrayWithOneItemShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tLastPaymentDate = {1};\r\n" +
-                    "};"
-                );
+                    "};";
+                var expectedTokens = new TokenBuilder()
+                   // instance of GOLF_ClubMember
+                   .IdentifierToken("instance")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("of")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("GOLF_ClubMember")
+                   .WhitespaceToken("\r\n")
+                   // {
+                   .BlockOpenToken()
+                   .WhitespaceToken("\r\n\t")
+                   // LastPaymentDate = {1};
+                   .IdentifierToken("LastPaymentDate")
+                   .WhitespaceToken(" ")
+                   .EqualsOperatorToken()
+                   .WhitespaceToken(" ")
+                   .BlockOpenToken()
+                   .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .WhitespaceToken("\r\n")
+                   // };
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
             public static void LiteralValueArrayWithMultipleItemsShouldRoundtrip()
             {
-                RoundtripTests.AssertRoundtrip(
+                var sourceText =
                     "instance of GOLF_ClubMember\r\n" +
                     "{\r\n" +
                     "\tLastPaymentDate = {1, 2};\r\n" +
-                    "};"
-                );
+                    "};";
+                var expectedTokens = new TokenBuilder()
+                   // instance of GOLF_ClubMember
+                   .IdentifierToken("instance")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("of")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("GOLF_ClubMember")
+                   .WhitespaceToken("\r\n")
+                   // {
+                   .BlockOpenToken()
+                   .WhitespaceToken("\r\n\t")
+                   // LastPaymentDate = {1, 2};
+                   .IdentifierToken("LastPaymentDate")
+                   .WhitespaceToken(" ")
+                   .EqualsOperatorToken()
+                   .WhitespaceToken(" ")
+                   .BlockOpenToken()
+                   .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
+                   .CommaToken()
+                   .WhitespaceToken(" ")
+                   .IntegerLiteralToken(IntegerKind.DecimalValue, 2)
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .WhitespaceToken("\r\n")
+                   // };
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
         }
