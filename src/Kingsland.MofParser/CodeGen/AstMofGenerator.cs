@@ -721,39 +721,8 @@ namespace Kingsland.MofParser.CodeGen
             return string.Join(
                 " ",
                 node.StringLiteralValues
-                    .Select(n => $"\"{AstMofGenerator.EscapeString(n.Value)}\"")
+                    .Select(n => $"\"{StringLiteralToken.EscapeString(n.Value)}\"")
             );
-        }
-
-        internal static string EscapeString(string value)
-        {
-            var escapeMap = new Dictionary<char, string>()
-            {
-                { '\\' , "\\\\" }, { '\"' , "\\\"" },  { '\'' , "\\\'" },
-                { '\b', "\\b" }, { '\t', "\\t" },  { '\n', "\\n" }, { '\f', "\\f" }, { '\r', "\\r" }
-            };
-            if (string.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-            var escaped = new StringBuilder();
-            foreach (var @char in value.ToCharArray())
-            {
-                if (escapeMap.ContainsKey(@char))
-                {
-                    escaped.Append(escapeMap[@char]);
-                }
-                else if ((@char >= 32) && (@char <= 126))
-                {
-                    // printable characters ' ' - '~'
-                    escaped.Append(@char);
-                }
-                else
-                {
-                    throw new InvalidOperationException(new string(new char[] { @char }));
-                }
-            }
-            return escaped.ToString();
         }
 
         #endregion

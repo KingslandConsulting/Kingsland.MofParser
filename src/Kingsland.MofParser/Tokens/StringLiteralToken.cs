@@ -53,10 +53,16 @@ namespace Kingsland.MofParser.Tokens
 
         #region Helpers
 
-        private readonly static Dictionary<char, string> escapeMap = new Dictionary<char, string>()
+        private readonly static Dictionary<char, string> EscapeMap = new Dictionary<char, string>()
             {
-                { '\\' , "\\\\" }, { '\"' , "\\\"" },  { '\'' , "\\\'" },
-                { '\b', "\\b" }, { '\t', "\\t" },  { '\n', "\\n" }, { '\f', "\\f" }, { '\r', "\\r" }
+                { '\\', $"{Constants.BACKSLASH}{Constants.BACKSLASH}" },
+                { '\"', $"{Constants.BACKSLASH}{Constants.DOUBLEQUOTE}" },
+                { '\'', $"{Constants.BACKSLASH}{Constants.SINGLEQUOTE}" },
+                { '\b', $"{Constants.BACKSLASH}{Constants.BACKSPACE_ESC}" },
+                { '\t', $"{Constants.BACKSLASH}{Constants.TAB_ESC}" },
+                { '\n', $"{Constants.BACKSLASH}{Constants.LINEFEED_ESC}" },
+                { '\f', $"{Constants.BACKSLASH}{Constants.FORMFEED_ESC}" },
+                { '\r', $"{Constants.BACKSLASH}{Constants.CARRIAGERETURN_ESC}" }
             };
 
         public static string EscapeString(string value)
@@ -68,15 +74,15 @@ namespace Kingsland.MofParser.Tokens
             var escapedString = new StringBuilder();
             foreach (var @char in value.ToCharArray())
             {
-                if ((@char >= 32) && (@char <= 126))
-                {
-                    // printable characters ' ' - '~'
-                    escapedString.Append(@char);
-                }
-                else if (StringLiteralToken.escapeMap.TryGetValue(@char, out var escapedChar))
+                if (StringLiteralToken.EscapeMap.TryGetValue(@char, out var escapedChar))
                 {
                     // escape sequence
                     escapedString.Append(escapedChar);
+                }
+                else if ((@char >= 32) && (@char <= 126))
+                {
+                    // printable characters ' ' - '~'
+                    escapedString.Append(@char);
                 }
                 else
                 {
