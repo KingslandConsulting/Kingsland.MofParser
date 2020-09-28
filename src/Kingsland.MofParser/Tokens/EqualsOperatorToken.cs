@@ -25,11 +25,14 @@ namespace Kingsland.MofParser.Tokens
         }
 
         #endregion
+
         #region SyntaxToken Interface
 
         public override string GetSourceString()
         {
-            return this?.Extent.Text ?? "=";
+            return (this.Extent != SourceExtent.Empty) ?
+                this.Extent.Text :
+                "=";
         }
 
         #endregion

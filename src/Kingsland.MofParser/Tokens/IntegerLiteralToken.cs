@@ -49,15 +49,20 @@ namespace Kingsland.MofParser.Tokens
 
         public override string GetSourceString()
         {
-            return this?.Extent.Text ??
-                 this.Kind switch
-                 {
-                     IntegerKind.BinaryValue => $"{Convert.ToString(this.Value, 2)}b",
-                     IntegerKind.DecimalValue => Convert.ToString(this.Value, 10),
-                     IntegerKind.HexValue => $"0x{Convert.ToString(this.Value, 16)}",
-                     IntegerKind.OctalValue => $"0{Convert.ToString(this.Value, 8)}",
-                     _ => throw new InvalidOperationException()
-                 };
+            return (this.Extent != SourceExtent.Empty) ?
+                this.Extent.Text :
+                this.Kind switch
+                {
+                    IntegerKind.BinaryValue =>
+                        $"{(this.Value < 0 ? "-" : "")}{Convert.ToString(Math.Abs(this.Value), 2)}b",
+                    IntegerKind.DecimalValue =>
+                        Convert.ToString(this.Value, 10),
+                    IntegerKind.HexValue =>
+                        $"{(this.Value < 0 ? "-" : "")}0x{Convert.ToString(Math.Abs(this.Value), 16).ToUpperInvariant()}",
+                    IntegerKind.OctalValue =>
+                        $"{(this.Value < 0 ? "-" : "")}0{Convert.ToString(Math.Abs(this.Value), 8)}",
+                    _ => throw new InvalidOperationException()
+                };
         }
 
         #endregion

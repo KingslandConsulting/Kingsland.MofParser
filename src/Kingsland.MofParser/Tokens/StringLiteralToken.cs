@@ -44,7 +44,9 @@ namespace Kingsland.MofParser.Tokens
 
         public override string GetSourceString()
         {
-            return this?.Extent.Text ?? StringLiteralToken.EscapeString(this.Value);
+            return (this.Extent != SourceExtent.Empty) ?
+                this.Extent.Text :
+                $"\"{StringLiteralToken.EscapeSourceString(this.Value)}\"";
         }
 
         #endregion
