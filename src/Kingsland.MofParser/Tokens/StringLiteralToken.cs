@@ -1,4 +1,5 @@
-﻿using Kingsland.ParseFx.Syntax;
+﻿using Kingsland.MofParser.Parsing;
+using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,7 @@ namespace Kingsland.MofParser.Tokens
         {
             return (this.Extent != SourceExtent.Empty) ?
                 this.Extent.Text :
-                $"\"{StringLiteralToken.EscapeSourceString(this.Value)}\"";
+                $"\"{StringLiteralToken.EscapeString(this.Value)}\"";
         }
 
         #endregion
