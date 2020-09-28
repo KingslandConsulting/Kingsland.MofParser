@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using Kingsland.MofParser.Tokens;
+using Kingsland.ParseFx.Text;
+using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -18,7 +20,20 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "class GOLF_Base\r\n" +
                     "{\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // class GOLF_Base
+                    .IdentifierToken("class")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Base")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -30,7 +45,44 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\tstring InstanceID;\r\n" +
                     "\tstring Caption = Null;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // class GOLF_Base : GOLF_Superclass
+                    .IdentifierToken("class")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Base")
+                    .WhitespaceToken(" ")
+                    .ColonToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Superclass")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // string InstanceID;
+                    .IdentifierToken("string")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("InstanceID")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n\t")
+                    // string Caption = Null;
+                    .IdentifierToken("string")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Caption")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .NullLiteralToken(
+                        SourcePosition.Empty,
+                        SourcePosition.Empty,
+                        "Null"
+                    )
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -42,7 +94,40 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\tstring InstanceID;\r\n" +
                     "\tstring Caption = Null;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // class GOLF_Base
+                    .IdentifierToken("class")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Base")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // string InstanceID;
+                    .IdentifierToken("string")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("InstanceID")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n\t")
+                    // string Caption = Null;
+                    .IdentifierToken("string")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Caption")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .NullLiteralToken(
+                        SourcePosition.Empty,
+                        SourcePosition.Empty,
+                        "Null"
+                    )
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -55,7 +140,77 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\t[Description(\"an instance of a class that derives from the GOLF_Base class. \"), Key] string InstanceID;\r\n" +
                     "\t[Description(\"A short textual description (one- line string) of the\"), MaxLen(64)] string Caption = Null;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // [Abstract, OCL{"-- the key property cannot be NULL", "inv: InstanceId.size() = 10"}]
+                    .AttributeOpenToken()
+                    .IdentifierToken("Abstract")
+                    .CommaToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("OCL")
+                    .BlockOpenToken()
+                    .StringLiteralToken("-- the key property cannot be NULL")
+                    .CommaToken()
+                    .WhitespaceToken(" ")
+                    .StringLiteralToken("inv: InstanceId.size() = 10")
+                    .BlockCloseToken()
+                    .AttributeCloseToken()
+                    .WhitespaceToken("\r\n")
+                    // class GOLF_Base
+                    .IdentifierToken("class")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Base")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // [Description("an instance of a class that derives from the GOLF_Base class. "), Key] string InstanceID;;
+                    .AttributeOpenToken()
+                    .IdentifierToken("Description")
+                    .ParenthesisOpenToken()
+                    .StringLiteralToken("an instance of a class that derives from the GOLF_Base class. ")
+                    .ParenthesisCloseToken()
+                    .CommaToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Key")
+                    .AttributeCloseToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("string")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("InstanceID")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n\t")
+                    // [Description("A short textual description (one- line string) of the"), MaxLen(64)] string Caption = Null;
+                    .AttributeOpenToken()
+                    .IdentifierToken("Description")
+                    .ParenthesisOpenToken()
+                    .StringLiteralToken("A short textual description (one- line string) of the")
+                    .ParenthesisCloseToken()
+                    .CommaToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("MaxLen")
+                    .ParenthesisOpenToken()
+                    .IntegerLiteralToken(IntegerKind.DecimalValue, 64)
+                    .ParenthesisCloseToken()
+                    .AttributeCloseToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("string")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Caption")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .NullLiteralToken(
+                        SourcePosition.Empty,
+                        SourcePosition.Empty,
+                        "Null"
+                    )
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             //[Test]

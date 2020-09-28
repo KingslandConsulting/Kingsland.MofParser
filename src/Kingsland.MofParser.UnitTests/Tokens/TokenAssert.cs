@@ -347,7 +347,8 @@ namespace Kingsland.MofParser.UnitTests.Tokens
             }
             else
             {
-                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
+                return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent)) &&
+                       (expected.Value == actual.Value);
             }
         }
 

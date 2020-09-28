@@ -210,7 +210,7 @@ namespace Kingsland.MofParser.Lexing
             }
             // return the result
             var extent = SourceExtent.From(sourceChars);
-            return new ScannerResult(new WhitespaceToken(extent), thisReader);
+            return new ScannerResult(new WhitespaceToken(extent, extent.Text), thisReader);
         }
 
         #endregion
@@ -289,7 +289,7 @@ namespace Kingsland.MofParser.Lexing
             }
             // return the result
             var extent = SourceExtent.From(sourceChars);
-            return new ScannerResult(new CommentToken(extent), thisReader);
+            return new ScannerResult(new CommentToken(extent, extent.Text), thisReader);
         }
 
         #endregion
@@ -487,7 +487,7 @@ namespace Kingsland.MofParser.Lexing
         public static ScannerResult ReadNumericLiteralToken(SourceReader reader)
         {
 
-            int ParseBinaryValueDigits(IEnumerable<SourceChar> binaryChars, SourceChar sign)
+            static int ParseBinaryValueDigits(IEnumerable<SourceChar> binaryChars, SourceChar sign)
             {
                 return ParseIntegerValueDigits(new Dictionary<char, int>
                 {
@@ -495,7 +495,7 @@ namespace Kingsland.MofParser.Lexing
                 }, 2, binaryChars, sign);
             }
 
-            int ParseOctalValueDigits(IEnumerable<SourceChar> octalChars, SourceChar sign)
+            static int ParseOctalValueDigits(IEnumerable<SourceChar> octalChars, SourceChar sign)
             {
                 return ParseIntegerValueDigits(new Dictionary<char, int>
                 {
@@ -503,7 +503,7 @@ namespace Kingsland.MofParser.Lexing
                 }, 8, octalChars, sign);
             }
 
-            int ParseHexValueDigits(IEnumerable<SourceChar> hexChars, SourceChar sign)
+            static int ParseHexValueDigits(IEnumerable<SourceChar> hexChars, SourceChar sign)
             {
                 return ParseIntegerValueDigits(new Dictionary<char, int>
                 {
@@ -513,7 +513,7 @@ namespace Kingsland.MofParser.Lexing
                 }, 16, hexChars, sign);
             }
 
-            int ParseDecimalValueDigits(IEnumerable<SourceChar> decimalChars, SourceChar sign)
+            static int ParseDecimalValueDigits(IEnumerable<SourceChar> decimalChars, SourceChar sign)
             {
                 return ParseIntegerValueDigits(new Dictionary<char, int>
                 {
@@ -521,7 +521,7 @@ namespace Kingsland.MofParser.Lexing
                 }, 10, decimalChars, sign);
             }
 
-            int ParseIntegerValueDigits(Dictionary<char, int> alphabet, int radix, IEnumerable<SourceChar> chars, SourceChar sign)
+            static int ParseIntegerValueDigits(Dictionary<char, int> alphabet, int radix, IEnumerable<SourceChar> chars, SourceChar sign)
             {
                 var literalValue = 0;
                 foreach (var digit in chars)

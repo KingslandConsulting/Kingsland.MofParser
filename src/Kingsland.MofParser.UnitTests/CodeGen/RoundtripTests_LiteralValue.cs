@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Kingsland.MofParser.Tokens;
+using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -19,7 +20,30 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tLastPaymentDate = 1;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_ClubMember
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_ClubMember")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // LastPaymentDate = 1;
+                    .IdentifierToken("LastPaymentDate")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -30,7 +54,30 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tLastPaymentDate = 0.5;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_ClubMember
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_ClubMember")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // LastPaymentDate = 0.5;
+                    .IdentifierToken("LastPaymentDate")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .RealLiteralToken(0.5)
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -41,7 +88,30 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tLastPaymentDate = true;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                   // instance of GOLF_ClubMember
+                   .IdentifierToken("instance")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("of")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("GOLF_ClubMember")
+                   .WhitespaceToken("\r\n")
+                   // {
+                   .BlockOpenToken()
+                   .WhitespaceToken("\r\n\t")
+                   // LastPaymentDate = true;
+                   .IdentifierToken("LastPaymentDate")
+                   .WhitespaceToken(" ")
+                   .EqualsOperatorToken()
+                   .WhitespaceToken(" ")
+                   .BooleanLiteralToken(true)
+                   .StatementEndToken()
+                   .WhitespaceToken("\r\n")
+                   // };
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -52,7 +122,30 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tLastPaymentDate = null;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                   // instance of GOLF_ClubMember
+                   .IdentifierToken("instance")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("of")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("GOLF_ClubMember")
+                   .WhitespaceToken("\r\n")
+                   // {
+                   .BlockOpenToken()
+                   .WhitespaceToken("\r\n\t")
+                   // LastPaymentDate = null;
+                   .IdentifierToken("LastPaymentDate")
+                   .WhitespaceToken(" ")
+                   .EqualsOperatorToken()
+                   .WhitespaceToken(" ")
+                   .NullLiteralToken()
+                   .StatementEndToken()
+                   .WhitespaceToken("\r\n")
+                   // };
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -63,7 +156,30 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tLastPaymentDate = \"aaa\";\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                   // instance of GOLF_ClubMember
+                   .IdentifierToken("instance")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("of")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("GOLF_ClubMember")
+                   .WhitespaceToken("\r\n")
+                   // {
+                   .BlockOpenToken()
+                   .WhitespaceToken("\r\n\t")
+                   // LastPaymentDate = "aaa";
+                   .IdentifierToken("LastPaymentDate")
+                   .WhitespaceToken(" ")
+                   .EqualsOperatorToken()
+                   .WhitespaceToken(" ")
+                   .StringLiteralToken("aaa")
+                   .StatementEndToken()
+                   .WhitespaceToken("\r\n")
+                   // };
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
         }

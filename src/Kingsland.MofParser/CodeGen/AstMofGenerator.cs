@@ -1,8 +1,8 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Tokens;
 using Kingsland.ParseFx.Parsing;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -141,7 +141,7 @@ namespace Kingsland.MofParser.CodeGen
             var source = new StringBuilder();
             source.Append(node.PragmaKeyword.Extent.Text);
             source.Append(" ");
-            source.Append(node.PragmaName);
+            source.Append(node.PragmaName.Name);
             source.Append(" ");
             source.Append("(");
             source.Append(AstMofGenerator.ConvertStringValueAst(node.PragmaParameter));
@@ -721,39 +721,8 @@ namespace Kingsland.MofParser.CodeGen
             return string.Join(
                 " ",
                 node.StringLiteralValues
-                    .Select(n => $"\"{AstMofGenerator.EscapeString(n.Value)}\"")
+                    .Select(n => $"\"{StringLiteralToken.EscapeString(n.Value)}\"")
             );
-        }
-
-        internal static string EscapeString(string value)
-        {
-            var escapeMap = new Dictionary<char, string>()
-            {
-                { '\\' , "\\\\" }, { '\"' , "\\\"" },  { '\'' , "\\\'" },
-                { '\b', "\\b" }, { '\t', "\\t" },  { '\n', "\\n" }, { '\f', "\\f" }, { '\r', "\\r" }
-            };
-            if (string.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-            var escaped = new StringBuilder();
-            foreach (var @char in value.ToCharArray())
-            {
-                if (escapeMap.ContainsKey(@char))
-                {
-                    escaped.Append(escapeMap[@char]);
-                }
-                else if ((@char >= 32) && (@char <= 126))
-                {
-                    // printable characters ' ' - '~'
-                    escaped.Append(@char);
-                }
-                else
-                {
-                    throw new InvalidOperationException(new string(new char[] { @char }));
-                }
-            }
-            return escaped.ToString();
         }
 
         #endregion

@@ -1,8 +1,5 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Parsing;
-using Kingsland.ParseFx.Parsing;
-using Kingsland.ParseFx.Text;
+﻿using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Tokens;
 using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
@@ -22,11 +19,32 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
-                    "\tYear = 2011;\r\n" +
                     "\tMonth = July;\r\n" +
-                    "\tDay = 31;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_Date
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Date")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Month = July;
+                    .IdentifierToken("Month")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("July")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -35,11 +53,34 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
-                    "\tYear = 2011;\r\n" +
                     "\tMonth = {June};\r\n" +
-                    "\tDay = 31;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_Date
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Date")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Month = {June};
+                    .IdentifierToken("Month")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .BlockOpenToken()
+                    .IdentifierToken("June")
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
         }
@@ -53,11 +94,32 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
-                    "\tYear = 2011;\r\n" +
                     "\tMonth = July;\r\n" +
-                    "\tDay = 31;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_Date
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Date")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Month = July;
+                    .IdentifierToken("Month")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("July")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -66,11 +128,34 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
-                    "\tYear = 2011;\r\n" +
                     "\tMonth = MonthEnums.July;\r\n" +
-                    "\tDay = 31;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_Date
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Date")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Month = MonthEnums.July;
+                    .IdentifierToken("Month")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("MonthEnums")
+                    .DotOperatorToken()
+                    .IdentifierToken("July")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
         }
@@ -84,11 +169,33 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
-                    "\tYear = 2011;\r\n" +
-                    "\tMonth = {June};\r\n" +
-                    "\tDay = 31;\r\n" +
+                    "\tMonth = {};\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_Date
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Date")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Month = {};
+                    .IdentifierToken("Month")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .BlockOpenToken()
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -97,13 +204,37 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 var sourceText =
                     "instance of GOLF_Date\r\n" +
                     "{\r\n" +
-                    "\tYear = 2011;\r\n" +
                     "\tMonth = {June};\r\n" +
-                    "\tDay = 31;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_Date
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Date")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Month = {June};
+                    .IdentifierToken("Month")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .BlockOpenToken()
+                    .IdentifierToken("June")
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
+            [Test]
             public static void EnumValueArrayWithMultipleEnumValuesShouldRoundtrip()
             {
                 var sourceText =
@@ -111,7 +242,35 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tMonth = {January, February};\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_Date
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Date")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Month = {January, February};
+                    .IdentifierToken("Month")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .BlockOpenToken()
+                    .IdentifierToken("January")
+                    .CommaToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("February")
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/25")]
@@ -122,8 +281,36 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tMonth = {MonthEnums.July};\r\n" +
                     "};";
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_Date
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_Date")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Month = {MonthEnums.July};
+                    .IdentifierToken("Month")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .BlockOpenToken()
+                    .IdentifierToken("MonthEnums")
+                    .DotOperatorToken()
+                    .IdentifierToken("July")
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
                 RoundtripTests.AssertRoundtrip(
                     sourceText,
+                    expectedTokens,
                     ParserQuirks.EnumValueArrayContainsEnumValuesNotEnumNames
                 );
             }

@@ -1,8 +1,6 @@
 ﻿using Kingsland.MofParser.Tokens;
-using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace Kingsland.MofParser.UnitTests.Lexing
 {
@@ -19,17 +17,14 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             public static void ShouldReadEmptyString()
             {
                 var sourceText = "\"\"";
-                var expectedTokens = new List<SyntaxToken> {
-                    new StringLiteralToken(
-                        new SourceExtent
-                        (
-                            new SourcePosition(0, 1, 1),
-                            new SourcePosition(1, 1, 2),
-                            "\"\""
-                        ),
+                var expectedTokens = new TokenBuilder()
+                    .StringLiteralToken(
+                        new SourcePosition(0, 1, 1),
+                        new SourcePosition(1, 1, 2),
+                        "\"\"",
                         string.Empty
                     )
-                };
+                    .ToList();
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
@@ -37,17 +32,14 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             public static void ShouldReadBasicString()
             {
                 var sourceText = "\"my string literal\"";
-                var expectedTokens = new List<SyntaxToken> {
-                    new StringLiteralToken(
-                        new SourceExtent
-                        (
-                            new SourcePosition(0, 1, 1),
-                            new SourcePosition(18, 1, 19),
-                            "\"my string literal\""
-                        ),
+                var expectedTokens = new TokenBuilder()
+                    .StringLiteralToken(
+                        new SourcePosition(0, 1, 1),
+                        new SourcePosition(18, 1, 19),
+                        "\"my string literal\"",
                         "my string literal"
                     )
-                };
+                    .ToList();
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 
@@ -55,17 +47,14 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             public static void ShouldReadEscapedString()
             {
                 var sourceText = @"""my \\ string \"" literal \' with \b lots \t and \n lots \f of \r escapes""";
-                var expectedTokens = new List<SyntaxToken> {
-                    new StringLiteralToken(
-                        new SourceExtent
-                        (
-                            new SourcePosition(0, 1, 1),
-                            new SourcePosition(72, 1, 73),
-                            @"""my \\ string \"" literal \' with \b lots \t and \n lots \f of \r escapes"""
-                        ),
+                var expectedTokens = new TokenBuilder()
+                    .StringLiteralToken(
+                        new SourcePosition(0, 1, 1),
+                        new SourcePosition(72, 1, 73),
+                        @"""my \\ string \"" literal \' with \b lots \t and \n lots \f of \r escapes""",
                         "my \\ string \" literal \' with \b lots \t and \n lots \f of \r escapes"
                     )
-                };
+                    .ToList();
                 LexerTests.AssertLexerTest(sourceText, expectedTokens);
             }
 

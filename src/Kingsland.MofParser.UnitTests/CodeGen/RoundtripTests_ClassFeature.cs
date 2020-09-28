@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Kingsland.MofParser.Tokens;
+using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -19,7 +20,33 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\t[Description(\"Monthly salary in $US\")] string Name;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // class Sponsor
+                    .IdentifierToken("class")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Sponsor")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // [Description("Monthly salary in $US")] string Name;
+                    .AttributeOpenToken()
+                    .IdentifierToken("Description")
+                    .ParenthesisOpenToken()
+                    .StringLiteralToken("Monthly salary in $US")
+                    .ParenthesisCloseToken()
+                    .AttributeCloseToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("string")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Name")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -47,7 +74,32 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\t{\r\n" +
                     "\t};\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // class Sponsor
+                    .IdentifierToken("class")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Sponsor")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // structure Nested
+                    .IdentifierToken("structure")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Nested")
+                    .WhitespaceToken("\r\n\t")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -60,7 +112,36 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\t{\r\n" +
                     "\t};\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // class Sponsor
+                    .IdentifierToken("class")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Sponsor")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // enumeration MonthsEnum : Integer
+                    .IdentifierToken("enumeration")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("MonthsEnum")
+                    .WhitespaceToken(" ")
+                    .ColonToken()
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Integer")
+                    .WhitespaceToken("\r\n\t")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -71,7 +152,26 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tstring Name;\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // class Sponsor
+                    .IdentifierToken("class")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Sponsor")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // string Name;
+                    .IdentifierToken("string")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("Name")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
         }

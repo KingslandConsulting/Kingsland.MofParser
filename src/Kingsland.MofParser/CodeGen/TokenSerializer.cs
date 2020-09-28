@@ -11,12 +11,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region Dispatcher
 
-        public static string ConvertToMofText(SyntaxToken token)
-        {
-            return token.Extent.Text;
-        }
-
-        public static string ConvertToMofText(IEnumerable<SyntaxToken> tokens)
+        public static string ToMofText(IEnumerable<SyntaxToken> tokens)
         {
             if (tokens == null)
             {
@@ -25,7 +20,7 @@ namespace Kingsland.MofParser.CodeGen
             var source = new StringBuilder();
             foreach (var token in tokens)
             {
-                source.Append(TokenSerializer.ConvertToMofText(token));
+                source.Append(token.GetSourceString());
             }
             return source.ToString();
         }

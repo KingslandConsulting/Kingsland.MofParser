@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Kingsland.MofParser.Tokens;
+using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -19,7 +20,30 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tCaption = \"Instance of John Doe\";\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_ClubMember
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_ClubMember")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Caption = "Instance of John Doe";
+                    .IdentifierToken("Caption")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .StringLiteralToken("Instance of John Doe")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -30,7 +54,36 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tCaption = \"Instance\" \"of\" \"John\" \"Doe\";\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_ClubMember
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_ClubMember")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Caption = "Instance" "of" "John" "Doe";
+                    .IdentifierToken("Caption")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .StringLiteralToken("Instance")
+                    .WhitespaceToken(" ")
+                    .StringLiteralToken("of")
+                    .WhitespaceToken(" ")
+                    .StringLiteralToken("John")
+                    .WhitespaceToken(" ")
+                    .StringLiteralToken("Doe")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/20")]
@@ -41,7 +94,30 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "{\r\n" +
                     "\tCaption = \"Instance of John Doe\\\'s GOLF_ClubMember object\";\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // instance of GOLF_ClubMember
+                    .IdentifierToken("instance")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_ClubMember")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n\t")
+                    // Caption = "Instance of John Doe's GOLF_ClubMember object";
+                    .IdentifierToken("Caption")
+                    .WhitespaceToken(" ")
+                    .EqualsOperatorToken()
+                    .WhitespaceToken(" ")
+                    .StringLiteralToken("Instance of John Doe's GOLF_ClubMember object")
+                    .StatementEndToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
         }

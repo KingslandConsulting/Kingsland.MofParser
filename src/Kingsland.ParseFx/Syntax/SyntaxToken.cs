@@ -7,6 +7,8 @@ namespace Kingsland.ParseFx.Syntax
     public abstract class SyntaxToken
     {
 
+        #region Constructors
+
         protected SyntaxToken(SourceExtent extent)
         {
             if (extent == null)
@@ -15,6 +17,10 @@ namespace Kingsland.ParseFx.Syntax
             }
             this.Extent = extent;
         }
+
+        #endregion
+
+        #region Properties
 
         public SourceExtent Extent
         {
@@ -30,10 +36,30 @@ namespace Kingsland.ParseFx.Syntax
             }
         }
 
+        #endregion
+
+        #region Methods
+
+        public virtual string GetDebugString()
+        {
+            return $"{this.GetType().Name} (\"{this?.Extent.Text}\")";
+        }
+
+        public virtual string GetSourceString()
+        {
+            return this.Extent.Text;
+        }
+
+        #endregion
+
+        #region Object Interface
+
         public override string ToString()
         {
-            return this.Text;
+            return this.GetDebugString();
         }
+
+        #endregion
 
     }
 

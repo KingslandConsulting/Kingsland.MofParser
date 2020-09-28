@@ -1,5 +1,5 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Parsing;
+﻿using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Tokens;
 using System.Text;
 
 namespace Kingsland.MofParser.Model
@@ -76,7 +76,7 @@ namespace Kingsland.MofParser.Model
                     null => Constants.NULL,
                     true => Constants.TRUE,
                     false => Constants.FALSE,
-                    string s => $"\"{AstMofGenerator.EscapeString(s)}\"",
+                    string s => $"\"{StringLiteralToken.EscapeString(s)}\"",
                     _ => $"!!!{this.Value.GetType().FullName}!!!"
                 }
             );

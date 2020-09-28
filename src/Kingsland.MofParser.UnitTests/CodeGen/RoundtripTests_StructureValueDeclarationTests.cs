@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Kingsland.MofParser.Tokens;
+using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -18,7 +19,26 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "value of GOLF_ClubMember as $MyAliasIdentifier\r\n" +
                     "{\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                    // value of GOLF_ClubMember as $MyAliasIdentifier
+                    .IdentifierToken("value")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("of")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("GOLF_ClubMember")
+                    .WhitespaceToken(" ")
+                    .IdentifierToken("as")
+                    .WhitespaceToken(" ")
+                    .AliasIdentifierToken("MyAliasIdentifier")
+                    .WhitespaceToken("\r\n")
+                    // {
+                    .BlockOpenToken()
+                    .WhitespaceToken("\r\n")
+                    // };
+                    .BlockCloseToken()
+                    .StatementEndToken()
+                    .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             [Test]
@@ -30,7 +50,42 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "\tFirstName = \"John\";\r\n" +
                     "\tLastName = \"Doe\";\r\n" +
                     "};";
-                RoundtripTests.AssertRoundtrip(sourceText);
+                var expectedTokens = new TokenBuilder()
+                   // value of GOLF_ClubMember as $MyAliasIdentifier
+                   .IdentifierToken("value")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("of")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("GOLF_ClubMember")
+                   .WhitespaceToken(" ")
+                   .IdentifierToken("as")
+                   .WhitespaceToken(" ")
+                   .AliasIdentifierToken("MyAliasIdentifier")
+                   .WhitespaceToken("\r\n")
+                   // {
+                   .BlockOpenToken()
+                   .WhitespaceToken("\r\n\t")
+                   // FirstName = "John"
+                   .IdentifierToken("FirstName")
+                   .WhitespaceToken(" ")
+                   .EqualsOperatorToken()
+                   .WhitespaceToken(" ")
+                   .StringLiteralToken("John")
+                   .StatementEndToken()
+                   .WhitespaceToken("\r\n\t")
+                   // LastName = "Doe"
+                   .IdentifierToken("LastName")
+                   .WhitespaceToken(" ")
+                   .EqualsOperatorToken()
+                   .WhitespaceToken(" ")
+                   .StringLiteralToken("Doe")
+                   .StatementEndToken()
+                   .WhitespaceToken("\r\n")
+                   // };
+                   .BlockCloseToken()
+                   .StatementEndToken()
+                   .ToList();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
             }
 
             //[Test]
