@@ -57,13 +57,13 @@ namespace Kingsland.MofParser.Lexing
                     var normalized = identifierToken.Name.ToLowerInvariant();
                     switch (normalized)
                     {
-                        case "false":
+                        case Constants.FALSE:
                             var falseToken = new BooleanLiteralToken(identifierToken.Extent, false);
                             return new ScannerResult(falseToken, result.NextReader);
-                        case "true":
+                        case Constants.TRUE:
                             var trueToken = new BooleanLiteralToken(identifierToken.Extent, true);
                             return new ScannerResult(trueToken, result.NextReader);
-                        case "null":
+                        case Constants.NULL:
                             var nullLiteralToken = new NullLiteralToken(identifierToken.Extent);
                             return new ScannerResult(nullLiteralToken, result.NextReader);
                         default:

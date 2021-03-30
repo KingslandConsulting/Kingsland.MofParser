@@ -80,7 +80,6 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .StatementEndToken()
                     .ToList();
                 RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
-                RoundtripTests.AssertRoundtrip(sourceText);
             }
 
         }

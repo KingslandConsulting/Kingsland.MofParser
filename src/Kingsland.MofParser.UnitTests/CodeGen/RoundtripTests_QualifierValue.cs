@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Tokens;
 using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
@@ -24,6 +25,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     "};";
                 RoundtripTests.AssertRoundtrip(
                     sourceText,
+                    null,
                     null,
                     ParserQuirks.AllowMofV2Qualifiers
                 );

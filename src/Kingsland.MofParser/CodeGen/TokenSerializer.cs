@@ -11,7 +11,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region Dispatcher
 
-        public static string ToMofText(IEnumerable<SyntaxToken> tokens)
+        public static string ToSourceText(IEnumerable<SyntaxToken> tokens)
         {
             if (tokens == null)
             {

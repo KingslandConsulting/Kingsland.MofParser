@@ -42,9 +42,9 @@ namespace Kingsland.MofParser.Tokens
 
         public override string GetSourceString()
         {
-            return (this.Extent != SourceExtent.Empty) ?
-                this.Extent.Text :
-                (this.Value ? Constants.TRUE : Constants.FALSE);
+            return (this.Extent == SourceExtent.Empty)
+                ? (this.Value ? Constants.TRUE : Constants.FALSE)
+                : this.Extent.Text;
         }
 
         #endregion
