@@ -79,31 +79,21 @@ namespace Kingsland.MofParser.Objects
 
         private static object GetComplexValue(ComplexValueAst node)
         {
-            if (node.IsAlias)
-            {
-                return node.Alias;
-            }
-            else
-            {
+            return node.IsAlias ?
+                node.Alias :
                 throw new NotImplementedException($"Unhandled value-type complex values.");
-            }
         }
 
         private static object GetLiteralValue(LiteralValueAst node)
         {
-            switch (node)
+            return node switch
             {
-                case BooleanValueAst booleanValue:
-                    return booleanValue.Value;
-                case IntegerValueAst integerValue:
-                    return integerValue.Value;
-                case StringValueAst stringValue:
-                    return stringValue.Value;
-                case NullValueAst _:
-                    return null;
-                default:
-                    throw new NotImplementedException($"Unhandled literal value type '{node.GetType().FullName}'");
-            }
+                BooleanValueAst booleanValue => booleanValue.Value,
+                IntegerValueAst integerValue => integerValue.Value,
+                StringValueAst stringValue => stringValue.Value,
+                NullValueAst _ => null,
+                _ => throw new NotImplementedException($"Unhandled literal value type '{node.GetType().FullName}'"),
+            };
         }
 
     }

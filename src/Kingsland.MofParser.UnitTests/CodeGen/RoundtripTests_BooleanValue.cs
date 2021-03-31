@@ -1,6 +1,9 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Tokens;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -52,7 +55,33 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .BlockCloseToken()
                     .StatementEndToken()
                     .ToList();
-                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+                var expectedAst = new MofSpecificationAst.Builder
+                {
+                    Productions = new List<MofProductionAst> {
+                        new InstanceValueDeclarationAst.Builder {
+                            Instance = new IdentifierToken("instance"),
+                            Of = new IdentifierToken("of"),
+                            TypeName = new IdentifierToken("myType"),
+                            As = new IdentifierToken("as"),
+                            Alias = new AliasIdentifierToken("Alias00000070"),
+                            PropertyValues = new PropertyValueListAst.Builder {
+                                PropertyValues = new Dictionary<string, PropertyValueAst> {
+                                    {
+                                        "Reference", new BooleanValueAst(
+                                            new BooleanLiteralToken(
+                                                SourcePosition.Empty,
+                                                SourcePosition.Empty,
+                                                "TRUE", true
+                                            )
+                                        )
+                                    }
+                                }
+                            }.Build(),
+                            StatementEnd = new StatementEndToken()
+                        }.Build()
+                    }
+                }.Build();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
             }
 
         }

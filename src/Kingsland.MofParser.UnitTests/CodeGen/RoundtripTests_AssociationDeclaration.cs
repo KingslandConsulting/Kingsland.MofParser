@@ -1,5 +1,8 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Tokens;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -32,7 +35,19 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .BlockCloseToken()
                     .StatementEndToken()
                     .ToList();
-                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+                var expectedAst = new MofSpecificationAst.Builder
+                {
+                    Productions = new List<MofProductionAst>
+                    {
+                        new AssociationDeclarationAst(
+                            null,
+                            new IdentifierToken("GOLF_MemberLocker"),
+                            null,
+                            null
+                        )
+                    }
+                }.Build();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
             }
 
             [Test]
@@ -84,7 +99,31 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .BlockCloseToken()
                     .StatementEndToken()
                     .ToList();
-                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+                var expectedAst = new MofSpecificationAst.Builder {
+                    Productions = new List<MofProductionAst> {
+                        new AssociationDeclarationAst.Builder {
+                            AssociationName = new IdentifierToken("GOLF_MemberLocker"),
+                            SuperAssociation = new IdentifierToken("GOLF_Base"),
+                            ClassFeatures = new List<IClassFeatureAst> {
+                                new PropertyDeclarationAst.Builder {
+                                    ReturnType = new IdentifierToken("GOLF_ClubMember"),
+                                    ReturnTypeRef = new IdentifierToken(Constants.REF),
+                                    PropertyName = new IdentifierToken("Member"),
+                                }.Build(),
+                                new PropertyDeclarationAst.Builder {
+                                    ReturnType = new IdentifierToken("GOLF_Locker"),
+                                    ReturnTypeRef = new IdentifierToken(Constants.REF),
+                                    PropertyName = new IdentifierToken("Locker"),
+                                }.Build(),
+                                new PropertyDeclarationAst.Builder {
+                                    ReturnType = new IdentifierToken("GOLF_Date"),
+                                    PropertyName = new IdentifierToken("AssignedOnDate"),
+                                }.Build()
+                            }
+                        }.Build()
+                    }
+                }.Build();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
             }
 
             [Test]
@@ -132,7 +171,31 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .BlockCloseToken()
                     .StatementEndToken()
                     .ToList();
-                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+                var expectedAst = new MofSpecificationAst.Builder
+                {
+                    Productions = new List<MofProductionAst> {
+                        new AssociationDeclarationAst.Builder {
+                            AssociationName = new IdentifierToken("GOLF_MemberLocker"),
+                            ClassFeatures = new List<IClassFeatureAst> {
+                                new PropertyDeclarationAst.Builder {
+                                    ReturnType = new IdentifierToken("GOLF_ClubMember"),
+                                    ReturnTypeRef = new IdentifierToken(Constants.REF),
+                                    PropertyName = new IdentifierToken("Member"),
+                                }.Build(),
+                                new PropertyDeclarationAst.Builder {
+                                    ReturnType = new IdentifierToken("GOLF_Locker"),
+                                    ReturnTypeRef = new IdentifierToken(Constants.REF),
+                                    PropertyName = new IdentifierToken("Locker"),
+                                }.Build(),
+                                new PropertyDeclarationAst.Builder {
+                                    ReturnType = new IdentifierToken("GOLF_Date"),
+                                    PropertyName = new IdentifierToken("AssignedOnDate"),
+                                }.Build()
+                            }
+                        }.Build()
+                    }
+                }.Build();
+                RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
             }
 
         }

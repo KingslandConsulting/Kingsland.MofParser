@@ -311,6 +311,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 RoundtripTests.AssertRoundtrip(
                     sourceText,
                     expectedTokens,
+                    null,
                     ParserQuirks.EnumValueArrayContainsEnumValuesNotEnumNames
                 );
             }

@@ -1,7 +1,9 @@
-﻿using Kingsland.MofParser.CodeGen;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Ast;
 using Kingsland.MofParser.UnitTests.Lexing;
 using Kingsland.ParseFx.Parsing;
 using Kingsland.ParseFx.Syntax;
@@ -51,28 +53,34 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
         //    }
         //}
 
-        private static void AssertRoundtrip(string sourceText, List<SyntaxToken> expectedTokens = null, ParserQuirks parserQuirks = ParserQuirks.None)
+        private static void AssertRoundtrip(string sourceText, List<SyntaxToken> expectedTokens, MofSpecificationAst expectedAst = null, ParserQuirks parserQuirks = ParserQuirks.None)
         {
-            // check the lexer tokens roundtrip ok
+            // check the lexer processes the source text ok
             var actualTokens = Lexer.Lex(SourceReader.From(sourceText));
             if (expectedTokens != null)
             {
                 LexerAssert.AreEqual(expectedTokens, actualTokens, true);
-                var expectedText = TokenSerializer.ToMofText(expectedTokens);
+            }
+            // check the expectedTokens serialize back to the same source text
+            if (expectedTokens != null)
+            {
+                var expectedText = TokenSerializer.ToSourceText(expectedTokens);
                 Assert.AreEqual(sourceText, expectedText);
             }
-            var actualText = TokenSerializer.ToMofText(actualTokens);
+            // check the actualTokens roundtrip back to source text ok
+            var actualText = TokenSerializer.ToSourceText(actualTokens);
             Assert.AreEqual(sourceText, actualText);
             // check the parser ast roundtrips ok
-            var astNodes = Parser.Parse(actualTokens, parserQuirks);
-            var astMof = AstMofGenerator.ConvertToMof(astNodes);
+            var actualAst = Parser.Parse(actualTokens, parserQuirks);
+            AstAssert.AreEqual(expectedAst, actualAst);
+            var astMof = AstMofGenerator.ConvertToMof(actualAst);
             Assert.AreEqual(sourceText, astMof);
         }
 
         private static void AssertRoundtripException(string sourceText, string expectedMessage, ParserQuirks parserQuirks = ParserQuirks.None)
         {
             var tokens = Lexer.Lex(SourceReader.From(sourceText));
-            var tokensMof = TokenSerializer.ToMofText(tokens);
+            var tokensMof = TokenSerializer.ToSourceText(tokens);
             var ex = Assert.Throws<UnexpectedTokenException>(
                 () => {
                     var astNodes = Parser.Parse(tokens, parserQuirks);

@@ -41,6 +41,7 @@ namespace Kingsland.MofParser.UnitTests.Tokens
                 return (ignoreExtent || TokenAssert.AreEqual(expected.Extent, actual.Extent));
             }
         }
+
         public static bool AreEqual(AttributeOpenToken expected, AttributeOpenToken actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))

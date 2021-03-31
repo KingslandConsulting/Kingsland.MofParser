@@ -35,7 +35,6 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             {
                 var sourceText =
                     "#pragma include (\"GlobalStructs\" \"/\" \"GOLF_Address.mof\")";
-                 RoundtripTests.AssertRoundtrip(sourceText);
                 var expectedTokens = new TokenBuilder()
                     // #pragma include ("GlobalStructs" "/" "GOLF_Address.mof")
                     .PragmaToken()
