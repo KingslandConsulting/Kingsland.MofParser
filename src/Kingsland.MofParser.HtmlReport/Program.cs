@@ -1,8 +1,9 @@
 ﻿using Kingsland.MofParser.HtmlReport.Wrappers;
-using RazorEngine.Templating;
+using Microsoft.AspNetCore.Razor.Language;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Kingsland.MofParser.Sample
 {
@@ -14,7 +15,7 @@ namespace Kingsland.MofParser.Sample
         {
 
             // get the list of mof filenames
-            var mofRoot = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var mofRoot = Assembly.GetExecutingAssembly().Location;
             mofRoot = Path.GetDirectoryName(mofRoot);
             mofRoot = Path.GetDirectoryName(mofRoot);
             mofRoot = Path.GetDirectoryName(mofRoot);

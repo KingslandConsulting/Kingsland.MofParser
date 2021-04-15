@@ -1,5 +1,4 @@
 ﻿using Kingsland.MofParser.Objects;
-using System;
 
 namespace Kingsland.MofParser.HtmlReport.Wrappers
 {
