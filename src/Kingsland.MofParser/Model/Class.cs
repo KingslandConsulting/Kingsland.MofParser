@@ -1,10 +1,12 @@
-﻿namespace Kingsland.MofParser.Model
+﻿using System;
+
+namespace Kingsland.MofParser.Model
 {
 
     public sealed record Class
     {
 
-        #region BUilder
+        #region Builder
 
         public sealed class Builder
         {
@@ -23,11 +25,10 @@
 
             public Class Build()
             {
-                return new Class
-                {
-                    ClassName = this.ClassName,
-                    SuperClass = this.SuperClass
-                };
+                return new Class(
+                    this.ClassName,
+                    this.SuperClass
+                );
             }
 
         }
@@ -36,8 +37,10 @@
 
         #region Constructors
 
-        private Class()
+        internal Class(string className, string superClass)
         {
+            this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
+            this.SuperClass = superClass;
         }
 
         #endregion

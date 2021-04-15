@@ -101,7 +101,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private PropertyDeclarationAst(
+        internal PropertyDeclarationAst(
             QualifierListAst qualifierList,
             IdentifierToken returnType,
             IdentifierToken returnTypeRef,

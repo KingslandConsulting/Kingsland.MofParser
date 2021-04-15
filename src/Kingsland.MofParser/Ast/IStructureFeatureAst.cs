@@ -16,7 +16,6 @@
     /// </remarks>
     public interface IStructureFeatureAst : IClassFeatureAst
     {
-
     }
 
 }

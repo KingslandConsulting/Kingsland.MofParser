@@ -1,5 +1,6 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Tokens;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -59,10 +60,14 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public EnumElementAst(QualifierListAst qualifierList, IdentifierToken enumElementName, IEnumElementValueAst enumElementValue)
+        internal EnumElementAst(
+            QualifierListAst qualifierList,
+            IdentifierToken enumElementName,
+            IEnumElementValueAst enumElementValue
+        )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.EnumElementName = enumElementName;
+            this.QualifierList = qualifierList ?? new QualifierListAst();
+            this.EnumElementName = enumElementName ?? throw new ArgumentNullException(nameof(enumElementName));
             this.EnumElementValue = enumElementValue;
         }
 

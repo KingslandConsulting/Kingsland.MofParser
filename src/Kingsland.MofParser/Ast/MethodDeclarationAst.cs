@@ -4,6 +4,7 @@ using Kingsland.ParseFx.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -92,9 +93,7 @@ namespace Kingsland.MofParser.Ast
                     this.ReturnTypeRef,
                     this.ReturnTypeIsArray,
                     this.MethodName,
-                    new ReadOnlyCollection<ParameterDeclarationAst>(
-                        this.Parameters ?? new List<ParameterDeclarationAst>()
-                    )
+                    this.Parameters
                 );
             }
 
@@ -104,13 +103,13 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private MethodDeclarationAst(
+        internal MethodDeclarationAst(
             QualifierListAst qualifierList,
             IdentifierToken returnType,
             IdentifierToken returnTypeRef,
             bool returnTypeIsArray,
             IdentifierToken methodName,
-            ReadOnlyCollection<ParameterDeclarationAst> parameters
+            IEnumerable<ParameterDeclarationAst> parameters
         )
         {
             this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
@@ -118,8 +117,8 @@ namespace Kingsland.MofParser.Ast
             this.ReturnTypeRef = returnTypeRef;
             this.ReturnTypeIsArray = returnTypeIsArray;
             this.Name = methodName ?? throw new ArgumentNullException(nameof(methodName));
-            this.Parameters = parameters ?? new ReadOnlyCollection<ParameterDeclarationAst>(
-                new List<ParameterDeclarationAst>()
+            this.Parameters = new ReadOnlyCollection<ParameterDeclarationAst>(
+                parameters?.ToList() ?? new List<ParameterDeclarationAst>()
             );
         }
 

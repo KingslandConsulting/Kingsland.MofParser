@@ -91,7 +91,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public InstanceValueDeclarationAst(
+        internal InstanceValueDeclarationAst(
             IdentifierToken instance,
             IdentifierToken of,
             IdentifierToken typeName,
@@ -104,13 +104,12 @@ namespace Kingsland.MofParser.Ast
             this.Instance = instance ?? throw new ArgumentNullException(nameof(instance));
             this.Of = of ?? throw new ArgumentNullException(nameof(of));
             this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
-            this.As = @as;
-            this.Alias = alias;
-            this.PropertyValues = propertyValues ?? new PropertyValueListAst(
-                new ReadOnlyDictionary<string, PropertyValueAst>(
-                    new Dictionary<string, PropertyValueAst>()
-                )
-            );
+            if ((@as != null) || (alias != null))
+            {
+                this.As = @as ?? throw new ArgumentNullException(nameof(@as));
+                this.Alias = alias ?? throw new ArgumentNullException(nameof(@alias));
+            }
+            this.PropertyValues = propertyValues ?? new PropertyValueListAst();
             this.StatementEnd = statementEnd ?? throw new ArgumentNullException(nameof(statementEnd));
         }
 

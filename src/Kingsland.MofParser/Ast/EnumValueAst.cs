@@ -56,7 +56,10 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public EnumValueAst(IdentifierToken enumName, IdentifierToken enumLiteral)
+        internal EnumValueAst(
+            IdentifierToken enumName,
+            IdentifierToken enumLiteral
+        )
         {
             this.EnumName = enumName;
             this.EnumLiteral = enumLiteral ?? throw new ArgumentNullException(nameof(enumLiteral));

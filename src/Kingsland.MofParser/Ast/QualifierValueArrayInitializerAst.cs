@@ -1,6 +1,7 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -38,12 +39,9 @@ namespace Kingsland.MofParser.Ast
 
             public QualifierValueArrayInitializerAst Build()
             {
-                return new QualifierValueArrayInitializerAst
-                {
-                    Values = new ReadOnlyCollection<LiteralValueAst>(
-                        this.Values ?? new List<LiteralValueAst>()
-                    )
-                };
+                return new QualifierValueArrayInitializerAst(
+                    this.Values
+                );
             }
 
         }
@@ -52,8 +50,18 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private QualifierValueArrayInitializerAst()
+        internal QualifierValueArrayInitializerAst()
+            : this(default(IEnumerable<LiteralValueAst>))
         {
+        }
+
+        internal QualifierValueArrayInitializerAst(
+            IEnumerable<LiteralValueAst> values
+        )
+        {
+            this.Values = new ReadOnlyCollection<LiteralValueAst>(
+                values?.ToList() ?? new List<LiteralValueAst>()
+            );
         }
 
         #endregion

@@ -43,7 +43,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public IntegerValueAst(IntegerLiteralToken integerLiteralToken)
+        internal IntegerValueAst(
+            IntegerLiteralToken integerLiteralToken
+        )
         {
             this.IntegerLiteralToken = integerLiteralToken ?? throw new ArgumentNullException(nameof(integerLiteralToken));
             this.Kind = integerLiteralToken.Kind;

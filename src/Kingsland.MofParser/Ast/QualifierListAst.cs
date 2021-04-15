@@ -2,6 +2,7 @@
 using Kingsland.ParseFx.Parsing;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -39,9 +40,7 @@ namespace Kingsland.MofParser.Ast
             public QualifierListAst Build()
             {
                 return new QualifierListAst(
-                    new ReadOnlyCollection<QualifierValueAst>(
-                        this.QualifierValues ?? new List<QualifierValueAst>()
-                    )
+                    this.QualifierValues
                 );
             }
 
@@ -51,10 +50,17 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public QualifierListAst(ReadOnlyCollection<QualifierValueAst> qualifierValues)
+        internal QualifierListAst()
+            : this(default(IEnumerable<QualifierValueAst>))
         {
-            this.QualifierValues = qualifierValues ?? new ReadOnlyCollection<QualifierValueAst>(
-                new List<QualifierValueAst>()
+        }
+
+        internal QualifierListAst(
+            IEnumerable<QualifierValueAst> qualifierValues
+        )
+        {
+            this.QualifierValues = new ReadOnlyCollection<QualifierValueAst>(
+                qualifierValues?.ToList() ?? new List<QualifierValueAst>()
             );
         }
 

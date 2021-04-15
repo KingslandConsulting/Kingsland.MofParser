@@ -46,7 +46,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public BooleanValueAst(BooleanLiteralToken token)
+        internal BooleanValueAst(BooleanLiteralToken token)
         {
             this.Token = token ?? throw new ArgumentNullException(nameof(token));
         }

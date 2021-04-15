@@ -4,6 +4,7 @@ using Kingsland.ParseFx.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -60,9 +61,7 @@ namespace Kingsland.MofParser.Ast
                 return new QualifierValueAst(
                     this.QualifierName,
                     this.Initializer,
-                    new ReadOnlyCollection<IdentifierToken>(
-                        this.Flavors ?? new List<IdentifierToken>()
-                    )
+                    this.Flavors
                 );
             }
 
@@ -72,12 +71,15 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public QualifierValueAst(IdentifierToken qualifierName, IQualifierInitializerAst initializer, ReadOnlyCollection<IdentifierToken> flavors)
+        internal QualifierValueAst(
+            IdentifierToken qualifierName,
+            IQualifierInitializerAst initializer,
+            IEnumerable<IdentifierToken> flavors)
         {
             this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
             this.Initializer = initializer;
-            this.Flavors = flavors ?? new ReadOnlyCollection<IdentifierToken>(
-                new List<IdentifierToken>()
+            this.Flavors = new ReadOnlyCollection<IdentifierToken>(
+                flavors?.ToList() ?? new List<IdentifierToken>()
             );
         }
 

@@ -1,5 +1,6 @@
 ﻿using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using System;
 using System.Text;
 
 namespace Kingsland.MofParser.Model
@@ -36,14 +37,10 @@ namespace Kingsland.MofParser.Model
 
         #region Constructors
 
-        private Property()
+        internal Property(string name, object value)
         {
-        }
-
-        public Property(string name, object value)
-        {
-            this.Name = name;
-            this.Value = value;
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
+            this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         #endregion

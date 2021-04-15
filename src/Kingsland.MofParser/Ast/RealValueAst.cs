@@ -48,9 +48,11 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public RealValueAst(RealLiteralToken realLiteralToken)
+        internal RealValueAst(
+            RealLiteralToken realLiteralToken
+        )
         {
-            this.RealLiteralToken = realLiteralToken ?? throw new ArgumentNullException(nameof(RealLiteralToken));
+            this.RealLiteralToken = realLiteralToken ?? throw new ArgumentNullException(nameof(realLiteralToken));
             this.Value = realLiteralToken.Value;
         }
 

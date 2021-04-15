@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Kingsland.MofParser.Ast;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using Kingsland.MofParser.Ast;
 
 namespace Kingsland.MofParser.Objects
 {
@@ -9,11 +10,63 @@ namespace Kingsland.MofParser.Objects
     public sealed record Instance
     {
 
-        private Dictionary<string, object> _properties;
+        #region Builder
 
-        internal Instance()
+        public sealed class Builder
         {
+
+            public Builder()
+            {
+                this.Properties = new Dictionary<string, object>();
+            }
+
+            public string ClassName
+            {
+                get;
+                set;
+            }
+
+            public string Alias
+            {
+                get;
+                set;
+            }
+
+            public Dictionary<string, object> Properties
+            {
+                get;
+                set;
+            }
+
+            public Instance Build()
+            {
+                return new Instance(
+                    this.ClassName,
+                    this.Alias,
+                    this.Properties
+                );
+            }
+
         }
+
+        #endregion
+
+        #region Constructors
+
+        internal Instance(string className, string alias, IDictionary<string, object> properties)
+        {
+            this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
+            this.Alias = alias;
+            this.Properties = new ReadOnlyDictionary<string, object>(
+                properties?.ToDictionary(
+                    kvp => kvp.Key, kvp => kvp.Value
+                ) ?? new Dictionary<string, object>()
+            );
+        }
+
+        #endregion
+
+        #region Properties
 
         public string ClassName
         {
@@ -27,17 +80,15 @@ namespace Kingsland.MofParser.Objects
             private init;
         }
 
-        public Dictionary<string, object> Properties
+        public ReadOnlyDictionary<string, object> Properties
         {
-            get
-            {
-                if (_properties == null)
-                {
-                    _properties = new Dictionary<string, object>();
-                }
-                return _properties;
-            }
+            get;
+            private set;
         }
+
+        #endregion
+
+        #region Methods
 
         public static Instance FromAstNode(InstanceValueDeclarationAst node)
         {
@@ -45,7 +96,7 @@ namespace Kingsland.MofParser.Objects
             {
                 throw new ArgumentNullException("node");
             }
-            var instance = new Instance
+            var instance = new Instance.Builder
             {
                 ClassName = node.TypeName.Name,
                 Alias = node?.Alias?.Name
@@ -74,7 +125,7 @@ namespace Kingsland.MofParser.Objects
                         throw new NotImplementedException($"Unhandled property value type '{propertyValue.GetType().FullName}'");
                 }
             }
-            return instance;
+            return instance.Build();
         }
 
         private static object GetComplexValue(ComplexValueAst node)
@@ -95,6 +146,8 @@ namespace Kingsland.MofParser.Objects
                 _ => throw new NotImplementedException($"Unhandled literal value type '{node.GetType().FullName}'"),
             };
         }
+
+        #endregion
 
     }
 

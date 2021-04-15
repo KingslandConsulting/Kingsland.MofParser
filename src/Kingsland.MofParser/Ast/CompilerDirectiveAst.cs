@@ -72,7 +72,11 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private CompilerDirectiveAst(PragmaToken pragmaKeyword, IdentifierToken pragmaName, StringValueAst pragmaParameter)
+        internal CompilerDirectiveAst(
+            PragmaToken pragmaKeyword,
+            IdentifierToken pragmaName,
+            StringValueAst pragmaParameter
+        )
         {
             this.PragmaKeyword = pragmaKeyword ?? throw new ArgumentNullException(nameof(pragmaKeyword));
             this.PragmaName = pragmaName ?? throw new ArgumentNullException(nameof(pragmaName));

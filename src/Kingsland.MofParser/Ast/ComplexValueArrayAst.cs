@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -39,9 +40,7 @@ namespace Kingsland.MofParser.Ast
             public ComplexValueArrayAst Build()
             {
                 return new ComplexValueArrayAst(
-                    new ReadOnlyCollection<ComplexValueAst>(
-                        this.Values ?? new List<ComplexValueAst>()
-                    )
+                    this.Values
                 );
             }
 
@@ -51,11 +50,13 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public ComplexValueArrayAst(
-            ReadOnlyCollection<ComplexValueAst> values
+        internal ComplexValueArrayAst(
+            IEnumerable<ComplexValueAst> values
         )
         {
-            this.Values = values ?? throw new ArgumentNullException(nameof(values));
+            this.Values = new ReadOnlyCollection<ComplexValueAst>(
+                values?.ToList() ?? new List<ComplexValueAst>()
+            );
         }
 
         #endregion

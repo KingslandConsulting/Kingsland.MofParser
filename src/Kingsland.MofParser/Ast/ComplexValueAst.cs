@@ -59,21 +59,16 @@ namespace Kingsland.MofParser.Ast
 
             public ComplexValueAst Build()
             {
-                if (!(this.Alias == null))
-                {
-                    return new ComplexValueAst(
-                        this.Alias
-                    );
-                }
-                else
-                {
-                    return new ComplexValueAst(
+                return (this.Alias == null)
+                    ? new ComplexValueAst(
                         this.Value,
                         this.Of,
                         this.TypeName,
                         this.PropertyValues
+                    )
+                    : new ComplexValueAst(
+                        this.Alias
                     );
-                }
             }
 
         }
@@ -82,15 +77,15 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public ComplexValueAst(
+        internal ComplexValueAst(
             AliasIdentifierToken alias
         )
         {
-            this.Alias = alias ?? throw new ArgumentException(nameof(alias));
+            this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));
             this.Value = null;
             this.Of = null;
             this.TypeName = null;
-            this.PropertyValues = new PropertyValueListAst.Builder().Build();
+            this.PropertyValues = new PropertyValueListAst();
         }
 
         public ComplexValueAst(
@@ -101,10 +96,10 @@ namespace Kingsland.MofParser.Ast
         )
         {
             this.Alias = null;
-            this.Value = value ?? throw new ArgumentException(nameof(value));
-            this.Of = of;
-            this.TypeName = typeName;
-            this.PropertyValues = propertyValues ?? new PropertyValueListAst.Builder().Build();
+            this.Value = value ?? throw new ArgumentNullException(nameof(value));
+            this.Of = of ?? throw new ArgumentNullException(nameof(of));
+            this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
+            this.PropertyValues = propertyValues ?? new PropertyValueListAst();
         }
 
         #endregion

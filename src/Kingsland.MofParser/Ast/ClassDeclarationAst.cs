@@ -3,6 +3,7 @@ using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -71,9 +72,7 @@ namespace Kingsland.MofParser.Ast
                     this.QualifierList,
                     this.ClassName,
                     this.SuperClass,
-                    new ReadOnlyCollection<IClassFeatureAst>(
-                        this.ClassFeatures ?? new List<IClassFeatureAst>()
-                    )
+                    this.ClassFeatures
                 );
             }
 
@@ -83,12 +82,19 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public ClassDeclarationAst(QualifierListAst qualifierList, IdentifierToken className, IdentifierToken superClass, ReadOnlyCollection<IClassFeatureAst> classFeatures)
+        internal ClassDeclarationAst(
+            QualifierListAst qualifierList,
+            IdentifierToken className,
+            IdentifierToken superClass,
+            IEnumerable<IClassFeatureAst> classFeatures
+        )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
+            this.QualifierList = qualifierList ?? new QualifierListAst();
             this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
             this.SuperClass = superClass;
-            this.ClassFeatures = classFeatures ?? new ReadOnlyCollection<IClassFeatureAst>(new List<IClassFeatureAst>());
+            this.ClassFeatures = new ReadOnlyCollection<IClassFeatureAst>(
+                classFeatures?.ToList() ?? new List<IClassFeatureAst>()
+            );
         }
 
         #endregion

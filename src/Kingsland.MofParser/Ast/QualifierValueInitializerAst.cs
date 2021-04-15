@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -30,10 +31,9 @@ namespace Kingsland.MofParser.Ast
 
             public QualifierValueInitializerAst Build()
             {
-                return new QualifierValueInitializerAst
-                {
-                    Value = this.Value
-                };
+                return new QualifierValueInitializerAst(
+                    this.Value
+                );
             }
 
         }
@@ -42,8 +42,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private QualifierValueInitializerAst()
+        internal QualifierValueInitializerAst(LiteralValueAst value)
         {
+            this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         #endregion

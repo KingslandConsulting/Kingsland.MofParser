@@ -3,6 +3,7 @@ using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -95,9 +96,7 @@ namespace Kingsland.MofParser.Ast
                     this.QualifierType,
                     this.QualifierScope,
                     this.QualifierPolicy,
-                    new ReadOnlyCollection<string>(
-                        this.Flavors ?? new List<string>()
-                    )
+                    this.Flavors
                 );
             }
 
@@ -107,14 +106,14 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private QualifierTypeDeclarationAst(
+        internal QualifierTypeDeclarationAst(
             QualifierListAst qualifierList,
             IdentifierToken qualifierKeyword,
             IdentifierToken qualifierName,
             IdentifierToken qualifierType,
             IdentifierToken qualifierScope,
             IdentifierToken qualifierPolicy,
-            ReadOnlyCollection<string> flavors
+            IEnumerable<string> flavors
         )
         {
             this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
@@ -123,7 +122,9 @@ namespace Kingsland.MofParser.Ast
             this.QualifierType = qualifierType ?? throw new ArgumentNullException(nameof(qualifierType));
             this.QualifierScope = qualifierScope ?? throw new ArgumentNullException(nameof(qualifierScope));
             this.QualifierPolicy = qualifierPolicy ?? throw new ArgumentNullException(nameof(qualifierPolicy));
-            this.Flavors = flavors ?? throw new ArgumentNullException(nameof(flavors));
+            this.Flavors = new ReadOnlyCollection<string>(
+                flavors?.ToList() ?? new List<string>()
+            );
         }
 
         #endregion

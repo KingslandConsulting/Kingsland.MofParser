@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Kingsland.MofParser.Parsing;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
-using Kingsland.MofParser.Parsing;
 
 namespace Kingsland.MofParser.Model
 {
@@ -34,14 +36,11 @@ namespace Kingsland.MofParser.Model
 
             public Instance Build()
             {
-                return new Instance
-                {
-                    TypeName = this.TypeName,
-                    Alias = this.Alias,
-                    Properties = new ReadOnlyCollection<Property>(
-                        this.Properties ?? new List<Property>()
-                    )
-                };
+                return new Instance(
+                    this.TypeName,
+                    this.Alias,
+                    this.Properties
+                );
             }
 
         }
@@ -50,8 +49,13 @@ namespace Kingsland.MofParser.Model
 
         #region Constructors
 
-        private Instance()
+        internal Instance(string typeName, string alias, IEnumerable<Property> properties)
         {
+            this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
+            this.Alias = alias?? throw new ArgumentNullException(nameof(alias));
+            this.Properties = new ReadOnlyCollection<Property>(
+                properties?.ToList() ?? new List<Property>()
+            );
         }
 
         #endregion

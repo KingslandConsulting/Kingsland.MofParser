@@ -46,7 +46,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private NullValueAst(NullLiteralToken token)
+        internal NullValueAst(
+            NullLiteralToken token
+        )
         {
             this.Token = token ?? throw new ArgumentNullException(nameof(token));
         }

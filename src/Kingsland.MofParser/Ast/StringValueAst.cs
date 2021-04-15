@@ -3,6 +3,7 @@ using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -59,17 +60,23 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public StringValueAst(ReadOnlyCollection<StringLiteralToken> stringLiteralValues, string value)
+        internal StringValueAst(
+            IEnumerable<StringLiteralToken> stringLiteralValues,
+            string value
+        )
         {
-            if (stringLiteralValues == null)
+            var values = stringLiteralValues?.ToList();
+            if (values == null)
             {
                 throw new ArgumentNullException(nameof(stringLiteralValues));
             }
-            if (stringLiteralValues.Count == 0)
+            if (values.Count == 0)
             {
-                throw new ArgumentException(nameof(stringLiteralValues));
+                throw new ArgumentException(null, nameof(stringLiteralValues));
             }
-            this.StringLiteralValues = stringLiteralValues;
+            this.StringLiteralValues = new ReadOnlyCollection<StringLiteralToken>(
+                values
+            );
             this.Value = value;
         }
 

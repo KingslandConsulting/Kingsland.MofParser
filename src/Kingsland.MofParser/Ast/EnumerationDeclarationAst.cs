@@ -3,6 +3,7 @@ using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -81,9 +82,7 @@ namespace Kingsland.MofParser.Ast
                     this.QualifierList,
                     this.EnumName,
                     this.EnumType,
-                    new ReadOnlyCollection<EnumElementAst>(
-                        this.EnumElements ?? new List<EnumElementAst>()
-                    )
+                    this.EnumElements
                 );
             }
 
@@ -93,13 +92,18 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public EnumerationDeclarationAst(QualifierListAst qualifierList, IdentifierToken enumName, IdentifierToken enumType, ReadOnlyCollection<EnumElementAst> enumElements)
+        internal EnumerationDeclarationAst(
+            QualifierListAst qualifierList,
+            IdentifierToken enumName,
+            IdentifierToken enumType,
+            IEnumerable<EnumElementAst> enumElements
+        )
         {
             this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.EnumName = enumName ?? throw new ArgumentNullException(nameof(enumName));
             this.EnumType = enumType ?? throw new ArgumentNullException(nameof(enumType));
-            this.EnumElements = enumElements ?? new ReadOnlyCollection<EnumElementAst>(
-                new List<EnumElementAst>()
+            this.EnumElements = new ReadOnlyCollection<EnumElementAst>(
+                enumElements?.ToList() ?? new List<EnumElementAst>()
             );
         }
 

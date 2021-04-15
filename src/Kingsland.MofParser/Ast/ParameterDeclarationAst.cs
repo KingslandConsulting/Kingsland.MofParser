@@ -104,7 +104,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private ParameterDeclarationAst(
+        internal ParameterDeclarationAst(
             QualifierListAst qualifierList,
             IdentifierToken parameterType,
             IdentifierToken parameterRef,
@@ -113,7 +113,7 @@ namespace Kingsland.MofParser.Ast
             PropertyValueAst defaultValue
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
+            this.QualifierList = qualifierList ?? new QualifierListAst();
             this.ParameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
             this.ParameterRef = parameterRef;
             this.ParameterName = parameterName ?? throw new ArgumentNullException(nameof(parameterName));

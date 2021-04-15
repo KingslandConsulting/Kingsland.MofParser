@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -61,9 +62,11 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public ReferenceTypeValueAst(string name)
+        internal ReferenceTypeValueAst(
+            string name
+        )
         {
-            this.Name = name;
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
         #endregion
