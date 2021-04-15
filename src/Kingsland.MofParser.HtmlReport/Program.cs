@@ -1,5 +1,5 @@
 ﻿using Kingsland.MofParser.HtmlReport.Wrappers;
-using Microsoft.AspNetCore.Razor.Language;
+using RazorEngine.Templating;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
