@@ -100,7 +100,7 @@ namespace Kingsland.MofParser.Objects
         {
             if (node == null)
             {
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
             }
             var instance = new Instance.Builder
             {

@@ -83,7 +83,7 @@ namespace Kingsland.MofParser.HtmlReport.Resources
         {
             get
             {
-                return this.GetStringProperty("ModuleName");
+                return this.GetStringProperty(nameof(this.ModuleName));
             }
         }
 
@@ -91,7 +91,7 @@ namespace Kingsland.MofParser.HtmlReport.Resources
         {
             get
             {
-                return this.GetStringProperty("ModuleVersion");
+                return this.GetStringProperty(nameof(this.ModuleVersion}));
             }
         }
 
