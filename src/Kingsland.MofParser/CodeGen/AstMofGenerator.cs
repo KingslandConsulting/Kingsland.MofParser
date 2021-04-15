@@ -177,23 +177,22 @@ namespace Kingsland.MofParser.CodeGen
             var omitSpacesQuirkEnabled = (quirks & MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations) == MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations;
 
             var source = new StringBuilder();
-            var lastQualifierName = default(string);
+            var lastQualifierValue = default(QualifierValueAst);
 
             source.Append('[');
             for (var i = 0; i < node.QualifierValues.Count; i++)
             {
                 var thisQualifierValue = node.QualifierValues[i];
-                var thisQualifierName = thisQualifierValue.QualifierName.GetNormalizedName();
-                if (i > 0)
+                if (lastQualifierValue != null)
                 {
                     source.Append(',');
-                    if (!omitSpacesQuirkEnabled || (lastQualifierName != "in") || (thisQualifierName != "out"))
+                    if (!omitSpacesQuirkEnabled || !lastQualifierValue.QualifierName!.IsKeyword("in") || !thisQualifierValue.QualifierName.IsKeyword("out"))
                     {
                         source.Append(' ');
                     }
                 }
                 source.Append(AstMofGenerator.ConvertQualifierValueAst(thisQualifierValue, quirks));
-                lastQualifierName = thisQualifierName;
+                lastQualifierValue = thisQualifierValue;
             }
             source.Append(']');
 

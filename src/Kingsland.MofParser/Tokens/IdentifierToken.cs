@@ -1,6 +1,8 @@
 ﻿using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Kingsland.MofParser.Tokens
 {
@@ -51,14 +53,28 @@ namespace Kingsland.MofParser.Tokens
 
         #region Helpers
 
-        public string GetNormalizedName()
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool IsKeyword(string value)
         {
-            var name = this.Name;
-            if (string.IsNullOrEmpty(name))
-            {
-                return name;
-            }
-            return name.ToLowerInvariant();
+            return this.Name.Equals(
+                value,
+                StringComparison.InvariantCultureIgnoreCase
+            );
+        }
+
+        public bool IsKeyword(IEnumerable<string> values)
+        {
+            return values.Any(
+                value =>
+                    this.Name.Equals(
+                        value,
+                        StringComparison.InvariantCultureIgnoreCase
+                    )
+            );
         }
 
         #endregion
