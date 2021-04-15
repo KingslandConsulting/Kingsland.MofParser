@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.Ast
     ///                      propertyValueList )
     ///
     /// </remarks>
-    public sealed class ComplexValueAst : ComplexTypeValueAst
+    public sealed record ComplexValueAst : ComplexTypeValueAst
     {
 
         #region Builder
@@ -130,31 +130,31 @@ namespace Kingsland.MofParser.Ast
         public AliasIdentifierToken Alias
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken Value
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken Of
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken TypeName
         {
             get;
-            private set;
+            private init;
         }
 
         public PropertyValueListAst PropertyValues
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

@@ -28,7 +28,7 @@ namespace Kingsland.MofParser.Ast
     ///     CLASS            = "class" ; keyword: case insensitive
     ///
     /// </remarks>
-    public sealed class ClassDeclarationAst : MofProductionAst
+    public sealed record ClassDeclarationAst : MofProductionAst
     {
 
         #region Builder
@@ -98,25 +98,25 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken ClassName
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken SuperClass
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<IClassFeatureAst> ClassFeatures
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

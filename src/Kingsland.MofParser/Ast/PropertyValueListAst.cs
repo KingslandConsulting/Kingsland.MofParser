@@ -23,7 +23,7 @@ namespace Kingsland.MofParser.Ast
     ///     propertyName      = IDENTIFIER
     ///
     /// </remarks>
-    public sealed class PropertyValueListAst : AstNode
+    public sealed record PropertyValueListAst : AstNode
     {
 
         #region Builder
@@ -71,7 +71,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyDictionary<string, PropertyValueAst> PropertyValues
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

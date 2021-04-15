@@ -31,7 +31,7 @@ namespace Kingsland.MofParser.Ast
     ///     qualifierScope           = SCOPE "(" ANY / scopeKindList ")"
     ///
     /// </returns>
-    public sealed class QualifierTypeDeclarationAst : MofProductionAst
+    public sealed record QualifierTypeDeclarationAst : MofProductionAst
     {
 
         #region Builder
@@ -133,43 +133,43 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken QualifierKeyword
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken QualifierName
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken QualifierType
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken QualifierScope
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken QualifierPolicy
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<string> Flavors
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

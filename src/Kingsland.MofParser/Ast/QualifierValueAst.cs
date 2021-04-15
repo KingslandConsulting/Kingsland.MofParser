@@ -24,7 +24,7 @@ namespace Kingsland.MofParser.Ast
     ///     qualiferValueArrayInitializer = "{" literalValue *( "," literalValue ) "}"
     ///
     /// </remarks>
-    public sealed class QualifierValueAst : AstNode
+    public sealed record QualifierValueAst : AstNode
     {
 
         #region Builder
@@ -88,13 +88,13 @@ namespace Kingsland.MofParser.Ast
         public IdentifierToken QualifierName
         {
             get;
-            private set;
+            private init;
         }
 
         public IQualifierInitializerAst Initializer
         {
             get;
-            private set;
+            private init;
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<IdentifierToken> Flavors
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

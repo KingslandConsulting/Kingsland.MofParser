@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.Ast
     ///                        ; second
     ///
     /// </remarks>
-    public sealed class NullValueAst : LiteralValueAst
+    public sealed record NullValueAst : LiteralValueAst
     {
 
         #region Builder
@@ -58,7 +58,7 @@ namespace Kingsland.MofParser.Ast
         public NullLiteralToken Token
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

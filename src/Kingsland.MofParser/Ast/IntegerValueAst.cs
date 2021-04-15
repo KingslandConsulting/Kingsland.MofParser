@@ -16,7 +16,7 @@ namespace Kingsland.MofParser.Ast
     ///     integerValue = binaryValue / octalValue / hexValue / decimalValue
     ///
     /// </remarks>
-    public sealed class IntegerValueAst : LiteralValueAst, IEnumElementValueAst
+    public sealed record IntegerValueAst : LiteralValueAst, IEnumElementValueAst
     {
 
         #region Builder
@@ -57,19 +57,19 @@ namespace Kingsland.MofParser.Ast
         public IntegerLiteralToken IntegerLiteralToken
         {
             get;
-            private set;
+            private init;
         }
 
         public IntegerKind Kind
         {
             get;
-            private set;
+            private init;
         }
 
         public long Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Ast
     ///     enumValueArray = "{" [ enumName *( "," enumName ) ] "}"
     ///
     /// </remarks>
-    public sealed class EnumValueArrayAst : EnumTypeValueAst
+    public sealed record EnumValueArrayAst : EnumTypeValueAst
     {
 
         #region Builder
@@ -65,7 +65,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<EnumValueAst> Values
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

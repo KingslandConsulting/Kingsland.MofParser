@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Ast
     ///     qualifierList = "[" qualifierValue *( "," qualifierValue ) "]"
     ///
     /// </remarks>
-    public sealed class QualifierListAst : AstNode
+    public sealed record QualifierListAst : AstNode
     {
 
         #region Builder
@@ -65,7 +65,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<QualifierValueAst> QualifierValues
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

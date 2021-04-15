@@ -14,7 +14,7 @@ namespace Kingsland.MofParser.Ast
     ///     qualifierValueInitializer     = "(" literalValue ")"
     ///
     /// </remarks>
-    public sealed class QualifierValueInitializerAst : IQualifierInitializerAst
+    public sealed record QualifierValueInitializerAst : IQualifierInitializerAst
     {
 
         #region Builder
@@ -53,7 +53,7 @@ namespace Kingsland.MofParser.Ast
         public LiteralValueAst Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

@@ -4,7 +4,7 @@ using Kingsland.ParseFx.Text;
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class DotOperatorToken : SyntaxToken
+    public sealed record DotOperatorToken : SyntaxToken
     {
 
         #region Constructors

@@ -38,7 +38,7 @@ namespace Kingsland.MofParser.Ast
     ///     ENUMERATION            = "enumeration" ; keyword: case insensitive
     ///
     /// </remarks>
-    public sealed class EnumerationDeclarationAst : MofProductionAst, IStructureFeatureAst
+    public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFeatureAst
     {
 
         #region Builder
@@ -110,25 +110,25 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken EnumName
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken EnumType
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<EnumElementAst> EnumElements
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

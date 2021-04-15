@@ -1,7 +1,7 @@
 ﻿namespace Kingsland.MofParser.Model
 {
 
-    public sealed class Class
+    public sealed record Class
     {
 
         #region BUilder
@@ -47,13 +47,13 @@
         public string ClassName
         {
             get;
-            private set;
+            private init;
         }
 
         public string SuperClass
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

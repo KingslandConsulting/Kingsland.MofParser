@@ -6,7 +6,7 @@ using Kingsland.MofParser.Ast;
 namespace Kingsland.MofParser.Objects
 {
 
-    public sealed class Instance
+    public sealed record Instance
     {
 
         private Dictionary<string, object> _properties;
@@ -18,13 +18,13 @@ namespace Kingsland.MofParser.Objects
         public string ClassName
         {
             get;
-            private set;
+            private init;
         }
 
         public string Alias
         {
             get;
-            private set;
+            private init;
         }
 
         public Dictionary<string, object> Properties

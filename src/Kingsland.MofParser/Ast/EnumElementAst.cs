@@ -18,7 +18,7 @@ namespace Kingsland.MofParser.Ast
     ///     enumLiteral            = IDENTIFIER
     ///
     /// </remarks>
-    public sealed class EnumElementAst : IAstNode
+    public sealed record EnumElementAst : IAstNode
     {
 
         #region Builder
@@ -73,19 +73,19 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken EnumElementName
         {
             get;
-            private set;
+            private init;
         }
 
         public IEnumElementValueAst EnumElementValue
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

@@ -5,7 +5,7 @@ using System.Text;
 namespace Kingsland.MofParser.Model
 {
 
-    public sealed class Property
+    public sealed record Property
     {
 
         #region Builder
@@ -53,13 +53,13 @@ namespace Kingsland.MofParser.Model
         public string Name
         {
             get;
-            private set;
+            private init;
         }
 
         public object Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

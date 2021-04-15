@@ -6,7 +6,7 @@ using Kingsland.MofParser.Parsing;
 namespace Kingsland.MofParser.Model
 {
 
-    public sealed class Instance
+    public sealed record Instance
     {
 
         #region Builder
@@ -61,19 +61,19 @@ namespace Kingsland.MofParser.Model
         public string TypeName
         {
             get;
-            private set;
+            private init;
         }
 
         public string Alias
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<Property> Properties
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

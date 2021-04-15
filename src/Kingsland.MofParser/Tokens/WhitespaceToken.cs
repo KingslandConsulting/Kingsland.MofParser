@@ -4,7 +4,7 @@ using Kingsland.ParseFx.Text;
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class WhitespaceToken : SyntaxToken
+    public sealed record WhitespaceToken : SyntaxToken
     {
 
         #region Constructors
@@ -32,7 +32,7 @@ namespace Kingsland.MofParser.Tokens
         public string Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

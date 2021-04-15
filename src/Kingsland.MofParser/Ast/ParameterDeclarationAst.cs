@@ -42,7 +42,7 @@ namespace Kingsland.MofParser.Ast
     ///     DT_REFERENCE              = className REF
     ///
     /// </remarks>
-    public sealed class ParameterDeclarationAst : AstNode
+    public sealed record ParameterDeclarationAst : AstNode
     {
 
         #region Builder
@@ -128,19 +128,19 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken ParameterType
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken ParameterName
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ParameterIsRef
@@ -154,19 +154,19 @@ namespace Kingsland.MofParser.Ast
         public IdentifierToken ParameterRef
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ParameterIsArray
         {
             get;
-            private set;
+            private init;
         }
 
         public PropertyValueAst DefaultValue
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

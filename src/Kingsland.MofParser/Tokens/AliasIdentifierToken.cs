@@ -4,7 +4,7 @@ using Kingsland.ParseFx.Text;
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class AliasIdentifierToken : SyntaxToken
+    public sealed record AliasIdentifierToken : SyntaxToken
     {
 
         #region Constructors
@@ -32,7 +32,7 @@ namespace Kingsland.MofParser.Tokens
         public string Name
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

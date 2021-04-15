@@ -8,7 +8,7 @@ using System.Text;
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class StringLiteralToken : SyntaxToken
+    public sealed record StringLiteralToken : SyntaxToken
     {
 
         #region Constructors
@@ -36,7 +36,7 @@ namespace Kingsland.MofParser.Tokens
         public string Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

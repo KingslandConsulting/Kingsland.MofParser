@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.Ast
     ///     TRUE         = "true"  ; keyword: case insensitive
     ///
     /// </remarks>
-    public sealed class BooleanValueAst : LiteralValueAst
+    public sealed record BooleanValueAst : LiteralValueAst
     {
 
         #region Builder
@@ -58,7 +58,7 @@ namespace Kingsland.MofParser.Ast
         public BooleanLiteralToken Token
         {
             get;
-            private set;
+            private init;
         }
 
         public bool Value

@@ -31,7 +31,7 @@ namespace Kingsland.MofParser.Ast
     ///
     ///     directiveName      = org-id "_" IDENTIFIER
     ///
-    public sealed class CompilerDirectiveAst : MofProductionAst
+    public sealed record CompilerDirectiveAst : MofProductionAst
     {
 
         #region Builder
@@ -86,19 +86,19 @@ namespace Kingsland.MofParser.Ast
         public PragmaToken PragmaKeyword
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken PragmaName
         {
             get;
-            private set;
+            private init;
         }
 
         public StringValueAst PragmaParameter
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

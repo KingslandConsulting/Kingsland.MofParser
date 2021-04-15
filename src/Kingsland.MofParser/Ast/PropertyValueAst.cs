@@ -14,7 +14,7 @@ namespace Kingsland.MofParser.Ast
     ///     propertyValue  = primitiveTypeValue / complexTypeValue / referenceTypeValue / enumTypeValue
     ///
     /// </remarks>
-    public abstract class PropertyValueAst : AstNode
+    public abstract record PropertyValueAst : AstNode
     {
 
         #region Constructors

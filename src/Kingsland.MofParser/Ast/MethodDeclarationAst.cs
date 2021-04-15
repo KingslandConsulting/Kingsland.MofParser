@@ -35,7 +35,7 @@ namespace Kingsland.MofParser.Ast
     ///
     ///    array             = "[" "]"
     ///
-    public sealed class MethodDeclarationAst : AstNode, IClassFeatureAst
+    public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
     {
 
         #region Builder
@@ -130,13 +130,13 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken ReturnType
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ReturnTypeIsRef
@@ -150,25 +150,25 @@ namespace Kingsland.MofParser.Ast
         public IdentifierToken ReturnTypeRef
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ReturnTypeIsArray
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken Name
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<ParameterDeclarationAst> Parameters
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

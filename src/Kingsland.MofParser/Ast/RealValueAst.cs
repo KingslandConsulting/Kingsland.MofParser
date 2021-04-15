@@ -21,7 +21,7 @@ namespace Kingsland.MofParser.Ast
     ///     positiveDecimalDigit = "1"..."9"
     ///
     /// </remarks>
-    public sealed class RealValueAst : LiteralValueAst
+    public sealed record RealValueAst : LiteralValueAst
     {
 
         #region Builder
@@ -61,13 +61,13 @@ namespace Kingsland.MofParser.Ast
         public RealLiteralToken RealLiteralToken
         {
             get;
-            private set;
+            private init;
         }
 
         public double Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

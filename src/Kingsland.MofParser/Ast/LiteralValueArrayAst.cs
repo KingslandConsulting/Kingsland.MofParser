@@ -16,7 +16,7 @@ namespace Kingsland.MofParser.Ast
     ///     literalValueArray = "{" [ literalValue *( "," literalValue ) ] "}"
     ///
     /// </remarks>
-    public sealed class LiteralValueArrayAst : PrimitiveTypeValueAst
+    public sealed record LiteralValueArrayAst : PrimitiveTypeValueAst
     {
 
         #region Builder
@@ -64,7 +64,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<LiteralValueAst> Values
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

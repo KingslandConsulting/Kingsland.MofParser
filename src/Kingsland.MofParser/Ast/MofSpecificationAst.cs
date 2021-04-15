@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Ast
     ///     mofSpecification = *mofProduction
     ///
     /// </remarks>
-    public sealed class MofSpecificationAst : AstNode
+    public sealed record MofSpecificationAst : AstNode
     {
 
         #region Builder
@@ -65,6 +65,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<MofProductionAst> Productions
         {
             get;
+            private init;
         }
 
         #endregion

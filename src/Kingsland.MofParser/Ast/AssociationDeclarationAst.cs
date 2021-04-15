@@ -26,7 +26,7 @@ namespace Kingsland.MofParser.Ast
     ///     ASSOCIATION            = "association" ; keyword: case insensitive
     ///
     /// </remarks>
-    public sealed class AssociationDeclarationAst : MofProductionAst
+    public sealed record AssociationDeclarationAst : MofProductionAst
     {
 
         #region Builder
@@ -81,7 +81,7 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public AssociationDeclarationAst(QualifierListAst qualifierList, IdentifierToken associationName, IdentifierToken superAssociation, ReadOnlyCollection<IClassFeatureAst> classFeatures)
+        internal AssociationDeclarationAst(QualifierListAst qualifierList, IdentifierToken associationName, IdentifierToken superAssociation, ReadOnlyCollection<IClassFeatureAst> classFeatures)
         {
             this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
             this.AssociationName = associationName ?? throw new ArgumentNullException(nameof(associationName));
@@ -96,25 +96,25 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken AssociationName
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken SuperAssociation
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<IClassFeatureAst> ClassFeatures
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

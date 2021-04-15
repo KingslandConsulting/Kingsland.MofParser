@@ -34,7 +34,7 @@ namespace Kingsland.MofParser.Ast
     ///     keyValue         = propertyName "=" literalValue
     ///
     /// </remarks>
-    public sealed class ReferenceTypeValueAst : PropertyValueAst
+    public sealed record ReferenceTypeValueAst : PropertyValueAst
     {
 
         #region Builder
@@ -73,7 +73,7 @@ namespace Kingsland.MofParser.Ast
         public string Name
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

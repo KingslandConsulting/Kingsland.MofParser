@@ -39,7 +39,7 @@ namespace Kingsland.MofParser.Ast
     ///     DT_REFERENCE                 = className REF
     ///     REF                          = "ref" ; keyword: case insensitive
     ///
-    public sealed class PropertyDeclarationAst : AstNode, IStructureFeatureAst
+    public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
     {
 
         #region Builder
@@ -125,13 +125,13 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken ReturnType
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ReturnTypeIsRef
@@ -145,25 +145,25 @@ namespace Kingsland.MofParser.Ast
         public IdentifierToken ReturnTypeRef
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken PropertyName
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ReturnTypeIsArray
         {
             get;
-            private set;
+            private init;
         }
 
         public PropertyValueAst Initializer
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

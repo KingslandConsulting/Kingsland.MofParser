@@ -21,7 +21,7 @@ namespace Kingsland.MofParser.Ast
     ///                     qualifierTypeDeclaration
     ///
     /// </remarks>
-    public abstract class MofProductionAst : AstNode
+    public abstract record MofProductionAst : AstNode
     {
 
         #region Constructors

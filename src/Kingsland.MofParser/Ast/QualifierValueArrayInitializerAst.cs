@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Ast
     ///
     /// </remarks>
 
-    public sealed class QualifierValueArrayInitializerAst : IQualifierInitializerAst
+    public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAst
     {
 
         #region Builder
@@ -63,7 +63,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<LiteralValueAst> Values
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

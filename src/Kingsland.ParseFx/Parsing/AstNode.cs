@@ -1,7 +1,7 @@
 ﻿namespace Kingsland.ParseFx.Parsing
 {
 
-    public abstract class AstNode : IAstNode
+    public abstract record AstNode : IAstNode
     {
 
         #region Constructors

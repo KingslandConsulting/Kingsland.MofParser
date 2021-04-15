@@ -4,7 +4,7 @@ using System;
 namespace Kingsland.ParseFx.Syntax
 {
 
-    public abstract class SyntaxToken
+    public abstract record SyntaxToken
     {
 
         #region Constructors
@@ -25,7 +25,7 @@ namespace Kingsland.ParseFx.Syntax
         public SourceExtent Extent
         {
             get;
-            private set;
+            private init;
         }
 
         public string Text

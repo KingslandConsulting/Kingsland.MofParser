@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 namespace Kingsland.MofParser.Model
 {
 
-    public sealed class Module
+    public sealed record Module
     {
 
         #region Builder
@@ -50,7 +50,7 @@ namespace Kingsland.MofParser.Model
         public ReadOnlyCollection<Instance> Instances
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

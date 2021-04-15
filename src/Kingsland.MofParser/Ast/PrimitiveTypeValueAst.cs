@@ -12,7 +12,7 @@
     ///     primitiveTypeValue = literalValue / literalValueArray
     ///
     /// </remarks>
-    public abstract class PrimitiveTypeValueAst : PropertyValueAst
+    public abstract record PrimitiveTypeValueAst : PropertyValueAst
     {
 
         #region Constructors

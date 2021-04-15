@@ -20,7 +20,7 @@ namespace Kingsland.MofParser.Ast
     ///     stringValue       = singleStringValue *( *WS singleStringValue )
     ///
     /// </remarks>
-    public sealed class StringValueAst : LiteralValueAst, IEnumElementValueAst
+    public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
     {
 
         #region Builder
@@ -80,13 +80,13 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<StringLiteralToken> StringLiteralValues
         {
             get;
-            private set;
+            private init;
         }
 
         public string Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

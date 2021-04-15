@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Ast
     ///     complexValueArray = "{" [ complexValue *( "," complexValue) ] "}"
     ///
     /// </remarks>
-    public sealed class ComplexValueArrayAst : ComplexTypeValueAst
+    public sealed record ComplexValueArrayAst : ComplexTypeValueAst
     {
 
         #region Builder
@@ -65,7 +65,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<ComplexValueAst> Values
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

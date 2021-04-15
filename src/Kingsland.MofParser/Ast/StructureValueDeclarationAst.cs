@@ -23,7 +23,7 @@ namespace Kingsland.MofParser.Ast
     ///     alias                     = AS aliasIdentifier
     ///
     /// </remarks>
-    public sealed class StructureValueDeclarationAst : MofProductionAst
+    public sealed record StructureValueDeclarationAst : MofProductionAst
     {
 
         #region Builder
@@ -122,43 +122,43 @@ namespace Kingsland.MofParser.Ast
         public IdentifierToken Value
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken Of
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken TypeName
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken As
         {
             get;
-            private set;
+            private init;
         }
 
         public AliasIdentifierToken Alias
         {
             get;
-            private set;
+            private init;
         }
 
         public PropertyValueListAst PropertyValues
         {
             get;
-            private set;
+            private init;
         }
 
         public StatementEndToken StatementEnd
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

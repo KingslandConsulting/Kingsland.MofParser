@@ -30,7 +30,7 @@ namespace Kingsland.MofParser.Ast
     ///     STRUCTURE            = "structure" ; keyword: case insensitive
     ///
     /// </remarks>
-    public sealed class StructureDeclarationAst : MofProductionAst, IStructureFeatureAst
+    public sealed record StructureDeclarationAst : MofProductionAst, IStructureFeatureAst
     {
 
         #region Builder
@@ -100,25 +100,25 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken StructureName
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken SuperStructure
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<IStructureFeatureAst> StructureFeatures
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion
