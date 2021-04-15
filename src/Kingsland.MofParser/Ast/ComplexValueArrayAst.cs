@@ -55,7 +55,7 @@ namespace Kingsland.MofParser.Ast
         )
         {
             this.Values = new ReadOnlyCollection<ComplexValueAst>(
-                values?.ToList() ?? new List<ComplexValueAst>()
+                values.ToList()
             );
         }
 

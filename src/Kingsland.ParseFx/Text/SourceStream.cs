@@ -76,7 +76,7 @@ namespace Kingsland.ParseFx.Text
             }
             var streamChar = (char)streamRead;
             // append a char to the buffer
-            var lastChar = (this.Buffer?.Count == 0) ? null : this.Buffer[this.Buffer.Count - 1];
+            var lastChar = (this.Buffer?.Count == 0) ? null : this.Buffer![^1];
             var nextChar = new SourceChar(
                 SourceStream.GetNextPosition(lastChar, streamChar),
                 streamChar
@@ -85,9 +85,13 @@ namespace Kingsland.ParseFx.Text
             return true;
         }
 
-        private static SourcePosition GetNextPosition(SourceChar lastChar, char nextChar)
+        private static SourcePosition GetNextPosition(SourceChar? lastChar, char nextChar)
         {
-            var lastPosition = lastChar?.Position;
+            if (lastChar == null)
+            {
+                return SourceStream.StartOfStream();
+            }
+            var lastPosition = lastChar.Position;
             if (lastPosition == null)
             {
                 return SourceStream.StartOfStream();

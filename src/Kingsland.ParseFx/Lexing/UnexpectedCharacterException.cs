@@ -9,18 +9,14 @@ namespace Kingsland.ParseFx.Lexing
 
         #region Constructors
 
-        private UnexpectedCharacterException()
-        {
-        }
-
         public UnexpectedCharacterException(SourceChar foundChar)
         {
-            this.FoundChar = foundChar ?? throw new ArgumentNullException("foundChar");
+            this.FoundChar = foundChar;
         }
 
         public UnexpectedCharacterException(SourceChar foundChar, char expectedChar)
         {
-            this.FoundChar = foundChar ?? throw new ArgumentNullException("foundChar");
+            this.FoundChar = foundChar;
             this.ExpectedChar = expectedChar;
         }
 

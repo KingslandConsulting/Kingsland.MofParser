@@ -11,13 +11,13 @@ namespace Kingsland.MofParser.Model
         public sealed class Builder
         {
 
-            public string ClassName
+            public string? ClassName
             {
                 get;
                 set;
             }
 
-            public string SuperClass
+            public string? SuperClass
             {
                 get;
                 set;
@@ -26,8 +26,12 @@ namespace Kingsland.MofParser.Model
             public Class Build()
             {
                 return new Class(
-                    this.ClassName,
-                    this.SuperClass
+                    this.ClassName ?? throw new InvalidOperationException(
+                        $"{nameof(this.ClassName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.SuperClass ?? throw new InvalidOperationException(
+                        $"{nameof(this.SuperClass)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -39,7 +43,7 @@ namespace Kingsland.MofParser.Model
 
         internal Class(string className, string superClass)
         {
-            this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
+            this.ClassName = className;
             this.SuperClass = superClass;
         }
 

@@ -46,6 +46,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.Parameters = new List<ParameterDeclarationAst>();
             }
 
@@ -55,13 +56,13 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken ReturnType
+            public IdentifierToken? ReturnType
             {
                 get;
                 set;
             }
 
-            public IdentifierToken ReturnTypeRef
+            public IdentifierToken? ReturnTypeRef
             {
                 get;
                 set;
@@ -73,7 +74,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken MethodName
+            public IdentifierToken? MethodName
             {
                 get;
                 set;
@@ -89,10 +90,14 @@ namespace Kingsland.MofParser.Ast
             {
                 return new MethodDeclarationAst(
                     this.QualifierList,
-                    this.ReturnType,
+                    this.ReturnType ?? throw new InvalidOperationException(
+                        $"{nameof(this.ReturnType)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.ReturnTypeRef,
                     this.ReturnTypeIsArray,
-                    this.MethodName,
+                    this.MethodName ?? throw new InvalidOperationException(
+                        $"{nameof(this.MethodName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.Parameters
                 );
             }
@@ -106,19 +111,19 @@ namespace Kingsland.MofParser.Ast
         internal MethodDeclarationAst(
             QualifierListAst qualifierList,
             IdentifierToken returnType,
-            IdentifierToken returnTypeRef,
+            IdentifierToken? returnTypeRef,
             bool returnTypeIsArray,
             IdentifierToken methodName,
             IEnumerable<ParameterDeclarationAst> parameters
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
+            this.QualifierList = qualifierList;
+            this.ReturnType = returnType;
             this.ReturnTypeRef = returnTypeRef;
             this.ReturnTypeIsArray = returnTypeIsArray;
-            this.Name = methodName ?? throw new ArgumentNullException(nameof(methodName));
+            this.Name = methodName;
             this.Parameters = new ReadOnlyCollection<ParameterDeclarationAst>(
-                parameters?.ToList() ?? new List<ParameterDeclarationAst>()
+                parameters.ToList()
             );
         }
 
@@ -146,7 +151,7 @@ namespace Kingsland.MofParser.Ast
             }
         }
 
-        public IdentifierToken ReturnTypeRef
+        public IdentifierToken? ReturnTypeRef
         {
             get;
             private init;

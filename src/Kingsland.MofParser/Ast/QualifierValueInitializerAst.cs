@@ -23,7 +23,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public LiteralValueAst Value
+            public LiteralValueAst? Value
             {
                 get;
                 set;
@@ -32,7 +32,9 @@ namespace Kingsland.MofParser.Ast
             public QualifierValueInitializerAst Build()
             {
                 return new QualifierValueInitializerAst(
-                    this.Value
+                    this.Value ?? throw new InvalidOperationException(
+                        $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -44,7 +46,7 @@ namespace Kingsland.MofParser.Ast
 
         internal QualifierValueInitializerAst(LiteralValueAst value)
         {
-            this.Value = value ?? throw new ArgumentNullException(nameof(value));
+            this.Value = value;
         }
 
         #endregion

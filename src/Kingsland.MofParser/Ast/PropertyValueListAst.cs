@@ -57,7 +57,7 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         internal PropertyValueListAst()
-            : this(default(IDictionary<string, PropertyValueAst>))
+            : this(new Dictionary<string, PropertyValueAst>())
         {
         }
 
@@ -66,9 +66,9 @@ namespace Kingsland.MofParser.Ast
         )
         {
             this.PropertyValues = new ReadOnlyDictionary<string, PropertyValueAst>(
-                propertyValues?.ToDictionary(
+                propertyValues.ToDictionary(
                     kvp => kvp.Key, kvp => kvp.Value
-                ) ?? new Dictionary<string, PropertyValueAst>()
+                )
             );
         }
 

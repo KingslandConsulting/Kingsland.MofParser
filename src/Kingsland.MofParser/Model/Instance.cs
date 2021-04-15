@@ -16,13 +16,18 @@ namespace Kingsland.MofParser.Model
         public sealed class Builder
         {
 
-            public string TypeName
+            public Builder()
+            {
+                this.Properties = new List<Property>();
+            }
+
+            public string? TypeName
             {
                 get;
                 set;
             }
 
-            public string Alias
+            public string? Alias
             {
                 get;
                 set;
@@ -37,8 +42,12 @@ namespace Kingsland.MofParser.Model
             public Instance Build()
             {
                 return new Instance(
-                    this.TypeName,
-                    this.Alias,
+                    this.TypeName ?? throw new InvalidOperationException(
+                        $"{nameof(this.TypeName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.Alias ?? throw new InvalidOperationException(
+                        $"{nameof(this.Alias)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.Properties
                 );
             }
@@ -51,10 +60,10 @@ namespace Kingsland.MofParser.Model
 
         internal Instance(string typeName, string alias, IEnumerable<Property> properties)
         {
-            this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
-            this.Alias = alias?? throw new ArgumentNullException(nameof(alias));
+            this.TypeName = typeName;
+            this.Alias = alias;
             this.Properties = new ReadOnlyCollection<Property>(
-                properties?.ToList() ?? new List<Property>()
+                properties.ToList()
             );
         }
 

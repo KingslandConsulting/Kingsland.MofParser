@@ -39,6 +39,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.ClassFeatures = new List<IClassFeatureAst>();
             }
 
@@ -48,13 +49,13 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken ClassName
+            public IdentifierToken? ClassName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken SuperClass
+            public IdentifierToken? SuperClass
             {
                 get;
                 set;
@@ -70,7 +71,9 @@ namespace Kingsland.MofParser.Ast
             {
                 return new ClassDeclarationAst(
                     this.QualifierList,
-                    this.ClassName,
+                    this.ClassName ?? throw new InvalidOperationException(
+                        $"{nameof(this.ClassName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.SuperClass,
                     this.ClassFeatures
                 );
@@ -85,15 +88,15 @@ namespace Kingsland.MofParser.Ast
         internal ClassDeclarationAst(
             QualifierListAst qualifierList,
             IdentifierToken className,
-            IdentifierToken superClass,
+            IdentifierToken? superClass,
             IEnumerable<IClassFeatureAst> classFeatures
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst();
-            this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
+            this.QualifierList = qualifierList;
+            this.ClassName = className;
             this.SuperClass = superClass;
             this.ClassFeatures = new ReadOnlyCollection<IClassFeatureAst>(
-                classFeatures?.ToList() ?? new List<IClassFeatureAst>()
+                classFeatures.ToList()
             );
         }
 
@@ -113,7 +116,7 @@ namespace Kingsland.MofParser.Ast
             private init;
         }
 
-        public IdentifierToken SuperClass
+        public IdentifierToken? SuperClass
         {
             get;
             private init;

@@ -40,7 +40,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public string Value
+            public string? Value
             {
                 get;
                 set;
@@ -50,7 +50,9 @@ namespace Kingsland.MofParser.Ast
             {
                 return new StringValueAst(
                     new ReadOnlyCollection<StringLiteralToken>(this.StringLiteralValues),
-                    this.Value
+                    this.Value ?? throw new InvalidOperationException(
+                        $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -65,11 +67,7 @@ namespace Kingsland.MofParser.Ast
             string value
         )
         {
-            var values = stringLiteralValues?.ToList();
-            if (values == null)
-            {
-                throw new ArgumentNullException(nameof(stringLiteralValues));
-            }
+            var values = stringLiteralValues.ToList();
             if (values.Count == 0)
             {
                 throw new ArgumentException(null, nameof(stringLiteralValues));

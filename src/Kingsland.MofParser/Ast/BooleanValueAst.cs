@@ -27,7 +27,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public BooleanLiteralToken Token
+            public BooleanLiteralToken? Token
             {
                 get;
                 set;
@@ -36,7 +36,9 @@ namespace Kingsland.MofParser.Ast
             public BooleanValueAst Build()
             {
                 return new BooleanValueAst(
-                    this.Token
+                    this.Token ?? throw new InvalidOperationException(
+                        $"{nameof(this.Token)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -48,7 +50,7 @@ namespace Kingsland.MofParser.Ast
 
         internal BooleanValueAst(BooleanLiteralToken token)
         {
-            this.Token = token ?? throw new ArgumentNullException(nameof(token));
+            this.Token = token;
         }
 
         #endregion

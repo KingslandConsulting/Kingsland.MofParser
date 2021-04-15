@@ -41,6 +41,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.StructureFeatures = new List<IStructureFeatureAst>();
             }
 
@@ -50,13 +51,13 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken StructureName
+            public IdentifierToken? StructureName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken SuperStructure
+            public IdentifierToken? SuperStructure
             {
                 get;
                 set;
@@ -72,7 +73,9 @@ namespace Kingsland.MofParser.Ast
             {
                 return new StructureDeclarationAst(
                     this.QualifierList,
-                    this.StructureName,
+                    this.StructureName ?? throw new InvalidOperationException(
+                        $"{nameof(this.StructureName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.SuperStructure,
                     this.StructureFeatures
                 );
@@ -87,15 +90,15 @@ namespace Kingsland.MofParser.Ast
         internal StructureDeclarationAst(
             QualifierListAst qualifierList,
             IdentifierToken structureName,
-            IdentifierToken superStructure,
+            IdentifierToken? superStructure,
             IEnumerable<IStructureFeatureAst> structureFeatures
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst();
-            this.StructureName = structureName ?? throw new ArgumentNullException(nameof(structureName));
+            this.QualifierList = qualifierList;
+            this.StructureName = structureName;
             this.SuperStructure = superStructure;
             this.StructureFeatures = new ReadOnlyCollection<IStructureFeatureAst>(
-                structureFeatures?.ToList() ?? new List<IStructureFeatureAst>()
+                structureFeatures.ToList()
             );
         }
 
@@ -115,7 +118,7 @@ namespace Kingsland.MofParser.Ast
             private init;
         }
 
-        public IdentifierToken SuperStructure
+        public IdentifierToken? SuperStructure
         {
             get;
             private init;

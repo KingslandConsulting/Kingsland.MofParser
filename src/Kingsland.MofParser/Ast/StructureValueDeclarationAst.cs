@@ -31,31 +31,36 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public IdentifierToken Value
+            public Builder()
+            {
+                this.PropertyValues = new PropertyValueListAst();
+            }
+
+            public IdentifierToken? Value
             {
                 get;
                 set;
             }
 
-            public IdentifierToken Of
+            public IdentifierToken? Of
             {
                 get;
                 set;
             }
 
-            public IdentifierToken TypeName
+            public IdentifierToken? TypeName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken As
+            public IdentifierToken? As
             {
                 get;
                 set;
             }
 
-            public AliasIdentifierToken Alias
+            public AliasIdentifierToken? Alias
             {
                 get;
                 set;
@@ -67,7 +72,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public StatementEndToken StatementEnd
+            public StatementEndToken? StatementEnd
             {
                 get;
                 set;
@@ -76,13 +81,21 @@ namespace Kingsland.MofParser.Ast
             public StructureValueDeclarationAst Build()
             {
                 return new StructureValueDeclarationAst(
-                    value: this.Value,
-                    of: this.Of,
-                    typeName: this.TypeName,
+                    value: this.Value ?? throw new InvalidOperationException(
+                        $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
+                    ),
+                    of: this.Of ?? throw new InvalidOperationException(
+                        $"{nameof(this.Of)} property must be set before calling {nameof(Build)}."
+                    ),
+                    typeName: this.TypeName ?? throw new InvalidOperationException(
+                        $"{nameof(this.TypeName)} property must be set before calling {nameof(Build)}."
+                    ),
                     @as: this.As,
                     alias: this.Alias,
                     propertyValues: this.PropertyValues,
-                    statementEnd: this.StatementEnd
+                    statementEnd: this.StatementEnd ?? throw new InvalidOperationException(
+                        $"{nameof(this.StatementEnd)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -96,22 +109,22 @@ namespace Kingsland.MofParser.Ast
             IdentifierToken value,
             IdentifierToken of,
             IdentifierToken typeName,
-            IdentifierToken @as,
-            AliasIdentifierToken alias,
+            IdentifierToken? @as,
+            AliasIdentifierToken? alias,
             PropertyValueListAst propertyValues,
             StatementEndToken statementEnd
         )
         {
-            this.Value = value ?? throw new ArgumentNullException(nameof(value));
-            this.Of = of ?? throw new ArgumentNullException(nameof(of));
-            this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
+            this.Value = value;
+            this.Of = of;
+            this.TypeName = typeName;
             if ((@as != null) || (alias != null))
             {
                 this.As = @as ?? throw new ArgumentNullException(nameof(@as));
                 this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));
             }
-            this.PropertyValues = propertyValues ?? new PropertyValueListAst();
-            this.StatementEnd = statementEnd ?? throw new ArgumentNullException(nameof(statementEnd));
+            this.PropertyValues = propertyValues;
+            this.StatementEnd = statementEnd;
         }
 
         #endregion
@@ -136,13 +149,13 @@ namespace Kingsland.MofParser.Ast
             private init;
         }
 
-        public IdentifierToken As
+        public IdentifierToken? As
         {
             get;
             private init;
         }
 
-        public AliasIdentifierToken Alias
+        public AliasIdentifierToken? Alias
         {
             get;
             private init;

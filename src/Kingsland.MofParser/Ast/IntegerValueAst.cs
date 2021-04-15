@@ -24,7 +24,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public IntegerLiteralToken IntegerLiteralToken
+            public IntegerLiteralToken? IntegerLiteralToken
             {
                 get;
                 set;
@@ -33,7 +33,9 @@ namespace Kingsland.MofParser.Ast
             public IntegerValueAst Build()
             {
                 return new IntegerValueAst(
-                    this.IntegerLiteralToken
+                    this.IntegerLiteralToken ?? throw new InvalidOperationException(
+                        $"{nameof(this.IntegerLiteralToken)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -47,7 +49,7 @@ namespace Kingsland.MofParser.Ast
             IntegerLiteralToken integerLiteralToken
         )
         {
-            this.IntegerLiteralToken = integerLiteralToken ?? throw new ArgumentNullException(nameof(integerLiteralToken));
+            this.IntegerLiteralToken = integerLiteralToken;
             this.Kind = integerLiteralToken.Kind;
             this.Value = integerLiteralToken.Value;
         }

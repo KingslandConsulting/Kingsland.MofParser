@@ -42,6 +42,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.Flavors = new List<string>();
             }
 
@@ -51,31 +52,31 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken QualifierKeyword
+            public IdentifierToken? QualifierKeyword
             {
                 get;
                 set;
             }
 
-            public IdentifierToken QualifierName
+            public IdentifierToken? QualifierName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken QualifierType
+            public IdentifierToken? QualifierType
             {
                 get;
                 set;
             }
 
-            public IdentifierToken QualifierScope
+            public IdentifierToken? QualifierScope
             {
                 get;
                 set;
             }
 
-            public IdentifierToken QualifierPolicy
+            public IdentifierToken? QualifierPolicy
             {
                 get;
                 set;
@@ -91,11 +92,21 @@ namespace Kingsland.MofParser.Ast
             {
                 return new QualifierTypeDeclarationAst(
                     this.QualifierList,
-                    this.QualifierKeyword,
-                    this.QualifierName,
-                    this.QualifierType,
-                    this.QualifierScope,
-                    this.QualifierPolicy,
+                    this.QualifierKeyword ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierKeyword)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.QualifierName ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.QualifierType ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierType)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.QualifierScope ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierScope)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.QualifierPolicy ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierPolicy)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.Flavors
                 );
             }
@@ -107,7 +118,7 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         internal QualifierTypeDeclarationAst(
-            QualifierListAst qualifierList,
+            QualifierListAst? qualifierList,
             IdentifierToken qualifierKeyword,
             IdentifierToken qualifierName,
             IdentifierToken qualifierType,
@@ -116,14 +127,14 @@ namespace Kingsland.MofParser.Ast
             IEnumerable<string> flavors
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.QualifierKeyword = qualifierKeyword ?? throw new ArgumentNullException(nameof(qualifierKeyword));
-            this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
-            this.QualifierType = qualifierType ?? throw new ArgumentNullException(nameof(qualifierType));
-            this.QualifierScope = qualifierScope ?? throw new ArgumentNullException(nameof(qualifierScope));
-            this.QualifierPolicy = qualifierPolicy ?? throw new ArgumentNullException(nameof(qualifierPolicy));
+            this.QualifierList = qualifierList ?? new QualifierListAst();
+            this.QualifierKeyword = qualifierKeyword;
+            this.QualifierName = qualifierName;
+            this.QualifierType = qualifierType;
+            this.QualifierScope = qualifierScope;
+            this.QualifierPolicy = qualifierPolicy;
             this.Flavors = new ReadOnlyCollection<string>(
-                flavors?.ToList() ?? new List<string>()
+                flavors.ToList()
             );
         }
 

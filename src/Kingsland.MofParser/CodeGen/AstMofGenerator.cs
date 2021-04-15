@@ -18,7 +18,7 @@ namespace Kingsland.MofParser.CodeGen
         {
             if (node == null)
             {
-                return null;
+                return string.Empty;
             }
             switch (node)
             {
@@ -468,6 +468,7 @@ namespace Kingsland.MofParser.CodeGen
             source.Append(" ");
             if (node.ReturnTypeIsRef)
             {
+                var returnTypeRef_ = node.ReturnTypeRef ?? throw new NullReferenceException();
                 source.Append(node.ReturnTypeRef.Name);
                 source.Append(" ");
             }
@@ -547,6 +548,7 @@ namespace Kingsland.MofParser.CodeGen
             source.Append(" ");
             if (node.ParameterIsRef)
             {
+                var parameterRef = node.ParameterRef ?? throw new NullReferenceException();
                 source.Append(node.ParameterRef.Name);
                 source.Append(" ");
             }
@@ -596,16 +598,20 @@ namespace Kingsland.MofParser.CodeGen
         {
             if (node.IsAlias)
             {
+                var alias = node.Alias ?? throw new NullReferenceException();
                 return $"${node.Alias.Name}";
             }
             else
             {
                 var source = new StringBuilder();
                 // value of GOLF_PhoneNumber
+                var value = node.Value ?? throw new NullReferenceException();
                 source.Append(node.Value.Extent.Text);
                 source.Append(" ");
+                var of = node.Of ?? throw new NullReferenceException();
                 source.Append(node.Of.Extent.Text);
                 source.Append(" ");
+                var typename = node.TypeName ?? throw new NullReferenceException();
                 source.Append(node.TypeName.Name);
                 source.AppendLine();
                 // {
@@ -763,6 +769,7 @@ namespace Kingsland.MofParser.CodeGen
             if (node.Alias != null)
             {
                 source.Append(" ");
+                var @as = node.As ?? throw new NullReferenceException();
                 source.Append(node.As.Extent.Text);
                 source.Append(" ");
                 source.Append("$");
@@ -795,6 +802,7 @@ namespace Kingsland.MofParser.CodeGen
             if (node.Alias != null)
             {
                 source.Append(" ");
+                var @as = node.As ?? throw new NullReferenceException();
                 source.Append(node.As.Extent.Text);
                 source.Append(" $");
                 source.Append(node.Alias.Name);

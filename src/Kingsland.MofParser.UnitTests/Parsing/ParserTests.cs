@@ -3,6 +3,7 @@ using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.UnitTests.Helpers;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -69,8 +70,11 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                 ParserQuirks.AllowEmptyQualifierValueArrays
             );
             var actualText = TestUtils.ConvertToJson(ast);
-            var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),
-                                                Path.GetFileNameWithoutExtension(mofFilename) + ".json");
+            var expectedFilename = Path.Combine(
+                Path.GetDirectoryName(mofFilename)
+                    ?? throw new NullReferenceException(),
+                Path.GetFileNameWithoutExtension(mofFilename) + ".json"
+            );
             if (!File.Exists(expectedFilename))
             {
                 File.WriteAllText(expectedFilename, actualText);

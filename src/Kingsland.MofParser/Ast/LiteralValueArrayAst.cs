@@ -49,12 +49,17 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
+        internal LiteralValueArrayAst()
+            : this(new List<LiteralValueAst>())
+        {
+        }
+
         internal LiteralValueArrayAst(
             IEnumerable<LiteralValueAst> values
         )
         {
             this.Values = new ReadOnlyCollection<LiteralValueAst>(
-                values?.ToList() ?? new List<LiteralValueAst>()
+                values.ToList()
             );
         }
 

@@ -10,6 +10,10 @@
     <Description>A C# library for parsing the contents of Managed Object Format (MOF) files</Description>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Kingsland.ParseFx\Kingsland.ParseFx.csproj" />
   </ItemGroup>

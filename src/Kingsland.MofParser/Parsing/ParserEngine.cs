@@ -115,9 +115,9 @@ namespace Kingsland.MofParser.Parsing
                 return ParserEngine.ParseCompilerDirectiveAst(stream, quirks);
             }
 
-            if (peek is IdentifierToken identifier)
+            if (peek is IdentifierToken valueOrInstance)
             {
-                switch (identifier.GetNormalizedName())
+                switch (valueOrInstance.GetNormalizedName())
                 {
                     case Constants.VALUE:
                         // structureValueDeclaration
@@ -129,14 +129,16 @@ namespace Kingsland.MofParser.Parsing
             }
 
             // all other mofProduction elements start with [ qualifieList ]
-            var qualifierList = default(QualifierListAst);
-            if (peek is AttributeOpenToken)
-            {
-                qualifierList = ParserEngine.ParseQualifierListAst(stream, quirks);
-            }
+            var qualifierList = (peek is AttributeOpenToken)
+                ? ParserEngine.ParseQualifierListAst(stream, quirks)
+                : new QualifierListAst();
 
-            identifier = stream.Peek<IdentifierToken>();
-            switch (identifier.GetNormalizedName())
+            var productionType = stream.Peek<IdentifierToken>();
+            if (productionType == null)
+            {
+                throw new UnexpectedTokenException(stream.Peek());
+            }
+            switch (productionType.GetNormalizedName())
             {
                 case Constants.STRUCTURE:
                     // structureDeclaration
@@ -154,7 +156,7 @@ namespace Kingsland.MofParser.Parsing
                     // qualifierTypeDeclaration
                     return ParserEngine.ParseQualifierTypeDeclarationAst(stream, qualifierList, quirks);
                 default:
-                    throw new UnexpectedTokenException(identifier);
+                    throw new UnexpectedTokenException(productionType);
             }
 
         }
@@ -380,7 +382,7 @@ namespace Kingsland.MofParser.Parsing
                     node.Flavors.Add(stream.Read<IdentifierToken>());
                     while (stream.TryRead<IdentifierToken>(out var identifier))
                     {
-                        node.Flavors.Add(identifier);
+                        node.Flavors.Add(identifier!);
                     }
                 }
             }
@@ -592,11 +594,9 @@ namespace Kingsland.MofParser.Parsing
         {
 
             // all structureFeatures start with an optional "[ qualifierList ]"
-            var qualifierList = default(QualifierListAst);
-            if (stream.TryPeek<AttributeOpenToken>())
-            {
-                qualifierList = ParserEngine.ParseQualifierListAst(stream, quirks);
-            }
+            var qualifierList = (stream.TryPeek<AttributeOpenToken>())
+                ? ParserEngine.ParseQualifierListAst(stream, quirks)
+                : new QualifierListAst();
 
             // we now need to work out if it's a structureDeclaration, enumerationDeclaration,
             // or propertyDeclaration
@@ -610,7 +610,7 @@ namespace Kingsland.MofParser.Parsing
                 throw new UnexpectedTokenException(stream.Peek());
             }
 
-            switch (identifier.GetNormalizedName())
+            switch (identifier!.GetNormalizedName())
             {
                 case Constants.STRUCTURE:
                     // structureDeclaration
@@ -732,11 +732,9 @@ namespace Kingsland.MofParser.Parsing
         {
 
             // all classFeatures start with an optional "[ qualifierList ]"
-            var qualifierList = default(QualifierListAst);
-            if (stream.TryPeek<AttributeOpenToken>())
-            {
-                qualifierList = ParserEngine.ParseQualifierListAst(stream, quirks);
-            }
+            var qualifierList = stream.TryPeek<AttributeOpenToken>()
+                ? ParserEngine.ParseQualifierListAst(stream, quirks)
+                : new QualifierListAst();
 
             // we now need to work out if it's a structureDeclaration, enumerationDeclaration,
             // propertyDeclaration or methodDeclaration
@@ -746,7 +744,7 @@ namespace Kingsland.MofParser.Parsing
                 throw new UnexpectedTokenException(stream.Peek());
             }
 
-            switch (identifier.GetNormalizedName())
+            switch (identifier!.GetNormalizedName())
             {
                 case Constants.STRUCTURE:
                     // structureDeclaration
@@ -889,6 +887,10 @@ namespace Kingsland.MofParser.Parsing
 
             // ( DT_INTEGER / integerEnumName ) / ( DT_STRING / stringEnumName )
             var enumTypeDeclaration = stream.Peek<IdentifierToken>();
+            if (enumTypeDeclaration == null)
+            {
+                throw new UnexpectedTokenException(stream.Peek());
+            }
             var enumTypeDeclarationName = enumTypeDeclaration.GetNormalizedName();
             switch (enumTypeDeclarationName)
             {
@@ -1112,8 +1114,6 @@ namespace Kingsland.MofParser.Parsing
         )
         {
 
-            var peek = default(SyntaxToken);
-
             var isMethodDeclaration = false;
             var isPropertyDeclaration = false;
 
@@ -1148,7 +1148,7 @@ namespace Kingsland.MofParser.Parsing
                 // check we're expecting a methodDeclaration
                 if (isPropertyDeclaration || !allowMethodDeclaration)
                 {
-                    throw new UnsupportedTokenException(peek);
+                    throw new UnsupportedTokenException(stream.Peek());
                 }
                 // [ array ]
                 stream.Read<AttributeOpenToken>();
@@ -1168,7 +1168,7 @@ namespace Kingsland.MofParser.Parsing
                 // check we're expecting a propertyDeclaration
                 if (isMethodDeclaration || !allowPropertyDeclaration)
                 {
-                    throw new UnsupportedTokenException(peek);
+                    throw new UnsupportedTokenException(stream.Peek());
                 }
                 // [ array ]
                 stream.Read<AttributeOpenToken>();
@@ -1186,7 +1186,7 @@ namespace Kingsland.MofParser.Parsing
                 // check we're expecting a methodDeclaration
                 if (isPropertyDeclaration || !allowMethodDeclaration)
                 {
-                    throw new UnsupportedTokenException(peek);
+                    throw new UnsupportedTokenException(stream.Peek());
                 }
                 // "("
                 var methodParenthesisOpen = stream.Read<ParenthesisOpenToken>();
@@ -1215,7 +1215,7 @@ namespace Kingsland.MofParser.Parsing
                 // check we're expecting a propertyDeclaration
                 if (isMethodDeclaration || !allowPropertyDeclaration)
                 {
-                    throw new UnsupportedTokenException(peek);
+                    throw new UnsupportedTokenException(stream.Peek());
                 }
                 // we know this is a propertyDeclaration now
                 isPropertyDeclaration = true;
@@ -1237,7 +1237,7 @@ namespace Kingsland.MofParser.Parsing
                     // check we're expecting a propertyDeclaration
                     if (isMethodDeclaration || !allowPropertyDeclaration)
                     {
-                        throw new UnsupportedTokenException(peek);
+                        throw new UnsupportedTokenException(stream.Peek());
                     }
                     // "="
                     var equalsOperator = stream.Read<EqualsOperatorToken>();
@@ -1338,11 +1338,9 @@ namespace Kingsland.MofParser.Parsing
         {
 
             // [ qualifierList ]
-            var qualifierList = default(QualifierListAst);
-            if (stream.TryPeek<AttributeOpenToken>())
-            {
-                qualifierList = ParserEngine.ParseQualifierListAst(stream, quirks);
-            }
+            var qualifierList = stream.TryPeek<AttributeOpenToken>()
+                ? ParserEngine.ParseQualifierListAst(stream, quirks)
+                : new QualifierListAst();
 
             // read the type of the parameter
             //
@@ -1881,7 +1879,7 @@ namespace Kingsland.MofParser.Parsing
             // *( *WS singleStringValue )
             while (stream.TryRead<StringLiteralToken>(out var stringLiteral))
             {
-                node.StringLiteralValues.Add(stringLiteral);
+                node.StringLiteralValues.Add(stringLiteral!);
             }
 
             node.Value = string.Join(

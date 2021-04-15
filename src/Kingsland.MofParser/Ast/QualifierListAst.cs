@@ -51,7 +51,7 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         internal QualifierListAst()
-            : this(default(IEnumerable<QualifierValueAst>))
+            : this(new List<QualifierValueAst>())
         {
         }
 
@@ -60,7 +60,7 @@ namespace Kingsland.MofParser.Ast
         )
         {
             this.QualifierValues = new ReadOnlyCollection<QualifierValueAst>(
-                qualifierValues?.ToList() ?? new List<QualifierValueAst>()
+                qualifierValues.ToList()
             );
         }
 

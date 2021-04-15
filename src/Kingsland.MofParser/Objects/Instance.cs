@@ -17,22 +17,22 @@ namespace Kingsland.MofParser.Objects
 
             public Builder()
             {
-                this.Properties = new Dictionary<string, object>();
+                this.Properties = new Dictionary<string, object?>();
             }
 
-            public string ClassName
+            public string? ClassName
             {
                 get;
                 set;
             }
 
-            public string Alias
+            public string? Alias
             {
                 get;
                 set;
             }
 
-            public Dictionary<string, object> Properties
+            public Dictionary<string, object?> Properties
             {
                 get;
                 set;
@@ -41,8 +41,12 @@ namespace Kingsland.MofParser.Objects
             public Instance Build()
             {
                 return new Instance(
-                    this.ClassName,
-                    this.Alias,
+                    this.ClassName ?? throw new InvalidOperationException(
+                        $"{nameof(this.ClassName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.Alias ?? throw new InvalidOperationException(
+                        $"{nameof(this.Alias)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.Properties
                 );
             }
@@ -53,14 +57,14 @@ namespace Kingsland.MofParser.Objects
 
         #region Constructors
 
-        internal Instance(string className, string alias, IDictionary<string, object> properties)
+        internal Instance(string className, string alias, IDictionary<string, object?> properties)
         {
-            this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
+            this.ClassName = className;
             this.Alias = alias;
-            this.Properties = new ReadOnlyDictionary<string, object>(
-                properties?.ToDictionary(
+            this.Properties = new ReadOnlyDictionary<string, object?>(
+                properties.ToDictionary(
                     kvp => kvp.Key, kvp => kvp.Value
-                ) ?? new Dictionary<string, object>()
+                )
             );
         }
 
@@ -80,7 +84,7 @@ namespace Kingsland.MofParser.Objects
             private init;
         }
 
-        public ReadOnlyDictionary<string, object> Properties
+        public ReadOnlyDictionary<string, object?> Properties
         {
             get;
             private set;
@@ -99,7 +103,7 @@ namespace Kingsland.MofParser.Objects
             var instance = new Instance.Builder
             {
                 ClassName = node.TypeName.Name,
-                Alias = node?.Alias?.Name
+                Alias = node.Alias?.Name
             };
             foreach (var property in node.PropertyValues.PropertyValues)
             {
@@ -130,12 +134,14 @@ namespace Kingsland.MofParser.Objects
 
         private static object GetComplexValue(ComplexValueAst node)
         {
-            return node.IsAlias ?
-                node.Alias :
-                throw new NotImplementedException($"Unhandled value-type complex values.");
+            return node.IsAlias
+                ? node.Alias ?? throw new NullReferenceException()
+                : throw new NotImplementedException(
+                    $"Unhandled value-type complex values."
+                );
         }
 
-        private static object GetLiteralValue(LiteralValueAst node)
+        private static object? GetLiteralValue(LiteralValueAst node)
         {
             return node switch
             {
@@ -143,7 +149,9 @@ namespace Kingsland.MofParser.Objects
                 IntegerValueAst integerValue => integerValue.Value,
                 StringValueAst stringValue => stringValue.Value,
                 NullValueAst _ => null,
-                _ => throw new NotImplementedException($"Unhandled literal value type '{node.GetType().FullName}'"),
+                _ => throw new NotImplementedException(
+                    $"Unhandled literal value type '{node.GetType().FullName}'"
+                ),
             };
         }
 

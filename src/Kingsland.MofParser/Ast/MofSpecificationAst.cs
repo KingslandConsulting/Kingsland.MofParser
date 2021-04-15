@@ -50,12 +50,17 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
+        internal MofSpecificationAst()
+            : this(new List<MofProductionAst>())
+        {
+        }
+
         internal MofSpecificationAst(
             IEnumerable<MofProductionAst> productions
         )
         {
             this.Productions = new ReadOnlyCollection<MofProductionAst>(
-                productions?.ToList() ?? new List<MofProductionAst>()
+                productions.ToList()
             );
         }
 

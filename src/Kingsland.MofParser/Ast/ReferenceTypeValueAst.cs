@@ -43,7 +43,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public string Name
+            public string? Name
             {
                 get;
                 set;
@@ -52,7 +52,9 @@ namespace Kingsland.MofParser.Ast
             public ReferenceTypeValueAst Build()
             {
                 return new ReferenceTypeValueAst(
-                    this.Name
+                    this.Name ?? throw new InvalidOperationException(
+                        $"{nameof(this.Name)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -66,7 +68,7 @@ namespace Kingsland.MofParser.Ast
             string name
         )
         {
-            this.Name = name ?? throw new ArgumentNullException(nameof(name));
+            this.Name = name;
         }
 
         #endregion

@@ -22,7 +22,7 @@ namespace Kingsland.ParseFx.Parsing
 
         #region Properties
 
-        public SyntaxToken FoundToken
+        public SyntaxToken? FoundToken
         {
             get;
             private set;

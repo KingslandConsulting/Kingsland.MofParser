@@ -51,7 +51,7 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         internal QualifierValueArrayInitializerAst()
-            : this(default(IEnumerable<LiteralValueAst>))
+            : this(new List<LiteralValueAst>())
         {
         }
 
@@ -60,7 +60,7 @@ namespace Kingsland.MofParser.Ast
         )
         {
             this.Values = new ReadOnlyCollection<LiteralValueAst>(
-                values?.ToList() ?? new List<LiteralValueAst>()
+                values.ToList()
             );
         }
 

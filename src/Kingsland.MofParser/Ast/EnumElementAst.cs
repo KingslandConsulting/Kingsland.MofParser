@@ -27,19 +27,24 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
+            public Builder()
+            {
+                this.QualifierList = new QualifierListAst();
+            }
+
             public QualifierListAst QualifierList
             {
                 get;
                 set;
             }
 
-            public IdentifierToken EnumElementName
+            public IdentifierToken? EnumElementName
             {
                 get;
                 set;
             }
 
-            public IEnumElementValueAst EnumElementValue
+            public IEnumElementValueAst? EnumElementValue
             {
                 get;
                 set;
@@ -49,7 +54,9 @@ namespace Kingsland.MofParser.Ast
             {
                 return new EnumElementAst(
                     this.QualifierList,
-                    this.EnumElementName,
+                    this.EnumElementName ?? throw new InvalidOperationException(
+                        $"{nameof(this.EnumElementName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.EnumElementValue
                 );
             }
@@ -63,11 +70,11 @@ namespace Kingsland.MofParser.Ast
         internal EnumElementAst(
             QualifierListAst qualifierList,
             IdentifierToken enumElementName,
-            IEnumElementValueAst enumElementValue
+            IEnumElementValueAst? enumElementValue
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst();
-            this.EnumElementName = enumElementName ?? throw new ArgumentNullException(nameof(enumElementName));
+            this.QualifierList = qualifierList;
+            this.EnumElementName = enumElementName;
             this.EnumElementValue = enumElementValue;
         }
 
@@ -87,7 +94,7 @@ namespace Kingsland.MofParser.Ast
             private init;
         }
 
-        public IEnumElementValueAst EnumElementValue
+        public IEnumElementValueAst? EnumElementValue
         {
             get;
             private init;

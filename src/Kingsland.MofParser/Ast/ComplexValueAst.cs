@@ -27,25 +27,30 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public AliasIdentifierToken Alias
+            public Builder()
+            {
+                this.PropertyValues = new PropertyValueListAst();
+            }
+
+            public AliasIdentifierToken? Alias
             {
                 get;
                 set;
             }
 
-            public IdentifierToken Value
+            public IdentifierToken? Value
             {
                 get;
                 set;
             }
 
-            public IdentifierToken Of
+            public IdentifierToken? Of
             {
                 get;
                 set;
             }
 
-            public IdentifierToken TypeName
+            public IdentifierToken? TypeName
             {
                 get;
                 set;
@@ -61,9 +66,15 @@ namespace Kingsland.MofParser.Ast
             {
                 return (this.Alias == null)
                     ? new ComplexValueAst(
-                        this.Value,
-                        this.Of,
-                        this.TypeName,
+                        this.Value ?? throw new InvalidOperationException(
+                            $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
+                        ),
+                        this.Of ?? throw new InvalidOperationException(
+                            $"{nameof(this.Of)} property must be set before calling {nameof(Build)}."
+                        ),
+                        this.TypeName ?? throw new InvalidOperationException(
+                            $"{nameof(this.TypeName)} property must be set before calling {nameof(Build)}."
+                        ),
                         this.PropertyValues
                     )
                     : new ComplexValueAst(
@@ -81,7 +92,7 @@ namespace Kingsland.MofParser.Ast
             AliasIdentifierToken alias
         )
         {
-            this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));
+            this.Alias = alias;
             this.Value = null;
             this.Of = null;
             this.TypeName = null;
@@ -96,10 +107,10 @@ namespace Kingsland.MofParser.Ast
         )
         {
             this.Alias = null;
-            this.Value = value ?? throw new ArgumentNullException(nameof(value));
-            this.Of = of ?? throw new ArgumentNullException(nameof(of));
-            this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
-            this.PropertyValues = propertyValues ?? new PropertyValueListAst();
+            this.Value = value;
+            this.Of = of;
+            this.TypeName = typeName;
+            this.PropertyValues = propertyValues;
         }
 
         #endregion
@@ -122,25 +133,25 @@ namespace Kingsland.MofParser.Ast
             }
         }
 
-        public AliasIdentifierToken Alias
+        public AliasIdentifierToken? Alias
         {
             get;
             private init;
         }
 
-        public IdentifierToken Value
+        public IdentifierToken? Value
         {
             get;
             private init;
         }
 
-        public IdentifierToken Of
+        public IdentifierToken? Of
         {
             get;
             private init;
         }
 
-        public IdentifierToken TypeName
+        public IdentifierToken? TypeName
         {
             get;
             private init;

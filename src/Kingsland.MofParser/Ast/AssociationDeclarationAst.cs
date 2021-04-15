@@ -37,6 +37,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.ClassFeatures = new List<IClassFeatureAst>();
             }
 
@@ -46,13 +47,13 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken AssociationName
+            public IdentifierToken? AssociationName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken SuperAssociation
+            public IdentifierToken? SuperAssociation
             {
                 get;
                 set;
@@ -68,7 +69,9 @@ namespace Kingsland.MofParser.Ast
             {
                 return new AssociationDeclarationAst(
                     this.QualifierList,
-                    this.AssociationName,
+                    this.AssociationName ?? throw new InvalidOperationException(
+                        $"{nameof(this.AssociationName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.SuperAssociation,
                     this.ClassFeatures
                 );
@@ -80,13 +83,18 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        internal AssociationDeclarationAst(QualifierListAst qualifierList, IdentifierToken associationName, IdentifierToken superAssociation, IEnumerable<IClassFeatureAst> classFeatures)
+        internal AssociationDeclarationAst(
+            QualifierListAst qualifierList,
+            IdentifierToken associationName,
+            IdentifierToken? superAssociation,
+            IEnumerable<IClassFeatureAst> classFeatures
+        )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst();
-            this.AssociationName = associationName ?? throw new ArgumentNullException(nameof(associationName));
+            this.QualifierList = qualifierList;
+            this.AssociationName = associationName;
             this.SuperAssociation = superAssociation;
             this.ClassFeatures = new ReadOnlyCollection<IClassFeatureAst>(
-                classFeatures?.ToList() ?? new List<IClassFeatureAst>()
+                classFeatures.ToList()
             );
         }
 
@@ -106,7 +114,7 @@ namespace Kingsland.MofParser.Ast
             private init;
         }
 
-        public IdentifierToken SuperAssociation
+        public IdentifierToken? SuperAssociation
         {
             get;
             private init;

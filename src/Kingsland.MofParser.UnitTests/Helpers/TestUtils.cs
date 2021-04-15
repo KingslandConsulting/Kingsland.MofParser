@@ -24,9 +24,10 @@ namespace Kingsland.MofParser.UnitTests.Helpers
 
         public static IEnumerable<TestCaseData> GetMofTestCase(string path)
         {
-            var localPath = new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+            var localPath = Assembly.GetExecutingAssembly().Location;
             var testCasePath = Path.Combine(
-                Path.GetDirectoryName(localPath),
+                Path.GetDirectoryName(localPath)
+                    ?? throw new NullReferenceException(),
                 path
             );
             var testCaseFiles = Directory.GetFiles(testCasePath, "*.mof", SearchOption.AllDirectories);

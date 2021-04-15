@@ -38,13 +38,13 @@ namespace Kingsland.MofParser.Ast
                 this.Flavors = new List<IdentifierToken>();
             }
 
-            public IdentifierToken QualifierName
+            public IdentifierToken? QualifierName
             {
                 get;
                 set;
             }
 
-            public IQualifierInitializerAst Initializer
+            public IQualifierInitializerAst? Initializer
             {
                 get;
                 set;
@@ -59,7 +59,9 @@ namespace Kingsland.MofParser.Ast
             public QualifierValueAst Build()
             {
                 return new QualifierValueAst(
-                    this.QualifierName,
+                    this.QualifierName ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.Initializer,
                     this.Flavors
                 );
@@ -73,13 +75,13 @@ namespace Kingsland.MofParser.Ast
 
         internal QualifierValueAst(
             IdentifierToken qualifierName,
-            IQualifierInitializerAst initializer,
+            IQualifierInitializerAst? initializer,
             IEnumerable<IdentifierToken> flavors)
         {
-            this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
+            this.QualifierName = qualifierName;
             this.Initializer = initializer;
             this.Flavors = new ReadOnlyCollection<IdentifierToken>(
-                flavors?.ToList() ?? new List<IdentifierToken>()
+                flavors.ToList()
             );
         }
 
@@ -93,7 +95,7 @@ namespace Kingsland.MofParser.Ast
             private init;
         }
 
-        public IQualifierInitializerAst Initializer
+        public IQualifierInitializerAst? Initializer
         {
             get;
             private init;

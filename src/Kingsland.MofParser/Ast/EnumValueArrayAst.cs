@@ -49,12 +49,17 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
+        internal EnumValueArrayAst()
+            : this(new List<EnumValueAst>())
+        {
+        }
+
         internal EnumValueArrayAst(
             IEnumerable<EnumValueAst> values
         )
         {
             this.Values = new ReadOnlyCollection<EnumValueAst>(
-                values?.ToList() ?? new List<EnumValueAst>()
+                values.ToList()
             );
         }
 

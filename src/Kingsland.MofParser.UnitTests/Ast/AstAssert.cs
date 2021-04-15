@@ -12,7 +12,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
 
         #region Node Comparison Methods
 
-        public static void AreEqual(MofSpecificationAst expected, MofSpecificationAst actual, bool ignoreExtent = false)
+        public static void AreEqual(MofSpecificationAst? expected, MofSpecificationAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -32,7 +32,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
             }
         }
 
-        public static void AreEqual(MofProductionAst expected, MofProductionAst actual, bool ignoreExtent = false)
+        public static void AreEqual(MofProductionAst? expected, MofProductionAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -71,7 +71,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
             }
         }
 
-        public static void AreEqual(AssociationDeclarationAst expected, AssociationDeclarationAst actual, bool ignoreExtent = false)
+        public static void AreEqual(AssociationDeclarationAst? expected, AssociationDeclarationAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -94,7 +94,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
             }
         }
 
-        public static void AreEqual(QualifierListAst expected, QualifierListAst actual, bool ignoreExtent = false)
+        public static void AreEqual(QualifierListAst? expected, QualifierListAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -114,7 +114,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
             }
         }
 
-        public static void AreEqual(QualifierValueAst  expected, QualifierValueAst actual, bool ignoreExtent = false)
+        public static void AreEqual(QualifierValueAst? expected, QualifierValueAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -130,7 +130,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
             }
         }
 
-        public static void AreEqual(IClassFeatureAst expected, IClassFeatureAst actual, bool ignoreExtent = false)
+        public static void AreEqual(IClassFeatureAst? expected, IClassFeatureAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -166,7 +166,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
             }
         }
 
-        public static void AreEqual(PropertyDeclarationAst expected, PropertyDeclarationAst actual, bool ignoreExtent = false)
+        public static void AreEqual(PropertyDeclarationAst? expected, PropertyDeclarationAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -187,7 +187,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
             }
         }
 
-        public static void AreEqual(InstanceValueDeclarationAst expected, InstanceValueDeclarationAst actual, bool ignoreExtent = false)
+        public static void AreEqual(InstanceValueDeclarationAst? expected, InstanceValueDeclarationAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -209,7 +209,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
             }
         }
 
-        public static void AreEqual(PropertyValueListAst expected, PropertyValueListAst actual, bool ignoreExtent = false)
+        public static void AreEqual(PropertyValueListAst? expected, PropertyValueListAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -231,7 +231,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
             }
         }
 
-        public static void AreEqual(PropertyValueAst expected, PropertyValueAst actual, bool ignoreExtent = false)
+        public static void AreEqual(PropertyValueAst? expected, PropertyValueAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {
@@ -255,7 +255,7 @@ namespace Kingsland.MofParser.UnitTests.Ast
             }
         }
 
-        public static void AreEqual(BooleanValueAst expected, BooleanValueAst actual, bool ignoreExtent = false)
+        public static void AreEqual(BooleanValueAst? expected, BooleanValueAst? actual, bool ignoreExtent = false)
         {
             if ((expected == null) && (actual == null))
             {

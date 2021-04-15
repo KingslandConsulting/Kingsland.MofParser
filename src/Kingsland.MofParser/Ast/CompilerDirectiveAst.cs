@@ -39,19 +39,19 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public PragmaToken PragmaKeyword
+            public PragmaToken? PragmaKeyword
             {
                 get;
                 set;
             }
 
-            public IdentifierToken PragmaName
+            public IdentifierToken? PragmaName
             {
                 get;
                 set;
             }
 
-            public StringValueAst PragmaParameter
+            public StringValueAst? PragmaParameter
             {
                 get;
                 set;
@@ -60,9 +60,15 @@ namespace Kingsland.MofParser.Ast
             public CompilerDirectiveAst Build()
             {
                 return new CompilerDirectiveAst(
-                    this.PragmaKeyword,
-                    this.PragmaName,
-                    this.PragmaParameter
+                    this.PragmaKeyword ?? throw new InvalidOperationException(
+                        $"{nameof(this.PragmaKeyword)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.PragmaName ?? throw new InvalidOperationException(
+                        $"{nameof(this.PragmaName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.PragmaParameter ?? throw new InvalidOperationException(
+                        $"{nameof(this.PragmaParameter)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -78,9 +84,9 @@ namespace Kingsland.MofParser.Ast
             StringValueAst pragmaParameter
         )
         {
-            this.PragmaKeyword = pragmaKeyword ?? throw new ArgumentNullException(nameof(pragmaKeyword));
-            this.PragmaName = pragmaName ?? throw new ArgumentNullException(nameof(pragmaName));
-            this.PragmaParameter = pragmaParameter ?? throw new ArgumentNullException(nameof(pragmaParameter));
+            this.PragmaKeyword = pragmaKeyword;
+            this.PragmaName = pragmaName;
+            this.PragmaParameter = pragmaParameter;
         }
 
         #endregion

@@ -83,7 +83,7 @@ namespace Kingsland.ParseFx.Text
 
         #region Read Methods
 
-        private SourceReader next;
+        private SourceReader? next;
 
         public SourceReader Next()
         {

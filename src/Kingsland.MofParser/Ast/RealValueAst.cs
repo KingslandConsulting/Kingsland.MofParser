@@ -29,7 +29,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public RealLiteralToken RealLiteralToken
+            public RealLiteralToken? RealLiteralToken
             {
                 get;
                 set;
@@ -38,7 +38,9 @@ namespace Kingsland.MofParser.Ast
             public RealValueAst Build()
             {
                 return new RealValueAst(
-                    this.RealLiteralToken
+                    this.RealLiteralToken ?? throw new InvalidOperationException(
+                        $"{nameof(this.RealLiteralToken)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -52,7 +54,7 @@ namespace Kingsland.MofParser.Ast
             RealLiteralToken realLiteralToken
         )
         {
-            this.RealLiteralToken = realLiteralToken ?? throw new ArgumentNullException(nameof(realLiteralToken));
+            this.RealLiteralToken = realLiteralToken;
             this.Value = realLiteralToken.Value;
         }
 

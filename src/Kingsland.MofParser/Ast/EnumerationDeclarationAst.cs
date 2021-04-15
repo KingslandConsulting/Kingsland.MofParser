@@ -49,6 +49,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.EnumElements = new List<EnumElementAst>();
             }
 
@@ -58,13 +59,13 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken EnumName
+            public IdentifierToken? EnumName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken EnumType
+            public IdentifierToken? EnumType
             {
                 get;
                 set;
@@ -80,8 +81,12 @@ namespace Kingsland.MofParser.Ast
             {
                 return new EnumerationDeclarationAst(
                     this.QualifierList,
-                    this.EnumName,
-                    this.EnumType,
+                    this.EnumName ?? throw new InvalidOperationException(
+                        $"{nameof(this.EnumName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.EnumType ?? throw new InvalidOperationException(
+                        $"{nameof(this.EnumType)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.EnumElements
                 );
             }
@@ -99,11 +104,11 @@ namespace Kingsland.MofParser.Ast
             IEnumerable<EnumElementAst> enumElements
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.EnumName = enumName ?? throw new ArgumentNullException(nameof(enumName));
-            this.EnumType = enumType ?? throw new ArgumentNullException(nameof(enumType));
+            this.QualifierList = qualifierList;
+            this.EnumName = enumName;
+            this.EnumType = enumType;
             this.EnumElements = new ReadOnlyCollection<EnumElementAst>(
-                enumElements?.ToList() ?? new List<EnumElementAst>()
+                enumElements.ToList()
             );
         }
 

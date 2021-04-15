@@ -7,6 +7,10 @@
     <Copyright>Copyright © 2019</Copyright>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Include="Parsing\DSP0221_3.0.1\D.01 GOLF_Schema.mof">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

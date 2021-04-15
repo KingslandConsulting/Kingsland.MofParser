@@ -14,13 +14,13 @@ namespace Kingsland.MofParser.Model
         public sealed class Builder
         {
 
-            public string Name
+            public string? Name
             {
                 get;
                 set;
             }
 
-            public object Value
+            public object? Value
             {
                 get;
                 set;
@@ -28,7 +28,14 @@ namespace Kingsland.MofParser.Model
 
             public Property Build()
             {
-                return new Property(this.Name, this.Value);
+                return new Property(
+                    this.Name ?? throw new InvalidOperationException(
+                        $"{nameof(this.Name)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.Value ?? throw new InvalidOperationException(
+                        $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
+                    )
+                );
             }
 
         }
@@ -39,8 +46,8 @@ namespace Kingsland.MofParser.Model
 
         internal Property(string name, object value)
         {
-            this.Name = name ?? throw new ArgumentNullException(nameof(name));
-            this.Value = value ?? throw new ArgumentNullException(nameof(value));
+            this.Name = name;
+            this.Value = value;
         }
 
         #endregion

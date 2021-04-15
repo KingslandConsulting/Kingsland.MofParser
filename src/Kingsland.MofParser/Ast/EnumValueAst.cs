@@ -30,13 +30,13 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public IdentifierToken EnumName
+            public IdentifierToken? EnumName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken EnumLiteral
+            public IdentifierToken? EnumLiteral
             {
                 get;
                 set;
@@ -46,7 +46,9 @@ namespace Kingsland.MofParser.Ast
             {
                 return new EnumValueAst(
                     this.EnumName,
-                    this.EnumLiteral
+                    this.EnumLiteral ?? throw new InvalidOperationException(
+                        $"{nameof(this.EnumLiteral)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -57,19 +59,19 @@ namespace Kingsland.MofParser.Ast
         #region Constructors
 
         internal EnumValueAst(
-            IdentifierToken enumName,
+            IdentifierToken? enumName,
             IdentifierToken enumLiteral
         )
         {
             this.EnumName = enumName;
-            this.EnumLiteral = enumLiteral ?? throw new ArgumentNullException(nameof(enumLiteral));
+            this.EnumLiteral = enumLiteral;
         }
 
         #endregion
 
         #region Properties
 
-        public IdentifierToken EnumName
+        public IdentifierToken? EnumName
         {
             get;
             private init;

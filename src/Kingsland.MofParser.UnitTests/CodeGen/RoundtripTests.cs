@@ -53,7 +53,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
         //    }
         //}
 
-        private static void AssertRoundtrip(string sourceText, List<SyntaxToken> expectedTokens, MofSpecificationAst expectedAst = null, ParserQuirks parserQuirks = ParserQuirks.None)
+        private static void AssertRoundtrip(
+            string sourceText,
+            List<SyntaxToken>? expectedTokens,
+            MofSpecificationAst? expectedAst = null,
+            ParserQuirks parserQuirks = ParserQuirks.None
+        )
         {
             // check the lexer processes the source text ok
             var actualTokens = Lexer.Lex(SourceReader.From(sourceText));
@@ -86,7 +91,11 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     var astNodes = Parser.Parse(tokens, parserQuirks);
                 }
             );
-            Assert.AreEqual(expectedMessage, ex.Message);
+            Assert.Multiple(() =>
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual(expectedMessage, ex?.Message);
+            });
         }
 
         #endregion
