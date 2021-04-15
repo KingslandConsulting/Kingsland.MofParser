@@ -226,7 +226,7 @@ namespace Kingsland.ParseFx.Parsing
             {
                 if (count > 0)
                 {
-                    result.Append(" ");
+                    result.Append(' ');
                     count += 1;
                 }
                 if (i == this.Position)
