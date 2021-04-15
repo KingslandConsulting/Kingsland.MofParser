@@ -1,14 +1,14 @@
 ﻿using Kingsland.MofParser.Objects;
 
-namespace Kingsland.MofParser.HtmlReport.Wrappers
+namespace Kingsland.MofParser.HtmlReport.Resources
 {
 
-    public class InstanceWrapper
+    public class DscResource
     {
 
         #region Constructors
 
-        protected InstanceWrapper(string filename, string computerName, Instance instance)
+        protected DscResource(string filename, string computerName, Instance instance)
         {
             this.Filename = filename;
             this.ComputerName = computerName;
@@ -58,7 +58,7 @@ namespace Kingsland.MofParser.HtmlReport.Wrappers
             get
             {
                 // ResourceID = "[ResourceType]ResourceName"
-                return InstanceWrapper.GetResourceTypeFromResourceId(this.ResourceId);
+                return DscResource.GetResourceTypeFromResourceId(this.ResourceId);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Kingsland.MofParser.HtmlReport.Wrappers
             get
             {
                 // ResourceID = "[ResourceType]ResourceName"
-                return InstanceWrapper.GetResourceNameFromResourceId(this.ResourceId);
+                return DscResource.GetResourceNameFromResourceId(this.ResourceId);
             }
         }
 
@@ -99,14 +99,14 @@ namespace Kingsland.MofParser.HtmlReport.Wrappers
 
         #region Methods
 
-        public static InstanceWrapper FromInstance(string filename, string computerName, Instance instance)
+        public static DscResource FromInstance(string filename, string computerName, Instance instance)
         {
             switch (instance.ClassName)
             {
                 case "MSFT_ScriptResource":
-                    return new ScriptResourceWrapper(filename, computerName, instance);
+                    return new ScriptResource(filename, computerName, instance);
                 default:
-                    return new InstanceWrapper(filename, computerName, instance);
+                    return new DscResource(filename, computerName, instance);
             }
         }
 
@@ -124,21 +124,13 @@ namespace Kingsland.MofParser.HtmlReport.Wrappers
             return resourceId.Split(']')[1];
         }
 
-        protected static string GetStringProperty(Instance instance, string propertyName)
+        protected string GetStringProperty(string propertyName)
         {
-            if (instance.Properties.ContainsKey(propertyName))
-            {
-                return instance.Properties[propertyName].ToString();
-            }
-            else
+            if (!this.Instance.Properties.TryGetValue(propertyName, out var propertyValue))
             {
                 return null;
             }
-        }
-
-        protected string GetStringProperty(string propertyName)
-        {
-            return InstanceWrapper.GetStringProperty(this.Instance, propertyName);
+            return propertyValue as string;
         }
 
         #endregion

@@ -44,9 +44,7 @@ namespace Kingsland.MofParser.Objects
                     this.ClassName ?? throw new InvalidOperationException(
                         $"{nameof(this.ClassName)} property must be set before calling {nameof(Build)}."
                     ),
-                    this.Alias ?? throw new InvalidOperationException(
-                        $"{nameof(this.Alias)} property must be set before calling {nameof(Build)}."
-                    ),
+                    this.Alias,
                     this.Properties
                 );
             }
@@ -57,7 +55,11 @@ namespace Kingsland.MofParser.Objects
 
         #region Constructors
 
-        internal Instance(string className, string alias, IDictionary<string, object?> properties)
+        internal Instance(
+            string className,
+            string? alias,
+            IDictionary<string, object?> properties
+        )
         {
             this.ClassName = className;
             this.Alias = alias;
@@ -78,7 +80,7 @@ namespace Kingsland.MofParser.Objects
             private init;
         }
 
-        public string Alias
+        public string? Alias
         {
             get;
             private init;

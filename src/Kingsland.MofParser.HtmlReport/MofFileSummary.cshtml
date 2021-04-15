@@ -1,8 +1,8 @@
-﻿@using Kingsland.MofParser.HtmlReport.Wrappers;
+﻿@using Kingsland.MofParser.HtmlReport.Resources;
 @using RazorEngine.Templating;
 @using System.Linq;
 @using System.Collections.Generic;
-@inherits TemplateBase<List<InstanceWrapper>>
+@inherits TemplateBase<List<DscResource>>
 
 <html>
 
@@ -56,8 +56,10 @@
         @foreach (var filename in filenames)
         {
             var filename1 = filename;
-            var wrappers = Model.Where(w => (w.Filename == filename1) &&
-                                            !string.IsNullOrEmpty(w.ResourceName)).ToList();
+            var wrappers = Model.Where(
+                w => (w.Filename == filename1) &&
+                    !string.IsNullOrEmpty(w.ResourceName)
+            ).ToList();
             var computerNames = wrappers.Select(w => w.ComputerName).Distinct().ToList();
 
 
