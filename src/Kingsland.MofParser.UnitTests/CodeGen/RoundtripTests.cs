@@ -77,7 +77,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             Assert.AreEqual(sourceText, actualText);
             // check the parser ast roundtrips ok
             var actualAst = Parser.Parse(actualTokens, parserQuirks);
-            AstAssert.AreEqual(expectedAst, actualAst);
+            AstAssert.AreEqual(expectedAst, actualAst, false);
             var astMof = AstMofGenerator.ConvertToMof(actualAst);
             Assert.AreEqual(sourceText, astMof);
         }

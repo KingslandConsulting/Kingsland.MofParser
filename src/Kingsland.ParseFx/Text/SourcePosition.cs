@@ -6,7 +6,7 @@
 
         #region Fields
 
-        public static readonly SourcePosition Empty = new SourcePosition(-1, 0, 0);
+        public static readonly SourcePosition Empty = new(-1, 0, 0);
 
         #endregion
 

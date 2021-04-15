@@ -11,11 +11,7 @@ namespace Kingsland.ParseFx.Syntax
 
         protected SyntaxToken(SourceExtent extent)
         {
-            if (extent == null)
-            {
-                throw new ArgumentNullException(nameof(extent));
-            }
-            this.Extent = extent;
+            this.Extent = extent ?? throw new ArgumentNullException(nameof(extent));
         }
 
         #endregion

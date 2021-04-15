@@ -58,7 +58,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
         private static void AssertLexerTest(string sourceText, List<SyntaxToken> expectedTokens)
         {
             var actualTokens = Lexer.Lex(SourceReader.From(sourceText));
-            LexerAssert.AreEqual(expectedTokens, actualTokens);
+            LexerAssert.AreEqual(expectedTokens, actualTokens, false);
         }
 
         [TestFixture]

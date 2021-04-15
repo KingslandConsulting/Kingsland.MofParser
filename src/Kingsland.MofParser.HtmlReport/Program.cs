@@ -11,7 +11,7 @@ namespace Kingsland.MofParser.Sample
     class Program
     {
 
-        static void Main(string[] args)
+        static void Main()
         {
 
             // get the list of mof filenames

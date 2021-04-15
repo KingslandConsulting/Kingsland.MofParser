@@ -171,11 +171,10 @@ namespace Kingsland.ParseFx.Text
         public (List<SourceChar> SourceChars, SourceReader NextReader) ReadString(string value, bool ignoreCase = false)
         {
             var thisReader = this;
-            var sourceChar = default(SourceChar);
             var sourceChars = new List<SourceChar>();
             foreach (var expectedChar in value)
             {
-                sourceChar = thisReader.Peek();
+                var sourceChar = thisReader.Peek();
                 if (sourceChar.Value == expectedChar)
                 {
                     // case sensitive match

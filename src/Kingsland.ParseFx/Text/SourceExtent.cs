@@ -13,7 +13,7 @@ namespace Kingsland.ParseFx.Text
 
         #region Fields
 
-        public readonly static SourceExtent Empty = new SourceExtent(
+        public readonly static SourceExtent Empty = new(
             SourcePosition.Empty,
             SourcePosition.Empty,
             string.Empty

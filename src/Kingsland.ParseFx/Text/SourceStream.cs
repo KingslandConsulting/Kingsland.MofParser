@@ -96,17 +96,14 @@ namespace Kingsland.ParseFx.Text
             {
                 return SourceStream.StartOfStream();
             }
-            switch (lastChar.Value)
+            return lastChar.Value switch
             {
-                case '\r':
-                    return (nextChar == '\n') ?
-                        SourceStream.MoveToNext(lastPosition) :
-                        SourceStream.StartNewLine(lastPosition);
-                case '\n':
-                    return SourceStream.StartNewLine(lastPosition);
-                default:
-                    return SourceStream.MoveToNext(lastPosition);
-            }
+                '\r' => (nextChar == '\n')
+                    ? SourceStream.MoveToNext(lastPosition)
+                    : SourceStream.StartNewLine(lastPosition),
+                '\n' => SourceStream.StartNewLine(lastPosition),
+                _ => SourceStream.MoveToNext(lastPosition),
+            };
         }
 
         private static SourcePosition StartOfStream()

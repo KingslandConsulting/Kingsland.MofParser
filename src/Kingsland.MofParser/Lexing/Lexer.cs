@@ -34,8 +34,7 @@ namespace Kingsland.MofParser.Lexing
                 .AddScanner(';', Lexer.ReadStatementEndToken)
                 .AddScanner('"', Lexer.ReadStringLiteralToken)
                 .AddScanner("[+|\\-]", Lexer.ReadNumericLiteralToken)
-                .AddScanner('.', (reader) =>
-                {
+                .AddScanner('.', (reader) => {
                     // if the next character is a decimalDigit then we're reading a RealLiteralToken with
                     // no leading digits before the decimal point (e.g. ".45"), otherwise we're reading
                     // a DotOperatorToken (e.g. the "." in "MyPropertyValue = MyEnum.Value;")
@@ -49,8 +48,7 @@ namespace Kingsland.MofParser.Lexing
                         return Lexer.ReadDotOperatorToken(reader);
                     }
                 })
-                .AddScanner("[a-z|A-Z|_]", (reader) =>
-                {
+                .AddScanner("[a-z|A-Z|_]", (reader) => {
                     // firstIdentifierChar
                     var result = Lexer.ReadIdentifierToken(reader);
                     var identifierToken = (IdentifierToken)result.Token;
@@ -71,7 +69,8 @@ namespace Kingsland.MofParser.Lexing
                     }
                 })
                 .AddScanner("[0-9]", Lexer.ReadNumericLiteralToken)
-                .AddScanner(new char[] {
+                .AddScanner(
+                    new char[] {
                         '\u0020', // space
                         '\u0009', // horizontal tab
                         '\u000D', // carriage return
@@ -792,7 +791,7 @@ namespace Kingsland.MofParser.Lexing
                         var realFractionValue = (double)ParseDecimalValueDigits(realFractionDigits, signChar);
                         if (realFractionDigits.Any())
                         {
-                            realFractionValue = realFractionValue / Math.Pow(10, realFractionDigits.Count);
+                            realFractionValue /= Math.Pow(10, realFractionDigits.Count);
                         }
                         token = new RealLiteralToken(
                             SourceExtent.From(sourceChars),
@@ -895,36 +894,18 @@ namespace Kingsland.MofParser.Lexing
                 if (isEscaped)
                 {
                     // read the second character in an escape sequence
-                    var escapedChar = default(char);
-                    switch (peek.Value)
+                    var escapedChar = peek.Value switch
                     {
-                        case Constants.BACKSLASH:
-                            escapedChar = Constants.BACKSLASH;
-                            break;
-                        case Constants.DOUBLEQUOTE:
-                            escapedChar = Constants.DOUBLEQUOTE;
-                            break;
-                        case Constants.SINGLEQUOTE:
-                            escapedChar = Constants.SINGLEQUOTE;
-                            break;
-                        case Constants.BACKSPACE_ESC:
-                            escapedChar = '\b';
-                            break;
-                        case Constants.TAB_ESC:
-                            escapedChar = '\t';
-                            break;
-                        case Constants.LINEFEED_ESC:
-                            escapedChar = '\n';
-                            break;
-                        case Constants.FORMFEED_ESC:
-                            escapedChar = '\f';
-                            break;
-                        case Constants.CARRIAGERETURN_ESC:
-                            escapedChar = '\r';
-                            break;
-                        default:
-                            throw new UnexpectedCharacterException(peek);
-                    }
+                        Constants.BACKSLASH => Constants.BACKSLASH,
+                        Constants.DOUBLEQUOTE => Constants.DOUBLEQUOTE,
+                        Constants.SINGLEQUOTE => Constants.SINGLEQUOTE,
+                        Constants.BACKSPACE_ESC => '\b',
+                        Constants.TAB_ESC => '\t',
+                        Constants.LINEFEED_ESC => '\n',
+                        Constants.FORMFEED_ESC => '\f',
+                        Constants.CARRIAGERETURN_ESC => '\r',
+                        _ => throw new UnexpectedCharacterException(peek)
+                    };
                     thisReader = thisReader.Next();
                     sourceChars.Add(peek);
                     stringChars.Append(escapedChar);

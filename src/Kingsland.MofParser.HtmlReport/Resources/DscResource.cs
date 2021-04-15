@@ -91,7 +91,7 @@ namespace Kingsland.MofParser.HtmlReport.Resources
         {
             get
             {
-                return this.GetStringProperty(nameof(this.ModuleVersion}));
+                return this.GetStringProperty(nameof(this.ModuleVersion));
             }
         }
 
@@ -101,20 +101,20 @@ namespace Kingsland.MofParser.HtmlReport.Resources
 
         public static DscResource FromInstance(string filename, string computerName, Instance instance)
         {
-            switch (instance.ClassName)
+            return instance.ClassName switch
             {
-                case "MSFT_ScriptResource":
-                    return new ScriptResource(filename, computerName, instance);
-                default:
-                    return new DscResource(filename, computerName, instance);
-            }
+                "MSFT_ScriptResource" =>
+                    new ScriptResource(filename, computerName, instance),
+                _ =>
+                    new DscResource(filename, computerName, instance),
+            };
         }
 
         private static string GetResourceTypeFromResourceId(string resourceId)
         {
             // ResourceID = "[ResourceType]ResourceName"
             if (string.IsNullOrEmpty(resourceId)) { return null; }
-            return resourceId.Split(']')[0].Substring(1);
+            return resourceId.Split(']')[0][1..];
         }
 
         private static string GetResourceNameFromResourceId(string resourceId)

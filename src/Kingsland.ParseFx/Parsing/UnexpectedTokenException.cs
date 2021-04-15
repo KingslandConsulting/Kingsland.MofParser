@@ -15,7 +15,7 @@ namespace Kingsland.ParseFx.Parsing
 
         public UnexpectedTokenException(SyntaxToken foundToken)
         {
-            this.FoundToken = foundToken ?? throw new ArgumentNullException("foundToken");
+            this.FoundToken = foundToken ?? throw new ArgumentNullException(nameof(foundToken));
         }
 
         #endregion

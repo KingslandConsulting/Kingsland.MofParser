@@ -54,7 +54,7 @@ namespace Kingsland.MofParser.Tokens
 
         #region Helpers
 
-        private readonly static Dictionary<char, string> EscapeMap = new Dictionary<char, string>()
+        private readonly static Dictionary<char, string> EscapeMap = new()
             {
                 { '\\', $"{Constants.BACKSLASH}{Constants.BACKSLASH}" },
                 { '\"', $"{Constants.BACKSLASH}{Constants.DOUBLEQUOTE}" },

@@ -15,7 +15,7 @@ namespace Kingsland.MofParser.HtmlReport.Resources
         {
             get
             {
-                return base.GetStringProperty("GetScript");
+                return base.GetStringProperty(nameof(this.GetScript));
             }
         }
 
@@ -23,7 +23,7 @@ namespace Kingsland.MofParser.HtmlReport.Resources
         {
             get
             {
-                return base.GetStringProperty("TestScript");
+                return base.GetStringProperty(nameof(this.TestScript));
             }
         }
 
@@ -31,7 +31,7 @@ namespace Kingsland.MofParser.HtmlReport.Resources
         {
             get
             {
-                return base.GetStringProperty("SetScript");
+                return base.GetStringProperty(nameof(this.SetScript));
             }
         }
 

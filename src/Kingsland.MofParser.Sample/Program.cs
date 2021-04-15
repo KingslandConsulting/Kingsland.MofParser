@@ -7,7 +7,7 @@ namespace Kingsland.FileFormat.Mof.Tests
     class Program
     {
 
-        static void Main(string[] args)
+        static void Main()
         {
 
             const string sourceText = @"

@@ -10,7 +10,7 @@ namespace Kingsland.MofParser.EditMof
     class Program
     {
 
-        static void Main(string[] args)
+        static void Main()
         {
 
             Program.ModifyTokens();

@@ -33,7 +33,7 @@ namespace Kingsland.MofParser.UnitTests.Helpers
             var testCaseFiles = Directory.GetFiles(testCasePath, "*.mof", SearchOption.AllDirectories);
             foreach (var testCaseFile in testCaseFiles)
             {
-                var testName = testCaseFile.Substring(testCasePath.Length + 1).Replace("\\", ".");
+                var testName = testCaseFile[(testCasePath.Length + 1)..].Replace("\\", ".");
                 yield return new TestCaseData(testCaseFile).SetName(testName);
             }
         }

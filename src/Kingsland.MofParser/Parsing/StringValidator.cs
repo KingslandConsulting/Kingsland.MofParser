@@ -360,7 +360,7 @@ namespace Kingsland.MofParser.Parsing
                 return false;
             }
             return StringValidator.IsSchemaName(value.Substring(0, underscore)) &&
-                   StringValidator.IsIdentifier(value.Substring(underscore + 1));
+                   StringValidator.IsIdentifier(value[(underscore + 1)..]);
         }
 
         #endregion
@@ -406,7 +406,7 @@ namespace Kingsland.MofParser.Parsing
         {
             return !string.IsNullOrEmpty(value) &&
                    (value.First() == '$') &&
-                   StringValidator.IsIdentifier(value.Substring(1));
+                   StringValidator.IsIdentifier(value[1..]);
         }
 
         #endregion
@@ -415,7 +415,8 @@ namespace Kingsland.MofParser.Parsing
 
         public static bool IsSpecialName(string name)
         {
-            return name.StartsWith("__") && StringValidator.IsIdentifier(name.Substring(2));
+            return name.StartsWith("__") &&
+                StringValidator.IsIdentifier(name[2..]);
         }
 
     }

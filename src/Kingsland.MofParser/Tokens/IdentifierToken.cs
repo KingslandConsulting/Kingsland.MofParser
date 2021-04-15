@@ -1,5 +1,6 @@
 ﻿using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
+using System;
 
 namespace Kingsland.MofParser.Tokens
 {
