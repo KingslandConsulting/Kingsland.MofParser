@@ -4,6 +4,7 @@ using Kingsland.ParseFx.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -35,7 +36,7 @@ namespace Kingsland.MofParser.Ast
     ///
     ///    array             = "[" "]"
     ///
-    public sealed class MethodDeclarationAst : AstNode, IClassFeatureAst
+    public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
     {
 
         #region Builder
@@ -45,6 +46,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.Parameters = new List<ParameterDeclarationAst>();
             }
 
@@ -54,13 +56,13 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken ReturnType
+            public IdentifierToken? ReturnType
             {
                 get;
                 set;
             }
 
-            public IdentifierToken ReturnTypeRef
+            public IdentifierToken? ReturnTypeRef
             {
                 get;
                 set;
@@ -72,7 +74,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken MethodName
+            public IdentifierToken? MethodName
             {
                 get;
                 set;
@@ -88,13 +90,15 @@ namespace Kingsland.MofParser.Ast
             {
                 return new MethodDeclarationAst(
                     this.QualifierList,
-                    this.ReturnType,
+                    this.ReturnType ?? throw new InvalidOperationException(
+                        $"{nameof(this.ReturnType)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.ReturnTypeRef,
                     this.ReturnTypeIsArray,
-                    this.MethodName,
-                    new ReadOnlyCollection<ParameterDeclarationAst>(
-                        this.Parameters ?? new List<ParameterDeclarationAst>()
-                    )
+                    this.MethodName ?? throw new InvalidOperationException(
+                        $"{nameof(this.MethodName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.Parameters
                 );
             }
 
@@ -104,22 +108,22 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private MethodDeclarationAst(
+        internal MethodDeclarationAst(
             QualifierListAst qualifierList,
             IdentifierToken returnType,
-            IdentifierToken returnTypeRef,
+            IdentifierToken? returnTypeRef,
             bool returnTypeIsArray,
             IdentifierToken methodName,
-            ReadOnlyCollection<ParameterDeclarationAst> parameters
+            IEnumerable<ParameterDeclarationAst> parameters
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
+            this.QualifierList = qualifierList;
+            this.ReturnType = returnType;
             this.ReturnTypeRef = returnTypeRef;
             this.ReturnTypeIsArray = returnTypeIsArray;
-            this.Name = methodName ?? throw new ArgumentNullException(nameof(methodName));
-            this.Parameters = parameters ?? new ReadOnlyCollection<ParameterDeclarationAst>(
-                new List<ParameterDeclarationAst>()
+            this.Name = methodName;
+            this.Parameters = new ReadOnlyCollection<ParameterDeclarationAst>(
+                parameters.ToList()
             );
         }
 
@@ -130,13 +134,13 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken ReturnType
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ReturnTypeIsRef
@@ -147,28 +151,28 @@ namespace Kingsland.MofParser.Ast
             }
         }
 
-        public IdentifierToken ReturnTypeRef
+        public IdentifierToken? ReturnTypeRef
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ReturnTypeIsArray
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken Name
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<ParameterDeclarationAst> Parameters
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

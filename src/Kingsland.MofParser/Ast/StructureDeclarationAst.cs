@@ -3,6 +3,7 @@ using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -30,7 +31,7 @@ namespace Kingsland.MofParser.Ast
     ///     STRUCTURE            = "structure" ; keyword: case insensitive
     ///
     /// </remarks>
-    public sealed class StructureDeclarationAst : MofProductionAst, IStructureFeatureAst
+    public sealed record StructureDeclarationAst : MofProductionAst, IStructureFeatureAst
     {
 
         #region Builder
@@ -40,6 +41,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.StructureFeatures = new List<IStructureFeatureAst>();
             }
 
@@ -49,13 +51,13 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken StructureName
+            public IdentifierToken? StructureName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken SuperStructure
+            public IdentifierToken? SuperStructure
             {
                 get;
                 set;
@@ -71,11 +73,11 @@ namespace Kingsland.MofParser.Ast
             {
                 return new StructureDeclarationAst(
                     this.QualifierList,
-                    this.StructureName,
+                    this.StructureName ?? throw new InvalidOperationException(
+                        $"{nameof(this.StructureName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.SuperStructure,
-                    new ReadOnlyCollection<IStructureFeatureAst>(
-                        this.StructureFeatures ?? new List<IStructureFeatureAst>()
-                    )
+                    this.StructureFeatures
                 );
             }
 
@@ -85,12 +87,19 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public StructureDeclarationAst(QualifierListAst qualifierList, IdentifierToken structureName, IdentifierToken superStructure, ReadOnlyCollection<IStructureFeatureAst> structureFeatures)
+        internal StructureDeclarationAst(
+            QualifierListAst qualifierList,
+            IdentifierToken structureName,
+            IdentifierToken? superStructure,
+            IEnumerable<IStructureFeatureAst> structureFeatures
+        )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.StructureName = structureName ?? throw new ArgumentNullException(nameof(structureName));
+            this.QualifierList = qualifierList;
+            this.StructureName = structureName;
             this.SuperStructure = superStructure;
-            this.StructureFeatures = structureFeatures ?? new ReadOnlyCollection<IStructureFeatureAst>(new List<IStructureFeatureAst>());
+            this.StructureFeatures = new ReadOnlyCollection<IStructureFeatureAst>(
+                structureFeatures.ToList()
+            );
         }
 
         #endregion
@@ -100,25 +109,25 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken StructureName
         {
             get;
-            private set;
+            private init;
         }
 
-        public IdentifierToken SuperStructure
+        public IdentifierToken? SuperStructure
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<IStructureFeatureAst> StructureFeatures
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

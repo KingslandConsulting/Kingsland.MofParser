@@ -42,7 +42,7 @@ namespace Kingsland.MofParser.Ast
     ///     DT_REFERENCE              = className REF
     ///
     /// </remarks>
-    public sealed class ParameterDeclarationAst : AstNode
+    public sealed record ParameterDeclarationAst : AstNode
     {
 
         #region Builder
@@ -50,25 +50,30 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
+            public Builder()
+            {
+                this.QualifierList = new QualifierListAst();
+            }
+
             public QualifierListAst QualifierList
             {
                 get;
                 set;
             }
 
-            public IdentifierToken ParameterType
+            public IdentifierToken? ParameterType
             {
                 get;
                 set;
             }
 
-            public IdentifierToken ParameterRef
+            public IdentifierToken? ParameterRef
             {
                 get;
                 set;
             }
 
-            public IdentifierToken ParameterName
+            public IdentifierToken? ParameterName
             {
                 get;
                 set;
@@ -80,7 +85,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public PropertyValueAst DefaultValue
+            public PropertyValueAst? DefaultValue
             {
                 get;
                 set;
@@ -90,9 +95,13 @@ namespace Kingsland.MofParser.Ast
             {
                 return new ParameterDeclarationAst(
                     this.QualifierList,
-                    this.ParameterType,
+                    this.ParameterType ?? throw new InvalidOperationException(
+                        $"{nameof(this.ParameterType)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.ParameterRef,
-                    this.ParameterName,
+                    this.ParameterName ?? throw new InvalidOperationException(
+                        $"{nameof(this.ParameterName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.ParameterIsArray,
                     this.DefaultValue
                 );
@@ -104,19 +113,19 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private ParameterDeclarationAst(
+        internal ParameterDeclarationAst(
             QualifierListAst qualifierList,
             IdentifierToken parameterType,
-            IdentifierToken parameterRef,
+            IdentifierToken? parameterRef,
             IdentifierToken parameterName,
             bool parameterIsArray,
-            PropertyValueAst defaultValue
+            PropertyValueAst? defaultValue
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.ParameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
+            this.QualifierList = qualifierList;
+            this.ParameterType = parameterType;
             this.ParameterRef = parameterRef;
-            this.ParameterName = parameterName ?? throw new ArgumentNullException(nameof(parameterName));
+            this.ParameterName = parameterName;
             this.ParameterIsArray = parameterIsArray;
             this.DefaultValue = defaultValue;
         }
@@ -128,19 +137,19 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken ParameterType
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken ParameterName
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ParameterIsRef
@@ -151,22 +160,22 @@ namespace Kingsland.MofParser.Ast
             }
         }
 
-        public IdentifierToken ParameterRef
+        public IdentifierToken? ParameterRef
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ParameterIsArray
         {
             get;
-            private set;
+            private init;
         }
 
-        public PropertyValueAst DefaultValue
+        public PropertyValueAst? DefaultValue
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

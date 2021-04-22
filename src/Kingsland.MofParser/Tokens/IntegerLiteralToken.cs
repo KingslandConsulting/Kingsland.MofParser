@@ -5,7 +5,7 @@ using System;
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class IntegerLiteralToken : SyntaxToken
+    public sealed record IntegerLiteralToken : SyntaxToken
     {
 
         #region Constructors
@@ -34,13 +34,13 @@ namespace Kingsland.MofParser.Tokens
         public IntegerKind Kind
         {
             get;
-            private set;
+            private init;
         }
 
         public long Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

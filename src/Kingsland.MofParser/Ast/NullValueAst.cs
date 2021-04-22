@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.Ast
     ///                        ; second
     ///
     /// </remarks>
-    public sealed class NullValueAst : LiteralValueAst
+    public sealed record NullValueAst : LiteralValueAst
     {
 
         #region Builder
@@ -27,7 +27,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public NullLiteralToken Token
+            public NullLiteralToken? Token
             {
                 get;
                 set;
@@ -36,7 +36,9 @@ namespace Kingsland.MofParser.Ast
             public NullValueAst Build()
             {
                 return new NullValueAst(
-                    this.Token
+                    this.Token ?? throw new InvalidOperationException(
+                        $"{nameof(this.Token)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -46,9 +48,11 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private NullValueAst(NullLiteralToken token)
+        internal NullValueAst(
+            NullLiteralToken token
+        )
         {
-            this.Token = token ?? throw new ArgumentNullException(nameof(token));
+            this.Token = token;
         }
 
         #endregion
@@ -58,7 +62,7 @@ namespace Kingsland.MofParser.Ast
         public NullLiteralToken Token
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

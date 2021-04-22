@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Model
 {
 
-    public sealed class Module
+    public sealed record Module
     {
 
         #region Builder
@@ -25,12 +26,9 @@ namespace Kingsland.MofParser.Model
 
             public Module Build()
             {
-                return new Module
-                {
-                    Instances = new ReadOnlyCollection<Instance>(
-                        this.Instances ?? new List<Instance>()
-                    )
-                };
+                return new Module(
+                    this.Instances
+                );
             }
 
         }
@@ -39,8 +37,11 @@ namespace Kingsland.MofParser.Model
 
         #region Constructors
 
-        private Module()
+        internal Module(IEnumerable<Instance> instances)
         {
+            this.Instances = new ReadOnlyCollection<Instance>(
+                instances?.ToList() ?? new List<Instance>()
+            );
         }
 
         #endregion
@@ -50,7 +51,7 @@ namespace Kingsland.MofParser.Model
         public ReadOnlyCollection<Instance> Instances
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

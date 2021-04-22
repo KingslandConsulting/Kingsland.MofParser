@@ -15,7 +15,6 @@ namespace Kingsland.MofParser.Ast
     /// </remarks>
     public interface IEnumElementValueAst : IAstNode
     {
-
     }
 
 }

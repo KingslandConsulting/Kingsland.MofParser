@@ -12,7 +12,7 @@
     ///     enumTypeValue = enumValue / enumValueArray
     ///
     /// </remarks>
-    public abstract class EnumTypeValueAst : PropertyValueAst
+    public abstract record EnumTypeValueAst : PropertyValueAst
     {
 
         #region Constructors

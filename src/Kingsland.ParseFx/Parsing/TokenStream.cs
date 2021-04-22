@@ -1,6 +1,7 @@
 ﻿using Kingsland.ParseFx.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -68,7 +69,7 @@ namespace Kingsland.ParseFx.Parsing
         /// Throws an exception if the stream has no more tokens to read.
         /// </summary>
         /// <returns></returns>
-        public T Peek<T>() where T : SyntaxToken
+        public T? Peek<T>() where T : SyntaxToken
         {
             if ((this.Source.Count == 0) ||
                (this.Position >= this.Source.Count))
@@ -107,7 +108,9 @@ namespace Kingsland.ParseFx.Parsing
         /// Throws an exception if the stream has no more tokens to read.
         /// </summary>
         /// <returns></returns>
-        public bool TryPeek<T>(out T result) where T : SyntaxToken
+        public bool TryPeek<T>(
+            [NotNullWhen(true)] out T? result
+        ) where T : SyntaxToken
         {
             if ((this.Source.Count == 0) ||
                 (this.Position >= this.Source.Count))
@@ -125,7 +128,7 @@ namespace Kingsland.ParseFx.Parsing
             return true;
         }
 
-        public bool TryPeek<T>(Func<T, bool> predicate, out T result) where T : SyntaxToken
+        public bool TryPeek<T>(Func<T, bool> predicate, out T? result) where T : SyntaxToken
         {
 
             if ((this.Source.Count == 0) ||
@@ -180,7 +183,9 @@ namespace Kingsland.ParseFx.Parsing
 
         #region TryRead Methods
 
-        public bool TryRead<T>(out T result) where T : SyntaxToken
+        public bool TryRead<T>(
+            [NotNullWhen(true)] out T? result
+        ) where T : SyntaxToken
         {
             if (this.TryPeek<T>(out result))
             {
@@ -226,7 +231,7 @@ namespace Kingsland.ParseFx.Parsing
             {
                 if (count > 0)
                 {
-                    result.Append(" ");
+                    result.Append(' ');
                     count += 1;
                 }
                 if (i == this.Position)

@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.Ast
     ///     TRUE         = "true"  ; keyword: case insensitive
     ///
     /// </remarks>
-    public sealed class BooleanValueAst : LiteralValueAst
+    public sealed record BooleanValueAst : LiteralValueAst
     {
 
         #region Builder
@@ -27,7 +27,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public BooleanLiteralToken Token
+            public BooleanLiteralToken? Token
             {
                 get;
                 set;
@@ -36,7 +36,9 @@ namespace Kingsland.MofParser.Ast
             public BooleanValueAst Build()
             {
                 return new BooleanValueAst(
-                    this.Token
+                    this.Token ?? throw new InvalidOperationException(
+                        $"{nameof(this.Token)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -46,9 +48,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public BooleanValueAst(BooleanLiteralToken token)
+        internal BooleanValueAst(BooleanLiteralToken token)
         {
-            this.Token = token ?? throw new ArgumentNullException(nameof(token));
+            this.Token = token;
         }
 
         #endregion
@@ -58,7 +60,7 @@ namespace Kingsland.MofParser.Ast
         public BooleanLiteralToken Token
         {
             get;
-            private set;
+            private init;
         }
 
         public bool Value

@@ -4,6 +4,7 @@ using Kingsland.MofParser.UnitTests.Helpers;
 using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -57,7 +58,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
         private static void AssertLexerTest(string sourceText, List<SyntaxToken> expectedTokens)
         {
             var actualTokens = Lexer.Lex(SourceReader.From(sourceText));
-            LexerAssert.AreEqual(expectedTokens, actualTokens);
+            LexerAssert.AreEqual(expectedTokens, actualTokens, false);
         }
 
         [TestFixture]
@@ -100,8 +101,11 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             var reader = SourceReader.From(mofText);
             var actualTokens = Lexer.Lex(reader);
             var actualText = TestUtils.ConvertToJson(actualTokens);
-            var expectedFilename = Path.Combine(Path.GetDirectoryName(mofFilename),
-                                                Path.GetFileNameWithoutExtension(mofFilename) + ".json");
+            var expectedFilename = Path.Combine(
+                Path.GetDirectoryName(mofFilename)
+                    ?? throw new NullReferenceException(),
+                Path.GetFileNameWithoutExtension(mofFilename) + ".json"
+            );
             if (!File.Exists(expectedFilename))
             {
                 File.WriteAllText(expectedFilename, actualText);

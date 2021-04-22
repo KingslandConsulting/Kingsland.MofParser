@@ -19,7 +19,7 @@ namespace Kingsland.MofParser.Ast
     ///                      propertyValueList )
     ///
     /// </remarks>
-    public sealed class ComplexValueAst : ComplexTypeValueAst
+    public sealed record ComplexValueAst : ComplexTypeValueAst
     {
 
         #region Builder
@@ -27,25 +27,30 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public AliasIdentifierToken Alias
+            public Builder()
+            {
+                this.PropertyValues = new PropertyValueListAst();
+            }
+
+            public AliasIdentifierToken? Alias
             {
                 get;
                 set;
             }
 
-            public IdentifierToken Value
+            public IdentifierToken? Value
             {
                 get;
                 set;
             }
 
-            public IdentifierToken Of
+            public IdentifierToken? Of
             {
                 get;
                 set;
             }
 
-            public IdentifierToken TypeName
+            public IdentifierToken? TypeName
             {
                 get;
                 set;
@@ -59,21 +64,22 @@ namespace Kingsland.MofParser.Ast
 
             public ComplexValueAst Build()
             {
-                if (!(this.Alias == null))
-                {
-                    return new ComplexValueAst(
+                return (this.Alias == null)
+                    ? new ComplexValueAst(
+                        this.Value ?? throw new InvalidOperationException(
+                            $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
+                        ),
+                        this.Of ?? throw new InvalidOperationException(
+                            $"{nameof(this.Of)} property must be set before calling {nameof(Build)}."
+                        ),
+                        this.TypeName ?? throw new InvalidOperationException(
+                            $"{nameof(this.TypeName)} property must be set before calling {nameof(Build)}."
+                        ),
+                        this.PropertyValues
+                    )
+                    : new ComplexValueAst(
                         this.Alias
                     );
-                }
-                else
-                {
-                    return new ComplexValueAst(
-                        this.Value,
-                        this.Of,
-                        this.TypeName,
-                        this.PropertyValues
-                    );
-                }
             }
 
         }
@@ -82,15 +88,15 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public ComplexValueAst(
+        internal ComplexValueAst(
             AliasIdentifierToken alias
         )
         {
-            this.Alias = alias ?? throw new ArgumentException(nameof(alias));
+            this.Alias = alias;
             this.Value = null;
             this.Of = null;
             this.TypeName = null;
-            this.PropertyValues = new PropertyValueListAst.Builder().Build();
+            this.PropertyValues = new PropertyValueListAst();
         }
 
         public ComplexValueAst(
@@ -101,10 +107,10 @@ namespace Kingsland.MofParser.Ast
         )
         {
             this.Alias = null;
-            this.Value = value ?? throw new ArgumentException(nameof(value));
+            this.Value = value;
             this.Of = of;
             this.TypeName = typeName;
-            this.PropertyValues = propertyValues ?? new PropertyValueListAst.Builder().Build();
+            this.PropertyValues = propertyValues;
         }
 
         #endregion
@@ -127,34 +133,34 @@ namespace Kingsland.MofParser.Ast
             }
         }
 
-        public AliasIdentifierToken Alias
+        public AliasIdentifierToken? Alias
         {
             get;
-            private set;
+            private init;
         }
 
-        public IdentifierToken Value
+        public IdentifierToken? Value
         {
             get;
-            private set;
+            private init;
         }
 
-        public IdentifierToken Of
+        public IdentifierToken? Of
         {
             get;
-            private set;
+            private init;
         }
 
-        public IdentifierToken TypeName
+        public IdentifierToken? TypeName
         {
             get;
-            private set;
+            private init;
         }
 
         public PropertyValueListAst PropertyValues
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

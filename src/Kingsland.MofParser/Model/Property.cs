@@ -1,11 +1,12 @@
 ﻿using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using System;
 using System.Text;
 
 namespace Kingsland.MofParser.Model
 {
 
-    public sealed class Property
+    public sealed record Property
     {
 
         #region Builder
@@ -13,13 +14,13 @@ namespace Kingsland.MofParser.Model
         public sealed class Builder
         {
 
-            public string Name
+            public string? Name
             {
                 get;
                 set;
             }
 
-            public object Value
+            public object? Value
             {
                 get;
                 set;
@@ -27,7 +28,14 @@ namespace Kingsland.MofParser.Model
 
             public Property Build()
             {
-                return new Property(this.Name, this.Value);
+                return new Property(
+                    this.Name ?? throw new InvalidOperationException(
+                        $"{nameof(this.Name)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.Value ?? throw new InvalidOperationException(
+                        $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
+                    )
+                );
             }
 
         }
@@ -36,11 +44,7 @@ namespace Kingsland.MofParser.Model
 
         #region Constructors
 
-        private Property()
-        {
-        }
-
-        public Property(string name, object value)
+        internal Property(string name, object value)
         {
             this.Name = name;
             this.Value = value;
@@ -53,13 +57,13 @@ namespace Kingsland.MofParser.Model
         public string Name
         {
             get;
-            private set;
+            private init;
         }
 
         public object Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

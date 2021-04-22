@@ -183,7 +183,8 @@ namespace Kingsland.MofParser.Model
         {
             if (node.IsAlias)
             {
-                return node.Alias.Name;
+                var alias = node.Alias ?? throw new NullReferenceException();
+                return alias.Name;
             };
             return node switch
             {

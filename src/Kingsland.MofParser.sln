@@ -7,19 +7,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.MofParser", "King
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{69A76E2A-4688-4343-B0DC-27CBA2EBAB7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.BuildTools", "Kingsland.MofParser.BuildTools\Kingsland.MofParser.BuildTools.csproj", "{1C627EBC-AF18-45A4-8BFB-E0D31A565059}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.MofParser.BuildTools", "Kingsland.MofParser.BuildTools\Kingsland.MofParser.BuildTools.csproj", "{1C627EBC-AF18-45A4-8BFB-E0D31A565059}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.UnitTests", "Kingsland.MofParser.UnitTests\Kingsland.MofParser.UnitTests.csproj", "{85FB825B-B1C0-47F8-9FF7-09951CD29CF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.MofParser.UnitTests", "Kingsland.MofParser.UnitTests\Kingsland.MofParser.UnitTests.csproj", "{85FB825B-B1C0-47F8-9FF7-09951CD29CF7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.HtmlReport", "Kingsland.MofParser.HtmlReport\Kingsland.MofParser.HtmlReport.csproj", "{4CCBEEF4-4303-4392-BE3D-A4BB8218D6E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.MofParser.HtmlReport", "Kingsland.MofParser.HtmlReport\Kingsland.MofParser.HtmlReport.csproj", "{4CCBEEF4-4303-4392-BE3D-A4BB8218D6E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.Sample", "Kingsland.MofParser.Sample\Kingsland.MofParser.Sample.csproj", "{A071F2FD-3C3D-43DE-9774-AACEE415EFA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.MofParser.Sample", "Kingsland.MofParser.Sample\Kingsland.MofParser.Sample.csproj", "{A071F2FD-3C3D-43DE-9774-AACEE415EFA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.MofParser.NuGet", "Kingsland.MofParser.NuGet\Kingsland.MofParser.NuGet.csproj", "{ECD9DAF2-1FDA-4435-B489-886A2CCA749E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.MofParser.NuGet", "Kingsland.MofParser.NuGet\Kingsland.MofParser.NuGet.csproj", "{ECD9DAF2-1FDA-4435-B489-886A2CCA749E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.ParseFx", "Kingsland.ParseFx\Kingsland.ParseFx.csproj", "{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.MofParser.EditMof", "Kingsland.MofParser.EditMof\Kingsland.MofParser.EditMof.csproj", "{1C183A9B-9267-4495-8D63-FC8F834C35F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C183A9B-9267-4495-8D63-FC8F834C35F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C183A9B-9267-4495-8D63-FC8F834C35F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C183A9B-9267-4495-8D63-FC8F834C35F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C183A9B-9267-4495-8D63-FC8F834C35F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{4CCBEEF4-4303-4392-BE3D-A4BB8218D6E0} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
 		{A071F2FD-3C3D-43DE-9774-AACEE415EFA2} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
 		{ECD9DAF2-1FDA-4435-B489-886A2CCA749E} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
+		{1C183A9B-9267-4495-8D63-FC8F834C35F3} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02535FFA-CD2C-4FEC-997C-7A49EA77F34A}

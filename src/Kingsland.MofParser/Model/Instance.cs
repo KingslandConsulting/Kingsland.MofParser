@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Kingsland.MofParser.Parsing;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
-using Kingsland.MofParser.Parsing;
 
 namespace Kingsland.MofParser.Model
 {
 
-    public sealed class Instance
+    public sealed record Instance
     {
 
         #region Builder
@@ -14,13 +16,18 @@ namespace Kingsland.MofParser.Model
         public sealed class Builder
         {
 
-            public string TypeName
+            public Builder()
+            {
+                this.Properties = new List<Property>();
+            }
+
+            public string? TypeName
             {
                 get;
                 set;
             }
 
-            public string Alias
+            public string? Alias
             {
                 get;
                 set;
@@ -34,14 +41,15 @@ namespace Kingsland.MofParser.Model
 
             public Instance Build()
             {
-                return new Instance
-                {
-                    TypeName = this.TypeName,
-                    Alias = this.Alias,
-                    Properties = new ReadOnlyCollection<Property>(
-                        this.Properties ?? new List<Property>()
-                    )
-                };
+                return new Instance(
+                    this.TypeName ?? throw new InvalidOperationException(
+                        $"{nameof(this.TypeName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.Alias ?? throw new InvalidOperationException(
+                        $"{nameof(this.Alias)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.Properties
+                );
             }
 
         }
@@ -50,8 +58,13 @@ namespace Kingsland.MofParser.Model
 
         #region Constructors
 
-        private Instance()
+        internal Instance(string typeName, string alias, IEnumerable<Property> properties)
         {
+            this.TypeName = typeName;
+            this.Alias = alias;
+            this.Properties = new ReadOnlyCollection<Property>(
+                properties.ToList()
+            );
         }
 
         #endregion
@@ -61,19 +74,19 @@ namespace Kingsland.MofParser.Model
         public string TypeName
         {
             get;
-            private set;
+            private init;
         }
 
         public string Alias
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<Property> Properties
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

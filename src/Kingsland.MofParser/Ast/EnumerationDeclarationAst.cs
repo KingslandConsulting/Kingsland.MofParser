@@ -3,6 +3,7 @@ using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -38,7 +39,7 @@ namespace Kingsland.MofParser.Ast
     ///     ENUMERATION            = "enumeration" ; keyword: case insensitive
     ///
     /// </remarks>
-    public sealed class EnumerationDeclarationAst : MofProductionAst, IStructureFeatureAst
+    public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFeatureAst
     {
 
         #region Builder
@@ -48,6 +49,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.EnumElements = new List<EnumElementAst>();
             }
 
@@ -57,13 +59,13 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken EnumName
+            public IdentifierToken? EnumName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken EnumType
+            public IdentifierToken? EnumType
             {
                 get;
                 set;
@@ -79,11 +81,13 @@ namespace Kingsland.MofParser.Ast
             {
                 return new EnumerationDeclarationAst(
                     this.QualifierList,
-                    this.EnumName,
-                    this.EnumType,
-                    new ReadOnlyCollection<EnumElementAst>(
-                        this.EnumElements ?? new List<EnumElementAst>()
-                    )
+                    this.EnumName ?? throw new InvalidOperationException(
+                        $"{nameof(this.EnumName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.EnumType ?? throw new InvalidOperationException(
+                        $"{nameof(this.EnumType)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.EnumElements
                 );
             }
 
@@ -93,13 +97,18 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public EnumerationDeclarationAst(QualifierListAst qualifierList, IdentifierToken enumName, IdentifierToken enumType, ReadOnlyCollection<EnumElementAst> enumElements)
+        internal EnumerationDeclarationAst(
+            QualifierListAst qualifierList,
+            IdentifierToken enumName,
+            IdentifierToken enumType,
+            IEnumerable<EnumElementAst> enumElements
+        )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.EnumName = enumName ?? throw new ArgumentNullException(nameof(enumName));
-            this.EnumType = enumType ?? throw new ArgumentNullException(nameof(enumType));
-            this.EnumElements = enumElements ?? new ReadOnlyCollection<EnumElementAst>(
-                new List<EnumElementAst>()
+            this.QualifierList = qualifierList;
+            this.EnumName = enumName;
+            this.EnumType = enumType;
+            this.EnumElements = new ReadOnlyCollection<EnumElementAst>(
+                enumElements.ToList()
             );
         }
 
@@ -110,25 +119,25 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken EnumName
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken EnumType
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<EnumElementAst> EnumElements
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

@@ -18,7 +18,6 @@ namespace Kingsland.MofParser.Ast
     /// </remarks>
     public interface IClassFeatureAst : IAstNode
     {
-
     }
 
 }

@@ -2,6 +2,7 @@
 using Kingsland.ParseFx.Parsing;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -23,7 +24,7 @@ namespace Kingsland.MofParser.Ast
     ///     propertyName      = IDENTIFIER
     ///
     /// </remarks>
-    public sealed class PropertyValueListAst : AstNode
+    public sealed record PropertyValueListAst : AstNode
     {
 
         #region Builder
@@ -45,9 +46,7 @@ namespace Kingsland.MofParser.Ast
             public PropertyValueListAst Build()
             {
                 return new PropertyValueListAst(
-                    new ReadOnlyDictionary<string, PropertyValueAst>(
-                        this.PropertyValues ?? new Dictionary<string, PropertyValueAst>()
-                    )
+                    this.PropertyValues
                 );
             }
 
@@ -57,10 +56,19 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public PropertyValueListAst(ReadOnlyDictionary<string, PropertyValueAst> propertyValues)
+        internal PropertyValueListAst()
+            : this(new Dictionary<string, PropertyValueAst>())
         {
-            this.PropertyValues = propertyValues ?? new ReadOnlyDictionary<string, PropertyValueAst>(
-                new Dictionary<string, PropertyValueAst>()
+        }
+
+        internal PropertyValueListAst(
+            IDictionary<string, PropertyValueAst> propertyValues
+        )
+        {
+            this.PropertyValues = new ReadOnlyDictionary<string, PropertyValueAst>(
+                propertyValues.ToDictionary(
+                    kvp => kvp.Key, kvp => kvp.Value
+                )
             );
         }
 
@@ -71,7 +79,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyDictionary<string, PropertyValueAst> PropertyValues
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

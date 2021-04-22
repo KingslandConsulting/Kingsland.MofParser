@@ -1,5 +1,6 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Tokens;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -18,7 +19,7 @@ namespace Kingsland.MofParser.Ast
     ///     enumLiteral            = IDENTIFIER
     ///
     /// </remarks>
-    public sealed class EnumElementAst : IAstNode
+    public sealed record EnumElementAst : IAstNode
     {
 
         #region Builder
@@ -26,19 +27,24 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
+            public Builder()
+            {
+                this.QualifierList = new QualifierListAst();
+            }
+
             public QualifierListAst QualifierList
             {
                 get;
                 set;
             }
 
-            public IdentifierToken EnumElementName
+            public IdentifierToken? EnumElementName
             {
                 get;
                 set;
             }
 
-            public IEnumElementValueAst EnumElementValue
+            public IEnumElementValueAst? EnumElementValue
             {
                 get;
                 set;
@@ -48,7 +54,9 @@ namespace Kingsland.MofParser.Ast
             {
                 return new EnumElementAst(
                     this.QualifierList,
-                    this.EnumElementName,
+                    this.EnumElementName ?? throw new InvalidOperationException(
+                        $"{nameof(this.EnumElementName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.EnumElementValue
                 );
             }
@@ -59,9 +67,13 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public EnumElementAst(QualifierListAst qualifierList, IdentifierToken enumElementName, IEnumElementValueAst enumElementValue)
+        internal EnumElementAst(
+            QualifierListAst qualifierList,
+            IdentifierToken enumElementName,
+            IEnumElementValueAst? enumElementValue
+        )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
+            this.QualifierList = qualifierList;
             this.EnumElementName = enumElementName;
             this.EnumElementValue = enumElementValue;
         }
@@ -73,19 +85,19 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken EnumElementName
         {
             get;
-            private set;
+            private init;
         }
 
-        public IEnumElementValueAst EnumElementValue
+        public IEnumElementValueAst? EnumElementValue
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

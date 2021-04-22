@@ -3,6 +3,7 @@ using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -26,7 +27,7 @@ namespace Kingsland.MofParser.Ast
     ///     ASSOCIATION            = "association" ; keyword: case insensitive
     ///
     /// </remarks>
-    public sealed class AssociationDeclarationAst : MofProductionAst
+    public sealed record AssociationDeclarationAst : MofProductionAst
     {
 
         #region Builder
@@ -36,6 +37,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.ClassFeatures = new List<IClassFeatureAst>();
             }
 
@@ -45,13 +47,13 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken AssociationName
+            public IdentifierToken? AssociationName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken SuperAssociation
+            public IdentifierToken? SuperAssociation
             {
                 get;
                 set;
@@ -67,11 +69,11 @@ namespace Kingsland.MofParser.Ast
             {
                 return new AssociationDeclarationAst(
                     this.QualifierList,
-                    this.AssociationName,
+                    this.AssociationName ?? throw new InvalidOperationException(
+                        $"{nameof(this.AssociationName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.SuperAssociation,
-                    new ReadOnlyCollection<IClassFeatureAst>(
-                        this.ClassFeatures ?? new List<IClassFeatureAst>()
-                    )
+                    this.ClassFeatures
                 );
             }
 
@@ -81,12 +83,19 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public AssociationDeclarationAst(QualifierListAst qualifierList, IdentifierToken associationName, IdentifierToken superAssociation, ReadOnlyCollection<IClassFeatureAst> classFeatures)
+        internal AssociationDeclarationAst(
+            QualifierListAst qualifierList,
+            IdentifierToken associationName,
+            IdentifierToken? superAssociation,
+            IEnumerable<IClassFeatureAst> classFeatures
+        )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.AssociationName = associationName ?? throw new ArgumentNullException(nameof(associationName));
+            this.QualifierList = qualifierList;
+            this.AssociationName = associationName;
             this.SuperAssociation = superAssociation;
-            this.ClassFeatures = classFeatures ?? new ReadOnlyCollection<IClassFeatureAst>(new List<IClassFeatureAst>());
+            this.ClassFeatures = new ReadOnlyCollection<IClassFeatureAst>(
+                classFeatures.ToList()
+            );
         }
 
         #endregion
@@ -96,25 +105,25 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken AssociationName
         {
             get;
-            private set;
+            private init;
         }
 
-        public IdentifierToken SuperAssociation
+        public IdentifierToken? SuperAssociation
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<IClassFeatureAst> ClassFeatures
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

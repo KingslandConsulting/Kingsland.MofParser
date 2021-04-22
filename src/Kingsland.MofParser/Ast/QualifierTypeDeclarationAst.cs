@@ -3,6 +3,7 @@ using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -31,7 +32,7 @@ namespace Kingsland.MofParser.Ast
     ///     qualifierScope           = SCOPE "(" ANY / scopeKindList ")"
     ///
     /// </returns>
-    public sealed class QualifierTypeDeclarationAst : MofProductionAst
+    public sealed record QualifierTypeDeclarationAst : MofProductionAst
     {
 
         #region Builder
@@ -41,6 +42,7 @@ namespace Kingsland.MofParser.Ast
 
             public Builder()
             {
+                this.QualifierList = new QualifierListAst();
                 this.Flavors = new List<string>();
             }
 
@@ -50,31 +52,31 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public IdentifierToken QualifierKeyword
+            public IdentifierToken? QualifierKeyword
             {
                 get;
                 set;
             }
 
-            public IdentifierToken QualifierName
+            public IdentifierToken? QualifierName
             {
                 get;
                 set;
             }
 
-            public IdentifierToken QualifierType
+            public IdentifierToken? QualifierType
             {
                 get;
                 set;
             }
 
-            public IdentifierToken QualifierScope
+            public IdentifierToken? QualifierScope
             {
                 get;
                 set;
             }
 
-            public IdentifierToken QualifierPolicy
+            public IdentifierToken? QualifierPolicy
             {
                 get;
                 set;
@@ -90,14 +92,22 @@ namespace Kingsland.MofParser.Ast
             {
                 return new QualifierTypeDeclarationAst(
                     this.QualifierList,
-                    this.QualifierKeyword,
-                    this.QualifierName,
-                    this.QualifierType,
-                    this.QualifierScope,
-                    this.QualifierPolicy,
-                    new ReadOnlyCollection<string>(
-                        this.Flavors ?? new List<string>()
-                    )
+                    this.QualifierKeyword ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierKeyword)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.QualifierName ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.QualifierType ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierType)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.QualifierScope ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierScope)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.QualifierPolicy ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierPolicy)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.Flavors
                 );
             }
 
@@ -107,23 +117,25 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private QualifierTypeDeclarationAst(
-            QualifierListAst qualifierList,
+        internal QualifierTypeDeclarationAst(
+            QualifierListAst? qualifierList,
             IdentifierToken qualifierKeyword,
             IdentifierToken qualifierName,
             IdentifierToken qualifierType,
             IdentifierToken qualifierScope,
             IdentifierToken qualifierPolicy,
-            ReadOnlyCollection<string> flavors
+            IEnumerable<string> flavors
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.QualifierKeyword = qualifierKeyword ?? throw new ArgumentNullException(nameof(qualifierKeyword));
-            this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
-            this.QualifierType = qualifierType ?? throw new ArgumentNullException(nameof(qualifierType));
-            this.QualifierScope = qualifierScope ?? throw new ArgumentNullException(nameof(qualifierScope));
-            this.QualifierPolicy = qualifierPolicy ?? throw new ArgumentNullException(nameof(qualifierPolicy));
-            this.Flavors = flavors ?? throw new ArgumentNullException(nameof(flavors));
+            this.QualifierList = qualifierList ?? new QualifierListAst();
+            this.QualifierKeyword = qualifierKeyword;
+            this.QualifierName = qualifierName;
+            this.QualifierType = qualifierType;
+            this.QualifierScope = qualifierScope;
+            this.QualifierPolicy = qualifierPolicy;
+            this.Flavors = new ReadOnlyCollection<string>(
+                flavors.ToList()
+            );
         }
 
         #endregion
@@ -133,43 +145,43 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken QualifierKeyword
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken QualifierName
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken QualifierType
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken QualifierScope
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken QualifierPolicy
         {
             get;
-            private set;
+            private init;
         }
 
         public ReadOnlyCollection<string> Flavors
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

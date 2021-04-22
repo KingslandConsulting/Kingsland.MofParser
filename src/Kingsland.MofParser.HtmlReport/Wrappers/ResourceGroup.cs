@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Kingsland.MofParser.HtmlReport.Resources;
+using System.Collections.Generic;
 
-namespace Kingsland.MofParser.Sample.Wrappers
+namespace Kingsland.MofParser.HtmlReport.Wrappers
 {
 
-    public sealed class InstanceWrapperGroup
+    public sealed class ResourceGroup
     {
 
         public string Filename
@@ -18,7 +19,7 @@ namespace Kingsland.MofParser.Sample.Wrappers
             set;
         }
 
-        public List<InstanceWrapper> Wrappers
+        public List<DscResource> Wrappers
         {
             get;
             set;

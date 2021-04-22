@@ -5,7 +5,7 @@ using Kingsland.ParseFx.Text;
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class BooleanLiteralToken : SyntaxToken
+    public sealed record BooleanLiteralToken : SyntaxToken
     {
 
         #region Constructors
@@ -33,7 +33,7 @@ namespace Kingsland.MofParser.Tokens
         public bool Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

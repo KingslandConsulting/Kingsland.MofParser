@@ -4,6 +4,7 @@ using Kingsland.ParseFx.Syntax;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Kingsland.MofParser.UnitTests.Lexing
@@ -12,12 +13,12 @@ namespace Kingsland.MofParser.UnitTests.Lexing
     public sealed class LexerAssert
     {
 
-        public static void AreEqual(SyntaxToken expectedToken, SyntaxToken actualToken)
+        public static void AreEqual(SyntaxToken? expectedToken, SyntaxToken? actualToken, bool ignoreExtent)
         {
-            LexerAssert.AreEqualInternal(expectedToken, actualToken);
+            LexerAssert.AreEqualInternal(expectedToken, actualToken, ignoreExtent);
         }
 
-        public static void AreEqual(List<SyntaxToken> expectedTokens, List<SyntaxToken> actualTokens, bool ignoreExtent = false)
+        public static void AreEqual(List<SyntaxToken>? expectedTokens, List<SyntaxToken>? actualTokens, bool ignoreExtent)
         {
             if ((expectedTokens == null) && (actualTokens == null))
             {
@@ -26,10 +27,14 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             if (expectedTokens == null)
             {
                 Assert.Fail("expected is null, but actual is not null");
+                // nullable workaround until Assert.Fail gets annotated with [DoesNotReturn]
+                throw new InvalidOperationException();
             }
             if (actualTokens == null)
             {
                 Assert.Fail("expected is not null, but actual is null");
+                // nullable workaround until Assert.Fail gets annotated with [DoesNotReturn]
+                throw new InvalidOperationException();
             }
             for (var i = 0; i < Math.Min(expectedTokens.Count, actualTokens.Count); i++)
             {
@@ -38,7 +43,7 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             Assert.AreEqual(expectedTokens.Count, actualTokens.Count, "expected and actual are different lengths");
         }
 
-        private static void AreEqualInternal(SyntaxToken expectedToken, SyntaxToken actualToken, bool ignoreExtent = false, int index = -1)
+        private static void AreEqualInternal(SyntaxToken? expectedToken, SyntaxToken? actualToken, bool ignoreExtent, int index = -1)
         {
             if ((expectedToken == null) && (actualToken == null))
             {
@@ -166,19 +171,23 @@ namespace Kingsland.MofParser.UnitTests.Lexing
             return result.ToString();
         }
 
+        [DoesNotReturn]
         private static void Fail(string message, int? index)
         {
-            LexerAssert.Fail(message, null, null, index);
+            LexerAssert.Fail(message, string.Empty, string.Empty, index);
         }
 
+        [DoesNotReturn]
         private static void Fail(string message, string expected, string actual, int? index)
         {
             Assert.Fail(LexerAssert.GetFailMessage(message, expected, actual, index));
+            // nullable workaround until Assert.Fail gets annotated with [DoesNotReturn]
+            throw new InvalidOperationException();
         }
 
         private static string GetFailMessage(string message, int? index)
         {
-            return LexerAssert.GetFailMessage(message, null, null, index);
+            return LexerAssert.GetFailMessage(message, string.Empty, string.Empty, index);
         }
 
         private static string GetFailMessage(string message, string expected, string actual, int? index)

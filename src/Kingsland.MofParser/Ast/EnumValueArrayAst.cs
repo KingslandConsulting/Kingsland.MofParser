@@ -1,7 +1,7 @@
 ﻿using Kingsland.MofParser.CodeGen;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -17,7 +17,7 @@ namespace Kingsland.MofParser.Ast
     ///     enumValueArray = "{" [ enumName *( "," enumName ) ] "}"
     ///
     /// </remarks>
-    public sealed class EnumValueArrayAst : EnumTypeValueAst
+    public sealed record EnumValueArrayAst : EnumTypeValueAst
     {
 
         #region Builder
@@ -39,9 +39,7 @@ namespace Kingsland.MofParser.Ast
             public EnumValueArrayAst Build()
             {
                 return new EnumValueArrayAst(
-                    new ReadOnlyCollection<EnumValueAst>(
-                        this.Values ?? new List<EnumValueAst>()
-                    )
+                    this.Values
                 );
             }
 
@@ -51,11 +49,18 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public EnumValueArrayAst(
-            ReadOnlyCollection<EnumValueAst> values
+        internal EnumValueArrayAst()
+            : this(new List<EnumValueAst>())
+        {
+        }
+
+        internal EnumValueArrayAst(
+            IEnumerable<EnumValueAst> values
         )
         {
-            this.Values = values ?? throw new ArgumentNullException(nameof(values));
+            this.Values = new ReadOnlyCollection<EnumValueAst>(
+                values.ToList()
+            );
         }
 
         #endregion
@@ -65,7 +70,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<EnumValueAst> Values
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

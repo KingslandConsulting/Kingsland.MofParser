@@ -8,7 +8,7 @@ using System.Text;
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class StringLiteralToken : SyntaxToken
+    public sealed record StringLiteralToken : SyntaxToken
     {
 
         #region Constructors
@@ -36,7 +36,7 @@ namespace Kingsland.MofParser.Tokens
         public string Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion
@@ -54,7 +54,7 @@ namespace Kingsland.MofParser.Tokens
 
         #region Helpers
 
-        private readonly static Dictionary<char, string> EscapeMap = new Dictionary<char, string>()
+        private readonly static Dictionary<char, string> EscapeMap = new()
             {
                 { '\\', $"{Constants.BACKSLASH}{Constants.BACKSLASH}" },
                 { '\"', $"{Constants.BACKSLASH}{Constants.DOUBLEQUOTE}" },

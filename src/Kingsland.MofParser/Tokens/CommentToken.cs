@@ -4,7 +4,7 @@ using Kingsland.ParseFx.Text;
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class CommentToken : SyntaxToken
+    public sealed record CommentToken : SyntaxToken
     {
 
         #region Constructors
@@ -32,7 +32,7 @@ namespace Kingsland.MofParser.Tokens
         public string Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

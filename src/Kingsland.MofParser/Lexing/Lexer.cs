@@ -34,8 +34,7 @@ namespace Kingsland.MofParser.Lexing
                 .AddScanner(';', Lexer.ReadStatementEndToken)
                 .AddScanner('"', Lexer.ReadStringLiteralToken)
                 .AddScanner("[+|\\-]", Lexer.ReadNumericLiteralToken)
-                .AddScanner('.', (reader) =>
-                {
+                .AddScanner('.', (reader) => {
                     // if the next character is a decimalDigit then we're reading a RealLiteralToken with
                     // no leading digits before the decimal point (e.g. ".45"), otherwise we're reading
                     // a DotOperatorToken (e.g. the "." in "MyPropertyValue = MyEnum.Value;")
@@ -49,8 +48,7 @@ namespace Kingsland.MofParser.Lexing
                         return Lexer.ReadDotOperatorToken(reader);
                     }
                 })
-                .AddScanner("[a-z|A-Z|_]", (reader) =>
-                {
+                .AddScanner("[a-z|A-Z|_]", (reader) => {
                     // firstIdentifierChar
                     var result = Lexer.ReadIdentifierToken(reader);
                     var identifierToken = (IdentifierToken)result.Token;
@@ -71,7 +69,8 @@ namespace Kingsland.MofParser.Lexing
                     }
                 })
                 .AddScanner("[0-9]", Lexer.ReadNumericLiteralToken)
-                .AddScanner(new char[] {
+                .AddScanner(
+                    new char[] {
                         '\u0020', // space
                         '\u0009', // horizontal tab
                         '\u000D', // carriage return
@@ -487,7 +486,7 @@ namespace Kingsland.MofParser.Lexing
         public static ScannerResult ReadNumericLiteralToken(SourceReader reader)
         {
 
-            static int ParseBinaryValueDigits(IEnumerable<SourceChar> binaryChars, SourceChar sign)
+            static int ParseBinaryValueDigits(IEnumerable<SourceChar> binaryChars, SourceChar? sign)
             {
                 return ParseIntegerValueDigits(new Dictionary<char, int>
                 {
@@ -495,7 +494,7 @@ namespace Kingsland.MofParser.Lexing
                 }, 2, binaryChars, sign);
             }
 
-            static int ParseOctalValueDigits(IEnumerable<SourceChar> octalChars, SourceChar sign)
+            static int ParseOctalValueDigits(IEnumerable<SourceChar> octalChars, SourceChar? sign)
             {
                 return ParseIntegerValueDigits(new Dictionary<char, int>
                 {
@@ -503,7 +502,7 @@ namespace Kingsland.MofParser.Lexing
                 }, 8, octalChars, sign);
             }
 
-            static int ParseHexValueDigits(IEnumerable<SourceChar> hexChars, SourceChar sign)
+            static int ParseHexValueDigits(IEnumerable<SourceChar> hexChars, SourceChar? sign)
             {
                 return ParseIntegerValueDigits(new Dictionary<char, int>
                 {
@@ -513,7 +512,7 @@ namespace Kingsland.MofParser.Lexing
                 }, 16, hexChars, sign);
             }
 
-            static int ParseDecimalValueDigits(IEnumerable<SourceChar> decimalChars, SourceChar sign)
+            static int ParseDecimalValueDigits(IEnumerable<SourceChar> decimalChars, SourceChar? sign)
             {
                 return ParseIntegerValueDigits(new Dictionary<char, int>
                 {
@@ -521,7 +520,7 @@ namespace Kingsland.MofParser.Lexing
                 }, 10, decimalChars, sign);
             }
 
-            static int ParseIntegerValueDigits(Dictionary<char, int> alphabet, int radix, IEnumerable<SourceChar> chars, SourceChar sign)
+            static int ParseIntegerValueDigits(Dictionary<char, int> alphabet, int radix, IEnumerable<SourceChar> chars, SourceChar? sign)
             {
                 var literalValue = 0;
                 foreach (var digit in chars)
@@ -608,7 +607,9 @@ namespace Kingsland.MofParser.Lexing
                         {
                             // only realValue allows no digits in the first block, and
                             // we've already handled that at the start of this case
-                            throw new UnexpectedCharacterException(sourceChar);
+                            throw new UnexpectedCharacterException(
+                                sourceChar ?? throw new NullReferenceException()
+                            );
                         }
                         // if we've reached the end of the stream then there's no suffix
                         // (e.g. b, B, x, X, .) so this must be an octalValue or decimalValue
@@ -660,7 +661,9 @@ namespace Kingsland.MofParser.Lexing
                         // i.e. 1*binaryDigit
                         if (firstDigitBlock.Any(c => !StringValidator.IsBinaryDigit(c.Value)))
                         {
-                            throw new UnexpectedCharacterException(sourceChar);
+                            throw new UnexpectedCharacterException(
+                                sourceChar ?? throw new NullReferenceException()
+                            );
                         }
                         // all the characters are valid, so consume the suffix
                         (sourceChar, thisReader) = thisReader.Read(c => (c == 'b') || (c == 'B'));
@@ -678,11 +681,15 @@ namespace Kingsland.MofParser.Lexing
                         // i.e. "0" 1*octalDigit
                         if ((firstDigitBlock.Count < 2) || (firstDigitBlock.First().Value != '0'))
                         {
-                            throw new UnexpectedCharacterException(sourceChar);
+                            throw new UnexpectedCharacterException(
+                                sourceChar ?? throw new NullReferenceException()
+                            );
                         }
                         if (firstDigitBlock.Skip(1).Any(c => !StringValidator.IsOctalDigit(c.Value)))
                         {
-                            throw new UnexpectedCharacterException(sourceChar);
+                            throw new UnexpectedCharacterException(
+                                sourceChar ?? throw new NullReferenceException()
+                            );
                         }
                         // now build the return value
                         var octalValue = ParseOctalValueDigits(firstDigitBlock, signChar);
@@ -695,7 +702,9 @@ namespace Kingsland.MofParser.Lexing
                         // we're trying to read a hexValue, so we should have just read a leading zero
                         if ((firstDigitBlock.Count != 1) || (firstDigitBlock.First().Value != '0'))
                         {
-                            throw new UnexpectedCharacterException(sourceChar);
+                            throw new UnexpectedCharacterException(
+                                sourceChar ?? throw new NullReferenceException()
+                           );
                         }
                         // all the characters are valid, so consume the suffix
                         (sourceChar, thisReader) = thisReader.Read(c => (c == 'x') || (c == 'X'));
@@ -725,11 +734,15 @@ namespace Kingsland.MofParser.Lexing
                         }
                         else if (!StringValidator.IsPositiveDecimalDigit(firstDigitBlock.First().Value))
                         {
-                            throw new UnexpectedCharacterException(sourceChar);
+                            throw new UnexpectedCharacterException(
+                                sourceChar ?? throw new NullReferenceException()
+                            );
                         }
                         else if (firstDigitBlock.Skip(1).Any(c => !StringValidator.IsDecimalDigit(c.Value)))
                         {
-                            throw new UnexpectedCharacterException(sourceChar);
+                            throw new UnexpectedCharacterException(
+                                sourceChar ?? throw new NullReferenceException()
+                            );
                         }
                         // build the return value
                         var decimalValue = ParseDecimalValueDigits(firstDigitBlock, signChar);
@@ -743,7 +756,9 @@ namespace Kingsland.MofParser.Lexing
                         // i.e. *decimalDigit
                         if (firstDigitBlock.Any(c => !StringValidator.IsDecimalDigit(c.Value)))
                         {
-                            throw new UnexpectedCharacterException(sourceChar);
+                            throw new UnexpectedCharacterException(
+                                sourceChar ?? throw new NullReferenceException()
+                            );
                         }
                         // all the characters are valid, so consume the decimal point
                         (sourceChar, thisReader) = thisReader.Read('.');
@@ -776,7 +791,7 @@ namespace Kingsland.MofParser.Lexing
                         var realFractionValue = (double)ParseDecimalValueDigits(realFractionDigits, signChar);
                         if (realFractionDigits.Any())
                         {
-                            realFractionValue = realFractionValue / Math.Pow(10, realFractionDigits.Count);
+                            realFractionValue /= Math.Pow(10, realFractionDigits.Count);
                         }
                         token = new RealLiteralToken(
                             SourceExtent.From(sourceChars),
@@ -799,7 +814,10 @@ namespace Kingsland.MofParser.Lexing
                 }
             }
 
-            return new ScannerResult(token, thisReader);
+            return new ScannerResult(
+                token ?? throw new NullReferenceException(),
+                thisReader
+            );
 
         }
 
@@ -876,36 +894,18 @@ namespace Kingsland.MofParser.Lexing
                 if (isEscaped)
                 {
                     // read the second character in an escape sequence
-                    var escapedChar = default(char);
-                    switch (peek.Value)
+                    var escapedChar = peek.Value switch
                     {
-                        case Constants.BACKSLASH:
-                            escapedChar = Constants.BACKSLASH;
-                            break;
-                        case Constants.DOUBLEQUOTE:
-                            escapedChar = Constants.DOUBLEQUOTE;
-                            break;
-                        case Constants.SINGLEQUOTE:
-                            escapedChar = Constants.SINGLEQUOTE;
-                            break;
-                        case Constants.BACKSPACE_ESC:
-                            escapedChar = '\b';
-                            break;
-                        case Constants.TAB_ESC:
-                            escapedChar = '\t';
-                            break;
-                        case Constants.LINEFEED_ESC:
-                            escapedChar = '\n';
-                            break;
-                        case Constants.FORMFEED_ESC:
-                            escapedChar = '\f';
-                            break;
-                        case Constants.CARRIAGERETURN_ESC:
-                            escapedChar = '\r';
-                            break;
-                        default:
-                            throw new UnexpectedCharacterException(peek);
-                    }
+                        Constants.BACKSLASH => Constants.BACKSLASH,
+                        Constants.DOUBLEQUOTE => Constants.DOUBLEQUOTE,
+                        Constants.SINGLEQUOTE => Constants.SINGLEQUOTE,
+                        Constants.BACKSPACE_ESC => '\b',
+                        Constants.TAB_ESC => '\t',
+                        Constants.LINEFEED_ESC => '\n',
+                        Constants.FORMFEED_ESC => '\f',
+                        Constants.CARRIAGERETURN_ESC => '\r',
+                        _ => throw new UnexpectedCharacterException(peek)
+                    };
                     thisReader = thisReader.Next();
                     sourceChars.Add(peek);
                     stringChars.Append(escapedChar);

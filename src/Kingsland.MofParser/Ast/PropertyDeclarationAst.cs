@@ -39,7 +39,7 @@ namespace Kingsland.MofParser.Ast
     ///     DT_REFERENCE                 = className REF
     ///     REF                          = "ref" ; keyword: case insensitive
     ///
-    public sealed class PropertyDeclarationAst : AstNode, IStructureFeatureAst
+    public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
     {
 
         #region Builder
@@ -47,25 +47,30 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
+            public Builder()
+            {
+                this.QualifierList = new QualifierListAst();
+            }
+
             public QualifierListAst QualifierList
             {
                 get;
                 set;
             }
 
-            public IdentifierToken ReturnType
+            public IdentifierToken? ReturnType
             {
                 get;
                 set;
             }
 
-            public IdentifierToken ReturnTypeRef
+            public IdentifierToken? ReturnTypeRef
             {
                 get;
                 set;
             }
 
-            public IdentifierToken PropertyName
+            public IdentifierToken?PropertyName
             {
                 get;
                 set;
@@ -77,7 +82,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public PropertyValueAst Initializer
+            public PropertyValueAst? Initializer
             {
                 get;
                 set;
@@ -87,9 +92,13 @@ namespace Kingsland.MofParser.Ast
             {
                 return new PropertyDeclarationAst(
                     this.QualifierList,
-                    this.ReturnType,
+                    this.ReturnType ?? throw new InvalidOperationException(
+                        $"{nameof(this.ReturnType)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.ReturnTypeRef,
-                    this.PropertyName,
+                    this.PropertyName ?? throw new InvalidOperationException(
+                        $"{nameof(this.PropertyName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.ReturnTypeIsArray,
                     this.Initializer
                 );
@@ -101,19 +110,19 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private PropertyDeclarationAst(
+        internal PropertyDeclarationAst(
             QualifierListAst qualifierList,
             IdentifierToken returnType,
-            IdentifierToken returnTypeRef,
+            IdentifierToken? returnTypeRef,
             IdentifierToken propertyName,
             bool returnTypeIsArray,
-            PropertyValueAst initializer
+            PropertyValueAst? initializer
         )
         {
-            this.QualifierList = qualifierList ?? new QualifierListAst.Builder().Build();
-            this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
+            this.QualifierList = qualifierList;
+            this.ReturnType = returnType;
             this.ReturnTypeRef = returnTypeRef;
-            this.PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
+            this.PropertyName = propertyName;
             this.ReturnTypeIsArray = returnTypeIsArray;
             this.Initializer = initializer;
         }
@@ -125,13 +134,13 @@ namespace Kingsland.MofParser.Ast
         public QualifierListAst QualifierList
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken ReturnType
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ReturnTypeIsRef
@@ -142,28 +151,28 @@ namespace Kingsland.MofParser.Ast
             }
         }
 
-        public IdentifierToken ReturnTypeRef
+        public IdentifierToken? ReturnTypeRef
         {
             get;
-            private set;
+            private init;
         }
 
         public IdentifierToken PropertyName
         {
             get;
-            private set;
+            private init;
         }
 
         public bool ReturnTypeIsArray
         {
             get;
-            private set;
+            private init;
         }
 
-        public PropertyValueAst Initializer
+        public PropertyValueAst? Initializer
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

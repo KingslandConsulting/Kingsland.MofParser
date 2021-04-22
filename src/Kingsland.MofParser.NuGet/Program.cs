@@ -6,7 +6,7 @@ namespace Kingsland.MofParser.NuGet
     class Program
     {
 
-        static void Main(string[] args)
+        static void Main()
         {
 
             const string filename = "dsc\\MyServer.mof";

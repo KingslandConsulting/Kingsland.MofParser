@@ -1,21 +1,23 @@
-﻿namespace Kingsland.MofParser.Model
+﻿using System;
+
+namespace Kingsland.MofParser.Model
 {
 
-    public sealed class Class
+    public sealed record Class
     {
 
-        #region BUilder
+        #region Builder
 
         public sealed class Builder
         {
 
-            public string ClassName
+            public string? ClassName
             {
                 get;
                 set;
             }
 
-            public string SuperClass
+            public string? SuperClass
             {
                 get;
                 set;
@@ -23,11 +25,14 @@
 
             public Class Build()
             {
-                return new Class
-                {
-                    ClassName = this.ClassName,
-                    SuperClass = this.SuperClass
-                };
+                return new Class(
+                    this.ClassName ?? throw new InvalidOperationException(
+                        $"{nameof(this.ClassName)} property must be set before calling {nameof(Build)}."
+                    ),
+                    this.SuperClass ?? throw new InvalidOperationException(
+                        $"{nameof(this.SuperClass)} property must be set before calling {nameof(Build)}."
+                    )
+                );
             }
 
         }
@@ -36,8 +41,10 @@
 
         #region Constructors
 
-        private Class()
+        internal Class(string className, string superClass)
         {
+            this.ClassName = className;
+            this.SuperClass = superClass;
         }
 
         #endregion
@@ -47,13 +54,13 @@
         public string ClassName
         {
             get;
-            private set;
+            private init;
         }
 
         public string SuperClass
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

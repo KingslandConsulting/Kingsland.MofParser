@@ -2,6 +2,7 @@
 using Kingsland.ParseFx.Parsing;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -17,7 +18,7 @@ namespace Kingsland.MofParser.Ast
     ///     mofSpecification = *mofProduction
     ///
     /// </remarks>
-    public sealed class MofSpecificationAst : AstNode
+    public sealed record MofSpecificationAst : AstNode
     {
 
         #region Builder
@@ -39,9 +40,7 @@ namespace Kingsland.MofParser.Ast
             public MofSpecificationAst Build()
             {
                 return new MofSpecificationAst(
-                    new ReadOnlyCollection<MofProductionAst>(
-                        this.Productions ?? new List<MofProductionAst>()
-                    )
+                    this.Productions
                 );
             }
 
@@ -51,10 +50,17 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public MofSpecificationAst(ReadOnlyCollection<MofProductionAst> productions)
+        internal MofSpecificationAst()
+            : this(new List<MofProductionAst>())
         {
-            this.Productions = productions ?? new ReadOnlyCollection<MofProductionAst>(
-                new List<MofProductionAst>()
+        }
+
+        internal MofSpecificationAst(
+            IEnumerable<MofProductionAst> productions
+        )
+        {
+            this.Productions = new ReadOnlyCollection<MofProductionAst>(
+                productions.ToList()
             );
         }
 
@@ -65,6 +71,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<MofProductionAst> Productions
         {
             get;
+            private init;
         }
 
         #endregion

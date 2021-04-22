@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -34,7 +35,7 @@ namespace Kingsland.MofParser.Ast
     ///     keyValue         = propertyName "=" literalValue
     ///
     /// </remarks>
-    public sealed class ReferenceTypeValueAst : PropertyValueAst
+    public sealed record ReferenceTypeValueAst : PropertyValueAst
     {
 
         #region Builder
@@ -42,7 +43,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public string Name
+            public string? Name
             {
                 get;
                 set;
@@ -51,7 +52,9 @@ namespace Kingsland.MofParser.Ast
             public ReferenceTypeValueAst Build()
             {
                 return new ReferenceTypeValueAst(
-                    this.Name
+                    this.Name ?? throw new InvalidOperationException(
+                        $"{nameof(this.Name)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -61,7 +64,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public ReferenceTypeValueAst(string name)
+        internal ReferenceTypeValueAst(
+            string name
+        )
         {
             this.Name = name;
         }
@@ -73,7 +78,7 @@ namespace Kingsland.MofParser.Ast
         public string Name
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

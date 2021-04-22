@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.CodeGen;
+using System;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -14,7 +15,7 @@ namespace Kingsland.MofParser.Ast
     ///     qualifierValueInitializer     = "(" literalValue ")"
     ///
     /// </remarks>
-    public sealed class QualifierValueInitializerAst : IQualifierInitializerAst
+    public sealed record QualifierValueInitializerAst : IQualifierInitializerAst
     {
 
         #region Builder
@@ -22,7 +23,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public LiteralValueAst Value
+            public LiteralValueAst? Value
             {
                 get;
                 set;
@@ -30,10 +31,11 @@ namespace Kingsland.MofParser.Ast
 
             public QualifierValueInitializerAst Build()
             {
-                return new QualifierValueInitializerAst
-                {
-                    Value = this.Value
-                };
+                return new QualifierValueInitializerAst(
+                    this.Value ?? throw new InvalidOperationException(
+                        $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
+                    )
+                );
             }
 
         }
@@ -42,8 +44,9 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        private QualifierValueInitializerAst()
+        internal QualifierValueInitializerAst(LiteralValueAst value)
         {
+            this.Value = value;
         }
 
         #endregion
@@ -53,7 +56,7 @@ namespace Kingsland.MofParser.Ast
         public LiteralValueAst Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

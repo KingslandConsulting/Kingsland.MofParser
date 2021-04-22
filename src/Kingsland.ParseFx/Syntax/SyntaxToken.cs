@@ -4,18 +4,14 @@ using System;
 namespace Kingsland.ParseFx.Syntax
 {
 
-    public abstract class SyntaxToken
+    public abstract record SyntaxToken
     {
 
         #region Constructors
 
         protected SyntaxToken(SourceExtent extent)
         {
-            if (extent == null)
-            {
-                throw new ArgumentNullException(nameof(extent));
-            }
-            this.Extent = extent;
+            this.Extent = extent ?? throw new ArgumentNullException(nameof(extent));
         }
 
         #endregion
@@ -25,7 +21,7 @@ namespace Kingsland.ParseFx.Syntax
         public SourceExtent Extent
         {
             get;
-            private set;
+            private init;
         }
 
         public string Text

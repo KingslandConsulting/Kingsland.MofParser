@@ -10,10 +10,10 @@ namespace Kingsland.MofParser.Parsing
 
         #region PeekIdentifierToken Methods
 
-        public static bool TryPeekIdentifierToken(this TokenStream stream, string name, out IdentifierToken result)
+        public static bool TryPeekIdentifierToken(this TokenStream stream, string name, out IdentifierToken? result)
         {
             return stream.TryPeek<IdentifierToken>(
-                t => t.GetNormalizedName() == name,
+                t => t.IsKeyword(name),
                 out result
             );
         }
@@ -25,7 +25,7 @@ namespace Kingsland.MofParser.Parsing
         public static IdentifierToken ReadIdentifierToken(this TokenStream stream, string name)
         {
             var token = stream.Read<IdentifierToken>();
-            if (token.GetNormalizedName() != name)
+            if (!token.IsKeyword(name))
             {
                 throw new UnexpectedTokenException(token);
             }
@@ -38,7 +38,7 @@ namespace Kingsland.MofParser.Parsing
             return predicate(token) ? token : throw new UnexpectedTokenException(token);
         }
 
-        public static bool TryReadIdentifierToken(this TokenStream stream, string name, out IdentifierToken result)
+        public static bool TryReadIdentifierToken(this TokenStream stream, string name, out IdentifierToken? result)
         {
             if (stream.TryPeekIdentifierToken(name, out result))
             {

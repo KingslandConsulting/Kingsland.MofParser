@@ -5,7 +5,7 @@ using Kingsland.ParseFx.Text;
 namespace Kingsland.MofParser.Tokens
 {
 
-    public sealed class PragmaToken : SyntaxToken
+    public sealed record PragmaToken : SyntaxToken
     {
 
         #region Constructors

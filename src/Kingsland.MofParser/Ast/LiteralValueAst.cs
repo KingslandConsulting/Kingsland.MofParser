@@ -18,7 +18,7 @@
     ///                      ; dateTimeValue
     ///
     /// </remarks>
-    public abstract class LiteralValueAst : PrimitiveTypeValueAst
+    public abstract record LiteralValueAst : PrimitiveTypeValueAst
     {
 
         #region Constructors

@@ -16,7 +16,7 @@ namespace Kingsland.MofParser.Ast
     ///     integerValue = binaryValue / octalValue / hexValue / decimalValue
     ///
     /// </remarks>
-    public sealed class IntegerValueAst : LiteralValueAst, IEnumElementValueAst
+    public sealed record IntegerValueAst : LiteralValueAst, IEnumElementValueAst
     {
 
         #region Builder
@@ -24,7 +24,7 @@ namespace Kingsland.MofParser.Ast
         public sealed class Builder
         {
 
-            public IntegerLiteralToken IntegerLiteralToken
+            public IntegerLiteralToken? IntegerLiteralToken
             {
                 get;
                 set;
@@ -33,7 +33,9 @@ namespace Kingsland.MofParser.Ast
             public IntegerValueAst Build()
             {
                 return new IntegerValueAst(
-                    this.IntegerLiteralToken
+                    this.IntegerLiteralToken ?? throw new InvalidOperationException(
+                        $"{nameof(this.IntegerLiteralToken)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -43,9 +45,11 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public IntegerValueAst(IntegerLiteralToken integerLiteralToken)
+        internal IntegerValueAst(
+            IntegerLiteralToken integerLiteralToken
+        )
         {
-            this.IntegerLiteralToken = integerLiteralToken ?? throw new ArgumentNullException(nameof(integerLiteralToken));
+            this.IntegerLiteralToken = integerLiteralToken;
             this.Kind = integerLiteralToken.Kind;
             this.Value = integerLiteralToken.Value;
         }
@@ -57,19 +61,19 @@ namespace Kingsland.MofParser.Ast
         public IntegerLiteralToken IntegerLiteralToken
         {
             get;
-            private set;
+            private init;
         }
 
         public IntegerKind Kind
         {
             get;
-            private set;
+            private init;
         }
 
         public long Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

@@ -4,6 +4,7 @@ using Kingsland.ParseFx.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -24,7 +25,7 @@ namespace Kingsland.MofParser.Ast
     ///     qualiferValueArrayInitializer = "{" literalValue *( "," literalValue ) "}"
     ///
     /// </remarks>
-    public sealed class QualifierValueAst : AstNode
+    public sealed record QualifierValueAst : AstNode
     {
 
         #region Builder
@@ -37,13 +38,13 @@ namespace Kingsland.MofParser.Ast
                 this.Flavors = new List<IdentifierToken>();
             }
 
-            public IdentifierToken QualifierName
+            public IdentifierToken? QualifierName
             {
                 get;
                 set;
             }
 
-            public IQualifierInitializerAst Initializer
+            public IQualifierInitializerAst? Initializer
             {
                 get;
                 set;
@@ -58,11 +59,11 @@ namespace Kingsland.MofParser.Ast
             public QualifierValueAst Build()
             {
                 return new QualifierValueAst(
-                    this.QualifierName,
+                    this.QualifierName ?? throw new InvalidOperationException(
+                        $"{nameof(this.QualifierName)} property must be set before calling {nameof(Build)}."
+                    ),
                     this.Initializer,
-                    new ReadOnlyCollection<IdentifierToken>(
-                        this.Flavors ?? new List<IdentifierToken>()
-                    )
+                    this.Flavors
                 );
             }
 
@@ -72,12 +73,15 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public QualifierValueAst(IdentifierToken qualifierName, IQualifierInitializerAst initializer, ReadOnlyCollection<IdentifierToken> flavors)
+        internal QualifierValueAst(
+            IdentifierToken qualifierName,
+            IQualifierInitializerAst? initializer,
+            IEnumerable<IdentifierToken> flavors)
         {
-            this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
+            this.QualifierName = qualifierName;
             this.Initializer = initializer;
-            this.Flavors = flavors ?? new ReadOnlyCollection<IdentifierToken>(
-                new List<IdentifierToken>()
+            this.Flavors = new ReadOnlyCollection<IdentifierToken>(
+                flavors.ToList()
             );
         }
 
@@ -88,13 +92,13 @@ namespace Kingsland.MofParser.Ast
         public IdentifierToken QualifierName
         {
             get;
-            private set;
+            private init;
         }
 
-        public IQualifierInitializerAst Initializer
+        public IQualifierInitializerAst? Initializer
         {
             get;
-            private set;
+            private init;
         }
 
         /// <summary>
@@ -112,7 +116,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<IdentifierToken> Flavors
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

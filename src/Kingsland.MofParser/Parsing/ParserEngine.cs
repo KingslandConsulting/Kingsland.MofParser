@@ -115,46 +115,58 @@ namespace Kingsland.MofParser.Parsing
                 return ParserEngine.ParseCompilerDirectiveAst(stream, quirks);
             }
 
-            if (peek is IdentifierToken identifier)
+            if (peek is IdentifierToken valueOrInstance)
             {
-                switch (identifier.GetNormalizedName())
+                if (valueOrInstance.IsKeyword(Constants.VALUE))
                 {
-                    case Constants.VALUE:
-                        // structureValueDeclaration
-                        return ParserEngine.ParseStructureValueDeclarationAst(stream, quirks);
-                    case Constants.INSTANCE:
-                        // instanceValueDeclaration
-                        return ParserEngine.ParseInstanceValueDeclarationAst(stream, quirks);
+                    // structureValueDeclaration
+                    return ParserEngine.ParseStructureValueDeclarationAst(stream, quirks);
+                }
+                else if(valueOrInstance.IsKeyword(Constants.INSTANCE))
+                {
+                    // instanceValueDeclaration
+                    return ParserEngine.ParseInstanceValueDeclarationAst(stream, quirks);
                 }
             }
 
             // all other mofProduction elements start with [ qualifieList ]
-            var qualifierList = default(QualifierListAst);
-            if (peek is AttributeOpenToken)
-            {
-                qualifierList = ParserEngine.ParseQualifierListAst(stream, quirks);
-            }
+            var qualifierList = (peek is AttributeOpenToken)
+                ? ParserEngine.ParseQualifierListAst(stream, quirks)
+                : new QualifierListAst();
 
-            identifier = stream.Peek<IdentifierToken>();
-            switch (identifier.GetNormalizedName())
+            var productionType = stream.Peek<IdentifierToken>();
+            if (productionType == null)
             {
-                case Constants.STRUCTURE:
-                    // structureDeclaration
-                    return ParserEngine.ParseStructureDeclarationAst(stream, qualifierList, quirks);
-                case Constants.CLASS:
-                    // classDeclaration
-                    return ParserEngine.ParseClassDeclarationAst(stream, qualifierList, quirks);
-                case Constants.ASSOCIATION:
-                    // associationDeclaration
-                    return ParserEngine.ParseAssociationDeclarationAst(stream, qualifierList, quirks);
-                case Constants.ENUMERATION:
-                    // enumerationDeclaration
-                    return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList, quirks);
-                case Constants.QUALIFIER:
-                    // qualifierTypeDeclaration
-                    return ParserEngine.ParseQualifierTypeDeclarationAst(stream, qualifierList, quirks);
-                default:
-                    throw new UnexpectedTokenException(identifier);
+                throw new UnexpectedTokenException(stream.Peek());
+            }
+            else if (productionType.IsKeyword(Constants.STRUCTURE))
+            {
+                // structureDeclaration
+                return ParserEngine.ParseStructureDeclarationAst(stream, qualifierList, quirks);
+            }
+            else if (productionType.IsKeyword(Constants.CLASS))
+            {
+                // classDeclaration
+                return ParserEngine.ParseClassDeclarationAst(stream, qualifierList, quirks);
+            }
+            else if (productionType.IsKeyword(Constants.ASSOCIATION))
+            {
+                // associationDeclaration
+                return ParserEngine.ParseAssociationDeclarationAst(stream, qualifierList, quirks);
+            }
+            else if (productionType.IsKeyword(Constants.ENUMERATION))
+            {
+                // enumerationDeclaration
+                return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList, quirks);
+            }
+            else if (productionType.IsKeyword(Constants.QUALIFIER))
+            {
+                // qualifierTypeDeclaration
+                return ParserEngine.ParseQualifierTypeDeclarationAst(stream, qualifierList, quirks);
+            }
+            else
+            {
+                throw new UnexpectedTokenException(productionType);
             }
 
         }
@@ -380,7 +392,7 @@ namespace Kingsland.MofParser.Parsing
                     node.Flavors.Add(stream.Read<IdentifierToken>());
                     while (stream.TryRead<IdentifierToken>(out var identifier))
                     {
-                        node.Flavors.Add(identifier);
+                        node.Flavors.Add(identifier!);
                     }
                 }
             }
@@ -592,11 +604,9 @@ namespace Kingsland.MofParser.Parsing
         {
 
             // all structureFeatures start with an optional "[ qualifierList ]"
-            var qualifierList = default(QualifierListAst);
-            if (stream.TryPeek<AttributeOpenToken>())
-            {
-                qualifierList = ParserEngine.ParseQualifierListAst(stream, quirks);
-            }
+            var qualifierList = (stream.TryPeek<AttributeOpenToken>())
+                ? ParserEngine.ParseQualifierListAst(stream, quirks)
+                : new QualifierListAst();
 
             // we now need to work out if it's a structureDeclaration, enumerationDeclaration,
             // or propertyDeclaration
@@ -609,18 +619,20 @@ namespace Kingsland.MofParser.Parsing
             {
                 throw new UnexpectedTokenException(stream.Peek());
             }
-
-            switch (identifier.GetNormalizedName())
+            else if (identifier.IsKeyword(Constants.STRUCTURE))
             {
-                case Constants.STRUCTURE:
-                    // structureDeclaration
-                    return ParserEngine.ParseStructureDeclarationAst(stream, qualifierList, quirks);
-                case Constants.ENUMERATION:
-                    // enumerationDeclaration
-                    return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList, quirks);
-                default:
-                    // propertyDeclaration
-                    return ParserEngine.ParsePropertyDeclarationAst(stream, qualifierList, quirks);
+                // structureDeclaration
+                return ParserEngine.ParseStructureDeclarationAst(stream, qualifierList, quirks);
+            }
+            else if (identifier.IsKeyword(Constants.ENUMERATION))
+            {
+                // enumerationDeclaration
+                return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList, quirks);
+            }
+            else
+            {
+                // propertyDeclaration
+                return ParserEngine.ParsePropertyDeclarationAst(stream, qualifierList, quirks);
             }
 
         }
@@ -732,11 +744,9 @@ namespace Kingsland.MofParser.Parsing
         {
 
             // all classFeatures start with an optional "[ qualifierList ]"
-            var qualifierList = default(QualifierListAst);
-            if (stream.TryPeek<AttributeOpenToken>())
-            {
-                qualifierList = ParserEngine.ParseQualifierListAst(stream, quirks);
-            }
+            var qualifierList = stream.TryPeek<AttributeOpenToken>()
+                ? ParserEngine.ParseQualifierListAst(stream, quirks)
+                : new QualifierListAst();
 
             // we now need to work out if it's a structureDeclaration, enumerationDeclaration,
             // propertyDeclaration or methodDeclaration
@@ -746,18 +756,21 @@ namespace Kingsland.MofParser.Parsing
                 throw new UnexpectedTokenException(stream.Peek());
             }
 
-            switch (identifier.GetNormalizedName())
+            if (identifier.IsKeyword(Constants.STRUCTURE))
             {
-                case Constants.STRUCTURE:
-                    // structureDeclaration
-                    return ParserEngine.ParseStructureDeclarationAst(stream, qualifierList, quirks);
-                case Constants.ENUMERATION:
-                    // enumerationDeclaration
-                    return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList, quirks);
-                default:
-                    // propertyDeclaration or methodDeclaration
-                    return ParserEngine.ParseMemberDeclarationAst(stream, qualifierList, true, true, quirks);
+                // structureDeclaration
+                return ParserEngine.ParseStructureDeclarationAst(stream, qualifierList, quirks);
             }
+            if (identifier.IsKeyword(Constants.ENUMERATION))
+            {
+                // enumerationDeclaration
+                return ParserEngine.ParseEnumerationDeclarationAst(stream, qualifierList, quirks);
+            }
+            else
+            {
+                // propertyDeclaration or methodDeclaration
+                return ParserEngine.ParseMemberDeclarationAst(stream, qualifierList, true, true, quirks);
+            };
 
         }
 
@@ -889,41 +902,34 @@ namespace Kingsland.MofParser.Parsing
 
             // ( DT_INTEGER / integerEnumName ) / ( DT_STRING / stringEnumName )
             var enumTypeDeclaration = stream.Peek<IdentifierToken>();
-            var enumTypeDeclarationName = enumTypeDeclaration.GetNormalizedName();
-            switch (enumTypeDeclarationName)
+            if (enumTypeDeclaration == null)
             {
-                case Constants.DT_INTEGER:
+                throw new UnexpectedTokenException(stream.Peek());
+            }
+            else if (enumTypeDeclaration.IsKeyword(Constants.DT_INTEGER))
+            {
+                isIntegerEnum = true;
+            }
+            else if (enumTypeDeclaration.IsKeyword(Constants.DT_STRING))
+            {
+                isStringEnum = true;
+            }
+            else
+            {
+                // check if we allow deprecated integer sutypes
+                // see https://github.com/mikeclayton/MofParser/issues/52
+                var quirksEnabled = (quirks & ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase) == ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase;
+                if (quirksEnabled &&
+                    enumTypeDeclaration.IsKeyword(new string[] {
+                        Constants.DT_UINT8, Constants.DT_UINT16, Constants.DT_UINT32, Constants.DT_UINT64,
+                        Constants.DT_SINT8, Constants.DT_SINT16, Constants.DT_SINT32, Constants.DT_SINT64,
+                    })
+                )
+                {
                     isIntegerEnum = true;
-                    break;
-                case Constants.DT_STRING:
-                    isStringEnum = true;
-                    break;
-                default:
-                    // check if we allow deprecated integer sutypes
-                    // see https://github.com/mikeclayton/MofParser/issues/52
-                    var quirksEnabled = (quirks & ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase) == ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase;
-                    if (quirksEnabled)
-                    {
-                        var found = false;
-                        switch (enumTypeDeclarationName)
-                        {
-                            case Constants.DT_UINT8:
-                            case Constants.DT_UINT16:
-                            case Constants.DT_UINT32:
-                            case Constants.DT_UINT64:
-                            case Constants.DT_SINT8:
-                            case Constants.DT_SINT16:
-                            case Constants.DT_SINT32:
-                            case Constants.DT_SINT64:
-                                isIntegerEnum = true;
-                                found = true;
-                                break;
-                        }
-                        if (found)
-                        {
-                            break;
-                        }
-                    }
+                }
+                else
+                {
                     // this enumerationDeclaration is inheriting from a base enum.
                     // as a result, we don't know whether this is an integer or
                     // string enum until we inspect the type of the base enum
@@ -931,7 +937,7 @@ namespace Kingsland.MofParser.Parsing
                     {
                         throw new UnexpectedTokenException(enumTypeDeclaration);
                     }
-                    break;
+                }
             }
             node.EnumType = stream.Read<IdentifierToken>();
 
@@ -1000,7 +1006,7 @@ namespace Kingsland.MofParser.Parsing
                 var enumValue = stream.Peek();
                 switch (enumValue)
                 {
-                    case IntegerLiteralToken integerValue:
+                    case IntegerLiteralToken _:
                         // integerValue
                         if (isStringEnum)
                         {
@@ -1008,7 +1014,7 @@ namespace Kingsland.MofParser.Parsing
                         }
                         node.EnumElementValue = ParserEngine.ParseIntegerValueAst(stream, quirks);
                         break;
-                    case StringLiteralToken stringValue:
+                    case StringLiteralToken _:
                         // stringValue
                         if (isIntegerEnum)
                         {
@@ -1112,8 +1118,6 @@ namespace Kingsland.MofParser.Parsing
         )
         {
 
-            var peek = default(SyntaxToken);
-
             var isMethodDeclaration = false;
             var isPropertyDeclaration = false;
 
@@ -1148,7 +1152,7 @@ namespace Kingsland.MofParser.Parsing
                 // check we're expecting a methodDeclaration
                 if (isPropertyDeclaration || !allowMethodDeclaration)
                 {
-                    throw new UnsupportedTokenException(peek);
+                    throw new UnsupportedTokenException(stream.Peek());
                 }
                 // [ array ]
                 stream.Read<AttributeOpenToken>();
@@ -1168,7 +1172,7 @@ namespace Kingsland.MofParser.Parsing
                 // check we're expecting a propertyDeclaration
                 if (isMethodDeclaration || !allowPropertyDeclaration)
                 {
-                    throw new UnsupportedTokenException(peek);
+                    throw new UnsupportedTokenException(stream.Peek());
                 }
                 // [ array ]
                 stream.Read<AttributeOpenToken>();
@@ -1186,7 +1190,7 @@ namespace Kingsland.MofParser.Parsing
                 // check we're expecting a methodDeclaration
                 if (isPropertyDeclaration || !allowMethodDeclaration)
                 {
-                    throw new UnsupportedTokenException(peek);
+                    throw new UnsupportedTokenException(stream.Peek());
                 }
                 // "("
                 var methodParenthesisOpen = stream.Read<ParenthesisOpenToken>();
@@ -1215,7 +1219,7 @@ namespace Kingsland.MofParser.Parsing
                 // check we're expecting a propertyDeclaration
                 if (isMethodDeclaration || !allowPropertyDeclaration)
                 {
-                    throw new UnsupportedTokenException(peek);
+                    throw new UnsupportedTokenException(stream.Peek());
                 }
                 // we know this is a propertyDeclaration now
                 isPropertyDeclaration = true;
@@ -1237,7 +1241,7 @@ namespace Kingsland.MofParser.Parsing
                     // check we're expecting a propertyDeclaration
                     if (isMethodDeclaration || !allowPropertyDeclaration)
                     {
-                        throw new UnsupportedTokenException(peek);
+                        throw new UnsupportedTokenException(stream.Peek());
                     }
                     // "="
                     var equalsOperator = stream.Read<EqualsOperatorToken>();
@@ -1338,11 +1342,9 @@ namespace Kingsland.MofParser.Parsing
         {
 
             // [ qualifierList ]
-            var qualifierList = default(QualifierListAst);
-            if (stream.TryPeek<AttributeOpenToken>())
-            {
-                qualifierList = ParserEngine.ParseQualifierListAst(stream, quirks);
-            }
+            var qualifierList = stream.TryPeek<AttributeOpenToken>()
+                ? ParserEngine.ParseQualifierListAst(stream, quirks)
+                : new QualifierListAst();
 
             // read the type of the parameter
             //
@@ -1630,7 +1632,7 @@ namespace Kingsland.MofParser.Parsing
             bool IsComplexValueToken(SyntaxToken token)
             {
                 return (token is AliasIdentifierToken) ||
-                       ((token is IdentifierToken identifier) && (identifier.GetNormalizedName() == Constants.VALUE));
+                       ((token is IdentifierToken identifier) && (identifier.IsKeyword(Constants.VALUE)));
             }
 
             bool IsReferenceValueToken(SyntaxToken token)
@@ -1638,8 +1640,6 @@ namespace Kingsland.MofParser.Parsing
                 // TODO: not implemented
                 return false;
             }
-
-            var node = default(PropertyValueAst);
 
             // if we've got an aray we need to read the next item before we can determine the type
             var itemValue = stream.Peek();
@@ -1661,26 +1661,24 @@ namespace Kingsland.MofParser.Parsing
             if (IsPrimitiveValueToken(itemValue))
             {
                 // primitiveTypeValue = literalValue / literalValueArray
-                node = ParserEngine.ParsePrimitiveTypeValueAst(stream, quirks);
+                return ParserEngine.ParsePrimitiveTypeValueAst(stream, quirks);
             }
             else if (IsComplexValueToken(itemValue))
             {
                 // complexTypeValue = complexValue / complexValueArray
-                node = ParserEngine.ParseComplexTypeValueAst(stream, quirks);
+                return ParserEngine.ParseComplexTypeValueAst(stream, quirks);
             }
             else if (IsReferenceValueToken(itemValue))
             {
                 // referenceTypeValue = objectPathValue / objectPathValueArray
-                node = ParserEngine.ParseReferenceTypeValueAst(stream, quirks);
+                return ParserEngine.ParseReferenceTypeValueAst(stream, quirks);
             }
             else
             {
                 // enumTypeValue = enumValue / enumValueArray
-                node = ParserEngine.ParseEnumTypeValueAst(stream, quirks);
+                return ParserEngine.ParseEnumTypeValueAst(stream, quirks);
             }
 
-            // return the result
-            return node;
         }
 
         #endregion
@@ -1774,26 +1772,26 @@ namespace Kingsland.MofParser.Parsing
         public static LiteralValueAst ParseLiteralValueAst(TokenStream stream, ParserQuirks quirks = ParserQuirks.None)
         {
             var peek = stream.Peek();
-            switch (peek)
+            return peek switch
             {
-                case IntegerLiteralToken integerLiteral:
+                IntegerLiteralToken _ =>
                     // integerValue
-                    return ParserEngine.ParseIntegerValueAst(stream, quirks);
-                case RealLiteralToken realLiteral:
+                    ParserEngine.ParseIntegerValueAst(stream, quirks),
+                RealLiteralToken _ =>
                     // realValue
-                    return ParserEngine.ParseRealValueAst(stream, quirks);
-                case BooleanLiteralToken booleanLiteral:
+                    ParserEngine.ParseRealValueAst(stream, quirks),
+                BooleanLiteralToken _ =>
                     // booleanValue
-                    return ParserEngine.ParseBooleanValueAst(stream, quirks);
-                case NullLiteralToken nullLiteral:
+                    ParserEngine.ParseBooleanValueAst(stream, quirks),
+                NullLiteralToken _ =>
                     // nullValue
-                    return ParserEngine.ParseNullValueAst(stream, quirks);
-                case StringLiteralToken stringLiteral:
+                    ParserEngine.ParseNullValueAst(stream, quirks),
+                StringLiteralToken _ =>
                     // stringValue
-                    return ParserEngine.ParseStringValueAst(stream, quirks);
-                default:
-                    throw new UnexpectedTokenException(peek);
-            }
+                    ParserEngine.ParseStringValueAst(stream, quirks),
+                _ =>
+                    throw new UnexpectedTokenException(peek)
+            };
         }
 
         #endregion
@@ -1881,7 +1879,7 @@ namespace Kingsland.MofParser.Parsing
             // *( *WS singleStringValue )
             while (stream.TryRead<StringLiteralToken>(out var stringLiteral))
             {
-                node.StringLiteralValues.Add(stringLiteral);
+                node.StringLiteralValues.Add(stringLiteral!);
             }
 
             node.Value = string.Join(
@@ -2145,7 +2143,7 @@ namespace Kingsland.MofParser.Parsing
             var enumIdentifier = stream.Read<IdentifierToken>();
 
             // look at the next token to see if it's a "."
-            if (stream.TryRead<DotOperatorToken>(out var dotOpertor))
+            if (stream.TryRead<DotOperatorToken>(out var _))
             {
                 // [ enumName "." ]
                 node.EnumName = enumIdentifier;

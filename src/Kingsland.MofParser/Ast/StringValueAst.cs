@@ -3,6 +3,7 @@ using Kingsland.MofParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -20,7 +21,7 @@ namespace Kingsland.MofParser.Ast
     ///     stringValue       = singleStringValue *( *WS singleStringValue )
     ///
     /// </remarks>
-    public sealed class StringValueAst : LiteralValueAst, IEnumElementValueAst
+    public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
     {
 
         #region Builder
@@ -39,7 +40,7 @@ namespace Kingsland.MofParser.Ast
                 set;
             }
 
-            public string Value
+            public string? Value
             {
                 get;
                 set;
@@ -49,7 +50,9 @@ namespace Kingsland.MofParser.Ast
             {
                 return new StringValueAst(
                     new ReadOnlyCollection<StringLiteralToken>(this.StringLiteralValues),
-                    this.Value
+                    this.Value ?? throw new InvalidOperationException(
+                        $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
+                    )
                 );
             }
 
@@ -59,17 +62,19 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public StringValueAst(ReadOnlyCollection<StringLiteralToken> stringLiteralValues, string value)
+        internal StringValueAst(
+            IEnumerable<StringLiteralToken> stringLiteralValues,
+            string value
+        )
         {
-            if (stringLiteralValues == null)
+            var values = stringLiteralValues.ToList();
+            if (values.Count == 0)
             {
-                throw new ArgumentNullException(nameof(stringLiteralValues));
+                throw new ArgumentException(null, nameof(stringLiteralValues));
             }
-            if (stringLiteralValues.Count == 0)
-            {
-                throw new ArgumentException(nameof(stringLiteralValues));
-            }
-            this.StringLiteralValues = stringLiteralValues;
+            this.StringLiteralValues = new ReadOnlyCollection<StringLiteralToken>(
+                values
+            );
             this.Value = value;
         }
 
@@ -80,13 +85,13 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<StringLiteralToken> StringLiteralValues
         {
             get;
-            private set;
+            private init;
         }
 
         public string Value
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion

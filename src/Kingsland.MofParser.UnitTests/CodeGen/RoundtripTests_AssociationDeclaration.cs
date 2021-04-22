@@ -40,10 +40,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     Productions = new List<MofProductionAst>
                     {
                         new AssociationDeclarationAst(
-                            null,
+                            new QualifierListAst(),
                             new IdentifierToken("GOLF_MemberLocker"),
                             null,
-                            null
+                            new List<IClassFeatureAst>()
                         )
                     }
                 }.Build();

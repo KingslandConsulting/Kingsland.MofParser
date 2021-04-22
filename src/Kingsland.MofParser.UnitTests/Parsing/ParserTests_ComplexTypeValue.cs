@@ -293,7 +293,7 @@ namespace Kingsland.MofParser.UnitTests.Parsing
                                 new PropertyValueListAst(
                                     new ReadOnlyDictionary<string, PropertyValueAst>(
                                         new Dictionary<string, PropertyValueAst> {
-                                            { "Reference", new LiteralValueArrayAst(null) }
+                                            { "Reference", new LiteralValueArrayAst() }
                                         }
                                     )
                                 ),

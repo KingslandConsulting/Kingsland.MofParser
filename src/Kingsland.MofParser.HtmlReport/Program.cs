@@ -1,8 +1,9 @@
-﻿using Kingsland.MofParser.HtmlReport.Wrappers;
+﻿using Kingsland.MofParser.HtmlReport.Resources;
 using RazorEngine.Templating;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Kingsland.MofParser.Sample
 {
@@ -10,11 +11,12 @@ namespace Kingsland.MofParser.Sample
     class Program
     {
 
-        static void Main(string[] args)
+        static void Main()
         {
 
             // get the list of mof filenames
-            var mofRoot = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var mofRoot = Assembly.GetExecutingAssembly().Location;
+            mofRoot = Path.GetDirectoryName(mofRoot);
             mofRoot = Path.GetDirectoryName(mofRoot);
             mofRoot = Path.GetDirectoryName(mofRoot);
             mofRoot = Path.GetDirectoryName(mofRoot);
@@ -22,20 +24,23 @@ namespace Kingsland.MofParser.Sample
             var filenames = Directory.GetFiles(mofRoot, "*.mof", SearchOption.AllDirectories);
 
             // parse the mof files
-            var wrappers = new List<InstanceWrapper>();
+            var resources = new List<DscResource>();
             foreach (var filename in filenames)
             {
                 var instances = PowerShellDscHelper.ParseMofFileInstances(filename);
-                wrappers.AddRange(
-                        instances.Select(instance => InstanceWrapper.FromInstance(
+                resources.AddRange(
+                    instances.Select(
+                        instance => DscResource.FromInstance(
                             Path.GetFileName(Path.GetDirectoryName(filename)),
                             Path.GetFileNameWithoutExtension(filename),
-                            instance))
+                            instance
+                        )
+                    )
                 );
             }
 
             var template = File.ReadAllText("MofFileSummary.cshtml");
-            var result = RazorEngine.Engine.Razor.RunCompile(template, "summary", null, wrappers);
+            var result = RazorEngine.Engine.Razor.RunCompile(template, "summary", null, resources);
             File.WriteAllText("summary.htm", result);
 
         }

@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Company>Kingsland Consulting</Company>
     <Authors>Michael Clayton</Authors>
     <Copyright>Copyright © 2019</Copyright>
-    <RepositoryUrl></RepositoryUrl>
-    <PackageProjectUrl>https://github.com/KingslandConsulting/Kingsland.MofParser</PackageProjectUrl>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <Description>A C# library to simplify some of the boring bits of writing a lexer and parser for custom text file formats.</Description>
-    <!--<PreserveCompilationContext>false</PreserveCompilationContext>-->
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 </Project>

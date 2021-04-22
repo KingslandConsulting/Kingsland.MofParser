@@ -15,14 +15,14 @@ namespace Kingsland.ParseFx.Parsing
 
         public UnexpectedTokenException(SyntaxToken foundToken)
         {
-            this.FoundToken = foundToken ?? throw new ArgumentNullException("foundToken");
+            this.FoundToken = foundToken ?? throw new ArgumentNullException(nameof(foundToken));
         }
 
         #endregion
 
         #region Properties
 
-        public SyntaxToken FoundToken
+        public SyntaxToken? FoundToken
         {
             get;
             private set;

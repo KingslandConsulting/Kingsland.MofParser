@@ -1,6 +1,7 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Kingsland.MofParser.Ast
 {
@@ -16,7 +17,7 @@ namespace Kingsland.MofParser.Ast
     ///     literalValueArray = "{" [ literalValue *( "," literalValue ) ] "}"
     ///
     /// </remarks>
-    public sealed class LiteralValueArrayAst : PrimitiveTypeValueAst
+    public sealed record LiteralValueArrayAst : PrimitiveTypeValueAst
     {
 
         #region Builder
@@ -38,9 +39,7 @@ namespace Kingsland.MofParser.Ast
             public LiteralValueArrayAst Build()
             {
                 return new LiteralValueArrayAst(
-                    new ReadOnlyCollection<LiteralValueAst>(
-                        this.Values ?? new List<LiteralValueAst>()
-                    )
+                    this.Values
                 );
             }
 
@@ -50,10 +49,17 @@ namespace Kingsland.MofParser.Ast
 
         #region Constructors
 
-        public LiteralValueArrayAst(ReadOnlyCollection<LiteralValueAst> values)
+        internal LiteralValueArrayAst()
+            : this(new List<LiteralValueAst>())
         {
-            this.Values = values ?? new ReadOnlyCollection<LiteralValueAst>(
-                new List<LiteralValueAst>()
+        }
+
+        internal LiteralValueArrayAst(
+            IEnumerable<LiteralValueAst> values
+        )
+        {
+            this.Values = new ReadOnlyCollection<LiteralValueAst>(
+                values.ToList()
             );
         }
 
@@ -64,7 +70,7 @@ namespace Kingsland.MofParser.Ast
         public ReadOnlyCollection<LiteralValueAst> Values
         {
             get;
-            private set;
+            private init;
         }
 
         #endregion
