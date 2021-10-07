@@ -14,7 +14,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region Dispatcher
 
-        public static string ConvertToMof(AstNode node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertToMof(AstNode node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             return node switch
             {
@@ -22,7 +22,7 @@ namespace Kingsland.MofParser.CodeGen
                     string.Empty,
                 MofSpecificationAst ast =>
                     // 7.2 MOF specification
-                    AstMofGenerator.ConvertMofSpecificationAst(ast, quirks),
+                    AstMofGenerator.ConvertMofSpecificationAst(ast, quirks, indent, indentStep),
                 CompilerDirectiveAst ast =>
                     // 7.3 Compiler directives
                     AstMofGenerator.ConvertCompilerDirectiveAst(ast, quirks),
@@ -34,25 +34,25 @@ namespace Kingsland.MofParser.CodeGen
                     AstMofGenerator.ConvertQualifierListAst(ast, quirks),
                 ClassDeclarationAst ast =>
                     // 7.5.2 Class declaration
-                    AstMofGenerator.ConvertClassDeclarationAst(ast, quirks),
+                    AstMofGenerator.ConvertClassDeclarationAst(ast, quirks, indent, indentStep),
                 PropertyDeclarationAst ast =>
                     // 7.5.5 Property declaration
-                    AstMofGenerator.ConvertPropertyDeclarationAst(ast, quirks),
+                    AstMofGenerator.ConvertPropertyDeclarationAst(ast, quirks, indent, indentStep),
                 MethodDeclarationAst ast =>
                     // 7.5.6 Method declaration
-                    AstMofGenerator.ConvertMethodDeclarationAst(ast, quirks),
+                    AstMofGenerator.ConvertMethodDeclarationAst(ast, quirks, indent, indentStep),
                 ParameterDeclarationAst ast =>
                     // 7.5.7 Parameter declaration
                     AstMofGenerator.ConvertParameterDeclarationAst(ast, quirks),
                 ComplexValueArrayAst ast =>
                     // 7.5.9 Complex type value
-                    AstMofGenerator.ConvertComplexValueArrayAst(ast, quirks),
+                    AstMofGenerator.ConvertComplexValueArrayAst(ast, quirks, indent, indentStep),
                 ComplexValueAst ast =>
                     // 7.5.9 Complex type value
-                    AstMofGenerator.ConvertComplexValueAst(ast, quirks),
+                    AstMofGenerator.ConvertComplexValueAst(ast, quirks, indent, indentStep),
                 PropertyValueListAst ast =>
                     // 7.5.9 Complex type value
-                    AstMofGenerator.ConvertPropertyValueListAst(ast, quirks),
+                    AstMofGenerator.ConvertPropertyValueListAst(ast, quirks, indent, indentStep),
                 LiteralValueArrayAst ast =>
                     // 7.6.1 Primitive type value
                     AstMofGenerator.ConvertLiteralValueArrayAst(ast, quirks),
@@ -73,10 +73,10 @@ namespace Kingsland.MofParser.CodeGen
                     AstMofGenerator.ConvertNullValueAst(ast, quirks),
                 InstanceValueDeclarationAst ast =>
                     // 7.6.2 Complex type value
-                    AstMofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks),
+                    AstMofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks, indent, indentStep),
                 StructureValueDeclarationAst ast =>
                     // 7.6.2 Complex type value
-                    AstMofGenerator.ConvertStructureValueDeclarationAst(ast, quirks),
+                    AstMofGenerator.ConvertStructureValueDeclarationAst(ast, quirks, indent, indentStep),
                 EnumValueAst ast =>
                     // 7.6.3 Enum type value
                     AstMofGenerator.ConvertEnumValueAst(ast, quirks),
@@ -88,7 +88,7 @@ namespace Kingsland.MofParser.CodeGen
                     AstMofGenerator.ConvertEnumTypeValueAst(ast, quirks),
                 PropertyValueAst ast =>
                     // 7.5.9 Complex type value
-                    AstMofGenerator.ConvertPropertyValueAst(ast, quirks),
+                    AstMofGenerator.ConvertPropertyValueAst(ast, quirks, indent, indentStep),
                 _ =>
                     // unknown
                     throw new InvalidOperationException(node.GetType().FullName)
@@ -99,7 +99,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.2 MOF specification
 
-        public static string ConvertMofSpecificationAst(MofSpecificationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertMofSpecificationAst(MofSpecificationAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             var source = new StringBuilder();
             for (var i = 0; i < node.Productions.Count; i++)
@@ -108,22 +108,26 @@ namespace Kingsland.MofParser.CodeGen
                 {
                     source.AppendLine();
                 }
-                source.Append(AstMofGenerator.ConvertMofProductionAst(node.Productions[i], quirks));
+                source.Append(
+                    AstMofGenerator.ConvertMofProductionAst(
+                        node.Productions[i], quirks, indent, indentStep
+                    )
+                );
             }
             return source.ToString();
         }
 
-        public static string ConvertMofProductionAst(MofProductionAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertMofProductionAst(MofProductionAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             return node switch
             {
                 CompilerDirectiveAst ast => AstMofGenerator.ConvertCompilerDirectiveAst(ast, quirks),
-                StructureDeclarationAst ast => AstMofGenerator.ConvertStructureDeclarationAst(ast, quirks),
-                ClassDeclarationAst ast => AstMofGenerator.ConvertClassDeclarationAst(ast, quirks),
-                AssociationDeclarationAst ast => AstMofGenerator.ConvertAssociationDeclarationAst(ast, quirks),
-                EnumerationDeclarationAst ast => AstMofGenerator.ConvertEnumerationDeclarationAst(ast, quirks),
-                InstanceValueDeclarationAst ast => AstMofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks),
-                StructureValueDeclarationAst ast => AstMofGenerator.ConvertStructureValueDeclarationAst(ast, quirks),
+                StructureDeclarationAst ast => AstMofGenerator.ConvertStructureDeclarationAst(ast, quirks, indent, indentStep),
+                ClassDeclarationAst ast => AstMofGenerator.ConvertClassDeclarationAst(ast, quirks, indent, indentStep),
+                AssociationDeclarationAst ast => AstMofGenerator.ConvertAssociationDeclarationAst(ast, quirks, indent, indentStep),
+                EnumerationDeclarationAst ast => AstMofGenerator.ConvertEnumerationDeclarationAst(ast, quirks, indent, indentStep),
+                InstanceValueDeclarationAst ast => AstMofGenerator.ConvertInstanceValueDeclarationAst(ast, quirks, indent, indentStep),
+                StructureValueDeclarationAst ast => AstMofGenerator.ConvertStructureValueDeclarationAst(ast, quirks, indent, indentStep),
                 QualifierTypeDeclarationAst ast => AstMofGenerator.ConvertQualifierTypeDeclarationAst(ast, quirks),
                 _ => throw new NotImplementedException(),
             };
@@ -141,7 +145,11 @@ namespace Kingsland.MofParser.CodeGen
             source.Append(node.PragmaName.Name);
             source.Append(' ');
             source.Append('(');
-            source.Append(AstMofGenerator.ConvertStringValueAst(node.PragmaParameter, quirks));
+            source.Append(
+                AstMofGenerator.ConvertStringValueAst(
+                    node.PragmaParameter, quirks
+                )
+            );
             source.Append(')');
             return source.ToString();
         }
@@ -191,7 +199,11 @@ namespace Kingsland.MofParser.CodeGen
                         source.Append(' ');
                     }
                 }
-                source.Append(AstMofGenerator.ConvertQualifierValueAst(thisQualifierValue, quirks));
+                source.Append(
+                    AstMofGenerator.ConvertQualifierValueAst(
+                        thisQualifierValue, quirks
+                    )
+                );
                 lastQualifierValue = thisQualifierValue;
             }
             source.Append(']');
@@ -206,7 +218,11 @@ namespace Kingsland.MofParser.CodeGen
             source.Append(node.QualifierName.Extent.Text);
             if (node.Initializer != null)
             {
-                source.Append(AstMofGenerator.ConvertIQualifierInitializerAst(node.Initializer, quirks));
+                source.Append(
+                    AstMofGenerator.ConvertIQualifierInitializerAst(
+                        node.Initializer, quirks
+                    )
+                );
             }
             ///
             /// 7.4 Qualifiers
@@ -248,7 +264,11 @@ namespace Kingsland.MofParser.CodeGen
             // e.g.
             // Description("an instance of a class that derives from the GOLF_Base class. ")
             source.Append('(');
-            source.Append(AstMofGenerator.ConvertLiteralValueAst(node.Value, quirks));
+            source.Append(
+                AstMofGenerator.ConvertLiteralValueAst(
+                    node.Value, quirks
+                )
+            );
             source.Append(')');
             return source.ToString();
         }
@@ -266,7 +286,11 @@ namespace Kingsland.MofParser.CodeGen
                 {
                     source.Append(", ");
                 }
-                source.Append(AstMofGenerator.ConvertLiteralValueAst(value, quirks));
+                source.Append(
+                    AstMofGenerator.ConvertLiteralValueAst(
+                        value, quirks
+                    )
+                );
                 index++;
             }
             source.Append('}');
@@ -277,12 +301,16 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.1 Structure declaration
 
-        public static string ConvertStructureDeclarationAst(StructureDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertStructureDeclarationAst(StructureDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             var source = new StringBuilder();
             if (node.QualifierList.QualifierValues.Any())
             {
-                source.AppendLine(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
+                source.AppendLine(
+                    AstMofGenerator.ConvertQualifierListAst(
+                        node.QualifierList, quirks
+                    )
+                );
                 source.Append(indent);
             }
             source.Append($"{Constants.STRUCTURE} {node.StructureName.Name}");
@@ -296,21 +324,25 @@ namespace Kingsland.MofParser.CodeGen
             foreach (var structureFeature in node.StructureFeatures)
             {
                 source.Append(indent);
-                source.Append('\t');
-                source.AppendLine(AstMofGenerator.ConvertStructureFeatureAst(structureFeature, quirks, indent + '\t'));
+                source.Append(indentStep);
+                source.AppendLine(
+                    AstMofGenerator.ConvertStructureFeatureAst(
+                        structureFeature, quirks, indent + indentStep, indentStep
+                    )
+                );
             }
             source.Append(indent);
             source.Append("};");
             return source.ToString();
         }
 
-        public static string ConvertStructureFeatureAst(IStructureFeatureAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertStructureFeatureAst(IStructureFeatureAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             return node switch
             {
-                StructureDeclarationAst ast => AstMofGenerator.ConvertStructureDeclarationAst(ast, quirks, indent),
-                EnumerationDeclarationAst ast => AstMofGenerator.ConvertEnumerationDeclarationAst(ast, quirks, indent),
-                PropertyDeclarationAst ast => AstMofGenerator.ConvertPropertyDeclarationAst(ast, quirks),
+                StructureDeclarationAst ast => AstMofGenerator.ConvertStructureDeclarationAst(ast, quirks, indent, indentStep),
+                EnumerationDeclarationAst ast => AstMofGenerator.ConvertEnumerationDeclarationAst(ast, quirks, indent, indentStep),
+                PropertyDeclarationAst ast => AstMofGenerator.ConvertPropertyDeclarationAst(ast, quirks, indent, indentStep),
                 _ => throw new NotImplementedException(),
             };
         }
@@ -319,12 +351,16 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.2 Class declaration
 
-        public static string ConvertClassDeclarationAst(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertClassDeclarationAst(ClassDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             var source = new StringBuilder();
             if (node.QualifierList.QualifierValues.Any())
             {
-                source.AppendLine(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
+                source.AppendLine(
+                    AstMofGenerator.ConvertQualifierListAst(
+                        node.QualifierList, quirks
+                    )
+                );
                 source.Append(indent);
             }
             source.Append($"{Constants.CLASS} {node.ClassName.Name}");
@@ -338,8 +374,12 @@ namespace Kingsland.MofParser.CodeGen
             foreach (var classFeature in node.ClassFeatures)
             {
                 source.Append(indent);
-                source.Append('\t');
-                source.Append(AstMofGenerator.ConvertClassFeatureAst(classFeature, quirks, indent + '\t'));
+                source.Append(indentStep);
+                source.Append(
+                    AstMofGenerator.ConvertClassFeatureAst(
+                        classFeature, quirks, indent + indentStep, indentStep
+                    )
+                );
 				source.AppendLine();
             }
             source.Append(indent);
@@ -347,11 +387,11 @@ namespace Kingsland.MofParser.CodeGen
             return source.ToString();
         }
 
-        public static string ConvertClassFeatureAst(IClassFeatureAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertClassFeatureAst(IClassFeatureAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             return node switch
             {
-                IStructureFeatureAst ast => AstMofGenerator.ConvertStructureFeatureAst(ast, quirks, indent),
+                IStructureFeatureAst ast => AstMofGenerator.ConvertStructureFeatureAst(ast, quirks, indent, indentStep),
                 MethodDeclarationAst ast => AstMofGenerator.ConvertMethodDeclarationAst(ast, quirks),
                 _ => throw new NotImplementedException(),
             };
@@ -361,12 +401,16 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.3 Association declaration
 
-        public static string ConvertAssociationDeclarationAst(AssociationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertAssociationDeclarationAst(AssociationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             var source = new StringBuilder();
             if (node.QualifierList.QualifierValues.Any())
             {
-                source.AppendLine(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
+                source.AppendLine(
+                    AstMofGenerator.ConvertQualifierListAst(
+                        node.QualifierList, quirks
+                    )
+                );
                 source.Append(indent);
             }
             source.Append($"{Constants.ASSOCIATION} {node.AssociationName.Name}");
@@ -380,8 +424,12 @@ namespace Kingsland.MofParser.CodeGen
             foreach (var classFeature in node.ClassFeatures)
             {
                 source.Append(indent);
-                source.Append('\t');
-                source.AppendLine(AstMofGenerator.ConvertClassFeatureAst(classFeature, quirks, indent + '\t'));
+                source.Append(indentStep);
+                source.AppendLine(
+                    AstMofGenerator.ConvertClassFeatureAst(
+                        classFeature, quirks, indent + indentStep, indentStep
+                    )
+                );
             }
             source.Append(indent);
             source.Append("};");
@@ -392,12 +440,16 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.4 Enumeration declaration
 
-        public static string ConvertEnumerationDeclarationAst(EnumerationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertEnumerationDeclarationAst(EnumerationDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             var source = new StringBuilder();
             if (node.QualifierList.QualifierValues.Any())
             {
-                source.AppendLine(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
+                source.AppendLine(
+                    AstMofGenerator.ConvertQualifierListAst(
+                        node.QualifierList, quirks
+                    )
+                );
                 source.Append(indent);
             }
             source.Append($"{Constants.ENUMERATION} {node.EnumName.Name}");
@@ -408,8 +460,12 @@ namespace Kingsland.MofParser.CodeGen
             for (var i = 0; i < node.EnumElements.Count; i++)
             {
                 source.Append(indent);
-                source.Append('\t');
-                source.Append(AstMofGenerator.ConvertEnumElementAst(node.EnumElements[i], quirks));
+                source.Append(indentStep);
+                source.Append(
+                    AstMofGenerator.ConvertEnumElementAst(
+                        node.EnumElements[i], quirks
+                    )
+                );
                 if (i < (node.EnumElements.Count - 1))
                 {
                     source.Append(',');
@@ -426,14 +482,22 @@ namespace Kingsland.MofParser.CodeGen
             var source = new StringBuilder();
             if (node.QualifierList.QualifierValues.Any())
             {
-                source.Append(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
+                source.Append(
+                    AstMofGenerator.ConvertQualifierListAst(
+                        node.QualifierList, quirks
+                    )
+                );
                 source.Append(' ');
             }
             source.Append(node.EnumElementName.Name);
             if (node.EnumElementValue != null)
             {
                 source.Append(" = ");
-                source.Append(AstMofGenerator.ConvertIEnumElementValueAst(node.EnumElementValue, quirks));
+                source.Append(
+                    AstMofGenerator.ConvertIEnumElementValueAst(
+                        node.EnumElementValue, quirks
+                    )
+                );
             }
             return source.ToString();
         }
@@ -452,12 +516,16 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.5 Property declaration
 
-        public static string ConvertPropertyDeclarationAst(PropertyDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertPropertyDeclarationAst(PropertyDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             var source = new StringBuilder();
             if (node.QualifierList.QualifierValues.Any())
             {
-                source.Append(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
+                source.Append(
+                    AstMofGenerator.ConvertQualifierListAst(
+                        node.QualifierList, quirks
+                    )
+                );
                 source.Append(' ');
             }
             source.Append(node.ReturnType.Name);
@@ -476,7 +544,11 @@ namespace Kingsland.MofParser.CodeGen
             if (node.Initializer != null)
             {
                 source.Append(" = ");
-                source.Append(AstMofGenerator.ConvertPropertyValueAst(node.Initializer, quirks));
+                source.Append(
+                    AstMofGenerator.ConvertPropertyValueAst(
+                        node.Initializer, quirks, indent, indentStep
+                    )
+                );
             }
             source.Append(';');
             return source.ToString();
@@ -486,7 +558,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.6 Method declaration
 
-        public static string ConvertMethodDeclarationAst(MethodDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertMethodDeclarationAst(MethodDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
 
             var prefixQuirkEnabled = (quirks & MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations) == MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations;
@@ -495,7 +567,11 @@ namespace Kingsland.MofParser.CodeGen
 
             if (node.QualifierList.QualifierValues.Any())
             {
-                source.Append(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
+                source.Append(
+                    AstMofGenerator.ConvertQualifierListAst(
+                        node.QualifierList, quirks
+                    )
+                );
             }
 
             if (prefixQuirkEnabled || node.QualifierList.QualifierValues.Any())
@@ -518,7 +594,11 @@ namespace Kingsland.MofParser.CodeGen
             }
             else
             {
-                var values = node.Parameters.Select(p => AstMofGenerator.ConvertParameterDeclarationAst(p, quirks)).ToArray();
+                var values = node.Parameters.Select(
+                    p => AstMofGenerator.ConvertParameterDeclarationAst(
+                        p, quirks, indent, indentStep
+                    )
+                ).ToArray();
                 source.Append('(');
                 source.Append(string.Join(", ", values));
                 source.Append(");");
@@ -532,12 +612,16 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.7 Parameter declaration
 
-        public static string ConvertParameterDeclarationAst(ParameterDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertParameterDeclarationAst(ParameterDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep ="\t")
         {
             var source = new StringBuilder();
             if (node.QualifierList.QualifierValues.Any())
             {
-                source.Append(AstMofGenerator.ConvertQualifierListAst(node.QualifierList, quirks));
+                source.Append(
+                    AstMofGenerator.ConvertQualifierListAst(
+                        node.QualifierList, quirks
+                    )
+                );
                 source.Append(' ');
             }
             source.Append(node.ParameterType.Name);
@@ -556,7 +640,11 @@ namespace Kingsland.MofParser.CodeGen
             if (node.DefaultValue != null)
             {
                 source.Append(" = ");
-                source.Append(AstMofGenerator.ConvertPropertyValueAst(node.DefaultValue, quirks));
+                source.Append(
+                    AstMofGenerator.ConvertPropertyValueAst(
+                        node.DefaultValue, quirks, indent, indentStep
+                    )
+                );
             }
             return source.ToString();
         }
@@ -565,17 +653,17 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.5.9 Complex type value
 
-        public static string ConvertComplexTypeValueAst(ComplexTypeValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertComplexTypeValueAst(ComplexTypeValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             return node switch
             {
-                ComplexValueArrayAst ast => AstMofGenerator.ConvertComplexValueArrayAst(ast, quirks, indent),
-                ComplexValueAst ast => AstMofGenerator.ConvertComplexValueAst(ast, quirks, indent),
+                ComplexValueArrayAst ast => AstMofGenerator.ConvertComplexValueArrayAst(ast, quirks, indent, indentStep),
+                ComplexValueAst ast => AstMofGenerator.ConvertComplexValueAst(ast, quirks, indent, indentStep),
                 _ => throw new NotImplementedException(),
             };
         }
 
-        public static string ConvertComplexValueArrayAst(ComplexValueArrayAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertComplexValueArrayAst(ComplexValueArrayAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             var source = new StringBuilder();
             source.Append('{');
@@ -583,14 +671,18 @@ namespace Kingsland.MofParser.CodeGen
                 string.Join(
                     ", ",
                     node.Values
-                        .Select(n => AstMofGenerator.ConvertComplexValueAst(n, quirks, indent))
+                        .Select(
+                            n => AstMofGenerator.ConvertComplexValueAst(
+                                n, quirks, indent, indentStep
+                            )
+                        )
                 )
             );
             source.Append('}');
             return source.ToString();
         }
 
-        public static string ConvertComplexValueAst(ComplexValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertComplexValueAst(ComplexValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             if (node.IsAlias)
             {
@@ -615,12 +707,16 @@ namespace Kingsland.MofParser.CodeGen
                 //     Number = { "7", "4", "7", "4", "8", "8", "4" };
                 // }
                 source.Append(indent);
-                source.Append(AstMofGenerator.ConvertPropertyValueListAst(node.PropertyValues, quirks, indent));
+                source.Append(
+                    AstMofGenerator.ConvertPropertyValueListAst(
+                        node.PropertyValues, quirks, indent, indentStep
+                    )
+                );
                 return source.ToString();
             }
         }
 
-        public static string ConvertPropertyValueListAst(PropertyValueListAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertPropertyValueListAst(PropertyValueListAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             // {
             var source = new StringBuilder();
@@ -630,10 +726,14 @@ namespace Kingsland.MofParser.CodeGen
             foreach (var propertyValue in node.PropertyValues)
             {
                 source.Append(indent);
-                source.Append('\t');
+                source.Append(indentStep);
                 source.Append(propertyValue.Key);
                 source.Append(" = ");
-                source.Append(AstMofGenerator.ConvertPropertyValueAst(propertyValue.Value, quirks, indent + "\t"));
+                source.Append(
+                    AstMofGenerator.ConvertPropertyValueAst(
+                        propertyValue.Value, quirks, indent + indentStep, indentStep
+                    )
+                );
                 source.Append(';');
                 source.AppendLine();
             }
@@ -643,12 +743,12 @@ namespace Kingsland.MofParser.CodeGen
             return source.ToString();
         }
 
-        public static string ConvertPropertyValueAst(PropertyValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertPropertyValueAst(PropertyValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             return node switch
             {
-                PrimitiveTypeValueAst ast => AstMofGenerator.ConvertPrimitiveTypeValueAst(ast, quirks, indent),
-                ComplexTypeValueAst ast => AstMofGenerator.ConvertComplexTypeValueAst(ast, quirks, indent),
+                PrimitiveTypeValueAst ast => AstMofGenerator.ConvertPrimitiveTypeValueAst(ast, quirks),
+                ComplexTypeValueAst ast => AstMofGenerator.ConvertComplexTypeValueAst(ast, quirks, indent, indentStep),
                 //ReferenceTypeValueAst ast =>
                 EnumTypeValueAst ast => AstMofGenerator.ConvertEnumTypeValueAst(ast, quirks),
                 _ => throw new NotImplementedException(),
@@ -659,7 +759,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.6.1 Primitive type value
 
-        public static string ConvertPrimitiveTypeValueAst(PrimitiveTypeValueAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertPrimitiveTypeValueAst(PrimitiveTypeValueAst node, MofQuirks quirks = MofQuirks.None)
         {
             return node switch
             {
@@ -689,7 +789,9 @@ namespace Kingsland.MofParser.CodeGen
             source.Append(
                 string.Join(
                     ", ",
-                    node.Values.Select(v => AstMofGenerator.ConvertLiteralValueAst(v, quirks))
+                    node.Values.Select(
+                        v => AstMofGenerator.ConvertLiteralValueAst(v, quirks)
+                    )
                 )
             );
             source.Append('}');
@@ -723,7 +825,9 @@ namespace Kingsland.MofParser.CodeGen
             return string.Join(
                 " ",
                 node.StringLiteralValues
-                    .Select(n => $"\"{StringLiteralToken.EscapeString(n.Value)}\"")
+                    .Select(
+                        n => $"\"{StringLiteralToken.EscapeString(n.Value)}\""
+                    )
             );
         }
 
@@ -749,7 +853,7 @@ namespace Kingsland.MofParser.CodeGen
 
         #region 7.6.2 Complex type value
 
-        public static string ConvertInstanceValueDeclarationAst(InstanceValueDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "")
+        public static string ConvertInstanceValueDeclarationAst(InstanceValueDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             // instance of myType as $Alias00000070
             // {
@@ -775,13 +879,17 @@ namespace Kingsland.MofParser.CodeGen
             // {
             //     Reference = TRUE;
             // }
-            source.Append(AstMofGenerator.ConvertPropertyValueListAst(node.PropertyValues, quirks, indent));
+            source.Append(
+                AstMofGenerator.ConvertPropertyValueListAst(
+                    node.PropertyValues, quirks, indent, indentStep
+                )
+            );
             // ;
             source.Append(node.StatementEnd.Extent.Text);
             return source.ToString();
         }
 
-        public static string ConvertStructureValueDeclarationAst(StructureValueDeclarationAst node, MofQuirks quirks = MofQuirks.None)
+        public static string ConvertStructureValueDeclarationAst(StructureValueDeclarationAst node, MofQuirks quirks = MofQuirks.None, string indent = "", string indentStep = "\t")
         {
             // value of GOLF_PhoneNumber as $JohnDoesPhoneNo
             // {
@@ -808,7 +916,11 @@ namespace Kingsland.MofParser.CodeGen
             //     AreaCode = { "9", "0", "7" };
             //     Number = { "7", "4", "7", "4", "8", "8", "4" };
             // }
-            source.Append(AstMofGenerator.ConvertPropertyValueListAst(node.PropertyValues, quirks));
+            source.Append(
+                AstMofGenerator.ConvertPropertyValueListAst(
+                    node.PropertyValues, quirks, indent, indentStep
+                )
+            );
             // ;
             source.Append(node.StatementEnd.Extent.Text);
             return source.ToString();
@@ -847,7 +959,11 @@ namespace Kingsland.MofParser.CodeGen
             source.Append(
                 string.Join(
                     ", ",
-                    node.Values.Select(v => AstMofGenerator.ConvertEnumValueAst(v, quirks))
+                    node.Values.Select(
+                        v => AstMofGenerator.ConvertEnumValueAst(
+                            v, quirks
+                        )
+                    )
                 )
             );
             source.Append('}');

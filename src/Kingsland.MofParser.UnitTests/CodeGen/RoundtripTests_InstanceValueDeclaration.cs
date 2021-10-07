@@ -1,5 +1,7 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -15,10 +17,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void InstanceValueDeclarationWithNoPropertiesShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -26,10 +30,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -40,12 +44,15 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void InstanceValueDeclarationWithChildPropertiesShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tFirstName = \"John\";\r\n" +
-                    "\tLastName = \"Doe\";\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        FirstName = ""John"";
+                        LastName = ""Doe"";
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -53,10 +60,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // FirstName = "John";
                     .IdentifierToken("FirstName")
                     .WhitespaceToken(" ")
@@ -64,7 +71,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .StringLiteralToken("John")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // LastName = "Doe";
                     .IdentifierToken("LastName")
                     .WhitespaceToken(" ")
@@ -72,7 +79,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .StringLiteralToken("Doe")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -83,10 +90,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void InstanceValueDeclarationWithAliasShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember as $MyAliasIdentifier\r\n" +
-                    "{\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    instance of GOLF_ClubMember as $MyAliasIdentifier
+                    {
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember as $MyAliasIdentifier
                     .IdentifierToken("instance")
@@ -98,10 +107,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("as")
                     .WhitespaceToken(" ")
                     .AliasIdentifierToken("MyAliasIdentifier")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

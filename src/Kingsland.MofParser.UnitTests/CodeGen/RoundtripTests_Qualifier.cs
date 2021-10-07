@@ -1,5 +1,7 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -15,11 +17,13 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void QualifierShouldRoundtrip()
             {
-                var sourceText =
-                    "[Description(\"Instances of this class represent golf clubs. A golf club is \" \"an organization that provides member services to golf players \" \"both amateur and professional.\")]\r\n" +
-                    "class GOLF_Club : GOLF_Base\r\n" +
-                    "{\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    [Description(""Instances of this class represent golf clubs. A golf club is "" ""an organization that provides member services to golf players "" ""both amateur and professional."")]
+                    class GOLF_Club : GOLF_Base
+                    {
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // [Description("Instances of this class represent golf clubs. A golf club is " "an organization that provides member services to golf players " "both amateur and professional.")]
                     .AttributeOpenToken()
@@ -32,7 +36,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .StringLiteralToken("both amateur and professional.")
                     .ParenthesisCloseToken()
                     .AttributeCloseToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // class GOLF_Club : GOLF_Base\r\n
                     .IdentifierToken("class")
                     .WhitespaceToken(" ")
@@ -41,10 +45,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_Base")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

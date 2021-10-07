@@ -1,8 +1,9 @@
 ﻿using Kingsland.MofParser.Ast;
-using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
@@ -19,11 +20,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void BooleanValueAstShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of myType as $Alias00000070\r\n" +
-                    "{\r\n" +
-                    "\tReference = TRUE;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of myType as $Alias00000070
+                    {
+                        Reference = TRUE;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of myType as $Alias00000070
                     .IdentifierToken("instance")
@@ -35,10 +39,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("as")
                     .WhitespaceToken(" ")
                     .AliasIdentifierToken("Alias00000070")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // Reference = TRUE;
                     .IdentifierToken("Reference")
                     .WhitespaceToken(" ")
@@ -50,7 +54,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                         "TRUE", true
                     )
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

@@ -2,7 +2,6 @@
 using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Lexing;
 using Kingsland.MofParser.Parsing;
-using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Ast;
 using Kingsland.MofParser.UnitTests.Lexing;
 using Kingsland.ParseFx.Parsing;
@@ -10,6 +9,8 @@ using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -78,7 +79,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             // check the parser ast roundtrips ok
             var actualAst = Parser.Parse(actualTokens, parserQuirks);
             AstAssert.AreEqual(expectedAst, actualAst, false);
-            var astMof = AstMofGenerator.ConvertToMof(actualAst);
+            var astMof = AstMofGenerator.ConvertToMof(actualAst, indentStep: "    ");
             Assert.AreEqual(sourceText, astMof);
         }
 

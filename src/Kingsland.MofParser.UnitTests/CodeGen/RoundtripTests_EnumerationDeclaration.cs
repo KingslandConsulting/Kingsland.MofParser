@@ -1,6 +1,8 @@
 ﻿using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -16,10 +18,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EmptyIntegerEnumerationDeclarationShouldRoundtrip()
             {
-                var sourceText =
-                    "enumeration MonthsEnum : Integer\r\n" +
-                    "{\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    enumeration MonthsEnum : Integer
+                    {
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // enumeration MonthsEnum : Integer
                     .IdentifierToken("enumeration")
@@ -29,10 +33,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("Integer")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -43,10 +47,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EmptyStringEnumerationDeclarationShouldRoundtrip()
             {
-                var sourceText =
-                    "enumeration MonthsEnum : String\r\n" +
-                    "{\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    enumeration MonthsEnum : String
+                    {
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // enumeration MonthsEnum : Integer
                     .IdentifierToken("enumeration")
@@ -56,10 +62,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("String")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -70,10 +76,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EmptyInheritedEnumerationDeclarationShouldRoundtrip()
             {
-                var sourceText =
-                    "enumeration MonthsEnum : GOLF_MyEnum\r\n" +
-                    "{\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    enumeration MonthsEnum : GOLF_MyEnum
+                    {
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // enumeration MonthsEnum : Integer
                     .IdentifierToken("enumeration")
@@ -83,10 +91,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_MyEnum")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -97,22 +105,25 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EnumerationDeclarationWithoutValuesShouldRoundtrip()
             {
-                var sourceText =
-                    "enumeration MonthsEnum : String\r\n" +
-                    "{\r\n" +
-                    "\tJanuary,\r\n" +
-                    "\tFebruary,\r\n" +
-                    "\tMarch,\r\n" +
-                    "\tApril,\r\n" +
-                    "\tMay,\r\n" +
-                    "\tJune,\r\n" +
-                    "\tJuly,\r\n" +
-                    "\tAugust,\r\n" +
-                    "\tSeptember,\r\n" +
-                    "\tOctober,\r\n" +
-                    "\tNovember,\r\n" +
-                    "\tDecember\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    enumeration MonthsEnum : String
+                    {
+                        January,
+                        February,
+                        March,
+                        April,
+                        May,
+                        June,
+                        July,
+                        August,
+                        September,
+                        October,
+                        November,
+                        December
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // enumeration MonthsEnum : String
                     .IdentifierToken("enumeration")
@@ -122,57 +133,57 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("String")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // January,
                     .IdentifierToken("January")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // February,
                     .IdentifierToken("February")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // March,
                     .IdentifierToken("March")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // April,
                     .IdentifierToken("April")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // May,
                     .IdentifierToken("May")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // June,
                     .IdentifierToken("June")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // July,
                     .IdentifierToken("July")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // August,
                     .IdentifierToken("August")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // September,
                     .IdentifierToken("September")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // October,
                     .IdentifierToken("October")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // November,
                     .IdentifierToken("November")
                     .CommaToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // December
                     .IdentifierToken("December")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -185,15 +196,19 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             {
                 // this should throw because "uint32" is recognized as an integer type when quirks are enabled.
                 // as a result, "July" (a string) is not a valid value for an integer enumElement value
-                var sourceText =
-                    "enumeration MonthsEnum : uint32\r\n" +
-                    "{\r\n" +
-                    "\tJuly = \"July\"\r\n" +
-                    "};";
-                var expectedMessage =
-                    "Unexpected token found at Position 44, Line Number 3, Column Number 9.\r\n" +
-                    "Token Type: 'StringLiteralToken'\r\n" +
-                    "Token Text: '\"July\"'";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    enumeration MonthsEnum : uint32
+                    {
+                        July = ""July""
+                    };
+                ".TrimIndent(newline).TrimString(newline);
+                var errorline = 3;
+                var expectedMessage = @$"
+                    Unexpected token found at Position {43 + (errorline - 1) * newline.Length}, Line Number {errorline}, Column Number 12.
+                    Token Type: 'StringLiteralToken'
+                    Token Text: '""July""'
+                ".TrimIndent(newline).TrimString(newline);
                 RoundtripTests.AssertRoundtripException(
                     sourceText, expectedMessage,
                     ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase
@@ -207,11 +222,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                 // so it's assumed to be a separate base enum like "enumeration uint32 { ... };".
                 // as a result, there's no validation done on the datatype of the enum element and
                 // it will accept "July" as a valid value
-                var sourceText =
-                    "enumeration MonthsEnum : uint32\r\n" +
-                    "{\r\n" +
-                    "\tJuly = \"July\"\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    enumeration MonthsEnum : uint32
+                    {
+                        July = ""July""
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // enumeration MonthsEnum : Integer
                     .IdentifierToken("enumeration")
@@ -221,17 +239,17 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("uint32")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // July = "July"
                     .IdentifierToken("July")
                     .WhitespaceToken(" ")
                     .EqualsOperatorToken()
                     .WhitespaceToken(" ")
                     .StringLiteralToken("July")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -247,11 +265,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EnumElementWithQualifiersShouldRoundtrip()
             {
-                var sourceText =
-                    "enumeration MonthsEnum : integer\r\n" +
-                    "{\r\n" +
-                    "\t[Description(\"myDescription\")] January = 1\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    enumeration MonthsEnum : integer
+                    {
+                        [Description(""myDescription"")] January = 1
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // enumeration MonthsEnum : Integer
                     .IdentifierToken("enumeration")
@@ -261,10 +282,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("integer")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // [Description("myDescription")] January = 1
                     .AttributeOpenToken()
                     .IdentifierToken("Description")
@@ -278,7 +299,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .EqualsOperatorToken()
                     .WhitespaceToken(" ")
                     .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -289,11 +310,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/41")]
             public static void IntegerEnumElementShouldRoundtrip()
             {
-                var sourceText =
-                    "enumeration MonthsEnum : integer\r\n" +
-                    "{\r\n" +
-                    "\tJanuary = 1\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    enumeration MonthsEnum : integer
+                    {
+                        January = 1
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // enumeration MonthsEnum : integer
                     .IdentifierToken("enumeration")
@@ -303,17 +327,17 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("integer")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // January = 1
                     .IdentifierToken("January")
                     .WhitespaceToken(" ")
                     .EqualsOperatorToken()
                     .WhitespaceToken(" ")
                     .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -324,11 +348,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void StringEnumElementWithoutValueShouldRoundtrip()
             {
-                var sourceText =
-                    "enumeration GOLF_StatesEnum : string\r\n" +
-                    "{\r\n" +
-                    "\tAL\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    enumeration GOLF_StatesEnum : string
+                    {
+                        AL
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // enumeration GOLF_StatesEnum : string
                     .IdentifierToken("enumeration")
@@ -338,13 +365,13 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("string")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // AL
                     .IdentifierToken("AL")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -355,11 +382,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void StringEnumElementWithValueShouldRoundtrip()
             {
-                var sourceText =
-                    "enumeration GOLF_StatesEnum : string\r\n" +
-                    "{\r\n" +
-                    "\tAL = \"Alabama\"\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    enumeration GOLF_StatesEnum : string
+                    {
+                        AL = ""Alabama""
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // enumeration GOLF_StatesEnum : string
                     .IdentifierToken("enumeration")
@@ -369,17 +399,17 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("string")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // AL = "Alabama"
                     .IdentifierToken("AL")
                     .WhitespaceToken(" ")
                     .EqualsOperatorToken()
                     .WhitespaceToken(" ")
                     .StringLiteralToken("Alabama")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

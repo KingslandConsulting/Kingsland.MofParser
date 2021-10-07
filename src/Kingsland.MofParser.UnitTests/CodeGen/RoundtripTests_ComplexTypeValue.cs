@@ -1,5 +1,7 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -15,11 +17,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void ComplexTypeValueWithComplexValuePropertyShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tLastPaymentDate = $MyAliasIdentifier;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        LastPaymentDate = $MyAliasIdentifier;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -27,10 +32,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // LastPaymentDate = $MyAliasIdentifier;
                     .IdentifierToken("LastPaymentDate")
                     .WhitespaceToken(" ")
@@ -38,7 +43,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .AliasIdentifierToken("MyAliasIdentifier")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -49,11 +54,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void ComplexTypeValueWithComplexValueArrayPropertyShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tLastPaymentDate = {$MyAliasIdentifier};\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        LastPaymentDate = {$MyAliasIdentifier};
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -61,10 +69,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // LastPaymentDate = $MyAliasIdentifier;
                     .IdentifierToken("LastPaymentDate")
                     .WhitespaceToken(" ")
@@ -74,7 +82,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .AliasIdentifierToken("MyAliasIdentifier")
                     .BlockCloseToken()
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

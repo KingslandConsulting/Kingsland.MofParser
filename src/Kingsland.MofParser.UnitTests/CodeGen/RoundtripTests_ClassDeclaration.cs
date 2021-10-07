@@ -1,6 +1,8 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -16,19 +18,21 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EmptyClassDeclarationShouldRoundtrip()
             {
-                var sourceText =
-                    "class GOLF_Base\r\n" +
-                    "{\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    class GOLF_Base
+                    {
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // class GOLF_Base
                     .IdentifierToken("class")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_Base")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -39,12 +43,15 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void ClassDeclarationWithSuperclassShouldRoundtrip()
             {
-                var sourceText =
-                    "class GOLF_Base : GOLF_Superclass\r\n" +
-                    "{\r\n" +
-                    "\tstring InstanceID;\r\n" +
-                    "\tstring Caption = Null;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class GOLF_Base : GOLF_Superclass
+                    {
+                        string InstanceID;
+                        string Caption = Null;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // class GOLF_Base : GOLF_Superclass
                     .IdentifierToken("class")
@@ -54,16 +61,16 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_Superclass")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // string InstanceID;
                     .IdentifierToken("string")
                     .WhitespaceToken(" ")
                     .IdentifierToken("InstanceID")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // string Caption = Null;
                     .IdentifierToken("string")
                     .WhitespaceToken(" ")
@@ -77,7 +84,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                         "Null"
                     )
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -88,27 +95,30 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void ClassDeclarationWithClassFeaturesShouldRoundtrip()
             {
-                var sourceText =
-                    "class GOLF_Base\r\n" +
-                    "{\r\n" +
-                    "\tstring InstanceID;\r\n" +
-                    "\tstring Caption = Null;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class GOLF_Base
+                    {
+                        string InstanceID;
+                        string Caption = Null;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // class GOLF_Base
                     .IdentifierToken("class")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_Base")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // string InstanceID;
                     .IdentifierToken("string")
                     .WhitespaceToken(" ")
                     .IdentifierToken("InstanceID")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // string Caption = Null;
                     .IdentifierToken("string")
                     .WhitespaceToken(" ")
@@ -122,7 +132,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                         "Null"
                     )
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -133,13 +143,16 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void ClassDeclarationsWithQualifierListShouldRoundtrip()
             {
-                var sourceText =
-                    "[Abstract, OCL{\"-- the key property cannot be NULL\", \"inv: InstanceId.size() = 10\"}]\r\n" +
-                    "class GOLF_Base\r\n" +
-                    "{\r\n" +
-                    "\t[Description(\"an instance of a class that derives from the GOLF_Base class. \"), Key] string InstanceID;\r\n" +
-                    "\t[Description(\"A short textual description (one- line string) of the\"), MaxLen(64)] string Caption = Null;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    [Abstract, OCL{""-- the key property cannot be NULL"", ""inv: InstanceId.size() = 10""}]
+                    class GOLF_Base
+                    {
+                        [Description(""an instance of a class that derives from the GOLF_Base class. ""), Key] string InstanceID;
+                        [Description(""A short textual description (one- line string) of the""), MaxLen(64)] string Caption = Null;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // [Abstract, OCL{"-- the key property cannot be NULL", "inv: InstanceId.size() = 10"}]
                     .AttributeOpenToken()
@@ -154,15 +167,15 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .StringLiteralToken("inv: InstanceId.size() = 10")
                     .BlockCloseToken()
                     .AttributeCloseToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // class GOLF_Base
                     .IdentifierToken("class")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_Base")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // [Description("an instance of a class that derives from the GOLF_Base class. "), Key] string InstanceID;;
                     .AttributeOpenToken()
                     .IdentifierToken("Description")
@@ -178,7 +191,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .IdentifierToken("InstanceID")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // [Description("A short textual description (one- line string) of the"), MaxLen(64)] string Caption = Null;
                     .AttributeOpenToken()
                     .IdentifierToken("Description")
@@ -205,7 +218,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                         "Null"
                     )
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

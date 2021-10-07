@@ -1,5 +1,7 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -15,20 +17,23 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void StructureFeatureWithQualifierShouldRoundtrip()
             {
-                var sourceText =
-                    "structure Sponsor\r\n" +
-                    "{\r\n" +
-                    "\t[Description(\"Monthly salary in $US\")] string Name;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    structure Sponsor
+                    {
+                        [Description(""Monthly salary in $US"")] string Name;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // structure Sponsor
                     .IdentifierToken("structure")
                     .WhitespaceToken(" ")
                     .IdentifierToken("Sponsor")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // [Description("Monthly salary in $US")] string Name;
                     .AttributeOpenToken()
                     .IdentifierToken("Description")
@@ -41,7 +46,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .IdentifierToken("Name")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -52,49 +57,56 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void InvalidStructureFeatureShouldThrow()
             {
-                var sourceText =
-                    "structure Sponsor\r\n" +
-                    "{\r\n" +
-                    "\t100\r\n" +
-                    "};";
-                var expectedMessage =
-                    "Unexpected token found at Position 23, Line Number 3, Column Number 2.\r\n" +
-                    "Token Type: 'IntegerLiteralToken'\r\n" +
-                    "Token Text: '100'";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    structure Sponsor
+                    {
+                        100
+                    };
+                ".TrimIndent(newline).TrimString(newline);
+                var errorline = 3;
+                var expectedMessage = @$"
+                    Unexpected token found at Position {22 + (errorline - 1) * newline.Length}, Line Number {errorline}, Column Number 5.
+                    Token Type: 'IntegerLiteralToken'
+                    Token Text: '100'
+                ".TrimIndent(newline).TrimString(newline);
                 RoundtripTests.AssertRoundtripException(sourceText, expectedMessage);
             }
 
             [Test]
             public static void StructureFeatureWithStructureDeclarationShouldRoundtrip()
             {
-                var sourceText =
-                    "structure Sponsor\r\n" +
-                    "{\r\n" +
-                    "\tstructure Nested\r\n" +
-                    "\t{\r\n" +
-                    "\t};\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    structure Sponsor
+                    {
+                        structure Nested
+                        {
+                        };
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // structure Sponsor
                     .IdentifierToken("structure")
                     .WhitespaceToken(" ")
                     .IdentifierToken("Sponsor")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // structure Nested
                     .IdentifierToken("structure")
                     .WhitespaceToken(" ")
                     .IdentifierToken("Nested")
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -105,22 +117,25 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void StructureFeatureWithEnumerationDeclarationShouldRoundtrip()
             {
-                var sourceText =
-                    "structure Sponsor\r\n" +
-                    "{\r\n" +
-                    "\tenumeration MonthsEnum : Integer\r\n" +
-                    "\t{\r\n" +
-                    "\t};\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    structure Sponsor
+                    {
+                        enumeration MonthsEnum : Integer
+                        {
+                        };
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // structure Sponsor
                     .IdentifierToken("structure")
                     .WhitespaceToken(" ")
                     .IdentifierToken("Sponsor")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // enumeration MonthsEnum : Integer
                     .IdentifierToken("enumeration")
                     .WhitespaceToken(" ")
@@ -129,14 +144,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("Integer")
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -147,26 +162,29 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void StructureFeatureWithPropertyDeclarationShouldRoundtrip()
             {
-                var sourceText =
-                    "structure Sponsor\r\n" +
-                    "{\r\n" +
-                    "\tstring Name;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    structure Sponsor
+                    {
+                        string Name;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // structure Sponsor
                     .IdentifierToken("structure")
                     .WhitespaceToken(" ")
                     .IdentifierToken("Sponsor")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // string Name;
                     .IdentifierToken("string")
                     .WhitespaceToken(" ")
                     .IdentifierToken("Name")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

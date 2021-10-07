@@ -1,6 +1,8 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -16,11 +18,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void RealValueShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tCaption = 0.5;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        Caption = 0.5;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -28,10 +33,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // Caption = 0.5;
                     .IdentifierToken("Caption")
                     .WhitespaceToken(" ")
@@ -39,7 +44,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .RealLiteralToken(0.5)
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -50,11 +55,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void PositiveRealValueShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tCaption = +0.5;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        Caption = +0.5;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -62,10 +70,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // Caption = +0.5;
                     .IdentifierToken("Caption")
                     .WhitespaceToken(" ")
@@ -77,7 +85,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                         "+0.5", 0.5
                     )
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -88,11 +96,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void NegativeRealValueShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tCaption = -0.5;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        Caption = -0.5;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -100,10 +111,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // Caption = +0.5;
                     .IdentifierToken("Caption")
                     .WhitespaceToken(" ")
@@ -111,7 +122,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .RealLiteralToken(-0.5)
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -122,11 +133,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void RealValueWithNoFractionShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tCaption = 5.0;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        Caption = 5.0;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -134,10 +148,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // Caption = 5.0;
                     .IdentifierToken("Caption")
                     .WhitespaceToken(" ")
@@ -149,7 +163,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                         "5.0", 5.0
                     )
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -160,11 +174,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void RealValueWithTrailingZerosShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tCaption = 0.50;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        Caption = 0.50;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -172,10 +189,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // Caption = 0.50;
                     .IdentifierToken("Caption")
                     .WhitespaceToken(" ")
@@ -187,7 +204,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                         "0.50", 0.5
                     )
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -198,11 +215,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/xx")]
             public static void RealValueWithNoIntegerPartShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tCaption = .5;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        Caption = .5;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -210,10 +230,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // Caption = .5;
                     .IdentifierToken("Caption")
                     .WhitespaceToken(" ")
@@ -225,7 +245,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                         ".5", 0.5
                     )
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

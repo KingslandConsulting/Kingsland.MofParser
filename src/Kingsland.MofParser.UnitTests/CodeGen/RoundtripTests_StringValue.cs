@@ -1,5 +1,7 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -15,11 +17,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void SingleStringValueShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tCaption = \"Instance of John Doe\";\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        Caption = ""Instance of John Doe"";
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -27,10 +32,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // Caption = "Instance of John Doe";
                     .IdentifierToken("Caption")
                     .WhitespaceToken(" ")
@@ -38,7 +43,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .StringLiteralToken("Instance of John Doe")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -49,11 +54,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void MultistringValueShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tCaption = \"Instance\" \"of\" \"John\" \"Doe\";\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        Caption = ""Instance"" ""of"" ""John"" ""Doe"";
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -61,10 +69,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // Caption = "Instance" "of" "John" "Doe";
                     .IdentifierToken("Caption")
                     .WhitespaceToken(" ")
@@ -78,7 +86,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .StringLiteralToken("Doe")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -89,11 +97,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/20")]
             public static void StringValueWithSingleQuoteShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tCaption = \"Instance of John Doe\\\'s GOLF_ClubMember object\";\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        Caption = ""Instance of John Doe\'s GOLF_ClubMember object"";
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -101,10 +112,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // Caption = "Instance of John Doe's GOLF_ClubMember object";
                     .IdentifierToken("Caption")
                     .WhitespaceToken(" ")
@@ -112,7 +123,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .StringLiteralToken("Instance of John Doe's GOLF_ClubMember object")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

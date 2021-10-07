@@ -1,5 +1,7 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -15,11 +17,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void IntegerLiteralValueShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tLastPaymentDate = 1;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        LastPaymentDate = 1;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -27,10 +32,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // LastPaymentDate = 1;
                     .IdentifierToken("LastPaymentDate")
                     .WhitespaceToken(" ")
@@ -38,7 +43,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -49,11 +54,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void RealLiteralValueShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tLastPaymentDate = 0.5;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        LastPaymentDate = 0.5;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // instance of GOLF_ClubMember
                     .IdentifierToken("instance")
@@ -61,10 +69,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .IdentifierToken("of")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_ClubMember")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // LastPaymentDate = 0.5;
                     .IdentifierToken("LastPaymentDate")
                     .WhitespaceToken(" ")
@@ -72,7 +80,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .RealLiteralToken(0.5)
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -83,11 +91,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void BooleanLiteralValueShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tLastPaymentDate = true;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        LastPaymentDate = true;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // instance of GOLF_ClubMember
                    .IdentifierToken("instance")
@@ -95,10 +106,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IdentifierToken("of")
                    .WhitespaceToken(" ")
                    .IdentifierToken("GOLF_ClubMember")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // LastPaymentDate = true;
                    .IdentifierToken("LastPaymentDate")
                    .WhitespaceToken(" ")
@@ -106,7 +117,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .WhitespaceToken(" ")
                    .BooleanLiteralToken(true)
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
@@ -117,11 +128,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void NullLiteralValueShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tLastPaymentDate = null;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        LastPaymentDate = null;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // instance of GOLF_ClubMember
                    .IdentifierToken("instance")
@@ -129,10 +143,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IdentifierToken("of")
                    .WhitespaceToken(" ")
                    .IdentifierToken("GOLF_ClubMember")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // LastPaymentDate = null;
                    .IdentifierToken("LastPaymentDate")
                    .WhitespaceToken(" ")
@@ -140,7 +154,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .WhitespaceToken(" ")
                    .NullLiteralToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
@@ -151,11 +165,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void StringLiteralValueShouldRoundtrip()
             {
-                var sourceText =
-                    "instance of GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tLastPaymentDate = \"aaa\";\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    instance of GOLF_ClubMember
+                    {
+                        LastPaymentDate = ""aaa"";
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // instance of GOLF_ClubMember
                    .IdentifierToken("instance")
@@ -163,10 +180,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IdentifierToken("of")
                    .WhitespaceToken(" ")
                    .IdentifierToken("GOLF_ClubMember")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // LastPaymentDate = "aaa";
                    .IdentifierToken("LastPaymentDate")
                    .WhitespaceToken(" ")
@@ -174,7 +191,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .WhitespaceToken(" ")
                    .StringLiteralToken("aaa")
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()

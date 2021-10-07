@@ -1,7 +1,9 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
@@ -18,19 +20,21 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EmptyAssociationDeclarationShouldRoundtrip()
             {
-                var sourceText =
-                    "association GOLF_MemberLocker\r\n" +
-                    "{\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    association GOLF_MemberLocker
+                    {
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // association GOLF_MemberLocker
                     .IdentifierToken("association")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_MemberLocker")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -53,13 +57,16 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void AssociationDeclarationWithSuperAssociationShouldRoundtrip()
             {
-                var sourceText =
-                    "association GOLF_MemberLocker : GOLF_Base\r\n" +
-                    "{\r\n" +
-                    "\tGOLF_ClubMember REF Member;\r\n" +
-                    "\tGOLF_Locker REF Locker;\r\n" +
-                    "\tGOLF_Date AssignedOnDate;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    association GOLF_MemberLocker : GOLF_Base
+                    {
+                        GOLF_ClubMember REF Member;
+                        GOLF_Locker REF Locker;
+                        GOLF_Date AssignedOnDate;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // association GOLF_MemberLocker : GOLF_Base
                     .IdentifierToken("association")
@@ -69,10 +76,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_Base")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // GOLF_ClubMember REF Member;
                     .IdentifierToken("GOLF_ClubMember")
                     .WhitespaceToken(" ")
@@ -80,7 +87,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .IdentifierToken("Member")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // GOLF_Locker REF Locker;
                     .IdentifierToken("GOLF_Locker")
                     .WhitespaceToken(" ")
@@ -88,13 +95,13 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .IdentifierToken("Locker")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // GOLF_Date AssignedOnDate;
                     .IdentifierToken("GOLF_Date")
                     .WhitespaceToken(" ")
                     .IdentifierToken("AssignedOnDate")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -129,22 +136,25 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void AssociationDeclarationWithClassFeaturesShouldRoundtrip()
             {
-                var sourceText =
-                    "association GOLF_MemberLocker\r\n" +
-                    "{\r\n" +
-                    "\tGOLF_ClubMember REF Member;\r\n" +
-                    "\tGOLF_Locker REF Locker;\r\n" +
-                    "\tGOLF_Date AssignedOnDate;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    association GOLF_MemberLocker
+                    {
+                        GOLF_ClubMember REF Member;
+                        GOLF_Locker REF Locker;
+                        GOLF_Date AssignedOnDate;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // association GOLF_MemberLocker
                     .IdentifierToken("association")
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_MemberLocker")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // GOLF_ClubMember REF Member;
                     .IdentifierToken("GOLF_ClubMember")
                     .WhitespaceToken(" ")
@@ -152,7 +162,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .IdentifierToken("Member")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // GOLF_Locker REF Locker;
                     .IdentifierToken("GOLF_Locker")
                     .WhitespaceToken(" ")
@@ -160,13 +170,13 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .WhitespaceToken(" ")
                     .IdentifierToken("Locker")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // GOLF_Date AssignedOnDate
                     .IdentifierToken("GOLF_Date")
                     .WhitespaceToken(" ")
                     .IdentifierToken("AssignedOnDate")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

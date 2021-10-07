@@ -1,5 +1,7 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -15,19 +17,21 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void EmptyStructureDeclarationShouldRoundtrip()
             {
-                var sourceText =
-                    "structure Sponsor\r\n" +
-                    "{\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    structure Sponsor
+                    {
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // structure Sponsor
                     .IdentifierToken("structure")
                     .WhitespaceToken(" ")
                     .IdentifierToken("Sponsor")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -38,10 +42,12 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void StructureDeclarationWithSuperstructureShouldRoundtrip()
             {
-                var sourceText =
-                    "structure Sponsor : GOLF_MySupestructure\r\n" +
-                    "{\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    structure Sponsor : GOLF_MySupestructure
+                    {
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // structure Sponsor : GOLF_MySupestructure
                     .IdentifierToken("structure")
@@ -51,10 +57,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                     .ColonToken()
                     .WhitespaceToken(" ")
                     .IdentifierToken("GOLF_MySupestructure")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()
@@ -65,40 +71,43 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void StructureDeclarationWithStructureFeaturesShouldRoundtrip()
             {
-                var sourceText =
-                    "structure Sponsor\r\n" +
-                    "{\r\n" +
-                    "\tstring Name;\r\n" +
-                    "\tGOLF_Date ContractSignedDate;\r\n" +
-                    "\treal32 ContractAmount;\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    structure Sponsor
+                    {
+                        string Name;
+                        GOLF_Date ContractSignedDate;
+                        real32 ContractAmount;
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // structure Sponsor : GOLF_MySupestructure
                     .IdentifierToken("structure")
                     .WhitespaceToken(" ")
                     .IdentifierToken("Sponsor")
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // {
                     .BlockOpenToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // string Name;
                     .IdentifierToken("string")
                     .WhitespaceToken(" ")
                     .IdentifierToken("Name")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // GOLF_Date ContractSignedDate;
                     .IdentifierToken("GOLF_Date")
                     .WhitespaceToken(" ")
                     .IdentifierToken("ContractSignedDate")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n\t")
+                    .WhitespaceToken($"{newline}{indent}")
                     // real32 ContractAmount;
                     .IdentifierToken("real32")
                     .WhitespaceToken(" ")
                     .IdentifierToken("ContractAmount")
                     .StatementEndToken()
-                    .WhitespaceToken("\r\n")
+                    .WhitespaceToken($"{newline}")
                     // };
                     .BlockCloseToken()
                     .StatementEndToken()

@@ -1,5 +1,7 @@
 ﻿using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -15,8 +17,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void CompilerDirectiveShouldRoundtrip()
             {
-                var sourceText =
-                    "#pragma include (\"GlobalStructs/GOLF_Address.mof\")";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    #pragma include (""GlobalStructs/GOLF_Address.mof"")
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // #pragma include ("GlobalStructs/GOLF_Address.mof")
                     .PragmaToken()
@@ -33,8 +37,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void CompilerDirectiveWithMultipleSingleStringsShouldRoundtrip()
             {
-                var sourceText =
-                    "#pragma include (\"GlobalStructs\" \"/\" \"GOLF_Address.mof\")";
+                var newline = Environment.NewLine;
+                var sourceText = @"
+                    #pragma include (""GlobalStructs"" ""/"" ""GOLF_Address.mof"")
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                     // #pragma include ("GlobalStructs" "/" "GOLF_Address.mof")
                     .PragmaToken()
