@@ -37,7 +37,9 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             {
                 get
                 {
-                    return TestUtils.GetMofTestCase("Parsing\\WMI\\WinXp");
+                    return TestUtils.GetMofTestCase(
+                        Path.Combine("Parsing", "WMI", "WinXp")
+                    );
                 }
             }
         }
@@ -54,7 +56,9 @@ namespace Kingsland.MofParser.UnitTests.Parsing
             {
                 get
                 {
-                    return TestUtils.GetMofTestCase("Parsing\\DSP0221_3.0.1");
+                    return TestUtils.GetMofTestCase(
+                        Path.Combine("Parsing", "DSP0221_3.0.1")
+                    );
                 }
             }
         }
