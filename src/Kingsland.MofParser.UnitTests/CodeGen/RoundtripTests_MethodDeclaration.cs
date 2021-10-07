@@ -1,5 +1,10 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Parsing;
+using Kingsland.MofParser.Tokens;
+using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen
 {
@@ -15,20 +20,23 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void MethodDeclarationWithNoParametersShouldRoundtrip()
             {
-                var sourceText =
-                    "class GOLF_Club\r\n" +
-                    "{\r\n" +
-                    "\tInteger GetMembersWithOutstandingFees();\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class GOLF_Club
+                    {
+                        Integer GetMembersWithOutstandingFees();
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // instance of GOLF_Club
                    .IdentifierToken("class")
                    .WhitespaceToken(" ")
                    .IdentifierToken("GOLF_Club")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // Integer GetMembersWithOutstandingFees();
                    .IdentifierToken("Integer")
                    .WhitespaceToken(" ")
@@ -36,7 +44,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .ParenthesisOpenToken()
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
@@ -47,20 +55,23 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void MethodDeclarationWithParameterShouldRoundtrip()
             {
-                var sourceText =
-                    "class GOLF_Club\r\n" +
-                    "{\r\n" +
-                    "\tInteger GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers);\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class GOLF_Club
+                    {
+                        Integer GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers);
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // instance of GOLF_Club
                    .IdentifierToken("class")
                    .WhitespaceToken(" ")
                    .IdentifierToken("GOLF_Club")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // Integer GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers);
                    .IdentifierToken("Integer")
                    .WhitespaceToken(" ")
@@ -71,7 +82,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IdentifierToken("lateMembers")
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
@@ -82,20 +93,23 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void MethodDeclarationWithArrayParameterShouldRoundtrip()
             {
-                var sourceText =
-                    "class GOLF_Club\r\n" +
-                    "{\r\n" +
-                    "\tInteger GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers[]);\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class GOLF_Club
+                    {
+                        Integer GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers[]);
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // instance of GOLF_Club
                    .IdentifierToken("class")
                    .WhitespaceToken(" ")
                    .IdentifierToken("GOLF_Club")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // Integer GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers[]);
                    .IdentifierToken("Integer")
                    .WhitespaceToken(" ")
@@ -108,7 +122,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .AttributeCloseToken()
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
@@ -119,20 +133,23 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test]
             public static void MethodDeclarationsWithRefParameterShouldRoundtrip()
             {
-                var sourceText =
-                    "class GOLF_Club\r\n" +
-                    "{\r\n" +
-                    "\tInteger GetMembersWithOutstandingFees(GOLF_ClubMember REF lateMembers);\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class GOLF_Club
+                    {
+                        Integer GetMembersWithOutstandingFees(GOLF_ClubMember REF lateMembers);
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // instance of GOLF_Club
                    .IdentifierToken("class")
                    .WhitespaceToken(" ")
                    .IdentifierToken("GOLF_Club")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // Integer GetMembersWithOutstandingFees(GOLF_ClubMember REF lateMembers);
                    .IdentifierToken("Integer")
                    .WhitespaceToken(" ")
@@ -145,7 +162,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IdentifierToken("lateMembers")
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
@@ -156,11 +173,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/27")]
             public static void ClassDeclarationsWithMethodDeclarationWithEnumParameterShouldRoundtrip()
             {
-                var sourceText =
-                    "class GOLF_Professional : GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tGOLF_ResultCodeEnum GetNumberOfProfessionals(ProfessionalStatusEnum Status = Professional);\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class GOLF_Professional : GOLF_ClubMember
+                    {
+                        GOLF_ResultCodeEnum GetNumberOfProfessionals(ProfessionalStatusEnum Status = Professional);
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // instance of GOLF_Club
                    .IdentifierToken("class")
@@ -170,10 +190,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .ColonToken()
                    .WhitespaceToken(" ")
                    .IdentifierToken("GOLF_ClubMember")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // GOLF_ResultCodeEnum GetNumberOfProfessionals(ProfessionalStatusEnum Status = Professional);
                    .IdentifierToken("GOLF_ResultCodeEnum")
                    .WhitespaceToken(" ")
@@ -188,7 +208,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IdentifierToken("Professional")
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
@@ -199,20 +219,23 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/37")]
             public static void MethodDeclarationsWithArrayReturnTypeShouldRoundtrip()
             {
-                var sourceText =
-                    "class GOLF_Club\r\n" +
-                    "{\r\n" +
-                    "\tInteger[] GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers);\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class GOLF_Club
+                    {
+                        Integer[] GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers);
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // instance of GOLF_Club
                    .IdentifierToken("class")
                    .WhitespaceToken(" ")
                    .IdentifierToken("GOLF_Club")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // Integer[] GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers);
                    .IdentifierToken("Integer")
                    .AttributeOpenToken()
@@ -225,7 +248,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IdentifierToken("lateMembers")
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
@@ -236,11 +259,14 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/38")]
             public static void MethodDeclarationWithMultipleParametersShouldRoundtrip()
             {
-                var sourceText =
-                    "class GOLF_Professional : GOLF_ClubMember\r\n" +
-                    "{\r\n" +
-                    "\tGOLF_ResultCodeEnum GetNumberOfProfessionals(Integer NoOfPros, GOLF_Club Club, ProfessionalStatusEnum Status = Professional);\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class GOLF_Professional : GOLF_ClubMember
+                    {
+                        GOLF_ResultCodeEnum GetNumberOfProfessionals(Integer NoOfPros, GOLF_Club Club, ProfessionalStatusEnum Status = Professional);
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // class GOLF_Professional : GOLF_ClubMember
                    .IdentifierToken("class")
@@ -250,10 +276,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .ColonToken()
                    .WhitespaceToken(" ")
                    .IdentifierToken("GOLF_ClubMember")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // GOLF_ResultCodeEnum GetNumberOfProfessionals(Integer NoOfPros, GOLF_Club Club, ProfessionalStatusEnum Status = Professional);
                    .IdentifierToken("GOLF_ResultCodeEnum")
                    .WhitespaceToken(" ")
@@ -278,7 +304,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IdentifierToken("Professional")
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
@@ -289,18 +315,21 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
             public static void MethodDeclarationWithDeprecatedMof300IntegerReturnTypesAndQuirksDisabledShouldRoundtrip()
             {
-                var sourceText =
-                    "class Win32_SoftwareFeature : CIM_SoftwareFeature\r\n" +
-                    "{\r\n" +
-                    "\tuint8 ReinstallUint8(integer ReinstallMode = 1);\r\n" +
-                    "\tuint16 ReinstallUint16(integer ReinstallMode = 1);\r\n" +
-                    "\tuint32 ReinstallUint32(integer ReinstallMode = 1);\r\n" +
-                    "\tuint64 ReinstallUint64(integer ReinstallMode = 1);\r\n" +
-                    "\tsint8 ReinstallUint8(integer ReinstallMode = 1);\r\n" +
-                    "\tsint16 ReinstallUint16(integer ReinstallMode = 1);\r\n" +
-                    "\tsint32 ReinstallUint32(integer ReinstallMode = 1);\r\n" +
-                    "\tsint64 ReinstallUint64(integer ReinstallMode = 1);\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class Win32_SoftwareFeature : CIM_SoftwareFeature
+                    {
+                        uint8 ReinstallUint8(integer ReinstallMode = 1);
+                        uint16 ReinstallUint16(integer ReinstallMode = 1);
+                        uint32 ReinstallUint32(integer ReinstallMode = 1);
+                        uint64 ReinstallUint64(integer ReinstallMode = 1);
+                        sint8 ReinstallUint8(integer ReinstallMode = 1);
+                        sint16 ReinstallUint16(integer ReinstallMode = 1);
+                        sint32 ReinstallUint32(integer ReinstallMode = 1);
+                        sint64 ReinstallUint64(integer ReinstallMode = 1);
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // class GOLF_Professional : GOLF_ClubMember
                    .IdentifierToken("class")
@@ -310,10 +339,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .ColonToken()
                    .WhitespaceToken(" ")
                    .IdentifierToken("CIM_SoftwareFeature")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // uint8 ReinstallUint8(integer ReinstallMode = 1);
                    .IdentifierToken("uint8")
                    .WhitespaceToken(" ")
@@ -328,7 +357,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // uint16 ReinstallUint16(integer ReinstallMode = 1);
                    .IdentifierToken("uint16")
                    .WhitespaceToken(" ")
@@ -343,7 +372,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // uint32 ReinstallUint32(integer ReinstallMode = 1);
                    .IdentifierToken("uint32")
                    .WhitespaceToken(" ")
@@ -358,7 +387,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // uint64 ReinstallUint64(integer ReinstallMode = 1);
                    .IdentifierToken("uint64")
                    .WhitespaceToken(" ")
@@ -373,7 +402,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // sint8 ReinstallUint8(integer ReinstallMode = 1);
                    .IdentifierToken("sint8")
                    .WhitespaceToken(" ")
@@ -388,7 +417,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // sint16 ReinstallUint16(integer ReinstallMode = 1);
                    .IdentifierToken("sint16")
                    .WhitespaceToken(" ")
@@ -403,7 +432,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // sint32 ReinstallUint32(integer ReinstallMode = 1);
                    .IdentifierToken("sint32")
                    .WhitespaceToken(" ")
@@ -418,7 +447,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // sint64 ReinstallUint64(integer ReinstallMode = 1);
                    .IdentifierToken("sint64")
                    .WhitespaceToken(" ")
@@ -433,7 +462,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
@@ -444,18 +473,21 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
             [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
             public static void MethodDeclarationWithDeprecatedMof300IntegerParameterTypesShouldRoundtrip()
             {
-                var sourceText =
-                    "class Win32_SoftwareFeature : CIM_SoftwareFeature\r\n" +
-                    "{\r\n" +
-                    "\tinteger ReinstallUint8(uint8 ReinstallMode = 1);\r\n" +
-                    "\tinteger ReinstallUint16(uint16 ReinstallMode = 1);\r\n" +
-                    "\tinteger ReinstallUint32(uint32 ReinstallMode = 1);\r\n" +
-                    "\tinteger ReinstallUint64(uint64 ReinstallMode = 1);\r\n" +
-                    "\tinteger ReinstallUint8(sint8 ReinstallMode = 1);\r\n" +
-                    "\tinteger ReinstallUint16(sint16 ReinstallMode = 1);\r\n" +
-                    "\tinteger ReinstallUint32(sint32 ReinstallMode = 1);\r\n" +
-                    "\tinteger ReinstallUint64(sint64 ReinstallMode = 1);\r\n" +
-                    "};";
+                var newline = Environment.NewLine;
+                var indent = "    ";
+                var sourceText = @"
+                    class Win32_SoftwareFeature : CIM_SoftwareFeature
+                    {
+                        integer ReinstallUint8(uint8 ReinstallMode = 1);
+                        integer ReinstallUint16(uint16 ReinstallMode = 1);
+                        integer ReinstallUint32(uint32 ReinstallMode = 1);
+                        integer ReinstallUint64(uint64 ReinstallMode = 1);
+                        integer ReinstallUint8(sint8 ReinstallMode = 1);
+                        integer ReinstallUint16(sint16 ReinstallMode = 1);
+                        integer ReinstallUint32(sint32 ReinstallMode = 1);
+                        integer ReinstallUint64(sint64 ReinstallMode = 1);
+                    };
+                ".TrimIndent(newline).TrimString(newline);
                 var expectedTokens = new TokenBuilder()
                    // class GOLF_Professional : GOLF_ClubMember
                    .IdentifierToken("class")
@@ -465,10 +497,10 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .ColonToken()
                    .WhitespaceToken(" ")
                    .IdentifierToken("CIM_SoftwareFeature")
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // {
                    .BlockOpenToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // integer ReinstallUint8(uint8 ReinstallMode = 1);
                    .IdentifierToken("integer")
                    .WhitespaceToken(" ")
@@ -483,7 +515,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // integer ReinstallUint16(uint16 ReinstallMode = 1);
                    .IdentifierToken("integer")
                    .WhitespaceToken(" ")
@@ -498,7 +530,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // integer ReinstallUint32(uint32 ReinstallMode = 1);
                    .IdentifierToken("integer")
                    .WhitespaceToken(" ")
@@ -513,7 +545,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // integer ReinstallUint64(uint64 ReinstallMode = 1);
                    .IdentifierToken("integer")
                    .WhitespaceToken(" ")
@@ -528,7 +560,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // integer ReinstallUint8(sint8 ReinstallMode = 1);
                    .IdentifierToken("integer")
                    .WhitespaceToken(" ")
@@ -543,7 +575,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // integer ReinstallUint16(sint16 nteger ReinstallMode = 1);
                    .IdentifierToken("integer")
                    .WhitespaceToken(" ")
@@ -558,7 +590,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // integer ReinstallUint32(sint32 ReinstallMode = 1);
                    .IdentifierToken("integer")
                    .WhitespaceToken(" ")
@@ -573,7 +605,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n\t")
+                   .WhitespaceToken($"{newline}{indent}")
                    // integer ReinstallUint64(sint64 ReinstallMode = 1);
                    .IdentifierToken("integer")
                    .WhitespaceToken(" ")
@@ -588,7 +620,7 @@ namespace Kingsland.MofParser.UnitTests.CodeGen
                    .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                    .ParenthesisCloseToken()
                    .StatementEndToken()
-                   .WhitespaceToken("\r\n")
+                   .WhitespaceToken($"{newline}")
                    // };
                    .BlockCloseToken()
                    .StatementEndToken()
