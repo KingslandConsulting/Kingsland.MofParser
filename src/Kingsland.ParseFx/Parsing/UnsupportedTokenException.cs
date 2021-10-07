@@ -39,11 +39,12 @@ namespace Kingsland.ParseFx.Parsing
                 }
                 else
                 {
+                    var newline = Environment.NewLine;
                     var token = this.FoundToken;
                     var extent = this.FoundToken.Extent;
                     var startPosition = extent.StartPosition;
-                    return $"Unhandled token found at Position {startPosition.Position}, Line Number {startPosition.LineNumber}, Column Number {startPosition.ColumnNumber}.\r\n" +
-                           $"Token Type: '{token.GetType().Name}'\r\n" +
+                    return $"Unhandled token found at Position {startPosition.Position}, Line Number {startPosition.LineNumber}, Column Number {startPosition.ColumnNumber}.{newline}" +
+                           $"Token Type: '{token.GetType().Name}'{newline}" +
                            $"Token Text: '{extent.Text}'";
                 }
             }

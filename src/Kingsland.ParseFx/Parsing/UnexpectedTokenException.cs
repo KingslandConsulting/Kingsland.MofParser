@@ -15,7 +15,8 @@ namespace Kingsland.ParseFx.Parsing
 
         public UnexpectedTokenException(SyntaxToken foundToken)
         {
-            this.FoundToken = foundToken ?? throw new ArgumentNullException(nameof(foundToken));
+            this.FoundToken = foundToken
+                ?? throw new ArgumentNullException(nameof(foundToken));
         }
 
         #endregion
@@ -39,11 +40,12 @@ namespace Kingsland.ParseFx.Parsing
                 }
                 else
                 {
+                    var newline = Environment.NewLine;
                     var token = this.FoundToken;
                     var extent = this.FoundToken.Extent;
                     var startPosition = extent.StartPosition;
-                    return $"Unexpected token found at Position {startPosition.Position}, Line Number {startPosition.LineNumber}, Column Number {startPosition.ColumnNumber}.\r\n" +
-                           $"Token Type: '{token.GetType().Name}'\r\n" +
+                    return $"Unexpected token found at Position {startPosition.Position}, Line Number {startPosition.LineNumber}, Column Number {startPosition.ColumnNumber}.{newline}" +
+                           $"Token Type: '{token.GetType().Name}'{newline}" +
                            $"Token Text: '{token.Extent.Text}'";
                 }
             }
