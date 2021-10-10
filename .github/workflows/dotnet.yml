@@ -1,29 +1,37 @@
 name: .NET
 
 on:
+
   push:
     branches:
       - master
       - 'feature/*'
+
   pull_request:
     branches:
       - master
-      - 'feature/*'
 
 jobs:
-  build:
 
+  build:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+
     - name: Restore dependencies
       run: dotnet restore src/Kingsland.MofParser.sln
+
     - name: Build
-      run: dotnet build src/Kingsland.MofParser.sln --no-restore
+      run: dotnet build src/Kingsland.MofParser.sln --configuration Release --no-restore
+
     - name: Test
-      run: dotnet test src/Kingsland.MofParser.sln --no-build --verbosity normal
+      run: dotnet test  src/Kingsland.MofParser.sln --configuration Release --no-build --verbosity normal
+
+    - name: Pack
+      run: nuget pack src/Kingsland.MofParser.nuspec
