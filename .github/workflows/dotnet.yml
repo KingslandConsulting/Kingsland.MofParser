@@ -19,19 +19,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup .NET
+    - name: setup dotnet
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
 
-    - name: Restore dependencies
+    - name: dotnet restore
       run: dotnet restore src/Kingsland.MofParser.sln
 
-    - name: Build
+    - name: dotnet build
       run: dotnet build src/Kingsland.MofParser.sln --configuration Release --no-restore
 
-    - name: Test
-      run: dotnet test  src/Kingsland.MofParser.sln --configuration Release --no-build --verbosity normal
+    - name: dotnet test
+      run: dotnet test src/Kingsland.MofParser.sln --configuration Release --no-build --verbosity normal
 
-    - name: Pack
+    - name: nuget pack
       run: nuget pack src/Kingsland.MofParser.nuspec
