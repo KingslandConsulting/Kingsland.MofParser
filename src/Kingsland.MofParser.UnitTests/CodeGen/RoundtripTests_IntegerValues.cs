@@ -19,11 +19,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = 100;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = 100;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -56,11 +56,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = +100;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = +100;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -98,11 +98,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = -100;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = -100;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -135,29 +135,29 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        MyBinaryValue1 = 101010b;
-                        MyBinaryValue2 = 00101010b;
-                        MyBinaryValue3 = +101010b;
-                        MyBinaryValue4 = -101010b;
-                        MyOctalValue1 = 0444444;
-                        MyOctalValue2 = 000444444;
-                        MyOctalValue3 = +0444444;
-                        MyOctalValue4 = -0444444;
-                        MyHexValue1 = 0xABC123;
-                        MyHexValue2 = 0x00ABC123;
-                        MyHexValue3 = +0xABC123;
-                        MyHexValue4 = -0xABC123;
-                        MyDecimalValue1 = 12345;
-                        MyDecimalValue2 = +12345;
-                        MyDecimalValue3 = -12345;
-                        MyRealValue1 = 123.45;
-                        MyRealValue2 = 00123.45;
-                        MyRealValue3 = +123.45;
-                        MyRealValue4 = -123.45;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    MyBinaryValue1 = 101010b;
+                    MyBinaryValue2 = 00101010b;
+                    MyBinaryValue3 = +101010b;
+                    MyBinaryValue4 = -101010b;
+                    MyOctalValue1 = 0444444;
+                    MyOctalValue2 = 000444444;
+                    MyOctalValue3 = +0444444;
+                    MyOctalValue4 = -0444444;
+                    MyHexValue1 = 0xABC123;
+                    MyHexValue2 = 0x00ABC123;
+                    MyHexValue3 = +0xABC123;
+                    MyHexValue4 = -0xABC123;
+                    MyDecimalValue1 = 12345;
+                    MyDecimalValue2 = +12345;
+                    MyDecimalValue3 = -12345;
+                    MyRealValue1 = 123.45;
+                    MyRealValue2 = 00123.45;
+                    MyRealValue3 = +123.45;
+                    MyRealValue4 = -123.45;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")

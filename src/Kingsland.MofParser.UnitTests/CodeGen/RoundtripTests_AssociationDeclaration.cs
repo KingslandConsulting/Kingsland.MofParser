@@ -19,10 +19,10 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    association GOLF_MemberLocker
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                association GOLF_MemberLocker
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // association GOLF_MemberLocker
                 .IdentifierToken("association")
@@ -57,13 +57,13 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    association GOLF_MemberLocker : GOLF_Base
-                    {
-                        GOLF_ClubMember REF Member;
-                        GOLF_Locker REF Locker;
-                        GOLF_Date AssignedOnDate;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                association GOLF_MemberLocker : GOLF_Base
+                {
+                    GOLF_ClubMember REF Member;
+                    GOLF_Locker REF Locker;
+                    GOLF_Date AssignedOnDate;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // association GOLF_MemberLocker : GOLF_Base
                 .IdentifierToken("association")
@@ -136,13 +136,13 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    association GOLF_MemberLocker
-                    {
-                        GOLF_ClubMember REF Member;
-                        GOLF_Locker REF Locker;
-                        GOLF_Date AssignedOnDate;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                association GOLF_MemberLocker
+                {
+                    GOLF_ClubMember REF Member;
+                    GOLF_Locker REF Locker;
+                    GOLF_Date AssignedOnDate;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // association GOLF_MemberLocker
                 .IdentifierToken("association")

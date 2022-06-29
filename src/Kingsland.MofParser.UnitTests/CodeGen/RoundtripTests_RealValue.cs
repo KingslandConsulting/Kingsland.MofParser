@@ -19,11 +19,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = 0.5;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = 0.5;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -56,11 +56,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = +0.5;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = +0.5;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -97,11 +97,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = -0.5;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = -0.5;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -134,11 +134,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = 5.0;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = 5.0;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -175,11 +175,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = 0.50;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = 0.50;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -216,11 +216,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = .5;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = .5;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")

@@ -9,15 +9,15 @@ class Program
     {
 
         const string sourceText = @"
-                instance of MSFT_RoleResource as $MSFT_RoleResource1ref
-                {
-                    ResourceID = ""[WindowsFeature]IIS"";
-                    Ensure = ""Present"";
-                    SourceInfo = ""D:\\dsc\\MyServerConfig.ps1::6::9::WindowsFeature"";
-                    Name = ""Web-Server"";
-                    ModuleName = ""PSDesiredStateConfiguration"";
-                    ModuleVersion = ""1.0"";
-                };";
+            instance of MSFT_RoleResource as $MSFT_RoleResource1ref
+            {
+                ResourceID = ""[WindowsFeature]IIS"";
+                Ensure = ""Present"";
+                SourceInfo = ""D:\\dsc\\MyServerConfig.ps1::6::9::WindowsFeature"";
+                Name = ""Web-Server"";
+                ModuleName = ""PSDesiredStateConfiguration"";
+                ModuleVersion = ""1.0"";
+            };";
 
         // parse the mof file
         var module = Parser.ParseText(sourceText);

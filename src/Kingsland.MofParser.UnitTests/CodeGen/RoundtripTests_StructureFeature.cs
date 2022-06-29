@@ -18,11 +18,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    structure Sponsor
-                    {
-                        [Description(""Monthly salary in $US"")] string Name;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                structure Sponsor
+                {
+                    [Description(""Monthly salary in $US"")] string Name;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // structure Sponsor
                 .IdentifierToken("structure")
@@ -57,17 +57,17 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    structure Sponsor
-                    {
-                        100
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                structure Sponsor
+                {
+                    100
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var errorline = 3;
             var expectedMessage = @$"
-                    Unexpected token found at Position {22 + (errorline - 1) * newline.Length}, Line Number {errorline}, Column Number 5.
-                    Token Type: 'IntegerLiteralToken'
-                    Token Text: '100'
-                ".TrimIndent(newline).TrimString(newline);
+                Unexpected token found at Position {22 + (errorline - 1) * newline.Length}, Line Number {errorline}, Column Number 5.
+                Token Type: 'IntegerLiteralToken'
+                Token Text: '100'
+            ".TrimIndent(newline).TrimString(newline);
             RoundtripTests.AssertRoundtripException(sourceText, expectedMessage);
         }
 
@@ -77,13 +77,13 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    structure Sponsor
+                structure Sponsor
+                {
+                    structure Nested
                     {
-                        structure Nested
-                        {
-                        };
                     };
-                ".TrimIndent(newline).TrimString(newline);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // structure Sponsor
                 .IdentifierToken("structure")
@@ -118,13 +118,13 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    structure Sponsor
+                structure Sponsor
+                {
+                    enumeration MonthsEnum : Integer
                     {
-                        enumeration MonthsEnum : Integer
-                        {
-                        };
                     };
-                ".TrimIndent(newline).TrimString(newline);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // structure Sponsor
                 .IdentifierToken("structure")
@@ -163,11 +163,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    structure Sponsor
-                    {
-                        string Name;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                structure Sponsor
+                {
+                    string Name;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // structure Sponsor
                 .IdentifierToken("structure")

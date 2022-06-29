@@ -17,10 +17,10 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    value of GOLF_ClubMember as $MyAliasIdentifier
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                value of GOLF_ClubMember as $MyAliasIdentifier
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // value of GOLF_ClubMember as $MyAliasIdentifier
                 .IdentifierToken("value")
@@ -49,12 +49,12 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    value of GOLF_ClubMember as $MyAliasIdentifier
-                    {
-                        FirstName = ""John"";
-                        LastName = ""Doe"";
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                value of GOLF_ClubMember as $MyAliasIdentifier
+                {
+                    FirstName = ""John"";
+                    LastName = ""Doe"";
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // value of GOLF_ClubMember as $MyAliasIdentifier
                .IdentifierToken("value")

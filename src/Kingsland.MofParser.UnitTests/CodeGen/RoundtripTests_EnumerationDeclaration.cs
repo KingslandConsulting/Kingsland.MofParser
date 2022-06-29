@@ -18,10 +18,10 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    enumeration MonthsEnum : Integer
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                enumeration MonthsEnum : Integer
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // enumeration MonthsEnum : Integer
                 .IdentifierToken("enumeration")
@@ -47,10 +47,10 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    enumeration MonthsEnum : String
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                enumeration MonthsEnum : String
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // enumeration MonthsEnum : Integer
                 .IdentifierToken("enumeration")
@@ -76,10 +76,10 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    enumeration MonthsEnum : GOLF_MyEnum
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                enumeration MonthsEnum : GOLF_MyEnum
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // enumeration MonthsEnum : Integer
                 .IdentifierToken("enumeration")
@@ -106,22 +106,22 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    enumeration MonthsEnum : String
-                    {
-                        January,
-                        February,
-                        March,
-                        April,
-                        May,
-                        June,
-                        July,
-                        August,
-                        September,
-                        October,
-                        November,
-                        December
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                enumeration MonthsEnum : String
+                {
+                    January,
+                    February,
+                    March,
+                    April,
+                    May,
+                    June,
+                    July,
+                    August,
+                    September,
+                    October,
+                    November,
+                    December
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // enumeration MonthsEnum : String
                 .IdentifierToken("enumeration")
@@ -196,17 +196,17 @@ public static partial class RoundtripTests
             // as a result, "July" (a string) is not a valid value for an integer enumElement value
             var newline = Environment.NewLine;
             var sourceText = @"
-                    enumeration MonthsEnum : uint32
-                    {
-                        July = ""July""
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                enumeration MonthsEnum : uint32
+                {
+                    July = ""July""
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var errorline = 3;
             var expectedMessage = @$"
-                    Unexpected token found at Position {43 + (errorline - 1) * newline.Length}, Line Number {errorline}, Column Number 12.
-                    Token Type: 'StringLiteralToken'
-                    Token Text: '""July""'
-                ".TrimIndent(newline).TrimString(newline);
+                Unexpected token found at Position {43 + (errorline - 1) * newline.Length}, Line Number {errorline}, Column Number 12.
+                Token Type: 'StringLiteralToken'
+                Token Text: '""July""'
+            ".TrimIndent(newline).TrimString(newline);
             RoundtripTests.AssertRoundtripException(
                 sourceText, expectedMessage,
                 ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase
@@ -223,11 +223,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    enumeration MonthsEnum : uint32
-                    {
-                        July = ""July""
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                enumeration MonthsEnum : uint32
+                {
+                    July = ""July""
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // enumeration MonthsEnum : Integer
                 .IdentifierToken("enumeration")
@@ -266,11 +266,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    enumeration MonthsEnum : integer
-                    {
-                        [Description(""myDescription"")] January = 1
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                enumeration MonthsEnum : integer
+                {
+                    [Description(""myDescription"")] January = 1
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // enumeration MonthsEnum : Integer
                 .IdentifierToken("enumeration")
@@ -311,11 +311,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    enumeration MonthsEnum : integer
-                    {
-                        January = 1
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                enumeration MonthsEnum : integer
+                {
+                    January = 1
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // enumeration MonthsEnum : integer
                 .IdentifierToken("enumeration")
@@ -349,11 +349,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    enumeration GOLF_StatesEnum : string
-                    {
-                        AL
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                enumeration GOLF_StatesEnum : string
+                {
+                    AL
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // enumeration GOLF_StatesEnum : string
                 .IdentifierToken("enumeration")
@@ -383,11 +383,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    enumeration GOLF_StatesEnum : string
-                    {
-                        AL = ""Alabama""
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                enumeration GOLF_StatesEnum : string
+                {
+                    AL = ""Alabama""
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // enumeration GOLF_StatesEnum : string
                 .IdentifierToken("enumeration")

@@ -17,10 +17,10 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -45,12 +45,12 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        FirstName = ""John"";
-                        LastName = ""Doe"";
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    FirstName = ""John"";
+                    LastName = ""Doe"";
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -90,10 +90,10 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    instance of GOLF_ClubMember as $MyAliasIdentifier
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember as $MyAliasIdentifier
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember as $MyAliasIdentifier
                 .IdentifierToken("instance")

@@ -18,11 +18,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Base
-                    {
-                        Integer Severity;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Base
+                {
+                    Integer Severity;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // class GOLF_Base
                .IdentifierToken("class")
@@ -51,11 +51,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Base
-                    {
-                        Integer Severity[];
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Base
+                {
+                    Integer Severity[];
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // class GOLF_Base
                .IdentifierToken("class")
@@ -86,11 +86,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Base
-                    {
-                        Integer Severity = 0;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Base
+                {
+                    Integer Severity = 0;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // class GOLF_Base
                .IdentifierToken("class")
@@ -123,18 +123,18 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Base
-                    {
-                        uint8 SeverityUint8;
-                        uint16 SeverityUint16;
-                        uint32 SeverityUint32;
-                        uint64 SeverityUint64;
-                        sint8 SeveritySint8;
-                        sint16 SeveritySint16;
-                        sint32 SeveritySint32;
-                        sint64 SeveritySint64;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Base
+                {
+                    uint8 SeverityUint8;
+                    uint16 SeverityUint16;
+                    uint32 SeverityUint32;
+                    uint64 SeverityUint64;
+                    sint8 SeveritySint8;
+                    sint16 SeveritySint16;
+                    sint32 SeveritySint32;
+                    sint64 SeveritySint64;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // class GOLF_Base
                .IdentifierToken("class")

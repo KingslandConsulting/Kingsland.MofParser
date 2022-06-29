@@ -17,11 +17,11 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    [Description(""Instances of this class represent golf clubs. A golf club is "" ""an organization that provides member services to golf players "" ""both amateur and professional."")]
-                    class GOLF_Club : GOLF_Base
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                [Description(""Instances of this class represent golf clubs. A golf club is "" ""an organization that provides member services to golf players "" ""both amateur and professional."")]
+                class GOLF_Club : GOLF_Base
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // [Description("Instances of this class represent golf clubs. A golf club is " "an organization that provides member services to golf players " "both amateur and professional.")]
                 .AttributeOpenToken()

@@ -17,10 +17,10 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    structure Sponsor
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                structure Sponsor
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // structure Sponsor
                 .IdentifierToken("structure")
@@ -42,10 +42,10 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    structure Sponsor : GOLF_MySupestructure
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                structure Sponsor : GOLF_MySupestructure
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // structure Sponsor : GOLF_MySupestructure
                 .IdentifierToken("structure")
@@ -72,13 +72,13 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    structure Sponsor
-                    {
-                        string Name;
-                        GOLF_Date ContractSignedDate;
-                        real32 ContractAmount;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                structure Sponsor
+                {
+                    string Name;
+                    GOLF_Date ContractSignedDate;
+                    real32 ContractAmount;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // structure Sponsor : GOLF_MySupestructure
                 .IdentifierToken("structure")

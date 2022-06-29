@@ -17,8 +17,8 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    #pragma include (""GlobalStructs/GOLF_Address.mof"")
-                ".TrimIndent(newline).TrimString(newline);
+                #pragma include (""GlobalStructs/GOLF_Address.mof"")
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // #pragma include ("GlobalStructs/GOLF_Address.mof")
                 .PragmaToken()
@@ -37,8 +37,8 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    #pragma include (""GlobalStructs"" ""/"" ""GOLF_Address.mof"")
-                ".TrimIndent(newline).TrimString(newline);
+                #pragma include (""GlobalStructs"" ""/"" ""GOLF_Address.mof"")
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // #pragma include ("GlobalStructs" "/" "GOLF_Address.mof")
                 .PragmaToken()

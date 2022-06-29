@@ -20,11 +20,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Club
-                    {
-                        Integer GetMembersWithOutstandingFees();
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Club
+                {
+                    Integer GetMembersWithOutstandingFees();
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // instance of GOLF_Club
                .IdentifierToken("class")
@@ -55,11 +55,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Club
-                    {
-                        Integer GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers);
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Club
+                {
+                    Integer GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // instance of GOLF_Club
                .IdentifierToken("class")
@@ -93,11 +93,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Club
-                    {
-                        Integer GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers[]);
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Club
+                {
+                    Integer GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers[]);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // instance of GOLF_Club
                .IdentifierToken("class")
@@ -133,11 +133,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Club
-                    {
-                        Integer GetMembersWithOutstandingFees(GOLF_ClubMember REF lateMembers);
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Club
+                {
+                    Integer GetMembersWithOutstandingFees(GOLF_ClubMember REF lateMembers);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // instance of GOLF_Club
                .IdentifierToken("class")
@@ -173,11 +173,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Professional : GOLF_ClubMember
-                    {
-                        GOLF_ResultCodeEnum GetNumberOfProfessionals(ProfessionalStatusEnum Status = Professional);
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Professional : GOLF_ClubMember
+                {
+                    GOLF_ResultCodeEnum GetNumberOfProfessionals(ProfessionalStatusEnum Status = Professional);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // instance of GOLF_Club
                .IdentifierToken("class")
@@ -219,11 +219,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Club
-                    {
-                        Integer[] GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers);
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Club
+                {
+                    Integer[] GetMembersWithOutstandingFees(GOLF_ClubMember lateMembers);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // instance of GOLF_Club
                .IdentifierToken("class")
@@ -259,11 +259,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Professional : GOLF_ClubMember
-                    {
-                        GOLF_ResultCodeEnum GetNumberOfProfessionals(Integer NoOfPros, GOLF_Club Club, ProfessionalStatusEnum Status = Professional);
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Professional : GOLF_ClubMember
+                {
+                    GOLF_ResultCodeEnum GetNumberOfProfessionals(Integer NoOfPros, GOLF_Club Club, ProfessionalStatusEnum Status = Professional);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // class GOLF_Professional : GOLF_ClubMember
                .IdentifierToken("class")
@@ -315,18 +315,18 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class Win32_SoftwareFeature : CIM_SoftwareFeature
-                    {
-                        uint8 ReinstallUint8(integer ReinstallMode = 1);
-                        uint16 ReinstallUint16(integer ReinstallMode = 1);
-                        uint32 ReinstallUint32(integer ReinstallMode = 1);
-                        uint64 ReinstallUint64(integer ReinstallMode = 1);
-                        sint8 ReinstallUint8(integer ReinstallMode = 1);
-                        sint16 ReinstallUint16(integer ReinstallMode = 1);
-                        sint32 ReinstallUint32(integer ReinstallMode = 1);
-                        sint64 ReinstallUint64(integer ReinstallMode = 1);
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class Win32_SoftwareFeature : CIM_SoftwareFeature
+                {
+                    uint8 ReinstallUint8(integer ReinstallMode = 1);
+                    uint16 ReinstallUint16(integer ReinstallMode = 1);
+                    uint32 ReinstallUint32(integer ReinstallMode = 1);
+                    uint64 ReinstallUint64(integer ReinstallMode = 1);
+                    sint8 ReinstallUint8(integer ReinstallMode = 1);
+                    sint16 ReinstallUint16(integer ReinstallMode = 1);
+                    sint32 ReinstallUint32(integer ReinstallMode = 1);
+                    sint64 ReinstallUint64(integer ReinstallMode = 1);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // class GOLF_Professional : GOLF_ClubMember
                .IdentifierToken("class")
@@ -473,18 +473,18 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class Win32_SoftwareFeature : CIM_SoftwareFeature
-                    {
-                        integer ReinstallUint8(uint8 ReinstallMode = 1);
-                        integer ReinstallUint16(uint16 ReinstallMode = 1);
-                        integer ReinstallUint32(uint32 ReinstallMode = 1);
-                        integer ReinstallUint64(uint64 ReinstallMode = 1);
-                        integer ReinstallUint8(sint8 ReinstallMode = 1);
-                        integer ReinstallUint16(sint16 ReinstallMode = 1);
-                        integer ReinstallUint32(sint32 ReinstallMode = 1);
-                        integer ReinstallUint64(sint64 ReinstallMode = 1);
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class Win32_SoftwareFeature : CIM_SoftwareFeature
+                {
+                    integer ReinstallUint8(uint8 ReinstallMode = 1);
+                    integer ReinstallUint16(uint16 ReinstallMode = 1);
+                    integer ReinstallUint32(uint32 ReinstallMode = 1);
+                    integer ReinstallUint64(uint64 ReinstallMode = 1);
+                    integer ReinstallUint8(sint8 ReinstallMode = 1);
+                    integer ReinstallUint16(sint16 ReinstallMode = 1);
+                    integer ReinstallUint32(sint32 ReinstallMode = 1);
+                    integer ReinstallUint64(sint64 ReinstallMode = 1);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                // class GOLF_Professional : GOLF_ClubMember
                .IdentifierToken("class")

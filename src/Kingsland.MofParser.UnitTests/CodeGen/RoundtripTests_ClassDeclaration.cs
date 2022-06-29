@@ -18,10 +18,10 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    class GOLF_Base
-                    {
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Base
+                {
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // class GOLF_Base
                 .IdentifierToken("class")
@@ -44,12 +44,12 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Base : GOLF_Superclass
-                    {
-                        string InstanceID;
-                        string Caption = Null;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Base : GOLF_Superclass
+                {
+                    string InstanceID;
+                    string Caption = Null;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // class GOLF_Base : GOLF_Superclass
                 .IdentifierToken("class")
@@ -96,12 +96,12 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    class GOLF_Base
-                    {
-                        string InstanceID;
-                        string Caption = Null;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                class GOLF_Base
+                {
+                    string InstanceID;
+                    string Caption = Null;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // class GOLF_Base
                 .IdentifierToken("class")
@@ -144,13 +144,13 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    [Abstract, OCL{""-- the key property cannot be NULL"", ""inv: InstanceId.size() = 10""}]
-                    class GOLF_Base
-                    {
-                        [Description(""an instance of a class that derives from the GOLF_Base class. ""), Key] string InstanceID;
-                        [Description(""A short textual description (one- line string) of the""), MaxLen(64)] string Caption = Null;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                [Abstract, OCL{""-- the key property cannot be NULL"", ""inv: InstanceId.size() = 10""}]
+                class GOLF_Base
+                {
+                    [Description(""an instance of a class that derives from the GOLF_Base class. ""), Key] string InstanceID;
+                    [Description(""A short textual description (one- line string) of the""), MaxLen(64)] string Caption = Null;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // [Abstract, OCL{"-- the key property cannot be NULL", "inv: InstanceId.size() = 10"}]
                 .AttributeOpenToken()

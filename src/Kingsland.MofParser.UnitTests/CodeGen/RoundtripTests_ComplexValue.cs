@@ -18,11 +18,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        LastPaymentDate = $MyAliasIdentifier;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    LastPaymentDate = $MyAliasIdentifier;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -55,14 +55,14 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
+                instance of GOLF_ClubMember
+                {
+                    LastPaymentDate = value of GOLF_Date
                     {
-                        LastPaymentDate = value of GOLF_Date
-                        {
-                            Month = July;
-                        };
+                        Month = July;
                     };
-                ".TrimIndent(newline).TrimString(newline);
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")

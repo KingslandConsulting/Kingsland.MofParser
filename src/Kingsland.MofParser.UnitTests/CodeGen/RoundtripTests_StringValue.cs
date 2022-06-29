@@ -18,11 +18,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = ""Instance of John Doe"";
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = ""Instance of John Doe"";
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -55,11 +55,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = ""Instance"" ""of"" ""John"" ""Doe"";
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = ""Instance"" ""of"" ""John"" ""Doe"";
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")
@@ -98,11 +98,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_ClubMember
-                    {
-                        Caption = ""Instance of John Doe\'s GOLF_ClubMember object"";
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_ClubMember
+                {
+                    Caption = ""Instance of John Doe\'s GOLF_ClubMember object"";
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_ClubMember
                 .IdentifierToken("instance")

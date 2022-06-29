@@ -19,11 +19,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_Date
-                    {
-                        Month = July;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_Date
+                {
+                    Month = July;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_Date
                 .IdentifierToken("instance")
@@ -56,11 +56,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_Date
-                    {
-                        Month = {June};
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_Date
+                {
+                    Month = {June};
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_Date
                 .IdentifierToken("instance")
@@ -100,11 +100,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_Date
-                    {
-                        Month = July;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_Date
+                {
+                    Month = July;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_Date
                 .IdentifierToken("instance")
@@ -137,11 +137,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_Date
-                    {
-                        Month = MonthEnums.July;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_Date
+                {
+                    Month = MonthEnums.July;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_Date
                 .IdentifierToken("instance")
@@ -181,11 +181,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_Date
-                    {
-                        Month = {};
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_Date
+                {
+                    Month = {};
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_Date
                 .IdentifierToken("instance")
@@ -219,11 +219,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_Date
-                    {
-                        Month = {June};
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_Date
+                {
+                    Month = {June};
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_Date
                 .IdentifierToken("instance")
@@ -258,11 +258,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_Date
-                    {
-                        Month = {January, February};
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_Date
+                {
+                    Month = {January, February};
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_Date
                 .IdentifierToken("instance")
@@ -300,11 +300,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of GOLF_Date
-                    {
-                        Month = {MonthEnums.July};
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_Date
+                {
+                    Month = {MonthEnums.July};
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of GOLF_Date
                 .IdentifierToken("instance")
@@ -345,17 +345,17 @@ public static partial class RoundtripTests
         {
             var newline = Environment.NewLine;
             var sourceText = @"
-                    instance of GOLF_Date
-                    {
-                        Month = {MonthEnums.July};
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of GOLF_Date
+                {
+                    Month = {MonthEnums.July};
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var errorline = 3;
             var expectedMessage = @$"
-                    Unexpected token found at Position {45 + (errorline - 1) * newline.Length}, Line Number {errorline}, Column Number 24.
-                    Token Type: 'DotOperatorToken'
-                    Token Text: '.'
-                ".TrimIndent(newline).TrimString(newline);
+                Unexpected token found at Position {45 + (errorline - 1) * newline.Length}, Line Number {errorline}, Column Number 24.
+                Token Type: 'DotOperatorToken'
+                Token Text: '.'
+            ".TrimIndent(newline).TrimString(newline);
             RoundtripTests.AssertRoundtripException(sourceText, expectedMessage);
         }
 

@@ -20,11 +20,11 @@ public static partial class RoundtripTests
             var newline = Environment.NewLine;
             var indent = "    ";
             var sourceText = @"
-                    instance of myType as $Alias00000070
-                    {
-                        Reference = TRUE;
-                    };
-                ".TrimIndent(newline).TrimString(newline);
+                instance of myType as $Alias00000070
+                {
+                    Reference = TRUE;
+                };
+            ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
                 // instance of myType as $Alias00000070
                 .IdentifierToken("instance")
