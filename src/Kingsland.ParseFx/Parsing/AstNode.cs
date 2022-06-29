@@ -1,17 +1,14 @@
-﻿namespace Kingsland.ParseFx.Parsing
+﻿namespace Kingsland.ParseFx.Parsing;
+
+public abstract record AstNode : IAstNode
 {
 
-    public abstract record AstNode : IAstNode
+    #region Constructors
+
+    protected AstNode()
     {
-
-        #region Constructors
-
-        protected AstNode()
-        {
-        }
-
-        #endregion
-
     }
+
+    #endregion
 
 }

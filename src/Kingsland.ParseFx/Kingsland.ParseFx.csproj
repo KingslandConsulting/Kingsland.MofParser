@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -9,10 +11,6 @@
     <Authors>Michael Clayton</Authors>
     <Copyright>Copyright © 2019</Copyright>
     <Description>A C# library to simplify some of the boring bits of writing a lexer and parser for custom text file formats.</Description>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 </Project>

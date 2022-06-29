@@ -1,42 +1,39 @@
 ﻿using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
 
-namespace Kingsland.MofParser.Tokens
+namespace Kingsland.MofParser.Tokens;
+
+public sealed record StatementEndToken : SyntaxToken
 {
 
-    public sealed record StatementEndToken : SyntaxToken
+    #region Constructors
+
+    public StatementEndToken()
+        : this(SourceExtent.Empty)
     {
-
-        #region Constructors
-
-        public StatementEndToken()
-            : this(SourceExtent.Empty)
-        {
-        }
-
-        public StatementEndToken(SourcePosition start, SourcePosition end, string text)
-            : this(new SourceExtent(start, end, text))
-        {
-        }
-
-        public StatementEndToken(SourceExtent extent)
-            : base(extent)
-        {
-        }
-
-        #endregion
-
-        #region SyntaxToken Interface
-
-        public override string GetSourceString()
-        {
-            return (this.Extent != SourceExtent.Empty) ?
-                this.Extent.Text :
-                ";";
-        }
-
-        #endregion
-
     }
+
+    public StatementEndToken(SourcePosition start, SourcePosition end, string text)
+        : this(new SourceExtent(start, end, text))
+    {
+    }
+
+    public StatementEndToken(SourceExtent extent)
+        : base(extent)
+    {
+    }
+
+    #endregion
+
+    #region SyntaxToken Interface
+
+    public override string GetSourceString()
+    {
+        return (this.Extent != SourceExtent.Empty) ?
+            this.Extent.Text :
+            ";";
+    }
+
+    #endregion
 
 }

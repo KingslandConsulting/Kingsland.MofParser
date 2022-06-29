@@ -1,45 +1,41 @@
 ﻿using Kingsland.ParseFx.Lexing.Matches;
 using Kingsland.ParseFx.Text;
-using System;
 
-namespace Kingsland.ParseFx.Lexing
+namespace Kingsland.ParseFx.Lexing;
+
+public sealed class Scanner
 {
 
-    public sealed class Scanner
+    #region Delegates
+
+    public delegate ScannerResult ScannerAction(SourceReader reader);
+
+    #endregion
+
+    #region Constructors
+
+    internal Scanner(IMatch match, ScannerAction action)
     {
-
-        #region Delegates
-
-        public delegate ScannerResult ScannerAction(SourceReader reader);
-
-        #endregion
-
-        #region Constructors
-
-        internal Scanner(IMatch match, ScannerAction action)
-        {
-            this.Match = match ?? throw new ArgumentNullException(nameof(match));
-            this.Action = action?? throw new ArgumentNullException(nameof(action));
-        }
-
-        #endregion
-
-        #region Properties
-
-        public IMatch Match
-        {
-            get;
-            private set;
-        }
-
-        public ScannerAction Action
-        {
-            get;
-            private set;
-        }
-
-        #endregion
-
+        this.Match = match ?? throw new ArgumentNullException(nameof(match));
+        this.Action = action?? throw new ArgumentNullException(nameof(action));
     }
+
+    #endregion
+
+    #region Properties
+
+    public IMatch Match
+    {
+        get;
+        private set;
+    }
+
+    public ScannerAction Action
+    {
+        get;
+        private set;
+    }
+
+    #endregion
 
 }

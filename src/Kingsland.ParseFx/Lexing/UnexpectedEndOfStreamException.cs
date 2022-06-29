@@ -1,19 +1,14 @@
-﻿using System;
+﻿namespace Kingsland.ParseFx.Lexing;
 
-namespace Kingsland.ParseFx.Lexing
+public sealed class UnexpectedEndOfStreamException : Exception
 {
 
-    public sealed class UnexpectedEndOfStreamException : Exception
+    #region Constructors
+
+    internal UnexpectedEndOfStreamException()
     {
-
-        #region Constructors
-
-        internal UnexpectedEndOfStreamException()
-        {
-        }
-
-        #endregion
-
     }
+
+    #endregion
 
 }

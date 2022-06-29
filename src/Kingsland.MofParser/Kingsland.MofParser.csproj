@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -11,10 +13,6 @@
     <PackageProjectUrl>https://github.com/KingslandConsulting/Kingsland.MofParser</PackageProjectUrl>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <Description>A C# library for parsing the contents of Managed Object Format (MOF) files</Description>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,8 +1,5 @@
-﻿namespace Kingsland.MofParser.Ast
+﻿namespace Kingsland.MofParser.Ast;
+
+public interface IAstNode
 {
-
-    public interface IAstNode
-    {
-    }
-
 }

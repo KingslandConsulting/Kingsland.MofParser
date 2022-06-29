@@ -1,14 +1,11 @@
-﻿namespace Kingsland.MofParser.Tokens
+﻿namespace Kingsland.MofParser.Tokens;
+
+public enum IntegerKind
 {
 
-    public enum IntegerKind
-    {
-
-        BinaryValue,
-        OctalValue,
-        HexValue,
-        DecimalValue
-
-    }
+    BinaryValue,
+    OctalValue,
+    HexValue,
+    DecimalValue
 
 }

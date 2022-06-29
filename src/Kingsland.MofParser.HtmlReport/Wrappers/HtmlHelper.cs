@@ -1,39 +1,36 @@
 ﻿using System.Globalization;
 
-namespace Kingsland.MofParser.HtmlReport.Wrappers
+namespace Kingsland.MofParser.HtmlReport.Wrappers;
+
+public static class HtmlHelper
 {
 
-    public static class HtmlHelper
+    public static string HtmlEncode(string value)
     {
+        return System.Web.HttpUtility.HtmlEncode(value);
+    }
 
-        public static string HtmlEncode(string value)
+    public static string SplitTitleCaseWords(string value)
+    {
+        if (string.IsNullOrEmpty(value))
         {
-            return System.Web.HttpUtility.HtmlEncode(value);
+            return value;
         }
-
-        public static string SplitTitleCaseWords(string value)
+        foreach (var upperChar in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-            foreach (var upperChar in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-            {
-                value = value.Replace(upperChar.ToString(CultureInfo.InvariantCulture), " " + upperChar);
-            }
-            return HtmlHelper.HtmlEncode(value);
+            value = value.Replace(upperChar.ToString(CultureInfo.InvariantCulture), " " + upperChar);
         }
+        return HtmlHelper.HtmlEncode(value);
+    }
 
-        public static string ReplaceUnderscores(string value)
+    public static string ReplaceUnderscores(string value)
+    {
+        if (string.IsNullOrEmpty(value))
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-            value = value.Replace('_', ' ');
-            return HtmlHelper.HtmlEncode(value);
+            return value;
         }
-
+        value = value.Replace('_', ' ');
+        return HtmlHelper.HtmlEncode(value);
     }
 
 }

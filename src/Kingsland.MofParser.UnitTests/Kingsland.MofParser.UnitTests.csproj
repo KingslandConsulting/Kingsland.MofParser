@@ -2,16 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup>
     <Company>Kingsland Consulting</Company>
     <Authors>Michael Clayton</Authors>
     <Copyright>Copyright © 2019</Copyright>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
