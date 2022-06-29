@@ -39,9 +39,9 @@ public sealed record IdentifierToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this.Extent != SourceExtent.Empty ?
-            this.Extent.Text :
-            this.Name;
+        return this.Extent != SourceExtent.Empty
+            ? this.Extent.Text
+            : this.Name;
     }
 
     #endregion

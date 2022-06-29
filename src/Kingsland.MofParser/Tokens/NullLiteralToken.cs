@@ -30,9 +30,9 @@ public sealed record NullLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty) ?
-            this.Extent.Text :
-            Constants.NULL;
+        return (this.Extent != SourceExtent.Empty)
+            ? this.Extent.Text
+            : Constants.NULL;
     }
 
     #endregion

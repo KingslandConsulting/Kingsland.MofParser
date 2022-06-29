@@ -41,9 +41,9 @@ public sealed record StringLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty) ?
-            this.Extent.Text :
-            $"\"{StringLiteralToken.EscapeString(this.Value)}\"";
+        return (this.Extent != SourceExtent.Empty)
+            ? this.Extent.Text
+            : $"\"{StringLiteralToken.EscapeString(this.Value)}\"";
     }
 
     #endregion

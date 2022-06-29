@@ -39,9 +39,9 @@ public sealed record WhitespaceToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty) ?
-            this.Extent.Text :
-            this.Value;
+        return (this.Extent != SourceExtent.Empty)
+            ? this.Extent.Text
+            : this.Value;
     }
 
     #endregion

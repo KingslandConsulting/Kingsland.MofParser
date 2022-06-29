@@ -39,9 +39,9 @@ public sealed record CommentToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty) ?
-            this.Extent.Text :
-            this.Value;
+        return (this.Extent != SourceExtent.Empty)
+            ? this.Extent.Text
+            : this.Value;
     }
 
     #endregion

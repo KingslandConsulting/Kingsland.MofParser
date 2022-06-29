@@ -39,9 +39,9 @@ public sealed record RealLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty) ?
-            this.Extent.Text :
-            this.Value.ToString();
+        return (this.Extent != SourceExtent.Empty)
+            ? this.Extent.Text
+            : this.Value.ToString();
     }
 
     #endregion

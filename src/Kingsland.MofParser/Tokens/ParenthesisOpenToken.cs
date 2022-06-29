@@ -29,9 +29,9 @@ public sealed record ParenthesisOpenToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty) ?
-            this.Extent.Text :
-            "(";
+        return (this.Extent != SourceExtent.Empty)
+            ? this.Extent.Text
+            : "(";
     }
 
     #endregion

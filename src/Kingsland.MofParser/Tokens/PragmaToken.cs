@@ -30,9 +30,9 @@ public sealed record PragmaToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty) ?
-            this.Extent.Text :
-            Constants.PRAGMA;
+        return (this.Extent != SourceExtent.Empty)
+            ? this.Extent.Text
+            : Constants.PRAGMA;
     }
 
     #endregion
