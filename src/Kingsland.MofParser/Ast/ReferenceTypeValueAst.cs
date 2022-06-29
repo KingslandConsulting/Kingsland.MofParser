@@ -66,7 +66,7 @@ public sealed record ReferenceTypeValueAst : PropertyValueAst
         string name
     )
     {
-        this.Name = name;
+        this.Name = name ?? throw new ArgumentNullException(nameof(name));
     }
 
     #endregion
@@ -76,7 +76,6 @@ public sealed record ReferenceTypeValueAst : PropertyValueAst
     public string Name
     {
         get;
-        private init;
     }
 
     #endregion

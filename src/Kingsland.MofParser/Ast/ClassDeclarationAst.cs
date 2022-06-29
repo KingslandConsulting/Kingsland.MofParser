@@ -88,11 +88,12 @@ public sealed record ClassDeclarationAst : MofProductionAst
         IEnumerable<IClassFeatureAst> classFeatures
     )
     {
-        this.QualifierList = qualifierList;
-        this.ClassName = className;
+        this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
+        this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
         this.SuperClass = superClass;
         this.ClassFeatures = new ReadOnlyCollection<IClassFeatureAst>(
-            classFeatures.ToList()
+            (classFeatures ?? throw new ArgumentNullException(nameof(classFeatures)))
+                .ToList()
         );
     }
 
@@ -103,25 +104,21 @@ public sealed record ClassDeclarationAst : MofProductionAst
     public QualifierListAst QualifierList
     {
         get;
-        private init;
     }
 
     public IdentifierToken ClassName
     {
         get;
-        private init;
     }
 
     public IdentifierToken? SuperClass
     {
         get;
-        private init;
     }
 
     public ReadOnlyCollection<IClassFeatureAst> ClassFeatures
     {
         get;
-        private init;
     }
 
     #endregion

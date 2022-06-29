@@ -90,7 +90,7 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
         AliasIdentifierToken alias
     )
     {
-        this.Alias = alias;
+        this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));
         this.Value = null;
         this.Of = null;
         this.TypeName = null;
@@ -105,10 +105,10 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
     )
     {
         this.Alias = null;
-        this.Value = value;
-        this.Of = of;
-        this.TypeName = typeName;
-        this.PropertyValues = propertyValues;
+        this.Value = value ?? throw new ArgumentNullException(nameof(value));
+        this.Of = of ?? throw new ArgumentNullException(nameof(of));
+        this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
+        this.PropertyValues = propertyValues ?? throw new ArgumentNullException(nameof(propertyValues));
     }
 
     #endregion
@@ -134,31 +134,26 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
     public AliasIdentifierToken? Alias
     {
         get;
-        private init;
     }
 
     public IdentifierToken? Value
     {
         get;
-        private init;
     }
 
     public IdentifierToken? Of
     {
         get;
-        private init;
     }
 
     public IdentifierToken? TypeName
     {
         get;
-        private init;
     }
 
     public PropertyValueListAst PropertyValues
     {
         get;
-        private init;
     }
 
     #endregion

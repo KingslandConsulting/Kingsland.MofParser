@@ -31,7 +31,6 @@ public sealed record RealLiteralToken : SyntaxToken
     public double Value
     {
         get;
-        private init;
     }
 
     #endregion

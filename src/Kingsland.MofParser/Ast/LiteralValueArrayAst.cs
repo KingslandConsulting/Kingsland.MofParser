@@ -56,7 +56,8 @@ public sealed record LiteralValueArrayAst : PrimitiveTypeValueAst
     )
     {
         this.Values = new ReadOnlyCollection<LiteralValueAst>(
-            values.ToList()
+            (values ?? throw new ArgumentNullException(nameof(values)))
+                .ToList()
         );
     }
 
@@ -67,7 +68,6 @@ public sealed record LiteralValueArrayAst : PrimitiveTypeValueAst
     public ReadOnlyCollection<LiteralValueAst> Values
     {
         get;
-        private init;
     }
 
     #endregion

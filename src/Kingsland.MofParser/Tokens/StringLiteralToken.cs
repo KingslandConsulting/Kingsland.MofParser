@@ -1,8 +1,6 @@
 ﻿using Kingsland.MofParser.Parsing;
 using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Kingsland.MofParser.Tokens;
@@ -25,7 +23,7 @@ public sealed record StringLiteralToken : SyntaxToken
     public StringLiteralToken(SourceExtent extent, string value)
         : base(extent)
     {
-        this.Value = value;
+        this.Value = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     #endregion
@@ -35,7 +33,6 @@ public sealed record StringLiteralToken : SyntaxToken
     public string Value
     {
         get;
-        private init;
     }
 
     #endregion

@@ -63,9 +63,11 @@ public sealed record PropertyValueListAst : AstNode
     )
     {
         this.PropertyValues = new ReadOnlyDictionary<string, PropertyValueAst>(
-            propertyValues.ToDictionary(
-                kvp => kvp.Key, kvp => kvp.Value
-            )
+            (propertyValues ?? throw new ArgumentNullException(nameof(propertyValues)))
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value
+                )
         );
     }
 
@@ -76,7 +78,6 @@ public sealed record PropertyValueListAst : AstNode
     public ReadOnlyDictionary<string, PropertyValueAst> PropertyValues
     {
         get;
-        private init;
     }
 
     #endregion

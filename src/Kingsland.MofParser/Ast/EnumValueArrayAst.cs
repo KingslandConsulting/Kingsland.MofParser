@@ -56,7 +56,8 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
     )
     {
         this.Values = new ReadOnlyCollection<EnumValueAst>(
-            values.ToList()
+            (values ?? throw new ArgumentNullException(nameof(values)))
+                .ToList()
         );
     }
 
@@ -67,7 +68,6 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
     public ReadOnlyCollection<EnumValueAst> Values
     {
         get;
-        private init;
     }
 
     #endregion

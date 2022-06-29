@@ -82,9 +82,9 @@ public sealed record CompilerDirectiveAst : MofProductionAst
         StringValueAst pragmaParameter
     )
     {
-        this.PragmaKeyword = pragmaKeyword;
-        this.PragmaName = pragmaName;
-        this.PragmaParameter = pragmaParameter;
+        this.PragmaKeyword = pragmaKeyword ?? throw new ArgumentNullException(nameof(pragmaKeyword));
+        this.PragmaName = pragmaName ?? throw new ArgumentNullException(nameof(pragmaName));
+        this.PragmaParameter = pragmaParameter ?? throw new ArgumentNullException(nameof(pragmaParameter));
     }
 
     #endregion
@@ -94,19 +94,16 @@ public sealed record CompilerDirectiveAst : MofProductionAst
     public PragmaToken PragmaKeyword
     {
         get;
-        private init;
     }
 
     public IdentifierToken PragmaName
     {
         get;
-        private init;
     }
 
     public StringValueAst PragmaParameter
     {
         get;
-        private init;
     }
 
     #endregion

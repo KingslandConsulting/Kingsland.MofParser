@@ -86,11 +86,12 @@ public sealed record AssociationDeclarationAst : MofProductionAst
         IEnumerable<IClassFeatureAst> classFeatures
     )
     {
-        this.QualifierList = qualifierList;
-        this.AssociationName = associationName;
+        this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
+        this.AssociationName = associationName ?? throw new ArgumentNullException(nameof(associationName));
         this.SuperAssociation = superAssociation;
         this.ClassFeatures = new ReadOnlyCollection<IClassFeatureAst>(
-            classFeatures.ToList()
+            (classFeatures ?? throw new ArgumentNullException(nameof(classFeatures)))
+                .ToList()
         );
     }
 
@@ -101,25 +102,21 @@ public sealed record AssociationDeclarationAst : MofProductionAst
     public QualifierListAst QualifierList
     {
         get;
-        private init;
     }
 
     public IdentifierToken AssociationName
     {
         get;
-        private init;
     }
 
     public IdentifierToken? SuperAssociation
     {
         get;
-        private init;
     }
 
     public ReadOnlyCollection<IClassFeatureAst> ClassFeatures
     {
         get;
-        private init;
     }
 
     #endregion

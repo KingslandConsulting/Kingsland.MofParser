@@ -63,7 +63,8 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
         string value
     )
     {
-        var values = stringLiteralValues.ToList();
+        var values = (stringLiteralValues ?? throw new ArgumentNullException(nameof(stringLiteralValues)))
+            .ToList();
         if (values.Count == 0)
         {
             throw new ArgumentException(null, nameof(stringLiteralValues));
@@ -71,7 +72,7 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
         this.StringLiteralValues = new ReadOnlyCollection<StringLiteralToken>(
             values
         );
-        this.Value = value;
+        this.Value = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     #endregion
@@ -81,13 +82,11 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
     public ReadOnlyCollection<StringLiteralToken> StringLiteralValues
     {
         get;
-        private init;
     }
 
     public string Value
     {
         get;
-        private init;
     }
 
     #endregion

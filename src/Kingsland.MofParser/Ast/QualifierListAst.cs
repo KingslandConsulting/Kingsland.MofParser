@@ -57,7 +57,8 @@ public sealed record QualifierListAst : AstNode
     )
     {
         this.QualifierValues = new ReadOnlyCollection<QualifierValueAst>(
-            qualifierValues.ToList()
+            (qualifierValues ?? throw new ArgumentNullException(nameof(qualifierValues)))
+                .ToList()
         );
     }
 
@@ -68,7 +69,6 @@ public sealed record QualifierListAst : AstNode
     public ReadOnlyCollection<QualifierValueAst> QualifierValues
     {
         get;
-        private init;
     }
 
     #endregion

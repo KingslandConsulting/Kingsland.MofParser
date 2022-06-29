@@ -111,16 +111,16 @@ public sealed record StructureValueDeclarationAst : MofProductionAst
         StatementEndToken statementEnd
     )
     {
-        this.Value = value;
-        this.Of = of;
-        this.TypeName = typeName;
+        this.Value = value ?? throw new ArgumentNullException(nameof(value));
+        this.Of = of ?? throw new ArgumentNullException(nameof(of));
+        this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
         if ((@as != null) || (alias != null))
         {
             this.As = @as ?? throw new ArgumentNullException(nameof(@as));
             this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));
         }
-        this.PropertyValues = propertyValues;
-        this.StatementEnd = statementEnd;
+        this.PropertyValues = propertyValues ?? throw new ArgumentNullException(nameof(propertyValues));
+        this.StatementEnd = statementEnd ?? throw new ArgumentNullException(nameof(statementEnd));
     }
 
     #endregion
@@ -130,43 +130,36 @@ public sealed record StructureValueDeclarationAst : MofProductionAst
     public IdentifierToken Value
     {
         get;
-        private init;
     }
 
     public IdentifierToken Of
     {
         get;
-        private init;
     }
 
     public IdentifierToken TypeName
     {
         get;
-        private init;
     }
 
     public IdentifierToken? As
     {
         get;
-        private init;
     }
 
     public AliasIdentifierToken? Alias
     {
         get;
-        private init;
     }
 
     public PropertyValueListAst PropertyValues
     {
         get;
-        private init;
     }
 
     public StatementEndToken StatementEnd
     {
         get;
-        private init;
     }
 
     #endregion

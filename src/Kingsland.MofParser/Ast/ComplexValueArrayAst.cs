@@ -51,7 +51,8 @@ public sealed record ComplexValueArrayAst : ComplexTypeValueAst
     )
     {
         this.Values = new ReadOnlyCollection<ComplexValueAst>(
-            values.ToList()
+            (values ?? throw new ArgumentNullException(nameof(values)))
+                .ToList()
         );
     }
 
@@ -62,7 +63,6 @@ public sealed record ComplexValueArrayAst : ComplexTypeValueAst
     public ReadOnlyCollection<ComplexValueAst> Values
     {
         get;
-        private init;
     }
 
     #endregion

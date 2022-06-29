@@ -44,8 +44,8 @@ public sealed record Property
 
     internal Property(string name, object value)
     {
-        this.Name = name;
-        this.Value = value;
+        this.Name = name ?? throw new ArgumentNullException(nameof(name));
+        this.Value = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     #endregion
@@ -55,13 +55,11 @@ public sealed record Property
     public string Name
     {
         get;
-        private init;
     }
 
     public object Value
     {
         get;
-        private init;
     }
 
     #endregion

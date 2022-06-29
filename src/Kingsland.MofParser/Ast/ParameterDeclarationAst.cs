@@ -120,10 +120,10 @@ public sealed record ParameterDeclarationAst : AstNode
         PropertyValueAst? defaultValue
     )
     {
-        this.QualifierList = qualifierList;
-        this.ParameterType = parameterType;
+        this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
+        this.ParameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
         this.ParameterRef = parameterRef;
-        this.ParameterName = parameterName;
+        this.ParameterName = parameterName ?? throw new ArgumentNullException(nameof(parameterName));
         this.ParameterIsArray = parameterIsArray;
         this.DefaultValue = defaultValue;
     }
@@ -135,19 +135,16 @@ public sealed record ParameterDeclarationAst : AstNode
     public QualifierListAst QualifierList
     {
         get;
-        private init;
     }
 
     public IdentifierToken ParameterType
     {
         get;
-        private init;
     }
 
     public IdentifierToken ParameterName
     {
         get;
-        private init;
     }
 
     public bool ParameterIsRef
@@ -161,19 +158,16 @@ public sealed record ParameterDeclarationAst : AstNode
     public IdentifierToken? ParameterRef
     {
         get;
-        private init;
     }
 
     public bool ParameterIsArray
     {
         get;
-        private init;
     }
 
     public PropertyValueAst? DefaultValue
     {
         get;
-        private init;
     }
 
     #endregion

@@ -37,7 +37,8 @@ public sealed record Module
     internal Module(IEnumerable<Instance> instances)
     {
         this.Instances = new ReadOnlyCollection<Instance>(
-            instances?.ToList() ?? new List<Instance>()
+            (instances ?? throw new ArgumentNullException(nameof(instances)))
+                .ToList()
         );
     }
 
@@ -48,7 +49,6 @@ public sealed record Module
     public ReadOnlyCollection<Instance> Instances
     {
         get;
-        private init;
     }
 
     #endregion

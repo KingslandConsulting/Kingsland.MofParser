@@ -71,8 +71,8 @@ public sealed record EnumElementAst : IAstNode
         IEnumElementValueAst? enumElementValue
     )
     {
-        this.QualifierList = qualifierList;
-        this.EnumElementName = enumElementName;
+        this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
+        this.EnumElementName = enumElementName ?? throw new ArgumentNullException(nameof(enumElementName));
         this.EnumElementValue = enumElementValue;
     }
 
@@ -83,19 +83,16 @@ public sealed record EnumElementAst : IAstNode
     public QualifierListAst QualifierList
     {
         get;
-        private init;
     }
 
     public IdentifierToken EnumElementName
     {
         get;
-        private init;
     }
 
     public IEnumElementValueAst? EnumElementValue
     {
         get;
-        private init;
     }
 
     #endregion

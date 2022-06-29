@@ -52,7 +52,7 @@ public sealed record RealValueAst : LiteralValueAst
         RealLiteralToken realLiteralToken
     )
     {
-        this.RealLiteralToken = realLiteralToken;
+        this.RealLiteralToken = realLiteralToken ?? throw new ArgumentNullException(nameof(realLiteralToken));
         this.Value = realLiteralToken.Value;
     }
 
@@ -63,13 +63,11 @@ public sealed record RealValueAst : LiteralValueAst
     public RealLiteralToken RealLiteralToken
     {
         get;
-        private init;
     }
 
     public double Value
     {
         get;
-        private init;
     }
 
     #endregion

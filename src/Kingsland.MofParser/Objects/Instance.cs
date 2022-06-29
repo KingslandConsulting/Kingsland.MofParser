@@ -57,12 +57,13 @@ public sealed record Instance
         IDictionary<string, object?> properties
     )
     {
-        this.ClassName = className;
+        this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
         this.Alias = alias;
         this.Properties = new ReadOnlyDictionary<string, object?>(
-            properties.ToDictionary(
-                kvp => kvp.Key, kvp => kvp.Value
-            )
+            (properties ?? throw new ArgumentNullException(nameof(properties)))
+                .ToDictionary(
+                    kvp => kvp.Key, kvp => kvp.Value
+                )
         );
     }
 
@@ -73,19 +74,16 @@ public sealed record Instance
     public string ClassName
     {
         get;
-        private init;
     }
 
     public string? Alias
     {
         get;
-        private init;
-    }
+   }
 
     public ReadOnlyDictionary<string, object?> Properties
     {
         get;
-        private set;
     }
 
     #endregion

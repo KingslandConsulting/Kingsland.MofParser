@@ -21,7 +21,7 @@ public sealed record AliasIdentifierToken : SyntaxToken
     public AliasIdentifierToken(SourceExtent extent, string name)
         : base(extent)
     {
-        this.Name = name;
+        this.Name = name ?? throw new ArgumentNullException(nameof(name));
     }
 
     #endregion
@@ -31,7 +31,6 @@ public sealed record AliasIdentifierToken : SyntaxToken
     public string Name
     {
         get;
-        private init;
     }
 
     #endregion

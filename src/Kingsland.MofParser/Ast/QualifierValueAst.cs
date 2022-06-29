@@ -74,10 +74,11 @@ public sealed record QualifierValueAst : AstNode
         IQualifierInitializerAst? initializer,
         IEnumerable<IdentifierToken> flavors)
     {
-        this.QualifierName = qualifierName;
+        this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
         this.Initializer = initializer;
         this.Flavors = new ReadOnlyCollection<IdentifierToken>(
-            flavors.ToList()
+            (flavors ?? throw new ArgumentNullException(nameof(flavors)))
+                .ToList()
         );
     }
 
@@ -88,13 +89,11 @@ public sealed record QualifierValueAst : AstNode
     public IdentifierToken QualifierName
     {
         get;
-        private init;
     }
 
     public IQualifierInitializerAst? Initializer
     {
         get;
-        private init;
     }
 
     /// <summary>
@@ -112,7 +111,6 @@ public sealed record QualifierValueAst : AstNode
     public ReadOnlyCollection<IdentifierToken> Flavors
     {
         get;
-        private init;
     }
 
     #endregion

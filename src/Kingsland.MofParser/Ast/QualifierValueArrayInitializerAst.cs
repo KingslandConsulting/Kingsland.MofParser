@@ -57,7 +57,8 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
     )
     {
         this.Values = new ReadOnlyCollection<LiteralValueAst>(
-            values.ToList()
+            (values ?? throw new ArgumentNullException(nameof(values)))
+                .ToList()
         );
     }
 
@@ -68,7 +69,6 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
     public ReadOnlyCollection<LiteralValueAst> Values
     {
         get;
-        private init;
     }
 
     #endregion

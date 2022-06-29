@@ -100,11 +100,12 @@ public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFea
         IEnumerable<EnumElementAst> enumElements
     )
     {
-        this.QualifierList = qualifierList;
-        this.EnumName = enumName;
-        this.EnumType = enumType;
+        this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
+        this.EnumName = enumName ?? throw new ArgumentNullException(nameof(enumName));
+        this.EnumType = enumType ?? throw new ArgumentNullException(nameof(enumType));
         this.EnumElements = new ReadOnlyCollection<EnumElementAst>(
-            enumElements.ToList()
+            (enumElements ?? throw new ArgumentNullException(nameof(enumElements)))
+                .ToList()
         );
     }
 
@@ -115,25 +116,21 @@ public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFea
     public QualifierListAst QualifierList
     {
         get;
-        private init;
     }
 
     public IdentifierToken EnumName
     {
         get;
-        private init;
     }
 
     public IdentifierToken EnumType
     {
         get;
-        private init;
     }
 
     public ReadOnlyCollection<EnumElementAst> EnumElements
     {
         get;
-        private init;
     }
 
     #endregion

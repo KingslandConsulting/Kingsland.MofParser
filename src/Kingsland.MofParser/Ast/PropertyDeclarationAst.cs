@@ -117,10 +117,10 @@ public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
         PropertyValueAst? initializer
     )
     {
-        this.QualifierList = qualifierList;
-        this.ReturnType = returnType;
+        this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
+        this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
         this.ReturnTypeRef = returnTypeRef;
-        this.PropertyName = propertyName;
+        this.PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
         this.ReturnTypeIsArray = returnTypeIsArray;
         this.Initializer = initializer;
     }
@@ -132,13 +132,11 @@ public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
     public QualifierListAst QualifierList
     {
         get;
-        private init;
     }
 
     public IdentifierToken ReturnType
     {
         get;
-        private init;
     }
 
     public bool ReturnTypeIsRef
@@ -152,25 +150,21 @@ public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
     public IdentifierToken? ReturnTypeRef
     {
         get;
-        private init;
     }
 
     public IdentifierToken PropertyName
     {
         get;
-        private init;
     }
 
     public bool ReturnTypeIsArray
     {
         get;
-        private init;
     }
 
     public PropertyValueAst? Initializer
     {
         get;
-        private init;
     }
 
     #endregion

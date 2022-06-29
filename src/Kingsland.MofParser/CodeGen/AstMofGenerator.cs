@@ -377,7 +377,7 @@ public sealed class AstMofGenerator
                     classFeature, quirks, indent + indentStep, indentStep
                 )
             );
-				source.AppendLine();
+            source.AppendLine();
         }
         source.Append(indent);
         source.Append("};");

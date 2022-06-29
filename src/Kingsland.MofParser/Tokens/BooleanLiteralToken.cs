@@ -32,7 +32,6 @@ public sealed record BooleanLiteralToken : SyntaxToken
     public bool Value
     {
         get;
-        private init;
     }
 
     #endregion

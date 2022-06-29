@@ -40,8 +40,8 @@ public sealed record Class
 
     internal Class(string className, string superClass)
     {
-        this.ClassName = className;
-        this.SuperClass = superClass;
+        this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
+        this.SuperClass = superClass ?? throw new ArgumentNullException(nameof(superClass));
     }
 
     #endregion
@@ -51,13 +51,11 @@ public sealed record Class
     public string ClassName
     {
         get;
-        private init;
     }
 
     public string SuperClass
     {
         get;
-        private init;
     }
 
     #endregion

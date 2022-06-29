@@ -50,7 +50,7 @@ public sealed record NullValueAst : LiteralValueAst
         NullLiteralToken token
     )
     {
-        this.Token = token;
+        this.Token = token ?? throw new ArgumentNullException(nameof(token));
     }
 
     #endregion
@@ -60,7 +60,6 @@ public sealed record NullValueAst : LiteralValueAst
     public NullLiteralToken Token
     {
         get;
-        private init;
     }
 
     #endregion

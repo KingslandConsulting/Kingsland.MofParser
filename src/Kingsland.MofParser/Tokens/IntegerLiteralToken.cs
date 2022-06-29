@@ -1,6 +1,5 @@
 ﻿using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
-using System;
 
 namespace Kingsland.MofParser.Tokens;
 
@@ -33,13 +32,11 @@ public sealed record IntegerLiteralToken : SyntaxToken
     public IntegerKind Kind
     {
         get;
-        private init;
     }
 
     public long Value
     {
         get;
-        private init;
     }
 
     #endregion

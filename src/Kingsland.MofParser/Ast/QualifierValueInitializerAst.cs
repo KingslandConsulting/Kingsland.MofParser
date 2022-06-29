@@ -44,7 +44,7 @@ public sealed record QualifierValueInitializerAst : IQualifierInitializerAst
 
     internal QualifierValueInitializerAst(LiteralValueAst value)
     {
-        this.Value = value;
+        this.Value = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     #endregion
@@ -54,7 +54,6 @@ public sealed record QualifierValueInitializerAst : IQualifierInitializerAst
     public LiteralValueAst Value
     {
         get;
-        private init;
     }
 
     #endregion

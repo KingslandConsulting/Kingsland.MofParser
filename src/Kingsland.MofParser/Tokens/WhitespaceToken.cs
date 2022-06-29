@@ -21,7 +21,7 @@ public sealed record WhitespaceToken : SyntaxToken
     public WhitespaceToken(SourceExtent extent, string value)
         : base(extent)
     {
-        this.Value = value;
+        this.Value = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     #endregion
@@ -31,7 +31,6 @@ public sealed record WhitespaceToken : SyntaxToken
     public string Value
     {
         get;
-        private init;
     }
 
     #endregion

@@ -47,7 +47,7 @@ public sealed record IntegerValueAst : LiteralValueAst, IEnumElementValueAst
         IntegerLiteralToken integerLiteralToken
     )
     {
-        this.IntegerLiteralToken = integerLiteralToken;
+        this.IntegerLiteralToken = integerLiteralToken ?? throw new ArgumentNullException(nameof(integerLiteralToken));
         this.Kind = integerLiteralToken.Kind;
         this.Value = integerLiteralToken.Value;
     }
@@ -59,19 +59,16 @@ public sealed record IntegerValueAst : LiteralValueAst, IEnumElementValueAst
     public IntegerLiteralToken IntegerLiteralToken
     {
         get;
-        private init;
     }
 
     public IntegerKind Kind
     {
         get;
-        private init;
     }
 
     public long Value
     {
         get;
-        private init;
     }
 
     #endregion

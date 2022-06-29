@@ -90,11 +90,12 @@ public sealed record StructureDeclarationAst : MofProductionAst, IStructureFeatu
         IEnumerable<IStructureFeatureAst> structureFeatures
     )
     {
-        this.QualifierList = qualifierList;
-        this.StructureName = structureName;
+        this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
+        this.StructureName = structureName ?? throw new ArgumentNullException(nameof(structureName));
         this.SuperStructure = superStructure;
         this.StructureFeatures = new ReadOnlyCollection<IStructureFeatureAst>(
-            structureFeatures.ToList()
+            (structureFeatures ?? throw new ArgumentNullException(nameof(structureFeatures)))
+                .ToList()
         );
     }
 
@@ -105,25 +106,21 @@ public sealed record StructureDeclarationAst : MofProductionAst, IStructureFeatu
     public QualifierListAst QualifierList
     {
         get;
-        private init;
     }
 
     public IdentifierToken StructureName
     {
         get;
-        private init;
     }
 
     public IdentifierToken? SuperStructure
     {
         get;
-        private init;
     }
 
     public ReadOnlyCollection<IStructureFeatureAst> StructureFeatures
     {
         get;
-        private init;
     }
 
     #endregion

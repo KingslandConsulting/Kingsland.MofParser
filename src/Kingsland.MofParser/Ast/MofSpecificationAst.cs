@@ -57,7 +57,8 @@ public sealed record MofSpecificationAst : AstNode
     )
     {
         this.Productions = new ReadOnlyCollection<MofProductionAst>(
-            productions.ToList()
+            (productions ?? throw new ArgumentNullException(nameof(productions)))
+                .ToList()
         );
     }
 
@@ -68,7 +69,6 @@ public sealed record MofSpecificationAst : AstNode
     public ReadOnlyCollection<MofProductionAst> Productions
     {
         get;
-        private init;
     }
 
     #endregion

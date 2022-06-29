@@ -62,7 +62,7 @@ public sealed record EnumValueAst : EnumTypeValueAst
     )
     {
         this.EnumName = enumName;
-        this.EnumLiteral = enumLiteral;
+        this.EnumLiteral = enumLiteral ?? throw new ArgumentNullException(nameof(enumLiteral)); ;
     }
 
     #endregion
@@ -72,13 +72,11 @@ public sealed record EnumValueAst : EnumTypeValueAst
     public IdentifierToken? EnumName
     {
         get;
-        private init;
     }
 
     public IdentifierToken EnumLiteral
     {
         get;
-        private init;
     }
 
     #endregion

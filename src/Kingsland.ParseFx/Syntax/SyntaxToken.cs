@@ -19,7 +19,6 @@ public abstract record SyntaxToken
     public SourceExtent Extent
     {
         get;
-        private init;
     }
 
     public string Text

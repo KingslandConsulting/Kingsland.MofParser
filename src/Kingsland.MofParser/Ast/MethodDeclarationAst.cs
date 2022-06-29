@@ -113,13 +113,14 @@ public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
         IEnumerable<ParameterDeclarationAst> parameters
     )
     {
-        this.QualifierList = qualifierList;
-        this.ReturnType = returnType;
+        this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
+        this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
         this.ReturnTypeRef = returnTypeRef;
         this.ReturnTypeIsArray = returnTypeIsArray;
-        this.Name = methodName;
+        this.Name = methodName ?? throw new ArgumentNullException(nameof(methodName));
         this.Parameters = new ReadOnlyCollection<ParameterDeclarationAst>(
-            parameters.ToList()
+            (parameters ?? throw new ArgumentNullException(nameof(parameters)))
+                .ToList()
         );
     }
 
@@ -130,13 +131,11 @@ public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
     public QualifierListAst QualifierList
     {
         get;
-        private init;
     }
 
     public IdentifierToken ReturnType
     {
         get;
-        private init;
     }
 
     public bool ReturnTypeIsRef
@@ -150,25 +149,21 @@ public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
     public IdentifierToken? ReturnTypeRef
     {
         get;
-        private init;
     }
 
     public bool ReturnTypeIsArray
     {
         get;
-        private init;
     }
 
     public IdentifierToken Name
     {
         get;
-        private init;
     }
 
     public ReadOnlyCollection<ParameterDeclarationAst> Parameters
     {
         get;
-        private init;
     }
 
     #endregion

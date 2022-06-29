@@ -56,10 +56,11 @@ public sealed record Instance
 
     internal Instance(string typeName, string alias, IEnumerable<Property> properties)
     {
-        this.TypeName = typeName;
-        this.Alias = alias;
+        this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
+        this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));
         this.Properties = new ReadOnlyCollection<Property>(
-            properties.ToList()
+            (properties ?? throw new ArgumentNullException(nameof(properties)))
+                .ToList()
         );
     }
 
@@ -70,19 +71,16 @@ public sealed record Instance
     public string TypeName
     {
         get;
-        private init;
     }
 
     public string Alias
     {
         get;
-        private init;
     }
 
     public ReadOnlyCollection<Property> Properties
     {
         get;
-        private init;
     }
 
     #endregion

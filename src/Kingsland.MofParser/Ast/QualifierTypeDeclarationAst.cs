@@ -114,7 +114,7 @@ public sealed record QualifierTypeDeclarationAst : MofProductionAst
     #region Constructors
 
     internal QualifierTypeDeclarationAst(
-        QualifierListAst? qualifierList,
+        QualifierListAst qualifierList,
         IdentifierToken qualifierKeyword,
         IdentifierToken qualifierName,
         IdentifierToken qualifierType,
@@ -123,14 +123,15 @@ public sealed record QualifierTypeDeclarationAst : MofProductionAst
         IEnumerable<string> flavors
     )
     {
-        this.QualifierList = qualifierList ?? new QualifierListAst();
-        this.QualifierKeyword = qualifierKeyword;
-        this.QualifierName = qualifierName;
-        this.QualifierType = qualifierType;
-        this.QualifierScope = qualifierScope;
-        this.QualifierPolicy = qualifierPolicy;
+        this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
+        this.QualifierKeyword = qualifierKeyword ?? throw new ArgumentNullException(nameof(qualifierKeyword));
+        this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
+        this.QualifierType = qualifierType ?? throw new ArgumentNullException(nameof(qualifierType));
+        this.QualifierScope = qualifierScope ?? throw new ArgumentNullException(nameof(qualifierScope));
+        this.QualifierPolicy = qualifierPolicy ?? throw new ArgumentNullException(nameof(qualifierPolicy));
         this.Flavors = new ReadOnlyCollection<string>(
-            flavors.ToList()
+            (flavors ?? throw new ArgumentNullException(nameof(flavors)))
+                .ToList()
         );
     }
 
@@ -141,43 +142,36 @@ public sealed record QualifierTypeDeclarationAst : MofProductionAst
     public QualifierListAst QualifierList
     {
         get;
-        private init;
     }
 
     public IdentifierToken QualifierKeyword
     {
         get;
-        private init;
     }
 
     public IdentifierToken QualifierName
     {
         get;
-        private init;
     }
 
     public IdentifierToken QualifierType
     {
         get;
-        private init;
     }
 
     public IdentifierToken QualifierScope
     {
         get;
-        private init;
     }
 
     public IdentifierToken QualifierPolicy
     {
         get;
-        private init;
     }
 
     public ReadOnlyCollection<string> Flavors
     {
         get;
-        private init;
     }
 
     #endregion
