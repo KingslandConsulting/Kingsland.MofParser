@@ -8,7 +8,8 @@ internal static class StringExtensions
     /// Similar to the Kotlin trimIndent function.
     /// Removes a common leading indent from the input text
     /// </summary>
-    /// <param name="text"></param>
+    /// <param name="source"></param>
+    /// <param name="newline"></param>
     /// <returns></returns>
     /// <remarks>
     /// See https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/trim-indent.html
@@ -27,7 +28,7 @@ internal static class StringExtensions
             // there are no non-whitespace characters in the string.
             // this includes where a string contains *only* whitespace.
             return -1;
-        };
+        }
         // based on:
         //   + https://stackoverflow.com/a/36572281/3156906
         //   + https://stackoverflow.com/a/47459643/3156906

@@ -22,13 +22,11 @@ public sealed class SourceChar
     public SourcePosition Position
     {
         get;
-        private set;
     }
 
     public char Value
     {
         get;
-        private set;
     }
 
     #endregion

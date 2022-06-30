@@ -111,7 +111,7 @@ internal sealed class StringValidator
 
     public static bool IsBinaryDigit(char value)
     {
-        return (value >= '0') && (value <= '1');
+        return value is >= '0' and <= '1';
     }
 
     #endregion
@@ -120,7 +120,7 @@ internal sealed class StringValidator
 
     public static bool IsOctalDigit(char value)
     {
-        return (value >= '0') && (value <= '7');
+        return value is >= '0' and <= '7';
     }
 
     #endregion
@@ -130,8 +130,8 @@ internal sealed class StringValidator
     public static bool IsHexDigit(char value)
     {
         return StringValidator.IsDecimalDigit(value) ||
-               ((value >= 'a') && (value <= 'f')) ||
-               ((value >= 'A') && (value <= 'F'));
+               (value is >= 'a' and <= 'f') ||
+               (value is >= 'A' and <= 'F');
     }
 
     #endregion
@@ -140,14 +140,18 @@ internal sealed class StringValidator
 
     public static bool IsDecimalValue(string value)
     {
-        if (string.IsNullOrEmpty(value)) { return false; }
-        var chars = value.AsEnumerable();
-        if (new[] { '+', '-' }.Contains(chars.First()))
+        if (string.IsNullOrEmpty(value))
         {
-            chars = chars.Skip(1);
+            return false; 
         }
-        return StringValidator.IsPositiveDecimalDigit(chars.First()) &&
-               chars.Skip(1).All(StringValidator.IsDecimalDigit);
+        var chars = value[0] switch
+        {
+            '+' or '-' => value[1..],
+            _ => value
+
+        };
+        return StringValidator.IsPositiveDecimalDigit(chars[0]) &&
+               chars[1..].All(StringValidator.IsDecimalDigit);
     }
 
     #endregion
@@ -183,7 +187,7 @@ internal sealed class StringValidator
 
     public static bool IsPositiveDecimalDigit(char value)
     {
-        return (value >= '1') && (value <= '9');
+        return value is >= '1' and <= '9';
     }
 
     #endregion
@@ -225,7 +229,7 @@ internal sealed class StringValidator
 
     public static bool IsUpperAlpha(char @char)
     {
-        return (@char >= '\u0041') && (@char <= '\u005A');
+        return @char is >= '\u0041' and <= '\u005A';
     }
 
     #endregion
@@ -234,7 +238,7 @@ internal sealed class StringValidator
 
     public static bool IsLowerAlpha(char @char)
     {
-        return (@char >= '\u0061') && (@char <= '\u007A');
+        return @char is >= '\u0061' and <= '\u007A';
     }
 
     #endregion

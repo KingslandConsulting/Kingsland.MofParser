@@ -37,6 +37,7 @@ namespace Kingsland.MofParser.Ast;
 ///     DT_REFERENCE                 = className REF
 ///     REF                          = "ref" ; keyword: case insensitive
 ///
+/// </remarks>
 public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
 {
 

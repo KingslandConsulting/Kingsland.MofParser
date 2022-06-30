@@ -63,7 +63,7 @@ public sealed class LexerAssert
         if (expectedToken.GetType() != actualToken.GetType())
         {
             LexerAssert.Fail(
-                $"Actual token type does not match expected token type",
+                 "Actual token type does not match expected token type",
                 $"{expectedToken.GetType().Name} (\"{LexerAssert.EscapeString(expectedToken.GetSourceString())}\")",
                 $"{actualToken.GetType().Name} (\"{LexerAssert.EscapeString(actualToken.GetSourceString())}\")",
                 index
@@ -72,63 +72,63 @@ public sealed class LexerAssert
         if (!ignoreExtent)
         {
             Assert.AreEqual(expectedToken.Extent.StartPosition.Position, actualToken.Extent.StartPosition.Position,
-                LexerAssert.GetFailMessage($"actual Start Position does not match expected value", index));
+                LexerAssert.GetFailMessage("actual Start Position does not match expected value", index));
             Assert.AreEqual(expectedToken.Extent.StartPosition.LineNumber, actualToken.Extent.StartPosition.LineNumber,
-                LexerAssert.GetFailMessage($"actual Start Line does not match expected value", index));
+                LexerAssert.GetFailMessage("actual Start Line does not match expected value", index));
             Assert.AreEqual(expectedToken.Extent.StartPosition.ColumnNumber, actualToken.Extent.StartPosition.ColumnNumber,
-                LexerAssert.GetFailMessage($"actual Start Column does not match expected value", index));
+                LexerAssert.GetFailMessage("actual Start Column does not match expected value", index));
             Assert.AreEqual(expectedToken.Extent.EndPosition.Position, actualToken.Extent.EndPosition.Position,
-                LexerAssert.GetFailMessage($"actual End Position does not match expected value", index));
+                LexerAssert.GetFailMessage("actual End Position does not match expected value", index));
             Assert.AreEqual(expectedToken.Extent.EndPosition.LineNumber, actualToken.Extent.EndPosition.LineNumber,
-                LexerAssert.GetFailMessage($"actual End Line does not match expected value", index));
+                LexerAssert.GetFailMessage("actual End Line does not match expected value", index));
             Assert.AreEqual(expectedToken.Extent.EndPosition.ColumnNumber, actualToken.Extent.EndPosition.ColumnNumber,
-                LexerAssert.GetFailMessage($"actual End Column does not match expected value", index));
+                LexerAssert.GetFailMessage("actual End Column does not match expected value", index));
             Assert.AreEqual(expectedToken.Extent.Text, actualToken.Extent.Text,
-                LexerAssert.GetFailMessage($"actual Text does not match expected value", index));
+                LexerAssert.GetFailMessage("actual Text does not match expected value", index));
         }
         var tokensEqual = expectedToken switch
         {
-            AliasIdentifierToken _ =>
+            AliasIdentifierToken =>
                 TokenCompare.AreEqual((AliasIdentifierToken)expectedToken, (AliasIdentifierToken)actualToken, ignoreExtent),
-            AttributeCloseToken _ =>
+            AttributeCloseToken =>
                 TokenCompare.AreEqual((AttributeCloseToken)expectedToken, (AttributeCloseToken)actualToken, ignoreExtent),
-            AttributeOpenToken _ =>
+            AttributeOpenToken =>
                 TokenCompare.AreEqual((AttributeOpenToken)expectedToken, (AttributeOpenToken)actualToken, ignoreExtent),
-            BlockCloseToken _ =>
+            BlockCloseToken =>
                 TokenCompare.AreEqual((BlockCloseToken)expectedToken, (BlockCloseToken)actualToken, ignoreExtent),
-            BlockOpenToken _ =>
+            BlockOpenToken =>
                 TokenCompare.AreEqual((BlockOpenToken)expectedToken, (BlockOpenToken)actualToken, ignoreExtent),
-            BooleanLiteralToken _ =>
+            BooleanLiteralToken =>
                 TokenCompare.AreEqual((BooleanLiteralToken)expectedToken, (BooleanLiteralToken)actualToken, ignoreExtent),
-            ColonToken _ =>
+            ColonToken =>
                 TokenCompare.AreEqual((ColonToken)expectedToken, (ColonToken)actualToken, ignoreExtent),
-            CommaToken _ =>
+            CommaToken =>
                 TokenCompare.AreEqual((CommaToken)expectedToken, (CommaToken)actualToken, ignoreExtent),
-            CommentToken _ =>
+            CommentToken =>
                 TokenCompare.AreEqual((CommentToken)expectedToken, (CommentToken)actualToken, ignoreExtent),
-            DotOperatorToken _ =>
+            DotOperatorToken =>
                 TokenCompare.AreEqual((DotOperatorToken)expectedToken, (DotOperatorToken)actualToken, ignoreExtent),
-            EqualsOperatorToken _ =>
+            EqualsOperatorToken =>
                 TokenCompare.AreEqual((EqualsOperatorToken)expectedToken, (EqualsOperatorToken)actualToken, ignoreExtent),
-            IdentifierToken _ =>
+            IdentifierToken =>
                 TokenCompare.AreEqual((IdentifierToken)expectedToken, (IdentifierToken)actualToken, ignoreExtent),
-            IntegerLiteralToken _ =>
+            IntegerLiteralToken =>
                 TokenCompare.AreEqual((IntegerLiteralToken)expectedToken, (IntegerLiteralToken)actualToken, ignoreExtent),
-            NullLiteralToken _ =>
+            NullLiteralToken =>
                 TokenCompare.AreEqual((NullLiteralToken)expectedToken, (NullLiteralToken)actualToken, ignoreExtent),
-            ParenthesisCloseToken _ =>
+            ParenthesisCloseToken =>
                 TokenCompare.AreEqual((ParenthesisCloseToken)expectedToken, (ParenthesisCloseToken)actualToken, ignoreExtent),
-            ParenthesisOpenToken _ =>
+            ParenthesisOpenToken =>
                 TokenCompare.AreEqual((ParenthesisOpenToken)expectedToken, (ParenthesisOpenToken)actualToken, ignoreExtent),
-            PragmaToken _ =>
+            PragmaToken =>
                 TokenCompare.AreEqual((PragmaToken)expectedToken, (PragmaToken)actualToken, ignoreExtent),
-            RealLiteralToken _ =>
+            RealLiteralToken =>
                 TokenCompare.AreEqual((RealLiteralToken)expectedToken, (RealLiteralToken)actualToken, ignoreExtent),
-            StatementEndToken _ =>
+            StatementEndToken =>
                 TokenCompare.AreEqual((StatementEndToken)expectedToken, (StatementEndToken)actualToken, ignoreExtent),
-            StringLiteralToken _ =>
+            StringLiteralToken =>
                 TokenCompare.AreEqual((StringLiteralToken)expectedToken, (StringLiteralToken)actualToken, ignoreExtent),
-            WhitespaceToken _ =>
+            WhitespaceToken =>
                 TokenCompare.AreEqual((WhitespaceToken)expectedToken, (WhitespaceToken)actualToken, ignoreExtent),
             _ =>
                 throw new NotImplementedException($"Cannot compare type '{expectedToken.GetType().Name}'")

@@ -50,7 +50,7 @@ public sealed record StringLiteralToken : SyntaxToken
 
     #region Helpers
 
-    private readonly static Dictionary<char, string> EscapeMap = new()
+    private static readonly Dictionary<char, string> EscapeMap = new()
         {
             { '\\', $"{Constants.BACKSLASH}{Constants.BACKSLASH}" },
             { '\"', $"{Constants.BACKSLASH}{Constants.DOUBLEQUOTE}" },
@@ -83,7 +83,7 @@ public sealed record StringLiteralToken : SyntaxToken
             }
             else
             {
-                throw new InvalidOperationException(new string(new char[] { @char }));
+                throw new InvalidOperationException(new string(new [] { @char }));
             }
         }
         return escapedString.ToString();

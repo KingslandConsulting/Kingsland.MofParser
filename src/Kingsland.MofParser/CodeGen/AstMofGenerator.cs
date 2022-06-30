@@ -221,14 +221,14 @@ public sealed class AstMofGenerator
                 )
             );
         }
-        ///
-        /// 7.4 Qualifiers
-        ///
-        /// NOTE A MOF v2 qualifier declaration has to be converted to MOF v3 qualifierTypeDeclaration because the
-        /// MOF v2 qualifier flavor has been replaced by the MOF v3 qualifierPolicy.
-        ///
-        /// These aren't part of the MOF 3.0.1 spec, but we'll include them anyway for backward compatibility.
-        ///
+        //
+        // 7.4 Qualifiers
+        //
+        // NOTE A MOF v2 qualifier declaration has to be converted to MOF v3 qualifierTypeDeclaration because the
+        // MOF v2 qualifier flavor has been replaced by the MOF v3 qualifierPolicy.
+        //
+        // These aren't part of the MOF 3.0.1 spec, but we'll include them anyway for backward compatibility.
+        //
         if (node.Flavors.Any())
         {
             source.Append(": ");

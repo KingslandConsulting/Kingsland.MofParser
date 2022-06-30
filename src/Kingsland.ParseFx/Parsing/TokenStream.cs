@@ -237,7 +237,7 @@ public sealed class TokenStream
             }
             result.Append(this.Source[i]);
         }
-        return string.Format("Current = '{0}'", result.ToString());
+        return $"Current = '{result}'";
     }
 
     #endregion

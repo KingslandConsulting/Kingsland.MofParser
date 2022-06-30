@@ -37,7 +37,8 @@ jobs:
         dotnet tool restore
         dotnet jb inspectcode src/Kingsland.MofParser.sln --output="./jb-inspectcode.xml" --no-build
 
-    - uses: actions/upload-artifact@v3
+    - name: upload jb-inspectcode.xml
+      uses: actions/upload-artifact@v3
       with:
         name: jb-inspectcode.xml
         path: ./jb-inspectcode.xml

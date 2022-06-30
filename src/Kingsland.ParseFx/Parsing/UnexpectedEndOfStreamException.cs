@@ -5,7 +5,7 @@ public sealed class UnexpectedEndOfStreamException : Exception
 
     #region Constructors
 
-    public UnexpectedEndOfStreamException()
+    internal UnexpectedEndOfStreamException()
     {
     }
 

@@ -169,7 +169,7 @@ public static class Lexer
     /// <summary>
     ///
     /// </summary>
-    /// <param name="stream"></param>
+    /// <param name="reader"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -215,7 +215,7 @@ public static class Lexer
     /// <summary>
     ///
     /// </summary>
-    /// <param name="stream"></param>
+    /// <param name="reader"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -260,7 +260,7 @@ public static class Lexer
                 {
                     (sourceChar, thisReader) = thisReader.Read();
                     sourceChars.Add(sourceChar);
-                };
+                }
                 break;
             case '*': // multi-line
                 (sourceChar, thisReader) = thisReader.Read('*');
@@ -293,7 +293,7 @@ public static class Lexer
 
     /// <summary>
     /// </summary>
-    /// <param name="stream"></param>
+    /// <param name="reader"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -336,7 +336,7 @@ public static class Lexer
     /// <summary>
     ///
     /// </summary>
-    /// <param name="stream"></param>
+    /// <param name="reader"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -385,7 +385,7 @@ public static class Lexer
     /// <summary>
     ///
     /// </summary>
-    /// <param name="stream"></param>
+    /// <param name="reader"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -439,7 +439,7 @@ public static class Lexer
     /// <summary>
     ///
     /// </summary>
-    /// <param name="stream"></param>
+    /// <param name="reader"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -817,7 +817,7 @@ public static class Lexer
 
     /// <summary>
     /// </summary>
-    /// <param name="stream"></param>
+    /// <param name="reader"></param>
     /// <returns></returns>
     /// <remarks>
     ///

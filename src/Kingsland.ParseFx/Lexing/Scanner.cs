@@ -27,13 +27,11 @@ public sealed class Scanner
     public IMatch Match
     {
         get;
-        private set;
     }
 
     public ScannerAction Action
     {
         get;
-        private set;
     }
 
     #endregion

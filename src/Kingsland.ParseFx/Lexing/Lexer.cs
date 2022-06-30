@@ -32,7 +32,6 @@ public sealed class Lexer
     public ReadOnlyCollection<Scanner> Scanners
     {
         get;
-        private set;
     }
 
     private Dictionary<char, Scanner> ScannerCache

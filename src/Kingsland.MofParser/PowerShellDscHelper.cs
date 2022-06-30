@@ -25,11 +25,11 @@ public static class PowerShellDscHelper
         var ast = Parser.Parse(tokens);
 
         // scan the ast for any "instance" definitions and convert them
-        var instances = ((MofSpecificationAst)ast).Productions
-                                                  .Where(p => (p is InstanceValueDeclarationAst))
-                                                  .Cast<InstanceValueDeclarationAst>()
-                                                  .Select(Instance.FromAstNode)
-                                                  .ToList();
+        var instances = ast.Productions
+            .Where(p => p is InstanceValueDeclarationAst)
+            .Cast<InstanceValueDeclarationAst>()
+            .Select(Instance.FromAstNode)
+            .ToList();
 
         // return the result
         return instances.ToList();

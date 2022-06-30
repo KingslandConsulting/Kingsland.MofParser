@@ -32,19 +32,16 @@ public sealed class SourceExtent
     public SourcePosition StartPosition
     {
         get;
-        private set;
     }
 
     public SourcePosition EndPosition
     {
         get;
-        private set;
     }
 
     public string Text
     {
         get;
-        private set;
     }
 
     #endregion

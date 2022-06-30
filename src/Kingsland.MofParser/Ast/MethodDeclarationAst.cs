@@ -32,6 +32,7 @@ namespace Kingsland.MofParser.Ast;
 ///
 ///    array             = "[" "]"
 ///
+/// </remarks>
 public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
 {
 

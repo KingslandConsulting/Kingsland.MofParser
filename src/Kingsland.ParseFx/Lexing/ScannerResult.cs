@@ -21,13 +21,11 @@ public sealed class ScannerResult
     public SyntaxToken Token
     {
         get;
-        private set;
     }
 
     public SourceReader NextReader
     {
         get;
-        private set;
     }
 
     #endregion

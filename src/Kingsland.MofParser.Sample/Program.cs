@@ -25,15 +25,15 @@ class Program
         // display the instances
         foreach (var instance in module.Instances)
         {
-            Console.WriteLine($"----------------------------------");
+            Console.WriteLine("----------------------------------");
             Console.WriteLine($"typename = {instance.TypeName}");
             Console.WriteLine($"alias    = {instance.Alias}");
-            Console.WriteLine($"properties:");
+            Console.WriteLine("properties:");
             foreach (var property in instance.Properties)
             {
                 Console.WriteLine("    {0} = {1}", property.Name.PadRight(13), property.Value);
             }
-            Console.WriteLine($"----------------------------------");
+            Console.WriteLine("----------------------------------");
         }
 
         // ----------------------------------

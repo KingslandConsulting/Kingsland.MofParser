@@ -20,13 +20,11 @@ public sealed class SourceStream
     private TextReader BaseReader
     {
         get;
-        set;
     }
 
     private List<SourceChar> Buffer
     {
         get;
-        set;
     }
 
     #endregion
@@ -47,7 +45,7 @@ public sealed class SourceStream
         if (!this.PopulateBufferToPosition(index))
         {
             throw new UnexpectedEndOfStreamException();
-        };
+        }
         return this.Buffer[index];
     }
 

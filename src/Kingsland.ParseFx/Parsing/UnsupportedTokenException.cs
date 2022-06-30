@@ -23,7 +23,6 @@ public sealed class UnsupportedTokenException : Exception
     public SyntaxToken? FoundToken
     {
         get;
-        private set;
     }
 
     public override string Message

@@ -13,6 +13,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -38,6 +39,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -174,6 +176,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -232,6 +235,8 @@ internal sealed class ParserEngine
     ///
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="qualifierList"></param>
+    /// <param name="quirks"></param>
     /// <returns>
     ///
     /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
@@ -293,6 +298,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -334,6 +340,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -400,6 +407,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -480,7 +488,8 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
-    /// <param name="qualifiers"></param>
+    /// <param name="qualifierList"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -555,6 +564,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -639,6 +649,9 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param> 
+    /// <param name="qualifierList"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -710,6 +723,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -776,6 +791,9 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="qualifierList"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -848,6 +866,9 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="qualifierList"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -969,6 +990,10 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="isIntegerEnum"></param>
+    /// <param name="isStringEnum"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1038,6 +1063,9 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="qualifierList"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1058,6 +1086,11 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="qualifierList"></param>
+    /// <param name="allowPropertyDeclaration"></param>
+    /// <param name="allowMethodDeclaration"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1299,6 +1332,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1397,6 +1431,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1423,6 +1459,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1469,6 +1507,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1522,6 +1562,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1579,6 +1621,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1684,6 +1728,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1749,6 +1794,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1798,6 +1844,7 @@ internal sealed class ParserEngine
     ///
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1822,6 +1869,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1850,6 +1898,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1894,6 +1943,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1921,6 +1971,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1949,6 +2000,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -2004,6 +2056,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -2065,6 +2118,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -2091,6 +2145,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -2158,6 +2214,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -2239,6 +2297,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <remarks>
     ///
     /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
@@ -2264,6 +2324,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <remarks>
     ///
     /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
@@ -2294,6 +2356,8 @@ internal sealed class ParserEngine
 
     /// <summary>
     /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <remarks>
     ///
     /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf

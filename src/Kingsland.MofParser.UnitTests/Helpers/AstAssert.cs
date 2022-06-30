@@ -43,23 +43,23 @@ internal static class AstAssert
             Assert.IsInstanceOf(expected.GetType(), actual);
             switch (expected)
             {
-                case CompilerDirectiveAst _:
+                case CompilerDirectiveAst:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
-                case StructureDeclarationAst _:
+                case StructureDeclarationAst:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
-                case ClassDeclarationAst _:
+                case ClassDeclarationAst:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
-                case AssociationDeclarationAst _:
+                case AssociationDeclarationAst:
                     AstAssert.AreEqual((AssociationDeclarationAst)expected, (AssociationDeclarationAst)actual, ignoreExtent);
                     return;
-                case EnumerationDeclarationAst _:
+                case EnumerationDeclarationAst:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
-                case InstanceValueDeclarationAst _:
+                case InstanceValueDeclarationAst:
                     AstAssert.AreEqual((InstanceValueDeclarationAst)expected, (InstanceValueDeclarationAst)actual, ignoreExtent);
                     return;
-                case StructureValueDeclarationAst _:
+                case StructureValueDeclarationAst:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
-                case QualifierTypeDeclarationAst _:
+                case QualifierTypeDeclarationAst:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
                 default:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
@@ -141,18 +141,18 @@ internal static class AstAssert
             Assert.IsInstanceOf(expected.GetType(), actual);
             switch (expected)
             {
-                case StructureDeclarationAst _:
+                case StructureDeclarationAst:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
                     //AstAssert.AreEqual((AssociationDeclarationAst)expected, (AssociationDeclarationAst)actual, ignoreExtent);
                     //return;
-                case EnumerationDeclarationAst _:
+                case EnumerationDeclarationAst:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
                 //AstAssert.AreEqual((AssociationDeclarationAst)expected, (AssociationDeclarationAst)actual, ignoreExtent);
                 //return;
-                case PropertyDeclarationAst _:
+                case PropertyDeclarationAst:
                     AstAssert.AreEqual((PropertyDeclarationAst)expected, (PropertyDeclarationAst)actual, ignoreExtent);
                     return;
-                case MethodDeclarationAst _:
+                case MethodDeclarationAst:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
                 //AstAssert.AreEqual((AssociationDeclarationAst)expected, (AssociationDeclarationAst)actual, ignoreExtent);
                 //return;
@@ -242,10 +242,10 @@ internal static class AstAssert
             Assert.IsInstanceOf(expected.GetType(), actual);
             switch (expected)
             {
-                case BooleanValueAst _:
+                case BooleanValueAst:
                     AstAssert.AreEqual((BooleanValueAst)expected, (BooleanValueAst)actual, ignoreExtent);
                     return;
-                case StringValueAst _:
+                case StringValueAst:
                     AstAssert.AreEqual((StringValueAst)expected, (StringValueAst)actual, ignoreExtent);
                     return;
                 default:

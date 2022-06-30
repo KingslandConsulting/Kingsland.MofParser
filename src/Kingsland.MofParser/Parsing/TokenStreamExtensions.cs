@@ -10,7 +10,7 @@ internal static class TokenStreamExtensions
 
     public static bool TryPeekIdentifierToken(this TokenStream stream, string name, out IdentifierToken? result)
     {
-        return stream.TryPeek<IdentifierToken>(
+        return stream.TryPeek(
             t => t.IsKeyword(name),
             out result
         );
