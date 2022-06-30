@@ -1,9 +1,7 @@
 ﻿using Kingsland.MofParser.Ast;
-using Kingsland.MofParser.UnitTests.Tokens;
 using NUnit.Framework;
-using System;
 
-namespace Kingsland.MofParser.UnitTests.Ast;
+namespace Kingsland.MofParser.UnitTests.Helpers;
 
 internal static class AstAssert
 {
@@ -284,7 +282,14 @@ internal static class AstAssert
         }
         else
         {
-            Assert.AreEqual(expected.Value, actual.Value);
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(expected.StringLiteralValues.Count, actual.StringLiteralValues.Count, "expected and actual are different lengths");
+                for (var i = 0; i < Math.Min(expected.StringLiteralValues.Count, actual.StringLiteralValues.Count); i++)
+                {
+                    TokenAssert.AreEqual(expected.StringLiteralValues[i], actual.StringLiteralValues[i], ignoreExtent);
+                }
+            });
         }
     }
 

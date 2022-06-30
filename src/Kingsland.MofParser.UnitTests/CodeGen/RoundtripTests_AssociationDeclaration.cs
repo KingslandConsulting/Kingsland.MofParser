@@ -111,12 +111,12 @@ public static partial class RoundtripTests
                         ClassFeatures = new List<IClassFeatureAst> {
                             new PropertyDeclarationAst.Builder {
                                 ReturnType = new IdentifierToken("GOLF_ClubMember"),
-                                ReturnTypeRef = new IdentifierToken(Constants.REF),
+                                ReturnTypeRef = new IdentifierToken("REF"),
                                 PropertyName = new IdentifierToken("Member"),
                             }.Build(),
                             new PropertyDeclarationAst.Builder {
                                 ReturnType = new IdentifierToken("GOLF_Locker"),
-                                ReturnTypeRef = new IdentifierToken(Constants.REF),
+                                ReturnTypeRef = new IdentifierToken("REF"),
                                 PropertyName = new IdentifierToken("Locker"),
                             }.Build(),
                             new PropertyDeclarationAst.Builder {
@@ -186,12 +186,12 @@ public static partial class RoundtripTests
                         ClassFeatures = new List<IClassFeatureAst> {
                             new PropertyDeclarationAst.Builder {
                                 ReturnType = new IdentifierToken("GOLF_ClubMember"),
-                                ReturnTypeRef = new IdentifierToken(Constants.REF),
+                                ReturnTypeRef = new IdentifierToken("REF"),
                                 PropertyName = new IdentifierToken("Member"),
                             }.Build(),
                             new PropertyDeclarationAst.Builder {
                                 ReturnType = new IdentifierToken("GOLF_Locker"),
-                                ReturnTypeRef = new IdentifierToken(Constants.REF),
+                                ReturnTypeRef = new IdentifierToken("REF"),
                                 PropertyName = new IdentifierToken("Locker"),
                             }.Build(),
                             new PropertyDeclarationAst.Builder {

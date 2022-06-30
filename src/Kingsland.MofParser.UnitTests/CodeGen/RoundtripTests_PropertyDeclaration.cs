@@ -31,9 +31,8 @@ public static partial class RoundtripTests
                .WhitespaceToken(newline)
                // {
                .BlockOpenToken()
-               .WhitespaceToken(newline)
+               .WhitespaceToken(newline + indent)
                //     Integer Severity;
-               .WhitespaceToken($"{indent}")
                .IdentifierToken("Integer")
                .WhitespaceToken(" ")
                .IdentifierToken("Severity")
@@ -65,7 +64,7 @@ public static partial class RoundtripTests
                .WhitespaceToken(newline)
                // {
                .BlockOpenToken()
-                .WhitespaceToken(newline + indent)
+               .WhitespaceToken(newline + indent)
                //     Integer Severity[];
                .IdentifierToken("Integer")
                .WhitespaceToken(" ")

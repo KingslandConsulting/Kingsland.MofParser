@@ -1,11 +1,10 @@
 ﻿using Kingsland.MofParser.Tokens;
-using Kingsland.MofParser.UnitTests.Tokens;
 using Kingsland.ParseFx.Syntax;
 using NUnit.Framework;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Kingsland.MofParser.UnitTests.Lexing;
+namespace Kingsland.MofParser.UnitTests.Helpers;
 
 public sealed class LexerAssert
 {
@@ -33,11 +32,14 @@ public sealed class LexerAssert
             // nullable workaround until Assert.Fail gets annotated with [DoesNotReturn]
             throw new InvalidOperationException();
         }
-        for (var i = 0; i < Math.Min(expectedTokens.Count, actualTokens.Count); i++)
+        Assert.Multiple(() =>
         {
-            LexerAssert.AreEqualInternal(expectedTokens[i], actualTokens[i], ignoreExtent, i);
-        }
-        Assert.AreEqual(expectedTokens.Count, actualTokens.Count, "expected and actual are different lengths");
+            Assert.AreEqual(expectedTokens.Count, actualTokens.Count, "expected and actual are different lengths");
+            for (var i = 0; i < Math.Min(expectedTokens.Count, actualTokens.Count); i++)
+            {
+                LexerAssert.AreEqualInternal(expectedTokens[i], actualTokens[i], ignoreExtent, i);
+            }
+        });
     }
 
     private static void AreEqualInternal(SyntaxToken? expectedToken, SyntaxToken? actualToken, bool ignoreExtent, int index = -1)
@@ -87,47 +89,47 @@ public sealed class LexerAssert
         var tokensEqual = expectedToken switch
         {
             AliasIdentifierToken _ =>
-                TokenAssert.AreEqual((AliasIdentifierToken)expectedToken, (AliasIdentifierToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((AliasIdentifierToken)expectedToken, (AliasIdentifierToken)actualToken, ignoreExtent),
             AttributeCloseToken _ =>
-                TokenAssert.AreEqual((AttributeCloseToken)expectedToken, (AttributeCloseToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((AttributeCloseToken)expectedToken, (AttributeCloseToken)actualToken, ignoreExtent),
             AttributeOpenToken _ =>
-                TokenAssert.AreEqual((AttributeOpenToken)expectedToken, (AttributeOpenToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((AttributeOpenToken)expectedToken, (AttributeOpenToken)actualToken, ignoreExtent),
             BlockCloseToken _ =>
-                TokenAssert.AreEqual((BlockCloseToken)expectedToken, (BlockCloseToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((BlockCloseToken)expectedToken, (BlockCloseToken)actualToken, ignoreExtent),
             BlockOpenToken _ =>
-                TokenAssert.AreEqual((BlockOpenToken)expectedToken, (BlockOpenToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((BlockOpenToken)expectedToken, (BlockOpenToken)actualToken, ignoreExtent),
             BooleanLiteralToken _ =>
-                TokenAssert.AreEqual((BooleanLiteralToken)expectedToken, (BooleanLiteralToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((BooleanLiteralToken)expectedToken, (BooleanLiteralToken)actualToken, ignoreExtent),
             ColonToken _ =>
-                TokenAssert.AreEqual((ColonToken)expectedToken, (ColonToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((ColonToken)expectedToken, (ColonToken)actualToken, ignoreExtent),
             CommaToken _ =>
-                TokenAssert.AreEqual((CommaToken)expectedToken, (CommaToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((CommaToken)expectedToken, (CommaToken)actualToken, ignoreExtent),
             CommentToken _ =>
-                TokenAssert.AreEqual((CommentToken)expectedToken, (CommentToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((CommentToken)expectedToken, (CommentToken)actualToken, ignoreExtent),
             DotOperatorToken _ =>
-                TokenAssert.AreEqual((DotOperatorToken)expectedToken, (DotOperatorToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((DotOperatorToken)expectedToken, (DotOperatorToken)actualToken, ignoreExtent),
             EqualsOperatorToken _ =>
-                TokenAssert.AreEqual((EqualsOperatorToken)expectedToken, (EqualsOperatorToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((EqualsOperatorToken)expectedToken, (EqualsOperatorToken)actualToken, ignoreExtent),
             IdentifierToken _ =>
-                TokenAssert.AreEqual((IdentifierToken)expectedToken, (IdentifierToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((IdentifierToken)expectedToken, (IdentifierToken)actualToken, ignoreExtent),
             IntegerLiteralToken _ =>
-                TokenAssert.AreEqual((IntegerLiteralToken)expectedToken, (IntegerLiteralToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((IntegerLiteralToken)expectedToken, (IntegerLiteralToken)actualToken, ignoreExtent),
             NullLiteralToken _ =>
-                TokenAssert.AreEqual((NullLiteralToken)expectedToken, (NullLiteralToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((NullLiteralToken)expectedToken, (NullLiteralToken)actualToken, ignoreExtent),
             ParenthesisCloseToken _ =>
-                TokenAssert.AreEqual((ParenthesisCloseToken)expectedToken, (ParenthesisCloseToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((ParenthesisCloseToken)expectedToken, (ParenthesisCloseToken)actualToken, ignoreExtent),
             ParenthesisOpenToken _ =>
-                TokenAssert.AreEqual((ParenthesisOpenToken)expectedToken, (ParenthesisOpenToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((ParenthesisOpenToken)expectedToken, (ParenthesisOpenToken)actualToken, ignoreExtent),
             PragmaToken _ =>
-                TokenAssert.AreEqual((PragmaToken)expectedToken, (PragmaToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((PragmaToken)expectedToken, (PragmaToken)actualToken, ignoreExtent),
             RealLiteralToken _ =>
-                TokenAssert.AreEqual((RealLiteralToken)expectedToken, (RealLiteralToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((RealLiteralToken)expectedToken, (RealLiteralToken)actualToken, ignoreExtent),
             StatementEndToken _ =>
-                TokenAssert.AreEqual((StatementEndToken)expectedToken, (StatementEndToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((StatementEndToken)expectedToken, (StatementEndToken)actualToken, ignoreExtent),
             StringLiteralToken _ =>
-                TokenAssert.AreEqual((StringLiteralToken)expectedToken, (StringLiteralToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((StringLiteralToken)expectedToken, (StringLiteralToken)actualToken, ignoreExtent),
             WhitespaceToken _ =>
-                TokenAssert.AreEqual((WhitespaceToken)expectedToken, (WhitespaceToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual((WhitespaceToken)expectedToken, (WhitespaceToken)actualToken, ignoreExtent),
             _ =>
                 throw new NotImplementedException($"Cannot compare type '{expectedToken.GetType().Name}'")
         };
