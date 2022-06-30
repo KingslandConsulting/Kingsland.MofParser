@@ -2,7 +2,7 @@
 using Kingsland.MofParser.Tokens;
 using System.Text;
 
-namespace Kingsland.MofParser.Model;
+namespace Kingsland.MofParser.Models;
 
 public sealed record Property
 {

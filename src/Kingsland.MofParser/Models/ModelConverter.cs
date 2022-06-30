@@ -1,7 +1,7 @@
 ﻿using Kingsland.MofParser.Ast;
 using System.Collections.ObjectModel;
 
-namespace Kingsland.MofParser.Model;
+namespace Kingsland.MofParser.Models;
 
 internal static class ModelConverter
 {
@@ -12,10 +12,14 @@ internal static class ModelConverter
     {
         return new Module.Builder
         {
+            Enumerations = node.Productions
+                .OfType<EnumerationDeclarationAst>()
+                .Select(ModelConverter.ConvertEnumerationDeclarationAst)
+                .ToList(),
             Instances = node.Productions
                 .OfType<InstanceValueDeclarationAst>()
                 .Select(ModelConverter.ConvertInstanceValueDeclarationAst)
-                .ToList()
+                .ToList(),
         }.Build();
     }
 
@@ -112,7 +116,7 @@ internal static class ModelConverter
 
     #region 7.5.4 Enumeration declaration
 
-    public static void ConvertEnumerationDeclarationAst(EnumerationDeclarationAst node)
+    public static Enumeration ConvertEnumerationDeclarationAst(EnumerationDeclarationAst node)
     {
         throw new NotImplementedException();
     }
