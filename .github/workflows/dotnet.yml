@@ -30,6 +30,18 @@ jobs:
     - name: dotnet build
       run: dotnet build src/Kingsland.MofParser.sln --configuration Release --no-restore
 
+    - name: dotnet jb inspectcode
+      run: |
+        dotnet new tool-manifest
+        dotnet tool install JetBrains.ReSharper.GlobalTools
+        dotnet tool restore
+        dotnet jb inspectcode src/Kingsland.MofParser.sln --output="./jb-inspectcode.xml" --no-build
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: jb-inspectcode.xml
+        path: ./jb-inspectcode.xml
+
     - name: dotnet test
       run: dotnet test src/Kingsland.MofParser.sln --configuration Release --no-build --verbosity normal
 
