@@ -617,27 +617,21 @@ public static class Lexer
                     // check the next character to see if it tells us anything
                     // about which type of literal we're reading
                     sourceChar = thisReader.Peek();
-                    switch (sourceChar.Value)
+                    currentState = sourceChar.Value switch
                     {
-                        case 'b':
-                        case 'B':
+                        'b' or 'B' =>
                             // binaryValue
-                            currentState = stateBinaryValue;
-                            break;
-                        case 'x':
-                        case 'X':
+                            stateBinaryValue,
+                        'x' or 'X' =>
                             // hexValue
-                            currentState = stateHexValue;
-                            break;
-                        case '.':
+                            stateHexValue,
+                        '.' =>
                             // realValue
-                            currentState = stateRealValue;
-                            break;
-                        default:
+                            stateRealValue,
+                        _ =>
                             // by elmination, this must be an octalValue or decimalValue
-                            currentState = stateOctalOrDecimalValue;
-                            break;
-                    }
+                            stateOctalOrDecimalValue
+                    };
                     break;
 
                 case stateOctalOrDecimalValue:

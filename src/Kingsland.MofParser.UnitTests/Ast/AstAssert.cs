@@ -247,6 +247,9 @@ internal static class AstAssert
                 case BooleanValueAst _:
                     AstAssert.AreEqual((BooleanValueAst)expected, (BooleanValueAst)actual, ignoreExtent);
                     return;
+                case StringValueAst _:
+                    AstAssert.AreEqual((StringValueAst)expected, (StringValueAst)actual, ignoreExtent);
+                    return;
                 default:
                     throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
             }
@@ -254,6 +257,22 @@ internal static class AstAssert
     }
 
     public static void AreEqual(BooleanValueAst? expected, BooleanValueAst? actual, bool ignoreExtent)
+    {
+        if ((expected == null) && (actual == null))
+        {
+            return;
+        }
+        else if ((expected == null) || (actual == null))
+        {
+            return;
+        }
+        else
+        {
+            Assert.AreEqual(expected.Value, actual.Value);
+        }
+    }
+
+    public static void AreEqual(StringValueAst? expected, StringValueAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {

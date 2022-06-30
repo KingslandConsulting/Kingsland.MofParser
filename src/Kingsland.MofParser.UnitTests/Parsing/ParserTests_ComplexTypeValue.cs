@@ -1,10 +1,9 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Model;
+using Kingsland.MofParser.Models;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Helpers;
-using Kingsland.MofParser.UnitTests.Model;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 using System.Collections.ObjectModel;

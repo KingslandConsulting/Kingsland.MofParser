@@ -1,7 +1,7 @@
 ﻿using Kingsland.MofParser.Models;
 using NUnit.Framework;
 
-namespace Kingsland.MofParser.UnitTests.Model;
+namespace Kingsland.MofParser.UnitTests.Helpers;
 
 internal static class ModelAssert
 {

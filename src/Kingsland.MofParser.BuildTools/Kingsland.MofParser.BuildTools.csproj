@@ -12,4 +12,11 @@
     <Copyright>Copyright © 2019</Copyright>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="GitVersion.CommandLine" Version="5.10.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
 </Project>

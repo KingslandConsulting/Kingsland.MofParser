@@ -1,6 +1,6 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Model;
+using Kingsland.MofParser.Models;
 using Kingsland.MofParser.Tokens;
 using Kingsland.ParseFx.Parsing;
 using Kingsland.ParseFx.Syntax;
@@ -16,8 +16,8 @@ public static class Parser
 
         // remove all comments and whitespace
         var tokens = lexerTokens.Where(
-            lt => !(lt is CommentToken) &&
-                !(lt is WhitespaceToken)
+            lt => (lt is not CommentToken)
+                && (lt is not WhitespaceToken)
         ).ToList();
 
         var stream = new TokenStream(tokens);

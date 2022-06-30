@@ -15,7 +15,7 @@ internal static class StringExtensions
     /// </remarks>
     public static string TrimIndent(this string source, string newline)
     {
-        int CountLeadingWhiteSpace(string str)
+        static int CountLeadingWhiteSpace(string str)
         {
             for (var i = 0; i < str.Length; i++)
             {
