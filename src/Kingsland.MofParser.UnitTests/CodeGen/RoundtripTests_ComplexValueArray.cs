@@ -30,11 +30,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // LastPaymentDate = {$MyAliasIdentifier};
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = {$MyAliasIdentifier};
                 .IdentifierToken("LastPaymentDate")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -43,7 +43,7 @@ public static partial class RoundtripTests
                 .AliasIdentifierToken("MyAliasIdentifier")
                 .BlockCloseToken()
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -69,11 +69,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // LastPaymentDate = {$MyAliasIdentifier, $MyOtherAliasIdentifier};
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = {$MyAliasIdentifier, $MyOtherAliasIdentifier};
                 .IdentifierToken("LastPaymentDate")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -85,7 +85,7 @@ public static partial class RoundtripTests
                 .AliasIdentifierToken("MyOtherAliasIdentifier")
                 .BlockCloseToken()
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()

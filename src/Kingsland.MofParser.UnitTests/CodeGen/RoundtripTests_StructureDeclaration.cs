@@ -26,10 +26,10 @@ public static partial class RoundtripTests
                 .IdentifierToken("structure")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Sponsor")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -55,10 +55,10 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_MySupestructure")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -84,28 +84,28 @@ public static partial class RoundtripTests
                 .IdentifierToken("structure")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Sponsor")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // string Name;
+                .WhitespaceToken(newline + indent)
+                //     string Name;
                 .IdentifierToken("string")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Name")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // GOLF_Date ContractSignedDate;
+                .WhitespaceToken(newline + indent)
+                //     GOLF_Date ContractSignedDate;
                 .IdentifierToken("GOLF_Date")
                 .WhitespaceToken(" ")
                 .IdentifierToken("ContractSignedDate")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // real32 ContractAmount;
+                .WhitespaceToken(newline + indent)
+                //     real32 ContractAmount;
                 .IdentifierToken("real32")
                 .WhitespaceToken(" ")
                 .IdentifierToken("ContractAmount")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()

@@ -30,18 +30,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // LastPaymentDate = 1;
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = 1;
                 .IdentifierToken("LastPaymentDate")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -67,18 +67,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // LastPaymentDate = 0.5;
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = 0.5;
                 .IdentifierToken("LastPaymentDate")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .RealLiteralToken(0.5)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -98,28 +98,28 @@ public static partial class RoundtripTests
                 };
             ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
-               // instance of GOLF_ClubMember
-               .IdentifierToken("instance")
-               .WhitespaceToken(" ")
-               .IdentifierToken("of")
-               .WhitespaceToken(" ")
-               .IdentifierToken("GOLF_ClubMember")
-               .WhitespaceToken($"{newline}")
-               // {
-               .BlockOpenToken()
-               .WhitespaceToken($"{newline}{indent}")
-               // LastPaymentDate = true;
-               .IdentifierToken("LastPaymentDate")
-               .WhitespaceToken(" ")
-               .EqualsOperatorToken()
-               .WhitespaceToken(" ")
-               .BooleanLiteralToken(true)
-               .StatementEndToken()
-               .WhitespaceToken($"{newline}")
-               // };
-               .BlockCloseToken()
-               .StatementEndToken()
-               .ToList();
+                // instance of GOLF_ClubMember
+                .IdentifierToken("instance")
+                .WhitespaceToken(" ")
+                .IdentifierToken("of")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_ClubMember")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = true;
+                .IdentifierToken("LastPaymentDate")
+                .WhitespaceToken(" ")
+                .EqualsOperatorToken()
+                .WhitespaceToken(" ")
+                .BooleanLiteralToken(true)
+                .StatementEndToken()
+                .WhitespaceToken(newline)
+                // };
+                .BlockCloseToken()
+                .StatementEndToken()
+                .ToList();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }
 
@@ -135,28 +135,28 @@ public static partial class RoundtripTests
                 };
             ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
-               // instance of GOLF_ClubMember
-               .IdentifierToken("instance")
-               .WhitespaceToken(" ")
-               .IdentifierToken("of")
-               .WhitespaceToken(" ")
-               .IdentifierToken("GOLF_ClubMember")
-               .WhitespaceToken($"{newline}")
-               // {
-               .BlockOpenToken()
-               .WhitespaceToken($"{newline}{indent}")
-               // LastPaymentDate = null;
-               .IdentifierToken("LastPaymentDate")
-               .WhitespaceToken(" ")
-               .EqualsOperatorToken()
-               .WhitespaceToken(" ")
-               .NullLiteralToken()
-               .StatementEndToken()
-               .WhitespaceToken($"{newline}")
-               // };
-               .BlockCloseToken()
-               .StatementEndToken()
-               .ToList();
+                // instance of GOLF_ClubMember
+                .IdentifierToken("instance")
+                .WhitespaceToken(" ")
+                .IdentifierToken("of")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_ClubMember")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = null;
+                .IdentifierToken("LastPaymentDate")
+                .WhitespaceToken(" ")
+                .EqualsOperatorToken()
+                .WhitespaceToken(" ")
+                .NullLiteralToken()
+                .StatementEndToken()
+                .WhitespaceToken(newline)
+                // };
+                .BlockCloseToken()
+                .StatementEndToken()
+                .ToList();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }
 
@@ -172,28 +172,28 @@ public static partial class RoundtripTests
                 };
             ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
-               // instance of GOLF_ClubMember
-               .IdentifierToken("instance")
-               .WhitespaceToken(" ")
-               .IdentifierToken("of")
-               .WhitespaceToken(" ")
-               .IdentifierToken("GOLF_ClubMember")
-               .WhitespaceToken($"{newline}")
-               // {
-               .BlockOpenToken()
-               .WhitespaceToken($"{newline}{indent}")
-               // LastPaymentDate = "aaa";
-               .IdentifierToken("LastPaymentDate")
-               .WhitespaceToken(" ")
-               .EqualsOperatorToken()
-               .WhitespaceToken(" ")
-               .StringLiteralToken("aaa")
-               .StatementEndToken()
-               .WhitespaceToken($"{newline}")
-               // };
-               .BlockCloseToken()
-               .StatementEndToken()
-               .ToList();
+                // instance of GOLF_ClubMember
+                .IdentifierToken("instance")
+                .WhitespaceToken(" ")
+                .IdentifierToken("of")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_ClubMember")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = "aaa";
+                .IdentifierToken("LastPaymentDate")
+                .WhitespaceToken(" ")
+                .EqualsOperatorToken()
+                .WhitespaceToken(" ")
+                .StringLiteralToken("aaa")
+                .StatementEndToken()
+                .WhitespaceToken(newline)
+                // };
+                .BlockCloseToken()
+                .StatementEndToken()
+                .ToList();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }
 

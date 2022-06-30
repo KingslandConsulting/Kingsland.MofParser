@@ -30,18 +30,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = "Instance of John Doe";
+                .WhitespaceToken(newline + indent)
+                //     Caption = "Instance of John Doe";
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .StringLiteralToken("Instance of John Doe")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -67,11 +67,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = "Instance" "of" "John" "Doe";
+                .WhitespaceToken(newline + indent)
+                //     Caption = "Instance" "of" "John" "Doe";
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -84,7 +84,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .StringLiteralToken("Doe")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -110,18 +110,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = "Instance of John Doe's GOLF_ClubMember object";
+                .WhitespaceToken(newline + indent)
+                //     Caption = "Instance of John Doe's GOLF_ClubMember object";
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .StringLiteralToken("Instance of John Doe's GOLF_ClubMember object")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()

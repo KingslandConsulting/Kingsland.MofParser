@@ -31,18 +31,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Date")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Month = July;
+                .WhitespaceToken(newline + indent)
+                //     Month = July;
                 .IdentifierToken("Month")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("July")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -68,11 +68,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Date")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Month = {June};
+                .WhitespaceToken(newline + indent)
+                //     Month = {June};
                 .IdentifierToken("Month")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -81,7 +81,7 @@ public static partial class RoundtripTests
                 .IdentifierToken("June")
                 .BlockCloseToken()
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -112,18 +112,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Date")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Month = July;
+                .WhitespaceToken(newline + indent)
+                //     Month = July;
                 .IdentifierToken("Month")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("July")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -149,11 +149,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Date")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Month = MonthEnums.July;
+                .WhitespaceToken(newline + indent)
+                //     Month = MonthEnums.July;
                 .IdentifierToken("Month")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -162,7 +162,7 @@ public static partial class RoundtripTests
                 .DotOperatorToken()
                 .IdentifierToken("July")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -193,11 +193,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Date")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Month = {};
+                .WhitespaceToken(newline + indent)
+                //     Month = {};
                 .IdentifierToken("Month")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -205,7 +205,7 @@ public static partial class RoundtripTests
                 .BlockOpenToken()
                 .BlockCloseToken()
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -231,11 +231,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Date")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Month = {June};
+                .WhitespaceToken(newline + indent)
+                //     Month = {June};
                 .IdentifierToken("Month")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -244,7 +244,7 @@ public static partial class RoundtripTests
                 .IdentifierToken("June")
                 .BlockCloseToken()
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -270,11 +270,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Date")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Month = {January, February};
+                .WhitespaceToken(newline + indent)
+                //     Month = {January, February};
                 .IdentifierToken("Month")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -286,7 +286,7 @@ public static partial class RoundtripTests
                 .IdentifierToken("February")
                 .BlockCloseToken()
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -312,11 +312,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Date")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Month = {MonthEnums.July};
+                .WhitespaceToken(newline + indent)
+                //     Month = {MonthEnums.July};
                 .IdentifierToken("Month")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -327,7 +327,7 @@ public static partial class RoundtripTests
                 .IdentifierToken("July")
                 .BlockCloseToken()
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -335,6 +335,7 @@ public static partial class RoundtripTests
             RoundtripTests.AssertRoundtrip(
                 sourceText,
                 expectedTokens,
+                null,
                 null,
                 ParserQuirks.EnumValueArrayContainsEnumValuesNotEnumNames
             );

@@ -24,30 +24,30 @@ public static partial class RoundtripTests
                 };
             ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
-               // instance of GOLF_ClubMember
-               .IdentifierToken("instance")
-               .WhitespaceToken(" ")
-               .IdentifierToken("of")
-               .WhitespaceToken(" ")
-               .IdentifierToken("GOLF_ClubMember")
-               .WhitespaceToken($"{newline}")
-               // {
-               .BlockOpenToken()
-               .WhitespaceToken($"{newline}{indent}")
-               // LastPaymentDate = {1};
-               .IdentifierToken("LastPaymentDate")
-               .WhitespaceToken(" ")
-               .EqualsOperatorToken()
-               .WhitespaceToken(" ")
-               .BlockOpenToken()
-               .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
-               .BlockCloseToken()
-               .StatementEndToken()
-               .WhitespaceToken($"{newline}")
-               // };
-               .BlockCloseToken()
-               .StatementEndToken()
-               .ToList();
+                // instance of GOLF_ClubMember
+                .IdentifierToken("instance")
+                .WhitespaceToken(" ")
+                .IdentifierToken("of")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_ClubMember")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = {1};
+                .IdentifierToken("LastPaymentDate")
+                .WhitespaceToken(" ")
+                .EqualsOperatorToken()
+                .WhitespaceToken(" ")
+                .BlockOpenToken()
+                .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
+                .BlockCloseToken()
+                .StatementEndToken()
+                .WhitespaceToken(newline)
+                // };
+                .BlockCloseToken()
+                .StatementEndToken()
+                .ToList();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }
 
@@ -63,33 +63,33 @@ public static partial class RoundtripTests
                 };
             ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
-               // instance of GOLF_ClubMember
-               .IdentifierToken("instance")
-               .WhitespaceToken(" ")
-               .IdentifierToken("of")
-               .WhitespaceToken(" ")
-               .IdentifierToken("GOLF_ClubMember")
-               .WhitespaceToken($"{newline}")
-               // {
-               .BlockOpenToken()
-               .WhitespaceToken($"{newline}{indent}")
-               // LastPaymentDate = {1, 2};
-               .IdentifierToken("LastPaymentDate")
-               .WhitespaceToken(" ")
-               .EqualsOperatorToken()
-               .WhitespaceToken(" ")
-               .BlockOpenToken()
-               .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
-               .CommaToken()
-               .WhitespaceToken(" ")
-               .IntegerLiteralToken(IntegerKind.DecimalValue, 2)
-               .BlockCloseToken()
-               .StatementEndToken()
-               .WhitespaceToken($"{newline}")
-               // };
-               .BlockCloseToken()
-               .StatementEndToken()
-               .ToList();
+                // instance of GOLF_ClubMember
+                .IdentifierToken("instance")
+                .WhitespaceToken(" ")
+                .IdentifierToken("of")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_ClubMember")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = {1, 2};
+                .IdentifierToken("LastPaymentDate")
+                .WhitespaceToken(" ")
+                .EqualsOperatorToken()
+                .WhitespaceToken(" ")
+                .BlockOpenToken()
+                .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
+                .CommaToken()
+                .WhitespaceToken(" ")
+                .IntegerLiteralToken(IntegerKind.DecimalValue, 2)
+                .BlockCloseToken()
+                .StatementEndToken()
+                .WhitespaceToken(newline)
+                // };
+                .BlockCloseToken()
+                .StatementEndToken()
+                .ToList();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }
 

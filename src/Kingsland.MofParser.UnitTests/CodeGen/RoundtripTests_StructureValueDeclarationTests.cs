@@ -32,10 +32,10 @@ public static partial class RoundtripTests
                 .IdentifierToken("as")
                 .WhitespaceToken(" ")
                 .AliasIdentifierToken("MyAliasIdentifier")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -56,40 +56,40 @@ public static partial class RoundtripTests
                 };
             ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
-               // value of GOLF_ClubMember as $MyAliasIdentifier
-               .IdentifierToken("value")
-               .WhitespaceToken(" ")
-               .IdentifierToken("of")
-               .WhitespaceToken(" ")
-               .IdentifierToken("GOLF_ClubMember")
-               .WhitespaceToken(" ")
-               .IdentifierToken("as")
-               .WhitespaceToken(" ")
-               .AliasIdentifierToken("MyAliasIdentifier")
-               .WhitespaceToken($"{newline}")
-               // {
-               .BlockOpenToken()
-               .WhitespaceToken($"{newline}{indent}")
-               // FirstName = "John"
-               .IdentifierToken("FirstName")
-               .WhitespaceToken(" ")
-               .EqualsOperatorToken()
-               .WhitespaceToken(" ")
-               .StringLiteralToken("John")
-               .StatementEndToken()
-               .WhitespaceToken($"{newline}{indent}")
-               // LastName = "Doe"
-               .IdentifierToken("LastName")
-               .WhitespaceToken(" ")
-               .EqualsOperatorToken()
-               .WhitespaceToken(" ")
-               .StringLiteralToken("Doe")
-               .StatementEndToken()
-               .WhitespaceToken($"{newline}")
-               // };
-               .BlockCloseToken()
-               .StatementEndToken()
-               .ToList();
+                // value of GOLF_ClubMember as $MyAliasIdentifier
+                .IdentifierToken("value")
+                .WhitespaceToken(" ")
+                .IdentifierToken("of")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_ClubMember")
+                .WhitespaceToken(" ")
+                .IdentifierToken("as")
+                .WhitespaceToken(" ")
+                .AliasIdentifierToken("MyAliasIdentifier")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     FirstName = "John"
+                .IdentifierToken("FirstName")
+                .WhitespaceToken(" ")
+                .EqualsOperatorToken()
+                .WhitespaceToken(" ")
+                .StringLiteralToken("John")
+                .StatementEndToken()
+                .WhitespaceToken(newline + indent)
+                //     LastName = "Doe"
+                .IdentifierToken("LastName")
+                .WhitespaceToken(" ")
+                .EqualsOperatorToken()
+                .WhitespaceToken(" ")
+                .StringLiteralToken("Doe")
+                .StatementEndToken()
+                .WhitespaceToken(newline)
+                // };
+                .BlockCloseToken()
+                .StatementEndToken()
+                .ToList();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }
 

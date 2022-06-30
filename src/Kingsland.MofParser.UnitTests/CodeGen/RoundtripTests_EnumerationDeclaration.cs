@@ -31,10 +31,10 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("Integer")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -60,10 +60,10 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("String")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -89,10 +89,10 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_MyEnum")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -131,57 +131,57 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("String")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // January,
+                .WhitespaceToken(newline + indent)
+                //     January,
                 .IdentifierToken("January")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // February,
+                .WhitespaceToken(newline + indent)
+                //     February,
                 .IdentifierToken("February")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // March,
+                .WhitespaceToken(newline + indent)
+                //     March,
                 .IdentifierToken("March")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // April,
+                .WhitespaceToken(newline + indent)
+                //     April,
                 .IdentifierToken("April")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // May,
+                .WhitespaceToken(newline + indent)
+                //     May,
                 .IdentifierToken("May")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // June,
+                .WhitespaceToken(newline + indent)
+                //     June,
                 .IdentifierToken("June")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // July,
+                .WhitespaceToken(newline + indent)
+                //     July,
                 .IdentifierToken("July")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // August,
+                .WhitespaceToken(newline + indent)
+                //     August,
                 .IdentifierToken("August")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // September,
+                .WhitespaceToken(newline + indent)
+                //     September,
                 .IdentifierToken("September")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // October,
+                .WhitespaceToken(newline + indent)
+                //     October,
                 .IdentifierToken("October")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // November,
+                .WhitespaceToken(newline + indent)
+                //     November,
                 .IdentifierToken("November")
                 .CommaToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // December
+                .WhitespaceToken(newline + indent)
+                //     December
                 .IdentifierToken("December")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -237,17 +237,17 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("uint32")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // July = "July"
+                .WhitespaceToken(newline + indent)
+                //     July = "July"
                 .IdentifierToken("July")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .StringLiteralToken("July")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -280,11 +280,11 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("integer")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // [Description("myDescription")] January = 1
+                .WhitespaceToken(newline + indent)
+                //     [Description("myDescription")] January = 1
                 .AttributeOpenToken()
                 .IdentifierToken("Description")
                 .ParenthesisOpenToken()
@@ -297,7 +297,7 @@ public static partial class RoundtripTests
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -325,17 +325,17 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("integer")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // January = 1
+                .WhitespaceToken(newline + indent)
+                //     January = 1
                 .IdentifierToken("January")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -363,13 +363,13 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("string")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // AL
+                .WhitespaceToken(newline + indent)
+                //     AL
                 .IdentifierToken("AL")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -397,17 +397,17 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("string")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // AL = "Alabama"
+                .WhitespaceToken(newline + indent)
+                //     AL = "Alabama"
                 .IdentifierToken("AL")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .StringLiteralToken("Alabama")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()

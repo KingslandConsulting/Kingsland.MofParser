@@ -34,7 +34,7 @@ public static partial class RoundtripTests
                 .StringLiteralToken("both amateur and professional.")
                 .ParenthesisCloseToken()
                 .AttributeCloseToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // class GOLF_Club : GOLF_Base\r\n
                 .IdentifierToken("class")
                 .WhitespaceToken(" ")
@@ -43,10 +43,10 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Base")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()

@@ -28,11 +28,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("class")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Sponsor")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // [Description("Monthly salary in $US")] string Name;
+                .WhitespaceToken(newline + indent)
+                //     [Description("Monthly salary in $US")] string Name;
                 .AttributeOpenToken()
                 .IdentifierToken("Description")
                 .ParenthesisOpenToken()
@@ -44,7 +44,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .IdentifierToken("Name")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -89,22 +89,22 @@ public static partial class RoundtripTests
                 .IdentifierToken("class")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Sponsor")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // structure Nested
+                .WhitespaceToken(newline + indent)
+                //     structure Nested
                 .IdentifierToken("structure")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Nested")
-                .WhitespaceToken($"{newline}{indent}")
-                // {
+                .WhitespaceToken(newline + indent)
+                //     {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // };
+                .WhitespaceToken(newline + indent)
+                //     };
                 .BlockCloseToken()
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -130,11 +130,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("class")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Sponsor")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // enumeration MonthsEnum : Integer
+                .WhitespaceToken(newline + indent)
+                //     enumeration MonthsEnum : Integer
                 .IdentifierToken("enumeration")
                 .WhitespaceToken(" ")
                 .IdentifierToken("MonthsEnum")
@@ -142,14 +142,14 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("Integer")
-                .WhitespaceToken($"{newline}{indent}")
-                // {
+                .WhitespaceToken(newline + indent)
+                //     {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // };
+                .WhitespaceToken(newline + indent)
+                //     };
                 .BlockCloseToken()
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -173,16 +173,16 @@ public static partial class RoundtripTests
                 .IdentifierToken("class")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Sponsor")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // string Name;
+                .WhitespaceToken(newline + indent)
+                //     string Name;
                 .IdentifierToken("string")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Name")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()

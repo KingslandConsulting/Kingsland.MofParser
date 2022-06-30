@@ -36,11 +36,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("as")
                 .WhitespaceToken(" ")
                 .AliasIdentifierToken("Alias00000070")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Reference = TRUE;
+                .WhitespaceToken(newline + indent)
+                //     Reference = TRUE;
                 .IdentifierToken("Reference")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -51,7 +51,7 @@ public static partial class RoundtripTests
                     "TRUE", true
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()

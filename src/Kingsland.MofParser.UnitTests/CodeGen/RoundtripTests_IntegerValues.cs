@@ -31,18 +31,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = 100;
+                .WhitespaceToken(newline + indent)
+                //     Caption = 100;
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.DecimalValue, 100)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -68,11 +68,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = 100;
+                .WhitespaceToken(newline + indent)
+                //     Caption = +100;
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -84,7 +84,7 @@ public static partial class RoundtripTests
                     IntegerKind.DecimalValue, 100
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -110,18 +110,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = 100;
+                .WhitespaceToken(newline + indent)
+                //     Caption = -100;
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.DecimalValue, -100)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -165,19 +165,19 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyBinaryValue1 = 101010b;
+                .WhitespaceToken(newline + indent)
+                //     MyBinaryValue1 = 101010b;
                 .IdentifierToken("MyBinaryValue1")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.BinaryValue, 0b101010)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyBinaryValue2 = 0101010b;
+                .WhitespaceToken(newline + indent)
+                //     MyBinaryValue2 = 0101010b;
                 .IdentifierToken("MyBinaryValue2")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -189,8 +189,8 @@ public static partial class RoundtripTests
                     IntegerKind.BinaryValue, 0b0101010
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyBinaryValue2 = +101010b;
+                .WhitespaceToken(newline + indent)
+                //     MyBinaryValue2 = +101010b;
                 .IdentifierToken("MyBinaryValue3")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -202,24 +202,24 @@ public static partial class RoundtripTests
                     IntegerKind.BinaryValue, 0b101010
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyBinaryValue4 = -101010b;
+                .WhitespaceToken(newline + indent)
+                //     MyBinaryValue4 = -101010b;
                 .IdentifierToken("MyBinaryValue4")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.BinaryValue, -0b101010)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyOctalValue1 = 0444444;
+                .WhitespaceToken(newline + indent)
+                //     MyOctalValue1 = 0444444;
                 .IdentifierToken("MyOctalValue1")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.OctalValue, Convert.ToInt32("0444444", 8))
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyOctalValue2 = 00444444;
+                .WhitespaceToken(newline + indent)
+                //     MyOctalValue2 = 00444444;
                 .IdentifierToken("MyOctalValue2")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -231,8 +231,8 @@ public static partial class RoundtripTests
                     IntegerKind.OctalValue, Convert.ToInt32("000444444", 8)
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyOctalValue3 = +000444444;
+                .WhitespaceToken(newline + indent)
+                //     MyOctalValue3 = +000444444;
                 .IdentifierToken("MyOctalValue3")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -244,24 +244,24 @@ public static partial class RoundtripTests
                     IntegerKind.OctalValue, Convert.ToInt32("0444444", 8)
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyOctalValue4 = -0444444;
+                .WhitespaceToken(newline + indent)
+                //     MyOctalValue4 = -0444444;
                 .IdentifierToken("MyOctalValue4")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.OctalValue, -Convert.ToInt32("0444444", 8))
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyHexValue1 = 0xABC123;
+                .WhitespaceToken(newline + indent)
+                //     MyHexValue1 = 0xABC123;
                 .IdentifierToken("MyHexValue1")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.HexValue, 0xABC123)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyHexValue1 = 0x00ABC123;
+                .WhitespaceToken(newline + indent)
+                //     MyHexValue1 = 0x00ABC123;
                 .IdentifierToken("MyHexValue2")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -273,8 +273,8 @@ public static partial class RoundtripTests
                     IntegerKind.HexValue, 0x00ABC123
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyHexValue2 = +0xABC123;
+                .WhitespaceToken(newline + indent)
+                //     MyHexValue2 = +0xABC123;
                 .IdentifierToken("MyHexValue3")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -286,15 +286,15 @@ public static partial class RoundtripTests
                     IntegerKind.HexValue, 0x00ABC123
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyHexValue3 = -0xABC123;
+                .WhitespaceToken(newline + indent)
+                //     MyHexValue3 = -0xABC123;
                 .IdentifierToken("MyHexValue4")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.HexValue, -0xABC123)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
+                .WhitespaceToken(newline + indent)
                 // MyDecimalValue1 = 12345;
                 .IdentifierToken("MyDecimalValue1")
                 .WhitespaceToken(" ")
@@ -302,8 +302,8 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.DecimalValue, 12345)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyDecimalValue2 = +12345;
+                .WhitespaceToken(newline + indent)
+                //     MyDecimalValue2 = +12345;
                 .IdentifierToken("MyDecimalValue2")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -315,24 +315,24 @@ public static partial class RoundtripTests
                     IntegerKind.DecimalValue, 12345
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyDecimalValue3 = -12345;
+                .WhitespaceToken(newline + indent)
+                //     MyDecimalValue3 = -12345;
                 .IdentifierToken("MyDecimalValue3")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IntegerLiteralToken(IntegerKind.DecimalValue, -12345)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyRealValue1 = 123.45;
+                .WhitespaceToken(newline + indent)
+                //     MyRealValue1 = 123.45;
                 .IdentifierToken("MyRealValue1")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .RealLiteralToken(123.45)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyRealValue2 = 00123.45;
+                .WhitespaceToken(newline + indent)
+                //     MyRealValue2 = 00123.45;
                 .IdentifierToken("MyRealValue2")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -344,8 +344,8 @@ public static partial class RoundtripTests
                     123.45
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyRealValue2 = +00123.45;
+                .WhitespaceToken(newline + indent)
+                //     MyRealValue2 = +00123.45;
                 .IdentifierToken("MyRealValue3")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -357,15 +357,15 @@ public static partial class RoundtripTests
                     123.45
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // MyRealValue3 = -123.45;
+                .WhitespaceToken(newline + indent)
+                //     MyRealValue3 = -123.45;
                 .IdentifierToken("MyRealValue4")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .RealLiteralToken(-123.45)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()

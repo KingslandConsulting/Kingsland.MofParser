@@ -1,4 +1,6 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Models;
+using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
 
@@ -28,15 +30,34 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst(
+                new List<MofProductionAst> {
+                    new InstanceValueDeclarationAst(
+                        new IdentifierToken("instance"),
+                        new IdentifierToken("of"),
+                        new IdentifierToken("GOLF_ClubMember"),
+                        new PropertyValueListAst(),
+                        new StatementEndToken()
+                    )
+                }
+            );
+            var expectedModule = new Module(
+                new List<Instance>()
+            );
+            RoundtripTests.AssertRoundtrip(
+                sourceText,
+                expectedTokens,
+                expectedAst,
+                expectedModule
+            );
         }
 
         [Test]
@@ -58,31 +79,65 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // FirstName = "John";
+                .WhitespaceToken(newline + indent)
+                //     FirstName = "John";
                 .IdentifierToken("FirstName")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .StringLiteralToken("John")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // LastName = "Doe";
+                .WhitespaceToken(newline + indent)
+                //     LastName = "Doe";
                 .IdentifierToken("LastName")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .StringLiteralToken("Doe")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst(
+                new List<MofProductionAst> {
+                    new InstanceValueDeclarationAst(
+                        new IdentifierToken("instance"),
+                        new IdentifierToken("of"),
+                        new IdentifierToken("GOLF_ClubMember"),
+                        new PropertyValueListAst(
+                            new Dictionary<string, PropertyValueAst> {
+                                ["FirstName"] = new StringValueAst(
+                                    new List<StringLiteralToken> {
+                                        new StringLiteralToken("John")
+                                    },
+                                    "John"
+                                ),
+                                ["LastName"] = new StringValueAst(
+                                    new List<StringLiteralToken> {
+                                        new StringLiteralToken("Doe")
+                                    },
+                                    "Doe"
+                                )
+                            }
+                        ),
+                        new StatementEndToken()
+                    )
+                }
+            );
+            var expectedModule = new Module(
+                new List<Instance>()
+            );
+            RoundtripTests.AssertRoundtrip(
+                sourceText,
+                expectedTokens,
+                expectedAst,
+                expectedModule
+            );
         }
 
         [Test]
@@ -105,15 +160,36 @@ public static partial class RoundtripTests
                 .IdentifierToken("as")
                 .WhitespaceToken(" ")
                 .AliasIdentifierToken("MyAliasIdentifier")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst(
+                new List<MofProductionAst> {
+                    new InstanceValueDeclarationAst(
+                        new IdentifierToken("instance"),
+                        new IdentifierToken("of"),
+                        new IdentifierToken("GOLF_ClubMember"),
+                        new IdentifierToken("as"),
+                        new AliasIdentifierToken("MyAliasIdentifier"),
+                        new PropertyValueListAst(),
+                        new StatementEndToken()
+                    )
+                }
+            );
+            var expectedModule = new Module(
+                new List<Instance>()
+            );
+            RoundtripTests.AssertRoundtrip(
+                sourceText, 
+                expectedTokens,
+                expectedAst,
+                expectedModule
+            );
         }
 
         //[Test]

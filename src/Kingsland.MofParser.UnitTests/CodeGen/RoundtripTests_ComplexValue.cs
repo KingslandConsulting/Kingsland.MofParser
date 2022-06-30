@@ -30,18 +30,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // LastPaymentDate = $MyAliasIdentifier;
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = $MyAliasIdentifier;
                 .IdentifierToken("LastPaymentDate")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .AliasIdentifierToken("MyAliasIdentifier")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -70,11 +70,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // LastPaymentDate = value of GOLF_Date
+                .WhitespaceToken(newline + indent)
+                //     LastPaymentDate = value of GOLF_Date
                 .IdentifierToken("LastPaymentDate")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -84,22 +84,22 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Date")
-                .WhitespaceToken($"{newline}{indent}")
-                // {
+                .WhitespaceToken(newline + indent)
+                //     {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}{indent}")
-                // Month = July;
+                .WhitespaceToken(newline + indent + indent)
+                //         Month = July;
                 .IdentifierToken("Month")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("July")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // };
+                .WhitespaceToken(newline + indent)
+                //     };
                 .BlockCloseToken()
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()

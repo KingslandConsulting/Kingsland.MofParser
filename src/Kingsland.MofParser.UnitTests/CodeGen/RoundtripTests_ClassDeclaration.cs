@@ -27,10 +27,10 @@ public static partial class RoundtripTests
                 .IdentifierToken("class")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Base")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -59,17 +59,17 @@ public static partial class RoundtripTests
                 .ColonToken()
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Superclass")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // string InstanceID;
+                .WhitespaceToken(newline + indent)
+                //     string InstanceID;
                 .IdentifierToken("string")
                 .WhitespaceToken(" ")
                 .IdentifierToken("InstanceID")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // string Caption = Null;
+                .WhitespaceToken(newline + indent)
+                //     string Caption = Null;
                 .IdentifierToken("string")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Caption")
@@ -82,7 +82,7 @@ public static partial class RoundtripTests
                     "Null"
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -107,17 +107,17 @@ public static partial class RoundtripTests
                 .IdentifierToken("class")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Base")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // string InstanceID;
+                .WhitespaceToken(newline + indent)
+                //     string InstanceID;
                 .IdentifierToken("string")
                 .WhitespaceToken(" ")
                 .IdentifierToken("InstanceID")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // string Caption = Null;
+                .WhitespaceToken(newline + indent)
+                //     string Caption = Null;
                 .IdentifierToken("string")
                 .WhitespaceToken(" ")
                 .IdentifierToken("Caption")
@@ -130,7 +130,7 @@ public static partial class RoundtripTests
                     "Null"
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -165,16 +165,16 @@ public static partial class RoundtripTests
                 .StringLiteralToken("inv: InstanceId.size() = 10")
                 .BlockCloseToken()
                 .AttributeCloseToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // class GOLF_Base
                 .IdentifierToken("class")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_Base")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // [Description("an instance of a class that derives from the GOLF_Base class. "), Key] string InstanceID;;
+                .WhitespaceToken(newline + indent)
+                //     [Description("an instance of a class that derives from the GOLF_Base class. "), Key] string InstanceID;;
                 .AttributeOpenToken()
                 .IdentifierToken("Description")
                 .ParenthesisOpenToken()
@@ -189,8 +189,8 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .IdentifierToken("InstanceID")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // [Description("A short textual description (one- line string) of the"), MaxLen(64)] string Caption = Null;
+                .WhitespaceToken(newline + indent)
+                //     [Description("A short textual description (one- line string) of the"), MaxLen(64)] string Caption = Null;
                 .AttributeOpenToken()
                 .IdentifierToken("Description")
                 .ParenthesisOpenToken()
@@ -216,7 +216,7 @@ public static partial class RoundtripTests
                     "Null"
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()

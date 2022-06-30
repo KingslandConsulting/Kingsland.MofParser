@@ -28,16 +28,17 @@ public static partial class RoundtripTests
                .IdentifierToken("class")
                .WhitespaceToken(" ")
                .IdentifierToken("GOLF_Base")
-               .WhitespaceToken($"{newline}")
+               .WhitespaceToken(newline)
                // {
                .BlockOpenToken()
-               .WhitespaceToken($"{newline}{indent}")
-               // Integer Severity;
+               .WhitespaceToken(newline)
+               //     Integer Severity;
+               .WhitespaceToken($"{indent}")
                .IdentifierToken("Integer")
                .WhitespaceToken(" ")
                .IdentifierToken("Severity")
                .StatementEndToken()
-               .WhitespaceToken($"{newline}")
+               .WhitespaceToken(newline)
                // };
                .BlockCloseToken()
                .StatementEndToken()
@@ -61,18 +62,18 @@ public static partial class RoundtripTests
                .IdentifierToken("class")
                .WhitespaceToken(" ")
                .IdentifierToken("GOLF_Base")
-               .WhitespaceToken($"{newline}")
+               .WhitespaceToken(newline)
                // {
                .BlockOpenToken()
-               .WhitespaceToken($"{newline}{indent}")
-               // Integer Severity[];
+                .WhitespaceToken(newline + indent)
+               //     Integer Severity[];
                .IdentifierToken("Integer")
                .WhitespaceToken(" ")
                .IdentifierToken("Severity")
                .AttributeOpenToken()
                .AttributeCloseToken()
                .StatementEndToken()
-               .WhitespaceToken($"{newline}")
+               .WhitespaceToken(newline)
                // };
                .BlockCloseToken()
                .StatementEndToken()
@@ -92,28 +93,28 @@ public static partial class RoundtripTests
                 };
             ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
-               // class GOLF_Base
-               .IdentifierToken("class")
-               .WhitespaceToken(" ")
-               .IdentifierToken("GOLF_Base")
-               .WhitespaceToken($"{newline}")
-               // {
-               .BlockOpenToken()
-               .WhitespaceToken($"{newline}{indent}")
-               // Integer Severity = 0;
-               .IdentifierToken("Integer")
-               .WhitespaceToken(" ")
-               .IdentifierToken("Severity")
-               .WhitespaceToken(" ")
-               .EqualsOperatorToken()
-               .WhitespaceToken(" ")
-               .IntegerLiteralToken(IntegerKind.DecimalValue, 0)
-               .StatementEndToken()
-               .WhitespaceToken($"{newline}")
-               // };
-               .BlockCloseToken()
-               .StatementEndToken()
-               .ToList();
+                // class GOLF_Base
+                .IdentifierToken("class")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_Base")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     Integer Severity = 0;
+                .IdentifierToken("Integer")
+                .WhitespaceToken(" ")
+                .IdentifierToken("Severity")
+                .WhitespaceToken(" ")
+                .EqualsOperatorToken()
+                .WhitespaceToken(" ")
+                .IntegerLiteralToken(IntegerKind.DecimalValue, 0)
+                .StatementEndToken()
+                .WhitespaceToken(newline)
+                // };
+                .BlockCloseToken()
+                .StatementEndToken()
+                .ToList();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }
 
@@ -136,62 +137,62 @@ public static partial class RoundtripTests
                 };
             ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
-               // class GOLF_Base
-               .IdentifierToken("class")
-               .WhitespaceToken(" ")
-               .IdentifierToken("GOLF_Base")
-               .WhitespaceToken($"{newline}")
-               // {
-               .BlockOpenToken()
-               .WhitespaceToken($"{newline}{indent}")
-                // uint8 SeverityUint8;
+                // class GOLF_Base
+                .IdentifierToken("class")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_Base")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     uint8 SeverityUint8;
                 .IdentifierToken("uint8")
                 .WhitespaceToken(" ")
                 .IdentifierToken("SeverityUint8")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // uint16 SeverityUint16;
+                .WhitespaceToken(newline + indent)
+                //     uint16 SeverityUint16;
                 .IdentifierToken("uint16")
                 .WhitespaceToken(" ")
                 .IdentifierToken("SeverityUint16")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // uint32 SeverityUint32;
+                .WhitespaceToken(newline + indent)
+                //     uint32 SeverityUint32;
                 .IdentifierToken("uint32")
                 .WhitespaceToken(" ")
                 .IdentifierToken("SeverityUint32")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // uint64 SeverityUint64;
+                .WhitespaceToken(newline + indent)
+                //     uint64 SeverityUint64;
                 .IdentifierToken("uint64")
                 .WhitespaceToken(" ")
                 .IdentifierToken("SeverityUint64")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // sint8 SeveritySint8;
+                .WhitespaceToken(newline + indent)
+                //     sint8 SeveritySint8;
                 .IdentifierToken("sint8")
                 .WhitespaceToken(" ")
                 .IdentifierToken("SeveritySint8")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // sint16 SeveritySint16;
+                .WhitespaceToken(newline + indent)
+                //     sint16 SeveritySint16;
                 .IdentifierToken("sint16")
                 .WhitespaceToken(" ")
                 .IdentifierToken("SeveritySint16")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // sint32 SeveritySint32;
+                .WhitespaceToken(newline + indent)
+                //     sint32 SeveritySint32;
                 .IdentifierToken("sint32")
                 .WhitespaceToken(" ")
                 .IdentifierToken("SeveritySint32")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // sint64 SeveritySint64;
+                .WhitespaceToken(newline + indent)
+                //     sint64 SeveritySint64;
                 .IdentifierToken("sint64")
                 .WhitespaceToken(" ")
                 .IdentifierToken("SeveritySint64")
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                .BlockCloseToken()
                .StatementEndToken()

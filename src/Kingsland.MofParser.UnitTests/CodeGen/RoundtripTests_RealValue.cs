@@ -31,18 +31,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = 0.5;
+                .WhitespaceToken(newline + indent)
+                //     Caption = 0.5;
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .RealLiteralToken(0.5)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -68,11 +68,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = +0.5;
+                .WhitespaceToken(newline + indent)
+                //     Caption = +0.5;
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -83,7 +83,7 @@ public static partial class RoundtripTests
                     "+0.5", 0.5
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -109,18 +109,18 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = +0.5;
+                .WhitespaceToken(newline + indent)
+                //     Caption = +0.5;
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
                 .RealLiteralToken(-0.5)
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -146,11 +146,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = 5.0;
+                .WhitespaceToken(newline + indent)
+                //     Caption = 5.0;
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -161,7 +161,7 @@ public static partial class RoundtripTests
                     "5.0", 5.0
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -187,11 +187,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = 0.50;
+                .WhitespaceToken(newline + indent)
+                //     Caption = 0.50;
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -202,7 +202,7 @@ public static partial class RoundtripTests
                     "0.50", 0.5
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
@@ -228,11 +228,11 @@ public static partial class RoundtripTests
                 .IdentifierToken("of")
                 .WhitespaceToken(" ")
                 .IdentifierToken("GOLF_ClubMember")
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken($"{newline}{indent}")
-                // Caption = .5;
+                .WhitespaceToken(newline + indent)
+                //     Caption = .5;
                 .IdentifierToken("Caption")
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
@@ -243,7 +243,7 @@ public static partial class RoundtripTests
                     ".5", 0.5
                 )
                 .StatementEndToken()
-                .WhitespaceToken($"{newline}")
+                .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
