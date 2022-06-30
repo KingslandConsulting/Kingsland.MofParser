@@ -31,14 +31,9 @@ public sealed class TokenStream
         set;
     }
 
-    public bool Eof
-    {
-        get
-        {
-            return (this.Source.Count == 0) ||
-                   (this.Position >= this.Source.Count);
-        }
-    }
+    public bool Eof =>
+        (this.Source.Count == 0) ||
+        (this.Position >= this.Source.Count);
 
     #endregion
 
@@ -132,8 +127,7 @@ public sealed class TokenStream
         {
             throw new UnexpectedEndOfStreamException();
         }
-        var peek = this.Source[this.Position] as T;
-        if ((peek is not null) && predicate(peek))
+        if ((this.Source[this.Position] is T peek) && predicate(peek))
         {
             result = peek;
             return true;

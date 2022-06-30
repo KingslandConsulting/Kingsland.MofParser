@@ -66,14 +66,14 @@ public sealed class AstWriter
     {
         get;
         set;
-    } = 0;
+    }
 
-    public void Indent()
+    private void Indent()
     {
         this.IndentDepth += 1;
     }
 
-    public void Unindent()
+    private void Unindent()
     {
         if (this.IndentDepth == 0)
         {
@@ -219,15 +219,15 @@ public sealed class AstWriter
             MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations
         );
 
-        var lastQualifierValue = default(QualifierValueAst);
+        var prevQualifierValue = default(QualifierValueAst);
 
         this.Write('[');
         foreach (var thisQualifierValue in node.QualifierValues)
         {
-            if (lastQualifierValue is not null)
+            if (prevQualifierValue is not null)
             {
                 this.Write(',');
-                if (!omitSpaceQuirkEnabled || !lastQualifierValue.QualifierName!.IsKeyword("in") || !thisQualifierValue.QualifierName.IsKeyword("out"))
+                if (!omitSpaceQuirkEnabled || !prevQualifierValue.QualifierName!.IsKeyword("in") || !thisQualifierValue.QualifierName.IsKeyword("out"))
                 {
                     this.Write(' ');
                 }
@@ -235,7 +235,7 @@ public sealed class AstWriter
             this.WriteQualifierValueAst(
                 thisQualifierValue
             );
-            lastQualifierValue = thisQualifierValue;
+            prevQualifierValue = thisQualifierValue;
         }
         this.Write(']');
 

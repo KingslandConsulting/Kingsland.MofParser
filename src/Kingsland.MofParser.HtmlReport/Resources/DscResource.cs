@@ -21,78 +21,40 @@ public class DscResource
     public string Filename
     {
         get;
-        private set;
     }
 
     public string ComputerName
     {
         get;
-        private set;
     }
 
     public Instance Instance
     {
         get;
-        private set;
     }
 
-    public string ResourceId
-    {
-        get
-        {
-            return this.GetStringProperty("ResourceID");
-        }
-    }
+    public string ResourceId =>
+        this.GetStringProperty("ResourceID");
 
-    public string ClassName
-    {
-        get
-        {
-            return this.Instance.ClassName;
-        }
-    }
+    public string ClassName =>
+        this.Instance.ClassName;
 
-    public string ResourceType
-    {
-        get
-        {
-            // ResourceID = "[ResourceType]ResourceName"
-            return DscResource.GetResourceTypeFromResourceId(this.ResourceId);
-        }
-    }
+    public string ResourceType =>
+        // ResourceID = "[ResourceType]ResourceName"
+        DscResource.GetResourceTypeFromResourceId(this.ResourceId);
 
-    public string ResourceName
-    {
-        get
-        {
-            // ResourceID = "[ResourceType]ResourceName"
-            return DscResource.GetResourceNameFromResourceId(this.ResourceId);
-        }
-    }
+    public string ResourceName =>
+        // ResourceID = "[ResourceType]ResourceName"
+        DscResource.GetResourceNameFromResourceId(this.ResourceId);
 
-    public string[] DependsOn
-    {
-        get
-        {
-            return (string[])this.Instance.Properties["ResourceID"];
-        }
-    }
+    public string[] DependsOn =>
+        (string[])this.Instance.Properties["ResourceID"];
 
-    public string ModuleName
-    {
-        get
-        {
-            return this.GetStringProperty(nameof(this.ModuleName));
-        }
-    }
+    public string ModuleName =>
+        this.GetStringProperty(nameof(this.ModuleName));
 
-    public string ModuleVersion
-    {
-        get
-        {
-            return this.GetStringProperty(nameof(this.ModuleVersion));
-        }
-    }
+    public string ModuleVersion =>
+        this.GetStringProperty(nameof(this.ModuleVersion));
 
     #endregion
 

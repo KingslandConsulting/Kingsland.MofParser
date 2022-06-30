@@ -140,13 +140,8 @@ public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
         get;
     }
 
-    public bool ReturnTypeIsRef
-    {
-        get
-        {
-            return this.ReturnTypeRef is not null;
-        }
-    }
+    public bool ReturnTypeIsRef =>
+        this.ReturnTypeRef is not null;
 
     public IdentifierToken? ReturnTypeRef
     {

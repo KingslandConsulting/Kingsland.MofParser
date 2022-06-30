@@ -129,7 +129,7 @@ public static class Lexer
 
     public static ScannerResult ReadDotOperatorToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read('.');
+        var (sourceChar, nextReader) = reader.Read('.');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new DotOperatorToken(extent), nextReader);
     }

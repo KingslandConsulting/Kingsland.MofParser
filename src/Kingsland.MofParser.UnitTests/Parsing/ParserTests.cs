@@ -29,15 +29,10 @@ public static partial class ParserTests
         {
             ParserTests.ParseMethodTest(mofFilename);
         }
-        public static IEnumerable<TestCaseData> GetTestCases
-        {
-            get
-            {
-                return TestUtils.GetMofTestCase(
-                    Path.Combine("Parsing", "WMI", "WinXp")
-                );
-            }
-        }
+        public static IEnumerable<TestCaseData> GetTestCases =>
+            TestUtils.GetMofTestCase(
+                Path.Combine("Parsing", "WMI", "WinXp")
+            );
     }
 
     [TestFixture]
@@ -48,15 +43,10 @@ public static partial class ParserTests
         {
             ParserTests.ParseMethodTest(mofFilename);
         }
-        public static IEnumerable<TestCaseData> GetTestCases
-        {
-            get
-            {
-                return TestUtils.GetMofTestCase(
-                    Path.Combine("Parsing", "DSP0221_3.0.1")
-                );
-            }
-        }
+        public static IEnumerable<TestCaseData> GetTestCases =>
+            TestUtils.GetMofTestCase(
+                Path.Combine("Parsing", "DSP0221_3.0.1")
+            );
     }
 
     private static void ParseMethodTest(string mofFilename)

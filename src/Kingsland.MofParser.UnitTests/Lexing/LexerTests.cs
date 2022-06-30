@@ -65,13 +65,8 @@ public static partial class LexerTests
         {
             LexerTests.LexMethodTest(mofFilename);
         }
-        public static IEnumerable<TestCaseData> GetTestCases
-        {
-            get
-            {
-                return TestUtils.GetMofTestCase("cim_schema_2.51.0Final-MOFs");
-            }
-        }
+        public static IEnumerable<TestCaseData> GetTestCases =>
+            TestUtils.GetMofTestCase("cim_schema_2.51.0Final-MOFs");
     }
 
     [TestFixture]
@@ -82,13 +77,8 @@ public static partial class LexerTests
         {
             LexerTests.LexMethodTest(mofFilename);
         }
-        public static IEnumerable<TestCaseData> GetTestCases
-        {
-            get
-            {
-                return TestUtils.GetMofTestCase("Lexer\\TestCases");
-            }
-        }
+        public static IEnumerable<TestCaseData> GetTestCases =>
+            TestUtils.GetMofTestCase("Lexer\\TestCases");
     }
 
     private static void LexMethodTest(string mofFilename)

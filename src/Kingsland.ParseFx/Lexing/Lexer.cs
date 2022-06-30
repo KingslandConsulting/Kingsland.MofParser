@@ -86,7 +86,7 @@ public sealed class Lexer
         return this.AddScanner(
             value,
             (reader) => {
-                (var sourceChar, var nextReader) = reader.Read(value);
+                var (sourceChar, nextReader) = reader.Read(value);
                 var extent = SourceExtent.From(sourceChar);
                 return new ScannerResult(
                     factoryMethod(extent), nextReader

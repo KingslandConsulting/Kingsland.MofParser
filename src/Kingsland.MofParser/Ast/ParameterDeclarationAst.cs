@@ -147,13 +147,8 @@ public sealed record ParameterDeclarationAst : AstNode
         get;
     }
 
-    public bool ParameterIsRef
-    {
-        get
-        {
-            return this.ParameterRef is not null;
-        }
-    }
+    public bool ParameterIsRef =>
+        this.ParameterRef is not null;
 
     public IdentifierToken? ParameterRef
     {

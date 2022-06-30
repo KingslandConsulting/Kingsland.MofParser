@@ -433,6 +433,7 @@ internal sealed class ParserEngine
     /// <summary>
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="quirks"></param>
     /// <returns></returns>
     /// <remarks>
     ///
@@ -1140,6 +1141,7 @@ internal sealed class ParserEngine
     ///     VOID              = "void" ; keyword: case insensitive
     ///     parameterList     = parameterDeclaration *( "," parameterDeclaration )
     ///
+    /// </remarks>
     public static IClassFeatureAst ParseMemberDeclarationAst(
         TokenStream stream, QualifierListAst qualifierList,
         bool allowPropertyDeclaration, bool allowMethodDeclaration,

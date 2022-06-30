@@ -182,15 +182,15 @@ public sealed class AstMofGenerator
         var omitSpacesQuirkEnabled = (quirks & MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations) == MofQuirks.OmitSpaceBetweenInOutQualifiersForParameterDeclarations;
 
         var source = new StringBuilder();
-        var lastQualifierValue = default(QualifierValueAst);
+        var prevQualifierValue = default(QualifierValueAst);
 
         source.Append('[');
         foreach (var thisQualifierValue in node.QualifierValues)
         {
-            if (lastQualifierValue is not null)
+            if (prevQualifierValue is not null)
             {
                 source.Append(',');
-                if (!omitSpacesQuirkEnabled || !lastQualifierValue.QualifierName!.IsKeyword("in") || !thisQualifierValue.QualifierName.IsKeyword("out"))
+                if (!omitSpacesQuirkEnabled || !prevQualifierValue.QualifierName!.IsKeyword("in") || !thisQualifierValue.QualifierName.IsKeyword("out"))
                 {
                     source.Append(' ');
                 }
@@ -200,7 +200,7 @@ public sealed class AstMofGenerator
                     thisQualifierValue, quirks
                 )
             );
-            lastQualifierValue = thisQualifierValue;
+            prevQualifierValue = thisQualifierValue;
         }
         source.Append(']');
 

@@ -8,7 +8,7 @@ public sealed class SourceExtent
 
     #region Fields
 
-    public readonly static SourceExtent Empty = new(
+    public static readonly SourceExtent Empty = new(
         SourcePosition.Empty,
         SourcePosition.Empty,
         string.Empty

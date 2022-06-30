@@ -21,13 +21,8 @@ public abstract record SyntaxToken
         get;
     }
 
-    public string Text
-    {
-        get
-        {
-            return this.Extent.Text;
-        }
-    }
+    public string Text =>
+        this.Extent.Text;
 
     #endregion
 

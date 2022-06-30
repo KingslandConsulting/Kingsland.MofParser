@@ -115,21 +115,11 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
 
     #region Properties
 
-    public bool IsAlias
-    {
-        get
-        {
-            return !(this.Alias == null);
-        }
-    }
+    public bool IsAlias =>
+        this.Alias is not null;
 
-    public bool IsValue
-    {
-        get
-        {
-            return !(this.Value == null);
-        }
-    }
+    public bool IsValue =>
+        this.Value is not null;
 
     public AliasIdentifierToken? Alias
     {
