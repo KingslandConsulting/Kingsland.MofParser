@@ -17,7 +17,6 @@ public sealed class CharArrayMatch : IMatch
     public char[] Values
     {
         get;
-        private set;
     }
 
     #endregion

@@ -114,7 +114,7 @@ public sealed record StructureValueDeclarationAst : MofProductionAst
         this.Value = value ?? throw new ArgumentNullException(nameof(value));
         this.Of = of ?? throw new ArgumentNullException(nameof(of));
         this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
-        if ((@as != null) || (alias != null))
+        if ((@as is not null) || (alias is not null))
         {
             this.As = @as ?? throw new ArgumentNullException(nameof(@as));
             this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));

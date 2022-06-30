@@ -781,7 +781,7 @@ internal sealed class ParserEngine
         {
             // propertyDeclaration or methodDeclaration
             return ParserEngine.ParseMemberDeclarationAst(stream, qualifierList, true, true, quirks);
-        };
+        }
 
     }
 

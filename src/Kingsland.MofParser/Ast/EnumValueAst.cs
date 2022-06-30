@@ -62,7 +62,7 @@ public sealed record EnumValueAst : EnumTypeValueAst
     )
     {
         this.EnumName = enumName;
-        this.EnumLiteral = enumLiteral ?? throw new ArgumentNullException(nameof(enumLiteral)); ;
+        this.EnumLiteral = enumLiteral ?? throw new ArgumentNullException(nameof(enumLiteral));
     }
 
     #endregion

@@ -24,7 +24,6 @@ public sealed class UnexpectedTokenException : Exception
     public SyntaxToken? FoundToken
     {
         get;
-        private set;
     }
 
     public override String Message

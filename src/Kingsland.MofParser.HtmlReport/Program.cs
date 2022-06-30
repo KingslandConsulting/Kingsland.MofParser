@@ -2,7 +2,7 @@
 using RazorEngine.Templating;
 using System.Reflection;
 
-namespace Kingsland.MofParser.Sample
+namespace Kingsland.MofParser.HtmlReport
 {
 
     class Program

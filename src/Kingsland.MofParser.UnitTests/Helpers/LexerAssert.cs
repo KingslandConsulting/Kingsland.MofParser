@@ -198,11 +198,11 @@ public sealed class LexerAssert
             error.Append($" at index {index}");
         }
         error.AppendLine();
-        if (expected != null)
+        if (expected is not null)
         {
             error.AppendLine($"Expected: {expected}");
         }
-        if (actual != null)
+        if (actual is not null)
         {
             error.Append($"But was:  {actual}");
         }

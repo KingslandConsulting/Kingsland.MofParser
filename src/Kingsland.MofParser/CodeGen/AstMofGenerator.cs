@@ -185,10 +185,9 @@ public sealed class AstMofGenerator
         var lastQualifierValue = default(QualifierValueAst);
 
         source.Append('[');
-        for (var i = 0; i < node.QualifierValues.Count; i++)
+        foreach (var thisQualifierValue in node.QualifierValues)
         {
-            var thisQualifierValue = node.QualifierValues[i];
-            if (lastQualifierValue != null)
+            if (lastQualifierValue is not null)
             {
                 source.Append(',');
                 if (!omitSpacesQuirkEnabled || !lastQualifierValue.QualifierName!.IsKeyword("in") || !thisQualifierValue.QualifierName.IsKeyword("out"))
@@ -213,7 +212,7 @@ public sealed class AstMofGenerator
     {
         var source = new StringBuilder();
         source.Append(node.QualifierName.Extent.Text);
-        if (node.Initializer != null)
+        if (node.Initializer is not null)
         {
             source.Append(
                 AstMofGenerator.ConvertIQualifierInitializerAst(
@@ -311,7 +310,7 @@ public sealed class AstMofGenerator
             source.Append(indent);
         }
         source.Append($"{Constants.STRUCTURE} {node.StructureName.Name}");
-        if (node.SuperStructure != null)
+        if (node.SuperStructure is not null)
         {
             source.Append($" : {node.SuperStructure.Name}");
         }
@@ -361,7 +360,7 @@ public sealed class AstMofGenerator
             source.Append(indent);
         }
         source.Append($"{Constants.CLASS} {node.ClassName.Name}");
-        if (node.SuperClass != null)
+        if (node.SuperClass is not null)
         {
             source.Append($" : {node.SuperClass.Name}");
         }
@@ -411,7 +410,7 @@ public sealed class AstMofGenerator
             source.Append(indent);
         }
         source.Append($"{Constants.ASSOCIATION} {node.AssociationName.Name}");
-        if (node.SuperAssociation != null)
+        if (node.SuperAssociation is not null)
         {
             source.Append($" : {node.SuperAssociation.Name}");
         }
@@ -487,7 +486,7 @@ public sealed class AstMofGenerator
             source.Append(' ');
         }
         source.Append(node.EnumElementName.Name);
-        if (node.EnumElementValue != null)
+        if (node.EnumElementValue is not null)
         {
             source.Append(" = ");
             source.Append(
@@ -538,7 +537,7 @@ public sealed class AstMofGenerator
         {
             source.Append("[]");
         }
-        if (node.Initializer != null)
+        if (node.Initializer is not null)
         {
             source.Append(" = ");
             source.Append(
@@ -634,7 +633,7 @@ public sealed class AstMofGenerator
         {
             source.Append("[]");
         }
-        if (node.DefaultValue != null)
+        if (node.DefaultValue is not null)
         {
             source.Append(" = ");
             source.Append(
@@ -863,7 +862,7 @@ public sealed class AstMofGenerator
         source.Append(node.Of.Extent.Text);
         source.Append(' ');
         source.Append(node.TypeName.Name);
-        if (node.Alias != null)
+        if (node.Alias is not null)
         {
             source.Append(' ');
             var @as = node.As ?? throw new NullReferenceException();
@@ -900,7 +899,7 @@ public sealed class AstMofGenerator
         source.Append(node.Of.Extent.Text);
         source.Append(' ');
         source.Append(node.TypeName.Name);
-        if (node.Alias != null)
+        if (node.Alias is not null)
         {
             source.Append(' ');
             var @as = node.As ?? throw new NullReferenceException();
@@ -940,7 +939,7 @@ public sealed class AstMofGenerator
     public static string ConvertEnumValueAst(EnumValueAst node, MofQuirks quirks = MofQuirks.None)
     {
         var source = new StringBuilder();
-        if (node.EnumName != null)
+        if (node.EnumName is not null)
         {
             source.Append(node.EnumName.Name);
             source.Append('.');

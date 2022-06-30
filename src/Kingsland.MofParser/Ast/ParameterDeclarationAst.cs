@@ -151,7 +151,7 @@ public sealed record ParameterDeclarationAst : AstNode
     {
         get
         {
-            return (this.ParameterRef != null);
+            return this.ParameterRef is not null;
         }
     }
 

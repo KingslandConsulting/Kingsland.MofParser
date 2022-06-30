@@ -17,7 +17,6 @@ public sealed class CharMatch : IMatch
     public char Value
     {
         get;
-        private set;
     }
 
     #endregion

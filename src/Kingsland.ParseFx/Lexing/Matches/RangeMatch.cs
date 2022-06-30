@@ -22,13 +22,11 @@ public sealed class RangeMatch : IMatch
     public char FromValue
     {
         get;
-        private set;
     }
 
     public char ToValue
     {
         get;
-        private set;
     }
 
     #endregion

@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.Parsing;
 
-public static partial class StringValidatorTests
+public static class StringValidatorTests
 {
 
     #region 5.2 Whitespace

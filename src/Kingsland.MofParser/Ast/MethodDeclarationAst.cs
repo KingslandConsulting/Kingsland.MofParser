@@ -143,7 +143,7 @@ public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
     {
         get
         {
-            return (this.ReturnTypeRef != null);
+            return this.ReturnTypeRef is not null;
         }
     }
 

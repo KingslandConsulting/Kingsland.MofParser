@@ -20,13 +20,11 @@ public sealed class RegexMatch : IMatch
     public string Pattern
     {
         get;
-        private set;
     }
 
     public Regex Regex
     {
         get;
-        private set;
     }
 
     #endregion

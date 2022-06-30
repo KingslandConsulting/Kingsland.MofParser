@@ -25,19 +25,16 @@ public sealed class SourcePosition
     public int Position
     {
         get;
-        private set;
     }
 
     public int LineNumber
     {
         get;
-        private set;
     }
 
     public int ColumnNumber
     {
         get;
-        private set;
     }
 
     #endregion
@@ -47,7 +44,7 @@ public sealed class SourcePosition
     public bool IsEqualTo(SourcePosition obj)
     {
         return object.ReferenceEquals(obj, this) ||
-               ((obj != null) &&
+               ((obj is not null) &&
                 (obj.Position == this.Position) &&
                 (obj.LineNumber == this.LineNumber) &&
                 (obj.ColumnNumber == this.ColumnNumber));

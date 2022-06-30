@@ -1,6 +1,3 @@
 ﻿namespace Kingsland.ParseFx.Parsing;
 
-public abstract record AstNode : IAstNode
-{
-
-}
+public abstract record AstNode : IAstNode;

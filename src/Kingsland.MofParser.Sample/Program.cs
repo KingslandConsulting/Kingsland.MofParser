@@ -1,6 +1,6 @@
 ﻿using Kingsland.MofParser.Parsing;
 
-namespace Kingsland.FileFormat.Mof.Tests;
+namespace Kingsland.MofParser.Sample;
 
 class Program
 {

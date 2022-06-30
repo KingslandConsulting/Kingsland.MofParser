@@ -17,15 +17,15 @@ class Program
             Console.WriteLine("--------------------------");
             if (string.IsNullOrEmpty(instance.Alias))
             {
-                Console.WriteLine(string.Format("instance of {0}", instance.ClassName));
+                Console.WriteLine($"instance of {instance.ClassName}");
             }
             else
             {
-                Console.WriteLine(string.Format("instance of {0} as ${1}", instance.ClassName, instance.Alias));
+                Console.WriteLine($"instance of {instance.ClassName} as ${instance.Alias}");
             }
             foreach (var property in instance.Properties)
             {
-                Console.WriteLine("    {0} = {1}", property.Key.PadRight(14), property.Value.ToString());
+                Console.WriteLine($"    {property.Key,-14} = {property.Value}");
             }
             Console.WriteLine("--------------------------");
         }

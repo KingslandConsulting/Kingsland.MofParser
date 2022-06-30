@@ -144,7 +144,7 @@ public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
     {
         get
         {
-            return (this.ReturnTypeRef != null);
+            return this.ReturnTypeRef is not null;
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
+using System.Globalization;
 
 namespace Kingsland.MofParser.Tokens;
 
@@ -41,7 +42,7 @@ public sealed record RealLiteralToken : SyntaxToken
     {
         return (this.Extent != SourceExtent.Empty)
             ? this.Extent.Text
-            : this.Value.ToString();
+            : this.Value.ToString(CultureInfo.InvariantCulture);
     }
 
     #endregion

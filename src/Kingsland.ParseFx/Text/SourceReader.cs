@@ -20,13 +20,11 @@ public sealed class SourceReader
     public SourceStream Stream
     {
         get;
-        private set;
     }
 
     public int Position
     {
         get;
-        private set;
     }
 
     #endregion
@@ -142,13 +140,12 @@ public sealed class SourceReader
     public (List<SourceChar> SourceChars, SourceReader NextReader) ReadWhile(Func<char, bool> predicate)
     {
         var thisReader = this;
-        var sourceChar = default(SourceChar);
         var sourceChars = new List<SourceChar>();
         while (!thisReader.Eof())
         {
             if (predicate(thisReader.Peek().Value))
             {
-                (sourceChar, thisReader) = thisReader.Read();
+                (var sourceChar, thisReader) = thisReader.Read();
                 sourceChars.Add(sourceChar);
             }
             else

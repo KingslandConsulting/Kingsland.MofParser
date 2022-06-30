@@ -167,7 +167,7 @@ public sealed class AstWriter
                 break;
             default:
                 throw new NotImplementedException();
-        };
+        }
     }
 
     #endregion
@@ -222,10 +222,9 @@ public sealed class AstWriter
         var lastQualifierValue = default(QualifierValueAst);
 
         this.Write('[');
-        for (var i = 0; i < node.QualifierValues.Count; i++)
+        foreach (var thisQualifierValue in node.QualifierValues)
         {
-            var thisQualifierValue = node.QualifierValues[i];
-            if (lastQualifierValue != null)
+            if (lastQualifierValue is not null)
             {
                 this.Write(',');
                 if (!omitSpaceQuirkEnabled || !lastQualifierValue.QualifierName!.IsKeyword("in") || !thisQualifierValue.QualifierName.IsKeyword("out"))
@@ -245,7 +244,7 @@ public sealed class AstWriter
     public void WriteQualifierValueAst(QualifierValueAst node)
     {
         this.Write(node.QualifierName.Extent.Text);
-        if (node.Initializer != null)
+        if (node.Initializer is not null)
         {
             this.WriteQualifierInitializerAst(
                 node.Initializer
@@ -283,7 +282,7 @@ public sealed class AstWriter
                 break;
             default:
                 throw new NotImplementedException();
-        };
+        }
     }
 
     public void WriteQualifierValueInitializerAst(QualifierValueInitializerAst node)
@@ -332,7 +331,7 @@ public sealed class AstWriter
             this.WriteIndent();
         }
         this.Write($"{Constants.STRUCTURE} {node.StructureName.Name}");
-        if (node.SuperStructure != null)
+        if (node.SuperStructure is not null)
         {
             this.Write($" : {node.SuperStructure.Name}");
         }
@@ -369,7 +368,7 @@ public sealed class AstWriter
                 break;
             default:
                 throw new NotImplementedException();
-        };
+        }
     }
 
     #endregion
@@ -387,7 +386,7 @@ public sealed class AstWriter
             this.WriteIndent();
         }
         this.Write($"{Constants.CLASS} {node.ClassName.Name}");
-        if (node.SuperClass != null)
+        if (node.SuperClass is not null)
         {
             this.Write($" : {node.SuperClass.Name}");
         }
@@ -421,7 +420,7 @@ public sealed class AstWriter
                 break;
             default:
                 throw new NotImplementedException();
-        };
+        }
     }
 
     #endregion
@@ -439,7 +438,7 @@ public sealed class AstWriter
             this.WriteIndent();
         }
         this.Write($"{Constants.ASSOCIATION} {node.AssociationName.Name}");
-        if (node.SuperAssociation != null)
+        if (node.SuperAssociation is not null)
         {
             this.Write($" : {node.SuperAssociation.Name}");
         }
@@ -509,7 +508,7 @@ public sealed class AstWriter
             this.Write(' ');
         }
         this.Write(node.EnumElementName.Name);
-        if (node.EnumElementValue != null)
+        if (node.EnumElementValue is not null)
         {
             this.Write(" = ");
             this.WriteEnumElementValueAst(
@@ -530,7 +529,7 @@ public sealed class AstWriter
                 break;
             default:
                 throw new NotImplementedException();
-        };
+        }
     }
 
     #endregion
@@ -560,7 +559,7 @@ public sealed class AstWriter
         {
             this.Write("[]");
         }
-        if (node.Initializer != null)
+        if (node.Initializer is not null)
         {
             this.Write(" = ");
             this.WritePropertyValueAst(
@@ -646,7 +645,7 @@ public sealed class AstWriter
         {
             this.Write("[]");
         }
-        if (node.DefaultValue != null)
+        if (node.DefaultValue is not null)
         {
             this.Write(" = ");
             this.WritePropertyValueAst(
@@ -671,7 +670,7 @@ public sealed class AstWriter
                 break;
             default:
                 throw new NotImplementedException();
-        };
+        }
     }
 
     public void WriteComplexValueArrayAst(ComplexValueArrayAst node)
@@ -755,7 +754,7 @@ public sealed class AstWriter
                 break;
             default:
                 throw new NotImplementedException();
-        };
+        }
     }
 
     #endregion
@@ -774,7 +773,7 @@ public sealed class AstWriter
                 break;
             default:
                 throw new NotImplementedException();
-        };
+        }
     }
 
     public void WriteLiteralValueAst(LiteralValueAst node)
@@ -798,7 +797,7 @@ public sealed class AstWriter
                 break;
             default:
                 throw new NotImplementedException();
-        };
+        }
     }
 
     public void WriteLiteralValueArrayAst(LiteralValueArrayAst node)
@@ -881,7 +880,7 @@ public sealed class AstWriter
         this.Write(node.Of.Extent.Text);
         this.Write(' ');
         this.Write(node.TypeName.Name);
-        if (node.Alias != null)
+        if (node.Alias is not null)
         {
             this.Write(' ');
             var @as = node.As ?? throw new NullReferenceException();
@@ -920,7 +919,7 @@ public sealed class AstWriter
         this.Write(node.Of.Extent.Text);
         this.Write(' ');
         this.Write(node.TypeName.Name);
-        if (node.Alias != null)
+        if (node.Alias is not null)
         {
             this.Write(' ');
             var @as = node.As ?? throw new NullReferenceException();
@@ -959,12 +958,12 @@ public sealed class AstWriter
                 break;
             default:
                 throw new NotImplementedException();
-        };
+        }
     }
 
     public void WriteEnumValueAst(EnumValueAst node)
     {
-        if (node.EnumName != null)
+        if (node.EnumName is not null)
         {
             this.Write(node.EnumName.Name);
             this.Write('.');

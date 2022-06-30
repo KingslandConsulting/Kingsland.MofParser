@@ -133,7 +133,7 @@ public sealed class TokenStream
             throw new UnexpectedEndOfStreamException();
         }
         var peek = this.Source[this.Position] as T;
-        if ((peek != null) && predicate(peek))
+        if ((peek is not null) && predicate(peek))
         {
             result = peek;
             return true;
@@ -183,7 +183,7 @@ public sealed class TokenStream
         [NotNullWhen(true)] out T? result
     ) where T : SyntaxToken
     {
-        if (this.TryPeek<T>(out result))
+        if (this.TryPeek(out result))
         {
             this.Read();
             return true;

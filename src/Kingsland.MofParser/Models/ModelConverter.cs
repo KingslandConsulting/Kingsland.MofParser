@@ -186,7 +186,7 @@ internal static class ModelConverter
         {
             var alias = node.Alias ?? throw new NullReferenceException();
             return alias.Name;
-        };
+        }
         return node switch
         {
             _ => throw new NotImplementedException()

@@ -25,13 +25,11 @@ public sealed class UnexpectedCharacterException : Exception
     public SourceChar FoundChar
     {
         get;
-        private set;
     }
 
     public char? ExpectedChar
     {
         get;
-        private set;
     }
 
     public override string Message
