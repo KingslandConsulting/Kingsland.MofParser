@@ -1,6 +1,6 @@
 ﻿namespace Kingsland.MofParser.Parsing;
 
-internal sealed class StringValidator
+internal static class StringValidator
 {
 
     #region 5.2 Whitespace

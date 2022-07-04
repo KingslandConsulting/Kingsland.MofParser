@@ -11,7 +11,7 @@ public sealed class SourceChar
 
     internal SourceChar(SourcePosition position, char value)
     {
-        this.Position = position;
+        this.Position = position ?? throw new ArgumentNullException(nameof(position));
         this.Value = value;
     }
 
@@ -35,12 +35,12 @@ public sealed class SourceChar
 
     public override string ToString()
     {
-        return $"{{" +
+        return  "{{" +
                $"Position={this.Position.Position}," +
                $"LineNumber={this.Position.LineNumber}," +
                $"ColumnNumber={this.Position.ColumnNumber}," +
                $"Value=\"{this.Value}\"" +
-               $"}}";
+                "}}";
     }
 
     #endregion

@@ -60,7 +60,7 @@ public sealed record BooleanValueAst : LiteralValueAst
         get;
     }
 
-    public bool Value => 
+    public bool Value =>
         this.Token.Value;
 
     #endregion

@@ -11,12 +11,12 @@ public sealed class ScriptResource : DscResource
     }
 
     public string GetScript =>
-        base.GetStringProperty(nameof(this.GetScript));
+        this.GetStringProperty(nameof(this.GetScript));
 
     public string TestScript =>
-        base.GetStringProperty(nameof(this.TestScript));
+        this.GetStringProperty(nameof(this.TestScript));
 
     public string SetScript =>
-        base.GetStringProperty(nameof(this.SetScript));
+        this.GetStringProperty(nameof(this.SetScript));
 
 }

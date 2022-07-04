@@ -5,7 +5,7 @@ using Kingsland.ParseFx.Text;
 
 namespace Kingsland.MofParser.EditMof;
 
-class Program
+static class Program
 {
 
     static void Main()

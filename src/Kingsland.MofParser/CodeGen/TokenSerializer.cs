@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Kingsland.MofParser.CodeGen;
 
-public sealed class TokenSerializer
+public static class TokenSerializer
 {
 
     #region Dispatcher

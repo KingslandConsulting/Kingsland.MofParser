@@ -9,7 +9,7 @@ public sealed class SourceStream
 
     private SourceStream(TextReader baseReader)
     {
-        this.BaseReader = baseReader;
+        this.BaseReader = baseReader ?? throw new ArgumentNullException(nameof(baseReader));
         this.Buffer = new List<SourceChar>();
     }
 
@@ -140,7 +140,9 @@ public sealed class SourceStream
     public static SourceStream From(string value)
     {
         return new SourceStream(
-            new StringReader(value ?? string.Empty)
+            new StringReader(
+                value ?? throw new ArgumentNullException(nameof(value))
+            )
         );
     }
 

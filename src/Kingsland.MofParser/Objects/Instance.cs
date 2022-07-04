@@ -144,7 +144,7 @@ public sealed record Instance
             BooleanValueAst booleanValue => booleanValue.Value,
             IntegerValueAst integerValue => integerValue.Value,
             StringValueAst stringValue => stringValue.Value,
-            NullValueAst _ => null,
+            NullValueAst => null,
             _ => throw new NotImplementedException(
                 $"Unhandled literal value type '{node.GetType().FullName}'"
             ),

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kingsland.MofParser.CodeGen;
 
-public sealed class AstMofGenerator
+public static class AstMofGenerator
 {
 
     #region Dispatcher

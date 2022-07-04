@@ -2,45 +2,42 @@
 using RazorEngine.Templating;
 using System.Reflection;
 
-namespace Kingsland.MofParser.HtmlReport
+namespace Kingsland.MofParser.HtmlReport;
+
+static class Program
 {
 
-    class Program
+    static void Main()
     {
 
-        static void Main()
+        // get the list of mof filenames
+        var mofRoot = Assembly.GetExecutingAssembly().Location;
+        mofRoot = Path.GetDirectoryName(mofRoot);
+        mofRoot = Path.GetDirectoryName(mofRoot);
+        mofRoot = Path.GetDirectoryName(mofRoot);
+        mofRoot = Path.GetDirectoryName(mofRoot);
+        mofRoot = Path.Combine(mofRoot, "dsc");
+        var filenames = Directory.GetFiles(mofRoot, "*.mof", SearchOption.AllDirectories);
+
+        // parse the mof files
+        var resources = new List<DscResource>();
+        foreach (var filename in filenames)
         {
-
-            // get the list of mof filenames
-            var mofRoot = Assembly.GetExecutingAssembly().Location;
-            mofRoot = Path.GetDirectoryName(mofRoot);
-            mofRoot = Path.GetDirectoryName(mofRoot);
-            mofRoot = Path.GetDirectoryName(mofRoot);
-            mofRoot = Path.GetDirectoryName(mofRoot);
-            mofRoot = Path.Combine(mofRoot, "dsc");
-            var filenames = Directory.GetFiles(mofRoot, "*.mof", SearchOption.AllDirectories);
-
-            // parse the mof files
-            var resources = new List<DscResource>();
-            foreach (var filename in filenames)
-            {
-                var instances = PowerShellDscHelper.ParseMofFileInstances(filename);
-                resources.AddRange(
-                    instances.Select(
-                        instance => DscResource.FromInstance(
-                            Path.GetFileName(Path.GetDirectoryName(filename)),
-                            Path.GetFileNameWithoutExtension(filename),
-                            instance
-                        )
+            var instances = PowerShellDscHelper.ParseMofFileInstances(filename);
+            resources.AddRange(
+                instances.Select(
+                    instance => DscResource.FromInstance(
+                        Path.GetFileName(Path.GetDirectoryName(filename)),
+                        Path.GetFileNameWithoutExtension(filename),
+                        instance
                     )
-                );
-            }
-
-            var template = File.ReadAllText("MofFileSummary.cshtml");
-            var result = RazorEngine.Engine.Razor.RunCompile(template, "summary", null, resources);
-            File.WriteAllText("summary.htm", result);
-
+                )
+            );
         }
+
+        var template = File.ReadAllText("MofFileSummary.cshtml");
+        var result = RazorEngine.Engine.Razor.RunCompile(template, "summary", null, resources);
+        File.WriteAllText("summary.htm", result);
 
     }
 

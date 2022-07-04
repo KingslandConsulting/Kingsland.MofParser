@@ -30,7 +30,7 @@ public abstract record SyntaxToken
 
     public virtual string GetDebugString()
     {
-        return $"{this.GetType().Name} (\"{this?.Extent.Text}\")";
+        return $"{this.GetType().Name} (\"{this.Extent.Text}\")";
     }
 
     public virtual string GetSourceString()

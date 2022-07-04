@@ -5,7 +5,7 @@ using Kingsland.ParseFx.Syntax;
 
 namespace Kingsland.MofParser.Parsing;
 
-internal sealed class ParserEngine
+internal static class ParserEngine
 {
 
     #region 7.2 MOF specification
@@ -1028,7 +1028,7 @@ internal sealed class ParserEngine
             var enumValue = stream.Peek();
             switch (enumValue)
             {
-                case IntegerLiteralToken _:
+                case IntegerLiteralToken:
                     // integerValue
                     if (isStringEnum)
                     {
@@ -1036,7 +1036,7 @@ internal sealed class ParserEngine
                     }
                     node.EnumElementValue = ParserEngine.ParseIntegerValueAst(stream, quirks);
                     break;
-                case StringLiteralToken _:
+                case StringLiteralToken:
                     // stringValue
                     if (isIntegerEnum)
                     {
@@ -1818,19 +1818,19 @@ internal sealed class ParserEngine
         var peek = stream.Peek();
         return peek switch
         {
-            IntegerLiteralToken _ =>
+            IntegerLiteralToken =>
                 // integerValue
                 ParserEngine.ParseIntegerValueAst(stream, quirks),
-            RealLiteralToken _ =>
+            RealLiteralToken =>
                 // realValue
                 ParserEngine.ParseRealValueAst(stream, quirks),
-            BooleanLiteralToken _ =>
+            BooleanLiteralToken =>
                 // booleanValue
                 ParserEngine.ParseBooleanValueAst(stream, quirks),
-            NullLiteralToken _ =>
+            NullLiteralToken =>
                 // nullValue
                 ParserEngine.ParseNullValueAst(stream, quirks),
-            StringLiteralToken _ =>
+            StringLiteralToken =>
                 // stringValue
                 ParserEngine.ParseStringValueAst(stream, quirks),
             _ =>

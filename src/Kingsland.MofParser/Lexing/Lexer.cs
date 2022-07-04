@@ -87,42 +87,42 @@ public static class Lexer
 
     public static ScannerResult ReadAttributeCloseToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read(']');
+        var (sourceChar, nextReader) = reader.Read(']');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new AttributeCloseToken(extent), nextReader);
     }
 
     public static ScannerResult ReadAttributeOpenToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read('[');
+        var (sourceChar, nextReader) = reader.Read('[');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new AttributeOpenToken(extent), nextReader);
     }
 
     public static ScannerResult ReadBlockCloseToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read('}');
+        var (sourceChar, nextReader) = reader.Read('}');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new BlockCloseToken(extent), nextReader);
     }
 
     public static ScannerResult ReadBlockOpenToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read('{');
+        var (sourceChar, nextReader) = reader.Read('{');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new BlockOpenToken(extent), nextReader);
     }
 
     public static ScannerResult ReadColonToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read(':');
+        var (sourceChar, nextReader) = reader.Read(':');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new ColonToken(extent), nextReader);
     }
 
     public static ScannerResult ReadCommaToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read(',');
+        var (sourceChar, nextReader) = reader.Read(',');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new CommaToken(extent), nextReader);
     }
@@ -136,28 +136,28 @@ public static class Lexer
 
     public static ScannerResult ReadEqualsOperatorToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read('=');
+        var (sourceChar, nextReader) = reader.Read('=');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new EqualsOperatorToken(extent), nextReader);
     }
 
     public static ScannerResult ReadParenthesisCloseToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read(')');
+        var (sourceChar, nextReader) = reader.Read(')');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new ParenthesisCloseToken(extent), nextReader);
     }
 
     public static ScannerResult ReadParenthesisOpenToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read('(');
+        var (sourceChar, nextReader) = reader.Read('(');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new ParenthesisOpenToken(extent), nextReader);
     }
 
     public static ScannerResult ReadStatementEndToken(SourceReader reader)
     {
-        (var sourceChar, var nextReader) = reader.Read(';');
+        var (sourceChar, nextReader) = reader.Read(';');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new StatementEndToken(extent), nextReader);
     }

@@ -1,6 +1,6 @@
 ﻿namespace Kingsland.MofParser.NuGet;
 
-class Program
+static class Program
 {
 
     static void Main()

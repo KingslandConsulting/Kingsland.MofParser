@@ -2,7 +2,7 @@
 
 namespace Kingsland.MofParser.Sample;
 
-class Program
+static class Program
 {
 
     static void Main()

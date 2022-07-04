@@ -9,7 +9,7 @@ public sealed class SourceReader
 
     private SourceReader(SourceStream stream, int position)
     {
-        this.Stream = stream;
+        this.Stream = stream ?? throw new ArgumentNullException(nameof(stream));
         this.Position = position;
     }
 
