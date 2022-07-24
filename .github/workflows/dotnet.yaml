@@ -18,6 +18,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        # fetch all branches for gitversion
+        fetch-depth: 0
 
     - name: gitversion
       run: |
