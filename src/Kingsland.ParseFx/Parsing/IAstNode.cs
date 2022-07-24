@@ -1,8 +1,5 @@
-﻿namespace Kingsland.ParseFx.Parsing
+﻿namespace Kingsland.ParseFx.Parsing;
+
+public interface IAstNode
 {
-
-    public interface IAstNode
-    {
-    }
-
 }

@@ -1,0 +1,71 @@
+name: .NET
+
+on:
+
+  push:
+    branches:
+      - master
+      - 'feature/*'
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        # fetch all branches for gitversion
+        fetch-depth: 0
+
+    - name: gitversion
+      run: |
+        # calling "dotnet tool install" when already installed will give an error
+        # see https://github.com/dotnet/sdk/issues/9500
+        if ( ! dotnet tool list --global | grep -q "gitversion.tool" )
+        then
+          dotnet tool install --global GitVersion.Tool --version 5.8.2
+        fi
+        dotnet-gitversion
+        dotnet-gitversion /showvariable "FullSemVer"
+        BUILD_NUMBER=$(
+          # convert to a docker-friendly version number
+          dotnet-gitversion /showvariable "FullSemVer" \
+            | sed "s/+/-/g"
+        )
+        echo "build number = $BUILD_NUMBER"
+        echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
+
+    - name: setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: dotnet restore
+      run: dotnet restore src/Kingsland.MofParser.sln
+
+    - name: dotnet build
+      run: dotnet build src/Kingsland.MofParser.sln --configuration Release --no-restore
+
+    - name: dotnet jb inspectcode
+      run: |
+        dotnet new tool-manifest
+        dotnet tool install JetBrains.ReSharper.GlobalTools
+        dotnet tool restore
+        dotnet jb inspectcode src/Kingsland.MofParser.sln --output="./jb-inspectcode.xml" --no-build
+
+    - name: upload jb-inspectcode.xml
+      uses: actions/upload-artifact@v3
+      with:
+        name: jb-inspectcode.xml
+        path: ./jb-inspectcode.xml
+
+    - name: dotnet test
+      run: dotnet test src/Kingsland.MofParser.sln --configuration Release --no-build --verbosity normal
+
+    - name: nuget pack
+      run: nuget pack src/Kingsland.MofParser.nuspec

@@ -1,116 +1,109 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Tokens;
-using System;
 
-namespace Kingsland.MofParser.Ast
+namespace Kingsland.MofParser.Ast;
+
+/// <summary>
+/// </summary>
+/// <remarks>
+///
+/// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+///
+/// 7.5.4 Enumeration declaration
+///
+///     integerEnumElement     = [ qualifierList ] enumLiteral "=" integerValue
+///     stringEnumElement      = [ qualifierList ] enumLiteral [ "=" stringValue ]
+///
+///     enumLiteral            = IDENTIFIER
+///
+/// </remarks>
+public sealed record EnumElementAst : IAstNode
 {
 
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    ///
-    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
-    ///
-    /// 7.5.4 Enumeration declaration
-    ///
-    ///     integerEnumElement     = [ qualifierList ] enumLiteral "=" integerValue
-    ///     stringEnumElement      = [ qualifierList ] enumLiteral [ "=" stringValue ]
-    ///
-    ///     enumLiteral            = IDENTIFIER
-    ///
-    /// </remarks>
-    public sealed record EnumElementAst : IAstNode
+    #region Builder
+
+    public sealed class Builder
     {
 
-        #region Builder
-
-        public sealed class Builder
+        public Builder()
         {
-
-            public Builder()
-            {
-                this.QualifierList = new QualifierListAst();
-            }
-
-            public QualifierListAst QualifierList
-            {
-                get;
-                set;
-            }
-
-            public IdentifierToken? EnumElementName
-            {
-                get;
-                set;
-            }
-
-            public IEnumElementValueAst? EnumElementValue
-            {
-                get;
-                set;
-            }
-
-            public EnumElementAst Build()
-            {
-                return new EnumElementAst(
-                    this.QualifierList,
-                    this.EnumElementName ?? throw new InvalidOperationException(
-                        $"{nameof(this.EnumElementName)} property must be set before calling {nameof(Build)}."
-                    ),
-                    this.EnumElementValue
-                );
-            }
-
+            this.QualifierList = new QualifierListAst();
         }
-
-        #endregion
-
-        #region Constructors
-
-        internal EnumElementAst(
-            QualifierListAst qualifierList,
-            IdentifierToken enumElementName,
-            IEnumElementValueAst? enumElementValue
-        )
-        {
-            this.QualifierList = qualifierList;
-            this.EnumElementName = enumElementName;
-            this.EnumElementValue = enumElementValue;
-        }
-
-        #endregion
-
-        #region Properties
 
         public QualifierListAst QualifierList
         {
             get;
-            private init;
+            set;
         }
 
-        public IdentifierToken EnumElementName
+        public IdentifierToken? EnumElementName
         {
             get;
-            private init;
+            set;
         }
 
         public IEnumElementValueAst? EnumElementValue
         {
             get;
-            private init;
+            set;
         }
 
-        #endregion
-
-        #region Object Overrides
-
-        public override string ToString()
+        public EnumElementAst Build()
         {
-            return AstMofGenerator.ConvertEnumElementAst(this);
+            return new EnumElementAst(
+                this.QualifierList,
+                this.EnumElementName ?? throw new InvalidOperationException(
+                    $"{nameof(this.EnumElementName)} property must be set before calling {nameof(Build)}."
+                ),
+                this.EnumElementValue
+            );
         }
-
-        #endregion
 
     }
+
+    #endregion
+
+    #region Constructors
+
+    internal EnumElementAst(
+        QualifierListAst qualifierList,
+        IdentifierToken enumElementName,
+        IEnumElementValueAst? enumElementValue
+    )
+    {
+        this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
+        this.EnumElementName = enumElementName ?? throw new ArgumentNullException(nameof(enumElementName));
+        this.EnumElementValue = enumElementValue;
+    }
+
+    #endregion
+
+    #region Properties
+
+    public QualifierListAst QualifierList
+    {
+        get;
+    }
+
+    public IdentifierToken EnumElementName
+    {
+        get;
+    }
+
+    public IEnumElementValueAst? EnumElementValue
+    {
+        get;
+    }
+
+    #endregion
+
+    #region Object Overrides
+
+    public override string ToString()
+    {
+        return AstMofGenerator.ConvertEnumElementAst(this);
+    }
+
+    #endregion
 
 }

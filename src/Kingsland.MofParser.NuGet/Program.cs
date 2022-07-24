@@ -1,38 +1,31 @@
-﻿using System;
+﻿namespace Kingsland.MofParser.NuGet;
 
-namespace Kingsland.MofParser.NuGet
+static class Program
 {
 
-    class Program
+    static void Main()
     {
 
-        static void Main()
+        const string filename = "dsc\\MyServer.mof";
+
+        // parse the mof file
+        var instances = PowerShellDscHelper.ParseMofFileInstances(filename);
+
+        // display the instances
+        foreach (var instance in instances)
         {
-
-            const string filename = "dsc\\MyServer.mof";
-
-            // parse the mof file
-            var instances = PowerShellDscHelper.ParseMofFileInstances(filename);
-
-            // display the instances
-            foreach (var instance in instances)
+            Console.WriteLine("--------------------------");
+            Console.Write($"instance of {instance.ClassName}");
+            if (!string.IsNullOrEmpty(instance.Alias))
             {
-                Console.WriteLine("--------------------------");
-                if (string.IsNullOrEmpty(instance.Alias))
-                {
-                    Console.WriteLine(string.Format("instance of {0}", instance.ClassName));
-                }
-                else
-                {
-                    Console.WriteLine(string.Format("instance of {0} as ${1}", instance.ClassName, instance.Alias));
-                }
-                foreach (var property in instance.Properties)
-                {
-                    Console.WriteLine("    {0} = {1}", property.Key.PadRight(14), property.Value.ToString());
-                }
-                Console.WriteLine("--------------------------");
+                Console.Write($" as ${instance.Alias}");
             }
-
+            Console.WriteLine();
+            foreach (var property in instance.Properties)
+            {
+                Console.WriteLine($"    {property.Key,-14} = {property.Value}");
+            }
+            Console.WriteLine("--------------------------");
         }
 
     }

@@ -1,6 +1,4 @@
 ﻿using Kingsland.MofParser.Parsing;
-using System;
-using System.IO;
 
 namespace Kingsland.MofParser.PerfTest
 {
@@ -20,7 +18,7 @@ namespace Kingsland.MofParser.PerfTest
             for (var i = 0; i < 5; i++)
             {
                 Console.WriteLine($"i = {i}");
-                Parser.ParseText(
+                var module = Parser.ParseText(
                     sourceText,
                     ParserQuirks.AllowMofV2Qualifiers |
                     ParserQuirks.AllowEmptyQualifierValueArrays

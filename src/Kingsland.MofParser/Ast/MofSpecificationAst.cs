@@ -1,90 +1,85 @@
 ﻿using Kingsland.MofParser.CodeGen;
 using Kingsland.ParseFx.Parsing;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
-namespace Kingsland.MofParser.Ast
+namespace Kingsland.MofParser.Ast;
+
+/// <summary>
+/// </summary>
+/// <remarks>
+///
+/// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
+///
+/// 7.2 MOF specification
+///
+///     mofSpecification = *mofProduction
+///
+/// </remarks>
+public sealed record MofSpecificationAst : AstNode
 {
 
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    ///
-    /// See https://www.dmtf.org/sites/default/files/standards/documents/DSP0221_3.0.1.pdf
-    ///
-    /// 7.2 MOF specification
-    ///
-    ///     mofSpecification = *mofProduction
-    ///
-    /// </remarks>
-    public sealed record MofSpecificationAst : AstNode
+    #region Builder
+
+    public sealed class Builder
     {
 
-        #region Builder
-
-        public sealed class Builder
+        public Builder()
         {
-
-            public Builder()
-            {
-                this.Productions = new List<MofProductionAst>();
-            }
-
-            public List<MofProductionAst> Productions
-            {
-                get;
-                set;
-            }
-
-            public MofSpecificationAst Build()
-            {
-                return new MofSpecificationAst(
-                    this.Productions
-                );
-            }
-
+            this.Productions = new List<MofProductionAst>();
         }
 
-        #endregion
-
-        #region Constructors
-
-        internal MofSpecificationAst()
-            : this(new List<MofProductionAst>())
+        public List<MofProductionAst> Productions
         {
+            get;
+            set;
         }
 
-        internal MofSpecificationAst(
-            IEnumerable<MofProductionAst> productions
-        )
+        public MofSpecificationAst Build()
         {
-            this.Productions = new ReadOnlyCollection<MofProductionAst>(
-                productions.ToList()
+            return new MofSpecificationAst(
+                this.Productions
             );
         }
 
-        #endregion
-
-        #region Properties
-
-        public ReadOnlyCollection<MofProductionAst> Productions
-        {
-            get;
-            private init;
-        }
-
-        #endregion
-
-        #region Object Overrides
-
-        public override string ToString()
-        {
-            return AstMofGenerator.ConvertMofSpecificationAst(this);
-        }
-
-        #endregion
-
     }
+
+    #endregion
+
+    #region Constructors
+
+    internal MofSpecificationAst()
+        : this(new List<MofProductionAst>())
+    {
+    }
+
+    internal MofSpecificationAst(
+        IEnumerable<MofProductionAst> productions
+    )
+    {
+        this.Productions = new ReadOnlyCollection<MofProductionAst>(
+            (productions ?? throw new ArgumentNullException(nameof(productions)))
+                .ToList()
+        );
+    }
+
+    #endregion
+
+    #region Properties
+
+    public ReadOnlyCollection<MofProductionAst> Productions
+    {
+        get;
+    }
+
+    #endregion
+
+    #region Object Overrides
+
+    public override string ToString()
+    {
+        return AstMofGenerator.ConvertMofSpecificationAst(this);
+    }
+
+    #endregion
 
 }

@@ -10,13 +10,13 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A C# library for parsing the contents of Managed Object Format (MOF) files</description>
     <dependencies>
-      <group targetFramework="net5.0" />
+      <group targetFramework="net6.0" />
     </dependencies>
     <tags>powershell dsc mof parser</tags>
   </metadata>
   <files>
     <file src="..\LICENSE" />
-    <file src="Kingsland.MofParser\bin\Release\net5.0\*.dll" target="\lib\net5.0" />
-    <file src="Kingsland.MofParser\bin\Release\net5.0\*.pdb" target="\lib\net5.0" />
+    <file src="Kingsland.MofParser\bin\Release\net6.0\*.dll" target="\lib\net6.0" />
+    <file src="Kingsland.MofParser\bin\Release\net6.0\*.pdb" target="\lib\net6.0" />
   </files>
 </package>

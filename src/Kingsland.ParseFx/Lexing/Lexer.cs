@@ -1,134 +1,127 @@
 ﻿using Kingsland.ParseFx.Lexing.Matches;
 using Kingsland.ParseFx.Syntax;
 using Kingsland.ParseFx.Text;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using static Kingsland.ParseFx.Lexing.Scanner;
 
-namespace Kingsland.ParseFx.Lexing
+namespace Kingsland.ParseFx.Lexing;
+
+public sealed class Lexer
 {
 
-    public sealed class Lexer
+    #region Constructors
+
+    public Lexer()
+        : this(new List<Scanner>())
     {
+    }
 
-        #region Constructors
+    public Lexer(IEnumerable<Scanner> scanners)
+    {
+        this.Scanners = (scanners == null) ?
+            throw new ArgumentNullException(nameof(scanners)) :
+            new ReadOnlyCollection<Scanner>(scanners.ToList()
+        );
+        this.ScannerCache = new Dictionary<char, Scanner>();
+    }
 
-        public Lexer()
-            : this(new List<Scanner>())
+    #endregion
+
+    #region Properties
+
+    public ReadOnlyCollection<Scanner> Scanners
+    {
+        get;
+    }
+
+    private Dictionary<char, Scanner> ScannerCache
+    {
+        get;
+        set;
+    }
+
+    #endregion
+
+    #region Lexing Methods
+
+    public List<SyntaxToken> Lex(string sourceText)
+    {
+        var reader = SourceReader.From(sourceText);
+        return this.ReadToEnd(reader).ToList();
+    }
+
+    public IEnumerable<SyntaxToken> ReadToEnd(SourceReader reader)
+    {
+        var thisReader = reader;
+        while (!thisReader.Eof())
         {
+            var result = this.ReadToken(thisReader);
+            yield return result.Token;
+            thisReader = result.NextReader;
         }
+    }
 
-        public Lexer(IEnumerable<Scanner> scanners)
+    public ScannerResult ReadToken(SourceReader reader)
+    {
+        var peek = reader.Peek();
+        // make sure the rule for the next character is in the rule cache
+        if (!this.ScannerCache.ContainsKey(peek.Value))
         {
-            this.Scanners = (scanners == null) ?
-                throw new ArgumentNullException(nameof(scanners)) :
-                new ReadOnlyCollection<Scanner>(scanners.ToList()
+            this.ScannerCache.Add(
+                peek.Value,
+                this.Scanners.FirstOrDefault(r => r.Match.Matches(peek.Value))
+                    ?? throw new UnexpectedCharacterException(peek)
             );
-            this.ScannerCache = new Dictionary<char, Scanner>();
         }
+        // apply the scanner for the next character
+        return this.ScannerCache[peek.Value].Action.Invoke(reader);
+    }
 
-        #endregion
+    #endregion
 
-        #region Properties
+    #region Scanner Methods
 
-        public ReadOnlyCollection<Scanner> Scanners
-        {
-            get;
-            private set;
-        }
-
-        private Dictionary<char, Scanner> ScannerCache
-        {
-            get;
-            set;
-        }
-
-        #endregion
-
-        #region Lexing Methods
-
-        public List<SyntaxToken> Lex(string sourceText)
-        {
-            var reader = SourceReader.From(sourceText);
-            return this.ReadToEnd(reader).ToList();
-        }
-
-        public IEnumerable<SyntaxToken> ReadToEnd(SourceReader reader)
-        {
-            var thisReader = reader;
-            while (!thisReader.Eof())
-            {
-                var result = this.ReadToken(thisReader);
-                yield return result.Token;
-                thisReader = result.NextReader;
-            }
-        }
-
-        public ScannerResult ReadToken(SourceReader reader)
-        {
-            var peek = reader.Peek();
-            // make sure the rule for the next character is in the rule cache
-            if (!this.ScannerCache.ContainsKey(peek.Value))
-            {
-                this.ScannerCache.Add(
-                    peek.Value,
-                    this.Scanners.FirstOrDefault(r => r.Match.Matches(peek.Value))
-                        ?? throw new UnexpectedCharacterException(peek)
+    public Lexer AddScanner(char value, Func<SourceExtent, SyntaxToken> factoryMethod)
+    {
+        return this.AddScanner(
+            value,
+            (reader) => {
+                var (sourceChar, nextReader) = reader.Read(value);
+                var extent = SourceExtent.From(sourceChar);
+                return new ScannerResult(
+                    factoryMethod(extent), nextReader
                 );
             }
-            // apply the scanner for the next character
-            return this.ScannerCache[peek.Value].Action.Invoke(reader);
-        }
-
-        #endregion
-
-        #region Scanner Methods
-
-        public Lexer AddScanner(char value, Func<SourceExtent, SyntaxToken> factoryMethod)
-        {
-            return this.AddScanner(
-                value,
-                (reader) => {
-                    (var sourceChar, var nextReader) = reader.Read(value);
-                    var extent = SourceExtent.From(sourceChar);
-                    return new ScannerResult(
-                        factoryMethod(extent), nextReader
-                    );
-                }
-            );
-        }
-
-        public Lexer AddScanner(char[] values, ScannerAction action)
-        {
-            return this.AddScanner(new CharArrayMatch(values), action);
-        }
-
-        public Lexer AddScanner(char value, ScannerAction action)
-        {
-            return this.AddScanner(new CharMatch(value), action);
-        }
-
-        public Lexer AddScanner(char fromValue, char toValue, ScannerAction action)
-        {
-            return this.AddScanner(new RangeMatch(fromValue, toValue), action);
-        }
-
-        public Lexer AddScanner(string pattern, ScannerAction action)
-        {
-            return this.AddScanner(new RegexMatch(pattern), action);
-        }
-
-        public Lexer AddScanner(IMatch match, ScannerAction action)
-        {
-            var newScanners = this.Scanners.ToList();
-            newScanners.Add(new Scanner(match, action));
-            return new Lexer(newScanners);
-        }
-
-        #endregion
-
+        );
     }
+
+    public Lexer AddScanner(char[] values, ScannerAction action)
+    {
+        return this.AddScanner(new CharArrayMatch(values), action);
+    }
+
+    public Lexer AddScanner(char value, ScannerAction action)
+    {
+        return this.AddScanner(new CharMatch(value), action);
+    }
+
+    public Lexer AddScanner(char fromValue, char toValue, ScannerAction action)
+    {
+        return this.AddScanner(new RangeMatch(fromValue, toValue), action);
+    }
+
+    public Lexer AddScanner(string pattern, ScannerAction action)
+    {
+        return this.AddScanner(new RegexMatch(pattern), action);
+    }
+
+    public Lexer AddScanner(IMatch match, ScannerAction action)
+    {
+        var newScanners = this.Scanners.ToList();
+        newScanners.Add(new Scanner(match, action));
+        return new Lexer(newScanners);
+    }
+
+    #endregion
 
 }

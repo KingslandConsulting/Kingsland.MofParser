@@ -1,11 +1,8 @@
-﻿namespace Kingsland.ParseFx.Lexing.Matches
+﻿namespace Kingsland.ParseFx.Lexing.Matches;
+
+public interface IMatch
 {
 
-    public interface IMatch
-    {
-
-        bool Matches(char value);
-
-    }
+    bool Matches(char value);
 
 }
