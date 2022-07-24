@@ -71,7 +71,7 @@ public sealed class SourceStream
         }
         var streamChar = (char)streamRead;
         // append a char to the buffer
-        var lastChar = (this.Buffer?.Count == 0) ? null : this.Buffer![^1];
+        var lastChar = (this.Buffer.Count == 0) ? null : this.Buffer![^1];
         var nextChar = new SourceChar(
             SourceStream.GetNextPosition(lastChar, streamChar),
             streamChar

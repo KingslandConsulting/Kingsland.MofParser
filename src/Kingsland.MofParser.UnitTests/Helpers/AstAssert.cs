@@ -25,7 +25,7 @@ internal static class AstAssert
         }
     }
 
-    public static void AreEqual(MofProductionAst? expected, MofProductionAst? actual, bool ignoreExtent)
+    private static void AreEqual(MofProductionAst? expected, MofProductionAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {
@@ -61,7 +61,7 @@ internal static class AstAssert
         }
     }
 
-    public static void AreEqual(AssociationDeclarationAst? expected, AssociationDeclarationAst? actual, bool ignoreExtent)
+    private static void AreEqual(AssociationDeclarationAst? expected, AssociationDeclarationAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {
@@ -81,7 +81,7 @@ internal static class AstAssert
         }
     }
 
-    public static void AreEqual(QualifierListAst? expected, QualifierListAst? actual, bool ignoreExtent)
+    private static void AreEqual(QualifierListAst? expected, QualifierListAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {
@@ -98,7 +98,7 @@ internal static class AstAssert
         }
     }
 
-    public static void AreEqual(QualifierValueAst? expected, QualifierValueAst? actual, bool ignoreExtent)
+    private static void AreEqual(QualifierValueAst? expected, QualifierValueAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {
@@ -111,7 +111,7 @@ internal static class AstAssert
         throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
     }
 
-    public static void AreEqual(IClassFeatureAst? expected, IClassFeatureAst? actual, bool ignoreExtent)
+    private static void AreEqual(IClassFeatureAst? expected, IClassFeatureAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {
@@ -144,7 +144,7 @@ internal static class AstAssert
         }
     }
 
-    public static void AreEqual(PropertyDeclarationAst? expected, PropertyDeclarationAst? actual, bool ignoreExtent)
+    private static void AreEqual(PropertyDeclarationAst? expected, PropertyDeclarationAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {
@@ -162,7 +162,7 @@ internal static class AstAssert
         Assert.AreEqual(expected.Initializer, actual.Initializer);
     }
 
-    public static void AreEqual(InstanceValueDeclarationAst? expected, InstanceValueDeclarationAst? actual, bool ignoreExtent)
+    private static void AreEqual(InstanceValueDeclarationAst? expected, InstanceValueDeclarationAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {
@@ -181,7 +181,7 @@ internal static class AstAssert
         TokenAssert.AreEqual(expected.StatementEnd, actual.StatementEnd, ignoreExtent);
     }
 
-    public static void AreEqual(PropertyValueListAst? expected, PropertyValueListAst? actual, bool ignoreExtent)
+    private static void AreEqual(PropertyValueListAst? expected, PropertyValueListAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {
@@ -200,7 +200,7 @@ internal static class AstAssert
         }
     }
 
-    public static void AreEqual(PropertyValueAst? expected, PropertyValueAst? actual, bool ignoreExtent)
+    private static void AreEqual(PropertyValueAst? expected, PropertyValueAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {
@@ -224,7 +224,7 @@ internal static class AstAssert
         }
     }
 
-    public static void AreEqual(BooleanValueAst? expected, BooleanValueAst? actual, bool ignoreExtent)
+    private static void AreEqual(BooleanValueAst? expected, BooleanValueAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {
@@ -237,7 +237,7 @@ internal static class AstAssert
         Assert.AreEqual(expected.Value, actual.Value);
     }
 
-    public static void AreEqual(StringValueAst? expected, StringValueAst? actual, bool ignoreExtent)
+    private static void AreEqual(StringValueAst? expected, StringValueAst? actual, bool ignoreExtent)
     {
         if ((expected == null) && (actual == null))
         {

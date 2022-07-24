@@ -15,14 +15,12 @@ static class Program
         foreach (var instance in instances)
         {
             Console.WriteLine("--------------------------");
-            if (string.IsNullOrEmpty(instance.Alias))
+            Console.Write($"instance of {instance.ClassName}");
+            if (!string.IsNullOrEmpty(instance.Alias))
             {
-                Console.WriteLine($"instance of {instance.ClassName}");
+                Console.Write($" as ${instance.Alias}");
             }
-            else
-            {
-                Console.WriteLine($"instance of {instance.ClassName} as ${instance.Alias}");
-            }
+            Console.WriteLine();
             foreach (var property in instance.Properties)
             {
                 Console.WriteLine($"    {property.Key,-14} = {property.Value}");

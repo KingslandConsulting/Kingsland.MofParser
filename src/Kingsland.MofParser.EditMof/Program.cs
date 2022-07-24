@@ -62,7 +62,7 @@ instance of MSFT_RoleResource as $MSFT_RoleResource1ref
         tokens[tokens.IndexOf(oldValue)] = newValue;
 
         // generate the new source text
-        var newSource = TokenSerializer.ToSourceText(tokens);
+        var _ = TokenSerializer.ToSourceText(tokens);
 
         // instance of MSFT_RoleResource as $MSFT_RoleResource1ref
         // {

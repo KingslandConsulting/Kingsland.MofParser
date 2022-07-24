@@ -77,20 +77,20 @@ public sealed class SourceReader
 
     #region Read Methods
 
-    private SourceReader? next;
+    private SourceReader? _next;
 
     public SourceReader Next()
     {
-        if (this.next == null)
+        if (this._next == null)
         {
-            this.next = this.Eof() ?
-                throw new UnexpectedEndOfStreamException() :
-                new SourceReader(
+            this._next = this.Eof()
+                ? throw new UnexpectedEndOfStreamException()
+                : new SourceReader(
                     stream: this.Stream,
                     position: this.Position + 1
                 );
         }
-        return this.next;
+        return this._next;
     }
 
     /// <summary>

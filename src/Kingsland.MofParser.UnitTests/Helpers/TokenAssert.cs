@@ -15,7 +15,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(AttributeCloseToken? expected, AttributeCloseToken? actual, bool ignoreExtent)
+    private static void AreEqual(AttributeCloseToken? expected, AttributeCloseToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -23,7 +23,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(AttributeOpenToken? expected, AttributeOpenToken? actual, bool ignoreExtent)
+    private static void AreEqual(AttributeOpenToken? expected, AttributeOpenToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -31,7 +31,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(BlockCloseToken? expected, BlockCloseToken? actual, bool ignoreExtent)
+    private static void AreEqual(BlockCloseToken? expected, BlockCloseToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -39,7 +39,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(BlockOpenToken? expected, BlockOpenToken? actual, bool ignoreExtent)
+    private static void AreEqual(BlockOpenToken? expected, BlockOpenToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -47,7 +47,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(BooleanLiteralToken? expected, BooleanLiteralToken? actual, bool ignoreExtent)
+    private static void AreEqual(BooleanLiteralToken? expected, BooleanLiteralToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -55,7 +55,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(ColonToken? expected, ColonToken? actual, bool ignoreExtent)
+    private static void AreEqual(ColonToken? expected, ColonToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -63,7 +63,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(CommaToken? expected, CommaToken? actual, bool ignoreExtent)
+    private static void AreEqual(CommaToken? expected, CommaToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -71,7 +71,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(CommentToken? expected, CommentToken? actual, bool ignoreExtent)
+    private static void AreEqual(CommentToken? expected, CommentToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -79,7 +79,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(DotOperatorToken? expected, DotOperatorToken? actual, bool ignoreExtent)
+    private static void AreEqual(DotOperatorToken? expected, DotOperatorToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -87,7 +87,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(EqualsOperatorToken? expected, EqualsOperatorToken? actual, bool ignoreExtent)
+    private static void AreEqual(EqualsOperatorToken? expected, EqualsOperatorToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -115,7 +115,7 @@ internal static class TokenAssert
         });
     }
 
-    public static void AreEqual(IntegerLiteralToken? expected, IntegerLiteralToken? actual, bool ignoreExtent)
+    private static void AreEqual(IntegerLiteralToken? expected, IntegerLiteralToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -123,7 +123,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(NullLiteralToken? expected, NullLiteralToken? actual, bool ignoreExtent)
+    private static void AreEqual(NullLiteralToken? expected, NullLiteralToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -131,7 +131,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(ParenthesisCloseToken? expected, ParenthesisCloseToken? actual, bool ignoreExtent)
+    private static void AreEqual(ParenthesisCloseToken? expected, ParenthesisCloseToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -139,7 +139,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(ParenthesisOpenToken? expected, ParenthesisOpenToken? actual, bool ignoreExtent)
+    private static void AreEqual(ParenthesisOpenToken? expected, ParenthesisOpenToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -147,7 +147,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(PragmaToken? expected, PragmaToken? actual, bool ignoreExtent)
+    private static void AreEqual(PragmaToken? expected, PragmaToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -155,7 +155,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(RealLiteralToken? expected, RealLiteralToken? actual, bool ignoreExtent)
+    private static void AreEqual(RealLiteralToken? expected, RealLiteralToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -179,7 +179,7 @@ internal static class TokenAssert
         }
     }
 
-    public static void AreEqual(WhitespaceToken? expected, WhitespaceToken? actual, bool ignoreExtent)
+    private static void AreEqual(WhitespaceToken? expected, WhitespaceToken? actual, bool ignoreExtent)
     {
         if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
         {
@@ -189,7 +189,7 @@ internal static class TokenAssert
 
     #region Helper Methods
 
-    public static void AreEqual(SourceExtent? expected, SourceExtent? actual)
+    private static void AreEqual(SourceExtent? expected, SourceExtent? actual)
     {
         Assert.Multiple(() => {
             switch (expected == null)
@@ -207,7 +207,7 @@ internal static class TokenAssert
         });
     }
 
-    public static void AreEqual(SourcePosition? expected, SourcePosition? actual)
+    private static void AreEqual(SourcePosition? expected, SourcePosition? actual)
     {
         Assert.Multiple(() => {
             switch (expected == null)
