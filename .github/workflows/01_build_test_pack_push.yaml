@@ -1,4 +1,4 @@
-name: .NET
+name: "01 - Build, Test, Pack, Push"
 
 on:
 
