@@ -14,18 +14,23 @@ static class Program
         // display the instances
         foreach (var instance in instances)
         {
+
             Console.WriteLine("--------------------------");
+
             Console.Write($"instance of {instance.ClassName}");
             if (!string.IsNullOrEmpty(instance.Alias))
             {
                 Console.Write($" as ${instance.Alias}");
             }
             Console.WriteLine();
+
             foreach (var property in instance.Properties)
             {
                 Console.WriteLine($"    {property.Key,-14} = {property.Value}");
             }
+
             Console.WriteLine("--------------------------");
+
         }
 
     }

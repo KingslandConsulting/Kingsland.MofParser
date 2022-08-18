@@ -150,8 +150,8 @@ internal static class StringValidator
             _ => value
 
         };
-        return StringValidator.IsPositiveDecimalDigit(chars[0]) &&
-               chars[1..].All(StringValidator.IsDecimalDigit);
+        return StringValidator.IsPositiveDecimalDigit(chars[0])
+		    && chars[1..].All(StringValidator.IsDecimalDigit);
     }
 
     #endregion
