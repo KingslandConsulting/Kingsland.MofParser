@@ -10,13 +10,13 @@ public sealed class ScriptResource : DscResource
     {
     }
 
-    public string GetScript =>
+    public string? GetScript =>
         this.GetStringProperty(nameof(this.GetScript));
 
-    public string TestScript =>
+    public string? TestScript =>
         this.GetStringProperty(nameof(this.TestScript));
 
-    public string SetScript =>
+    public string? SetScript =>
         this.GetStringProperty(nameof(this.SetScript));
 
 }
