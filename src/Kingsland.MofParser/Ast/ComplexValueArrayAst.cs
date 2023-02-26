@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -63,15 +62,6 @@ public sealed record ComplexValueArrayAst : ComplexTypeValueAst
     public ReadOnlyCollection<ComplexValueAst> Values
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertComplexValueArrayAst(this);
     }
 
     #endregion

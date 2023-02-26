@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -68,15 +67,6 @@ public sealed record RealValueAst : LiteralValueAst
     public double Value
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertRealValueAst(this);
     }
 
     #endregion

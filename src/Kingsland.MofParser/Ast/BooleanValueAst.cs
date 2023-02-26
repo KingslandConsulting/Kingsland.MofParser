@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -62,15 +61,6 @@ public sealed record BooleanValueAst : LiteralValueAst
 
     public bool Value =>
         this.Token.Value;
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertBooleanValueAst(this);
-    }
 
     #endregion
 

@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -60,15 +59,6 @@ public sealed record NullValueAst : LiteralValueAst
     public NullLiteralToken Token
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertNullValueAst(this);
     }
 
     #endregion

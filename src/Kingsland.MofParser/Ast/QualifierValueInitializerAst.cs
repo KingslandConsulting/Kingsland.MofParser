@@ -1,6 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-
-namespace Kingsland.MofParser.Ast;
+﻿namespace Kingsland.MofParser.Ast;
 
 /// <summary>
 /// </summary>
@@ -54,15 +52,6 @@ public sealed record QualifierValueInitializerAst : IQualifierInitializerAst
     public LiteralValueAst Value
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertQualifierValueInitializerAst(this);
     }
 
     #endregion

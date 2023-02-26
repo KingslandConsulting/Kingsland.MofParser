@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -160,15 +159,6 @@ public sealed record StructureValueDeclarationAst : MofProductionAst
     public StatementEndToken StatementEnd
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertStructureValueDeclarationAst(this);
     }
 
     #endregion

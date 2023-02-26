@@ -1,6 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.ParseFx.Parsing;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -69,15 +67,6 @@ public sealed record QualifierListAst : AstNode
     public ReadOnlyCollection<QualifierValueAst> QualifierValues
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertQualifierListAst(this);
     }
 
     #endregion

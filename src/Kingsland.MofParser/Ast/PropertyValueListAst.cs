@@ -1,6 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.ParseFx.Parsing;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -78,15 +76,6 @@ public sealed record PropertyValueListAst : AstNode
     public ReadOnlyDictionary<string, PropertyValueAst> PropertyValues
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertPropertyValueListAst(this);
     }
 
     #endregion

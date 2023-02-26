@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -105,15 +104,6 @@ public sealed record CompilerDirectiveAst : MofProductionAst
     public StringValueAst PragmaParameter
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertCompilerDirectiveAst(this);
     }
 
     #endregion

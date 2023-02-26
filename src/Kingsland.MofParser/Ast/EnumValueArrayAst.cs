@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -68,15 +67,6 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
     public ReadOnlyCollection<EnumValueAst> Values
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertEnumValueArrayAst(this);
     }
 
     #endregion

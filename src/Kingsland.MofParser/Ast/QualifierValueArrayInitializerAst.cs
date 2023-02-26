@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -69,15 +68,6 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
     public ReadOnlyCollection<LiteralValueAst> Values
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertQualifierValueArrayInitializerAst(this);
     }
 
     #endregion

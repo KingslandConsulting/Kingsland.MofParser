@@ -1,6 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
-using Kingsland.ParseFx.Parsing;
+﻿using Kingsland.MofParser.Tokens;
 using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
@@ -160,15 +158,6 @@ public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
     public ReadOnlyCollection<ParameterDeclarationAst> Parameters
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertMethodDeclarationAst(this);
     }
 
     #endregion

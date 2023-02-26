@@ -1,4 +1,3 @@
-using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Tokens;
 using System.Collections.ObjectModel;
 
@@ -131,15 +130,6 @@ public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFea
     public ReadOnlyCollection<EnumElementAst> EnumElements
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertEnumerationDeclarationAst(this);
     }
 
     #endregion

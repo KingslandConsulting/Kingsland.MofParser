@@ -1,4 +1,3 @@
-using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Tokens;
 using System.Collections.ObjectModel;
 
@@ -117,15 +116,6 @@ public sealed record AssociationDeclarationAst : MofProductionAst
     public ReadOnlyCollection<IClassFeatureAst> ClassFeatures
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertAssociationDeclarationAst(this);
     }
 
     #endregion

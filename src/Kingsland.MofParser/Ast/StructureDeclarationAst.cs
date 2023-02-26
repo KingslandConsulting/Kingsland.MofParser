@@ -1,4 +1,3 @@
-using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Tokens;
 using System.Collections.ObjectModel;
 
@@ -121,15 +120,6 @@ public sealed record StructureDeclarationAst : MofProductionAst, IStructureFeatu
     public ReadOnlyCollection<IStructureFeatureAst> StructureFeatures
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertStructureDeclarationAst(this);
     }
 
     #endregion
