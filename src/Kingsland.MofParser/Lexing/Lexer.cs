@@ -869,11 +869,10 @@ public static class Lexer
         // BUGBUG - incomplete escape sequences
         // BUGBUG - no support for UCS characters
         var thisReader = reader;
-        var sourceChar = default(SourceChar);
         var sourceChars = new List<SourceChar>();
         var stringChars = new StringBuilder();
         // read the first double-quote character
-        (sourceChar, thisReader) = thisReader.Read(Constants.DOUBLEQUOTE);
+        (var sourceChar, thisReader) = thisReader.Read(Constants.DOUBLEQUOTE);
         sourceChars.Add(sourceChar);
         // read the remaining characters
         bool isEscaped = false;
