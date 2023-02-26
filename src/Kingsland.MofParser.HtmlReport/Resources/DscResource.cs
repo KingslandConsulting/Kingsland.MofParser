@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Objects;
+using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.HtmlReport.Resources;
 
@@ -33,27 +34,35 @@ public class DscResource
         get;
     }
 
-    public string ResourceId =>
+    public string? ResourceId =>
         this.GetStringProperty("ResourceID");
 
     public string ClassName =>
         this.Instance.ClassName;
 
-    public string ResourceType =>
+    public string? ResourceType =>
         // ResourceID = "[ResourceType]ResourceName"
-        DscResource.GetResourceTypeFromResourceId(this.ResourceId);
+        this.ResourceId == null
+            ? null
+            : DscResource.GetResourceTypeFromResourceId(this.ResourceId);
 
-    public string ResourceName =>
+    public string? ResourceName =>
         // ResourceID = "[ResourceType]ResourceName"
-        DscResource.GetResourceNameFromResourceId(this.ResourceId);
+        this.ResourceId == null
+            ? null
+            : DscResource.GetResourceNameFromResourceId(this.ResourceId);
 
-    public string[] DependsOn =>
-        (string[])this.Instance.Properties["ResourceID"];
+    public ReadOnlyCollection<string> DependsOn =>
+        new(
+            new List<string>(
+                this.Instance.Properties["ResourceID"] as string[] ?? Enumerable.Empty<string>()
+            )
+        );
 
-    public string ModuleName =>
+    public string? ModuleName =>
         this.GetStringProperty(nameof(this.ModuleName));
 
-    public string ModuleVersion =>
+    public string? ModuleVersion =>
         this.GetStringProperty(nameof(this.ModuleVersion));
 
     #endregion
@@ -71,21 +80,21 @@ public class DscResource
         };
     }
 
-    private static string GetResourceTypeFromResourceId(string resourceId)
+    private static string? GetResourceTypeFromResourceId(string resourceId)
     {
         // ResourceID = "[ResourceType]ResourceName"
         if (string.IsNullOrEmpty(resourceId)) { return null; }
         return resourceId.Split(']')[0][1..];
     }
 
-    private static string GetResourceNameFromResourceId(string resourceId)
+    private static string? GetResourceNameFromResourceId(string resourceId)
     {
         // ResourceID = "[ResourceType]ResourceName"
         if (string.IsNullOrEmpty(resourceId)) { return null; }
         return resourceId.Split(']')[1];
     }
 
-    protected string GetStringProperty(string propertyName)
+    protected string? GetStringProperty(string propertyName)
     {
         if (!this.Instance.Properties.TryGetValue(propertyName, out var propertyValue))
         {

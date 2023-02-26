@@ -16,8 +16,12 @@ static class Program
         mofRoot = Path.GetDirectoryName(mofRoot);
         mofRoot = Path.GetDirectoryName(mofRoot);
         mofRoot = Path.GetDirectoryName(mofRoot);
-        mofRoot = Path.Combine(mofRoot, "dsc");
-        var filenames = Directory.GetFiles(mofRoot, "*.mof", SearchOption.AllDirectories);
+        mofRoot = Path.Combine(
+            mofRoot ?? throw new NullReferenceException(),
+            "dsc"
+        );
+        var filenames = Directory.GetFiles(mofRoot, "*.mof", SearchOption.AllDirectories)
+            ?? throw new NullReferenceException();
 
         // parse the mof files
         var resources = new List<DscResource>();
@@ -27,7 +31,11 @@ static class Program
             resources.AddRange(
                 instances.Select(
                     instance => DscResource.FromInstance(
-                        Path.GetFileName(Path.GetDirectoryName(filename)),
+                        Path.GetFileName(
+                            Path.GetDirectoryName(
+                                filename
+                            ) ?? throw new NullReferenceException()
+                        ),
                         Path.GetFileNameWithoutExtension(filename),
                         instance
                     )
