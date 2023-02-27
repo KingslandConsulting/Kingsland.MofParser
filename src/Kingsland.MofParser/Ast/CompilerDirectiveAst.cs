@@ -57,7 +57,7 @@ public sealed record CompilerDirectiveAst : MofProductionAst
 
         public CompilerDirectiveAst Build()
         {
-            return new CompilerDirectiveAst(
+            return new(
                 this.PragmaKeyword ?? throw new InvalidOperationException(
                     $"{nameof(this.PragmaKeyword)} property must be set before calling {nameof(Build)}."
                 ),

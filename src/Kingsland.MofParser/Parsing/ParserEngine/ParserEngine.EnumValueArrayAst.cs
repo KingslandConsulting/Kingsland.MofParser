@@ -32,7 +32,7 @@ internal static partial class ParserEngine
         var blockOpen = stream.Read<BlockOpenToken>();
 
         // see  https://github.com/mikeclayton/MofParser/issues/25
-        var quirkEnabled = (quirks & ParserQuirks.EnumValueArrayContainsEnumValuesNotEnumNames) == ParserQuirks.EnumValueArrayContainsEnumValuesNotEnumNames;
+        var quirkEnabled = quirks.HasFlag(ParserQuirks.EnumValueArrayContainsEnumValuesNotEnumNames);
         if (quirkEnabled)
         {
 

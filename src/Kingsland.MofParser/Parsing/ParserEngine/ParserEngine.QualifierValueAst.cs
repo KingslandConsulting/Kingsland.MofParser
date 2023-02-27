@@ -41,7 +41,7 @@ internal static partial class ParserEngine
         // [ qualifierValueInitializer / qualiferValueArrayInitializer ]
         switch (stream.Peek())
         {
-            case ParenthesisOpenToken paranthesesOpen:
+            case ParenthesisOpenToken parenthesisOpen:
                 // qualifierValueInitializer
                 node.Initializer = ParserEngine.ParseQualifierValueInitializer(stream, quirks);
                 break;

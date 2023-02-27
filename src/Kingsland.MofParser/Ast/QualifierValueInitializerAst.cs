@@ -27,7 +27,7 @@ public sealed record QualifierValueInitializerAst : IQualifierInitializerAst
 
         public QualifierValueInitializerAst Build()
         {
-            return new QualifierValueInitializerAst(
+            return new(
                 this.Value ?? throw new InvalidOperationException(
                     $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
                 )

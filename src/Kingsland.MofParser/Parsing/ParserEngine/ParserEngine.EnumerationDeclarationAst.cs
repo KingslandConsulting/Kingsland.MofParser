@@ -80,8 +80,8 @@ internal static partial class ParserEngine
         {
             // check if we allow deprecated integer subtypes
             // see https://github.com/mikeclayton/MofParser/issues/52
-            var quirksEnabled = quirks.HasFlag(ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase);
-            if (quirksEnabled &&
+            var quirkEnabled = quirks.HasFlag(ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase);
+            if (quirkEnabled &&
                 enumTypeDeclaration.IsKeyword(new [] {
                     Constants.DT_UINT8, Constants.DT_UINT16, Constants.DT_UINT32, Constants.DT_UINT64,
                     Constants.DT_SINT8, Constants.DT_SINT16, Constants.DT_SINT32, Constants.DT_SINT64,

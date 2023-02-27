@@ -32,8 +32,8 @@ public sealed record AssociationDeclarationAst : MofProductionAst
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
-            this.ClassFeatures = new List<IClassFeatureAst>();
+            this.QualifierList = new();
+            this.ClassFeatures = new();
         }
 
         public QualifierListAst QualifierList
@@ -62,7 +62,7 @@ public sealed record AssociationDeclarationAst : MofProductionAst
 
         public AssociationDeclarationAst Build()
         {
-            return new AssociationDeclarationAst(
+            return new(
                 this.QualifierList,
                 this.AssociationName ?? throw new InvalidOperationException(
                     $"{nameof(this.AssociationName)} property must be set before calling {nameof(Build)}."
@@ -88,7 +88,7 @@ public sealed record AssociationDeclarationAst : MofProductionAst
         this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
         this.AssociationName = associationName ?? throw new ArgumentNullException(nameof(associationName));
         this.SuperAssociation = superAssociation;
-        this.ClassFeatures = new ReadOnlyCollection<IClassFeatureAst>(
+        this.ClassFeatures = new(
             (classFeatures ?? throw new ArgumentNullException(nameof(classFeatures)))
                 .ToList()
         );

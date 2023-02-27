@@ -34,8 +34,8 @@ public sealed record ClassDeclarationAst : MofProductionAst
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
-            this.ClassFeatures = new List<IClassFeatureAst>();
+            this.QualifierList = new();
+            this.ClassFeatures = new();
         }
 
         public QualifierListAst QualifierList
@@ -64,7 +64,7 @@ public sealed record ClassDeclarationAst : MofProductionAst
 
         public ClassDeclarationAst Build()
         {
-            return new ClassDeclarationAst(
+            return new(
                 this.QualifierList,
                 this.ClassName ?? throw new InvalidOperationException(
                     $"{nameof(this.ClassName)} property must be set before calling {nameof(Build)}."
@@ -90,7 +90,7 @@ public sealed record ClassDeclarationAst : MofProductionAst
         this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
         this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
         this.SuperClass = superClass;
-        this.ClassFeatures = new ReadOnlyCollection<IClassFeatureAst>(
+        this.ClassFeatures = new(
             (classFeatures ?? throw new ArgumentNullException(nameof(classFeatures)))
                 .ToList()
         );

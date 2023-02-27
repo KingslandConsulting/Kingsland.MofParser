@@ -26,7 +26,7 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
 
         public Builder()
         {
-            this.PropertyValues = new PropertyValueListAst(
+            this.PropertyValues = new(
                 new List<PropertySlotAst>()
             );
         }
@@ -64,7 +64,7 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
         public ComplexValueAst Build()
         {
             return (this.Alias == null)
-                ? new ComplexValueAst(
+                ? new(
                     this.Value ?? throw new InvalidOperationException(
                         $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
                     ),
@@ -76,7 +76,7 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
                     ),
                     this.PropertyValues
                 )
-                : new ComplexValueAst(
+                : new(
                     this.Alias
                 );
         }
@@ -95,7 +95,9 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
         this.Value = null;
         this.Of = null;
         this.TypeName = null;
-        this.PropertyValues = new PropertyValueListAst(new List<PropertySlotAst>());
+        this.PropertyValues = new(
+            Enumerable.Empty<PropertySlotAst>()
+        );
     }
 
     public ComplexValueAst(

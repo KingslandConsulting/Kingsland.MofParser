@@ -47,7 +47,7 @@ public sealed record ReferenceTypeValueAst : PropertyValueAst
 
         public ReferenceTypeValueAst Build()
         {
-            return new ReferenceTypeValueAst(
+            return new(
                 this.Name ?? throw new InvalidOperationException(
                     $"{nameof(this.Name)} property must be set before calling {nameof(Build)}."
                 )

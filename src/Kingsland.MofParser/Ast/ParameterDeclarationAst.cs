@@ -48,7 +48,7 @@ public sealed record ParameterDeclarationAst : AstNode
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
+            this.QualifierList = new();
         }
 
         public QualifierListAst QualifierList
@@ -89,7 +89,7 @@ public sealed record ParameterDeclarationAst : AstNode
 
         public ParameterDeclarationAst Build()
         {
-            return new ParameterDeclarationAst(
+            return new(
                 this.QualifierList,
                 this.ParameterType ?? throw new InvalidOperationException(
                     $"{nameof(this.ParameterType)} property must be set before calling {nameof(Build)}."

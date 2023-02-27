@@ -29,7 +29,7 @@ public sealed record IntegerValueAst : LiteralValueAst, IEnumElementValueAst
 
         public IntegerValueAst Build()
         {
-            return new IntegerValueAst(
+            return new(
                 this.IntegerLiteralToken ?? throw new InvalidOperationException(
                     $"{nameof(this.IntegerLiteralToken)} property must be set before calling {nameof(Build)}."
                 )

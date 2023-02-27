@@ -27,8 +27,8 @@ public sealed record InstanceValueDeclarationAst : MofProductionAst
 
         public Builder()
         {
-            this.PropertyValues = new PropertyValueListAst(
-                new List<PropertySlotAst>()
+            this.PropertyValues = new(
+                Enumerable.Empty<PropertySlotAst>()
             );
         }
 
@@ -76,7 +76,7 @@ public sealed record InstanceValueDeclarationAst : MofProductionAst
 
         public InstanceValueDeclarationAst Build()
         {
-            return new InstanceValueDeclarationAst(
+            return new(
                 instance: this.Instance ?? throw new InvalidOperationException(
                     $"{nameof(this.Instance)} property must be set before calling {nameof(Build)}."
                 ),

@@ -34,7 +34,7 @@ public sealed record RealValueAst : LiteralValueAst
 
         public RealValueAst Build()
         {
-            return new RealValueAst(
+            return new(
                 this.RealLiteralToken ?? throw new InvalidOperationException(
                     $"{nameof(this.RealLiteralToken)} property must be set before calling {nameof(Build)}."
                 )

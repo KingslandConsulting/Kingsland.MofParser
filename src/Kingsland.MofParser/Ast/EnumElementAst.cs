@@ -26,7 +26,7 @@ public sealed record EnumElementAst : AstNode
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
+            this.QualifierList = new();
         }
 
         public QualifierListAst QualifierList
@@ -49,7 +49,7 @@ public sealed record EnumElementAst : AstNode
 
         public EnumElementAst Build()
         {
-            return new EnumElementAst(
+            return new(
                 this.QualifierList,
                 this.EnumElementName ?? throw new InvalidOperationException(
                     $"{nameof(this.EnumElementName)} property must be set before calling {nameof(Build)}."

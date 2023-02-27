@@ -46,7 +46,7 @@ public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
+            this.QualifierList = new();
         }
 
         public QualifierListAst QualifierList
@@ -87,7 +87,7 @@ public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
 
         public PropertyDeclarationAst Build()
         {
-            return new PropertyDeclarationAst(
+            return new(
                 this.QualifierList,
                 this.ReturnType ?? throw new InvalidOperationException(
                     $"{nameof(this.ReturnType)} property must be set before calling {nameof(Build)}."

@@ -32,7 +32,7 @@ public sealed record NullValueAst : LiteralValueAst
 
         public NullValueAst Build()
         {
-            return new NullValueAst(
+            return new(
                 this.Token ?? throw new InvalidOperationException(
                     $"{nameof(this.Token)} property must be set before calling {nameof(Build)}."
                 )

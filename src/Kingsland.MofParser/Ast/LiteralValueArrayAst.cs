@@ -23,7 +23,7 @@ public sealed record LiteralValueArrayAst : PrimitiveTypeValueAst
 
         public Builder()
         {
-            this.Values = new List<LiteralValueAst>();
+            this.Values = new();
         }
 
         public List<LiteralValueAst> Values
@@ -34,7 +34,7 @@ public sealed record LiteralValueArrayAst : PrimitiveTypeValueAst
 
         public LiteralValueArrayAst Build()
         {
-            return new LiteralValueArrayAst(
+            return new(
                 this.Values
             );
         }
@@ -46,7 +46,7 @@ public sealed record LiteralValueArrayAst : PrimitiveTypeValueAst
     #region Constructors
 
     internal LiteralValueArrayAst()
-        : this(new List<LiteralValueAst>())
+        : this(Enumerable.Empty<LiteralValueAst>())
     {
     }
 
@@ -54,7 +54,7 @@ public sealed record LiteralValueArrayAst : PrimitiveTypeValueAst
         IEnumerable<LiteralValueAst> values
     )
     {
-        this.Values = new ReadOnlyCollection<LiteralValueAst>(
+        this.Values = new(
             (values ?? throw new ArgumentNullException(nameof(values)))
                 .ToList()
         );

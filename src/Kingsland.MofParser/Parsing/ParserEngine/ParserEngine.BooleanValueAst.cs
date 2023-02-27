@@ -28,7 +28,7 @@ internal static partial class ParserEngine
     /// </remarks>
     public static BooleanValueAst ParseBooleanValueAst(TokenStream stream, ParserQuirks quirks = ParserQuirks.None)
     {
-        return new BooleanValueAst(
+        return new(
             stream.Read<BooleanLiteralToken>()
         );
     }

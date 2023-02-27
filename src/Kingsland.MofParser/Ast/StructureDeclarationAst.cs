@@ -36,8 +36,8 @@ public sealed record StructureDeclarationAst : MofProductionAst, IStructureFeatu
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
-            this.StructureFeatures = new List<IStructureFeatureAst>();
+            this.QualifierList = new();
+            this.StructureFeatures = new();
         }
 
         public QualifierListAst QualifierList
@@ -66,7 +66,7 @@ public sealed record StructureDeclarationAst : MofProductionAst, IStructureFeatu
 
         public StructureDeclarationAst Build()
         {
-            return new StructureDeclarationAst(
+            return new(
                 this.QualifierList,
                 this.StructureName ?? throw new InvalidOperationException(
                     $"{nameof(this.StructureName)} property must be set before calling {nameof(Build)}."
@@ -92,7 +92,7 @@ public sealed record StructureDeclarationAst : MofProductionAst, IStructureFeatu
         this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
         this.StructureName = structureName ?? throw new ArgumentNullException(nameof(structureName));
         this.SuperStructure = superStructure;
-        this.StructureFeatures = new ReadOnlyCollection<IStructureFeatureAst>(
+        this.StructureFeatures = new(
             (structureFeatures ?? throw new ArgumentNullException(nameof(structureFeatures)))
                 .ToList()
         );

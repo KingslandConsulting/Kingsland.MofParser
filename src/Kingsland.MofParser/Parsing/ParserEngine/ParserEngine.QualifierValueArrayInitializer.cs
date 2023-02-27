@@ -33,7 +33,7 @@ internal static partial class ParserEngine
 
         // check if we allow empty qualifier arrays
         // see https://github.com/mikeclayton/MofParser/issues/51
-        var quirkEnabled = (quirks & ParserQuirks.AllowEmptyQualifierValueArrays) == ParserQuirks.AllowEmptyQualifierValueArrays;
+        var quirkEnabled = quirks.HasFlag(ParserQuirks.AllowEmptyQualifierValueArrays);
         if (quirkEnabled && stream.TryPeek<BlockCloseToken>())
         {
             // this is an empty array, and the quirk to allow empty arrays is enabled,

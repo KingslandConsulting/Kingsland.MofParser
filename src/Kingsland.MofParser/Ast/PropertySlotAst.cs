@@ -44,7 +44,7 @@ public sealed record PropertySlotAst : AstNode
 
         public PropertySlotAst Build()
         {
-            return new PropertySlotAst(
+            return new(
                 this.PropertyName ?? throw new NullReferenceException(),
                 this.PropertyValue ?? throw new NullReferenceException()
             );

@@ -23,7 +23,7 @@ public sealed record ComplexValueArrayAst : ComplexTypeValueAst
 
         public Builder()
         {
-            this.Values = new List<ComplexValueAst>();
+            this.Values = new();
         }
 
         public List<ComplexValueAst> Values
@@ -34,7 +34,7 @@ public sealed record ComplexValueArrayAst : ComplexTypeValueAst
 
         public ComplexValueArrayAst Build()
         {
-            return new ComplexValueArrayAst(
+            return new(
                 this.Values
             );
         }
@@ -49,7 +49,7 @@ public sealed record ComplexValueArrayAst : ComplexTypeValueAst
         IEnumerable<ComplexValueAst> values
     )
     {
-        this.Values = new ReadOnlyCollection<ComplexValueAst>(
+        this.Values = new(
             (values ?? throw new ArgumentNullException(nameof(values)))
                 .ToList()
         );

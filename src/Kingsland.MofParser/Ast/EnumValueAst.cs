@@ -41,7 +41,7 @@ public sealed record EnumValueAst : EnumTypeValueAst
 
         public EnumValueAst Build()
         {
-            return new EnumValueAst(
+            return new(
                 this.EnumName,
                 this.EnumLiteral ?? throw new InvalidOperationException(
                     $"{nameof(this.EnumLiteral)} property must be set before calling {nameof(Build)}."

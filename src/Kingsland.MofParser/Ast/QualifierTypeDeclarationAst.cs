@@ -37,8 +37,8 @@ public sealed record QualifierTypeDeclarationAst : MofProductionAst
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
-            this.Flavors = new List<string>();
+            this.QualifierList = new();
+            this.Flavors = new();
         }
 
         public QualifierListAst QualifierList
@@ -85,7 +85,7 @@ public sealed record QualifierTypeDeclarationAst : MofProductionAst
 
         public QualifierTypeDeclarationAst Build()
         {
-            return new QualifierTypeDeclarationAst(
+            return new(
                 this.QualifierList,
                 this.QualifierKeyword ?? throw new InvalidOperationException(
                     $"{nameof(this.QualifierKeyword)} property must be set before calling {nameof(Build)}."
@@ -128,7 +128,7 @@ public sealed record QualifierTypeDeclarationAst : MofProductionAst
         this.QualifierType = qualifierType ?? throw new ArgumentNullException(nameof(qualifierType));
         this.QualifierScope = qualifierScope ?? throw new ArgumentNullException(nameof(qualifierScope));
         this.QualifierPolicy = qualifierPolicy ?? throw new ArgumentNullException(nameof(qualifierPolicy));
-        this.Flavors = new ReadOnlyCollection<string>(
+        this.Flavors = new(
             (flavors ?? throw new ArgumentNullException(nameof(flavors)))
                 .ToList()
         );

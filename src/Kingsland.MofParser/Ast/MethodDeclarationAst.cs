@@ -41,8 +41,8 @@ public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
-            this.Parameters = new List<ParameterDeclarationAst>();
+            this.QualifierList = new();
+            this.Parameters = new();
         }
 
         public QualifierListAst QualifierList
@@ -83,7 +83,7 @@ public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
 
         public MethodDeclarationAst Build()
         {
-            return new MethodDeclarationAst(
+            return new(
                 this.QualifierList,
                 this.ReturnType ?? throw new InvalidOperationException(
                     $"{nameof(this.ReturnType)} property must be set before calling {nameof(Build)}."
@@ -117,7 +117,7 @@ public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
         this.ReturnTypeRef = returnTypeRef;
         this.ReturnTypeIsArray = returnTypeIsArray;
         this.Name = methodName ?? throw new ArgumentNullException(nameof(methodName));
-        this.Parameters = new ReadOnlyCollection<ParameterDeclarationAst>(
+        this.Parameters = new(
             (parameters ?? throw new ArgumentNullException(nameof(parameters)))
                 .ToList()
         );

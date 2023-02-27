@@ -29,7 +29,7 @@ public sealed record QualifierValueAst : AstNode
 
         public Builder()
         {
-            this.Flavors = new List<IdentifierToken>();
+            this.Flavors = new();
         }
 
         public IdentifierToken? QualifierName
@@ -52,7 +52,7 @@ public sealed record QualifierValueAst : AstNode
 
         public QualifierValueAst Build()
         {
-            return new QualifierValueAst(
+            return new(
                 this.QualifierName ?? throw new InvalidOperationException(
                     $"{nameof(this.QualifierName)} property must be set before calling {nameof(Build)}."
                 ),
@@ -74,7 +74,7 @@ public sealed record QualifierValueAst : AstNode
     {
         this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
         this.Initializer = initializer;
-        this.Flavors = new ReadOnlyCollection<IdentifierToken>(
+        this.Flavors = new(
             (flavors ?? throw new ArgumentNullException(nameof(flavors)))
                 .ToList()
         );

@@ -38,7 +38,9 @@ internal static partial class ParserEngine
     /// </remarks>
     public static PropertyDeclarationAst ParseMethodDeclarationAst(TokenStream stream, QualifierListAst qualifierList, ParserQuirks quirks = ParserQuirks.None)
     {
-        return (PropertyDeclarationAst)ParserEngine.ParseMemberDeclarationAst(stream, qualifierList, false, true, quirks);
+        return (PropertyDeclarationAst)ParserEngine.ParseMemberDeclarationAst(
+            stream, qualifierList, false, true, quirks
+        );
     }
 
     #endregion

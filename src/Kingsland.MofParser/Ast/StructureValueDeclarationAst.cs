@@ -28,9 +28,7 @@ public sealed record StructureValueDeclarationAst : MofProductionAst
 
         public Builder()
         {
-            this.PropertyValues = new PropertyValueListAst(
-                new List<PropertySlotAst>()
-            );
+            this.PropertyValues = new();
         }
 
         public IdentifierToken? Value
@@ -77,7 +75,7 @@ public sealed record StructureValueDeclarationAst : MofProductionAst
 
         public StructureValueDeclarationAst Build()
         {
-            return new StructureValueDeclarationAst(
+            return new(
                 value: this.Value ?? throw new InvalidOperationException(
                     $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
                 ),
@@ -89,7 +87,10 @@ public sealed record StructureValueDeclarationAst : MofProductionAst
                 ),
                 @as: this.As,
                 alias: this.Alias,
-                propertyValues: this.PropertyValues,
+                propertyValues: (this.PropertyValues ?? throw new InvalidOperationException(
+                        $"{nameof(this.PropertyValues)} property must be set before calling {nameof(Build)}."
+                    )
+                ),
                 statementEnd: this.StatementEnd ?? throw new InvalidOperationException(
                     $"{nameof(this.StatementEnd)} property must be set before calling {nameof(Build)}."
                 )

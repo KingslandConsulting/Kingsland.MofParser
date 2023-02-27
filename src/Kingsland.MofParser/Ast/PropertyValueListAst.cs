@@ -29,7 +29,7 @@ public sealed record PropertyValueListAst : AstNode
 
         public Builder()
         {
-            this.PropertySlots = new List<PropertySlotAst>();
+            this.PropertySlots = new();
         }
 
         public List<PropertySlotAst> PropertySlots
@@ -40,7 +40,7 @@ public sealed record PropertyValueListAst : AstNode
 
         public PropertyValueListAst Build()
         {
-            return new PropertyValueListAst(
+            return new(
                 this.PropertySlots
             );
         }

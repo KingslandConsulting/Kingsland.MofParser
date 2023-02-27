@@ -26,7 +26,7 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
 
         public Builder()
         {
-            this.StringLiteralValues = new List<StringLiteralToken>();
+            this.StringLiteralValues = new();
         }
 
         public List<StringLiteralToken> StringLiteralValues
@@ -43,8 +43,8 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
 
         public StringValueAst Build()
         {
-            return new StringValueAst(
-                new ReadOnlyCollection<StringLiteralToken>(this.StringLiteralValues),
+            return new(
+                this.StringLiteralValues,
                 this.Value ?? throw new InvalidOperationException(
                     $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
                 )
@@ -68,9 +68,7 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
         {
             throw new ArgumentException(null, nameof(stringLiteralValues));
         }
-        this.StringLiteralValues = new ReadOnlyCollection<StringLiteralToken>(
-            values
-        );
+        this.StringLiteralValues = new(values);
         this.Value = value ?? throw new ArgumentNullException(nameof(value));
     }
 

@@ -32,7 +32,7 @@ public sealed record BooleanValueAst : LiteralValueAst
 
         public BooleanValueAst Build()
         {
-            return new BooleanValueAst(
+            return new(
                 this.Token ?? throw new InvalidOperationException(
                     $"{nameof(this.Token)} property must be set before calling {nameof(Build)}."
                 )
