@@ -27,7 +27,9 @@ public sealed record InstanceValueDeclarationAst : MofProductionAst
 
         public Builder()
         {
-            this.PropertyValues = new PropertyValueListAst();
+            this.PropertyValues = new PropertyValueListAst(
+                new List<PropertySlotAst>()
+            );
         }
 
         public IdentifierToken? Instance

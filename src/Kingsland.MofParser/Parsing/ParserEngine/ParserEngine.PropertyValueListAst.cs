@@ -22,10 +22,6 @@ internal static partial class ParserEngine
     ///
     ///     propertyValueList = "{" *propertySlot "}"
     ///
-    ///     propertySlot      = propertyName "=" propertyValue ";"
-    ///
-    ///     propertyName      = IDENTIFIER
-    ///
     /// </remarks>
     internal static PropertyValueListAst ParsePropertyValueListAst(TokenStream stream, ParserQuirks quirks = ParserQuirks.None)
     {
@@ -36,29 +32,13 @@ internal static partial class ParserEngine
         stream.Read<BlockOpenToken>();
 
         // *propertySlot
+        while (!stream.TryPeek<BlockCloseToken>())
         {
-
-            while (!stream.TryPeek<BlockCloseToken>())
-            {
-
-                // propertyName
-                var propertyName = stream.ReadIdentifierToken(
-                    t => StringValidator.IsIdentifier(t.Name)
-                );
-
-                // "="
-                stream.Read<EqualsOperatorToken>();
-
-                // propertyValue
-                var propertyValue = ParserEngine.ParsePropertyValueAst(stream, quirks);
-
-                // ";"
-                stream.Read<StatementEndToken>();
-
-                node.PropertyValues.Add(propertyName.Name, propertyValue);
-
-            }
-
+            node.PropertySlots.Add(
+                ParserEngine.ParsePropertySlotAst(
+                    stream, quirks
+                )
+            );
         }
 
         // "}"

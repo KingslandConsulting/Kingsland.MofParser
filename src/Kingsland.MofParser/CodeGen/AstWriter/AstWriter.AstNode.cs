@@ -57,6 +57,9 @@ public sealed partial class AstWriter
             case PropertyDeclarationAst ast:
                 this.WriteAstNode(ast);
                 break;
+            case PropertySlotAst ast:
+                this.WriteAstNode(ast);
+                break;
             case PropertyValueListAst ast:
                 this.WriteAstNode(ast);
                 break;

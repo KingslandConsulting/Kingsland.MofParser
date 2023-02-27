@@ -66,16 +66,18 @@ public static partial class RoundtripTests
                         As = new IdentifierToken("as"),
                         Alias = new AliasIdentifierToken("Alias00000070"),
                         PropertyValues = new PropertyValueListAst.Builder {
-                            PropertyValues = new Dictionary<string, PropertyValueAst> {
-                                {
-                                    "Reference", new BooleanValueAst(
+                            PropertySlots = new()
+                            {
+                                new(
+                                    new("Reference"),
+                                    new BooleanValueAst(
                                         new BooleanLiteralToken(
                                             SourcePosition.Empty,
                                             SourcePosition.Empty,
                                             "TRUE", true
                                         )
                                     )
-                                }
+                                )
                             }
                         }.Build(),
                         StatementEnd = new StatementEndToken()

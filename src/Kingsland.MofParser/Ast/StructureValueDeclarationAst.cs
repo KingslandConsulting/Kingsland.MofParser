@@ -28,7 +28,9 @@ public sealed record StructureValueDeclarationAst : MofProductionAst
 
         public Builder()
         {
-            this.PropertyValues = new PropertyValueListAst();
+            this.PropertyValues = new PropertyValueListAst(
+                new List<PropertySlotAst>()
+            );
         }
 
         public IdentifierToken? Value

@@ -29,10 +29,10 @@ public sealed record PropertyValueListAst : AstNode
 
         public Builder()
         {
-            this.PropertyValues = new Dictionary<string, PropertyValueAst>();
+            this.PropertySlots = new List<PropertySlotAst>();
         }
 
-        public Dictionary<string, PropertyValueAst> PropertyValues
+        public List<PropertySlotAst> PropertySlots
         {
             get;
             set;
@@ -41,7 +41,7 @@ public sealed record PropertyValueListAst : AstNode
         public PropertyValueListAst Build()
         {
             return new PropertyValueListAst(
-                this.PropertyValues
+                this.PropertySlots
             );
         }
 
@@ -52,19 +52,23 @@ public sealed record PropertyValueListAst : AstNode
     #region Constructors
 
     internal PropertyValueListAst()
-        : this(new Dictionary<string, PropertyValueAst>())
+        : this(Enumerable.Empty<PropertySlotAst>())
     {
+
     }
 
     internal PropertyValueListAst(
-        IDictionary<string, PropertyValueAst> propertyValues
+        IEnumerable<PropertySlotAst> propertySlots
     )
     {
-        this.PropertyValues = new ReadOnlyDictionary<string, PropertyValueAst>(
-            (propertyValues ?? throw new ArgumentNullException(nameof(propertyValues)))
+        this.PropertySlots = new(
+            (propertySlots ?? throw new ArgumentNullException(nameof(propertySlots))).ToList()
+        );
+        this.PropertyValues = new(
+            (propertySlots ?? throw new ArgumentNullException(nameof(propertySlots)))
                 .ToDictionary(
-                    kvp => kvp.Key,
-                    kvp => kvp.Value
+                    slot => slot.PropertyName.Name,
+                    slot => slot.PropertyValue
                 )
         );
     }
@@ -73,7 +77,12 @@ public sealed record PropertyValueListAst : AstNode
 
     #region Properties
 
-    public ReadOnlyDictionary<string, PropertyValueAst> PropertyValues
+    public ReadOnlyCollection<PropertySlotAst> PropertySlots
+    {
+        get;
+    }
+
+    public Dictionary<string, PropertyValueAst> PropertyValues
     {
         get;
     }

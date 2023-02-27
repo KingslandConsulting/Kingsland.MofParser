@@ -76,9 +76,10 @@ public static partial class ParserTests
                                 "Alias0000006E"
                             ),
                             new PropertyValueListAst(
-                                new ReadOnlyDictionary<string, PropertyValueAst>(
-                                    new Dictionary<string, PropertyValueAst> {
-                                        { "ServerURL", new StringValueAst.Builder {
+                                new List<PropertySlotAst> {
+                                    new(
+                                        new("ServerURL"),
+                                        new StringValueAst.Builder {
                                             StringLiteralValues = new List<StringLiteralToken> {
                                                 new StringLiteralToken(
                                                     new SourceExtent(
@@ -90,9 +91,9 @@ public static partial class ParserTests
                                                 )
                                             },
                                             Value = "https://URL"
-                                        }.Build() }
-                                    }
-                                )
+                                        }.Build()
+                                    )
+                                }
                             ),
                             new StatementEndToken(
                                 new SourceExtent(
@@ -183,9 +184,10 @@ public static partial class ParserTests
                                 "Alias00000070"
                             ),
                             new PropertyValueListAst(
-                                new ReadOnlyDictionary<string, PropertyValueAst>(
-                                    new Dictionary<string, PropertyValueAst> {
-                                        { "Reference", new ComplexValueAst(
+                                new List<PropertySlotAst> {
+                                    new(
+                                        new IdentifierToken("Reference"),
+                                        new ComplexValueAst(
                                             new AliasIdentifierToken(
                                                 new SourceExtent(
                                                     new SourcePosition(57, 3, 17),
@@ -194,9 +196,9 @@ public static partial class ParserTests
                                                 ),
                                                 "Alias0000006E"
                                             )
-                                        )}
-                                    }
-                                )
+                                        )
+                                    )
+                                }
                             ),
                             new StatementEndToken(
                                 new SourceExtent(
@@ -287,11 +289,12 @@ public static partial class ParserTests
                                 "Alias00000070"
                             ),
                             new PropertyValueListAst(
-                                new ReadOnlyDictionary<string, PropertyValueAst>(
-                                    new Dictionary<string, PropertyValueAst> {
-                                        { "Reference", new LiteralValueArrayAst() }
-                                    }
-                                )
+                                new List<PropertySlotAst> {
+                                    new(
+                                       new("Reference"),
+                                       new LiteralValueArrayAst()
+                                    )
+                                }
                             ),
                             new StatementEndToken(
                                 new SourceExtent(
@@ -382,9 +385,10 @@ public static partial class ParserTests
                                 "Alias00000070"
                             ),
                             new PropertyValueListAst(
-                                new ReadOnlyDictionary<string, PropertyValueAst>(
-                                    new Dictionary<string, PropertyValueAst> {
-                                        { "Reference", new ComplexValueArrayAst(
+                                new List<PropertySlotAst> {
+                                    new(
+                                        new("Reference"),
+                                        new ComplexValueArrayAst(
                                             new ReadOnlyCollection<ComplexValueAst>(
                                                 new List<ComplexValueAst> {
                                                     new ComplexValueAst(
@@ -399,9 +403,9 @@ public static partial class ParserTests
                                                     )
                                                 }
                                             )
-                                        )}
-                                    }
-                                )
+                                        )
+                                    )
+                                }
                             ),
                             new StatementEndToken(
                                 new SourceExtent(
@@ -494,9 +498,10 @@ public static partial class ParserTests
                                 "Alias00000070"
                             ),
                             new PropertyValueListAst(
-                                new ReadOnlyDictionary<string, PropertyValueAst>(
-                                    new Dictionary<string, PropertyValueAst> {
-                                        { "ServerURLs", new LiteralValueArrayAst(
+                                new List<PropertySlotAst> {
+                                    new(
+                                        new("ServerURLs"),
+                                        new LiteralValueArrayAst(
                                             new ReadOnlyCollection<LiteralValueAst>(
                                                 new List<LiteralValueAst> {
                                                     new StringValueAst.Builder {
@@ -527,9 +532,9 @@ public static partial class ParserTests
                                                     }.Build()
                                                 }
                                             )
-                                        )}
-                                    }
-                                )
+                                        )
+                                    )
+                                }
                             ),
                             new StatementEndToken(
                                 new SourceExtent(
@@ -626,9 +631,10 @@ public static partial class ParserTests
                                 "Alias00000070"
                             ),
                             new PropertyValueListAst(
-                                new ReadOnlyDictionary<string, PropertyValueAst>(
-                                    new Dictionary<string, PropertyValueAst> {
-                                        { "MyBinaryValue", new IntegerValueAst(
+                                new List<PropertySlotAst> {
+                                    new(
+                                        new("MyBinaryValue"),
+                                        new IntegerValueAst(
                                             new IntegerLiteralToken(
                                                 new SourceExtent(
                                                     new SourcePosition(61, 3, 21),
@@ -637,8 +643,11 @@ public static partial class ParserTests
                                                 ),
                                                 IntegerKind.BinaryValue, 0b101010
                                             )
-                                        )},
-                                        { "MyOctalValue", new IntegerValueAst(
+                                        )
+                                    ),
+                                    new(
+                                        new("MyOctalValue"),
+                                        new IntegerValueAst(
                                             new IntegerLiteralToken(
                                                 new SourceExtent(
                                                     new SourcePosition(91, 4, 20),
@@ -647,8 +656,11 @@ public static partial class ParserTests
                                                 ),
                                                 IntegerKind.OctalValue, Convert.ToInt32("444444", 8)
                                             )
-                                        )},
-                                        { "MyHexValue", new IntegerValueAst(
+                                        )
+                                    ),
+                                    new(
+                                        new("MyHexValue"),
+                                        new IntegerValueAst(
                                             new IntegerLiteralToken(
                                                 new SourceExtent(
                                                     new SourcePosition(118, 5, 18),
@@ -657,8 +669,11 @@ public static partial class ParserTests
                                                 ),
                                                 IntegerKind.HexValue, 0xABC123
                                             )
-                                        )},
-                                        { "MyDecimalValue", new IntegerValueAst(
+                                        )
+                                    ),
+                                    new(
+                                        new("MyDecimalValue"),
+                                        new IntegerValueAst(
                                             new IntegerLiteralToken(
                                                 new SourceExtent(
                                                     new SourcePosition(150, 6, 22),
@@ -667,8 +682,11 @@ public static partial class ParserTests
                                                 ),
                                                 IntegerKind.DecimalValue, 12345
                                             )
-                                        )},
-                                        { "MyRealValue", new RealValueAst(
+                                        )
+                                    ),
+                                    new(
+                                        new("MyRealValue"),
+                                        new RealValueAst(
                                             new RealLiteralToken(
                                                 new SourceExtent(
                                                     new SourcePosition(176, 7, 19),
@@ -677,9 +695,9 @@ public static partial class ParserTests
                                                 ),
                                                 123.45
                                             )
-                                        )}
-                                    }
-                                )
+                                        )
+                                    )
+                                }
                             ),
                             new StatementEndToken(
                                 new SourceExtent(

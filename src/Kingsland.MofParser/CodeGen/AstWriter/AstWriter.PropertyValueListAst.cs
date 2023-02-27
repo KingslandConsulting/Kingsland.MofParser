@@ -24,16 +24,11 @@ public sealed partial class AstWriter
         //     FirstName = ""John"";
         //     LastName = ""Doe"";
         this.Indent();
-        foreach (var propertyValue in node.PropertyValues)
+        foreach (var propertySlot in node.PropertySlots)
         {
             this.WriteLine();
             this.WriteIndent();
-            this.WriteString(propertyValue.Key);
-            this.WriteString(" = ");
-            this.WriteAstNode(
-                propertyValue.Value
-            );
-            this.WriteString(';');
+            this.WriteAstNode(propertySlot);
         }
         this.Unindent();
 
@@ -41,6 +36,7 @@ public sealed partial class AstWriter
         this.WriteLine();
         this.WriteIndent();
         this.WriteString('}');
+
     }
 
     #endregion
