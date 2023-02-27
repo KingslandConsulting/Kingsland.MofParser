@@ -59,7 +59,7 @@ internal static partial class ParserEngine
         //     qualifierValue_v2      = qualifierName [ qualifierValueInitializer / qualiferValueArrayInitializer ] ":" qualifierFlavourList_v2
         //     qualifierFlavorList_v2 = qualifierFlavorName *( " " qualifierFlavorName )
         //
-        var quirkEnabled = (quirks & ParserQuirks.AllowMofV2Qualifiers) == ParserQuirks.AllowMofV2Qualifiers;
+        var quirkEnabled = quirks.HasFlag(ParserQuirks.AllowMofV2Qualifiers);
         if (quirkEnabled)
         {
             if (stream.TryRead<ColonToken>(out var colon))

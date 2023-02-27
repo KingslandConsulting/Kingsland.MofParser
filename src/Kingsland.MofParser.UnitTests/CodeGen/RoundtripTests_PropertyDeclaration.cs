@@ -118,7 +118,7 @@ public static partial class RoundtripTests
         }
 
         [Test]
-        public static void PropertyDeclarationWithRefShouldRoundtrip()
+        public static void PropertyDeclarationWithRefTypeShouldRoundtrip()
         {
             var newline = Environment.NewLine;
             var indent = "    ";

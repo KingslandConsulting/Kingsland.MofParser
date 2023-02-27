@@ -72,7 +72,7 @@ internal static partial class ParserEngine
             return false;
         }
 
-        // if we've got an aray we need to read the next item before we can determine the type
+        // if we've got an array we need to read the next item before we can determine the type
         var itemValue = stream.Peek();
         if (itemValue is BlockOpenToken)
         {

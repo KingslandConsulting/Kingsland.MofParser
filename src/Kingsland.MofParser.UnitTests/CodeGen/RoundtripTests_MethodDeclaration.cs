@@ -126,7 +126,7 @@ public static partial class RoundtripTests
         }
 
         [Test]
-        public static void MethodDeclarationsWithRefParameterShouldRoundtrip()
+        public static void MethodDeclarationWithRefParameterShouldRoundtrip()
         {
             var newline = Environment.NewLine;
             var indent = "    ";
@@ -165,8 +165,116 @@ public static partial class RoundtripTests
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }
 
+        [Test]
+        public static void MethodDeclarationWithRefParameterAndDefaultValueShouldRoundtrip()
+        {
+            var newline = Environment.NewLine;
+            var indent = "    ";
+            var sourceText = @"
+                class GOLF_Club
+                {
+                    Integer GetMembersWithOutstandingFees(GOLF_ClubMember REF lateMembers = $MyDefaultValueAlias);
+                };
+            ".TrimIndent(newline).TrimString(newline);
+            var expectedTokens = new TokenBuilder()
+                // instance of GOLF_Club
+                .IdentifierToken("class")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_Club")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     Integer GetMembersWithOutstandingFees(GOLF_ClubMember REF lateMembers);
+                .IdentifierToken("Integer")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GetMembersWithOutstandingFees")
+                .ParenthesisOpenToken()
+                .IdentifierToken("GOLF_ClubMember")
+                .WhitespaceToken(" ")
+                .IdentifierToken("REF")
+                .WhitespaceToken(" ")
+                .IdentifierToken("lateMembers")
+                .WhitespaceToken(" ")
+                .EqualsOperatorToken()
+                .WhitespaceToken(" ")
+                .AliasIdentifierToken("MyDefaultValueAlias")
+                .ParenthesisCloseToken()
+                .StatementEndToken()
+                .WhitespaceToken(newline)
+                // };
+                .BlockCloseToken()
+                .StatementEndToken()
+                .ToList();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+        }
+
         [Test(Description = "https://github.com/mikeclayton/MofParser/issues/27")]
-        public static void ClassDeclarationsWithMethodDeclarationWithEnumParameterShouldRoundtrip()
+        public static void MethodDeclarationWithEnumParameterShouldRoundtrip()
+        {
+            var newline = Environment.NewLine;
+            var indent = "    ";
+            var sourceText = @"
+                class GOLF_Professional : GOLF_ClubMember
+                {
+                    GOLF_ResultCodeEnum GetNumberOfProfessionals(ProfessionalStatusEnum Status);
+                };
+            ".TrimIndent(newline).TrimString(newline);
+            var expectedTokens = new TokenBuilder()
+                // instance of GOLF_Club
+                .IdentifierToken("class")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_Professional")
+                .WhitespaceToken(" ")
+                .ColonToken()
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_ClubMember")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     GOLF_ResultCodeEnum GetNumberOfProfessionals(ProfessionalStatusEnum Status = Professional);
+                .IdentifierToken("GOLF_ResultCodeEnum")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GetNumberOfProfessionals")
+                .ParenthesisOpenToken()
+                .IdentifierToken("ProfessionalStatusEnum")
+                .WhitespaceToken(" ")
+                .IdentifierToken("Status")
+                .ParenthesisCloseToken()
+                .StatementEndToken()
+                .WhitespaceToken(newline)
+                // };
+                .BlockCloseToken()
+                .StatementEndToken()
+                .ToList();
+            //var expectedAst = new MofSpecificationAst.Builder
+            //{
+            //    Productions = new List<MofProductionAst> {
+            //        new ClassDeclarationAst.Builder {
+            //            ClassName = new IdentifierToken("GOLF_Professional"),
+            //            SuperClass = new IdentifierToken("GOLF_ClubMember"),
+            //            ClassFeatures = new List<IClassFeatureAst> {
+            //                new MethodDeclarationAst.Builder {
+            //                    ReturnType = new IdentifierToken("GOLF_ResultCodeEnum"),
+            //                    MethodName = new IdentifierToken("GetNumberOfProfessionals"),
+            //                    Parameters = new List<ParameterDeclarationAst> {
+            //                        new ParameterDeclarationAst.Builder {
+            //                             ParameterType = new IdentifierToken("ProfessionalStatusEnum"),
+            //                             ParameterName = new IdentifierToken("Status")
+            //                             DefaultValue = new StringLiteralToken("Professional")
+            //                        }.Build()
+            //                    }
+            //                }.Build(),
+            //            }
+            //        }.Build()
+            //    }
+            //}.Build();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+        }
+
+        [Test]
+        public static void MethodDeclarationWithEnumParameterWithDefaultValueShouldRoundtrip()
         {
             var newline = Environment.NewLine;
             var indent = "    ";
@@ -233,8 +341,8 @@ public static partial class RoundtripTests
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }
 
-        [Test(Description = "https://github.com/mikeclayton/MofParser/issues/37")]
-        public static void MethodDeclarationsWithArrayReturnTypeShouldRoundtrip()
+        [Test]
+        public static void MethodDeclarationWithArrayReturnTypeShouldRoundtrip()
         {
             var newline = Environment.NewLine;
             var indent = "    ";
