@@ -9,16 +9,16 @@ public sealed record DotOperatorToken : SyntaxToken
     #region Constructors
 
     public DotOperatorToken()
-        : this(SourceExtent.Empty)
+        : this((SourceExtent?)null)
     {
     }
 
-    public DotOperatorToken(SourcePosition start, SourcePosition end, string text)
+    public DotOperatorToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text))
     {
     }
 
-    public DotOperatorToken(SourceExtent extent)
+    public DotOperatorToken(SourceExtent? extent)
         : base(extent)
     {
     }
@@ -29,9 +29,8 @@ public sealed record DotOperatorToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : ".";
+        return this?.Text
+            ?? ".";
     }
 
     #endregion

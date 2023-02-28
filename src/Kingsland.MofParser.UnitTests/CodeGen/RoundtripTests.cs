@@ -63,7 +63,7 @@ public static partial class RoundtripTests
             throw new ArgumentNullException(nameof(expectedTokens));
         }
         // check the lexer generates the expected tokens
-        var actualTokens = Lexer.Lex(SourceReader.From(sourceText));
+        var actualTokens = Lexer.Lex(SourceReader.From(sourceText)).ToList();
         LexerAssert.AreEqual(expectedTokens, actualTokens, true);
         // check the expected tokens serialize back ok
         var actualTokenText = TokenSerializer.ToSourceText(expectedTokens);

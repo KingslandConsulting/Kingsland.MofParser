@@ -10,16 +10,16 @@ public sealed record PragmaToken : SyntaxToken
     #region Constructors
 
     public PragmaToken()
-        : this(SourceExtent.Empty)
+        : this((SourceExtent?)null)
     {
     }
 
-    public PragmaToken(SourcePosition start, SourcePosition end, string text)
+    public PragmaToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text))
     {
     }
 
-    public PragmaToken(SourceExtent extent)
+    public PragmaToken(SourceExtent? extent)
         : base(extent)
     {
     }
@@ -30,9 +30,8 @@ public sealed record PragmaToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : Constants.PRAGMA;
+        return this?.Text
+            ?? Constants.PRAGMA;
     }
 
     #endregion

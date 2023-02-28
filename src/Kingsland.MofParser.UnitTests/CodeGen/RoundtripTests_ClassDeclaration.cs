@@ -76,11 +76,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .NullLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "Null"
-                )
+                .NullLiteralToken("Null")
                 .StatementEndToken()
                 .WhitespaceToken(newline)
                 // };
@@ -124,11 +120,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .NullLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "Null"
-                )
+                .NullLiteralToken("Null")
                 .StatementEndToken()
                 .WhitespaceToken(newline)
                 // };
@@ -210,11 +202,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .NullLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "Null"
-                )
+                .NullLiteralToken("Null")
                 .StatementEndToken()
                 .WhitespaceToken(newline)
                 // };

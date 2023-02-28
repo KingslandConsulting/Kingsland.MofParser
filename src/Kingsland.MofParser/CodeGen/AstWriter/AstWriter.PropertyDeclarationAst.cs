@@ -31,9 +31,9 @@ public sealed partial class AstWriter
         if (node.ReturnTypeIsRef)
         {
             // REF
-            var returnTypeRef = node.ReturnTypeRef
+            var returnTypeRef = node.ReturnTypeRef?.Name
                 ?? throw new NullReferenceException();
-            this.WriteString(returnTypeRef.Name);
+            this.WriteString(returnTypeRef);
             this.WriteString(' ');
         }
 

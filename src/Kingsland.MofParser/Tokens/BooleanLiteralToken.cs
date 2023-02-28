@@ -10,16 +10,21 @@ public sealed record BooleanLiteralToken : SyntaxToken
     #region Constructors
 
     public BooleanLiteralToken(bool value)
-        : this(SourceExtent.Empty, value)
+        : this((SourceExtent?)null, value)
     {
     }
 
-    public BooleanLiteralToken(SourcePosition start, SourcePosition end, string text, bool value)
+    public BooleanLiteralToken(string text, bool value)
+        : this(null, null, text, value)
+    {
+    }
+
+    public BooleanLiteralToken(SourcePosition? start, SourcePosition? end, string text, bool value)
         : this(new SourceExtent(start, end, text), value)
     {
     }
 
-    public BooleanLiteralToken(SourceExtent extent, bool value)
+    public BooleanLiteralToken(SourceExtent? extent, bool value)
         : base(extent)
     {
         this.Value = value;
@@ -40,9 +45,8 @@ public sealed record BooleanLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent == SourceExtent.Empty)
-            ? (this.Value ? Constants.TRUE : Constants.FALSE)
-            : this.Extent.Text;
+        return this?.Text
+            ?? (this.Value ? Constants.TRUE : Constants.FALSE);
     }
 
     #endregion

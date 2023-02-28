@@ -45,11 +45,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .BooleanLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "TRUE", true
-                )
+                .BooleanLiteralToken("TRUE", true)
                 .StatementEndToken()
                 .WhitespaceToken(newline)
                 // };
@@ -71,11 +67,7 @@ public static partial class RoundtripTests
                                 new(
                                     new("Reference"),
                                     new BooleanValueAst(
-                                        new BooleanLiteralToken(
-                                            SourcePosition.Empty,
-                                            SourcePosition.Empty,
-                                            "TRUE", true
-                                        )
+                                        new BooleanLiteralToken("TRUE", true)
                                     )
                                 )
                             }

@@ -17,11 +17,11 @@ public sealed partial class AstWriter
         // };
 
         // value
-        this.WriteString(node.Value.Extent.Text);
+        this.WriteString(node.Value.Name);
 
         // of
         this.WriteString(' ');
-        this.WriteString(node.Of.Extent.Text);
+        this.WriteString(node.Of.Name);
 
         // GOLF_PhoneNumber
         this.WriteString(' ');
@@ -30,11 +30,10 @@ public sealed partial class AstWriter
         {
             // as
             this.WriteString(' ');
-            var @as = node.As ?? throw new NullReferenceException();
-            this.WriteString(@as.Extent.Text);
+            var @as = node.As?.Name ?? throw new NullReferenceException();
+            this.WriteString(@as);
             // $JohnDoesPhoneNo
-            this.WriteString(" $");
-            this.WriteString(node.Alias.Name);
+            this.WriteString(" $", node.Alias.Name);
         }
 
         // {
@@ -47,7 +46,7 @@ public sealed partial class AstWriter
         );
 
         // ;
-        this.WriteString(node.StatementEnd.Extent.Text);
+        this.WriteString(node.StatementEnd?.Text ?? ";");
 
     }
 

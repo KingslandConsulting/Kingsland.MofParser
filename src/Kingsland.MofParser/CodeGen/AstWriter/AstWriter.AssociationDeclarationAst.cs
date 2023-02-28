@@ -28,10 +28,10 @@ public sealed partial class AstWriter
         }
 
         // association GOLF_MemberLocker : GOLF_Base
-        this.WriteString($"{Constants.ASSOCIATION} {node.AssociationName.Name}");
+        this.WriteString(Constants.ASSOCIATION, " ", node.AssociationName.Name);
         if (node.SuperAssociation is not null)
         {
-            this.WriteString($" : {node.SuperAssociation.Name}");
+            this.WriteString(" : ", node.SuperAssociation.Name);
         }
 
         // {

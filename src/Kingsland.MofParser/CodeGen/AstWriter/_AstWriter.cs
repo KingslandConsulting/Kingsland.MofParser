@@ -1,4 +1,6 @@
-﻿namespace Kingsland.MofParser.CodeGen;
+﻿using Kingsland.MofParser.Tokens;
+
+namespace Kingsland.MofParser.CodeGen;
 
 public sealed partial class AstWriter
 {
@@ -72,6 +74,10 @@ public sealed partial class AstWriter
     {
         this.TextWriter.Write(value);
     }
+
+    //public void WriteIdentifier(IdentifierToken value) {
+    //    this.TextWriter.Write(value.ToString());
+    //}
 
     public void WriteString(string value)
     {

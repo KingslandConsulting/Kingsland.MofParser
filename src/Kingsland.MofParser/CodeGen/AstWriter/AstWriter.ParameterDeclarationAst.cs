@@ -31,9 +31,9 @@ public sealed partial class AstWriter
         if (node.ParameterIsRef)
         {
             // REF
-            var parameterRef = node.ParameterRef
+            var parameterRef = node.ParameterRef?.Name
                 ?? throw new NullReferenceException();
-            this.WriteString(parameterRef.Name);
+            this.WriteString(parameterRef);
             this.WriteString(' ');
         }
 

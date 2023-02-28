@@ -20,11 +20,11 @@ public sealed partial class AstWriter
             this.WriteIndent();
         }
 
-        this.WriteString($"{Constants.STRUCTURE} {node.StructureName.Name}");
+        this.WriteString(Constants.STRUCTURE, " ", node.StructureName.Name);
 
         if (node.SuperStructure is not null)
         {
-            this.WriteString($" : {node.SuperStructure.Name}");
+            this.WriteString(" : ", node.SuperStructure.Name);
         }
 
         this.WriteLine();

@@ -42,7 +42,7 @@ instance of MSFT_RoleResource as $MSFT_RoleResource1ref
         var reader = SourceReader.From(sourceText);
 
         // lex the characters into a sequence of tokens
-        var tokens = Lexer.Lex(reader);
+        var tokens = Lexer.Lex(reader).ToList();
 
         // find the first identifier (keyword) token with the name "Name"
         var name = tokens

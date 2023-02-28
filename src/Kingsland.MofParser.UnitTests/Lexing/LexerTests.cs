@@ -53,7 +53,7 @@ public static partial class LexerTests
 
     private static void AssertLexerTest(string sourceText, List<SyntaxToken> expectedTokens)
     {
-        var actualTokens = Lexer.Lex(SourceReader.From(sourceText));
+        var actualTokens = Lexer.Lex(SourceReader.From(sourceText)).ToList();
         LexerAssert.AreEqual(expectedTokens, actualTokens, false);
     }
 

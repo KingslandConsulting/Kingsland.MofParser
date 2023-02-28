@@ -10,16 +10,16 @@ public sealed record NullLiteralToken : SyntaxToken
     #region Constructors
 
     public NullLiteralToken()
-        : this(SourceExtent.Empty)
+        : this((SourceExtent?)null)
     {
     }
 
-    public NullLiteralToken(SourcePosition start, SourcePosition end, string text)
+    public NullLiteralToken(SourcePosition? start, SourcePosition? end, string text)
         : this (new SourceExtent(start, end, text))
     {
     }
 
-    public NullLiteralToken(SourceExtent extent)
+    public NullLiteralToken(SourceExtent? extent)
         : base(extent)
     {
     }
@@ -30,9 +30,8 @@ public sealed record NullLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : Constants.NULL;
+        return this?.Text
+            ?? Constants.NULL;
     }
 
     #endregion

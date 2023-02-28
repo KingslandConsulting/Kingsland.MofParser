@@ -20,8 +20,8 @@ public sealed partial class AstWriter
             // };
 
             // $MyAliasIdentifier
-            var alias = node.Alias ?? throw new NullReferenceException();
-            this.WriteString($"${alias.Name}");
+            var alias = node.Alias?.Name ?? throw new NullReferenceException();
+            this.WriteString("$", alias);
 
         }
         else
@@ -34,18 +34,18 @@ public sealed partial class AstWriter
             // }
 
             // value
-            var value = node.Value ?? throw new NullReferenceException();
-            this.WriteString(value.Extent.Text);
+            var value = node.Value?.Name ?? throw new NullReferenceException();
+            this.WriteString(value);
             this.WriteString(' ');
 
             // of
-            var of = node.Of ?? throw new NullReferenceException();
-            this.WriteString(of.Extent.Text);
+            var of = node.Of?.Name ?? throw new NullReferenceException();
+            this.WriteString(of);
             this.WriteString(' ');
 
             // GOLF_PhoneNumber
-            var typeName = node.TypeName ?? throw new NullReferenceException();
-            this.WriteString(typeName.Name);
+            var typeName = node.TypeName?.Name ?? throw new NullReferenceException();
+            this.WriteString(typeName);
 
             // {
             //     AreaCode = { "9", "0", "7" };

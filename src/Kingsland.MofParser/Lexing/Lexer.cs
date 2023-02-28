@@ -76,9 +76,9 @@ public static class Lexer
             );
     }
 
-    public static List<SyntaxToken> Lex(SourceReader reader)
+    public static IEnumerable<SyntaxToken> Lex(SourceReader reader)
     {
-        return Lexer.Create().ReadToEnd(reader).ToList();
+        return Lexer.Create().ReadToEnd(reader);
     }
 
     #endregion
@@ -204,8 +204,15 @@ public static class Lexer
             sourceChars.Add(sourceChar);
         }
         // return the result
-        var extent = SourceExtent.From(sourceChars);
-        return new ScannerResult(new WhitespaceToken(extent, extent.Text), thisReader);
+        var text = SourceExtent.ConvertToString(sourceChars);
+        return new ScannerResult(
+            new WhitespaceToken(
+                sourceChars.First().Position,
+                sourceChars.Last().Position,
+                text
+            ),
+            thisReader
+        );
     }
 
     #endregion
@@ -283,8 +290,15 @@ public static class Lexer
                 throw new UnexpectedCharacterException(reader.Peek());
         }
         // return the result
-        var extent = SourceExtent.From(sourceChars);
-        return new ScannerResult(new CommentToken(extent, extent.Text), thisReader);
+        var text = SourceExtent.ConvertToString(sourceChars);
+        return new ScannerResult(
+            new CommentToken(
+                sourceChars.First().Position,
+                sourceChars.Last().Position,
+                text
+            ),
+            thisReader
+        );
     }
 
     #endregion

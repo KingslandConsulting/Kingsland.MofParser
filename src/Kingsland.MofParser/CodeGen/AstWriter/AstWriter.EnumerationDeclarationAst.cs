@@ -27,7 +27,7 @@ public sealed partial class AstWriter
         }
 
         // enumeration MonthsEnum : integer
-        this.WriteString($"{Constants.ENUMERATION} {node.EnumName.Name} : {node.EnumType.Name}");
+        this.WriteString(Constants.ENUMERATION, " ", node.EnumName.Name, " : ", node.EnumType.Name);
 
         // {
         this.WriteLine();

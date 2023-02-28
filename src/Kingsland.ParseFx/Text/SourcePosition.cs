@@ -3,12 +3,6 @@
 public sealed class SourcePosition
 {
 
-    #region Fields
-
-    public static readonly SourcePosition Empty = new(-1, 0, 0);
-
-    #endregion
-
     #region Constructor
 
     public SourcePosition(int position, int lineNumber, int columnNumber)

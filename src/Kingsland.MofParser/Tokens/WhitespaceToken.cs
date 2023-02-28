@@ -9,16 +9,16 @@ public sealed record WhitespaceToken : SyntaxToken
     #region Constructors
 
     public WhitespaceToken(string value)
-        : this(SourceExtent.Empty, value)
+        : this(null, value)
     {
     }
 
-    public WhitespaceToken(SourcePosition start, SourcePosition end, string text)
+    public WhitespaceToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text), text)
     {
     }
 
-    public WhitespaceToken(SourceExtent extent, string value)
+    public WhitespaceToken(SourceExtent? extent, string value)
         : base(extent)
     {
         this.Value = value ?? throw new ArgumentNullException(nameof(value));
@@ -39,9 +39,8 @@ public sealed record WhitespaceToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : this.Value;
+        return this?.Text
+            ?? this.Value;
     }
 
     #endregion

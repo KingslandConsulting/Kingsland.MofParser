@@ -9,16 +9,24 @@ public sealed record AliasIdentifierToken : SyntaxToken
     #region Constructors
 
     public AliasIdentifierToken(string name)
-        : this(SourceExtent.Empty, name)
+        : this((SourceExtent?)null, name)
     {
     }
 
-    public AliasIdentifierToken(SourcePosition start, SourcePosition end, string text, string name)
+    public AliasIdentifierToken(string? text, string name)
+        : this(
+              text is null ? null : new SourceExtent(null, null, text),
+              name
+        )
+    {
+    }
+
+    public AliasIdentifierToken(SourcePosition? start, SourcePosition? end, string text, string name)
         : this(new SourceExtent(start, end, text), name)
     {
     }
 
-    public AliasIdentifierToken(SourceExtent extent, string name)
+    public AliasIdentifierToken(SourceExtent? extent, string name)
         : base(extent)
     {
         this.Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -39,9 +47,8 @@ public sealed record AliasIdentifierToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : $"${this.Name}";
+        return this?.Text
+            ?? $"${this.Name}";
     }
 
     #endregion

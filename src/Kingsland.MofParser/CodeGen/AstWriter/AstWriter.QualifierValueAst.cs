@@ -10,7 +10,7 @@ public sealed partial class AstWriter
     public void WriteAstNode(QualifierValueAst node)
     {
 
-        this.WriteString(node.QualifierName.Extent.Text);
+        this.WriteString(node.QualifierName.Name);
 
         if (node.Initializer is not null)
         {

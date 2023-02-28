@@ -16,11 +16,11 @@ public sealed partial class AstWriter
         // };
 
         // instance
-        this.WriteString(node.Instance.Extent.Text);
+        this.WriteString(node.Instance.Name);
         this.WriteString(' ');
 
         // of
-        this.WriteString(node.Of.Extent.Text);
+        this.WriteString(node.Of.Name);
         this.WriteString(' ');
 
         // myType
@@ -30,12 +30,11 @@ public sealed partial class AstWriter
         {
             this.WriteString(' ');
             // as
-            var @as = node.As ?? throw new NullReferenceException();
-            this.WriteString(@as.Extent.Text);
+            var @as = node.As?.Name ?? throw new NullReferenceException();
+            this.WriteString(@as);
             this.WriteString(' ');
             // $Alias00000070
-            this.WriteString('$');
-            this.WriteString(node.Alias.Name);
+            this.WriteString("$", node.Alias.Name);
         }
         this.WriteLine();
 
@@ -47,7 +46,7 @@ public sealed partial class AstWriter
         );
 
         // ;
-        this.WriteString(node.StatementEnd.Extent.Text);
+        this.WriteString(node.StatementEnd.Text ?? ";");
 
     }
 

@@ -1,5 +1,4 @@
 ﻿using Kingsland.MofParser.Ast;
-using System;
 
 namespace Kingsland.MofParser.CodeGen;
 
@@ -18,7 +17,10 @@ public sealed partial class AstWriter
         // };
 
         // 100
-        this.WriteString(node.IntegerLiteralToken.Extent.Text);
+        this.WriteString(
+            node.IntegerLiteralToken?.Text
+                ?? throw new InvalidOperationException()
+        );
 
     }
 

@@ -9,16 +9,16 @@ public sealed record IdentifierToken : SyntaxToken
     #region Constructors
 
     public IdentifierToken(string name)
-        : this(SourceExtent.Empty, name)
+        : this(null, name)
     {
     }
 
-    public IdentifierToken(SourcePosition start, SourcePosition end, string text)
+    public IdentifierToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text), text)
     {
     }
 
-    public IdentifierToken(SourceExtent extent, string name)
+    public IdentifierToken(SourceExtent? extent, string name)
         : base(extent)
     {
         this.Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -39,9 +39,8 @@ public sealed record IdentifierToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this.Extent != SourceExtent.Empty
-            ? this.Extent.Text
-            : this.Name;
+        return this?.Text
+            ?? this.Name;
     }
 
     #endregion

@@ -27,10 +27,10 @@ public sealed partial class AstWriter
         }
 
         // class GOLF_Base : GOLF_Superclass
-        this.WriteString($"{Constants.CLASS} {node.ClassName.Name}");
+        this.WriteString(Constants.CLASS, " ", node.ClassName.Name);
         if (node.SuperClass is not null)
         {
-            this.WriteString($" : {node.SuperClass.Name}");
+            this.WriteString(" : ", node.SuperClass.Name);
         }
 
         // {

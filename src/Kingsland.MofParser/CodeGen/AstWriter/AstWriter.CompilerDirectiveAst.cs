@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Parsing;
 
 namespace Kingsland.MofParser.CodeGen;
 
@@ -13,7 +14,12 @@ public sealed partial class AstWriter
         // #pragma include ("GlobalStructs/GOLF_Address.mof")
 
         // #pragma include (
-        this.WriteString($"{node.PragmaKeyword.Extent.Text} {node.PragmaName.Name} (");
+        this.WriteString(
+            node.PragmaKeyword.Text ?? Constants.PRAGMA,
+            " ",
+            node.PragmaName.Name,
+            " ("
+        );
 
         // "GlobalStructs/GOLF_Address.mof"
         this.WriteAstNode(

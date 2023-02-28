@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Parsing;
 
 namespace Kingsland.MofParser.CodeGen;
 
@@ -16,7 +17,10 @@ public sealed partial class AstWriter
         // };
 
         // null
-        this.WriteString(node.Token.Extent.Text);
+        this.WriteString(
+            node.Token?.Text
+                ?? Constants.NULL
+        );
 
     }
 

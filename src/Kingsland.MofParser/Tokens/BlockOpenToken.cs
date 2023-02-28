@@ -9,16 +9,16 @@ public sealed record BlockOpenToken : SyntaxToken
     #region Constructors
 
     public BlockOpenToken()
-        : this(SourceExtent.Empty)
+        : this((SourceExtent?)null)
     {
     }
 
-    public BlockOpenToken(SourcePosition start, SourcePosition end, string text)
+    public BlockOpenToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text))
     {
     }
 
-    public BlockOpenToken(SourceExtent extent)
+    public BlockOpenToken(SourceExtent? extent)
         : base(extent)
     {
     }
@@ -29,9 +29,8 @@ public sealed record BlockOpenToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : "{";
+        return this?.Text
+            ?? "{";
     }
 
     #endregion

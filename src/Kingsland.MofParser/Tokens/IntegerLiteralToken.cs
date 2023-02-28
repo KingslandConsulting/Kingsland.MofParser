@@ -9,16 +9,21 @@ public sealed record IntegerLiteralToken : SyntaxToken
     #region Constructors
 
     public IntegerLiteralToken(IntegerKind kind, long value)
-        : this(SourceExtent.Empty, kind, value)
+        : this((SourceExtent?)null, kind, value)
     {
     }
 
-    public IntegerLiteralToken(SourcePosition start, SourcePosition end, string text, IntegerKind kind, long value)
+    public IntegerLiteralToken(string text, IntegerKind kind, long value)
+        : this(null, null, text, kind, value)
+    {
+    }
+
+    public IntegerLiteralToken(SourcePosition? start, SourcePosition? end, string text, IntegerKind kind, long value)
         : this(new SourceExtent(start, end, text), kind, value)
     {
     }
 
-    public IntegerLiteralToken(SourceExtent extent, IntegerKind kind, long value)
+    public IntegerLiteralToken(SourceExtent? extent, IntegerKind kind, long value)
         : base(extent)
     {
         this.Kind = kind;
@@ -45,9 +50,8 @@ public sealed record IntegerLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : this.Kind switch {
+        return this?.Text
+            ?? this.Kind switch {
                 IntegerKind.BinaryValue =>
                     $"{(this.Value < 0 ? "-" : "")}{Convert.ToString(Math.Abs(this.Value), 2)}b",
                 IntegerKind.DecimalValue =>

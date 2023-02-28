@@ -9,16 +9,16 @@ public sealed record CommaToken : SyntaxToken
     #region Constructors
 
     public CommaToken()
-        : this(SourceExtent.Empty)
+        : this((SourceExtent?)null)
     {
     }
 
-    public CommaToken(SourcePosition start, SourcePosition end, string text)
+    public CommaToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text))
     {
     }
 
-    public CommaToken(SourceExtent extent)
+    public CommaToken(SourceExtent? extent)
         : base(extent)
     {
     }
@@ -29,9 +29,8 @@ public sealed record CommaToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : ",";
+        return this?.Text
+            ?? ",";
     }
 
     #endregion

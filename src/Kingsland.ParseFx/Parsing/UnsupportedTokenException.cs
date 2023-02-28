@@ -39,10 +39,10 @@ public sealed class UnsupportedTokenException : Exception
                 var newline = Environment.NewLine;
                 var token = this.FoundToken;
                 var extent = this.FoundToken.Extent;
-                var startPosition = extent.StartPosition;
-                return $"Unhandled token found at Position {startPosition.Position}, Line Number {startPosition.LineNumber}, Column Number {startPosition.ColumnNumber}.{newline}" +
+                var startPosition = extent?.StartPosition;
+                return $"Unhandled token found at Position {startPosition?.Position}, Line Number {startPosition?.LineNumber}, Column Number {startPosition?.ColumnNumber}.{newline}" +
                        $"Token Type: '{token.GetType().Name}'{newline}" +
-                       $"Token Text: '{extent.Text}'";
+                       $"Token Text: '{extent?.Text}'";
             }
         }
     }
