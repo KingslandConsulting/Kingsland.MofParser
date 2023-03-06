@@ -58,6 +58,13 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
     #region Constructors
 
     internal StringValueAst(
+        StringLiteralToken stringLiteralValue,
+        string value
+    ) : this(new List<StringLiteralToken> { stringLiteralValue }, value)
+    {
+    }
+
+    internal StringValueAst(
         IEnumerable<StringLiteralToken> stringLiteralValues,
         string value
     )

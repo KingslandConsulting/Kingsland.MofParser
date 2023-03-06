@@ -8,6 +8,11 @@ public sealed class SourceExtent
 
     #region Constructors
 
+    public SourceExtent(string? text)
+        : this(null, null, text)
+    {
+    }
+
     public SourceExtent(SourcePosition? startPosition, SourcePosition? endPosition, string? text)
     {
         this.StartPosition = startPosition;

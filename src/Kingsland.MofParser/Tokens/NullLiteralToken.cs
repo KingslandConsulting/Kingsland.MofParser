@@ -14,6 +14,13 @@ public sealed record NullLiteralToken : SyntaxToken
     {
     }
 
+    public NullLiteralToken(string? text)
+        : this(
+            text is null ? (SourceExtent?)null : new SourceExtent(null, null, text)
+        )
+    {
+    }
+
     public NullLiteralToken(SourcePosition? start, SourcePosition? end, string text)
         : this (new SourceExtent(start, end, text))
     {

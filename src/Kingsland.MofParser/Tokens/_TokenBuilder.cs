@@ -3,8 +3,6 @@ using Kingsland.ParseFx.Text;
 
 namespace Kingsland.MofParser.Tokens;
 
-#region Fluent Class
-
 public sealed class TokenBuilder
 {
 
@@ -421,5 +419,3 @@ public sealed class TokenBuilder
     #endregion
 
 }
-
-#endregion

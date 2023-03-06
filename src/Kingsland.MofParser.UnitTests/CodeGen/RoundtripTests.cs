@@ -70,7 +70,10 @@ public static partial class RoundtripTests
         Assert.AreEqual(sourceText, actualTokenText);
         // check the parser generates the expected ast
         var actualAst = Parser.Parse(actualTokens, parserQuirks);
-        AstAssert.AreEqual(expectedAst, actualAst, true);
+        if (expectedAst is not null)
+        {
+            AstAssert.AreEqual(expectedAst, actualAst, true);
+        }
         // check the code generator builds the original source text
         var actualAstText = actualAst.ToString(
             new AstWriterOptions(

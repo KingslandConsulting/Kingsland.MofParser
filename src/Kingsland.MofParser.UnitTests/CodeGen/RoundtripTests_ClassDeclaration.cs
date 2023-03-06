@@ -1,4 +1,5 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
 using Kingsland.ParseFx.Text;
 using NUnit.Framework;
@@ -35,19 +36,24 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst.Builder {
+                Productions = new List<MofProductionAst> {
+                    new ClassDeclarationAst.Builder {
+                        ClassName = new IdentifierToken("GOLF_Base"),
+                        ClassFeatures = new List<IClassFeatureAst>()
+                    }.Build()
+                }
+            }.Build();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
 
         [Test]
         public static void ClassDeclarationWithSuperclassShouldRoundtrip()
         {
             var newline = Environment.NewLine;
-            var indent = "    ";
             var sourceText = @"
                 class GOLF_Base : GOLF_Superclass
                 {
-                    string InstanceID;
-                    string Caption = Null;
                 };
             ".TrimIndent(newline).TrimString(newline);
             var expectedTokens = new TokenBuilder()
@@ -62,28 +68,20 @@ public static partial class RoundtripTests
                 .WhitespaceToken(newline)
                 // {
                 .BlockOpenToken()
-                .WhitespaceToken(newline + indent)
-                //     string InstanceID;
-                .IdentifierToken("string")
-                .WhitespaceToken(" ")
-                .IdentifierToken("InstanceID")
-                .StatementEndToken()
-                .WhitespaceToken(newline + indent)
-                //     string Caption = Null;
-                .IdentifierToken("string")
-                .WhitespaceToken(" ")
-                .IdentifierToken("Caption")
-                .WhitespaceToken(" ")
-                .EqualsOperatorToken()
-                .WhitespaceToken(" ")
-                .NullLiteralToken("Null")
-                .StatementEndToken()
                 .WhitespaceToken(newline)
                 // };
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst.Builder {
+                Productions = new List<MofProductionAst> {
+                    new ClassDeclarationAst.Builder {
+                        ClassName = new IdentifierToken("GOLF_Base"),
+                        SuperClass = new IdentifierToken("GOLF_Superclass"),
+                    }.Build()
+                }
+            }.Build();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
 
         [Test]
@@ -127,7 +125,27 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst.Builder {
+                Productions = new List<MofProductionAst> {
+                    new ClassDeclarationAst.Builder {
+                        ClassName = new IdentifierToken("GOLF_Base"),
+                        ClassFeatures = new List<IClassFeatureAst> {
+                            new PropertyDeclarationAst.Builder {
+                                ReturnType = new IdentifierToken("string"),
+                                PropertyName = new IdentifierToken("InstanceID"),
+                            }.Build(),
+                            new PropertyDeclarationAst.Builder {
+                                ReturnType = new IdentifierToken("string"),
+                                PropertyName = new IdentifierToken("Caption"),
+                                Initializer = new NullValueAst(
+                                    new NullLiteralToken("Null")
+                                )
+                            }.Build()
+                        }
+                    }.Build()
+                }
+            }.Build();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
 
         [Test]
@@ -209,23 +227,65 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst.Builder {
+                Productions = new List<MofProductionAst> {
+                    new ClassDeclarationAst.Builder {
+                        ClassName = new IdentifierToken("GOLF_Base"),
+                        ClassFeatures = new List<IClassFeatureAst> {
+                            new PropertyDeclarationAst.Builder {
+                                QualifierList = new QualifierListAst(
+                                    new List<QualifierValueAst> {
+                                        new QualifierValueAst.Builder {
+                                            QualifierName = new IdentifierToken("Description"),
+                                            Initializer = new QualifierValueInitializerAst(
+                                                new StringValueAst(
+                                                  new StringLiteralToken("an instance of a class that derives from the GOLF_Base class. "),
+                                                  "an instance of a class that derives from the GOLF_Base class. "
+                                                )
+                                            )
+                                        }.Build(),
+                                        new QualifierValueAst.Builder {
+                                            QualifierName = new IdentifierToken("Key"),
+                                        }.Build()
+                                    }
+                                ),
+                                ReturnType = new IdentifierToken("string"),
+                                PropertyName = new IdentifierToken("InstanceID")
+                            }.Build(),
+                            new PropertyDeclarationAst.Builder {
+                                QualifierList = new QualifierListAst(
+                                    new List<QualifierValueAst> {
+                                        new QualifierValueAst.Builder {
+                                            QualifierName = new IdentifierToken("Description"),
+                                            Initializer = new QualifierValueInitializerAst(
+                                                new StringValueAst(
+                                                    new StringLiteralToken("A short textual description (one- line string) of the"),
+                                                    "an instance of a class that derives from the GOLF_Base class. "
+                                                )
+                                            )
+                                        }.Build(),
+                                        new QualifierValueAst.Builder {
+                                            QualifierName = new IdentifierToken("MaxLen"),
+                                            Initializer = new QualifierValueInitializerAst(
+                                                new IntegerValueAst(
+                                                    new IntegerLiteralToken(IntegerKind.DecimalValue, 64)
+                                                )
+                                            )
+                                        }.Build()
+                                    }
+                                ),
+                                ReturnType = new IdentifierToken("string"),
+                                PropertyName = new IdentifierToken("Caption"),
+                                Initializer = new NullValueAst(
+                                    new NullLiteralToken("Null")
+                                )
+                            }.Build()
+                        },
+                    }.Build()
+                }
+            }.Build();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
-
-        //[Test]
-        //public static void ClassDeclarationsAstWithNumericPropertiesShouldRoundtrip()
-        //{
-        //    RoundtripTests.AssertRoundtrip(
-        //        "instance of myType as $Alias00000070\r\n" +
-        //        "{\r\n" +
-        //        "\tMyBinaryValue = 0101010b;\r\n" +
-        //        "\tMyOctalValue = 0444444;\r\n" +
-        //        "\tMyHexValue = 0xABC123;\r\n" +
-        //        "\tMyDecimalValue = 12345;\r\n" +
-        //        "\tMyRealValue = 123.45;\r\n" +
-        //        "};"
-        //    );
-        //}
 
     }
 

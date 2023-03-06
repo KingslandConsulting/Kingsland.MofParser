@@ -14,6 +14,13 @@ public sealed record PragmaToken : SyntaxToken
     {
     }
 
+    public PragmaToken(string? text)
+        : this(
+            text is null ? (SourceExtent?)null : new SourceExtent(null, null, text)
+        )
+    {
+    }
+
     public PragmaToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text))
     {
