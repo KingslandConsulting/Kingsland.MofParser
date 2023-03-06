@@ -79,13 +79,13 @@ jobs:
         run: |
           dotnet new tool-manifest
           dotnet tool install JetBrains.ReSharper.GlobalTools
-          dotnet tool run jb inspectcode "./Kingsland.MofParser.sln" -output="../.build/out/inspectcode.xml" --no-build
+          dotnet tool run jb inspectcode "./Kingsland.MofParser.sln" -output="../.build/out/jb-inspectcode.xml" --no-build
 
       - name: upload jb-inspectcode.xml
         uses: actions/upload-artifact@v3
         with:
           name: jb-inspectcode.xml
-          path: ./jb-inspectcode.xml
+          path: .build/out/jb-inspectcode.xml
 
       - name: nuget pack
         run: nuget pack src/Kingsland.MofParser.nuspec
