@@ -72,7 +72,7 @@ jobs:
 
       - name: dotnet publish
         working-directory: ${{ env.BUILD_PATH }}
-        run: dotnet publish "./FancyMouse/FancyMouse.csproj" --configuration "$CONFIG_NAME" --no-build --output "$PUBLISH_PATH"
+        run: dotnet publish "./Kingsland.MofParser/Kingsland.MofParser.csproj" --configuration "$CONFIG_NAME" --no-build --output "$PUBLISH_PATH"
 
       - name: dotnet jb inspectcode
         working-directory: ${{ env.BUILD_PATH }}
