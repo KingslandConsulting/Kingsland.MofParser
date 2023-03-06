@@ -20,28 +20,28 @@ jobs:
 
       BUILD_PATH: ./src
     steps:
-    - uses: actions/checkout@v3
-      with:
-        # needed for gitversion to work
-        fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          # needed for gitversion to work
+          fetch-depth: 0
 
-    - name: gitversion
-      run: |
-        # calling "dotnet tool install" when already installed will give an error
-        # see https://github.com/dotnet/sdk/issues/9500
-        if ( ! dotnet tool list --global | grep -q "gitversion.tool" )
-        then
-          dotnet tool install --global GitVersion.Tool --version 5.8.2
-        fi
-        dotnet-gitversion
-        dotnet-gitversion /showvariable "FullSemVer"
-        BUILD_NUMBER=$(
-          # convert to a docker-friendly version number
-          dotnet-gitversion /showvariable "FullSemVer" \
-            | sed "s/+/-/g"
-        )
-        echo "build number = $BUILD_NUMBER"
-        echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
+      - name: gitversion
+        run: |
+          # calling "dotnet tool install" when already installed will give an error
+          # see https://github.com/dotnet/sdk/issues/9500
+          if ( ! dotnet tool list --global | grep -q "gitversion.tool" )
+          then
+            dotnet tool install --global GitVersion.Tool --version 5.8.2
+          fi
+          dotnet-gitversion
+          dotnet-gitversion /showvariable "FullSemVer"
+          BUILD_NUMBER=$(
+            # convert to a docker-friendly version number
+            dotnet-gitversion /showvariable "FullSemVer" \
+              | sed "s/+/-/g"
+          )
+          echo "build number = $BUILD_NUMBER"
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
 
         - name: setup dotnet
           uses: actions/setup-dotnet@v3
