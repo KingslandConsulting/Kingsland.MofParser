@@ -74,7 +74,13 @@ jobs:
         working-directory: ${{ env.BUILD_PATH }}
         run: dotnet publish "./Kingsland.MofParser/Kingsland.MofParser.csproj" --configuration "$CONFIG_NAME" --no-build --output "$PUBLISH_PATH"
 
-      - name: dotnet jb inspectcode
+      - name: upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: app
+          path: .build/app
+
+      - name: dotnet tool jb inspectcode
         working-directory: ${{ env.BUILD_PATH }}
         run: |
           dotnet new tool-manifest
@@ -89,3 +95,10 @@ jobs:
 
       - name: nuget pack
         run: nuget pack src/Kingsland.MofParser.nuspec
+
+      - name: upload nuget package
+        uses: actions/upload-artifact@v3
+        with:
+          name: nupkg
+          path: *.nupkg
+
