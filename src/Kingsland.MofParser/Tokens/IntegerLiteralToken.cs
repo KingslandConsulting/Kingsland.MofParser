@@ -50,7 +50,7 @@ public sealed record IntegerLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this?.Text
+        return this.Text
             ?? this.Kind switch {
                 IntegerKind.BinaryValue =>
                     $"{(this.Value < 0 ? "-" : "")}{Convert.ToString(Math.Abs(this.Value), 2)}b",

@@ -39,7 +39,7 @@ public sealed record IdentifierToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this?.Text
+        return this.Text
             ?? this.Name;
     }
 

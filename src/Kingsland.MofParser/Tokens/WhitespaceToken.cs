@@ -39,7 +39,7 @@ public sealed record WhitespaceToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this?.Text
+        return this.Text
             ?? this.Value;
     }
 

@@ -40,7 +40,7 @@ public sealed record RealLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this?.Text
+        return this.Text
             ?? this.Value.ToString(CultureInfo.InvariantCulture);
     }
 

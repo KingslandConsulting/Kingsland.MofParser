@@ -45,7 +45,7 @@ public sealed record BooleanLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this?.Text
+        return this.Text
             ?? (this.Value ? Constants.TRUE : Constants.FALSE);
     }
 

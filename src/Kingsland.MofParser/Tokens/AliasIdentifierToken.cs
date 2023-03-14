@@ -47,7 +47,7 @@ public sealed record AliasIdentifierToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this?.Text
+        return this.Text
             ?? $"${this.Name}";
     }
 

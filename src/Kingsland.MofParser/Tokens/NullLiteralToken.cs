@@ -16,7 +16,7 @@ public sealed record NullLiteralToken : SyntaxToken
 
     public NullLiteralToken(string? text)
         : this(
-            text is null ? (SourceExtent?)null : new SourceExtent(null, null, text)
+            text is null ? null : new SourceExtent(null, null, text)
         )
     {
     }
@@ -37,7 +37,7 @@ public sealed record NullLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this?.Text
+        return this.Text
             ?? Constants.NULL;
     }
 

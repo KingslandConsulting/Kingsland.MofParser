@@ -29,7 +29,7 @@ public sealed record ParenthesisCloseToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this?.Text
+        return this.Text
             ?? ")";
     }
 

@@ -5,7 +5,7 @@ public sealed class AstWriterOptions
 
     #region Fields
 
-    public readonly static AstWriterOptions Default = new(
+    public static readonly AstWriterOptions Default = new(
         newLine: Environment.NewLine,
         indentStep: "\t",
         quirks: MofQuirks.None

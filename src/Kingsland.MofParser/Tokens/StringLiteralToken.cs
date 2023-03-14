@@ -41,7 +41,7 @@ public sealed record StringLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this?.Text
+        return this.Text
             ?? $"\"{StringLiteralToken.EscapeString(this.Value)}\"";
     }
 

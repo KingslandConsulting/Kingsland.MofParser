@@ -29,7 +29,7 @@ public sealed record ColonToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return this?.Text
+        return this.Text
             ?? ":";
     }
 
