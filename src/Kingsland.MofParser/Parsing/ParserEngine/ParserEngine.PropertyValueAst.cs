@@ -3,6 +3,7 @@ using Kingsland.MofParser.Tokens;
 using Kingsland.ParseFx.Parsing;
 using Kingsland.ParseFx.Syntax;
 
+// Resharper disable once CheckNamespace
 namespace Kingsland.MofParser.Parsing;
 
 internal static partial class ParserEngine

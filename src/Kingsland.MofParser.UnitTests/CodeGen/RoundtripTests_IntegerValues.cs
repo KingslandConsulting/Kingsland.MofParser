@@ -1,8 +1,8 @@
 ﻿using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
-using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 
+// Resharper disable once CheckNamespace
 namespace Kingsland.MofParser.UnitTests.CodeGen;
 
 public static partial class RoundtripTests

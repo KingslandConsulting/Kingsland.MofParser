@@ -1,6 +1,7 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.ParseFx.Parsing;
 
+// Resharper disable once CheckNamespace
 namespace Kingsland.MofParser.Parsing;
 
 internal static partial class ParserEngine
