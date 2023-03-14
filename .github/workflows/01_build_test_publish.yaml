@@ -100,5 +100,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: nupkg
-          path: *.nupkg
+          path: **/*.nupkg
 
