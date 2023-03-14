@@ -63,25 +63,26 @@ public static partial class RoundtripTests
             throw new ArgumentNullException(nameof(expectedTokens));
         }
         // check the lexer generates the expected tokens
-        var actualTokens = Lexer.Lex(SourceReader.From(sourceText));
+        var actualTokens = Lexer.Lex(SourceReader.From(sourceText)).ToList();
         LexerAssert.AreEqual(expectedTokens, actualTokens, true);
         // check the expected tokens serialize back ok
         var actualTokenText = TokenSerializer.ToSourceText(expectedTokens);
         Assert.AreEqual(sourceText, actualTokenText);
         // check the parser generates the expected ast
         var actualAst = Parser.Parse(actualTokens, parserQuirks);
-        AstAssert.AreEqual(expectedAst, actualAst, true);
+        if (expectedAst is not null)
+        {
+            AstAssert.AreEqual(expectedAst, actualAst, true);
+        }
         // check the code generator builds the original source text
-        var actualAstText = AstMofGenerator.ConvertToMof(
-            actualAst, indentStep: "    "
+        var actualAstText = actualAst.ToString(
+            new AstWriterOptions(
+                newLine: Environment.NewLine,
+                indentStep: "    ",
+                quirks: MofQuirks.None
+            )
         );
         Assert.AreEqual(sourceText, actualAstText);
-        // check the parser ast roundtrips ok
-        var mofText = AstMofGenerator.ConvertMofSpecificationAst(
-            node: actualAst,
-            indentStep: "    "
-        );
-        Assert.AreEqual(sourceText, mofText);
     }
 
     private static void AssertRoundtripException(string sourceText, string expectedMessage, ParserQuirks parserQuirks = ParserQuirks.None)

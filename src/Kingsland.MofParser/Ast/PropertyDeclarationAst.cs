@@ -1,6 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
-using Kingsland.ParseFx.Parsing;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -48,7 +46,7 @@ public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
+            this.QualifierList = new();
         }
 
         public QualifierListAst QualifierList
@@ -89,7 +87,7 @@ public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
 
         public PropertyDeclarationAst Build()
         {
-            return new PropertyDeclarationAst(
+            return new(
                 this.QualifierList,
                 this.ReturnType ?? throw new InvalidOperationException(
                     $"{nameof(this.ReturnType)} property must be set before calling {nameof(Build)}."
@@ -161,15 +159,6 @@ public sealed record PropertyDeclarationAst : AstNode, IStructureFeatureAst
     public PropertyValueAst? Initializer
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertPropertyDeclarationAst(this);
     }
 
     #endregion

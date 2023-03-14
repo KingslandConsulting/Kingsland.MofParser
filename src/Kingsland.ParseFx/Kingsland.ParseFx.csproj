@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -9,7 +9,7 @@
   <PropertyGroup>
     <Company>Kingsland Consulting</Company>
     <Authors>Michael Clayton</Authors>
-    <Copyright>Copyright © 2019</Copyright>
+    <Copyright>Copyright © 2023</Copyright>
     <Description>A C# library to simplify some of the boring bits of writing a lexer and parser for custom text file formats.</Description>
   </PropertyGroup>
 

@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -25,7 +24,7 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
 
         public Builder()
         {
-            this.Values = new List<LiteralValueAst>();
+            this.Values = new();
         }
 
         public List<LiteralValueAst> Values
@@ -36,7 +35,7 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
 
         public QualifierValueArrayInitializerAst Build()
         {
-            return new QualifierValueArrayInitializerAst(
+            return new(
                 this.Values
             );
         }
@@ -48,7 +47,7 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
     #region Constructors
 
     internal QualifierValueArrayInitializerAst()
-        : this(new List<LiteralValueAst>())
+        : this(Enumerable.Empty<LiteralValueAst>())
     {
     }
 
@@ -56,7 +55,7 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
         IEnumerable<LiteralValueAst> values
     )
     {
-        this.Values = new ReadOnlyCollection<LiteralValueAst>(
+        this.Values = new(
             (values ?? throw new ArgumentNullException(nameof(values)))
                 .ToList()
         );
@@ -69,15 +68,6 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
     public ReadOnlyCollection<LiteralValueAst> Values
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertQualifierValueArrayInitializerAst(this);
     }
 
     #endregion

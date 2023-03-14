@@ -1,6 +1,4 @@
-﻿using Kingsland.ParseFx.Parsing;
-
-namespace Kingsland.MofParser.Ast;
+﻿namespace Kingsland.MofParser.Ast;
 
 /// <summary>
 /// </summary>

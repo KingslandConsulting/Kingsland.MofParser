@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -28,7 +27,9 @@ public sealed record InstanceValueDeclarationAst : MofProductionAst
 
         public Builder()
         {
-            this.PropertyValues = new PropertyValueListAst();
+            this.PropertyValues = new(
+                Enumerable.Empty<PropertySlotAst>()
+            );
         }
 
         public IdentifierToken? Instance
@@ -75,7 +76,7 @@ public sealed record InstanceValueDeclarationAst : MofProductionAst
 
         public InstanceValueDeclarationAst Build()
         {
-            return new InstanceValueDeclarationAst(
+            return new(
                 instance: this.Instance ?? throw new InvalidOperationException(
                     $"{nameof(this.Instance)} property must be set before calling {nameof(Build)}."
                 ),
@@ -169,15 +170,6 @@ public sealed record InstanceValueDeclarationAst : MofProductionAst
     public StatementEndToken StatementEnd
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertInstanceValueDeclarationAst(this);
     }
 
     #endregion

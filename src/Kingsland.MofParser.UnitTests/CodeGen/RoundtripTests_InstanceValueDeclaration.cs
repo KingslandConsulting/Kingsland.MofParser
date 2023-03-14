@@ -110,18 +110,24 @@ public static partial class RoundtripTests
                         new IdentifierToken("of"),
                         new IdentifierToken("GOLF_ClubMember"),
                         new PropertyValueListAst(
-                            new Dictionary<string, PropertyValueAst> {
-                                ["FirstName"] = new StringValueAst(
-                                    new List<StringLiteralToken> {
-                                        new StringLiteralToken("John")
-                                    },
-                                    "John"
+                            new List<PropertySlotAst> {
+                                new(
+                                    new("FirstName"),
+                                    new StringValueAst(
+                                        new List<StringLiteralToken> {
+                                            new StringLiteralToken("John")
+                                        },
+                                        "John"
+                                    )
                                 ),
-                                ["LastName"] = new StringValueAst(
-                                    new List<StringLiteralToken> {
-                                        new StringLiteralToken("Doe")
-                                    },
-                                    "Doe"
+                                new(
+                                    new("LastName"),
+                                    new StringValueAst(
+                                        new List<StringLiteralToken> {
+                                            new StringLiteralToken("Doe")
+                                        },
+                                        "Doe"
+                                    )
                                 )
                             }
                         ),

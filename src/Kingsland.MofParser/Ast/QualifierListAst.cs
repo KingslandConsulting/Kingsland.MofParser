@@ -1,6 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.ParseFx.Parsing;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -25,7 +23,7 @@ public sealed record QualifierListAst : AstNode
 
         public Builder()
         {
-            this.QualifierValues = new List<QualifierValueAst>();
+            this.QualifierValues = new();
         }
 
         public List<QualifierValueAst> QualifierValues
@@ -36,7 +34,7 @@ public sealed record QualifierListAst : AstNode
 
         public QualifierListAst Build()
         {
-            return new QualifierListAst(
+            return new(
                 this.QualifierValues
             );
         }
@@ -48,7 +46,7 @@ public sealed record QualifierListAst : AstNode
     #region Constructors
 
     internal QualifierListAst()
-        : this(new List<QualifierValueAst>())
+        : this(Enumerable.Empty<QualifierValueAst>())
     {
     }
 
@@ -56,7 +54,7 @@ public sealed record QualifierListAst : AstNode
         IEnumerable<QualifierValueAst> qualifierValues
     )
     {
-        this.QualifierValues = new ReadOnlyCollection<QualifierValueAst>(
+        this.QualifierValues = new(
             (qualifierValues ?? throw new ArgumentNullException(nameof(qualifierValues)))
                 .ToList()
         );
@@ -69,15 +67,6 @@ public sealed record QualifierListAst : AstNode
     public ReadOnlyCollection<QualifierValueAst> QualifierValues
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertQualifierListAst(this);
     }
 
     #endregion

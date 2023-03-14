@@ -1,8 +1,8 @@
 ﻿using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
-using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 
+// Resharper disable once CheckNamespace
 namespace Kingsland.MofParser.UnitTests.CodeGen;
 
 public static partial class RoundtripTests
@@ -77,12 +77,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .IntegerLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "+100",
-                    IntegerKind.DecimalValue, 100
-                )
+                .IntegerLiteralToken("+100", IntegerKind.DecimalValue, 100)
                 .StatementEndToken()
                 .WhitespaceToken(newline)
                 // };
@@ -182,12 +177,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .IntegerLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "00101010b",
-                    IntegerKind.BinaryValue, 0b0101010
-                )
+                .IntegerLiteralToken("00101010b", IntegerKind.BinaryValue, 0b0101010)
                 .StatementEndToken()
                 .WhitespaceToken(newline + indent)
                 //     MyBinaryValue2 = +101010b;
@@ -195,12 +185,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .IntegerLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "+101010b",
-                    IntegerKind.BinaryValue, 0b101010
-                )
+                .IntegerLiteralToken("+101010b", IntegerKind.BinaryValue, 0b101010)
                 .StatementEndToken()
                 .WhitespaceToken(newline + indent)
                 //     MyBinaryValue4 = -101010b;
@@ -224,12 +209,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .IntegerLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "000444444",
-                    IntegerKind.OctalValue, Convert.ToInt32("000444444", 8)
-                )
+                .IntegerLiteralToken("000444444", IntegerKind.OctalValue, Convert.ToInt32("000444444", 8))
                 .StatementEndToken()
                 .WhitespaceToken(newline + indent)
                 //     MyOctalValue3 = +000444444;
@@ -237,12 +217,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .IntegerLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "+0444444",
-                    IntegerKind.OctalValue, Convert.ToInt32("0444444", 8)
-                )
+                .IntegerLiteralToken("+0444444", IntegerKind.OctalValue, Convert.ToInt32("0444444", 8))
                 .StatementEndToken()
                 .WhitespaceToken(newline + indent)
                 //     MyOctalValue4 = -0444444;
@@ -266,12 +241,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .IntegerLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "0x00ABC123",
-                    IntegerKind.HexValue, 0x00ABC123
-                )
+                .IntegerLiteralToken("0x00ABC123", IntegerKind.HexValue, 0x00ABC123)
                 .StatementEndToken()
                 .WhitespaceToken(newline + indent)
                 //     MyHexValue2 = +0xABC123;
@@ -279,12 +249,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .IntegerLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "+0xABC123",
-                    IntegerKind.HexValue, 0x00ABC123
-                )
+                .IntegerLiteralToken("+0xABC123", IntegerKind.HexValue, 0x00ABC123)
                 .StatementEndToken()
                 .WhitespaceToken(newline + indent)
                 //     MyHexValue3 = -0xABC123;
@@ -308,12 +273,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .IntegerLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "+12345",
-                    IntegerKind.DecimalValue, 12345
-                )
+                .IntegerLiteralToken("+12345", IntegerKind.DecimalValue, 12345)
                 .StatementEndToken()
                 .WhitespaceToken(newline + indent)
                 //     MyDecimalValue3 = -12345;
@@ -337,12 +297,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .RealLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "00123.45",
-                    123.45
-                )
+                .RealLiteralToken("00123.45", 123.45)
                 .StatementEndToken()
                 .WhitespaceToken(newline + indent)
                 //     MyRealValue2 = +00123.45;
@@ -350,12 +305,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .RealLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "+123.45",
-                    123.45
-                )
+                .RealLiteralToken("+123.45", 123.45)
                 .StatementEndToken()
                 .WhitespaceToken(newline + indent)
                 //     MyRealValue3 = -123.45;

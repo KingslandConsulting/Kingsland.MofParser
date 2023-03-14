@@ -9,16 +9,16 @@ public sealed record StatementEndToken : SyntaxToken
     #region Constructors
 
     public StatementEndToken()
-        : this(SourceExtent.Empty)
+        : this((SourceExtent?)null)
     {
     }
 
-    public StatementEndToken(SourcePosition start, SourcePosition end, string text)
+    public StatementEndToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text))
     {
     }
 
-    public StatementEndToken(SourceExtent extent)
+    public StatementEndToken(SourceExtent? extent)
         : base(extent)
     {
     }
@@ -29,9 +29,8 @@ public sealed record StatementEndToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : ";";
+        return this.Text
+            ?? ";";
     }
 
     #endregion

@@ -81,15 +81,12 @@ public sealed class SourceReader
 
     public SourceReader Next()
     {
-        if (this._next == null)
-        {
-            this._next = this.Eof()
-                ? throw new UnexpectedEndOfStreamException()
-                : new SourceReader(
-                    stream: this.Stream,
-                    position: this.Position + 1
-                );
-        }
+        this._next ??= this.Eof()
+            ? throw new UnexpectedEndOfStreamException()
+            : new(
+                stream: this.Stream,
+                position: this.Position + 1
+            );
         return this._next;
     }
 

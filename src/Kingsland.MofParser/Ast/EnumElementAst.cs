@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -17,7 +16,7 @@ namespace Kingsland.MofParser.Ast;
 ///     enumLiteral            = IDENTIFIER
 ///
 /// </remarks>
-public sealed record EnumElementAst : IAstNode
+public sealed record EnumElementAst : AstNode
 {
 
     #region Builder
@@ -27,7 +26,7 @@ public sealed record EnumElementAst : IAstNode
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
+            this.QualifierList = new();
         }
 
         public QualifierListAst QualifierList
@@ -50,7 +49,7 @@ public sealed record EnumElementAst : IAstNode
 
         public EnumElementAst Build()
         {
-            return new EnumElementAst(
+            return new(
                 this.QualifierList,
                 this.EnumElementName ?? throw new InvalidOperationException(
                     $"{nameof(this.EnumElementName)} property must be set before calling {nameof(Build)}."
@@ -93,15 +92,6 @@ public sealed record EnumElementAst : IAstNode
     public IEnumElementValueAst? EnumElementValue
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertEnumElementAst(this);
     }
 
     #endregion

@@ -1,4 +1,5 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
 
@@ -29,12 +30,23 @@ public static partial class RoundtripTests
                 .StringLiteralToken("GlobalStructs/GOLF_Address.mof")
                 .ParenthesisCloseToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst.Builder {
+                Productions = new List<MofProductionAst> {
+                    new CompilerDirectiveAst.Builder {
+                        PragmaKeyword = new PragmaToken("pragma"),
+                        PragmaName = new IdentifierToken("include"),
+                        PragmaParameter = new StringValueAst(
+                            new StringLiteralToken("GlobalStructs/GOLF_Address.mof"),
+                            "GlobalStructs/GOLF_Address.mof"
+                        )
+                    }.Build()
+                }
+            }.Build();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
 
         [Test]
-        public static void CompilerDirectiveWithMultipleSingleStringsShouldRoundtrip()
-        {
+        public static void CompilerDirectiveWithMultipleSingleStringsShouldRoundtrip() {
             var newline = Environment.NewLine;
             var sourceText = @"
                 #pragma include (""GlobalStructs"" ""/"" ""GOLF_Address.mof"")
@@ -53,7 +65,23 @@ public static partial class RoundtripTests
                 .StringLiteralToken("GOLF_Address.mof")
                 .ParenthesisCloseToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst.Builder {
+                Productions = new List<MofProductionAst> {
+                    new CompilerDirectiveAst.Builder {
+                        PragmaKeyword = new PragmaToken("pragma"),
+                        PragmaName = new IdentifierToken("include"),
+                        PragmaParameter = new StringValueAst(
+                            new List<StringLiteralToken> {
+                                new StringLiteralToken("GlobalStructs"),
+                                new StringLiteralToken("/"),
+                                new StringLiteralToken("GOLF_Address.mof")
+                            },
+                            "GlobalStructs/GOLF_Address.mof"
+                        )
+                    }.Build()
+                }
+            }.Build();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
 
     }

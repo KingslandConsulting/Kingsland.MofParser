@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -24,7 +23,7 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
 
         public Builder()
         {
-            this.Values = new List<EnumValueAst>();
+            this.Values = new();
         }
 
         public List<EnumValueAst> Values
@@ -35,7 +34,7 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
 
         public EnumValueArrayAst Build()
         {
-            return new EnumValueArrayAst(
+            return new(
                 this.Values
             );
         }
@@ -47,7 +46,7 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
     #region Constructors
 
     internal EnumValueArrayAst()
-        : this(new List<EnumValueAst>())
+        : this(Enumerable.Empty<EnumValueAst>())
     {
     }
 
@@ -55,7 +54,7 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
         IEnumerable<EnumValueAst> values
     )
     {
-        this.Values = new ReadOnlyCollection<EnumValueAst>(
+        this.Values = new(
             (values ?? throw new ArgumentNullException(nameof(values)))
                 .ToList()
         );
@@ -68,15 +67,6 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
     public ReadOnlyCollection<EnumValueAst> Values
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertEnumValueArrayAst(this);
     }
 
     #endregion

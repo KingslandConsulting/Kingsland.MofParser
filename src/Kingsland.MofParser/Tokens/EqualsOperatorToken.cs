@@ -9,16 +9,16 @@ public sealed record EqualsOperatorToken : SyntaxToken
     #region Constructors
 
     public EqualsOperatorToken()
-        : this(SourceExtent.Empty)
+        : this((SourceExtent?)null)
     {
     }
 
-    public EqualsOperatorToken(SourcePosition start, SourcePosition end, string text)
+    public EqualsOperatorToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text))
     {
     }
 
-    public EqualsOperatorToken(SourceExtent extent)
+    public EqualsOperatorToken(SourceExtent? extent)
         : base(extent)
     {
     }
@@ -29,9 +29,8 @@ public sealed record EqualsOperatorToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : "=";
+        return this.Text
+            ?? "=";
     }
 
     #endregion

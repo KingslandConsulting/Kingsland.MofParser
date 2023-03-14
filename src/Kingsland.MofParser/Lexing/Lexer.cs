@@ -66,7 +66,7 @@ public static class Lexer
             })
             .AddScanner("[0-9]", Lexer.ReadNumericLiteralToken)
             .AddScanner(
-                new char[] {
+                new[] {
                     '\u0020', // space
                     '\u0009', // horizontal tab
                     '\u000D', // carriage return
@@ -76,9 +76,9 @@ public static class Lexer
             );
     }
 
-    public static List<SyntaxToken> Lex(SourceReader reader)
+    public static IEnumerable<SyntaxToken> Lex(SourceReader reader)
     {
-        return Lexer.Create().ReadToEnd(reader).ToList();
+        return Lexer.Create().ReadToEnd(reader);
     }
 
     #endregion
@@ -192,10 +192,9 @@ public static class Lexer
     public static ScannerResult ReadWhitespaceToken(SourceReader reader)
     {
         var thisReader = reader;
-        var sourceChar = default(SourceChar);
         var sourceChars = new List<SourceChar>();
         // read the first whitespace character
-        (sourceChar, thisReader) = thisReader.Read(StringValidator.IsWhitespace);
+        (var sourceChar, thisReader) = thisReader.Read(StringValidator.IsWhitespace);
         sourceChars.Add(sourceChar);
         // read the remaining whitespace
         while (!thisReader.Eof() && thisReader.Peek(StringValidator.IsWhitespace))
@@ -204,8 +203,15 @@ public static class Lexer
             sourceChars.Add(sourceChar);
         }
         // return the result
-        var extent = SourceExtent.From(sourceChars);
-        return new ScannerResult(new WhitespaceToken(extent, extent.Text), thisReader);
+        var text = SourceExtent.ConvertToString(sourceChars);
+        return new ScannerResult(
+            new WhitespaceToken(
+                sourceChars.First().Position,
+                sourceChars.Last().Position,
+                text
+            ),
+            thisReader
+        );
     }
 
     #endregion
@@ -245,10 +251,9 @@ public static class Lexer
     public static ScannerResult ReadCommentToken(SourceReader reader)
     {
         var thisReader = reader;
-        var sourceChar = default(SourceChar);
         var sourceChars = new List<SourceChar>();
         // read the starting '/'
-        (sourceChar, thisReader) = thisReader.Read('/');
+        (var sourceChar, thisReader) = thisReader.Read('/');
         sourceChars.Add(sourceChar);
         switch (thisReader.Peek().Value)
         {
@@ -283,8 +288,15 @@ public static class Lexer
                 throw new UnexpectedCharacterException(reader.Peek());
         }
         // return the result
-        var extent = SourceExtent.From(sourceChars);
-        return new ScannerResult(new CommentToken(extent, extent.Text), thisReader);
+        var text = SourceExtent.ConvertToString(sourceChars);
+        return new ScannerResult(
+            new CommentToken(
+                sourceChars.First().Position,
+                sourceChars.Last().Position,
+                text
+            ),
+            thisReader
+        );
     }
 
     #endregion
@@ -324,7 +336,7 @@ public static class Lexer
     /// </remarks>
     public static ScannerResult ReadPragmaToken(SourceReader reader)
     {
-        (var sourceChars, var thisReader) = reader.ReadString(Constants.PRAGMA, true);
+        var (sourceChars, thisReader) = reader.ReadString(Constants.PRAGMA, true);
         var extent = SourceExtent.From(sourceChars.ToList());
         return new ScannerResult(new PragmaToken(extent), thisReader);
     }
@@ -358,11 +370,10 @@ public static class Lexer
     public static ScannerResult ReadIdentifierToken(SourceReader reader)
     {
         var thisReader = reader;
-        var sourceChar = default(SourceChar);
         var sourceChars = new List<SourceChar>();
         var nameChars = new StringBuilder();
         // firstIdentifierChar
-        (sourceChar, thisReader) = thisReader.Read(StringValidator.IsFirstIdentifierChar);
+        (var sourceChar, thisReader) = thisReader.Read(StringValidator.IsFirstIdentifierChar);
         sourceChars.Add(sourceChar);
         nameChars.Append(sourceChar.Value);
         // *( nextIdentifierChar )
@@ -409,11 +420,10 @@ public static class Lexer
     public static ScannerResult ReadAliasIdentifierToken(SourceReader reader)
     {
         var thisReader = reader;
-        var sourceChar = default(SourceChar);
         var sourceChars = new List<SourceChar>();
         var nameChars = new StringBuilder();
         // "$"
-        (sourceChar, thisReader) = thisReader.Read('$');
+        (var sourceChar, thisReader) = thisReader.Read('$');
         sourceChars.Add(sourceChar);
         // firstIdentifierChar
         (sourceChar, thisReader) = thisReader.Read(StringValidator.IsFirstIdentifierChar);
@@ -700,8 +710,7 @@ public static class Lexer
                     (sourceChar, thisReader) = thisReader.Read(c => (c == 'x') || (c == 'X'));
                     sourceChars.Add(sourceChar);
                     // 1*hexDigit
-                    var hexDigits = default(List<SourceChar>);
-                    (hexDigits, thisReader) = thisReader.ReadWhile(StringValidator.IsHexDigit);
+                    (var hexDigits, thisReader) = thisReader.ReadWhile(StringValidator.IsHexDigit);
                     if (hexDigits.Count == 0)
                     {
                         throw new UnexpectedCharacterException(thisReader.Peek());
@@ -759,8 +768,7 @@ public static class Lexer
 
                 case stateRealValueFraction:
                     // 1*decimalDigit
-                    var realFractionDigits = default(List<SourceChar>);
-                    (realFractionDigits, thisReader) = thisReader.ReadWhile(StringValidator.IsHexDigit);
+                    (var realFractionDigits, thisReader) = thisReader.ReadWhile(StringValidator.IsHexDigit);
                     if (realFractionDigits.Count == 0)
                     {
                         throw new UnexpectedCharacterException(thisReader.Peek());
@@ -869,11 +877,10 @@ public static class Lexer
         // BUGBUG - incomplete escape sequences
         // BUGBUG - no support for UCS characters
         var thisReader = reader;
-        var sourceChar = default(SourceChar);
         var sourceChars = new List<SourceChar>();
         var stringChars = new StringBuilder();
         // read the first double-quote character
-        (sourceChar, thisReader) = thisReader.Read(Constants.DOUBLEQUOTE);
+        (var sourceChar, thisReader) = thisReader.Read(Constants.DOUBLEQUOTE);
         sourceChars.Add(sourceChar);
         // read the remaining characters
         bool isEscaped = false;

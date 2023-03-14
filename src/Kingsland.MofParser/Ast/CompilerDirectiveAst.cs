@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -58,7 +57,7 @@ public sealed record CompilerDirectiveAst : MofProductionAst
 
         public CompilerDirectiveAst Build()
         {
-            return new CompilerDirectiveAst(
+            return new(
                 this.PragmaKeyword ?? throw new InvalidOperationException(
                     $"{nameof(this.PragmaKeyword)} property must be set before calling {nameof(Build)}."
                 ),
@@ -105,15 +104,6 @@ public sealed record CompilerDirectiveAst : MofProductionAst
     public StringValueAst PragmaParameter
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertCompilerDirectiveAst(this);
     }
 
     #endregion

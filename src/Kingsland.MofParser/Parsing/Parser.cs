@@ -11,7 +11,7 @@ namespace Kingsland.MofParser.Parsing;
 public static class Parser
 {
 
-    public static MofSpecificationAst Parse(List<SyntaxToken> lexerTokens, ParserQuirks quirks = ParserQuirks.None)
+    public static MofSpecificationAst Parse(IEnumerable<SyntaxToken> lexerTokens, ParserQuirks quirks = ParserQuirks.None)
     {
 
         // remove all comments and whitespace

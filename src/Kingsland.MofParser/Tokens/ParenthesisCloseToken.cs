@@ -9,16 +9,16 @@ public sealed record ParenthesisCloseToken : SyntaxToken
     #region Constructors
 
     public ParenthesisCloseToken()
-        : this(SourceExtent.Empty)
+        : this((SourceExtent?)null)
     {
     }
 
-    public ParenthesisCloseToken(SourcePosition start, SourcePosition end, string text)
+    public ParenthesisCloseToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text))
     {
     }
 
-    public ParenthesisCloseToken(SourceExtent extent)
+    public ParenthesisCloseToken(SourceExtent? extent)
         : base(extent)
     {
     }
@@ -29,9 +29,8 @@ public sealed record ParenthesisCloseToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : ")";
+        return this.Text
+            ?? ")";
     }
 
     #endregion

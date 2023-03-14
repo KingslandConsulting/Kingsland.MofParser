@@ -10,12 +10,9 @@ internal static class AstAssert
 
     public static void AreEqual(MofSpecificationAst? expected, MofSpecificationAst? actual, bool ignoreExtent)
     {
-        if ((expected == null) && (actual == null))
-        {
-            return;
-        }
         if ((expected == null) || (actual == null))
         {
+            Assert.AreEqual(expected, actual);
             return;
         }
         Assert.AreEqual(expected.Productions.Count, actual.Productions.Count);
@@ -27,23 +24,22 @@ internal static class AstAssert
 
     private static void AreEqual(MofProductionAst? expected, MofProductionAst? actual, bool ignoreExtent)
     {
-        if ((expected == null) && (actual == null))
-        {
-            return;
-        }
         if ((expected == null) || (actual == null))
         {
+            Assert.AreEqual(expected, actual);
             return;
         }
         Assert.IsInstanceOf(expected.GetType(), actual);
         switch (expected)
         {
-            case CompilerDirectiveAst:
-                throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
+            case CompilerDirectiveAst ast:
+                AstAssert.AreEqual(ast, (CompilerDirectiveAst)actual, ignoreExtent);
+                return;
             case StructureDeclarationAst:
                 throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
-            case ClassDeclarationAst:
-                throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
+            case ClassDeclarationAst ast:
+                AstAssert.AreEqual(ast, (ClassDeclarationAst)actual, ignoreExtent);
+                return;
             case AssociationDeclarationAst ast:
                 AstAssert.AreEqual(ast, (AssociationDeclarationAst)actual, ignoreExtent);
                 return;
@@ -61,14 +57,21 @@ internal static class AstAssert
         }
     }
 
-    private static void AreEqual(AssociationDeclarationAst? expected, AssociationDeclarationAst? actual, bool ignoreExtent)
-    {
-        if ((expected == null) && (actual == null))
-        {
+    private static void AreEqual(CompilerDirectiveAst? expected, CompilerDirectiveAst? actual, bool ignoreExtent) {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
             return;
         }
+        TokenAssert.AreEqual(expected.PragmaKeyword, actual.PragmaKeyword, ignoreExtent);
+        TokenAssert.AreEqual(expected.PragmaName, actual.PragmaName, ignoreExtent);
+        AstAssert.AreEqual(expected.PragmaParameter, actual.PragmaParameter, ignoreExtent);
+    }
+
+    private static void AreEqual(AssociationDeclarationAst? expected, AssociationDeclarationAst? actual, bool ignoreExtent)
+    {
         if ((expected == null) || (actual == null))
         {
+            Assert.AreEqual(expected, actual);
             return;
         }
         AstAssert.AreEqual(expected.QualifierList, actual.QualifierList, ignoreExtent);
@@ -81,14 +84,25 @@ internal static class AstAssert
         }
     }
 
-    private static void AreEqual(QualifierListAst? expected, QualifierListAst? actual, bool ignoreExtent)
-    {
-        if ((expected == null) && (actual == null))
-        {
-            return;
-        }
+    private static void AreEqual(ClassDeclarationAst? expected, ClassDeclarationAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null))
         {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        TokenAssert.AreEqual(expected.ClassName, actual.ClassName, ignoreExtent);
+        TokenAssert.AreEqual(expected.SuperClass, actual.SuperClass, ignoreExtent);
+        Assert.AreEqual(expected.ClassFeatures.Count, actual.ClassFeatures.Count);
+        for (var i = 0; i < expected.ClassFeatures.Count; i++) {
+            AstAssert.AreEqual(expected.ClassFeatures[i], actual.ClassFeatures[i], ignoreExtent);
+        }
+    }
+
+    private static void AreEqual(QualifierListAst? expected, QualifierListAst? actual, bool ignoreExtent)
+    {
+        if ((expected == null) || (actual == null))
+        {
+            Assert.AreEqual(expected, actual);
             return;
         }
         Assert.AreEqual(expected.QualifierValues.Count, actual.QualifierValues.Count);
@@ -100,38 +114,73 @@ internal static class AstAssert
 
     private static void AreEqual(QualifierValueAst? expected, QualifierValueAst? actual, bool ignoreExtent)
     {
-        if ((expected == null) && (actual == null))
-        {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
             return;
         }
-        if ((expected == null) || (actual == null))
-        {
-            return;
+        TokenAssert.AreEqual(expected.QualifierName, actual.QualifierName, ignoreExtent);
+        AstAssert.AreEqual(expected.Initializer, actual.Initializer, ignoreExtent);
+        Assert.AreEqual(expected.Flavors.Count, actual.Flavors.Count);
+        for (var i = 0; i < expected.Flavors.Count; i++) {
+            TokenAssert.AreEqual(expected.Flavors[i], actual.Flavors[i], ignoreExtent);
         }
-        throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
     }
 
-    private static void AreEqual(IClassFeatureAst? expected, IClassFeatureAst? actual, bool ignoreExtent)
+    private static void AreEqual(IQualifierInitializerAst? expected, IQualifierInitializerAst? actual, bool ignoreExtent)
     {
-        if ((expected == null) && (actual == null))
-        {
-            return;
-        }
-        if ((expected == null) || (actual == null))
-        {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
             return;
         }
         Assert.IsInstanceOf(expected.GetType(), actual);
         switch (expected)
         {
-            case StructureDeclarationAst:
+            case QualifierValueInitializerAst ast:
+                AstAssert.AreEqual(ast, (QualifierValueInitializerAst)actual, ignoreExtent);
+                return;
+            case QualifierValueArrayInitializerAst ast:
+                AstAssert.AreEqual(ast, (QualifierValueArrayInitializerAst)actual, ignoreExtent);
+                return;
+            default:
                 throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
-                //AstAssert.AreEqual((AssociationDeclarationAst)expected, (AssociationDeclarationAst)actual, ignoreExtent);
-                //return;
-            case EnumerationDeclarationAst:
-                throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
-            //AstAssert.AreEqual((AssociationDeclarationAst)expected, (AssociationDeclarationAst)actual, ignoreExtent);
-            //return;
+        }
+    }
+
+    private static void AreEqual(QualifierValueInitializerAst? expected, QualifierValueInitializerAst? actual, bool ignoreExtent) {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        AstAssert.AreEqual(expected.Value, actual.Value, ignoreExtent);
+    }
+
+    private static void AreEqual(QualifierValueArrayInitializerAst? expected, QualifierValueArrayInitializerAst? actual, bool ignoreExtent) {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        Assert.AreEqual(expected.Values.Count, actual.Values.Count);
+        for (var i = 0; i < expected.Values.Count; i++) {
+            AstAssert.AreEqual(expected.Values[i], actual.Values[i], ignoreExtent);
+        }
+    }
+
+    private static void AreEqual(IClassFeatureAst? expected, IClassFeatureAst? actual, bool ignoreExtent)
+    {
+        if ((expected == null) || (actual == null))
+        {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        Assert.IsInstanceOf(expected.GetType(), actual);
+        switch (expected)
+        {
+            case StructureDeclarationAst ast:
+                AstAssert.AreEqual(ast, (StructureDeclarationAst)actual, ignoreExtent);
+                return;
+            case EnumerationDeclarationAst ast:
+                AstAssert.AreEqual(ast, (EnumerationDeclarationAst)actual, ignoreExtent);
+                return;
             case PropertyDeclarationAst ast:
                 AstAssert.AreEqual(ast, (PropertyDeclarationAst)actual, ignoreExtent);
                 return;
@@ -144,14 +193,68 @@ internal static class AstAssert
         }
     }
 
-    private static void AreEqual(PropertyDeclarationAst? expected, PropertyDeclarationAst? actual, bool ignoreExtent)
-    {
-        if ((expected == null) && (actual == null))
-        {
-            return;
-        }
+    private static void AreEqual(StructureDeclarationAst? expected, StructureDeclarationAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null))
         {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        AstAssert.AreEqual(expected.QualifierList, actual.QualifierList, ignoreExtent);
+        TokenAssert.AreEqual(expected.StructureName, actual.StructureName, ignoreExtent);
+        TokenAssert.AreEqual(expected.SuperStructure, actual.SuperStructure, ignoreExtent);
+        Assert.AreEqual(expected.StructureFeatures.Count, actual.StructureFeatures.Count);
+        for (var i = 0; i < expected.StructureFeatures.Count; i++) {
+            AstAssert.AreEqual(expected.StructureFeatures[i], actual.StructureFeatures[i], ignoreExtent);
+        }
+    }
+
+    private static void AreEqual(EnumerationDeclarationAst? expected, EnumerationDeclarationAst? actual, bool ignoreExtent) {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        AstAssert.AreEqual(expected.QualifierList, actual.QualifierList, ignoreExtent);
+        TokenAssert.AreEqual(expected.EnumName, actual.EnumName, ignoreExtent);
+        TokenAssert.AreEqual(expected.EnumType, actual.EnumType, ignoreExtent);
+        Assert.AreEqual(expected.EnumElements.Count, actual.EnumElements.Count);
+        for (var i = 0; i < expected.EnumElements.Count; i++) {
+            AstAssert.AreEqual(expected.EnumElements[i], actual.EnumElements[i], ignoreExtent);
+        }
+    }
+
+    private static void AreEqual(EnumElementAst? expected, EnumElementAst? actual, bool ignoreExtent) {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        AstAssert.AreEqual(expected.QualifierList, actual.QualifierList, ignoreExtent);
+        TokenAssert.AreEqual(expected.EnumElementName, actual.EnumElementName, ignoreExtent);
+        AstAssert.AreEqual(expected.EnumElementValue, actual.EnumElementValue, ignoreExtent);
+    }
+
+    private static void AreEqual(IEnumElementValueAst? expected, IEnumElementValueAst? actual, bool ignoreExtent) {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        Assert.IsInstanceOf(expected.GetType(), actual);
+        switch (expected) {
+            case IntegerValueAst ast:
+                AstAssert.AreEqual(ast, (IntegerValueAst)actual, ignoreExtent);
+                return;
+            case StringValueAst ast:
+                AstAssert.AreEqual(ast, (StringValueAst)actual, ignoreExtent);
+                return;
+            default:
+                throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
+        }
+    }
+
+    private static void AreEqual(PropertyDeclarationAst? expected, PropertyDeclarationAst? actual, bool ignoreExtent)
+    {
+        if ((expected == null) || (actual == null))
+        {
+            Assert.AreEqual(expected, actual);
             return;
         }
         AstAssert.AreEqual(expected.QualifierList, actual.QualifierList, ignoreExtent);
@@ -159,17 +262,14 @@ internal static class AstAssert
         TokenAssert.AreEqual(expected.ReturnTypeRef, actual.ReturnTypeRef, ignoreExtent);
         TokenAssert.AreEqual(expected.PropertyName, actual.PropertyName, ignoreExtent);
         Assert.AreEqual(expected.ReturnTypeIsArray, actual.ReturnTypeIsArray);
-        Assert.AreEqual(expected.Initializer, actual.Initializer);
+        AstAssert.AreEqual(expected.Initializer, actual.Initializer, ignoreExtent);
     }
 
     private static void AreEqual(InstanceValueDeclarationAst? expected, InstanceValueDeclarationAst? actual, bool ignoreExtent)
     {
-        if ((expected == null) && (actual == null))
-        {
-            return;
-        }
         if ((expected == null) || (actual == null))
         {
+            Assert.AreEqual(expected, actual);
             return;
         }
         TokenAssert.AreEqual(expected.Instance, actual.Instance, ignoreExtent);
@@ -183,12 +283,9 @@ internal static class AstAssert
 
     private static void AreEqual(PropertyValueListAst? expected, PropertyValueListAst? actual, bool ignoreExtent)
     {
-        if ((expected == null) && (actual == null))
-        {
-            return;
-        }
         if ((expected == null) || (actual == null))
         {
+            Assert.AreEqual(expected, actual);
             return;
         }
         Assert.AreEqual(expected.PropertyValues.Count, actual.PropertyValues.Count);
@@ -202,49 +299,100 @@ internal static class AstAssert
 
     private static void AreEqual(PropertyValueAst? expected, PropertyValueAst? actual, bool ignoreExtent)
     {
-        if ((expected == null) && (actual == null))
-        {
-            return;
-        }
         if ((expected == null) || (actual == null))
         {
+            Assert.AreEqual(expected, actual);
             return;
         }
         Assert.IsInstanceOf(expected.GetType(), actual);
         switch (expected)
         {
-            case BooleanValueAst:
-                AstAssert.AreEqual((BooleanValueAst)expected, (BooleanValueAst)actual, ignoreExtent);
+            case ComplexTypeValueAst ast:
+                AstAssert.AreEqual(ast, (ComplexTypeValueAst)actual, ignoreExtent);
                 return;
-            case StringValueAst:
-                AstAssert.AreEqual((StringValueAst)expected, (StringValueAst)actual, ignoreExtent);
+            case BooleanValueAst ast:
+                AstAssert.AreEqual(ast, (BooleanValueAst)actual, ignoreExtent);
+                return;
+            case IntegerValueAst ast:
+                AstAssert.AreEqual(ast, (IntegerValueAst)actual, ignoreExtent);
+                return;
+            case StringValueAst ast:
+                AstAssert.AreEqual(ast, (StringValueAst)actual, ignoreExtent);
+                return;
+            case NullValueAst ast:
+                AstAssert.AreEqual(ast, (NullValueAst)actual, ignoreExtent);
                 return;
             default:
                 throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
         }
     }
 
-    private static void AreEqual(BooleanValueAst? expected, BooleanValueAst? actual, bool ignoreExtent)
-    {
-        if ((expected == null) && (actual == null))
-        {
+    private static void AreEqual(ComplexTypeValueAst? expected, ComplexTypeValueAst? actual, bool ignoreExtent) {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
             return;
         }
+        Assert.IsInstanceOf(expected.GetType(), actual);
+        switch (expected) {
+            case ComplexValueAst ast:
+                AstAssert.AreEqual(ast, (ComplexValueAst)actual, ignoreExtent);
+                return;
+            case ComplexValueArrayAst ast:
+                AstAssert.AreEqual(ast, (ComplexValueArrayAst)actual, ignoreExtent);
+                return;
+            default:
+                throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
+        }
+    }
+
+    private static void AreEqual(ComplexValueAst? expected, ComplexValueAst? actual, bool ignoreExtent) {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        TokenAssert.AreEqual(expected.Alias, actual.Alias, ignoreExtent);
+        TokenAssert.AreEqual(expected.Value, actual.Value, ignoreExtent);
+        TokenAssert.AreEqual(expected.Of, actual.Of, ignoreExtent);
+        TokenAssert.AreEqual(expected.TypeName, actual.TypeName, ignoreExtent);
+        AstAssert.AreEqual(expected.PropertyValues, actual.PropertyValues, ignoreExtent);
+    }
+
+    private static void AreEqual(ComplexValueArrayAst? expected, ComplexValueArrayAst? actual, bool ignoreExtent) {
+        if ((expected == null) || (actual == null)) {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        Assert.AreEqual(expected.Values.Count, actual.Values.Count);
+        for (var i = 0; i < expected.Values.Count; i++) {
+            AstAssert.AreEqual(expected.Values[i], actual.Values[i], ignoreExtent);
+        }
+    }
+
+    private static void AreEqual(BooleanValueAst? expected, BooleanValueAst? actual, bool ignoreExtent)
+    {
         if ((expected == null) || (actual == null))
         {
+            Assert.AreEqual(expected, actual);
             return;
         }
         Assert.AreEqual(expected.Value, actual.Value);
     }
 
-    private static void AreEqual(StringValueAst? expected, StringValueAst? actual, bool ignoreExtent)
-    {
-        if ((expected == null) && (actual == null))
-        {
-            return;
-        }
+    private static void AreEqual(IntegerValueAst? expected, IntegerValueAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null))
         {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        Assert.AreEqual(expected.Kind, actual.Kind);
+        Assert.AreEqual(expected.Value, actual.Value);
+    }
+
+    private static void AreEqual(StringValueAst? expected, StringValueAst? actual, bool ignoreExtent)
+    {
+        if ((expected == null) || (actual == null))
+        {
+            Assert.AreEqual(expected, actual);
             return;
         }
         Assert.Multiple(() =>
@@ -255,6 +403,15 @@ internal static class AstAssert
                 TokenAssert.AreEqual(expected.StringLiteralValues[i], actual.StringLiteralValues[i], ignoreExtent);
             }
         });
+    }
+
+    private static void AreEqual(NullValueAst? expected, NullValueAst? actual, bool ignoreExtent) {
+        if ((expected == null) || (actual == null))
+        {
+            Assert.AreEqual(expected, actual);
+            return;
+        }
+        TokenAssert.AreEqual(expected.Token, actual.Token, ignoreExtent);
     }
 
     #endregion

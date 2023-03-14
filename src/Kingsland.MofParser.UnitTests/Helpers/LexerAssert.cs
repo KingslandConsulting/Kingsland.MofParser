@@ -71,74 +71,74 @@ internal static class LexerAssert
         }
         if (!ignoreExtent)
         {
-            Assert.AreEqual(expectedToken.Extent.StartPosition.Position, actualToken.Extent.StartPosition.Position,
+            Assert.AreEqual(expectedToken.Extent?.StartPosition?.Position, actualToken.Extent?.StartPosition?.Position,
                 LexerAssert.GetFailMessage("actual Start Position does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent.StartPosition.LineNumber, actualToken.Extent.StartPosition.LineNumber,
+            Assert.AreEqual(expectedToken.Extent?.StartPosition?.LineNumber, actualToken.Extent?.StartPosition?.LineNumber,
                 LexerAssert.GetFailMessage("actual Start Line does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent.StartPosition.ColumnNumber, actualToken.Extent.StartPosition.ColumnNumber,
+            Assert.AreEqual(expectedToken.Extent?.StartPosition?.ColumnNumber, actualToken.Extent?.StartPosition?.ColumnNumber,
                 LexerAssert.GetFailMessage("actual Start Column does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent.EndPosition.Position, actualToken.Extent.EndPosition.Position,
+            Assert.AreEqual(expectedToken.Extent?.EndPosition?.Position, actualToken.Extent?.EndPosition?.Position,
                 LexerAssert.GetFailMessage("actual End Position does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent.EndPosition.LineNumber, actualToken.Extent.EndPosition.LineNumber,
+            Assert.AreEqual(expectedToken.Extent?.EndPosition?.LineNumber, actualToken.Extent?.EndPosition?.LineNumber,
                 LexerAssert.GetFailMessage("actual End Line does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent.EndPosition.ColumnNumber, actualToken.Extent.EndPosition.ColumnNumber,
+            Assert.AreEqual(expectedToken.Extent?.EndPosition?.ColumnNumber, actualToken.Extent?.EndPosition?.ColumnNumber,
                 LexerAssert.GetFailMessage("actual End Column does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent.Text, actualToken.Extent.Text,
+            Assert.AreEqual(expectedToken.Extent?.Text, actualToken.Extent?.Text,
                 LexerAssert.GetFailMessage("actual Text does not match expected value", index));
         }
         var tokensEqual = expectedToken switch
         {
             AliasIdentifierToken token =>
-                TokenCompare.AreEqual(token, (AliasIdentifierToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (AliasIdentifierToken?)actualToken, ignoreExtent),
             AttributeCloseToken token =>
-                TokenCompare.AreEqual(token, (AttributeCloseToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (AttributeCloseToken?)actualToken, ignoreExtent),
             AttributeOpenToken token =>
-                TokenCompare.AreEqual(token, (AttributeOpenToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (AttributeOpenToken?)actualToken, ignoreExtent),
             BlockCloseToken token =>
-                TokenCompare.AreEqual(token, (BlockCloseToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (BlockCloseToken?)actualToken, ignoreExtent),
             BlockOpenToken token =>
-                TokenCompare.AreEqual(token, (BlockOpenToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (BlockOpenToken?)actualToken, ignoreExtent),
             BooleanLiteralToken token =>
-                TokenCompare.AreEqual(token, (BooleanLiteralToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (BooleanLiteralToken?)actualToken, ignoreExtent),
             ColonToken token =>
-                TokenCompare.AreEqual(token, (ColonToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (ColonToken?)actualToken, ignoreExtent),
             CommaToken token =>
-                TokenCompare.AreEqual(token, (CommaToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (CommaToken?)actualToken, ignoreExtent),
             CommentToken token =>
-                TokenCompare.AreEqual(token, (CommentToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (CommentToken?)actualToken, ignoreExtent),
             DotOperatorToken token =>
-                TokenCompare.AreEqual(token, (DotOperatorToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (DotOperatorToken?)actualToken, ignoreExtent),
             EqualsOperatorToken token =>
-                TokenCompare.AreEqual(token, (EqualsOperatorToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (EqualsOperatorToken?)actualToken, ignoreExtent),
             IdentifierToken token =>
-                TokenCompare.AreEqual(token, (IdentifierToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (IdentifierToken?)actualToken, ignoreExtent),
             IntegerLiteralToken token =>
-                TokenCompare.AreEqual(token, (IntegerLiteralToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (IntegerLiteralToken?)actualToken, ignoreExtent),
             NullLiteralToken token =>
-                TokenCompare.AreEqual(token, (NullLiteralToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (NullLiteralToken?)actualToken, ignoreExtent),
             ParenthesisCloseToken token =>
-                TokenCompare.AreEqual(token, (ParenthesisCloseToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (ParenthesisCloseToken?)actualToken, ignoreExtent),
             ParenthesisOpenToken token =>
-                TokenCompare.AreEqual(token, (ParenthesisOpenToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (ParenthesisOpenToken?)actualToken, ignoreExtent),
             PragmaToken token =>
-                TokenCompare.AreEqual(token, (PragmaToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (PragmaToken?)actualToken, ignoreExtent),
             RealLiteralToken token =>
-                TokenCompare.AreEqual(token, (RealLiteralToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (RealLiteralToken?)actualToken, ignoreExtent),
             StatementEndToken token =>
-                TokenCompare.AreEqual(token, (StatementEndToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (StatementEndToken?)actualToken, ignoreExtent),
             StringLiteralToken token =>
-                TokenCompare.AreEqual(token, (StringLiteralToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (StringLiteralToken?)actualToken, ignoreExtent),
             WhitespaceToken token =>
-                TokenCompare.AreEqual(token, (WhitespaceToken)actualToken, ignoreExtent),
+                TokenCompare.AreEqual(token, (WhitespaceToken?)actualToken, ignoreExtent),
             _ =>
-                throw new NotImplementedException($"Cannot compare type '{expectedToken.GetType().Name}'")
+                throw new NotImplementedException($"Cannot compare type '{expectedToken?.GetType().Name}'")
         };
         if (!tokensEqual)
         {
             LexerAssert.Fail(
                 $"Actual token does not match expected token",
                 $"{expectedToken.GetType().Name} (\"{LexerAssert.EscapeString(expectedToken.GetSourceString())}\")",
-                $"{actualToken.GetType().Name} (\"{LexerAssert.EscapeString(actualToken.GetSourceString())}\")",
+                $"{actualToken?.GetType().Name} (\"{LexerAssert.EscapeString(actualToken?.GetSourceString() ?? string.Empty )}\")",
                 index
             );
         }
@@ -162,9 +162,9 @@ internal static class LexerAssert
         foreach (var c in value.ToCharArray())
         {
             result.Append(
-                mappings.ContainsKey(c) ?
-                mappings[c] :
-                new string(new char[] { c })
+                mappings.TryGetValue(c, out var lookup)
+                    ? lookup
+                    : new string(new char[] { c })
             );
         }
         return result.ToString();

@@ -1,7 +1,6 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
-using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen;
@@ -45,11 +44,7 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .EqualsOperatorToken()
                 .WhitespaceToken(" ")
-                .BooleanLiteralToken(
-                    SourcePosition.Empty,
-                    SourcePosition.Empty,
-                    "TRUE", true
-                )
+                .BooleanLiteralToken("TRUE", true)
                 .StatementEndToken()
                 .WhitespaceToken(newline)
                 // };
@@ -66,16 +61,14 @@ public static partial class RoundtripTests
                         As = new IdentifierToken("as"),
                         Alias = new AliasIdentifierToken("Alias00000070"),
                         PropertyValues = new PropertyValueListAst.Builder {
-                            PropertyValues = new Dictionary<string, PropertyValueAst> {
-                                {
-                                    "Reference", new BooleanValueAst(
-                                        new BooleanLiteralToken(
-                                            SourcePosition.Empty,
-                                            SourcePosition.Empty,
-                                            "TRUE", true
-                                        )
+                            PropertySlots = new()
+                            {
+                                new(
+                                    new("Reference"),
+                                    new BooleanValueAst(
+                                        new BooleanLiteralToken("TRUE", true)
                                     )
-                                }
+                                )
                             }
                         }.Build(),
                         StatementEnd = new StatementEndToken()

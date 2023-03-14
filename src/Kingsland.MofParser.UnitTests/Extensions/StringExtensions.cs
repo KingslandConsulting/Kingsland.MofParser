@@ -3,7 +3,6 @@
 internal static class StringExtensions
 {
 
-
     /// <summary>
     /// Similar to the Kotlin trimIndent function.
     /// Removes a common leading indent from the input text
@@ -44,7 +43,9 @@ internal static class StringExtensions
         return string.Join(
             newline,
             lines.Select(
-                str => str.String.Substring(Math.Min(str.String.Length, indent)))
+                str => str.String[
+                    Math.Min(str.String.Length, indent)..]
+                )
             );
     }
 

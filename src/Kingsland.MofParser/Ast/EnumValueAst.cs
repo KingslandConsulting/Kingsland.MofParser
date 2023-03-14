@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -42,7 +41,7 @@ public sealed record EnumValueAst : EnumTypeValueAst
 
         public EnumValueAst Build()
         {
-            return new EnumValueAst(
+            return new(
                 this.EnumName,
                 this.EnumLiteral ?? throw new InvalidOperationException(
                     $"{nameof(this.EnumLiteral)} property must be set before calling {nameof(Build)}."
@@ -77,15 +76,6 @@ public sealed record EnumValueAst : EnumTypeValueAst
     public IdentifierToken EnumLiteral
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertEnumValueAst(this);
     }
 
     #endregion

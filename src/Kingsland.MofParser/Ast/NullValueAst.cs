@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -33,7 +32,7 @@ public sealed record NullValueAst : LiteralValueAst
 
         public NullValueAst Build()
         {
-            return new NullValueAst(
+            return new(
                 this.Token ?? throw new InvalidOperationException(
                     $"{nameof(this.Token)} property must be set before calling {nameof(Build)}."
                 )
@@ -60,15 +59,6 @@ public sealed record NullValueAst : LiteralValueAst
     public NullLiteralToken Token
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertNullValueAst(this);
     }
 
     #endregion

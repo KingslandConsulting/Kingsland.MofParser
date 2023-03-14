@@ -3,8 +3,6 @@ using Kingsland.ParseFx.Text;
 
 namespace Kingsland.MofParser.Tokens;
 
-#region Fluent Class
-
 public sealed class TokenBuilder
 {
 
@@ -128,13 +126,25 @@ public sealed class TokenBuilder
 
     public TokenBuilder BooleanLiteralToken(bool value)
     {
-        this.Tokens.Add(new BooleanLiteralToken(value));
+        this.Tokens.Add(
+            new BooleanLiteralToken(value)
+        );
         return this;
     }
 
-    public TokenBuilder BooleanLiteralToken(SourcePosition start, SourcePosition end, string text, bool value)
+    public TokenBuilder BooleanLiteralToken(string text, bool value)
     {
-        this.Tokens.Add(new BooleanLiteralToken(start, end, text, value));
+        this.Tokens.Add(
+            new BooleanLiteralToken(text, value)
+        );
+        return this;
+    }
+
+    public TokenBuilder BooleanLiteralToken(SourcePosition? start, SourcePosition? end, string text, bool value)
+    {
+        this.Tokens.Add(
+            new BooleanLiteralToken(start, end, text, value)
+        );
         return this;
     }
 
@@ -244,6 +254,12 @@ public sealed class TokenBuilder
         return this;
     }
 
+    public TokenBuilder IntegerLiteralToken(string text, IntegerKind kind, long value)
+    {
+        this.Tokens.Add(new IntegerLiteralToken(text, kind, value));
+        return this;
+    }
+
     public TokenBuilder IntegerLiteralToken(SourcePosition start, SourcePosition end, string text, IntegerKind kind, long value)
     {
         this.Tokens.Add(new IntegerLiteralToken(start, end, text, kind, value));
@@ -260,9 +276,19 @@ public sealed class TokenBuilder
         return this;
     }
 
-    public TokenBuilder NullLiteralToken(SourcePosition start, SourcePosition end, string text)
+    public TokenBuilder NullLiteralToken(string text)
     {
-        this.Tokens.Add(new NullLiteralToken(start, end, text));
+        this.Tokens.Add(
+            new NullLiteralToken(null, null, text)
+        );
+        return this;
+    }
+
+    public TokenBuilder NullLiteralToken(SourcePosition? start, SourcePosition? end, string text)
+    {
+        this.Tokens.Add(
+            new NullLiteralToken(start, end, text)
+        );
         return this;
     }
 
@@ -320,13 +346,25 @@ public sealed class TokenBuilder
 
     public TokenBuilder RealLiteralToken(double value)
     {
-        this.Tokens.Add(new RealLiteralToken(value));
+        this.Tokens.Add(
+            new RealLiteralToken(value)
+        );
         return this;
     }
 
-    public TokenBuilder RealLiteralToken(SourcePosition start, SourcePosition end, string text, double value)
+    public TokenBuilder RealLiteralToken(string text, double value)
     {
-        this.Tokens.Add(new RealLiteralToken(start, end, text, value));
+        this.Tokens.Add(
+            new RealLiteralToken(null, null, text, value)
+        );
+        return this;
+    }
+
+    public TokenBuilder RealLiteralToken(SourcePosition? start, SourcePosition? end, string text, double value)
+    {
+        this.Tokens.Add(
+            new RealLiteralToken(start, end, text, value)
+        );
         return this;
     }
 
@@ -381,5 +419,3 @@ public sealed class TokenBuilder
     #endregion
 
 }
-
-#endregion

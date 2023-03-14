@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -30,7 +29,7 @@ public sealed record IntegerValueAst : LiteralValueAst, IEnumElementValueAst
 
         public IntegerValueAst Build()
         {
-            return new IntegerValueAst(
+            return new(
                 this.IntegerLiteralToken ?? throw new InvalidOperationException(
                     $"{nameof(this.IntegerLiteralToken)} property must be set before calling {nameof(Build)}."
                 )
@@ -69,15 +68,6 @@ public sealed record IntegerValueAst : LiteralValueAst, IEnumElementValueAst
     public long Value
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertIntegerValueAst(this);
     }
 
     #endregion

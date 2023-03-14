@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
@@ -27,7 +26,7 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
 
         public Builder()
         {
-            this.StringLiteralValues = new List<StringLiteralToken>();
+            this.StringLiteralValues = new();
         }
 
         public List<StringLiteralToken> StringLiteralValues
@@ -44,8 +43,8 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
 
         public StringValueAst Build()
         {
-            return new StringValueAst(
-                new ReadOnlyCollection<StringLiteralToken>(this.StringLiteralValues),
+            return new(
+                this.StringLiteralValues,
                 this.Value ?? throw new InvalidOperationException(
                     $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
                 )
@@ -59,6 +58,13 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
     #region Constructors
 
     internal StringValueAst(
+        StringLiteralToken stringLiteralValue,
+        string value
+    ) : this(new List<StringLiteralToken> { stringLiteralValue }, value)
+    {
+    }
+
+    internal StringValueAst(
         IEnumerable<StringLiteralToken> stringLiteralValues,
         string value
     )
@@ -69,9 +75,7 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
         {
             throw new ArgumentException(null, nameof(stringLiteralValues));
         }
-        this.StringLiteralValues = new ReadOnlyCollection<StringLiteralToken>(
-            values
-        );
+        this.StringLiteralValues = new(values);
         this.Value = value ?? throw new ArgumentNullException(nameof(value));
     }
 
@@ -87,15 +91,6 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
     public string Value
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertStringValueAst(this);
     }
 
     #endregion

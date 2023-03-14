@@ -11,16 +11,16 @@ public sealed record StringLiteralToken : SyntaxToken
     #region Constructors
 
     public StringLiteralToken(string value)
-        : this(SourceExtent.Empty, value)
+        : this(null, value)
     {
     }
 
-    public StringLiteralToken(SourcePosition start, SourcePosition end, string text, string value)
+    public StringLiteralToken(SourcePosition? start, SourcePosition end, string text, string value)
         : this(new SourceExtent(start, end, text), value)
     {
     }
 
-    public StringLiteralToken(SourceExtent extent, string value)
+    public StringLiteralToken(SourceExtent? extent, string value)
         : base(extent)
     {
         this.Value = value ?? throw new ArgumentNullException(nameof(value));
@@ -41,9 +41,8 @@ public sealed record StringLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : $"\"{StringLiteralToken.EscapeString(this.Value)}\"";
+        return this.Text
+            ?? $"\"{StringLiteralToken.EscapeString(this.Value)}\"";
     }
 
     #endregion

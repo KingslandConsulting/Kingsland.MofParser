@@ -1,4 +1,3 @@
-using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Tokens;
 using System.Collections.ObjectModel;
 
@@ -45,8 +44,8 @@ public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFea
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
-            this.EnumElements = new List<EnumElementAst>();
+            this.QualifierList = new();
+            this.EnumElements = new();
         }
 
         public QualifierListAst QualifierList
@@ -75,7 +74,7 @@ public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFea
 
         public EnumerationDeclarationAst Build()
         {
-            return new EnumerationDeclarationAst(
+            return new(
                 this.QualifierList,
                 this.EnumName ?? throw new InvalidOperationException(
                     $"{nameof(this.EnumName)} property must be set before calling {nameof(Build)}."
@@ -103,7 +102,7 @@ public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFea
         this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
         this.EnumName = enumName ?? throw new ArgumentNullException(nameof(enumName));
         this.EnumType = enumType ?? throw new ArgumentNullException(nameof(enumType));
-        this.EnumElements = new ReadOnlyCollection<EnumElementAst>(
+        this.EnumElements = new(
             (enumElements ?? throw new ArgumentNullException(nameof(enumElements)))
                 .ToList()
         );
@@ -131,15 +130,6 @@ public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFea
     public ReadOnlyCollection<EnumElementAst> EnumElements
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertEnumerationDeclarationAst(this);
     }
 
     #endregion

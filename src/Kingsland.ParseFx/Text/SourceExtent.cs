@@ -6,19 +6,14 @@
 public sealed class SourceExtent
 {
 
-    #region Fields
-
-    public static readonly SourceExtent Empty = new(
-        SourcePosition.Empty,
-        SourcePosition.Empty,
-        string.Empty
-    );
-
-    #endregion
-
     #region Constructors
 
-    public SourceExtent(SourcePosition startPosition, SourcePosition endPosition, string text)
+    public SourceExtent(string? text)
+        : this(null, null, text)
+    {
+    }
+
+    public SourceExtent(SourcePosition? startPosition, SourcePosition? endPosition, string? text)
     {
         this.StartPosition = startPosition;
         this.EndPosition = endPosition;
@@ -29,17 +24,17 @@ public sealed class SourceExtent
 
     #region Properties
 
-    public SourcePosition StartPosition
+    public SourcePosition? StartPosition
     {
         get;
     }
 
-    public SourcePosition EndPosition
+    public SourcePosition? EndPosition
     {
         get;
     }
 
-    public string Text
+    public string? Text
     {
         get;
     }
@@ -50,27 +45,31 @@ public sealed class SourceExtent
 
     public static SourceExtent From(SourceChar @char)
     {
-        return (@char == null ) ?
-            throw new ArgumentNullException(nameof(@char)) :
-            new SourceExtent(
+        return (@char is null )
+            ? throw new ArgumentNullException(nameof(@char))
+            : new SourceExtent(
                 startPosition: @char.Position,
                 endPosition: @char.Position,
                 text: new string(@char.Value, 1)
             );
     }
 
-    public static SourceExtent From(IList<SourceChar> chars)
+    public static SourceExtent? From(IList<SourceChar> chars)
     {
-        var text = (chars == null) ?
-            throw new ArgumentNullException(nameof(chars)) :
-            chars.Select(n => n.Value).ToArray();
-        return text.Any() ?
-            new SourceExtent(
+        var text = SourceExtent.ConvertToString(chars);
+        return (text.Length > 0)
+            ? new SourceExtent(
                 startPosition: chars.First().Position,
                 endPosition: chars.Last().Position,
-                text: new string(text)
-            ) :
-            SourceExtent.Empty;
+                text: text
+            )
+            : null;
+    }
+
+    public static string ConvertToString(IList<SourceChar> chars) {
+        return (chars is null)
+            ? throw new ArgumentNullException(nameof(chars))
+            : new string(chars.Select(n => n.Value).ToArray());
     }
 
     #endregion
@@ -81,8 +80,8 @@ public sealed class SourceExtent
     {
         var start = this.StartPosition;
         var end = this.EndPosition;
-        return $"StartPosition=[{start.Position},{start.LineNumber},{start.ColumnNumber}]," +
-               $"EndPosition=[{end.Position},{end.LineNumber},{end.ColumnNumber}]," +
+        return $"StartPosition=[{start?.Position},{start?.LineNumber},{start?.ColumnNumber}]," +
+               $"EndPosition=[{end?.Position},{end?.LineNumber},{end?.ColumnNumber}]," +
                $"Text=\"{this.Text}\"";
     }
 

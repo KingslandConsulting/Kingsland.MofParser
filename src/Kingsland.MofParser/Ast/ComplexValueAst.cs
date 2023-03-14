@@ -1,5 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -27,7 +26,9 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
 
         public Builder()
         {
-            this.PropertyValues = new PropertyValueListAst();
+            this.PropertyValues = new(
+                new List<PropertySlotAst>()
+            );
         }
 
         public AliasIdentifierToken? Alias
@@ -63,7 +64,7 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
         public ComplexValueAst Build()
         {
             return (this.Alias == null)
-                ? new ComplexValueAst(
+                ? new(
                     this.Value ?? throw new InvalidOperationException(
                         $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
                     ),
@@ -75,7 +76,7 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
                     ),
                     this.PropertyValues
                 )
-                : new ComplexValueAst(
+                : new(
                     this.Alias
                 );
         }
@@ -94,7 +95,9 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
         this.Value = null;
         this.Of = null;
         this.TypeName = null;
-        this.PropertyValues = new PropertyValueListAst();
+        this.PropertyValues = new(
+            Enumerable.Empty<PropertySlotAst>()
+        );
     }
 
     public ComplexValueAst(
@@ -144,15 +147,6 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
     public PropertyValueListAst PropertyValues
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertComplexValueAst(this);
     }
 
     #endregion

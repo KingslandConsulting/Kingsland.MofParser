@@ -117,6 +117,53 @@ public static partial class RoundtripTests
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }
 
+        [Test]
+        public static void PropertyDeclarationWithRefTypeShouldRoundtrip()
+        {
+            var newline = Environment.NewLine;
+            var indent = "    ";
+            var sourceText = @"
+                class GOLF_Base
+                {
+                    Integer REF Severity = {1, 2, 3};
+                };
+            ".TrimIndent(newline).TrimString(newline);
+            var expectedTokens = new TokenBuilder()
+               // class GOLF_Base
+               .IdentifierToken("class")
+               .WhitespaceToken(" ")
+               .IdentifierToken("GOLF_Base")
+               .WhitespaceToken(newline)
+               // {
+               .BlockOpenToken()
+               .WhitespaceToken(newline + indent)
+               //     Integer REF Severity = {1, 2, 3};
+               .IdentifierToken("Integer")
+               .WhitespaceToken(" ")
+               .IdentifierToken("REF")
+               .WhitespaceToken(" ")
+               .IdentifierToken("Severity")
+               .WhitespaceToken(" ")
+               .EqualsOperatorToken()
+               .WhitespaceToken(" ")
+               .BlockOpenToken()
+               .IntegerLiteralToken(IntegerKind.DecimalValue, 1)
+               .CommaToken()
+               .WhitespaceToken(" ")
+               .IntegerLiteralToken(IntegerKind.DecimalValue, 2)
+               .CommaToken()
+               .WhitespaceToken(" ")
+               .IntegerLiteralToken(IntegerKind.DecimalValue, 3)
+               .BlockCloseToken()
+               .StatementEndToken()
+               .WhitespaceToken(newline)
+               // };
+               .BlockCloseToken()
+               .StatementEndToken()
+               .ToList();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+        }
+
         [Test(Description = "https://github.com/mikeclayton/MofParser/issues/28")]
         public static void PropertyDeclarationWithDeprecatedMof300IntegerReturnTypesAndQuirksDisabledShouldRoundtrip()
         {

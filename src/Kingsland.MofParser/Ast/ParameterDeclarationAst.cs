@@ -1,6 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-using Kingsland.MofParser.Tokens;
-using Kingsland.ParseFx.Parsing;
+﻿using Kingsland.MofParser.Tokens;
 
 namespace Kingsland.MofParser.Ast;
 
@@ -50,7 +48,7 @@ public sealed record ParameterDeclarationAst : AstNode
 
         public Builder()
         {
-            this.QualifierList = new QualifierListAst();
+            this.QualifierList = new();
         }
 
         public QualifierListAst QualifierList
@@ -91,7 +89,7 @@ public sealed record ParameterDeclarationAst : AstNode
 
         public ParameterDeclarationAst Build()
         {
-            return new ParameterDeclarationAst(
+            return new(
                 this.QualifierList,
                 this.ParameterType ?? throw new InvalidOperationException(
                     $"{nameof(this.ParameterType)} property must be set before calling {nameof(Build)}."
@@ -163,15 +161,6 @@ public sealed record ParameterDeclarationAst : AstNode
     public PropertyValueAst? DefaultValue
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertParameterDeclarationAst(this);
     }
 
     #endregion

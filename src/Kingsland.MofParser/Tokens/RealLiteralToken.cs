@@ -10,16 +10,16 @@ public sealed record RealLiteralToken : SyntaxToken
     #region Constructors
 
     public RealLiteralToken(double value)
-        : this(SourceExtent.Empty, value)
+        : this(null, value)
     {
     }
 
-    public RealLiteralToken(SourcePosition start, SourcePosition end, string text, double value)
+    public RealLiteralToken(SourcePosition? start, SourcePosition? end, string text, double value)
         : this(new SourceExtent(start, end, text), value)
     {
     }
 
-    public RealLiteralToken(SourceExtent extent, double value)
+    public RealLiteralToken(SourceExtent? extent, double value)
         : base(extent)
     {
         this.Value = value;
@@ -40,9 +40,8 @@ public sealed record RealLiteralToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : this.Value.ToString(CultureInfo.InvariantCulture);
+        return this.Text
+            ?? this.Value.ToString(CultureInfo.InvariantCulture);
     }
 
     #endregion

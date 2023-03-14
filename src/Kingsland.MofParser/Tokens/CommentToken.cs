@@ -9,16 +9,16 @@ public sealed record CommentToken : SyntaxToken
     #region Constructors
 
     public CommentToken(string value)
-         : this(SourceExtent.Empty, value)
+        : this(null, value)
     {
     }
 
-    public CommentToken(SourcePosition start, SourcePosition end, string text)
+    public CommentToken(SourcePosition? start, SourcePosition? end, string text)
          : this(new SourceExtent(start, end, text), text)
     {
     }
 
-    public CommentToken(SourceExtent extent, string value)
+    public CommentToken(SourceExtent? extent, string value)
         : base(extent)
     {
         this.Value = value ?? throw new ArgumentNullException(nameof(value));
@@ -39,9 +39,8 @@ public sealed record CommentToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : this.Value;
+        return this.Text
+            ?? this.Value;
     }
 
     #endregion

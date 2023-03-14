@@ -51,7 +51,7 @@ public static partial class RoundtripTests
         }
 
         [Test]
-        public static void EnumTypeValueWithEnumValueArrayShouldRoundtrip()
+        public static void EnumTypeValueWithSingleItemEnumValueArrayShouldRoundtrip()
         {
             var newline = Environment.NewLine;
             var indent = "    ";
@@ -79,6 +79,48 @@ public static partial class RoundtripTests
                 .WhitespaceToken(" ")
                 .BlockOpenToken()
                 .IdentifierToken("June")
+                .BlockCloseToken()
+                .StatementEndToken()
+                .WhitespaceToken(newline)
+                // };
+                .BlockCloseToken()
+                .StatementEndToken()
+                .ToList();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+        }
+
+        [Test]
+        public static void EnumTypeValueWithMultipleItemEnumValueArrayShouldRoundtrip()
+        {
+            var newline = Environment.NewLine;
+            var indent = "    ";
+            var sourceText = @"
+                instance of GOLF_Date
+                {
+                    Month = {June, July};
+                };
+            ".TrimIndent(newline).TrimString(newline);
+            var expectedTokens = new TokenBuilder()
+                // instance of GOLF_Date
+                .IdentifierToken("instance")
+                .WhitespaceToken(" ")
+                .IdentifierToken("of")
+                .WhitespaceToken(" ")
+                .IdentifierToken("GOLF_Date")
+                .WhitespaceToken(newline)
+                // {
+                .BlockOpenToken()
+                .WhitespaceToken(newline + indent)
+                //     Month = {June};
+                .IdentifierToken("Month")
+                .WhitespaceToken(" ")
+                .EqualsOperatorToken()
+                .WhitespaceToken(" ")
+                .BlockOpenToken()
+                .IdentifierToken("June")
+                .CommaToken()
+                .WhitespaceToken(" ")
+                .IdentifierToken("July")
                 .BlockCloseToken()
                 .StatementEndToken()
                 .WhitespaceToken(newline)

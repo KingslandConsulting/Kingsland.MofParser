@@ -1,6 +1,4 @@
-﻿using Kingsland.MofParser.CodeGen;
-
-namespace Kingsland.MofParser.Ast;
+﻿namespace Kingsland.MofParser.Ast;
 
 /// <summary>
 /// </summary>
@@ -49,7 +47,7 @@ public sealed record ReferenceTypeValueAst : PropertyValueAst
 
         public ReferenceTypeValueAst Build()
         {
-            return new ReferenceTypeValueAst(
+            return new(
                 this.Name ?? throw new InvalidOperationException(
                     $"{nameof(this.Name)} property must be set before calling {nameof(Build)}."
                 )
@@ -76,15 +74,6 @@ public sealed record ReferenceTypeValueAst : PropertyValueAst
     public string Name
     {
         get;
-    }
-
-    #endregion
-
-    #region Object Overrides
-
-    public override string ToString()
-    {
-        return AstMofGenerator.ConvertToMof(this);
     }
 
     #endregion

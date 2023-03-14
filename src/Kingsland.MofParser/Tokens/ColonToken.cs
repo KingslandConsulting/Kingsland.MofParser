@@ -9,16 +9,16 @@ public sealed record ColonToken : SyntaxToken
     #region Constructors
 
     public ColonToken()
-        : this(SourceExtent.Empty)
+        : this((SourceExtent?)null)
     {
     }
 
-    public ColonToken(SourcePosition start, SourcePosition end, string text)
+    public ColonToken(SourcePosition? start, SourcePosition? end, string text)
         : this(new SourceExtent(start, end, text))
     {
     }
 
-    public ColonToken(SourceExtent extent)
+    public ColonToken(SourceExtent? extent)
         : base(extent)
     {
     }
@@ -29,9 +29,8 @@ public sealed record ColonToken : SyntaxToken
 
     public override string GetSourceString()
     {
-        return (this.Extent != SourceExtent.Empty)
-            ? this.Extent.Text
-            : ":";
+        return this.Text
+            ?? ":";
     }
 
     #endregion

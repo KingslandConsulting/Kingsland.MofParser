@@ -1,4 +1,5 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
 
@@ -46,7 +47,27 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst.Builder {
+                Productions = new List<MofProductionAst> {
+                    new InstanceValueDeclarationAst.Builder {
+                        Instance = new IdentifierToken("instance"),
+                        Of = new IdentifierToken("of"),
+                        TypeName = new IdentifierToken("GOLF_ClubMember"),
+                        PropertyValues = new PropertyValueListAst(
+                            new List<PropertySlotAst> {
+                                new PropertySlotAst.Builder {
+                                     PropertyName = new IdentifierToken("LastPaymentDate"),
+                                     PropertyValue = new ComplexValueAst.Builder {
+                                         Alias = new AliasIdentifierToken("MyAliasIdentifier")
+                                     }.Build()
+                                }.Build()
+                            }
+                        ),
+                        StatementEnd = new StatementEndToken()
+                    }.Build()
+                }
+            }.Build();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
 
         [Test]
@@ -85,7 +106,31 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst.Builder {
+                Productions = new List<MofProductionAst> {
+                    new InstanceValueDeclarationAst.Builder {
+                        Instance = new IdentifierToken("instance"),
+                        Of = new IdentifierToken("of"),
+                        TypeName = new IdentifierToken("GOLF_ClubMember"),
+                        PropertyValues = new PropertyValueListAst(
+                            new List<PropertySlotAst> {
+                                new PropertySlotAst.Builder {
+                                     PropertyName = new IdentifierToken("LastPaymentDate"),
+                                     PropertyValue = new ComplexValueArrayAst(
+                                         new List<ComplexValueAst> {
+                                             new ComplexValueAst.Builder {
+                                                Alias = new AliasIdentifierToken("MyAliasIdentifier")
+                                            }.Build()
+                                         }
+                                     )
+                                }.Build()
+                            }
+                        ),
+                        StatementEnd = new StatementEndToken()
+                    }.Build()
+                }
+            }.Build();
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
 
     }

@@ -8,13 +8,13 @@ public sealed record Class
     public sealed class Builder
     {
 
-        public string ClassName
+        public string? ClassName
         {
             get;
             set;
         }
 
-        public string SuperClass
+        public string? SuperClass
         {
             get;
             set;
