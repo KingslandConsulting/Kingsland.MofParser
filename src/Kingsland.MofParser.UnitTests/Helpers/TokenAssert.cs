@@ -200,8 +200,8 @@ internal static class TokenAssert
                 Assert.AreEqual(expected, actual);
                 return;
             }
-            TokenAssert.AreEqual(expected.StartPosition, actual!.StartPosition);
-            TokenAssert.AreEqual(expected.EndPosition, actual!.EndPosition);
+            TokenAssert.AreEqual(expected.StartPosition, actual.StartPosition);
+            TokenAssert.AreEqual(expected.EndPosition, actual.EndPosition);
             Assert.AreEqual(expected.Text, actual!.Text);
         });
     }
@@ -214,9 +214,9 @@ internal static class TokenAssert
                 Assert.AreEqual(expected, actual);
                 return;
             }
-            Assert.AreEqual(expected.Position, actual!.Position);
-            Assert.AreEqual(expected.LineNumber, actual!.LineNumber);
-            Assert.AreEqual(expected.ColumnNumber, actual!.ColumnNumber);
+            Assert.AreEqual(expected.Position, actual.Position);
+            Assert.AreEqual(expected.LineNumber, actual.LineNumber);
+            Assert.AreEqual(expected.ColumnNumber, actual.ColumnNumber);
         });
     }
 

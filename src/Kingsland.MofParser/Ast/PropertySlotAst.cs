@@ -1,5 +1,4 @@
 ﻿using Kingsland.MofParser.Tokens;
-using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.Ast;
 

@@ -1,6 +1,5 @@
 ﻿using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
-using Kingsland.ParseFx.Text;
 using NUnit.Framework;
 
 namespace Kingsland.MofParser.UnitTests.CodeGen;
