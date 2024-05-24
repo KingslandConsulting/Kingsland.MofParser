@@ -41,9 +41,7 @@ public sealed record Instance
                 this.TypeName ?? throw new InvalidOperationException(
                     $"{nameof(this.TypeName)} property must be set before calling {nameof(Build)}."
                 ),
-                this.Alias ?? throw new InvalidOperationException(
-                    $"{nameof(this.Alias)} property must be set before calling {nameof(Build)}."
-                ),
+                this.Alias,
                 this.Properties
             );
         }
@@ -54,10 +52,10 @@ public sealed record Instance
 
     #region Constructors
 
-    internal Instance(string typeName, string alias, IEnumerable<Property> properties)
+    internal Instance(string typeName, string? alias, IEnumerable<Property> properties)
     {
         this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
-        this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));
+        this.Alias = alias;
         this.Properties = new ReadOnlyCollection<Property>(
             (properties ?? throw new ArgumentNullException(nameof(properties)))
                 .ToList()
@@ -73,7 +71,7 @@ public sealed record Instance
         get;
     }
 
-    public string Alias
+    public string? Alias
     {
         get;
     }

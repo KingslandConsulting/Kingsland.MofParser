@@ -1,4 +1,4 @@
-﻿using Kingsland.MofParser.Objects;
+﻿using Kingsland.MofParser.Models;
 using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.HtmlReport.Resources;
@@ -37,8 +37,8 @@ public class DscResource
     public string? ResourceId =>
         this.GetStringProperty("ResourceID");
 
-    public string ClassName =>
-        this.Instance.ClassName;
+    public string TypeName =>
+        this.Instance.TypeName;
 
     public string? ResourceType =>
         // ResourceID = "[ResourceType]ResourceName"
@@ -55,7 +55,9 @@ public class DscResource
     public ReadOnlyCollection<string> DependsOn =>
         new(
             new List<string>(
-                this.Instance.Properties["ResourceID"] as string[] ?? Enumerable.Empty<string>()
+                this.Instance.Properties.Single(
+                        property => property.Name == "ResourceID"
+                    ).Value as string[] ?? Enumerable.Empty<string>()
             )
         );
 
@@ -71,7 +73,7 @@ public class DscResource
 
     public static DscResource FromInstance(string filename, string computerName, Instance instance)
     {
-        return instance.ClassName switch
+        return instance.TypeName switch
         {
             "MSFT_ScriptResource" =>
                 new ScriptResource(filename, computerName, instance),
@@ -96,11 +98,9 @@ public class DscResource
 
     protected string? GetStringProperty(string propertyName)
     {
-        if (!this.Instance.Properties.TryGetValue(propertyName, out var propertyValue))
-        {
-            return null;
-        }
-        return propertyValue as string;
+        return this.Instance.Properties.SingleOrDefault(
+                property => property.Name == propertyName
+            )?.Value as string;
     }
 
     #endregion

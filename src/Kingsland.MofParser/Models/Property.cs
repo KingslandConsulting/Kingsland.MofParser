@@ -30,9 +30,7 @@ public sealed record Property
                 this.Name ?? throw new InvalidOperationException(
                     $"{nameof(this.Name)} property must be set before calling {nameof(Build)}."
                 ),
-                this.Value ?? throw new InvalidOperationException(
-                    $"{nameof(this.Value)} property must be set before calling {nameof(Build)}."
-                )
+                this.Value
             );
         }
 
@@ -42,10 +40,10 @@ public sealed record Property
 
     #region Constructors
 
-    internal Property(string name, object value)
+    internal Property(string name, object? value)
     {
         this.Name = name ?? throw new ArgumentNullException(nameof(name));
-        this.Value = value ?? throw new ArgumentNullException(nameof(value));
+        this.Value = value;
     }
 
     #endregion
@@ -57,7 +55,7 @@ public sealed record Property
         get;
     }
 
-    public object Value
+    public object? Value
     {
         get;
     }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -16,7 +16,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Objects\Instance.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Kingsland.ParseFx\Kingsland.ParseFx.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Objects\" />
   </ItemGroup>
 
 </Project>

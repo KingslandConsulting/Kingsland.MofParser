@@ -222,7 +222,7 @@ internal static class ModelConverter
 
     #region 7.6.1 Primitive type value
 
-    public static object ConvertPrimitiveTypeValueAst(PrimitiveTypeValueAst node)
+    public static object? ConvertPrimitiveTypeValueAst(PrimitiveTypeValueAst node)
     {
         return node switch
         {
@@ -232,20 +232,20 @@ internal static class ModelConverter
         };
     }
 
-    public static object ConvertLiteralValueAst(LiteralValueAst node)
+    public static object? ConvertLiteralValueAst(LiteralValueAst node)
     {
         return node switch
         {
             IntegerValueAst n => ModelConverter.ConvertIntegerValueAst(n),
             RealValueAst n => ModelConverter.ConvertRealValueAst(n),
-            //BooleanValueAst n => ModelConverter.ConvertBooleanValueAst(n),
-            //NullValueAst n => ModelConverter.ConvertNullValueAst(n),
+            BooleanValueAst n => ModelConverter.ConvertBooleanValueAst(n),
+            NullValueAst n => ModelConverter.ConvertNullValueAst(n),
             StringValueAst n => ModelConverter.ConvertStringValueAst(n),
             _ => throw new NotImplementedException(),
         };
     }
 
-    public static ReadOnlyCollection<object> ConvertLiteralValueArrayAst(LiteralValueArrayAst node)
+    public static ReadOnlyCollection<object?> ConvertLiteralValueArrayAst(LiteralValueArrayAst node)
     {
         return node.Values
             .Select(ModelConverter.ConvertLiteralValueAst)
@@ -284,18 +284,18 @@ internal static class ModelConverter
 
     #region 7.6.1.5 Boolean value
 
-    public static void ConvertBooleanValueAst(BooleanValueAst node)
+    public static bool ConvertBooleanValueAst(BooleanValueAst node)
     {
-        throw new NotImplementedException();
+        return node.Value;
     }
 
     #endregion
 
     #region 7.6.1.6 Null value
 
-    public static void ConvertNullValueAst(NullValueAst node)
+    public static object? ConvertNullValueAst(NullValueAst node)
     {
-        throw new NotImplementedException();
+        return null;
     }
 
     #endregion
