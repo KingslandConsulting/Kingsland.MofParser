@@ -70,7 +70,7 @@ public static partial class ParserTests
             File.WriteAllText(expectedFilename, actualText);
         }
         var expectedText = File.ReadAllText(expectedFilename);
-        Assert.AreEqual(expectedText, actualText);
+        Assert.That(actualText, Is.EqualTo(expectedText));
     }
 
 }

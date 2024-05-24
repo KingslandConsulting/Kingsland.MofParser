@@ -59,7 +59,7 @@ public static partial class ParserTests
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
             var expectedModule = new Module.Builder
             {
@@ -116,7 +116,7 @@ public static partial class ParserTests
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
             var expectedModule = new Module.Builder
             {
@@ -171,7 +171,7 @@ public static partial class ParserTests
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
             var expectedModule = new Module.Builder {
                 Instances = new List<Instance> {
@@ -231,7 +231,7 @@ public static partial class ParserTests
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
             var expectedModule = new Module.Builder
             {
@@ -304,7 +304,7 @@ public static partial class ParserTests
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
             var expectedModule = new Module.Builder {
                 Instances = new List<Instance> {
@@ -400,7 +400,7 @@ public static partial class ParserTests
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
             var expectedModule = new Module.Builder
             {

@@ -41,7 +41,7 @@ public static class StringValidatorTests
         public static void IsWhitespaceTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsWhitespace(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -83,7 +83,7 @@ public static class StringValidatorTests
         public static void IsLineTerminatorTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsLineTerminator(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -141,7 +141,7 @@ public static class StringValidatorTests
         public static void IsStructureNameTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsStructureName(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -201,7 +201,7 @@ public static class StringValidatorTests
         public static void IsClassNameTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsClassName(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -261,7 +261,7 @@ public static class StringValidatorTests
         public static void IsAssociationNameTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsAssociationName(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -304,7 +304,7 @@ public static class StringValidatorTests
         public static void IsIdentifierTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsIdentifier(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -339,7 +339,7 @@ public static class StringValidatorTests
         public static void IsFirstIdentifierCharTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsFirstIdentifierChar(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -374,7 +374,7 @@ public static class StringValidatorTests
         public static void IsNextIdentifierCharTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsNextIdentifierChar(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -429,7 +429,7 @@ public static class StringValidatorTests
         public static void IsElementNameTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsElementName(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -467,7 +467,7 @@ public static class StringValidatorTests
         public static void IsLocalNameTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsLocalName(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -527,7 +527,7 @@ public static class StringValidatorTests
         public static void IsSchemaQualifiedNameTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsSchemaQualifiedName(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -565,7 +565,7 @@ public static class StringValidatorTests
         public static void IsSchemaNameTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsSchemaName(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -600,7 +600,7 @@ public static class StringValidatorTests
         public static void IsFirstSchemaCharTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsFirstSchemaChar(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -635,7 +635,7 @@ public static class StringValidatorTests
         public static void IsNextSchemaCharTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsNextSchemaChar(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -700,7 +700,7 @@ public static class StringValidatorTests
         public static void IsAliasIdentifierTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsAliasIdentifier(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -752,7 +752,7 @@ public static class StringValidatorTests
         public static void IsDecimalValueTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsDecimalValue(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -799,7 +799,7 @@ public static class StringValidatorTests
         public static void IsUnsignedDecimalValueTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsUnsignedDecimalValue(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -839,7 +839,7 @@ public static class StringValidatorTests
         public static void IsDecimalDigitTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsDecimalDigit(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -875,7 +875,7 @@ public static class StringValidatorTests
         public static void IsPositiveDecimalDigitTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsPositiveDecimalDigit(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -915,7 +915,7 @@ public static class StringValidatorTests
         public static void IsBackslashTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsBackslash(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -951,7 +951,7 @@ public static class StringValidatorTests
         public static void IsDoubleQuoteTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsDoubleQuote(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -987,7 +987,7 @@ public static class StringValidatorTests
         public static void IsSingleQuoteTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsSingleQuote(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -1023,7 +1023,7 @@ public static class StringValidatorTests
         public static void IsUpperAlphaTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsUpperAlpha(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -1059,7 +1059,7 @@ public static class StringValidatorTests
         public static void IsLowerAlphaTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsLowerAlpha(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -1095,7 +1095,7 @@ public static class StringValidatorTests
         public static void IsUnderscoreTest(char value, bool expectedResult)
         {
             var result = StringValidator.IsUnderscore(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -1126,7 +1126,7 @@ public static class StringValidatorTests
         public static void IsFalseTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsFalse(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -1153,7 +1153,7 @@ public static class StringValidatorTests
         public static void IsTrueTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsTrue(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }
@@ -1184,7 +1184,7 @@ public static class StringValidatorTests
         public static void IsNullTest(string value, bool expectedResult)
         {
             var result = StringValidator.IsNull(value);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
     }

@@ -8,36 +8,34 @@ internal static class ModelAssert
 
     public static void AreEqual(Module expected, Module actual)
     {
-        Assert.IsNotNull(expected);
-        Assert.IsNotNull(actual);
-        Assert.AreEqual(expected.Instances.Count, actual.Instances.Count);
-        foreach (var pair in expected.Instances
-            .Zip(actual.Instances, (exp, act) => (exp, act)))
+        Assert.That(expected, Is.Not.Null);
+        Assert.That(actual, Is.Not.Null);
+        Assert.That(actual.Instances.Count, Is.EqualTo(expected.Instances.Count));
+        for (var i = 0; i < expected.Instances.Count; i++)
         {
-            ModelAssert.AreEqual(pair.exp, pair.act);
+            ModelAssert.AreEqual(expected.Instances[i], actual.Instances[i]);
         }
     }
 
     public static void AreEqual(Instance expected, Instance actual)
     {
-        Assert.IsNotNull(expected);
-        Assert.IsNotNull(actual);
-        Assert.AreEqual(expected.TypeName, actual.TypeName);
-        Assert.AreEqual(expected.Alias, actual.Alias);
-        Assert.AreEqual(expected.Properties.Count, actual.Properties.Count);
-        foreach (var pair in expected.Properties
-            .Zip(actual.Properties, (exp, act) => (exp, act)))
+        Assert.That(expected, Is.Not.Null);
+        Assert.That(actual, Is.Not.Null);
+        Assert.That(actual.TypeName, Is.EqualTo(expected.TypeName));
+        Assert.That(actual.Alias, Is.EqualTo(expected.Alias));
+        Assert.That(actual.Properties.Count, Is.EqualTo(expected.Properties.Count));
+        for (var i = 0; i < expected.Properties.Count; i++)
         {
-            ModelAssert.AreEqual(pair.exp, pair.act);
+            ModelAssert.AreEqual(expected.Properties[i], actual.Properties[i]);
         }
     }
 
     public static void AreEqual(Property expected, Property actual)
     {
-        Assert.IsNotNull(expected);
-        Assert.IsNotNull(actual);
-        Assert.AreEqual(expected.Name, actual.Name);
-        Assert.AreEqual(expected.Value, actual.Value);
+        Assert.That(expected, Is.Not.Null);
+        Assert.That(actual, Is.Not.Null);
+        Assert.That(actual.Name, Is.EqualTo(expected.Name));
+        Assert.That(actual.Value, Is.EqualTo(expected.Value));
     }
 
 }

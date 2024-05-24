@@ -12,24 +12,25 @@ internal static class AstAssert
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.AreEqual(expected.Productions.Count, actual.Productions.Count);
+        Assert.That(actual.Productions.Count, Is.EqualTo(expected.Productions.Count));
         for (var i = 0; i < expected.Productions.Count; i++)
         {
             AstAssert.AreEqual(expected.Productions[i], actual.Productions[i], ignoreExtent);
         }
+
     }
 
     private static void AreEqual(MofProductionAst? expected, MofProductionAst? actual, bool ignoreExtent)
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.IsInstanceOf(expected.GetType(), actual);
+        Assert.That(actual, Is.InstanceOf(expected.GetType()));
         switch (expected)
         {
             case CompilerDirectiveAst ast:
@@ -59,7 +60,7 @@ internal static class AstAssert
 
     private static void AreEqual(CompilerDirectiveAst? expected, CompilerDirectiveAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         TokenAssert.AreEqual(expected.PragmaKeyword, actual.PragmaKeyword, ignoreExtent);
@@ -71,13 +72,13 @@ internal static class AstAssert
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         AstAssert.AreEqual(expected.QualifierList, actual.QualifierList, ignoreExtent);
         TokenAssert.AreEqual(expected.AssociationName, actual.AssociationName, ignoreExtent);
         TokenAssert.AreEqual(expected.SuperAssociation, actual.SuperAssociation, ignoreExtent);
-        Assert.AreEqual(expected.ClassFeatures.Count, actual.ClassFeatures.Count);
+        Assert.That(actual.ClassFeatures.Count, Is.EqualTo(expected.ClassFeatures.Count));
         for (var i = 0; i < expected.ClassFeatures.Count; i++)
         {
             AstAssert.AreEqual(expected.ClassFeatures[i], actual.ClassFeatures[i], ignoreExtent);
@@ -87,13 +88,14 @@ internal static class AstAssert
     private static void AreEqual(ClassDeclarationAst? expected, ClassDeclarationAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         TokenAssert.AreEqual(expected.ClassName, actual.ClassName, ignoreExtent);
         TokenAssert.AreEqual(expected.SuperClass, actual.SuperClass, ignoreExtent);
-        Assert.AreEqual(expected.ClassFeatures.Count, actual.ClassFeatures.Count);
-        for (var i = 0; i < expected.ClassFeatures.Count; i++) {
+        Assert.That(actual.ClassFeatures.Count, Is.EqualTo(expected.ClassFeatures.Count));
+        for (var i = 0; i < expected.ClassFeatures.Count; i++)
+        {
             AstAssert.AreEqual(expected.ClassFeatures[i], actual.ClassFeatures[i], ignoreExtent);
         }
     }
@@ -102,10 +104,10 @@ internal static class AstAssert
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.AreEqual(expected.QualifierValues.Count, actual.QualifierValues.Count);
+        Assert.That(actual.QualifierValues.Count, Is.EqualTo(expected.QualifierValues.Count));
         for (var i = 0; i < expected.QualifierValues.Count; i++)
         {
             AstAssert.AreEqual(expected.QualifierValues[i], actual.QualifierValues[i], ignoreExtent);
@@ -115,13 +117,14 @@ internal static class AstAssert
     private static void AreEqual(QualifierValueAst? expected, QualifierValueAst? actual, bool ignoreExtent)
     {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         TokenAssert.AreEqual(expected.QualifierName, actual.QualifierName, ignoreExtent);
         AstAssert.AreEqual(expected.Initializer, actual.Initializer, ignoreExtent);
-        Assert.AreEqual(expected.Flavors.Count, actual.Flavors.Count);
-        for (var i = 0; i < expected.Flavors.Count; i++) {
+        Assert.That(actual.Flavors.Count, Is.EqualTo(expected.Flavors.Count));
+        for (var i = 0; i < expected.Flavors.Count; i++)
+        {
             TokenAssert.AreEqual(expected.Flavors[i], actual.Flavors[i], ignoreExtent);
         }
     }
@@ -129,10 +132,10 @@ internal static class AstAssert
     private static void AreEqual(IQualifierInitializerAst? expected, IQualifierInitializerAst? actual, bool ignoreExtent)
     {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.IsInstanceOf(expected.GetType(), actual);
+        Assert.That(actual, Is.InstanceOf(expected.GetType()));
         switch (expected)
         {
             case QualifierValueInitializerAst ast:
@@ -148,7 +151,7 @@ internal static class AstAssert
 
     private static void AreEqual(QualifierValueInitializerAst? expected, QualifierValueInitializerAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         AstAssert.AreEqual(expected.Value, actual.Value, ignoreExtent);
@@ -156,23 +159,20 @@ internal static class AstAssert
 
     private static void AreEqual(QualifierValueArrayInitializerAst? expected, QualifierValueArrayInitializerAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.AreEqual(expected.Values.Count, actual.Values.Count);
-        for (var i = 0; i < expected.Values.Count; i++) {
-            AstAssert.AreEqual(expected.Values[i], actual.Values[i], ignoreExtent);
-        }
+        Assert.That(actual.Values, Is.EquivalentTo(expected.Values));
     }
 
     private static void AreEqual(IClassFeatureAst? expected, IClassFeatureAst? actual, bool ignoreExtent)
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.IsInstanceOf(expected.GetType(), actual);
+        Assert.That(actual, Is.InstanceOf(expected.GetType()));
         switch (expected)
         {
             case StructureDeclarationAst ast:
@@ -196,35 +196,33 @@ internal static class AstAssert
     private static void AreEqual(StructureDeclarationAst? expected, StructureDeclarationAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         AstAssert.AreEqual(expected.QualifierList, actual.QualifierList, ignoreExtent);
         TokenAssert.AreEqual(expected.StructureName, actual.StructureName, ignoreExtent);
         TokenAssert.AreEqual(expected.SuperStructure, actual.SuperStructure, ignoreExtent);
-        Assert.AreEqual(expected.StructureFeatures.Count, actual.StructureFeatures.Count);
-        for (var i = 0; i < expected.StructureFeatures.Count; i++) {
-            AstAssert.AreEqual(expected.StructureFeatures[i], actual.StructureFeatures[i], ignoreExtent);
-        }
+        Assert.That(actual.StructureFeatures, Is.EquivalentTo(expected.StructureFeatures));
     }
 
     private static void AreEqual(EnumerationDeclarationAst? expected, EnumerationDeclarationAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         AstAssert.AreEqual(expected.QualifierList, actual.QualifierList, ignoreExtent);
         TokenAssert.AreEqual(expected.EnumName, actual.EnumName, ignoreExtent);
         TokenAssert.AreEqual(expected.EnumType, actual.EnumType, ignoreExtent);
-        Assert.AreEqual(expected.EnumElements.Count, actual.EnumElements.Count);
-        for (var i = 0; i < expected.EnumElements.Count; i++) {
+        Assert.That(actual.EnumElements.Count, Is.EqualTo(expected.EnumElements.Count));
+        for (var i = 0; i < expected.EnumElements.Count; i++)
+        {
             AstAssert.AreEqual(expected.EnumElements[i], actual.EnumElements[i], ignoreExtent);
         }
     }
 
     private static void AreEqual(EnumElementAst? expected, EnumElementAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         AstAssert.AreEqual(expected.QualifierList, actual.QualifierList, ignoreExtent);
@@ -234,10 +232,10 @@ internal static class AstAssert
 
     private static void AreEqual(IEnumElementValueAst? expected, IEnumElementValueAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.IsInstanceOf(expected.GetType(), actual);
+        Assert.That(actual, Is.InstanceOf(expected.GetType()));
         switch (expected) {
             case IntegerValueAst ast:
                 AstAssert.AreEqual(ast, (IntegerValueAst)actual, ignoreExtent);
@@ -254,14 +252,14 @@ internal static class AstAssert
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         AstAssert.AreEqual(expected.QualifierList, actual.QualifierList, ignoreExtent);
         TokenAssert.AreEqual(expected.ReturnType, actual.ReturnType, ignoreExtent);
         TokenAssert.AreEqual(expected.ReturnTypeRef, actual.ReturnTypeRef, ignoreExtent);
         TokenAssert.AreEqual(expected.PropertyName, actual.PropertyName, ignoreExtent);
-        Assert.AreEqual(expected.ReturnTypeIsArray, actual.ReturnTypeIsArray);
+        Assert.That(actual.ReturnTypeIsArray, Is.EqualTo(expected.ReturnTypeIsArray));
         AstAssert.AreEqual(expected.Initializer, actual.Initializer, ignoreExtent);
     }
 
@@ -269,7 +267,7 @@ internal static class AstAssert
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         TokenAssert.AreEqual(expected.Instance, actual.Instance, ignoreExtent);
@@ -285,14 +283,14 @@ internal static class AstAssert
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.AreEqual(expected.PropertyValues.Count, actual.PropertyValues.Count);
+        Assert.That(actual.PropertyValues.Count, Is.EqualTo(expected.PropertyValues.Count));
         var keys = expected.PropertyValues.Keys;
         foreach (var key in keys)
         {
-            Assert.Contains(key, actual.PropertyValues.Keys);
+            Assert.That(actual.PropertyValues, Contains.Key(key));
             AstAssert.AreEqual(expected.PropertyValues[key], actual.PropertyValues[key], ignoreExtent);
         }
     }
@@ -301,10 +299,10 @@ internal static class AstAssert
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.IsInstanceOf(expected.GetType(), actual);
+        Assert.That(actual, Is.InstanceOf(expected.GetType()));
         switch (expected)
         {
             case ComplexTypeValueAst ast:
@@ -329,10 +327,10 @@ internal static class AstAssert
 
     private static void AreEqual(ComplexTypeValueAst? expected, ComplexTypeValueAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.IsInstanceOf(expected.GetType(), actual);
+        Assert.That(actual, Is.InstanceOf(expected.GetType()));
         switch (expected) {
             case ComplexValueAst ast:
                 AstAssert.AreEqual(ast, (ComplexValueAst)actual, ignoreExtent);
@@ -347,7 +345,7 @@ internal static class AstAssert
 
     private static void AreEqual(ComplexValueAst? expected, ComplexValueAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         TokenAssert.AreEqual(expected.Alias, actual.Alias, ignoreExtent);
@@ -359,11 +357,12 @@ internal static class AstAssert
 
     private static void AreEqual(ComplexValueArrayAst? expected, ComplexValueArrayAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null)) {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.AreEqual(expected.Values.Count, actual.Values.Count);
-        for (var i = 0; i < expected.Values.Count; i++) {
+        Assert.That(actual.Values.Count, Is.EqualTo(expected.Values.Count));
+        for (var i = 0; i < expected.Values.Count; i++)
+        {
             AstAssert.AreEqual(expected.Values[i], actual.Values[i], ignoreExtent);
         }
     }
@@ -372,43 +371,40 @@ internal static class AstAssert
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.AreEqual(expected.Value, actual.Value);
+        Assert.That(actual.Value, Is.EqualTo(expected.Value));
     }
 
     private static void AreEqual(IntegerValueAst? expected, IntegerValueAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.AreEqual(expected.Kind, actual.Kind);
-        Assert.AreEqual(expected.Value, actual.Value);
+        Assert.That(actual.Kind, Is.EqualTo(expected.Kind));
+        Assert.That(actual.Value, Is.EqualTo(expected.Value));
     }
 
     private static void AreEqual(StringValueAst? expected, StringValueAst? actual, bool ignoreExtent)
     {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
-        Assert.Multiple(() =>
+        Assert.That(actual.StringLiteralValues.Count, Is.EqualTo(expected.StringLiteralValues.Count));
+        for (var i = 0; i < expected.StringLiteralValues.Count; i++)
         {
-            Assert.AreEqual(expected.StringLiteralValues.Count, actual.StringLiteralValues.Count, "expected and actual are different lengths");
-            for (var i = 0; i < Math.Min(expected.StringLiteralValues.Count, actual.StringLiteralValues.Count); i++)
-            {
-                TokenAssert.AreEqual(expected.StringLiteralValues[i], actual.StringLiteralValues[i], ignoreExtent);
-            }
-        });
+            TokenAssert.AreEqual(expected.StringLiteralValues[i], actual.StringLiteralValues[i], ignoreExtent);
+        }
     }
 
     private static void AreEqual(NullValueAst? expected, NullValueAst? actual, bool ignoreExtent) {
         if ((expected == null) || (actual == null))
         {
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         TokenAssert.AreEqual(expected.Token, actual.Token, ignoreExtent);

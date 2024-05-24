@@ -67,7 +67,7 @@ public static partial class RoundtripTests
         LexerAssert.AreEqual(expectedTokens, actualTokens, true);
         // check the expected tokens serialize back ok
         var actualTokenText = TokenSerializer.ToSourceText(expectedTokens);
-        Assert.AreEqual(sourceText, actualTokenText);
+        Assert.That(actualTokenText, Is.EqualTo(sourceText));
         // check the parser generates the expected ast
         var actualAst = Parser.Parse(actualTokens, parserQuirks);
         if (expectedAst is not null)
@@ -82,7 +82,7 @@ public static partial class RoundtripTests
                 quirks: MofQuirks.None
             )
         );
-        Assert.AreEqual(sourceText, actualAstText);
+        Assert.That(actualAstText, Is.EqualTo(sourceText));
     }
 
     private static void AssertRoundtripException(string sourceText, string expectedMessage, ParserQuirks parserQuirks = ParserQuirks.None)
@@ -96,8 +96,8 @@ public static partial class RoundtripTests
         );
         Assert.Multiple(() =>
         {
-            Assert.IsNotNull(ex);
-            Assert.AreEqual(expectedMessage, ex?.Message);
+            Assert.That(ex, Is.Not.Null);
+            Assert.That(ex?.Message, Is.EqualTo(expectedMessage));
         });
     }
 

@@ -100,10 +100,10 @@ internal static class TokenAssert
         Assert.Multiple(() => {
             if ((expected == null) || (actual == null))
             {
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
-            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.That(actual.Name, Is.EqualTo(expected.Name));
             if (!ignoreExtent)
             {
                 TokenAssert.AreEqual(expected.Extent, actual!.Extent);
@@ -124,7 +124,7 @@ internal static class TokenAssert
         Assert.Multiple(() => {
             if ((expected == null) || (actual == null))
             {
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             if (!TokenCompare.AreEqual(expected, actual, ignoreExtent))
@@ -197,12 +197,12 @@ internal static class TokenAssert
         Assert.Multiple(() => {
             if ((expected == null) || (actual == null))
             {
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             TokenAssert.AreEqual(expected.StartPosition, actual.StartPosition);
             TokenAssert.AreEqual(expected.EndPosition, actual.EndPosition);
-            Assert.AreEqual(expected.Text, actual!.Text);
+            Assert.That(actual!.Text, Is.EqualTo(expected.Text));
         });
     }
 
@@ -211,12 +211,12 @@ internal static class TokenAssert
         Assert.Multiple(() => {
             if ((expected == null) || (actual == null))
             {
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
-            Assert.AreEqual(expected.Position, actual.Position);
-            Assert.AreEqual(expected.LineNumber, actual.LineNumber);
-            Assert.AreEqual(expected.ColumnNumber, actual.ColumnNumber);
+            Assert.That(actual.Position, Is.EqualTo(expected.Position));
+            Assert.That(actual.LineNumber, Is.EqualTo(expected.LineNumber));
+            Assert.That(actual.ColumnNumber, Is.EqualTo(expected.ColumnNumber));
         });
     }
 
