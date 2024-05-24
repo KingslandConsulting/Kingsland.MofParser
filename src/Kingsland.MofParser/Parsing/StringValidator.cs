@@ -359,7 +359,7 @@ internal static class StringValidator
         {
             return false;
         }
-        return StringValidator.IsSchemaName(value.Substring(0, underscore)) &&
+        return StringValidator.IsSchemaName(value[..underscore]) &&
                StringValidator.IsIdentifier(value[(underscore + 1)..]);
     }
 

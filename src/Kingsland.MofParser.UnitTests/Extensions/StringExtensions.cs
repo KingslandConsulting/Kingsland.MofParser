@@ -36,7 +36,7 @@ internal static class StringExtensions
             .Split(newline)
             .Select(
                 str => (String: str, LeadingWhiteSpace: CountLeadingWhiteSpace(str))
-            );
+            ).ToList();
         var indent = lines
             .Where(str => str.LeadingWhiteSpace > -1)
             .Min(str => str.LeadingWhiteSpace);

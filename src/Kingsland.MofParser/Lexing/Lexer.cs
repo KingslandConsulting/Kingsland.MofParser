@@ -85,77 +85,77 @@ public static class Lexer
 
     #region Symbols
 
-    public static ScannerResult ReadAttributeCloseToken(SourceReader reader)
+    private static ScannerResult ReadAttributeCloseToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read(']');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new AttributeCloseToken(extent), nextReader);
     }
 
-    public static ScannerResult ReadAttributeOpenToken(SourceReader reader)
+    private static ScannerResult ReadAttributeOpenToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read('[');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new AttributeOpenToken(extent), nextReader);
     }
 
-    public static ScannerResult ReadBlockCloseToken(SourceReader reader)
+    private static ScannerResult ReadBlockCloseToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read('}');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new BlockCloseToken(extent), nextReader);
     }
 
-    public static ScannerResult ReadBlockOpenToken(SourceReader reader)
+    private static ScannerResult ReadBlockOpenToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read('{');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new BlockOpenToken(extent), nextReader);
     }
 
-    public static ScannerResult ReadColonToken(SourceReader reader)
+    private static ScannerResult ReadColonToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read(':');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new ColonToken(extent), nextReader);
     }
 
-    public static ScannerResult ReadCommaToken(SourceReader reader)
+    private static ScannerResult ReadCommaToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read(',');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new CommaToken(extent), nextReader);
     }
 
-    public static ScannerResult ReadDotOperatorToken(SourceReader reader)
+    private static ScannerResult ReadDotOperatorToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read('.');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new DotOperatorToken(extent), nextReader);
     }
 
-    public static ScannerResult ReadEqualsOperatorToken(SourceReader reader)
+    private static ScannerResult ReadEqualsOperatorToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read('=');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new EqualsOperatorToken(extent), nextReader);
     }
 
-    public static ScannerResult ReadParenthesisCloseToken(SourceReader reader)
+    private static ScannerResult ReadParenthesisCloseToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read(')');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new ParenthesisCloseToken(extent), nextReader);
     }
 
-    public static ScannerResult ReadParenthesisOpenToken(SourceReader reader)
+    private static ScannerResult ReadParenthesisOpenToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read('(');
         var extent = SourceExtent.From(sourceChar);
         return new ScannerResult(new ParenthesisOpenToken(extent), nextReader);
     }
 
-    public static ScannerResult ReadStatementEndToken(SourceReader reader)
+    private static ScannerResult ReadStatementEndToken(SourceReader reader)
     {
         var (sourceChar, nextReader) = reader.Read(';');
         var extent = SourceExtent.From(sourceChar);
@@ -189,7 +189,7 @@ public static class Lexer
     ///     WS = U+0020 / U+0009 / U+000D / U+000A
     ///
     /// </remarks>
-    public static ScannerResult ReadWhitespaceToken(SourceReader reader)
+    private static ScannerResult ReadWhitespaceToken(SourceReader reader)
     {
         var thisReader = reader;
         var sourceChars = new List<SourceChar>();
@@ -248,7 +248,7 @@ public static class Lexer
     ///                             comment */
     ///
     /// </remarks>
-    public static ScannerResult ReadCommentToken(SourceReader reader)
+    private static ScannerResult ReadCommentToken(SourceReader reader)
     {
         var thisReader = reader;
         var sourceChars = new List<SourceChar>();
@@ -334,7 +334,7 @@ public static class Lexer
     ///     directiveName      = org-id "_" IDENTIFIER
     ///
     /// </remarks>
-    public static ScannerResult ReadPragmaToken(SourceReader reader)
+    private static ScannerResult ReadPragmaToken(SourceReader reader)
     {
         var (sourceChars, thisReader) = reader.ReadString(Constants.PRAGMA, true);
         var extent = SourceExtent.From(sourceChars.ToList());
@@ -367,7 +367,7 @@ public static class Lexer
     ///     localName           = IDENTIFIER
     ///
     /// </remarks>
-    public static ScannerResult ReadIdentifierToken(SourceReader reader)
+    private static ScannerResult ReadIdentifierToken(SourceReader reader)
     {
         var thisReader = reader;
         var sourceChars = new List<SourceChar>();
@@ -417,7 +417,7 @@ public static class Lexer
     ///     localName           = IDENTIFIER
     ///
     /// </remarks>
-    public static ScannerResult ReadAliasIdentifierToken(SourceReader reader)
+    private static ScannerResult ReadAliasIdentifierToken(SourceReader reader)
     {
         var thisReader = reader;
         var sourceChars = new List<SourceChar>();
@@ -489,7 +489,7 @@ public static class Lexer
     ///     positiveDecimalDigit = "1"..."9"
     ///
     /// </remarks>
-    public static ScannerResult ReadNumericLiteralToken(SourceReader reader)
+    private static ScannerResult ReadNumericLiteralToken(SourceReader reader)
     {
 
         static int ParseBinaryValueDigits(IEnumerable<SourceChar> binaryChars, SourceChar? sign)
@@ -871,7 +871,7 @@ public static class Lexer
     ///     UNDERSCORE  = U+005F ; _
     ///
     /// </remarks>
-    public static ScannerResult ReadStringLiteralToken(SourceReader reader)
+    private static ScannerResult ReadStringLiteralToken(SourceReader reader)
     {
         // BUGBUG - no support for *( *WS DOUBLEQUOTE *stringChar DOUBLEQUOTE )
         // BUGBUG - incomplete escape sequences

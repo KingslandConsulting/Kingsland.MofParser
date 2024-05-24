@@ -1,10 +1,14 @@
-﻿namespace Kingsland.MofParser.Parsing;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Kingsland.MofParser.Parsing;
 
 /// <summary>
 ///
 /// </summary>
 /// <remarks>
 /// </remarks>
+[SuppressMessage("ReSharper", "InconsistentNaming")]
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
 internal static class Constants
 {
 
@@ -49,7 +53,7 @@ internal static class Constants
     public const string DT_STRING = "string";
     public const string DT_DATETIME = "datetime";
     public const string DT_BOOLEAN = "boolean";
-    public const string DT_OCTECTSTRING = "octetstring";
+    public const string DT_OCTETSTRING = "octetstring";
 
     // deprecated in MOF 3.0.1, but defined here to support parser quirks
     public const string DT_UINT8 = "uint8";

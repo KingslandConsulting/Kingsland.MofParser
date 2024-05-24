@@ -14,7 +14,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kingsland.MofParser\Kingsland.MofParser.csproj" />
+    <None Remove="dsc\MyServer.mof" />
+    <None Remove="dsc\MyServerConfig.ps1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="dsc\MyServer.mof">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dsc\MyServerConfig.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Kingsland.MofParser" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

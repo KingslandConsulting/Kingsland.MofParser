@@ -1,6 +1,4 @@
-﻿using Kingsland.MofParser.Tokens;
-
-// Resharper disable once CheckNamespace
+﻿// Resharper disable once CheckNamespace
 namespace Kingsland.MofParser.CodeGen;
 
 public sealed partial class AstWriter
