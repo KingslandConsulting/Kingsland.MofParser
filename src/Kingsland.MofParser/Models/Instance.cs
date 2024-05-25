@@ -14,7 +14,7 @@ public sealed record Instance
 
         public Builder()
         {
-            this.Properties = new List<Property>();
+            this.Properties = [];
         }
 
         public string? TypeName
