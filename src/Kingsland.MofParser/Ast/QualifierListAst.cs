@@ -23,7 +23,7 @@ public sealed record QualifierListAst : AstNode
 
         public Builder()
         {
-            this.QualifierValues = new();
+            this.QualifierValues = [];
         }
 
         public List<QualifierValueAst> QualifierValues
@@ -46,7 +46,7 @@ public sealed record QualifierListAst : AstNode
     #region Constructors
 
     internal QualifierListAst()
-        : this(Enumerable.Empty<QualifierValueAst>())
+        : this([])
     {
     }
 
@@ -54,10 +54,8 @@ public sealed record QualifierListAst : AstNode
         IEnumerable<QualifierValueAst> qualifierValues
     )
     {
-        this.QualifierValues = new(
-            (qualifierValues ?? throw new ArgumentNullException(nameof(qualifierValues)))
-                .ToList()
-        );
+        this.QualifierValues = (qualifierValues ?? throw new ArgumentNullException(nameof(qualifierValues)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

@@ -31,7 +31,7 @@ public static partial class RoundtripTests
                 .ParenthesisCloseToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new CompilerDirectiveAst.Builder {
                         PragmaKeyword = new PragmaToken("pragma"),
                         PragmaName = new IdentifierToken("include"),
@@ -40,7 +40,7 @@ public static partial class RoundtripTests
                             "GlobalStructs/GOLF_Address.mof"
                         )
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
@@ -66,20 +66,20 @@ public static partial class RoundtripTests
                 .ParenthesisCloseToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new CompilerDirectiveAst.Builder {
                         PragmaKeyword = new PragmaToken("pragma"),
                         PragmaName = new IdentifierToken("include"),
                         PragmaParameter = new StringValueAst(
-                            new List<StringLiteralToken> {
+                            [
                                 new StringLiteralToken("GlobalStructs"),
                                 new StringLiteralToken("/"),
                                 new StringLiteralToken("GOLF_Address.mof")
-                            },
+                            ],
                             "GlobalStructs/GOLF_Address.mof"
                         )
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }

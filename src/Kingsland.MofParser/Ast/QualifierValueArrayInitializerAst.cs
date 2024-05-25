@@ -24,7 +24,7 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
 
         public Builder()
         {
-            this.Values = new();
+            this.Values = [];
         }
 
         public List<LiteralValueAst> Values
@@ -47,7 +47,7 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
     #region Constructors
 
     internal QualifierValueArrayInitializerAst()
-        : this(Enumerable.Empty<LiteralValueAst>())
+        : this([])
     {
     }
 
@@ -55,10 +55,8 @@ public sealed record QualifierValueArrayInitializerAst : IQualifierInitializerAs
         IEnumerable<LiteralValueAst> values
     )
     {
-        this.Values = new(
-            (values ?? throw new ArgumentNullException(nameof(values)))
-                .ToList()
-        );
+        this.Values = (values ?? throw new ArgumentNullException(nameof(values)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

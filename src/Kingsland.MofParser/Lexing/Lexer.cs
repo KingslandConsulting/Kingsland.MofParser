@@ -66,12 +66,12 @@ public static class Lexer
             })
             .AddScanner("[0-9]", Lexer.ReadNumericLiteralToken)
             .AddScanner(
-                new[] {
+                [
                     '\u0020', // space
                     '\u0009', // horizontal tab
                     '\u000D', // carriage return
                     '\u000A'  // line feed
-                },
+                ],
                 Lexer.ReadWhitespaceToken
             );
     }
@@ -337,7 +337,7 @@ public static class Lexer
     private static ScannerResult ReadPragmaToken(SourceReader reader)
     {
         var (sourceChars, thisReader) = reader.ReadString(Constants.PRAGMA, true);
-        var extent = SourceExtent.From(sourceChars.ToList());
+        var extent = SourceExtent.From(sourceChars);
         return new ScannerResult(new PragmaToken(extent), thisReader);
     }
 
@@ -787,7 +787,7 @@ public static class Lexer
                     // build the return value
                     var realIntegerValue = ParseDecimalValueDigits(firstDigitBlock, signChar);
                     var realFractionValue = (double)ParseDecimalValueDigits(realFractionDigits, signChar);
-                    if (realFractionDigits.Any())
+                    if (realFractionDigits.Count > 0)
                     {
                         realFractionValue /= Math.Pow(10, realFractionDigits.Count);
                     }

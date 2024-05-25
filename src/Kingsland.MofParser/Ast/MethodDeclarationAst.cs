@@ -42,7 +42,7 @@ public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
         public Builder()
         {
             this.QualifierList = new();
-            this.Parameters = new();
+            this.Parameters = [];
         }
 
         public QualifierListAst QualifierList
@@ -117,10 +117,8 @@ public sealed record MethodDeclarationAst : AstNode, IClassFeatureAst
         this.ReturnTypeRef = returnTypeRef;
         this.ReturnTypeIsArray = returnTypeIsArray;
         this.Name = methodName ?? throw new ArgumentNullException(nameof(methodName));
-        this.Parameters = new(
-            (parameters ?? throw new ArgumentNullException(nameof(parameters)))
-                .ToList()
-        );
+        this.Parameters = (parameters ?? throw new ArgumentNullException(nameof(parameters)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

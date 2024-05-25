@@ -45,7 +45,7 @@ public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFea
         public Builder()
         {
             this.QualifierList = new();
-            this.EnumElements = new();
+            this.EnumElements = [];
         }
 
         public QualifierListAst QualifierList
@@ -102,10 +102,8 @@ public sealed record EnumerationDeclarationAst : MofProductionAst, IStructureFea
         this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
         this.EnumName = enumName ?? throw new ArgumentNullException(nameof(enumName));
         this.EnumType = enumType ?? throw new ArgumentNullException(nameof(enumType));
-        this.EnumElements = new(
-            (enumElements ?? throw new ArgumentNullException(nameof(enumElements)))
-                .ToList()
-        );
+        this.EnumElements = (enumElements ?? throw new ArgumentNullException(nameof(enumElements)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

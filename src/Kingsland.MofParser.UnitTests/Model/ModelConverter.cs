@@ -33,14 +33,14 @@ public static class ModelConverter
                     new(
                         typeName: "MyClass",
                         alias: "MyAlias",
-                        properties: new List<Property>
-                        {
+                        properties:
+                        [
                             new("IntegerProperty", 100),
                             new("RealProperty", 10.5),
                             new("BooleanProperty", true),
                             new("NullProperty", null),
                             new("StringProperty", "MyStringValue"),
-                        }
+                        ]
                     )
                 ]
             );

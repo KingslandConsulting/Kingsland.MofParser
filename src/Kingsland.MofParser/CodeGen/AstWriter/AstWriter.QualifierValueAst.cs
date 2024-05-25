@@ -30,7 +30,7 @@ public sealed partial class AstWriter
         //
         // These aren't part of the MOF 3.0.1 spec, but we'll include them anyway for backward compatibility.
         //
-        if (node.Flavors.Any())
+        if (node.Flavors.Count > 0)
         {
             this.WriteString(": ");
             this.WriteString(

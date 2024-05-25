@@ -35,7 +35,7 @@ public sealed record ClassDeclarationAst : MofProductionAst
         public Builder()
         {
             this.QualifierList = new();
-            this.ClassFeatures = new();
+            this.ClassFeatures = [];
         }
 
         public QualifierListAst QualifierList
@@ -90,10 +90,8 @@ public sealed record ClassDeclarationAst : MofProductionAst
         this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
         this.ClassName = className ?? throw new ArgumentNullException(nameof(className));
         this.SuperClass = superClass;
-        this.ClassFeatures = new(
-            (classFeatures ?? throw new ArgumentNullException(nameof(classFeatures)))
-                .ToList()
-        );
+        this.ClassFeatures = (classFeatures ?? throw new ArgumentNullException(nameof(classFeatures)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

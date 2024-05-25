@@ -308,7 +308,7 @@ internal static class ModelConverter
         {
             TypeName = node.TypeName.Name,
             Alias = node.Alias?.Name,
-            Properties = ModelConverter.ConvertPropertyValueListAst(node.PropertyValues).ToList()
+            Properties = [.. ModelConverter.ConvertPropertyValueListAst(node.PropertyValues)]
         }.Build();
     }
 

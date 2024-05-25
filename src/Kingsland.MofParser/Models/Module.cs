@@ -12,8 +12,8 @@ public sealed record Module
 
         public Builder()
         {
-            this.Enumerations = new List<Enumeration>();
-            this.Instances = new List<Instance>();
+            this.Enumerations = [];
+            this.Instances = [];
         }
 
         public List<Enumeration> Enumerations
@@ -43,10 +43,8 @@ public sealed record Module
 
     internal Module(IEnumerable<Instance> instances)
     {
-        this.Instances = new ReadOnlyCollection<Instance>(
-            (instances ?? throw new ArgumentNullException(nameof(instances)))
-                .ToList()
-        );
+        this.Instances = (instances ?? throw new ArgumentNullException(nameof(instances)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

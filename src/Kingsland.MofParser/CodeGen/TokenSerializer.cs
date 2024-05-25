@@ -10,10 +10,7 @@ public static class TokenSerializer
 
     public static string ToSourceText(IEnumerable<SyntaxToken> tokens)
     {
-        if (tokens == null)
-        {
-            throw new ArgumentNullException(nameof(tokens));
-        }
+        ArgumentNullException.ThrowIfNull(tokens);
         var source = new StringBuilder();
         foreach (var token in tokens)
         {

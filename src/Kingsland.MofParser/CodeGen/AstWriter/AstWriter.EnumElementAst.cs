@@ -20,7 +20,7 @@ public sealed partial class AstWriter
         //    February = 2
         // };
 
-        if (node.QualifierList.QualifierValues.Any())
+        if (node.QualifierList.QualifierValues.Count > 0)
         {
             this.WriteAstNode(
                 node.QualifierList

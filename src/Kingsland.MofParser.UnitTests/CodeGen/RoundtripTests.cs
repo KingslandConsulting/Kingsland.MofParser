@@ -58,10 +58,7 @@ public static partial class RoundtripTests
         ParserQuirks parserQuirks = ParserQuirks.None
     )
     {
-        if (expectedTokens is null)
-        {
-            throw new ArgumentNullException(nameof(expectedTokens));
-        }
+        ArgumentNullException.ThrowIfNull(expectedTokens);
         // check the lexer generates the expected tokens
         var actualTokens = Lexer.Lex(SourceReader.From(sourceText)).ToList();
         LexerAssert.AreEqual(expectedTokens, actualTokens, true);

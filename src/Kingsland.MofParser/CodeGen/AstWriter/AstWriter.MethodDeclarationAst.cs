@@ -22,13 +22,13 @@ public sealed partial class AstWriter
         var prefixQuirkEnabled = this.Options.Quirks.HasFlag(
             MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations
         );
-        if (node.QualifierList.QualifierValues.Any())
+        if (node.QualifierList.QualifierValues.Count > 0)
         {
             this.WriteAstNode(
                 node.QualifierList
             );
         }
-        if (prefixQuirkEnabled || node.QualifierList.QualifierValues.Any())
+        if (prefixQuirkEnabled || node.QualifierList.QualifierValues.Count > 0)
         {
             this.WriteString(' ');
         }

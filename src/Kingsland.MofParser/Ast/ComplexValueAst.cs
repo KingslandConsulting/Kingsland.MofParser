@@ -26,9 +26,7 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
 
         public Builder()
         {
-            this.PropertyValues = new(
-                new List<PropertySlotAst>()
-            );
+            this.PropertyValues = new([]);
         }
 
         public AliasIdentifierToken? Alias
@@ -95,9 +93,7 @@ public sealed record ComplexValueAst : ComplexTypeValueAst
         this.Value = null;
         this.Of = null;
         this.TypeName = null;
-        this.PropertyValues = new(
-            Enumerable.Empty<PropertySlotAst>()
-        );
+        this.PropertyValues = new([]);
     }
 
     public ComplexValueAst(

@@ -39,7 +39,7 @@ public static partial class RoundtripTests
                 Productions = new List<MofProductionAst> {
                     new ClassDeclarationAst.Builder {
                         ClassName = new IdentifierToken("GOLF_Base"),
-                        ClassFeatures = new List<IClassFeatureAst>()
+                        ClassFeatures = []
                     }.Build()
                 }
             }.Build();

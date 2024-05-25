@@ -12,7 +12,7 @@ public sealed class Lexer
     #region Constructors
 
     public Lexer()
-        : this(new List<Scanner>())
+        : this([])
     {
     }
 
@@ -22,7 +22,7 @@ public sealed class Lexer
             throw new ArgumentNullException(nameof(scanners)) :
             new ReadOnlyCollection<Scanner>(scanners.ToList()
         );
-        this.ScannerCache = new Dictionary<char, Scanner>();
+        this.ScannerCache = [];
     }
 
     #endregion

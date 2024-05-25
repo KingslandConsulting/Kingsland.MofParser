@@ -10,7 +10,7 @@ public sealed class TokenBuilder
 
     public TokenBuilder()
     {
-        this.Tokens = new List<SyntaxToken>();
+        this.Tokens = [];
     }
 
     #endregion
@@ -31,7 +31,7 @@ public sealed class TokenBuilder
     {
         // return a duplicate of the Tokens value so our
         // internal list isn't exposed to external code
-        return this.Tokens.ToList();
+        return [.. this.Tokens];
     }
 
     #endregion

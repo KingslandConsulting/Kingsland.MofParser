@@ -11,10 +11,7 @@ internal sealed class TestUtils
 
     internal static IEnumerable<SyntaxToken> RemoveExtents(IEnumerable<SyntaxToken> tokens)
     {
-        if (tokens == null)
-        {
-            throw new ArgumentNullException(nameof(tokens));
-        }
+        ArgumentNullException.ThrowIfNull(tokens);
         foreach (var token in tokens)
         {
             yield return token switch

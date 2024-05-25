@@ -23,7 +23,7 @@ public sealed record MofSpecificationAst : AstNode
 
         public Builder()
         {
-            this.Productions = new();
+            this.Productions = [];
         }
 
         public List<MofProductionAst> Productions
@@ -46,7 +46,7 @@ public sealed record MofSpecificationAst : AstNode
     #region Constructors
 
     internal MofSpecificationAst()
-        : this(Enumerable.Empty<MofProductionAst>())
+        : this([])
     {
     }
 
@@ -54,10 +54,8 @@ public sealed record MofSpecificationAst : AstNode
         IEnumerable<MofProductionAst> productions
     )
     {
-        this.Productions = new(
-            (productions ?? throw new ArgumentNullException(nameof(productions)))
-                .ToList()
-        );
+        this.Productions = (productions ?? throw new ArgumentNullException(nameof(productions)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

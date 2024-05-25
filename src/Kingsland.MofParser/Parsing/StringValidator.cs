@@ -7,7 +7,7 @@ internal static class StringValidator
 
     #region WS = U+0020 / U+0009 / U+000D / U+000A
 
-    internal static readonly char[] WhitespaceChars = new[] { '\u0020', '\u0009', '\u000D', '\u000A' };
+    internal static readonly char[] WhitespaceChars = ['\u0020', '\u0009', '\u000D', '\u000A'];
 
     public static bool IsWhitespace(char @char)
     {
@@ -20,7 +20,7 @@ internal static class StringValidator
 
     #region 5.3 Line termination
 
-    internal static readonly char[] LineTerminatorChars = new[] { '\u000D', '\u000A' };
+    internal static readonly char[] LineTerminatorChars = ['\u000D', '\u000A'];
 
     public static bool IsLineTerminator(char @char)
     {

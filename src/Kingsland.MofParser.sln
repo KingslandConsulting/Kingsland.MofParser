@@ -31,6 +31,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		..\.github\workflows\02_codeql.yaml = ..\.github\workflows\02_codeql.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{6E890646-7B55-4818-9DFC-71561A9DF646}"
+	ProjectSection(SolutionItems) = preProject
+		Kingsland.MofParser.nuspec = Kingsland.MofParser.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

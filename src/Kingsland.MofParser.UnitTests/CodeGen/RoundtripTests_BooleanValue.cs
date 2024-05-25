@@ -53,7 +53,7 @@ public static partial class RoundtripTests
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder
             {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new InstanceValueDeclarationAst.Builder {
                         Instance = new IdentifierToken("instance"),
                         Of = new IdentifierToken("of"),
@@ -61,19 +61,18 @@ public static partial class RoundtripTests
                         As = new IdentifierToken("as"),
                         Alias = new AliasIdentifierToken("Alias00000070"),
                         PropertyValues = new PropertyValueListAst.Builder {
-                            PropertySlots = new()
-                            {
-                                new(
+                            PropertySlots = [
+                                new PropertySlotAst(
                                     new("Reference"),
                                     new BooleanValueAst(
                                         new BooleanLiteralToken("TRUE", true)
                                     )
                                 )
-                            }
+                            ]
                         }.Build(),
                         StatementEnd = new StatementEndToken()
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }

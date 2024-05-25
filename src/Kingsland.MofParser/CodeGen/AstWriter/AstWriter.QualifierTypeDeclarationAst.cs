@@ -16,7 +16,7 @@ public sealed partial class AstWriter
         {
             this.WriteString(node.QualifierName.Name);
         }
-        if (node.Flavors.Any())
+        if (node.Flavors.Count > 0)
         {
             this.WriteString(": ");
             this.WriteString(string.Join(" ", node.Flavors));

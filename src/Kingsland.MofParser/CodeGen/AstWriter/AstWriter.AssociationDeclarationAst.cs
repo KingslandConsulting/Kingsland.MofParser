@@ -21,7 +21,7 @@ public sealed partial class AstWriter
         //     GOLF_Date AssignedOnDate;
         // };
 
-        if (node.QualifierList.QualifierValues.Any())
+        if (node.QualifierList.QualifierValues.Count > 0)
         {
             this.WriteAstNode(
                 node.QualifierList

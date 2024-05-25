@@ -14,7 +14,7 @@ public sealed partial class AstWriter
     public void WriteAstNode(StructureDeclarationAst node)
     {
 
-        if (node.QualifierList.QualifierValues.Any())
+        if (node.QualifierList.QualifierValues.Count > 0)
         {
             this.WriteAstNode(
                 node.QualifierList

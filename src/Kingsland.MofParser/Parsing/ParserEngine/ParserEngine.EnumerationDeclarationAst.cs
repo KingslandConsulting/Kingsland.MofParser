@@ -83,10 +83,10 @@ internal static partial class ParserEngine
             // see https://github.com/mikeclayton/MofParser/issues/52
             var quirkEnabled = quirks.HasFlag(ParserQuirks.AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase);
             if (quirkEnabled &&
-                enumTypeDeclaration.IsKeyword(new [] {
+                enumTypeDeclaration.IsKeyword([
                     Constants.DT_UINT8, Constants.DT_UINT16, Constants.DT_UINT32, Constants.DT_UINT64,
                     Constants.DT_SINT8, Constants.DT_SINT16, Constants.DT_SINT32, Constants.DT_SINT64,
-                })
+                ])
             )
             {
                 isIntegerEnum = true;

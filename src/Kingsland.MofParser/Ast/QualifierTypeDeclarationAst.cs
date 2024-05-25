@@ -38,7 +38,7 @@ public sealed record QualifierTypeDeclarationAst : MofProductionAst
         public Builder()
         {
             this.QualifierList = new();
-            this.Flavors = new();
+            this.Flavors = [];
         }
 
         public QualifierListAst QualifierList
@@ -128,10 +128,8 @@ public sealed record QualifierTypeDeclarationAst : MofProductionAst
         this.QualifierType = qualifierType ?? throw new ArgumentNullException(nameof(qualifierType));
         this.QualifierScope = qualifierScope ?? throw new ArgumentNullException(nameof(qualifierScope));
         this.QualifierPolicy = qualifierPolicy ?? throw new ArgumentNullException(nameof(qualifierPolicy));
-        this.Flavors = new(
-            (flavors ?? throw new ArgumentNullException(nameof(flavors)))
-                .ToList()
-        );
+        this.Flavors = (flavors ?? throw new ArgumentNullException(nameof(flavors)))
+            .ToList().AsReadOnly();
     }
 
     #endregion
