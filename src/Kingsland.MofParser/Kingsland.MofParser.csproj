@@ -16,15 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Objects\Instance.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Kingsland.ParseFx\Kingsland.ParseFx.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Objects\" />
   </ItemGroup>
 
 </Project>
