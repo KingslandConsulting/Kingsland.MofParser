@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Kingsland.MofParser</id>
-    <version>7.0.0</version>
+    <version>8.0.0</version>
     <authors>Michael Clayton</authors>
     <owners>Michael Clayton</owners>
     <license type="expression">LGPL-3.0-only</license>
@@ -10,12 +10,12 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A C# library for parsing the contents of Managed Object Format (MOF) files</description>
     <dependencies>
-      <group targetFramework="net7.0" />
+      <group targetFramework="net8.0" />
     </dependencies>
     <tags>powershell dsc mof parser</tags>
   </metadata>
   <files>
-    <file src="Kingsland.MofParser\bin\Release\net7.0\*.dll" target="\lib\net7.0" />
-    <file src="Kingsland.MofParser\bin\Release\net7.0\*.pdb" target="\lib\net7.0" />
+    <file src="Kingsland.MofParser\bin\Release\net8.0\*.dll" target="\lib\net8.0" />
+    <file src="Kingsland.MofParser\bin\Release\net8.0\*.pdb" target="\lib\net8.0" />
   </files>
 </package>
