@@ -26,7 +26,7 @@ public sealed class LiteralValueArray : PrimitiveTypeValue
     public override string ToString()
     {
         var sb = new StringBuilder();
-        sb.Append("{");
+        sb.Append('{');
         for (var i = 0; i < this.Values.Count; i++)
         {
             if (i > 0)
@@ -35,7 +35,7 @@ public sealed class LiteralValueArray : PrimitiveTypeValue
             }
             sb.Append(this.Values[i]);
         }
-        sb.Append("}");
+        sb.Append('}');
         return sb.ToString();
     }
 
