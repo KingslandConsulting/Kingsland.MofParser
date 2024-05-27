@@ -1,5 +1,4 @@
 ﻿using Kingsland.MofParser.Ast;
-using Kingsland.MofParser.Models;
 using Kingsland.MofParser.Models.Types;
 using Kingsland.MofParser.Models.Values;
 using Kingsland.MofParser.Tokens;
@@ -139,7 +138,7 @@ public static partial class RoundtripTests
                                 PropertyName = new IdentifierToken("LastPaymentDate"),
                                 PropertyValue = new ComplexValueAst.Builder {
                                     Value = new IdentifierToken("value"),
-                                    Of = new IdentifierToken("of"), 
+                                    Of = new IdentifierToken("of"),
                                     TypeName = new IdentifierToken("GOLF_Date"),
                                     PropertyValues = new PropertyValueListAst([
                                         new(

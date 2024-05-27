@@ -1,6 +1,5 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Models.Types;
-using Kingsland.MofParser.Models.Values;
 using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;

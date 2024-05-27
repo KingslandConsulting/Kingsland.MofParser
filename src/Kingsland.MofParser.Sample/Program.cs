@@ -20,40 +20,8 @@ static class Program
             };
         ";
 
-        const string sourceText2 = @"
-            instance of CustomObject1 as $CustomObject11ref
-            {
-                Bool1 = True;
-                String1 = ""21Object1String1"";
-
-            };
-
-            instance of ClassBasedResource2 as $ClassBasedResource21ref
-            {
-                Key = ""2k1"";
-                ModuleVersion = ""0.1.0"";
-                Object1 = $CustomObject11ref;
-                Ensure = ""Present"";
-                SourceInfo = ""::3::1::ClassBasedResource2"";
-                ResourceID = ""[ClassBasedResource2]2k1::[ClassBasedResources2]ClassBasedResources2"";
-                ModuleName = ""ClassBased"";
-                ConfigurationName = ""RootConfiguration"";
-            };
-
-            instance of OMI_ConfigurationDocument
-            {
-                Version = ""2.0.0"";
-                MinimumCompatibleVersion = ""1.0.0"";
-                CompatibleVersionAdditionalProperties= {""Omi_BaseResource:ConfigurationName""};
-                Author=""randr"";
-                GenerationDate=""05/23/2024 14:06:44"";
-                GenerationHost=""RAANDREE0"";
-                Name=""MOF__ NA"";
-            };
-        ";
-
         // parse the mof file
-        var module = Parser.ParseText(sourceText2);
+        var module = Parser.ParseText(sourceText);
 
         // display the instances
         foreach (var instance in module.Instances)
