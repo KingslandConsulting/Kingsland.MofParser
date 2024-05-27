@@ -23,7 +23,7 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
 
         public Builder()
         {
-            this.Values = new();
+            this.Values = [];
         }
 
         public List<EnumValueAst> Values
@@ -46,18 +46,22 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
     #region Constructors
 
     internal EnumValueArrayAst()
-        : this(Enumerable.Empty<EnumValueAst>())
+        : this([])
     {
+    }
+
+    public EnumValueArrayAst(params EnumValueAst[] values)
+    {
+        this.Values = (values ?? throw new ArgumentNullException(nameof(values)))
+            .ToList().AsReadOnly();
     }
 
     internal EnumValueArrayAst(
         IEnumerable<EnumValueAst> values
     )
     {
-        this.Values = new(
-            (values ?? throw new ArgumentNullException(nameof(values)))
-                .ToList()
-        );
+        this.Values = (values ?? throw new ArgumentNullException(nameof(values)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

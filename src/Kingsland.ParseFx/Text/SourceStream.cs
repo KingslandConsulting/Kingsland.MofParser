@@ -10,7 +10,7 @@ public sealed class SourceStream
     private SourceStream(TextReader baseReader)
     {
         this.BaseReader = baseReader ?? throw new ArgumentNullException(nameof(baseReader));
-        this.Buffer = new List<SourceChar>();
+        this.Buffer = [];
     }
 
     #endregion

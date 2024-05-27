@@ -51,30 +51,28 @@ public static partial class RoundtripTests
                 .StatementEndToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new ClassDeclarationAst.Builder {
                         ClassName = new IdentifierToken("Sponsor"),
-                        ClassFeatures = new List<IClassFeatureAst> {
+                        ClassFeatures = [
                             new PropertyDeclarationAst.Builder {
-                                QualifierList = new QualifierListAst(
-                                    new List<QualifierValueAst> {
-                                        new QualifierValueAst.Builder {
-                                            QualifierName = new IdentifierToken("Description"),
-                                            Initializer = new QualifierValueInitializerAst(
-                                                new StringValueAst(
-                                                  new StringLiteralToken("Monthly salary in $US"),
-                                                  "Monthly salary in $US"
-                                                )
+                                QualifierList = new QualifierListAst( [
+                                    new QualifierValueAst.Builder {
+                                        QualifierName = new IdentifierToken("Description"),
+                                        Initializer = new QualifierValueInitializerAst(
+                                            new StringValueAst(
+                                                new StringLiteralToken("Monthly salary in $US"),
+                                                "Monthly salary in $US"
                                             )
-                                        }.Build()
-                                    }
-                                ),
+                                        )
+                                    }.Build()
+                                ]),
                                 ReturnType = new IdentifierToken("string"),
                                 PropertyName = new IdentifierToken("Name")
                             }.Build()
-                        },
+                        ],
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
@@ -137,16 +135,16 @@ public static partial class RoundtripTests
                 .StatementEndToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new ClassDeclarationAst.Builder {
                         ClassName = new IdentifierToken("Sponsor"),
-                        ClassFeatures = new List<IClassFeatureAst> {
+                        ClassFeatures = [
                             new StructureDeclarationAst.Builder {
                                 StructureName = new IdentifierToken("Nested")
                             }.Build()
-                        },
+                        ],
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
@@ -194,17 +192,17 @@ public static partial class RoundtripTests
                 .StatementEndToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new ClassDeclarationAst.Builder {
                         ClassName = new IdentifierToken("Sponsor"),
-                        ClassFeatures = new List<IClassFeatureAst> {
+                        ClassFeatures = [
                             new EnumerationDeclarationAst.Builder {
                                 EnumName = new IdentifierToken("MonthsEnum"),
                                 EnumType = new IdentifierToken("Integer")
                             }.Build()
-                        },
+                        ],
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
@@ -240,17 +238,17 @@ public static partial class RoundtripTests
                 .StatementEndToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new ClassDeclarationAst.Builder {
                         ClassName = new IdentifierToken("Sponsor"),
-                        ClassFeatures = new List<IClassFeatureAst> {
+                        ClassFeatures = [
                             new PropertyDeclarationAst.Builder {
                                 PropertyName = new IdentifierToken("Name"),
                                 ReturnType = new IdentifierToken("string")
                             }.Build()
-                        },
+                        ],
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }

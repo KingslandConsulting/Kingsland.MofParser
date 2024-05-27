@@ -34,7 +34,7 @@ internal static class LexerAssert
         }
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(expectedTokens.Count, actualTokens.Count, "expected and actual are different lengths");
+            Assert.That(actualTokens.Count, Is.EqualTo(expectedTokens.Count), "expected and actual are different lengths");
             for (var i = 0; i < Math.Min(expectedTokens.Count, actualTokens.Count); i++)
             {
                 LexerAssert.AreEqualInternal(expectedTokens[i], actualTokens[i], ignoreExtent, i);
@@ -71,20 +71,55 @@ internal static class LexerAssert
         }
         if (!ignoreExtent)
         {
-            Assert.AreEqual(expectedToken.Extent?.StartPosition?.Position, actualToken.Extent?.StartPosition?.Position,
-                LexerAssert.GetFailMessage("actual Start Position does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent?.StartPosition?.LineNumber, actualToken.Extent?.StartPosition?.LineNumber,
-                LexerAssert.GetFailMessage("actual Start Line does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent?.StartPosition?.ColumnNumber, actualToken.Extent?.StartPosition?.ColumnNumber,
-                LexerAssert.GetFailMessage("actual Start Column does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent?.EndPosition?.Position, actualToken.Extent?.EndPosition?.Position,
-                LexerAssert.GetFailMessage("actual End Position does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent?.EndPosition?.LineNumber, actualToken.Extent?.EndPosition?.LineNumber,
-                LexerAssert.GetFailMessage("actual End Line does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent?.EndPosition?.ColumnNumber, actualToken.Extent?.EndPosition?.ColumnNumber,
-                LexerAssert.GetFailMessage("actual End Column does not match expected value", index));
-            Assert.AreEqual(expectedToken.Extent?.Text, actualToken.Extent?.Text,
-                LexerAssert.GetFailMessage("actual Text does not match expected value", index));
+            Assert.That(
+                actualToken.Extent?.StartPosition?.Position,
+                Is.EqualTo(
+                    expectedToken.Extent?.StartPosition?.Position
+                ),
+                LexerAssert.GetFailMessage("actual Start Position does not match expected value", index)
+            );
+            Assert.That(
+                actualToken.Extent?.StartPosition?.LineNumber,
+                Is.EqualTo(
+                    expectedToken.Extent?.StartPosition?.LineNumber
+                ),
+                LexerAssert.GetFailMessage("actual Start Line does not match expected value", index)
+            );
+            Assert.That(
+                actualToken.Extent?.StartPosition?.ColumnNumber,
+                Is.EqualTo(
+                    expectedToken.Extent?.StartPosition?.ColumnNumber
+                ),
+                LexerAssert.GetFailMessage("actual Start Column does not match expected value", index)
+            );
+            Assert.That(
+                actualToken.Extent?.EndPosition?.Position,
+                Is.EqualTo(
+                    expectedToken.Extent?.EndPosition?.Position
+                ),
+                LexerAssert.GetFailMessage("actual End Position does not match expected value", index)
+            );
+            Assert.That(
+                actualToken.Extent?.EndPosition?.LineNumber,
+                Is.EqualTo(
+                    expectedToken.Extent?.EndPosition?.LineNumber
+                ),
+                LexerAssert.GetFailMessage("actual End Line does not match expected value", index)
+            );
+            Assert.That(
+                actualToken.Extent?.EndPosition?.ColumnNumber,
+                Is.EqualTo(
+                    expectedToken.Extent?.EndPosition?.ColumnNumber
+                ),
+                LexerAssert.GetFailMessage("actual End Column does not match expected value", index)
+            );
+            Assert.That(
+                    actualToken.Extent?.Text,
+                Is.EqualTo(
+                    expectedToken.Extent?.Text
+                ),
+                LexerAssert.GetFailMessage("actual Text does not match expected value", index)
+            );
         }
         var tokensEqual = expectedToken switch
         {

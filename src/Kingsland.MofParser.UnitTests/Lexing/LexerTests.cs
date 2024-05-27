@@ -97,7 +97,7 @@ public static partial class LexerTests
             File.WriteAllText(expectedFilename, actualText);
         }
         var expectedText = File.ReadAllText(expectedFilename);
-        Assert.AreEqual(expectedText, actualText);
+        Assert.That(actualText, Is.EqualTo(expectedText));
     }
 
 }

@@ -33,7 +33,7 @@ public sealed record AssociationDeclarationAst : MofProductionAst
         public Builder()
         {
             this.QualifierList = new();
-            this.ClassFeatures = new();
+            this.ClassFeatures = [];
         }
 
         public QualifierListAst QualifierList
@@ -88,10 +88,8 @@ public sealed record AssociationDeclarationAst : MofProductionAst
         this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
         this.AssociationName = associationName ?? throw new ArgumentNullException(nameof(associationName));
         this.SuperAssociation = superAssociation;
-        this.ClassFeatures = new(
-            (classFeatures ?? throw new ArgumentNullException(nameof(classFeatures)))
-                .ToList()
-        );
+        this.ClassFeatures = (classFeatures ?? throw new ArgumentNullException(nameof(classFeatures)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

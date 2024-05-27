@@ -2,78 +2,32 @@
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace Kingsland.MofParser.Models;
+namespace Kingsland.MofParser.Models.Types;
 
 public sealed record Instance
 {
 
-    #region Builder
-
-    public sealed class Builder
+    internal Instance(string typeName, IEnumerable<Property> properties)
+        : this(typeName, null, properties)
     {
-
-        public Builder()
-        {
-            this.Properties = new List<Property>();
-        }
-
-        public string? TypeName
-        {
-            get;
-            set;
-        }
-
-        public string? Alias
-        {
-            get;
-            set;
-        }
-
-        public List<Property> Properties
-        {
-            get;
-            set;
-        }
-
-        public Instance Build()
-        {
-            return new Instance(
-                this.TypeName ?? throw new InvalidOperationException(
-                    $"{nameof(this.TypeName)} property must be set before calling {nameof(Build)}."
-                ),
-                this.Alias ?? throw new InvalidOperationException(
-                    $"{nameof(this.Alias)} property must be set before calling {nameof(Build)}."
-                ),
-                this.Properties
-            );
-        }
-
     }
 
-    #endregion
-
-    #region Constructors
-
-    internal Instance(string typeName, string alias, IEnumerable<Property> properties)
+    internal Instance(string typeName, string? alias, IEnumerable<Property> properties)
     {
         this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
-        this.Alias = alias ?? throw new ArgumentNullException(nameof(alias));
+        this.Alias = alias;
         this.Properties = new ReadOnlyCollection<Property>(
             (properties ?? throw new ArgumentNullException(nameof(properties)))
                 .ToList()
         );
     }
 
-    #endregion
-
-    #region Properties
-
     public string TypeName
     {
         get;
     }
 
-    public string Alias
+    public string? Alias
     {
         get;
     }
@@ -82,10 +36,6 @@ public sealed record Instance
     {
         get;
     }
-
-    #endregion
-
-    #region Methods
 
     //public T GetValue<T>(string name)
     //{
@@ -110,10 +60,6 @@ public sealed record Instance
     //    return false;
     //}
 
-    #endregion
-
-    #region Object Interface
-
     public override string ToString()
     {
         var result = new StringBuilder();
@@ -124,7 +70,5 @@ public sealed record Instance
         }
         return result.ToString();
     }
-
-    #endregion
 
 }

@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Ast;
+using System.Diagnostics.CodeAnalysis;
 
 // Resharper disable once CheckNamespace
 namespace Kingsland.MofParser.CodeGen;
@@ -8,6 +9,7 @@ public sealed partial class AstWriter
 
     #region 7.5.6 Method declaration
 
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public void WriteAstNode(MethodDeclarationAst node)
     {
 
@@ -20,13 +22,13 @@ public sealed partial class AstWriter
         var prefixQuirkEnabled = this.Options.Quirks.HasFlag(
             MofQuirks.PrefixSpaceBeforeQualifierlessMethodDeclarations
         );
-        if (node.QualifierList.QualifierValues.Any())
+        if (node.QualifierList.QualifierValues.Count > 0)
         {
             this.WriteAstNode(
                 node.QualifierList
             );
         }
-        if (prefixQuirkEnabled || node.QualifierList.QualifierValues.Any())
+        if (prefixQuirkEnabled || node.QualifierList.QualifierValues.Count > 0)
         {
             this.WriteString(' ');
         }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28621.142
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.33913.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.MofParser", "Kingsland.MofParser\Kingsland.MofParser.csproj", "{4F48A4BE-28E8-4157-A19E-C0B3C8B83EF6}"
 EndProject
@@ -22,6 +22,19 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.ParseFx", "Kingsland.ParseFx\Kingsland.ParseFx.csproj", "{4F2655F8-10A9-4B60-8B1A-4EE84C0021E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.MofParser.EditMof", "Kingsland.MofParser.EditMof\Kingsland.MofParser.EditMof.csproj", "{1C183A9B-9267-4495-8D63-FC8F834C35F3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5433B4DB-C439-4275-96CF-1755ED42B4F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{7CE2C4E1-F0BA-45AD-A224-181AEE1AF26E}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\01_build_test_publish.yaml = ..\.github\workflows\01_build_test_publish.yaml
+		..\.github\workflows\02_codeql.yaml = ..\.github\workflows\02_codeql.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{6E890646-7B55-4818-9DFC-71561A9DF646}"
+	ProjectSection(SolutionItems) = preProject
+		Kingsland.MofParser.nuspec = Kingsland.MofParser.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +84,7 @@ Global
 		{A071F2FD-3C3D-43DE-9774-AACEE415EFA2} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
 		{ECD9DAF2-1FDA-4435-B489-886A2CCA749E} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
 		{1C183A9B-9267-4495-8D63-FC8F834C35F3} = {895B3DFF-FD72-4C6C-A08F-BA7D46FB87AE}
+		{7CE2C4E1-F0BA-45AD-A224-181AEE1AF26E} = {5433B4DB-C439-4275-96CF-1755ED42B4F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02535FFA-CD2C-4FEC-997C-7A49EA77F34A}

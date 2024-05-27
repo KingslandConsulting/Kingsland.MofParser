@@ -1,5 +1,5 @@
 ﻿using Kingsland.MofParser.Ast;
-using Kingsland.MofParser.Models;
+using Kingsland.MofParser.Models.Types;
 using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
@@ -38,26 +38,20 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            var expectedAst = new MofSpecificationAst(
-                new List<MofProductionAst> {
-                    new InstanceValueDeclarationAst(
-                        new IdentifierToken("instance"),
-                        new IdentifierToken("of"),
-                        new IdentifierToken("GOLF_ClubMember"),
-                        new PropertyValueListAst(),
-                        new StatementEndToken()
-                    )
-                }
-            );
-            var expectedModule = new Module(
-                new List<Instance>()
-            );
-            RoundtripTests.AssertRoundtrip(
-                sourceText,
-                expectedTokens,
-                expectedAst,
-                expectedModule
-            );
+            var expectedAst = new MofSpecificationAst([
+                new InstanceValueDeclarationAst(
+                    new("instance"), new("of"), new("GOLF_ClubMember"),
+                    new([]),
+                    new()
+                )
+            ]);
+            var expectedModule = new Module([
+                new(
+                    "GOLF_ClubMember",
+                    []
+                )
+            ]);
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst, expectedModule);
         }
 
         [Test]
@@ -103,47 +97,26 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            var expectedAst = new MofSpecificationAst(
-                new List<MofProductionAst> {
-                    new InstanceValueDeclarationAst(
-                        new IdentifierToken("instance"),
-                        new IdentifierToken("of"),
-                        new IdentifierToken("GOLF_ClubMember"),
-                        new PropertyValueListAst(
-                            new List<PropertySlotAst> {
-                                new(
-                                    new("FirstName"),
-                                    new StringValueAst(
-                                        new List<StringLiteralToken> {
-                                            new StringLiteralToken("John")
-                                        },
-                                        "John"
-                                    )
-                                ),
-                                new(
-                                    new("LastName"),
-                                    new StringValueAst(
-                                        new List<StringLiteralToken> {
-                                            new StringLiteralToken("Doe")
-                                        },
-                                        "Doe"
-                                    )
-                                )
-                            }
-                        ),
-                        new StatementEndToken()
-                    )
-                }
-            );
-            var expectedModule = new Module(
-                new List<Instance>()
-            );
-            RoundtripTests.AssertRoundtrip(
-                sourceText,
-                expectedTokens,
-                expectedAst,
-                expectedModule
-            );
+            var expectedAst = new MofSpecificationAst([
+                new InstanceValueDeclarationAst(
+                    new("instance"), new("of"), new("GOLF_ClubMember"),
+                    new([
+                        new(new("FirstName"), new StringValueAst(new StringLiteralToken("John"), "John")),
+                        new(new("LastName"), new StringValueAst(new StringLiteralToken("Doe"), "Doe"))
+                    ]),
+                    new()
+                )
+            ]);
+            var expectedModule = new Module([
+                new(
+                    "GOLF_ClubMember",
+                    [
+                        new("FirstName", "John"),
+                        new("LastName", "Doe")
+                    ]
+                )
+            ]);
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst, expectedModule);
         }
 
         [Test]
@@ -174,28 +147,20 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            var expectedAst = new MofSpecificationAst(
-                new List<MofProductionAst> {
-                    new InstanceValueDeclarationAst(
-                        new IdentifierToken("instance"),
-                        new IdentifierToken("of"),
-                        new IdentifierToken("GOLF_ClubMember"),
-                        new IdentifierToken("as"),
-                        new AliasIdentifierToken("MyAliasIdentifier"),
-                        new PropertyValueListAst(),
-                        new StatementEndToken()
-                    )
-                }
-            );
-            var expectedModule = new Module(
-                new List<Instance>()
-            );
-            RoundtripTests.AssertRoundtrip(
-                sourceText, 
-                expectedTokens,
-                expectedAst,
-                expectedModule
-            );
+            var expectedAst = new MofSpecificationAst([
+                new InstanceValueDeclarationAst(
+                    new("instance"), new("of"), new("GOLF_ClubMember"), new("as"), new("MyAliasIdentifier"),
+                    new([]),
+                    new()
+                )
+            ]);
+            var expectedModule = new Module([
+                new(
+                    "GOLF_ClubMember", "MyAliasIdentifier",
+                    []
+                )
+            ]);
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst, expectedModule);
         }
 
         //[Test]

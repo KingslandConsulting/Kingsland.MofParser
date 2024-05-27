@@ -1,5 +1,4 @@
 ﻿using Kingsland.MofParser.Ast;
-using Kingsland.MofParser.Tokens;
 using Kingsland.ParseFx.Parsing;
 
 // Resharper disable once CheckNamespace

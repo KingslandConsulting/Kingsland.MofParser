@@ -36,12 +36,12 @@ public static partial class RoundtripTests
                 .StatementEndToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new ClassDeclarationAst.Builder {
                         ClassName = new IdentifierToken("GOLF_Base"),
-                        ClassFeatures = new List<IClassFeatureAst>()
+                        ClassFeatures = []
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
@@ -73,12 +73,12 @@ public static partial class RoundtripTests
                 .StatementEndToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new ClassDeclarationAst.Builder {
                         ClassName = new IdentifierToken("GOLF_Base"),
                         SuperClass = new IdentifierToken("GOLF_Superclass"),
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
@@ -125,10 +125,10 @@ public static partial class RoundtripTests
                 .StatementEndToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new ClassDeclarationAst.Builder {
                         ClassName = new IdentifierToken("GOLF_Base"),
-                        ClassFeatures = new List<IClassFeatureAst> {
+                        ClassFeatures = [
                             new PropertyDeclarationAst.Builder {
                                 ReturnType = new IdentifierToken("string"),
                                 PropertyName = new IdentifierToken("InstanceID"),
@@ -140,9 +140,9 @@ public static partial class RoundtripTests
                                     new NullLiteralToken("Null")
                                 )
                             }.Build()
-                        }
+                        ]
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
@@ -227,61 +227,57 @@ public static partial class RoundtripTests
                 .StatementEndToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new ClassDeclarationAst.Builder {
                         ClassName = new IdentifierToken("GOLF_Base"),
-                        ClassFeatures = new List<IClassFeatureAst> {
+                        ClassFeatures = [
                             new PropertyDeclarationAst.Builder {
-                                QualifierList = new QualifierListAst(
-                                    new List<QualifierValueAst> {
-                                        new QualifierValueAst.Builder {
-                                            QualifierName = new IdentifierToken("Description"),
-                                            Initializer = new QualifierValueInitializerAst(
-                                                new StringValueAst(
-                                                  new StringLiteralToken("an instance of a class that derives from the GOLF_Base class. "),
-                                                  "an instance of a class that derives from the GOLF_Base class. "
-                                                )
+                                QualifierList = new QualifierListAst([
+                                    new QualifierValueAst.Builder {
+                                        QualifierName = new IdentifierToken("Description"),
+                                        Initializer = new QualifierValueInitializerAst(
+                                            new StringValueAst(
+                                                new StringLiteralToken("an instance of a class that derives from the GOLF_Base class. "),
+                                                "an instance of a class that derives from the GOLF_Base class. "
                                             )
-                                        }.Build(),
-                                        new QualifierValueAst.Builder {
-                                            QualifierName = new IdentifierToken("Key"),
-                                        }.Build()
-                                    }
-                                ),
+                                        )
+                                    }.Build(),
+                                    new QualifierValueAst.Builder {
+                                        QualifierName = new IdentifierToken("Key"),
+                                    }.Build()
+                                ]),
                                 ReturnType = new IdentifierToken("string"),
                                 PropertyName = new IdentifierToken("InstanceID")
                             }.Build(),
                             new PropertyDeclarationAst.Builder {
-                                QualifierList = new QualifierListAst(
-                                    new List<QualifierValueAst> {
-                                        new QualifierValueAst.Builder {
-                                            QualifierName = new IdentifierToken("Description"),
-                                            Initializer = new QualifierValueInitializerAst(
-                                                new StringValueAst(
-                                                    new StringLiteralToken("A short textual description (one- line string) of the"),
-                                                    "an instance of a class that derives from the GOLF_Base class. "
-                                                )
+                                QualifierList = new QualifierListAst([
+                                    new QualifierValueAst.Builder {
+                                        QualifierName = new IdentifierToken("Description"),
+                                        Initializer = new QualifierValueInitializerAst(
+                                            new StringValueAst(
+                                                new StringLiteralToken("A short textual description (one- line string) of the"),
+                                                "an instance of a class that derives from the GOLF_Base class. "
                                             )
-                                        }.Build(),
-                                        new QualifierValueAst.Builder {
-                                            QualifierName = new IdentifierToken("MaxLen"),
-                                            Initializer = new QualifierValueInitializerAst(
-                                                new IntegerValueAst(
-                                                    new IntegerLiteralToken(IntegerKind.DecimalValue, 64)
-                                                )
+                                        )
+                                    }.Build(),
+                                    new QualifierValueAst.Builder {
+                                        QualifierName = new IdentifierToken("MaxLen"),
+                                        Initializer = new QualifierValueInitializerAst(
+                                            new IntegerValueAst(
+                                                new IntegerLiteralToken(IntegerKind.DecimalValue, 64)
                                             )
-                                        }.Build()
-                                    }
-                                ),
+                                        )
+                                    }.Build()
+                                ]),
                                 ReturnType = new IdentifierToken("string"),
                                 PropertyName = new IdentifierToken("Caption"),
                                 Initializer = new NullValueAst(
                                     new NullLiteralToken("Null")
                                 )
                             }.Build()
-                        },
+                        ],
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }

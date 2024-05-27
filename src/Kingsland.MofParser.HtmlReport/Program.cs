@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.HtmlReport.Resources;
+using Kingsland.MofParser.Parsing;
 using RazorEngine.Templating;
 using System.Reflection;
 
@@ -27,9 +28,9 @@ static class Program
         var resources = new List<DscResource>();
         foreach (var filename in filenames)
         {
-            var instances = PowerShellDscHelper.ParseMofFileInstances(filename);
+            var module = Parser.ParseText(filename);
             resources.AddRange(
-                instances.Select(
+                module.Instances.Select(
                     instance => DscResource.FromInstance(
                         Path.GetFileName(
                             Path.GetDirectoryName(

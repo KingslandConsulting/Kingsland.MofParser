@@ -48,24 +48,22 @@ public static partial class RoundtripTests
                 .StatementEndToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new InstanceValueDeclarationAst.Builder {
                         Instance = new IdentifierToken("instance"),
                         Of = new IdentifierToken("of"),
                         TypeName = new IdentifierToken("GOLF_ClubMember"),
-                        PropertyValues = new PropertyValueListAst(
-                            new List<PropertySlotAst> {
-                                new PropertySlotAst.Builder {
-                                     PropertyName = new IdentifierToken("LastPaymentDate"),
-                                     PropertyValue = new ComplexValueAst.Builder {
-                                         Alias = new AliasIdentifierToken("MyAliasIdentifier")
-                                     }.Build()
-                                }.Build()
-                            }
-                        ),
+                        PropertyValues = new PropertyValueListAst([
+                            new PropertySlotAst.Builder {
+                                    PropertyName = new IdentifierToken("LastPaymentDate"),
+                                    PropertyValue = new ComplexValueAst.Builder {
+                                        Alias = new AliasIdentifierToken("MyAliasIdentifier")
+                                    }.Build()
+                            }.Build()
+                        ]),
                         StatementEnd = new StatementEndToken()
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }
@@ -107,28 +105,24 @@ public static partial class RoundtripTests
                 .StatementEndToken()
                 .ToList();
             var expectedAst = new MofSpecificationAst.Builder {
-                Productions = new List<MofProductionAst> {
+                Productions = [
                     new InstanceValueDeclarationAst.Builder {
                         Instance = new IdentifierToken("instance"),
                         Of = new IdentifierToken("of"),
                         TypeName = new IdentifierToken("GOLF_ClubMember"),
-                        PropertyValues = new PropertyValueListAst(
-                            new List<PropertySlotAst> {
-                                new PropertySlotAst.Builder {
-                                     PropertyName = new IdentifierToken("LastPaymentDate"),
-                                     PropertyValue = new ComplexValueArrayAst(
-                                         new List<ComplexValueAst> {
-                                             new ComplexValueAst.Builder {
-                                                Alias = new AliasIdentifierToken("MyAliasIdentifier")
-                                            }.Build()
-                                         }
-                                     )
-                                }.Build()
-                            }
-                        ),
+                        PropertyValues = new PropertyValueListAst([
+                            new PropertySlotAst.Builder {
+                                PropertyName = new IdentifierToken("LastPaymentDate"),
+                                PropertyValue = new ComplexValueArrayAst([
+                                    new ComplexValueAst.Builder {
+                                        Alias = new AliasIdentifierToken("MyAliasIdentifier")
+                                    }.Build()
+                                ])
+                            }.Build()
+                        ]),
                         StatementEnd = new StatementEndToken()
                     }.Build()
-                }
+                ]
             }.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst);
         }

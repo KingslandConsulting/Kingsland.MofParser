@@ -1,4 +1,7 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Models.Types;
+using Kingsland.MofParser.Models.Values;
+using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
 
@@ -46,7 +49,24 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst([
+                new InstanceValueDeclarationAst(
+                    new("instance"), new("of"), new("GOLF_ClubMember"), null, null,
+                    new([
+                        new(new("LastPaymentDate"), new IntegerValueAst(new(IntegerKind.DecimalValue, 1)))
+                    ]),
+                    new()
+                )
+            ]);
+            var expectedModel = new Module([
+                new Instance(
+                    "GOLF_ClubMember",
+                    [
+                        new("LastPaymentDate", 1)
+                    ]
+                )
+            ]);
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst, expectedModel);
         }
 
         [Test]
@@ -83,7 +103,24 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst([
+                new InstanceValueDeclarationAst(
+                    new("instance"), new("of"), new("GOLF_ClubMember"), null, null,
+                    new([
+                        new(new("LastPaymentDate"), new RealValueAst(new(0.5)))
+                    ]),
+                    new()
+                )
+            ]);
+            var expectedModel = new Module([
+                new Instance(
+                    "GOLF_ClubMember",
+                    [
+                        new("LastPaymentDate", 0.5)
+                    ]
+                )
+            ]);
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst, expectedModel);
         }
 
         [Test]
@@ -120,7 +157,24 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst([
+                new InstanceValueDeclarationAst(
+                    new("instance"), new("of"), new("GOLF_ClubMember"), null, null,
+                    new([
+                        new(new("LastPaymentDate"), new BooleanValueAst(new(true)))
+                    ]),
+                    new()
+                )
+            ]);
+            var expectedModel = new Module([
+                new Instance(
+                    "GOLF_ClubMember",
+                    [
+                        new("LastPaymentDate", true)
+                    ]
+                )
+            ]);
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst, expectedModel);
         }
 
         [Test]
@@ -157,7 +211,24 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst([
+                new InstanceValueDeclarationAst(
+                    new("instance"), new("of"), new("GOLF_ClubMember"), null, null,
+                    new([
+                        new(new("LastPaymentDate"), new NullValueAst(new()))
+                    ]),
+                    new()
+                )
+            ]);
+            var expectedModel = new Module([
+                new Instance(
+                    "GOLF_ClubMember",
+                    [
+                        new("LastPaymentDate", NullValue.Null)
+                    ]
+                )
+            ]);
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst, expectedModel);
         }
 
         [Test]
@@ -194,7 +265,24 @@ public static partial class RoundtripTests
                 .BlockCloseToken()
                 .StatementEndToken()
                 .ToList();
-            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
+            var expectedAst = new MofSpecificationAst([
+                new InstanceValueDeclarationAst(
+                    new("instance"), new("of"), new("GOLF_ClubMember"), null, null,
+                    new([
+                        new(new("LastPaymentDate"), new StringValueAst(new StringLiteralToken("aaa"), "aaa"))
+                    ]),
+                    new()
+                )
+            ]);
+            var expectedModel = new Module([
+                new Instance(
+                    "GOLF_ClubMember",
+                    [
+                        new("LastPaymentDate", "aaa")
+                    ]
+                )
+            ]);
+            RoundtripTests.AssertRoundtrip(sourceText, expectedTokens, expectedAst, expectedModel);
         }
 
     }

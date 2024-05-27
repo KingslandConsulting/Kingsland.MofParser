@@ -26,7 +26,7 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
 
         public Builder()
         {
-            this.StringLiteralValues = new();
+            this.StringLiteralValues = [];
         }
 
         public List<StringLiteralToken> StringLiteralValues
@@ -60,7 +60,7 @@ public sealed record StringValueAst : LiteralValueAst, IEnumElementValueAst
     internal StringValueAst(
         StringLiteralToken stringLiteralValue,
         string value
-    ) : this(new List<StringLiteralToken> { stringLiteralValue }, value)
+    ) : this([stringLiteralValue], value)
     {
     }
 

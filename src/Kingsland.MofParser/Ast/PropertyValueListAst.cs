@@ -29,7 +29,7 @@ public sealed record PropertyValueListAst : AstNode
 
         public Builder()
         {
-            this.PropertySlots = new();
+            this.PropertySlots = [];
         }
 
         public List<PropertySlotAst> PropertySlots
@@ -52,7 +52,7 @@ public sealed record PropertyValueListAst : AstNode
     #region Constructors
 
     internal PropertyValueListAst()
-        : this(Enumerable.Empty<PropertySlotAst>())
+        : this([])
     {
 
     }
@@ -61,9 +61,8 @@ public sealed record PropertyValueListAst : AstNode
         IEnumerable<PropertySlotAst> propertySlots
     )
     {
-        this.PropertySlots = new(
-            (propertySlots ?? throw new ArgumentNullException(nameof(propertySlots))).ToList()
-        );
+        this.PropertySlots = (propertySlots ?? throw new ArgumentNullException(nameof(propertySlots)))
+            .ToList().AsReadOnly();
         this.PropertyValues = new(
             (propertySlots ?? throw new ArgumentNullException(nameof(propertySlots)))
                 .ToDictionary(

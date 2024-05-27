@@ -1,4 +1,6 @@
-﻿namespace Kingsland.MofParser.UnitTests.Extensions;
+﻿using Newtonsoft.Json.Linq;
+
+namespace Kingsland.MofParser.UnitTests.Extensions;
 
 internal static class StringExtensions
 {
@@ -36,7 +38,7 @@ internal static class StringExtensions
             .Split(newline)
             .Select(
                 str => (String: str, LeadingWhiteSpace: CountLeadingWhiteSpace(str))
-            );
+            ).ToList();
         var indent = lines
             .Where(str => str.LeadingWhiteSpace > -1)
             .Min(str => str.LeadingWhiteSpace);
@@ -51,14 +53,8 @@ internal static class StringExtensions
 
     public static string TrimString(this string source, string str)
     {
-        if (string.IsNullOrEmpty(str))
-        {
-            throw new ArgumentException(null, nameof(str));
-        }
-        if (string.IsNullOrEmpty(source))
-        {
-            return source;
-        }
+        ArgumentException.ThrowIfNullOrEmpty(source);
+        ArgumentException.ThrowIfNullOrEmpty(str);
         // skip over any leading str instances
         var startIndex = 0;
         while (

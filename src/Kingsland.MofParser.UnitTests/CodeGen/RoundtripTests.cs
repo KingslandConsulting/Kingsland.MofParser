@@ -1,7 +1,8 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Models;
+using Kingsland.MofParser.Models.Converter;
+using Kingsland.MofParser.Models.Types;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.UnitTests.Helpers;
 using Kingsland.ParseFx.Parsing;
@@ -58,16 +59,13 @@ public static partial class RoundtripTests
         ParserQuirks parserQuirks = ParserQuirks.None
     )
     {
-        if (expectedTokens is null)
-        {
-            throw new ArgumentNullException(nameof(expectedTokens));
-        }
+        ArgumentNullException.ThrowIfNull(expectedTokens);
         // check the lexer generates the expected tokens
         var actualTokens = Lexer.Lex(SourceReader.From(sourceText)).ToList();
         LexerAssert.AreEqual(expectedTokens, actualTokens, true);
         // check the expected tokens serialize back ok
         var actualTokenText = TokenSerializer.ToSourceText(expectedTokens);
-        Assert.AreEqual(sourceText, actualTokenText);
+        Assert.That(actualTokenText, Is.EqualTo(sourceText));
         // check the parser generates the expected ast
         var actualAst = Parser.Parse(actualTokens, parserQuirks);
         if (expectedAst is not null)
@@ -82,12 +80,18 @@ public static partial class RoundtripTests
                 quirks: MofQuirks.None
             )
         );
-        Assert.AreEqual(sourceText, actualAstText);
+        Assert.That(actualAstText, Is.EqualTo(sourceText));
+        // check the model converter works
+        var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
+        if (expectedModule is not null)
+        {
+            ModelAssert.AreDeepEqual(actualModule, expectedModule);
+        }
     }
 
     private static void AssertRoundtripException(string sourceText, string expectedMessage, ParserQuirks parserQuirks = ParserQuirks.None)
     {
-        var tokens = Lexer.Lex(SourceReader.From(sourceText));
+        var tokens = Lexer.Lex(SourceReader.From(sourceText)).ToList();
         var tokensMof = TokenSerializer.ToSourceText(tokens);
         var ex = Assert.Throws<UnexpectedTokenException>(
             () => {
@@ -96,8 +100,8 @@ public static partial class RoundtripTests
         );
         Assert.Multiple(() =>
         {
-            Assert.IsNotNull(ex);
-            Assert.AreEqual(expectedMessage, ex?.Message);
+            Assert.That(ex, Is.Not.Null);
+            Assert.That(ex?.Message, Is.EqualTo(expectedMessage));
         });
     }
 

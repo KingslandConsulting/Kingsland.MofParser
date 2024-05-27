@@ -37,7 +37,7 @@ public sealed record StructureDeclarationAst : MofProductionAst, IStructureFeatu
         public Builder()
         {
             this.QualifierList = new();
-            this.StructureFeatures = new();
+            this.StructureFeatures = [];
         }
 
         public QualifierListAst QualifierList
@@ -92,10 +92,8 @@ public sealed record StructureDeclarationAst : MofProductionAst, IStructureFeatu
         this.QualifierList = qualifierList ?? throw new ArgumentNullException(nameof(qualifierList));
         this.StructureName = structureName ?? throw new ArgumentNullException(nameof(structureName));
         this.SuperStructure = superStructure;
-        this.StructureFeatures = new(
-            (structureFeatures ?? throw new ArgumentNullException(nameof(structureFeatures)))
-                .ToList()
-        );
+        this.StructureFeatures = (structureFeatures ?? throw new ArgumentNullException(nameof(structureFeatures)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

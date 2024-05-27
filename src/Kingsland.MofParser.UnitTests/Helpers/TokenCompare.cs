@@ -216,8 +216,8 @@ internal static class TokenCompare
         else
         {
             return (ignoreExtent || TokenCompare.AreEqual(expected.Extent, actual.Extent)) &&
-                   (expected.Kind == actual.Kind) &&
-                   (expected.Value == actual.Value);
+                (expected.Kind == actual.Kind) &&
+                (expected.Value == actual.Value);
         }
     }
 
@@ -298,7 +298,7 @@ internal static class TokenCompare
         else
         {
             return (ignoreExtent || TokenCompare.AreEqual(expected.Extent, actual.Extent)) &&
-                   (expected.Value == actual.Value);
+                (expected.Value == actual.Value);
         }
     }
 
@@ -331,7 +331,7 @@ internal static class TokenCompare
         else
         {
             return (ignoreExtent || TokenCompare.AreEqual(expected.Extent, actual.Extent)) &&
-                   (expected.Value == actual.Value);
+                (expected.Value == actual.Value);
         }
     }
 
@@ -348,7 +348,7 @@ internal static class TokenCompare
         else
         {
             return (ignoreExtent || TokenCompare.AreEqual(expected.Extent, actual.Extent)) &&
-                   (expected.Value == actual.Value);
+                (expected.Value == actual.Value);
         }
     }
 
@@ -369,8 +369,8 @@ internal static class TokenCompare
         else
         {
             return TokenCompare.AreEqual(expected.StartPosition, actual.StartPosition) &&
-                   TokenCompare.AreEqual(expected.EndPosition, actual.EndPosition) &&
-                   (expected.Text == actual.Text);
+                TokenCompare.AreEqual(expected.EndPosition, actual.EndPosition) &&
+                (expected.Text == actual.Text);
         }
     }
 
@@ -387,8 +387,8 @@ internal static class TokenCompare
         else
         {
             return (expected.Position == actual.Position) &&
-                   (expected.LineNumber == actual.LineNumber) &&
-                   (expected.ColumnNumber == actual.ColumnNumber);
+                (expected.LineNumber == actual.LineNumber) &&
+                (expected.ColumnNumber == actual.ColumnNumber);
         }
     }
 

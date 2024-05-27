@@ -27,13 +27,13 @@ public enum ParserQuirks
     ///
     /// but this is no longer valid in MOF V3.
     ///
-    /// If this quirk is enabled we'll read qualifier flavors anyway for compatibility witn MOF V2 mof files.
+    /// If this quirk is enabled we'll read qualifier flavors anyway for compatibility with MOF V2 mof files.
     ///
     /// </remarks>
     AllowMofV2Qualifiers = 0x0001,
 
     /// <summary>
-    /// Allows fully qualified enum namedto be iused in enum array values, e.g. "{ MonthEnum.January, MonthEnum.April}"
+    /// Allows fully qualified enum named to be used in enum array values, e.g. "{ MonthEnum.January, MonthEnum.April}"
     /// </summary>
     /// <remarks>
     ///
@@ -84,7 +84,7 @@ public enum ParserQuirks
     ///     {
     ///     };
     ///
-    /// If this quirk is enabled we'll allow deprectated integer types in enumeration declarations.
+    /// If this quirk is enabled we'll allow deprecated integer types in enumeration declarations.
     ///
     /// </remarks>
     AllowDeprecatedMof300IntegerTypesAsEnumerationDeclarationsBase = 0x0004,

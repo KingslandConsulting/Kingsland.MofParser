@@ -12,11 +12,9 @@ public sealed class ResourceGroup
     {
         this.Filename = filename ?? throw new ArgumentNullException(nameof(filename));
         this.ComputerName = computerName ?? throw new ArgumentNullException(nameof(computerName));
-        this.Wrappers = new(
-            new List<DscResource>(
-                wrappers ?? throw new ArgumentNullException(nameof(wrappers))
-            )
-        );
+        this.Wrappers = new List<DscResource>(
+            wrappers ?? throw new ArgumentNullException(nameof(wrappers))
+        ).AsReadOnly();
     }
 
     public string Filename

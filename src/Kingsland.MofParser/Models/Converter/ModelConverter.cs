@@ -1,29 +1,11 @@
 ﻿using Kingsland.MofParser.Ast;
-using System.Collections.ObjectModel;
+using Kingsland.MofParser.Models.Types;
+using Kingsland.MofParser.Models.Values;
 
-namespace Kingsland.MofParser.Models;
+namespace Kingsland.MofParser.Models.Converter;
 
-internal static class ModelConverter
+internal static partial class ModelConverter
 {
-
-    #region 7.2 MOF specification
-
-    public static Module ConvertMofSpecificationAst(MofSpecificationAst node)
-    {
-        return new Module.Builder
-        {
-            Enumerations = node.Productions
-                .OfType<EnumerationDeclarationAst>()
-                .Select(ModelConverter.ConvertEnumerationDeclarationAst)
-                .ToList(),
-            Instances = node.Productions
-                .OfType<InstanceValueDeclarationAst>()
-                .Select(ModelConverter.ConvertInstanceValueDeclarationAst)
-                .ToList(),
-        }.Build();
-    }
-
-    #endregion
 
     #region 7.3 Compiler directives
 
@@ -90,11 +72,6 @@ internal static class ModelConverter
 
     public static void ConvertClassDeclarationAst(ClassDeclarationAst node)
     {
-        //    return new Class.Builder
-        //    {
-        //        ClassName = node.ClassName.Name,
-        //        SuperClass = node.SuperClass.Name
-        //    }.Build();
         throw new NotImplementedException();
     }
 
@@ -160,69 +137,9 @@ internal static class ModelConverter
 
     #endregion
 
-    #region 7.5.9 Complex type value
-
-    public static object ConvertComplexTypeValueAst(ComplexTypeValueAst node)
-    {
-        return node switch
-        {
-            ComplexValueArrayAst n => ModelConverter.ConvertComplexValueArrayAst(n),
-            ComplexValueAst n => ModelConverter.ConvertComplexValueAst(n),
-            _ => throw new NotImplementedException(),
-        };
-    }
-
-    public static ReadOnlyCollection<object> ConvertComplexValueArrayAst(ComplexValueArrayAst node)
-    {
-        return node.Values
-            .Select(ModelConverter.ConvertComplexValueAst)
-            .ToList()
-            .AsReadOnly();
-    }
-
-    public static object ConvertComplexValueAst(ComplexValueAst node)
-    {
-        if (node.IsAlias)
-        {
-            var alias = node.Alias ?? throw new NullReferenceException();
-            return alias.Name;
-        }
-        return node switch
-        {
-            _ => throw new NotImplementedException()
-        };
-    }
-
-    public static ReadOnlyCollection<Property> ConvertPropertyValueListAst(PropertyValueListAst node)
-    {
-        return node.PropertyValues
-            .Select(
-                kvp => new Property.Builder
-                {
-                    Name = kvp.Key,
-                    Value = ModelConverter.ConvertPropertyValueAst(kvp.Value)
-                }.Build()
-            ).ToList()
-            .AsReadOnly();
-    }
-
-    public static object ConvertPropertyValueAst(PropertyValueAst node)
-    {
-        return node switch
-        {
-            PrimitiveTypeValueAst n => ModelConverter.ConvertPrimitiveTypeValueAst(n),
-            ComplexTypeValueAst n => ModelConverter.ConvertComplexTypeValueAst(n),
-            //ReferenceTypeValueAst n => ModelConverter.FromReferenceTypeValueAst(n),
-            //EnumTypeValueAst n => ModelConverter.FromEnumTypeValueAst(n),
-            _ => throw new NotImplementedException()
-        };
-    }
-
-    #endregion
-
     #region 7.6.1 Primitive type value
 
-    public static object ConvertPrimitiveTypeValueAst(PrimitiveTypeValueAst node)
+    public static PrimitiveTypeValue ConvertPrimitiveTypeValueAst(PrimitiveTypeValueAst node)
     {
         return node switch
         {
@@ -232,70 +149,69 @@ internal static class ModelConverter
         };
     }
 
-    public static object ConvertLiteralValueAst(LiteralValueAst node)
+    public static LiteralValue ConvertLiteralValueAst(LiteralValueAst node)
     {
         return node switch
         {
             IntegerValueAst n => ModelConverter.ConvertIntegerValueAst(n),
             RealValueAst n => ModelConverter.ConvertRealValueAst(n),
-            //BooleanValueAst n => ModelConverter.ConvertBooleanValueAst(n),
-            //NullValueAst n => ModelConverter.ConvertNullValueAst(n),
+            BooleanValueAst n => ModelConverter.ConvertBooleanValueAst(n),
+            NullValueAst n => ModelConverter.ConvertNullValueAst(n),
             StringValueAst n => ModelConverter.ConvertStringValueAst(n),
             _ => throw new NotImplementedException(),
         };
     }
 
-    public static ReadOnlyCollection<object> ConvertLiteralValueArrayAst(LiteralValueArrayAst node)
+    public static LiteralValueArray ConvertLiteralValueArrayAst(LiteralValueArrayAst node)
     {
-        return node.Values
-            .Select(ModelConverter.ConvertLiteralValueAst)
-            .ToList()
-            .AsReadOnly();
+        return new(
+            node.Values.Select(ModelConverter.ConvertLiteralValueAst)
+        );
     }
 
     #endregion
 
     #region 7.6.1.1 Integer value
 
-    public static long ConvertIntegerValueAst(IntegerValueAst node)
+    public static IntegerValue ConvertIntegerValueAst(IntegerValueAst node)
     {
-        return node.Value;
+        return new(node.Value);
     }
 
     #endregion
 
     #region 7.6.1.2 Real value
 
-    public static double ConvertRealValueAst(RealValueAst node)
+    public static RealValue ConvertRealValueAst(RealValueAst node)
     {
-        return node.Value;
+        return new(node.Value);
     }
 
     #endregion
 
     #region 7.6.1.3 String values
 
-    public static string ConvertStringValueAst(StringValueAst node)
+    public static StringValue ConvertStringValueAst(StringValueAst node)
     {
-        return node.Value;
+        return new(node.Value);
     }
 
     #endregion
 
     #region 7.6.1.5 Boolean value
 
-    public static void ConvertBooleanValueAst(BooleanValueAst node)
+    public static BooleanValue ConvertBooleanValueAst(BooleanValueAst node)
     {
-        throw new NotImplementedException();
+        return new(node.Value);
     }
 
     #endregion
 
     #region 7.6.1.6 Null value
 
-    public static void ConvertNullValueAst(NullValueAst node)
+    public static NullValue ConvertNullValueAst(NullValueAst node)
     {
-        throw new NotImplementedException();
+        return NullValue.Null;
     }
 
     #endregion
@@ -304,12 +220,11 @@ internal static class ModelConverter
 
     public static Instance ConvertInstanceValueDeclarationAst(InstanceValueDeclarationAst node)
     {
-        return new Instance.Builder
-        {
-            TypeName = node.TypeName.Name,
-            Alias = node.Alias?.Name,
-            Properties = ModelConverter.ConvertPropertyValueListAst(node.PropertyValues).ToList()
-        }.Build();
+        return new Instance(
+            typeName: node.TypeName.Name,
+            alias: node.Alias?.Name,
+            properties: [.. ModelConverter.ConvertPropertyValueListAst(node.PropertyValues)]
+        );
     }
 
     public static void ConvertStructureValueDeclarationAst(StructureValueDeclarationAst node)
@@ -321,19 +236,29 @@ internal static class ModelConverter
 
     #region 7.6.3 Enum type value
 
-    public static void ConvertEnumTypeValueAst(EnumTypeValueAst node)
+    public static EnumTypeValue ConvertEnumTypeValueAst(EnumTypeValueAst node)
     {
-        throw new NotImplementedException();
+        return node switch
+        {
+            EnumValueAst n => ModelConverter.ConvertEnumValueAst(n),
+            EnumValueArrayAst n => ModelConverter.ConvertEnumValueArrayAst(n),
+            _ => throw new NotImplementedException()
+        };
     }
 
-    public static void ConvertEnumValueAst(EnumValueAst node)
+    public static EnumValue ConvertEnumValueAst(EnumValueAst node)
     {
-        throw new NotImplementedException();
+        return new(
+            node.EnumName?.Name,
+            node.EnumLiteral.Name
+        );
     }
 
-    public static void ConvertEnumValueArrayAst(EnumValueArrayAst node)
+    public static EnumValueArray ConvertEnumValueArrayAst(EnumValueArrayAst node)
     {
-        throw new NotImplementedException();
+        return new(
+            node.Values.Select(ModelConverter.ConvertEnumValueAst)
+        );
     }
 
     #endregion

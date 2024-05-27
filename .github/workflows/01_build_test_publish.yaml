@@ -26,7 +26,7 @@ jobs:
       PUBLISH_PATH: ../.build/app
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # needed for gitversion to work
           fetch-depth: 0
@@ -50,13 +50,13 @@ jobs:
           echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
 
       - name: setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
 
-      - name: dotnet version
+      - name: dotnet info
         working-directory: ${{ env.BUILD_PATH }}
-        run: dotnet --version
+        run: dotnet --info
 
       - name: dotnet restore
         working-directory: ${{ env.BUILD_PATH }}
@@ -75,7 +75,7 @@ jobs:
         run: dotnet publish "./Kingsland.MofParser/Kingsland.MofParser.csproj" --configuration "$CONFIG_NAME" --no-build --output "$PUBLISH_PATH"
 
       - name: upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app
           path: .build/app
@@ -97,7 +97,7 @@ jobs:
         run: nuget pack src/Kingsland.MofParser.nuspec
 
       - name: upload nuget package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: nupkg
           path: ./*.nupkg

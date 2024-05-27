@@ -29,7 +29,7 @@ public sealed record QualifierValueAst : AstNode
 
         public Builder()
         {
-            this.Flavors = new();
+            this.Flavors = [];
         }
 
         public IdentifierToken? QualifierName
@@ -74,10 +74,8 @@ public sealed record QualifierValueAst : AstNode
     {
         this.QualifierName = qualifierName ?? throw new ArgumentNullException(nameof(qualifierName));
         this.Initializer = initializer;
-        this.Flavors = new(
-            (flavors ?? throw new ArgumentNullException(nameof(flavors)))
-                .ToList()
-        );
+        this.Flavors = (flavors ?? throw new ArgumentNullException(nameof(flavors)))
+            .ToList().AsReadOnly();
     }
 
     #endregion

@@ -56,6 +56,12 @@ public sealed record EnumValueAst : EnumTypeValueAst
     #region Constructors
 
     internal EnumValueAst(
+        IdentifierToken enumLiteral
+    ) : this(null, enumLiteral)
+    {
+    }
+
+    internal EnumValueAst(
         IdentifierToken? enumName,
         IdentifierToken enumLiteral
     )

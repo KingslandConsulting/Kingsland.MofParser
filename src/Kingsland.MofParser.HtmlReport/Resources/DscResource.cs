@@ -1,4 +1,6 @@
-﻿using Kingsland.MofParser.Objects;
+﻿using Kingsland.MofParser.Models;
+using Kingsland.MofParser.Models.Types;
+using Kingsland.MofParser.Models.Values;
 using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.HtmlReport.Resources;
@@ -37,8 +39,8 @@ public class DscResource
     public string? ResourceId =>
         this.GetStringProperty("ResourceID");
 
-    public string ClassName =>
-        this.Instance.ClassName;
+    public string TypeName =>
+        this.Instance.TypeName;
 
     public string? ResourceType =>
         // ResourceID = "[ResourceType]ResourceName"
@@ -53,11 +55,11 @@ public class DscResource
             : DscResource.GetResourceNameFromResourceId(this.ResourceId);
 
     public ReadOnlyCollection<string> DependsOn =>
-        new(
-            new List<string>(
-                this.Instance.Properties["ResourceID"] as string[] ?? Enumerable.Empty<string>()
-            )
-        );
+        this.Instance.Properties
+            .Where(property => property.Name == "ResourceID")
+            .SelectMany(property => ((LiteralValueArray)property.Value).Values)
+            .Select(literalValue => ((StringValue)literalValue).Value)
+            .ToList().AsReadOnly();
 
     public string? ModuleName =>
         this.GetStringProperty(nameof(this.ModuleName));
@@ -71,7 +73,7 @@ public class DscResource
 
     public static DscResource FromInstance(string filename, string computerName, Instance instance)
     {
-        return instance.ClassName switch
+        return instance.TypeName switch
         {
             "MSFT_ScriptResource" =>
                 new ScriptResource(filename, computerName, instance),
@@ -96,11 +98,14 @@ public class DscResource
 
     protected string? GetStringProperty(string propertyName)
     {
-        if (!this.Instance.Properties.TryGetValue(propertyName, out var propertyValue))
+        var property = this.Instance.Properties
+            .SingleOrDefault(property => property.Name == propertyName);
+        if (property is null)
         {
             return null;
         }
-        return propertyValue as string;
+        var value = ((StringValue)property.Value).Value;
+        return value;
     }
 
     #endregion

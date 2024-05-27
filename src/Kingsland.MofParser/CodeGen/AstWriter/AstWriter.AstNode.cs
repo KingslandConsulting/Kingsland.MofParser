@@ -1,4 +1,5 @@
 ﻿using Kingsland.MofParser.Ast;
+using System.Diagnostics.CodeAnalysis;
 
 // Resharper disable once CheckNamespace
 namespace Kingsland.MofParser.CodeGen;
@@ -6,6 +7,7 @@ namespace Kingsland.MofParser.CodeGen;
 public sealed partial class AstWriter
 {
 
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public void WriteAstNode(AstNode node)
     {
         switch (node)

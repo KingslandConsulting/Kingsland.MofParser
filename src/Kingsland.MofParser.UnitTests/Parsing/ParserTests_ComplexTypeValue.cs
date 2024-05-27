@@ -1,6 +1,8 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Models;
+using Kingsland.MofParser.Models.Converter;
+using Kingsland.MofParser.Models.Types;
+using Kingsland.MofParser.Models.Values;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Helpers;
@@ -32,48 +34,41 @@ public static partial class ParserTests
                 )
             );
             var actualAst = Parser.Parse(tokens);
-            var expectedAst = new MofSpecificationAst(
-                new List<MofProductionAst> {
-                    new InstanceValueDeclarationAst(
-                        new IdentifierToken("instance"),
-                        new IdentifierToken("of"),
-                        new IdentifierToken("myType"),
-                        new IdentifierToken("as"),
-                        new AliasIdentifierToken("Alias0000006E"),
-                        new PropertyValueListAst(
-                            new List<PropertySlotAst> {
-                                new PropertySlotAst(
-                                    new IdentifierToken("ServerURL"),
-                                    new StringValueAst.Builder {
-                                        StringLiteralValues = new List<StringLiteralToken> {
-                                            new StringLiteralToken("https://URL")
-                                        },
-                                        Value = "https://URL"
-                                    }.Build()
-                                )
-                            }
-                        ),
-                        new StatementEndToken()
-                    )
-                }
-            );
+            var expectedAst = new MofSpecificationAst([
+                new InstanceValueDeclarationAst(
+                    new IdentifierToken("instance"),
+                    new IdentifierToken("of"),
+                    new IdentifierToken("myType"),
+                    new IdentifierToken("as"),
+                    new AliasIdentifierToken("Alias0000006E"),
+                    new PropertyValueListAst([
+                        new PropertySlotAst(
+                            new IdentifierToken("ServerURL"),
+                            new StringValueAst.Builder {
+                                StringLiteralValues = [
+                                    new StringLiteralToken("https://URL")
+                                ],
+                                Value = "https://URL"
+                            }.Build()
+                        )
+                    ]),
+                    new StatementEndToken()
+                )
+            ]);
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
-            var expectedModule = new Module.Builder
-            {
-                Instances = new List<Instance> {
-                    new Instance.Builder {
-                        TypeName = "myType",
-                        Alias = "Alias0000006E",
-                        Properties = new List<Property> {
-                            new Property("ServerURL", "https://URL")
-                        }
-                    }.Build()
-                }
-            }.Build();
-            ModelAssert.AreEqual(expectedModule, actualModule);
+            var expectedModule = new Module([
+                new Instance(
+                    typeName: "myType",
+                    alias: "Alias0000006E",
+                    properties: [
+                        new Property("ServerURL", "https://URL")
+                    ]
+                )
+            ]);
+            ModelAssert.AreDeepEqual(expectedModule, actualModule);
         }
 
         [Test]
@@ -91,46 +86,39 @@ public static partial class ParserTests
             );
             var actualAst = Parser.Parse(tokens);
             var expectedAst = new MofSpecificationAst(
-                new ReadOnlyCollection<MofProductionAst>(
-                    new List<MofProductionAst> {
-                        new InstanceValueDeclarationAst(
-                            new IdentifierToken("instance"),
-                            new IdentifierToken("of"),
-                            new IdentifierToken("myType"),
-                            new IdentifierToken("as"),
-                            new AliasIdentifierToken("Alias00000070"),
-                            new PropertyValueListAst(
-                                new List<PropertySlotAst> {
-                                    new PropertySlotAst(
-                                        new IdentifierToken("Reference"),
-                                        new ComplexValueAst(
-                                            new AliasIdentifierToken("Alias0000006E")
-                                        )
-                                    )
-                                }
-                            ),
-                            new StatementEndToken()
-                        )
-                    }
-                )
+                new ReadOnlyCollection<MofProductionAst>([
+                    new InstanceValueDeclarationAst(
+                        new IdentifierToken("instance"),
+                        new IdentifierToken("of"),
+                        new IdentifierToken("myType"),
+                        new IdentifierToken("as"),
+                        new AliasIdentifierToken("Alias00000070"),
+                        new PropertyValueListAst([
+                            new PropertySlotAst(
+                                new IdentifierToken("Reference"),
+                                new ComplexValueAst(
+                                    new AliasIdentifierToken("Alias0000006E")
+                                )
+                            )
+                        ]),
+                        new StatementEndToken()
+                    )
+                ])
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
-            var expectedModule = new Module.Builder
-            {
-                Instances = new List<Instance> {
-                    new Instance.Builder {
-                        TypeName = "myType",
-                        Alias = "Alias00000070",
-                        Properties = new List<Property> {
-                            new Property("Reference", "Alias0000006E")
-                        }
-                    }.Build()
-                }
-            }.Build();
-            ModelAssert.AreEqual(expectedModule, actualModule);
+            var expectedModule = new Module([
+                new Instance(
+                    typeName: "myType",
+                    alias: "Alias00000070",
+                    properties: [
+                        new Property("Reference", new ComplexValueAlias("Alias0000006E"))
+                    ]
+                )
+            ]);
+            ModelAssert.AreDeepEqual(expectedModule, actualModule);
         }
 
         [Test]
@@ -148,43 +136,39 @@ public static partial class ParserTests
             );
             var actualAst = Parser.Parse(tokens);
             var expectedAst = new MofSpecificationAst(
-                new ReadOnlyCollection<MofProductionAst>(
-                    new List<MofProductionAst> {
-                        new InstanceValueDeclarationAst(
-                            new IdentifierToken("instance"),
-                            new IdentifierToken("of"),
-                            new IdentifierToken("myType"),
-                            new IdentifierToken("as"),
-                            new AliasIdentifierToken("Alias00000070"),
-                            new PropertyValueListAst(
-                                new List<PropertySlotAst> {
-                                    new PropertySlotAst(
-                                       new IdentifierToken("Reference"),
-                                       new LiteralValueArrayAst()
-                                    )
-                                }
-                            ),
-                            new StatementEndToken()
-                        )
-                    }
-                )
+                new ReadOnlyCollection<MofProductionAst>([
+                    new InstanceValueDeclarationAst(
+                        new IdentifierToken("instance"),
+                        new IdentifierToken("of"),
+                        new IdentifierToken("myType"),
+                        new IdentifierToken("as"),
+                        new AliasIdentifierToken("Alias00000070"),
+                        new PropertyValueListAst(
+                            [
+                                new PropertySlotAst(
+                                    new IdentifierToken("Reference"),
+                                    new LiteralValueArrayAst()
+                                )
+                            ]
+                        ),
+                        new StatementEndToken()
+                    )
+                ])
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
-            var expectedModule = new Module.Builder {
-                Instances = new List<Instance> {
-                    new Instance.Builder {
-                        TypeName = "myType",
-                        Alias = "Alias00000070",
-                        Properties = new List<Property> {
-                            new Property("Reference", new List<object>())
-                        }
-                    }.Build()
-                }
-            }.Build();
-            ModelAssert.AreEqual(expectedModule, actualModule);
+            var expectedModule = new Module([
+                new Instance(
+                    typeName: "myType",
+                    alias: "Alias00000070",
+                    properties: [
+                        new Property("Reference", new LiteralValueArray())
+                    ]
+                )
+            ]);
+            ModelAssert.AreDeepEqual(expectedModule, actualModule);
         }
 
         [Test]
@@ -202,53 +186,45 @@ public static partial class ParserTests
             );
             var actualAst = Parser.Parse(tokens);
             var expectedAst = new MofSpecificationAst(
-                new List<MofProductionAst> {
+                [
                     new InstanceValueDeclarationAst(
                         new IdentifierToken("instance"),
                         new IdentifierToken("of"),
                         new IdentifierToken("myType"),
                         new IdentifierToken("as"),
                         new AliasIdentifierToken("Alias00000070"),
-                        new PropertyValueListAst(
-                            new List<PropertySlotAst> {
-                                new PropertySlotAst(
-                                    new("Reference"),
-                                    new ComplexValueArrayAst(
-                                        new List<ComplexValueAst> {
-                                            new ComplexValueAst(
-                                                new AliasIdentifierToken(
-                                                    "Alias0000006E"
-                                                )
-                                            )
-                                        }
+                        new PropertyValueListAst([
+                            new PropertySlotAst(
+                                new("Reference"),
+                                new ComplexValueArrayAst([
+                                    new ComplexValueAst(
+                                        new AliasIdentifierToken(
+                                            "Alias0000006E"
+                                        )
                                     )
-                                )
-                            }
-                        ),
+                                ])
+                            )
+                        ]),
                         new StatementEndToken()
                     )
-                }
+                ]
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
-            var expectedModule = new Module.Builder
-            {
-                Instances = new List<Instance> {
-                    new Instance.Builder
-                    {
-                        TypeName = "myType",
-                        Alias = "Alias00000070",
-                        Properties = new List<Property> {
-                            new Property("Reference", new List<object> {
-                                "Alias0000006E"
-                            })
-                        }
-                    }.Build()
-                }
-            }.Build();
-            ModelAssert.AreEqual(expectedModule, actualModule);
+            var expectedModule = new Module([
+                new Instance(
+                    typeName: "myType",
+                    alias: "Alias00000070",
+                    properties: [
+                        new Property("Reference", new ComplexValueArray([
+                            new ComplexValueAlias("Alias0000006E")
+                        ]))
+                    ]
+                )
+            ]);
+            ModelAssert.AreDeepEqual(expectedModule, actualModule);
         }
 
         [Test]
@@ -266,60 +242,52 @@ public static partial class ParserTests
             );
             var actualAst = Parser.Parse(tokens);
             var expectedAst = new MofSpecificationAst(
-                new ReadOnlyCollection<MofProductionAst>(
-                    new List<MofProductionAst> {
-                        new InstanceValueDeclarationAst(
-                            new IdentifierToken("instance"),
-                            new IdentifierToken("of"),
-                            new IdentifierToken("myType"),
-                            new IdentifierToken("as"),
-                            new AliasIdentifierToken("Alias00000070"),
-                            new PropertyValueListAst(
-                                new List<PropertySlotAst> {
-                                    new PropertySlotAst(
-                                        new IdentifierToken("ServerURLs"),
-                                        new LiteralValueArrayAst(
-                                            new List<LiteralValueAst> {
-                                                new StringValueAst.Builder {
-                                                    StringLiteralValues = new List<StringLiteralToken> {
-                                                        new StringLiteralToken("https://URL1")
-                                                    },
-                                                    Value = "https://URL1"
-                                                }.Build(),
-                                                new StringValueAst.Builder {
-                                                    StringLiteralValues = new List<StringLiteralToken> {
-                                                        new StringLiteralToken("https://URL2")
-                                                    },
-                                                    Value = "https://URL2"
-                                                }.Build()
-                                            }
-                                        )
-                                    )
-                                }
-                            ),
-                            new StatementEndToken()
-                        )
-                    }
-                )
+                new ReadOnlyCollection<MofProductionAst>([
+                    new InstanceValueDeclarationAst(
+                        new IdentifierToken("instance"),
+                        new IdentifierToken("of"),
+                        new IdentifierToken("myType"),
+                        new IdentifierToken("as"),
+                        new AliasIdentifierToken("Alias00000070"),
+                        new PropertyValueListAst([
+                            new PropertySlotAst(
+                                new IdentifierToken("ServerURLs"),
+                                new LiteralValueArrayAst([
+                                    new StringValueAst.Builder {
+                                        StringLiteralValues = [
+                                            new StringLiteralToken("https://URL1")
+                                        ],
+                                        Value = "https://URL1"
+                                    }.Build(),
+                                    new StringValueAst.Builder {
+                                        StringLiteralValues = [
+                                            new StringLiteralToken("https://URL2")
+                                        ],
+                                        Value = "https://URL2"
+                                    }.Build()
+                                ])
+                            )
+                        ]),
+                        new StatementEndToken()
+                    )
+                ])
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
-            var expectedModule = new Module.Builder {
-                Instances = new List<Instance> {
-                    new Instance.Builder {
-                        TypeName = "myType",
-                        Alias = "Alias00000070",
-                        Properties = new List<Property> {
-                            new Property("ServerURLs", new List<object> {
-                                "https://URL1", "https://URL2"
-                            })
-                        }
-                    }.Build()
-                }
-            }.Build();
-            ModelAssert.AreEqual(expectedModule, actualModule);
+            var expectedModule = new Module([
+                new Instance(
+                    typeName: "myType",
+                    alias: "Alias00000070",
+                    properties: [
+                        new Property("ServerURLs", new LiteralValueArray(
+                            "https://URL1", "https://URL2"
+                        ))
+                    ]
+                )
+            ]);
+            ModelAssert.AreDeepEqual(expectedModule, actualModule);
         }
 
         [Test]
@@ -341,84 +309,77 @@ public static partial class ParserTests
             );
             var actualAst = Parser.Parse(tokens);
             var expectedAst = new MofSpecificationAst(
-                new ReadOnlyCollection<MofProductionAst>(
-                    new List<MofProductionAst> {
-                        new InstanceValueDeclarationAst(
-                            new IdentifierToken("instance"),
-                            new IdentifierToken("of"),
-                            new IdentifierToken("myType"),
-                            new IdentifierToken("as"),
-                            new AliasIdentifierToken("Alias00000070"),
-                            new PropertyValueListAst(
-                                new List<PropertySlotAst> {
-                                    new PropertySlotAst(
-                                        new IdentifierToken("MyBinaryValue"),
-                                        new IntegerValueAst(
-                                            new IntegerLiteralToken(
-                                                IntegerKind.BinaryValue, 0b101010
-                                            )
-                                        )
-                                    ),
-                                    new(
-                                        new("MyOctalValue"),
-                                        new IntegerValueAst(
-                                            new IntegerLiteralToken(
-                                                IntegerKind.OctalValue, Convert.ToInt32("444444", 8)
-                                            )
-                                        )
-                                    ),
-                                    new(
-                                        new("MyHexValue"),
-                                        new IntegerValueAst(
-                                            new IntegerLiteralToken(
-                                                IntegerKind.HexValue, 0xABC123
-                                            )
-                                        )
-                                    ),
-                                    new(
-                                        new("MyDecimalValue"),
-                                        new IntegerValueAst(
-                                            new IntegerLiteralToken(
-                                                IntegerKind.DecimalValue, 12345
-                                            )
-                                        )
-                                    ),
-                                    new(
-                                        new("MyRealValue"),
-                                        new RealValueAst(
-                                            new RealLiteralToken(
-                                                123.45
-                                            )
-                                        )
+                new ReadOnlyCollection<MofProductionAst>([
+                    new InstanceValueDeclarationAst(
+                        new IdentifierToken("instance"),
+                        new IdentifierToken("of"),
+                        new IdentifierToken("myType"),
+                        new IdentifierToken("as"),
+                        new AliasIdentifierToken("Alias00000070"),
+                        new PropertyValueListAst([
+                            new PropertySlotAst(
+                                new IdentifierToken("MyBinaryValue"),
+                                new IntegerValueAst(
+                                    new IntegerLiteralToken(
+                                        IntegerKind.BinaryValue, 0b101010
                                     )
-                                }
+                                )
                             ),
-                            new StatementEndToken()
-                        )
-                    }
-                )
+                            new PropertySlotAst(
+                                new("MyOctalValue"),
+                                new IntegerValueAst(
+                                    new IntegerLiteralToken(
+                                        IntegerKind.OctalValue, Convert.ToInt32("444444", 8)
+                                    )
+                                )
+                            ),
+                            new PropertySlotAst(
+                                new("MyHexValue"),
+                                new IntegerValueAst(
+                                    new IntegerLiteralToken(
+                                        IntegerKind.HexValue, 0xABC123
+                                    )
+                                )
+                            ),
+                            new PropertySlotAst(
+                                new("MyDecimalValue"),
+                                new IntegerValueAst(
+                                    new IntegerLiteralToken(
+                                        IntegerKind.DecimalValue, 12345
+                                    )
+                                )
+                            ),
+                            new PropertySlotAst(
+                                new("MyRealValue"),
+                                new RealValueAst(
+                                    new RealLiteralToken(
+                                        123.45
+                                    )
+                                )
+                            )
+                        ]),
+                        new StatementEndToken()
+                    )
+                ])
             );
             var actualJson = TestUtils.ConvertToJson(actualAst);
             var expectedJson = TestUtils.ConvertToJson(expectedAst);
-            Assert.AreEqual(expectedJson, actualJson);
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
             var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
-            var expectedModule = new Module.Builder
-            {
-                Instances = new List<Instance> {
-                    new Instance.Builder {
-                        TypeName = "myType",
-                        Alias = "Alias00000070",
-                        Properties = new List<Property> {
-                            new Property("MyBinaryValue", 42),
-                            new Property("MyOctalValue", 149796),
-                            new Property("MyHexValue", 11256099),
-                            new Property("MyDecimalValue", 12345),
-                            new Property("MyRealValue", 123.45)
-                        }
-                    }.Build()
-                }
-            }.Build();
-            ModelAssert.AreEqual(expectedModule, actualModule);
+            var expectedModule = new Module([
+                new Instance(
+                    typeName: "myType",
+                    alias: "Alias00000070",
+                    properties: [
+                        new Property("MyBinaryValue", 42),
+                        new Property("MyOctalValue", 149796),
+                        new Property("MyHexValue", 11256099),
+                        new Property("MyDecimalValue", 12345),
+                        new Property("MyRealValue", 123.45)
+                    ]
+                )
+            ]);
+            ModelAssert.AreDeepEqual(expectedModule, actualModule);
         }
 
     }

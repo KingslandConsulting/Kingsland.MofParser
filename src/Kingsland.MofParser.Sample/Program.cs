@@ -17,7 +17,8 @@ static class Program
                 Name = ""Web-Server"";
                 ModuleName = ""PSDesiredStateConfiguration"";
                 ModuleVersion = ""1.0"";
-            };";
+            };
+        ";
 
         // parse the mof file
         var module = Parser.ParseText(sourceText);
