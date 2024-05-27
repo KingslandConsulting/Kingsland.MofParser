@@ -1,4 +1,6 @@
 ﻿using Kingsland.MofParser.Models;
+using Kingsland.MofParser.Models.Types;
+using Kingsland.MofParser.Models.Values;
 using System.Collections.ObjectModel;
 
 namespace Kingsland.MofParser.HtmlReport.Resources;
@@ -53,13 +55,11 @@ public class DscResource
             : DscResource.GetResourceNameFromResourceId(this.ResourceId);
 
     public ReadOnlyCollection<string> DependsOn =>
-        new(
-            new List<string>(
-                this.Instance.Properties.Single(
-                        property => property.Name == "ResourceID"
-                    ).Value as string[] ?? Enumerable.Empty<string>()
-            )
-        );
+        this.Instance.Properties
+            .Where(property => property.Name == "ResourceID")
+            .SelectMany(property => ((LiteralValueArray)property.Value).Values)
+            .Select(literalValue => ((StringValue)literalValue).Value)
+            .ToList().AsReadOnly();
 
     public string? ModuleName =>
         this.GetStringProperty(nameof(this.ModuleName));
@@ -98,9 +98,14 @@ public class DscResource
 
     protected string? GetStringProperty(string propertyName)
     {
-        return this.Instance.Properties.SingleOrDefault(
-                property => property.Name == propertyName
-            )?.Value as string;
+        var property = this.Instance.Properties
+            .SingleOrDefault(property => property.Name == propertyName);
+        if (property is null)
+        {
+            return null;
+        }
+        var value = ((StringValue)property.Value).Value;
+        return value;
     }
 
     #endregion

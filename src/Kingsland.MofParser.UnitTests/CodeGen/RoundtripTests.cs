@@ -1,7 +1,8 @@
 ﻿using Kingsland.MofParser.Ast;
 using Kingsland.MofParser.CodeGen;
 using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Models;
+using Kingsland.MofParser.Models.Converter;
+using Kingsland.MofParser.Models.Types;
 using Kingsland.MofParser.Parsing;
 using Kingsland.MofParser.UnitTests.Helpers;
 using Kingsland.ParseFx.Parsing;
@@ -80,6 +81,12 @@ public static partial class RoundtripTests
             )
         );
         Assert.That(actualAstText, Is.EqualTo(sourceText));
+        // check the model converter works
+        var actualModule = ModelConverter.ConvertMofSpecificationAst(actualAst);
+        if (expectedModule is not null)
+        {
+            ModelAssert.AreDeepEqual(actualModule, expectedModule);
+        }
     }
 
     private static void AssertRoundtripException(string sourceText, string expectedMessage, ParserQuirks parserQuirks = ParserQuirks.None)

@@ -33,7 +33,7 @@ public enum ParserQuirks
     AllowMofV2Qualifiers = 0x0001,
 
     /// <summary>
-    /// Allows fully qualified enum namedto be iused in enum array values, e.g. "{ MonthEnum.January, MonthEnum.April}"
+    /// Allows fully qualified enum named to be used in enum array values, e.g. "{ MonthEnum.January, MonthEnum.April}"
     /// </summary>
     /// <remarks>
     ///

@@ -1,5 +1,6 @@
 ﻿using Kingsland.MofParser.Lexing;
-using Kingsland.MofParser.Models;
+using Kingsland.MofParser.Models.Converter;
+using Kingsland.MofParser.Models.Types;
 using Kingsland.MofParser.Parsing;
 using Kingsland.ParseFx.Text;
 using System.Collections.ObjectModel;

@@ -1,4 +1,5 @@
-﻿using Kingsland.MofParser.Tokens;
+﻿using Kingsland.MofParser.Ast;
+using Kingsland.MofParser.Tokens;
 using Kingsland.MofParser.UnitTests.Extensions;
 using NUnit.Framework;
 
@@ -250,7 +251,7 @@ public static partial class RoundtripTests
                 .ToList();
             //var expectedAst = new MofSpecificationAst.Builder
             //{
-            //    Productions = new List<MofProductionAst> {
+            //    Productions = [
             //        new ClassDeclarationAst.Builder {
             //            ClassName = new IdentifierToken("GOLF_Professional"),
             //            SuperClass = new IdentifierToken("GOLF_ClubMember"),
@@ -268,7 +269,7 @@ public static partial class RoundtripTests
             //                }.Build(),
             //            }
             //        }.Build()
-            //    }
+            //    ]
             //}.Build();
             RoundtripTests.AssertRoundtrip(sourceText, expectedTokens);
         }

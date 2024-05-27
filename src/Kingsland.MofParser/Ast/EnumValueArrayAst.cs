@@ -50,6 +50,12 @@ public sealed record EnumValueArrayAst : EnumTypeValueAst
     {
     }
 
+    public EnumValueArrayAst(params EnumValueAst[] values)
+    {
+        this.Values = (values ?? throw new ArgumentNullException(nameof(values)))
+            .ToList().AsReadOnly();
+    }
+
     internal EnumValueArrayAst(
         IEnumerable<EnumValueAst> values
     )

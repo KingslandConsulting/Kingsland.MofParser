@@ -308,17 +308,26 @@ internal static class AstAssert
             case ComplexTypeValueAst ast:
                 AstAssert.AreEqual(ast, (ComplexTypeValueAst)actual, ignoreExtent);
                 return;
+            case EnumTypeValueAst ast:
+                AstAssert.AreEqual(ast, (EnumTypeValueAst)actual, ignoreExtent);
+                return;
             case BooleanValueAst ast:
                 AstAssert.AreEqual(ast, (BooleanValueAst)actual, ignoreExtent);
                 return;
             case IntegerValueAst ast:
                 AstAssert.AreEqual(ast, (IntegerValueAst)actual, ignoreExtent);
                 return;
+            case RealValueAst ast:
+                AstAssert.AreEqual(ast, (RealValueAst)actual, ignoreExtent);
+                return;
             case StringValueAst ast:
                 AstAssert.AreEqual(ast, (StringValueAst)actual, ignoreExtent);
                 return;
             case NullValueAst ast:
                 AstAssert.AreEqual(ast, (NullValueAst)actual, ignoreExtent);
+                return;
+            case LiteralValueArrayAst ast:
+                AstAssert.AreEqual(ast, (LiteralValueArrayAst)actual, ignoreExtent);
                 return;
             default:
                 throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
@@ -387,6 +396,16 @@ internal static class AstAssert
         Assert.That(actual.Value, Is.EqualTo(expected.Value));
     }
 
+    private static void AreEqual(RealValueAst? expected, RealValueAst? actual, bool ignoreExtent)
+    {
+        if ((expected == null) || (actual == null))
+        {
+            Assert.That(actual, Is.EqualTo(expected));
+            return;
+        }
+        Assert.That(actual.Value, Is.EqualTo(expected.Value));
+    }
+
     private static void AreEqual(StringValueAst? expected, StringValueAst? actual, bool ignoreExtent)
     {
         if ((expected == null) || (actual == null))
@@ -401,13 +420,74 @@ internal static class AstAssert
         }
     }
 
-    private static void AreEqual(NullValueAst? expected, NullValueAst? actual, bool ignoreExtent) {
+    private static void AreEqual(NullValueAst? expected, NullValueAst? actual, bool ignoreExtent)
+    {
         if ((expected == null) || (actual == null))
         {
             Assert.That(actual, Is.EqualTo(expected));
             return;
         }
         TokenAssert.AreEqual(expected.Token, actual.Token, ignoreExtent);
+    }
+
+    private static void AreEqual(LiteralValueArrayAst? expected, LiteralValueArrayAst? actual, bool ignoreExtent)
+    {
+        if ((expected == null) || (actual == null))
+        {
+            Assert.That(actual, Is.EqualTo(expected));
+            return;
+        }
+        Assert.That(actual.Values.Count, Is.EqualTo(expected.Values.Count));
+        for (var i = 0; i < expected.Values.Count; i++)
+        {
+            AstAssert.AreEqual(expected.Values[i], actual.Values[i], ignoreExtent);
+        }
+    }
+
+    private static void AreEqual(EnumTypeValueAst? expected, EnumTypeValueAst? actual, bool ignoreExtent)
+    {
+        if ((expected == null) || (actual == null))
+        {
+            Assert.That(actual, Is.EqualTo(expected));
+            return;
+        }
+        Assert.That(actual, Is.InstanceOf(expected.GetType()));
+        switch (expected)
+        {
+            case EnumValueAst ast:
+                AstAssert.AreEqual(ast, (EnumValueAst)actual, ignoreExtent);
+                return;
+            case EnumValueArrayAst ast:
+                AstAssert.AreEqual(ast, (EnumValueArrayAst)actual, ignoreExtent);
+                return;
+            default:
+                throw new NotImplementedException($"unhandled node type {expected.GetType().Name}");
+        }
+    }
+
+    private static void AreEqual(EnumValueAst? expected, EnumValueAst? actual, bool ignoreExtent)
+    {
+        if ((expected == null) || (actual == null))
+        {
+            Assert.That(actual, Is.EqualTo(expected));
+            return;
+        }
+        TokenAssert.AreEqual(expected.EnumName, actual.EnumName, ignoreExtent);
+        TokenAssert.AreEqual(expected.EnumLiteral, actual.EnumLiteral, ignoreExtent);
+    }
+
+    private static void AreEqual(EnumValueArrayAst? expected, EnumValueArrayAst? actual, bool ignoreExtent)
+    {
+        if ((expected == null) || (actual == null))
+        {
+            Assert.That(actual, Is.EqualTo(expected));
+            return;
+        }
+        Assert.That(actual.Values.Count, Is.EqualTo(expected.Values.Count));
+        for (var i = 0; i < expected.Values.Count; i++)
+        {
+            AstAssert.AreEqual(expected.Values[i], actual.Values[i], ignoreExtent);
+        }
     }
 
     #endregion

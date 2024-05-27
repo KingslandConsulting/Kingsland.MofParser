@@ -1,9 +1,7 @@
-﻿namespace Kingsland.MofParser.Models;
+﻿namespace Kingsland.MofParser.Models.Types;
 
 public sealed class Enumeration
 {
-
-    #region Constructors
 
     public Enumeration(string name, Type underlyingType)
     {
@@ -18,10 +16,6 @@ public sealed class Enumeration
             );
     }
 
-    #endregion
-
-    #region Properties
-
     public string Name
     {
         get;
@@ -31,7 +25,5 @@ public sealed class Enumeration
     {
         get;
     }
-
-    #endregion
 
 }

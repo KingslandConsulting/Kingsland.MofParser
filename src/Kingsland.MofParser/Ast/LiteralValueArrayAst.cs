@@ -50,6 +50,12 @@ public sealed record LiteralValueArrayAst : PrimitiveTypeValueAst
     {
     }
 
+    public LiteralValueArrayAst(params LiteralValueAst[] values)
+    {
+        this.Values = (values ?? throw new ArgumentNullException(nameof(values)))
+            .ToList().AsReadOnly();
+    }
+
     internal LiteralValueArrayAst(
         IEnumerable<LiteralValueAst> values
     )

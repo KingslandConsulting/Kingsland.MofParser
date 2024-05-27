@@ -45,6 +45,12 @@ public sealed record ComplexValueArrayAst : ComplexTypeValueAst
 
     #region Constructors
 
+    public ComplexValueArrayAst(params ComplexValueAst[] values)
+    {
+        this.Values = (values ?? throw new ArgumentNullException(nameof(values)))
+            .ToList().AsReadOnly();
+    }
+
     internal ComplexValueArrayAst(
         IEnumerable<ComplexValueAst> values
     )
